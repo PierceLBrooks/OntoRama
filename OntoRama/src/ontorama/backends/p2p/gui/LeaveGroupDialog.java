@@ -59,7 +59,7 @@ public class LeaveGroupDialog extends JDialog {
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PeerGroup selectedGroup = (PeerGroup) groupsPanel.getValue();
-                String groupId = selectedGroup.getPeerID().toString();
+                String groupId = selectedGroup.getPeerGroupID().toString();
                 System.out.println("trying to leave group: name = " + selectedGroup.getPeerGroupName() + ", id = " + groupId);
                 try {
                     _p2pSender.sendLeaveGroup(groupId);

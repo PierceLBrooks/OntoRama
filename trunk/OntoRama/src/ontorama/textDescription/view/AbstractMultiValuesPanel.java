@@ -124,7 +124,7 @@ public abstract class AbstractMultiValuesPanel extends JPanel {
           GraphNode curNode = (GraphNode) propValuesIterator.next();
           JComponent component = createPropertyComponent(curNode);
           _propValuePanel.add(component);
-          _componentToPropValueMapping.put(component, curNode);
+          //_componentToPropValueMapping.put(component, curNode);
         }
         _propValuePanel.update(_propValuePanel.getGraphics());
     }

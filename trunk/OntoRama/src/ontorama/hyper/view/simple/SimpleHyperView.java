@@ -244,7 +244,7 @@ public class SimpleHyperView  extends CanvasManager {
         }
     }
 
-    private double minNodeMove = 1000;
+    private double minNodeMove;
 
    /**
      * Use a spring algorithm to layout nodes.
@@ -252,6 +252,7 @@ public class SimpleHyperView  extends CanvasManager {
     public int layoutNodes( int iteration) {
         List queue = new LinkedList();
         int numOfItorations = 0;
+        minNodeMove = 1000;
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             Iterator it = Edge.getOutboundEdgeNodes(root);
             while( it.hasNext() ) {

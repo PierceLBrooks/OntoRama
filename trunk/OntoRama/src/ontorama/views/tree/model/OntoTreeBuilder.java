@@ -4,11 +4,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
-
-import ontorama.model.graph.EdgeType;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeEdge;
+import ontorama.model.tree.TreeNode;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
@@ -64,17 +62,16 @@ public class OntoTreeBuilder {
     /**
      * Convert each Node to OntoTreeNode
      */
-    private void createOntoTreeNode(ontorama.model.tree.TreeNode top, TreeEdge edge) {
+    private void createOntoTreeNode(TreeNode top, TreeEdge edge) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
         ontoTreeNode.setRelLink(edge.getEdgeType());
         _ontoHash.put(top, ontoTreeNode);
 
 		Iterator children = top.getChildren().iterator();
         while (children.hasNext()) {
-        	ontorama.model.tree.TreeNode toModelTreeNode = (ontorama.model.tree.TreeNode) children.next();
+        	TreeNode toModelTreeNode = (TreeNode) children.next();
         	
             TreeEdge curEdge = top.getEdge(toModelTreeNode);
-            EdgeType curEdgeType = curEdge.getEdgeType();
 
             createOntoTreeNode(toModelTreeNode, curEdge);
         }
@@ -85,8 +82,8 @@ public class OntoTreeBuilder {
      * @param	graphNode
      * @return	treeNode
      */
-    public static TreeNode getTreeNode(ontorama.model.tree.TreeNode treeModelNode) {
-        TreeNode treeNode = (OntoTreeNode) _ontoHash.get(treeModelNode);
+    public static javax.swing.tree.TreeNode getTreeNode(TreeNode treeModelNode) {
+		javax.swing.tree.TreeNode treeNode = (OntoTreeNode) _ontoHash.get(treeModelNode);
         return treeNode;
     }
 

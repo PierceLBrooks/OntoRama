@@ -85,15 +85,6 @@ public class P2PBackendImpl implements P2PBackend {
 
     private P2PMainPanel mainPanel;
 
-    /**
-     * keys - p2p edges,  values - graph edges
-     */
-    private Hashtable _graphEdgesMapping;
-    /**
-     * keys - p2p nodes, values - graph nodes
-     */
-    private Hashtable _graphNodesMapping;
-
     private static String parserPackage;
     private static String sourcePackage = "ontorama.ontotools.source.StringSource";
     

@@ -307,7 +307,6 @@ public class RdfWebkbParser extends RdfDamlParser {
         boolean allCapitals = true;
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
-            Character chObj = new Character(ch);
             if (Character.isLowerCase(ch)) {
                 allCapitals = false;
             }

@@ -135,7 +135,7 @@ public class XmlParserFull implements Parser {
 		Attribute signatureAttr = relationTypeEl.getAttribute(signatureItemAttrName);
 		if (signatureAttr != null) {
 			Node toNode = makeNode(signatureAttr.getValue(), OntoramaConfig.CONCEPT_TYPE);
-			Edge edge = makeEdge(node, toNode, edgeName);
+			makeEdge(node, toNode, edgeName);
 		}
 		
 	}
@@ -199,7 +199,7 @@ public class XmlParserFull implements Parser {
         while (it.hasNext()) {
             String cur = (String) it.next();
             Node toNode = makeNode(cur, null);
-            Edge edge = makeEdge(node, toNode, typePropertyName);
+            makeEdge(node, toNode, typePropertyName);
         }
     }
 
@@ -239,7 +239,7 @@ public class XmlParserFull implements Parser {
             NodeType toNodeType = getNodeTypeForDestinationNode(toAttr.getValue());
             Node toNode = makeNode(toAttr.getValue(), toNodeType);
             debug.message("XmlParserFull", "processRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + typeAttr.getValue());
-            Edge edge = makeEdge(fromNode, toNode, typeAttr.getValue());
+            makeEdge(fromNode, toNode, typeAttr.getValue());
         }
     }
 
@@ -272,7 +272,6 @@ public class XmlParserFull implements Parser {
             }
             Node fromNode = cur.getFromNode();
             Node toNode = cur.getToNode();
-            EdgeType edgeType = cur.getEdgeType();
             if (edge.getFromNode().getName().equals(fromNode.getName())) {
                 if (edge.getToNode().getName().equals(toNode.getName())) {
                     if (edge.getEdgeType().getName().equals(cur.getEdgeType().getName())) {

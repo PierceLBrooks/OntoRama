@@ -42,16 +42,9 @@ public class TestWebKB2Source extends TestCase {
 
     private Query query_dog;
     private SourceResult sourceResult_dog;
-    private boolean queryIsAmbiguous_dog;
-    private int numOfChoices_dog;
-    private List choicesList_dog;
-
 
     private Query query_nonExistentTerm;
     private SourceResult sourceResult_nonExistentTerm;
-    private boolean queryIsAmbiguous_nonExistentTerm;
-    private int numOfChoices_nonExistentTerm;
-    private List choicesList_nonExistentTerm;
     
 	ExamplesBackend backend;
 

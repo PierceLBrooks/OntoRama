@@ -21,11 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
 import ontorama.backends.p2p.events.NewGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 

@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import ontorama.backends.p2p.*;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 

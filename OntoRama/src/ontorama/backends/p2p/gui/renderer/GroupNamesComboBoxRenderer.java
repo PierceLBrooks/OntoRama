@@ -7,7 +7,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import net.jxta.peergroup.PeerGroup;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
+import ontorama.backends.p2p.GroupItemReference;
 
 /*
  * Created by IntelliJ IDEA.

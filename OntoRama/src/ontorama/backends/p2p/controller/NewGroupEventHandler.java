@@ -3,8 +3,8 @@ package ontorama.backends.p2p.controller;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroupID;
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 

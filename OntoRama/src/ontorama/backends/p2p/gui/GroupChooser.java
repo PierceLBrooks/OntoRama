@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
+import ontorama.backends.p2p.GroupItemReference;
 
 /**
  * This interface will be used to implement any GUI components that will be

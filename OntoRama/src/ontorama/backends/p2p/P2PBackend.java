@@ -36,7 +36,6 @@ import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
 import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.EdgeType;

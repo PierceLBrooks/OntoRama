@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.p2pmodule;
 
-import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
+import ontorama.backends.p2p.PeerItemReference;
 
 /**
  * This interface handles the P2P communication between OntoRama and 

@@ -7,7 +7,9 @@ import java.util.Vector;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.Peer2PeerBackend;
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.gui.P2PMainPanel;
@@ -17,8 +19,6 @@ import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
-import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
 
 
 /**

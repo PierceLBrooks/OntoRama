@@ -15,10 +15,10 @@ import javax.swing.JPanel;
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 

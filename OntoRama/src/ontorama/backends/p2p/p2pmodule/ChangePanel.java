@@ -20,8 +20,8 @@ public class ChangePanel{
      tmpPanel = new Vector();   
     }
   
-    public void addChange(String change, String PeerID){
-        tmpPanel.add(change + " by: " + PeerID); 
+    public void addChange(String change, String peerName){
+        tmpPanel.add(change + " by: " + peerName); 
     }
 
     public void empty(){

@@ -89,12 +89,12 @@ public interface CommunicationProtocol {
 	 * Join the group that has given groupID.
 	 * 
 	 * @param groupID group to join
-	 * @return true if joined sucessfully
+	 * @return group name if joined sucessfully
 	 * @exception 
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-	public boolean sendJoinGroup(String groupID) throws GroupExceptionNotAllowed, GroupException ;
+	public String sendJoinGroup(String groupID) throws GroupExceptionNotAllowed, GroupException ;
 	
 
 

@@ -165,7 +165,7 @@ public class P2PMenu extends Menu{
                                 searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
                                 try {
                                     this.sender.sendJoinGroup(
-                                        ((PeerGroupID) searchGroupResultElement.getID()).toString(), lineIn);
+                                        ((PeerGroupID) searchGroupResultElement.getID()).toString());
                                 } catch (GroupExceptionNotAllowed e) {
                                     System.out.println("ERROR:");
                                     e.printStackTrace();

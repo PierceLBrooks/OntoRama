@@ -12,6 +12,7 @@ import ontorama.model.GraphNode;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import java.awt.geom.Ellipse2D;
@@ -303,6 +304,55 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
                             projectedY - viewRadius,
                             viewRadius * 2, viewRadius * 2 );
         g2d.fill( nodeShape );
+    }
+
+    /**
+     * Method called if node is cloned, and has focus.
+     *
+     * Draws ring around node and places arrows pointing to other clones.
+     */
+    public void showClones( Graphics2D g2d, Hashtable hypernodeviews ) {
+        double ringRadius = viewRadius + (viewRadius/10);
+        nodeShape.setFrame( projectedX - ringRadius,
+                            projectedY - ringRadius,
+                            ringRadius * 2, ringRadius * 2 );
+        g2d.draw( nodeShape );
+        // draw lines to, and show clones
+        Iterator it = this.getGraphNode().getClones();
+        while( it.hasNext() ) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
+            if( hyperNodeView == null ) {
+                return;
+            }
+            hyperNodeView.showClone( g2d );
+            double x1 = this.projectedX;
+            double y1 = this.projectedY;
+            double x2 = hyperNodeView.getProjectedX();
+            double y2 = hyperNodeView.getProjectedY();
+            double x = x2 - x1;
+            double y = y2 - y1;
+            double angle = Math.atan2( x, y );
+            double dist = Math.sqrt( ( x2 - x1) * ( x2 - x1) +  ( y2 - y1) * ( y2 - y1) );
+            double toViewRadius = hyperNodeView.getViewRadius();
+            dist = dist - ( toViewRadius + ( toViewRadius / 10 ) );
+            x1 = Math.sin( angle ) * ringRadius;
+            y1 = Math.cos( angle ) * ringRadius;
+            x2 = Math.sin( angle ) * dist;
+            y2 = Math.cos( angle ) * dist;
+            g2d.draw( new Line2D.Double( x1, y1, x2, y2 ) );
+        }
+    }
+
+    /**
+     * Highlight clones for focused clone node.
+     */
+    public void showClone( Graphics2D g2d ) {
+        double ringRadius = viewRadius + (viewRadius/10);
+        nodeShape.setFrame( projectedX - ringRadius,
+                            projectedY - ringRadius,
+                            ringRadius * 2, ringRadius * 2 );
+        g2d.draw( nodeShape );
     }
 
     public String toString() {

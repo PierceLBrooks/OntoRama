@@ -19,7 +19,7 @@ public class ParserResult {
     /**
      *
      * @param nodes list of graph nodes
-     * @param edges list of graph edges
+     * @param edges list of graph _graphEdges
      */
     public ParserResult(List nodes, List edges) {
         this.nodes = nodes;
@@ -35,8 +35,8 @@ public class ParserResult {
     }
 
     /**
-     * Get list of returned graph edges
-     * @return edges list
+     * Get list of returned graph _graphEdges
+     * @return _graphEdges list
      */
     public List getEdgesList () {
         return this.edges;

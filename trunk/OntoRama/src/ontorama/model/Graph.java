@@ -1,8 +1,10 @@
 package ontorama.model;
 
 import ontorama.webkbtools.query.QueryResult;
+import ontorama.ontologyConfig.RelationLinkDetails;
 
 import java.util.List;
+import java.util.Iterator;
 
 /**
  *
@@ -40,6 +42,24 @@ public interface Graph {
     public boolean nodeIsInGivenBranch(GraphNode rootNode, GraphNode node);
 
     public void registerEdge(Edge edge);
+
+
+    public List getEdgesList ();
+
+
+    public Iterator getOutboundEdges(GraphNode node);
+
+    public Iterator getInboundEdges (GraphNode node);
+
+    public List getOutboundEdgeNodesList(GraphNode node);
+
+    public List getInboundEdgeNodesList(GraphNode node);
+
+    public Iterator getOutboundEdgeNodes(GraphNode node);
+
+    public Iterator getInboundEdgeNodes (GraphNode node);
+
+    public Iterator getInboundEdgeNodes (GraphNode node, RelationLinkDetails relLink);
 
 
 

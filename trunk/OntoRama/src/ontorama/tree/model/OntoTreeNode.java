@@ -1,9 +1,6 @@
 package ontorama.tree.model;
 
-
-import ontorama.model.Edge;
 import ontorama.model.GraphNode;
-import ontorama.model.GraphImpl;
 import ontorama.util.Debug;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -73,7 +70,6 @@ public class OntoTreeNode implements TreeNode {
     /**
      * Add observer to the list of OntoTree observers.
      * @param observer
-     * @return  -
      */
     public void addOntoObserver(Object observer) {
         this.observers.add(observer);
@@ -99,7 +95,7 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Recursive build of a stack of nodes from given node through to root
-     * @param   node, stack
+     * @param   node stack
      * @return updatedStack
      */
     private Stack buildPath(OntoTreeNode node, Stack stack) {
@@ -115,7 +111,6 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Build TreePath for this node (path from root to the node)
-     * @param   -
      * @return  TreePath path
      */
     public TreePath getTreePath() {
@@ -160,8 +155,7 @@ public class OntoTreeNode implements TreeNode {
      * @todo    should return null if index is out of bounds????
      */
     public TreeNode getChildAt(int childIndex) {
-        //Iterator outboundNodes = Edge.getOutboundEdgeNodes(this.graphNode);
-        List outboundNodes = GraphImpl.getOutboundEdgeNodesList(this.graphNode);
+        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
         GraphNode outboundGraphNode = (GraphNode) outboundNodes.get(childIndex);
         TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundGraphNode);
 
@@ -176,12 +170,11 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Returns the number of children TreeNodes the receiver contains.
-     * @param -
      * @return  int
      * @todo  remove getNumberOfChildren method
      */
     public int getChildCount() {
-        List outboundNodes = GraphImpl.getOutboundEdgeNodesList(this.graphNode);
+        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
         //System.out.println("node = " + this.graphNode.getName() + " returning "  + outboundNodes.size());
 
         //List childrenList = this.graphNode.getChildrenList();
@@ -199,10 +192,10 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getParent() {
 
-        Iterator inboundNodes = GraphImpl.getInboundEdgeNodes(this.graphNode);
+        Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode);
         if (inboundNodes.hasNext()) {
             GraphNode inboundGraphNode = (GraphNode) inboundNodes.next();
-            return ((TreeNode) OntoTreeBuilder.getTreeNode(inboundGraphNode));
+            return (OntoTreeBuilder.getTreeNode(inboundGraphNode));
         }
 
         /*
@@ -226,7 +219,7 @@ public class OntoTreeNode implements TreeNode {
      * that by 'receiver' they mean this node.
      */
     public int getIndex(TreeNode node) {
-        List outboundNodes = GraphImpl.getOutboundEdgeNodesList(this.graphNode);
+        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
         return outboundNodes.indexOf(node);
         /*
         List childrenList = this.graphNode.getChildrenList();
@@ -237,7 +230,6 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Returns true if the receiver allows children.
-     * @param   -
      * @return  boolean allowChildren
      */
     public boolean getAllowsChildren() {
@@ -247,11 +239,10 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Returns true if the receiver is a leaf.
-     * @param -
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-        List outboundNodesList = GraphImpl.getOutboundEdgeNodesList(this.getGraphNode());
+        List outboundNodesList = OntoTreeModel.graph.getOutboundEdgeNodesList(this.getGraphNode());
         if (outboundNodesList.size() <= 0) {
             //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
             // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
@@ -265,11 +256,10 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Returns the children of the reciever as an Enumeration.
-     * @param   -
      * @return  children Enumeration
      */
     public Enumeration children() {
-        Enumeration outboundNodesEnum = (Enumeration) GraphImpl.getOutboundEdgeNodesList(this.graphNode);
+        Enumeration outboundNodesEnum = (Enumeration) OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
         return outboundNodesEnum;
         /*
       Enumeration childrenEnum = (Enumeration) ( this.graphNode.getChildrenList());
@@ -282,7 +272,6 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Get GraphNode that is a part of this OntoTreeNode
-     * @param   -
      * @return  graphNode
      */
     public GraphNode getGraphNode() {

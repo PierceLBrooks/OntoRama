@@ -35,5 +35,16 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.DamlParser</parserPackagePathSuffix>
 	</example>
+
+    <!--
+	<example name="testCSV" root="root">
+		<source uri="examples/cgkb/test.csv"
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>CSV</queryOutputFormat>
+		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+	</example>
+    -->
+
+
 </ontoramaExamples>
 

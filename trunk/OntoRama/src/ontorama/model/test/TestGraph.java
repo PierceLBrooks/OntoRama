@@ -23,7 +23,7 @@ import java.util.List;
  * @version 1.0
  *
  * Test Graph created from QueryResult:
- * - number of nodes and edges are correct
+ * - number of nodes and _graphEdges are correct
  * - test a node for properties, clones and depth
  * - test an edge for inbound and outbound connections
  *
@@ -38,8 +38,8 @@ public class TestGraph extends TestCase {
 
     private Graph graph;
 
-    List _nodesList;
-    List _edgesList;
+    List _nodesList = new LinkedList();
+    List _edgesList = new LinkedList();
 
     private String typePropertyName = "Description";
 
@@ -60,12 +60,12 @@ public class TestGraph extends TestCase {
     /**
      *
      * not sure how to test graph, so for now will test if there are nodes
-     * and edges created as expected and if they have correct settings.   *
+     * and _graphEdges created as expected and if they have correct settings.   *
      */
     protected void setUp() throws NoSuchRelationLinkException,
             NoSuchPropertyException,
             NoTypeFoundInResultSetException {
-        // set up some edges and nodes, so we can see if they are cleared properly
+        // set up some _graphEdges and nodes, so we can see if they are cleared properly
         GraphNode tmpNode1 = new GraphNode("tmpNode1");
         GraphNode tmpNode2 = new GraphNode("tmpNode2");
         GraphNode tmpNode3 = new GraphNode("tmpNode3");
@@ -120,9 +120,11 @@ public class TestGraph extends TestCase {
         QueryResult queryResult = new QueryResult(query, _nodesList, _edgesList);
 
         graph = new GraphImpl(queryResult);
+        System.out.println("nodes list = " + graph.getNodesList());
+        System.out.println("edges list = " + graph.getEdgesList());
 
-        node1 = getNodeChildByName(graph.getRootNode(), "node1");
-        node1_2 = getNodeChildByName(node1, "node1.2");
+        node1 = getNodeByName(graph.getNodesList(), "node1");
+        node1_2 = getNodeByName(graph.getNodesList(), "node1.2");
     }
 
     /**
@@ -140,10 +142,8 @@ public class TestGraph extends TestCase {
      */
     public void testGetNodesList() {
         List nodesList = graph.getNodesList();
-
-        // adding 1 to ontTypesList size to account for cloned node1.2
-        assertEquals("number of nodes should equal number of ontTypes + 1",
-                _nodesList.size() + 1, nodesList.size());
+        assertEquals("number of nodes should equal number of ontTypes ",
+                _nodesList.size(), nodesList.size());
     }
 
     /**
@@ -168,17 +168,17 @@ public class TestGraph extends TestCase {
      *
      */
     public void testEdgesSize() {
-        List edgesList = GraphImpl.edges;
-        assertEquals("6 edges in the graph", 6, edgesList.size());
+        List edgesList = graph.getEdgesList();
+        assertEquals("5 _graphEdges in the graph", 5, edgesList.size());
     }
 
     /**
-     * check if outbound edges for node1 are what they should be
+     * check if outbound _graphEdges for node1 are what they should be
      */
     public void testOutboundEdgesForNode1() {
-        assertEquals("outbound edges for node1 ", 2, GraphImpl.getOutboundEdgeNodesList(node1).size());
+        assertEquals("outbound _graphEdges for node1 ", 1, graph.getOutboundEdgeNodesList(node1).size());
 
-        Iterator outboundEdges = GraphImpl.getOutboundEdges(node1);
+        Iterator outboundEdges = graph.getOutboundEdges(node1);
         while (outboundEdges.hasNext()) {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
@@ -193,11 +193,11 @@ public class TestGraph extends TestCase {
     }
 
     /**
-     * check inbound edges for node1
+     * check inbound _graphEdges for node1
      */
     public void testInboundEdgesForNode1() {
-        Iterator inboundEdges = GraphImpl.getInboundEdges(node1);
-        assertEquals("inbound edges for node1", 1, GraphImpl.getInboundEdgeNodesList(node1).size());
+        Iterator inboundEdges = graph.getInboundEdges(node1);
+        assertEquals("inbound _graphEdges for node1", 1, graph.getInboundEdgeNodesList(node1).size());
 
         if (inboundEdges.hasNext()) {
             Edge inEdge = (Edge) inboundEdges.next();
@@ -214,17 +214,15 @@ public class TestGraph extends TestCase {
     /**
      *
      */
-    private GraphNode getNodeChildByName(GraphNode parent, String name) {
-        Iterator outboundNodes = GraphImpl.getOutboundEdgeNodes(parent);
+    private GraphNode getNodeByName(List nodesList, String name) {
+        Iterator it = nodesList.iterator();
         GraphNode resultNode = null;
-        while (outboundNodes.hasNext()) {
-            GraphNode cur = (GraphNode) outboundNodes.next();
-            //System.out.println("---------cur name = " + cur.getName());
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
             if ((cur.getName()).equals(name)) {
                 resultNode = cur;
             }
         }
-        //System.out.println("resultNode = " + resultNode);
         return resultNode;
     }
 }

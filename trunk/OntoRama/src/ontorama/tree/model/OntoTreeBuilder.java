@@ -3,7 +3,6 @@ package ontorama.tree.model;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
-import ontorama.model.GraphImpl;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
@@ -18,7 +17,7 @@ import java.util.Iterator;
  * later on is used by OntoTreeNode for reference for getting
  * a TreeNode from given GraphNode.
  *
- * @todo: This probably can be done other way - by cycling through all
+ * @todo This probably can be done other way - by cycling through all
  * TreeNodes and comparing given GraphNode to OntoTreeNode.getGraphNode
  * untill match is found.
  *
@@ -38,23 +37,16 @@ public class OntoTreeBuilder {
     public OntoTreeBuilder(Graph graph) {
         this.graph = graph;
 
-//        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
-//        if (!topLevelNodes.hasNext()) {
-            processNode(graph.getRootNode());
-//        }
-//        while (topLevelNodes.hasNext()) {
-//            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
-//            processNode(topLevelNode);
-//        }
+        processNode(graph.getRootNode());
     }
 
     /**
      *
      */
     private void processNode (GraphNode topGraphNode) {
-        Iterator outboundEdges = GraphImpl.getOutboundEdges(topGraphNode);
+        Iterator outboundEdges = graph.getOutboundEdges(topGraphNode);
 
-        // take care of a case when we only have one node and no edges
+        // take care of a case when we only have one node and no _graphEdges
         if (!outboundEdges.hasNext()) {
             OntoTreeNode ontoTreeNode = new OntoTreeNode(topGraphNode);
             ontoHash.put(topGraphNode, ontoTreeNode);
@@ -75,10 +67,10 @@ public class OntoTreeBuilder {
         ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);
 
-        Iterator outboundEdges = GraphImpl.getOutboundEdges(top);
+        Iterator outboundEdges = graph.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
-            GraphNode toGraphNode = (GraphNode) edge.getToNode();
+            GraphNode toGraphNode = edge.getToNode();
             graphNodeToOntoTreeNode(toGraphNode, edge.getEdgeType());
         }
     }

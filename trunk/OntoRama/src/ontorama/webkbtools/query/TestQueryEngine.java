@@ -70,9 +70,9 @@ public class TestQueryEngine extends TestCase {
 
         queryTerm = OntoramaConfig.ontologyRoot;
         relationLinksList = new LinkedList();
-        relationLinksList.add(new Integer(3));
-        relationLinksList.add(new Integer(6));
-        relationLinksList.add(new Integer(9));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(3));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(6));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(9));
 
         query1 = new Query(queryTerm);
         queryEngine1 = new QueryEngine(query1);

@@ -73,7 +73,6 @@ public class TestEdge extends TestCase {
      *
      */
     protected void setUp() {
-        GraphImpl.removeAllEdges();
 
         node1 = new GraphNode("node1");
         node2 = new GraphNode("node2");

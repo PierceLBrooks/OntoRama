@@ -149,26 +149,26 @@ public class GraphNode implements Cloneable {
     }
 
 
-    /**
-     * Calculate the depths of all children in respect to this node.
-     */
-    public void calculateDepths() {
-        this.setDepth(0);
-    }
+//    /**
+//     * Calculate the depths of all children in respect to this node.
+//     */
+//    public void calculateDepths() {
+//        this.setDepth(0);
+//    }
 
-    /**
-     * Sets the depth of the node in the tree.
-     *
-     * @param depth
-     */
-    protected void setDepth(int depth) {
-        this.depth = depth;
-        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
-        while (it.hasNext()) {
-            GraphNode outboundNode = (GraphNode) it.next();
-            outboundNode.setDepth(depth + 1);
-        }
-    }
+//    /**
+//     * Sets the depth of the node in the tree.
+//     *
+//     * @param depth
+//     */
+//    protected void setDepth(int depth) {
+//        this.depth = depth;
+//        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
+//        while (it.hasNext()) {
+//            GraphNode outboundNode = (GraphNode) it.next();
+//            outboundNode.setDepth(depth + 1);
+//        }
+//    }
 
     /**
      * Returns the distance to the root node.
@@ -253,30 +253,30 @@ public class GraphNode implements Cloneable {
         return (List) nodeDetails.get(propertyName);
     }
 
-    /**
-     *
-     */
-    public int getBranchNodesNum() {
-        LinkedList q = new LinkedList();
-        int count = 0;
-        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
-        while (it.hasNext()) {
-            GraphNode child = (GraphNode) it.next();
-            q.add(child);
-        }
-
-        while (q.size() != 0) {
-            GraphNode cur = (GraphNode) q.remove(0);
-
-            count++;
-            Iterator children = GraphImpl.getOutboundEdgeNodes(cur);
-            while (children.hasNext()) {
-                GraphNode next = (GraphNode) children.next();
-                q.add(next);
-            }
-        }
-        return count;
-    }
+//    /**
+//     *
+//     */
+//    public int getBranchNodesNum() {
+//        LinkedList q = new LinkedList();
+//        int count = 0;
+//        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
+//        while (it.hasNext()) {
+//            GraphNode child = (GraphNode) it.next();
+//            q.add(child);
+//        }
+//
+//        while (q.size() != 0) {
+//            GraphNode cur = (GraphNode) q.remove(0);
+//
+//            count++;
+//            Iterator children = GraphImpl.getOutboundEdgeNodes(cur);
+//            while (children.hasNext()) {
+//                GraphNode next = (GraphNode) children.next();
+//                q.add(next);
+//            }
+//        }
+//        return count;
+//    }
 
 
     /**

@@ -6,6 +6,7 @@ package ontorama.hyper.canvas;
  */
 
 import ontorama.hyper.model.HyperNode;
+//import ontorama.hyper.model.HyperNodeObserver;
 
 import javax.swing.JComponent;
 
@@ -22,7 +23,7 @@ import java.util.LinkedList;
 
 
  public class CanvasManager extends JComponent
-        implements MouseListener, MouseMotionListener {
+        implements MouseListener, MouseMotionListener, FocusChangedObserver {
 
     /**
      * Store the last point.
@@ -97,14 +98,67 @@ import java.util.LinkedList;
         double xDif = (lastPoint.getX() - e.getX());
         double yDif = (lastPoint.getY() - e.getY());
         lastPoint.setLocation( e.getX(), e.getY() );
-        Iterator it = this.hypernodes.values().iterator();
-        while( it.hasNext() ) {
-            HyperNode hn = (HyperNode)it.next();
-            hn.move( xDif, yDif );
-        }
+        moveCanvasItems( xDif, yDif );
         noLabels = true;
         repaint();
     }
+
+    /**
+     * Move all the nodes by an offset x and y.
+     */
+    private void moveCanvasItems( double x, double y ) {
+        Iterator it = this.hypernodes.values().iterator();
+        while( it.hasNext() ) {
+            HyperNode hn = (HyperNode)it.next();
+            hn.move( x, y );
+        }
+    }
+
+    /**
+     * FocusChanged called by FocusListen to
+     * emit a change in which node has focus.
+     * The node that has focus is centered.
+     */
+    public void focusChanged( Object obj ){
+        HyperNode node = (HyperNode)obj;
+        double xMax = node.getX();
+        double yMax = node.getY();
+        final double STEPS = 50;
+        int i = 0;
+        double lastX = xMax;
+        double lastY = yMax;
+        while( i < STEPS ) {
+            double moveby = (STEPS - i - 1)/( STEPS - 1);
+            double x = xMax * moveby;
+            double y = yMax * moveby;
+            moveCanvasItems( lastX - x, lastY - y );
+            lastX = x;
+            lastY = y;
+            i++;
+            paint(this.getGraphics());
+//            try {
+//                Thread.currentThread().sleep(50);
+//            }
+//            catch( InterruptedException e ) {
+//                // nothing
+//            }
+        }
+
+        //animationStartTime = System.currentTimeMillis();
+        //animate();
+    }
+
+    /*protected void animate() {
+        long elapsedTime = System.currentTimeMillis() - animationStartTime;
+        double animPos = elapsedTime / (double) AnimationDuration;
+        if(animPos < 1) {
+            // draw intermediate position
+            // enqueue event to call animate()
+        }
+        else {
+            // draw final thing
+        }
+    }*/
 
     public void mouseMoved(MouseEvent e) {
         /*Iterator it = canvasItems.iterator();

@@ -300,12 +300,16 @@ public class SimpleHyperView extends Canvas implements GraphView {
             System.out.println("Root = null");
             return;
         }
-        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
-        while (topLevelNodes.hasNext()) {
-            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
-            makeHyperNodes(topLevelNode);
-        }
-//        makeHyperNodes(root);
+//        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
+//        if (topLevelNodes.hasNext()) {
+            makeHyperNodes(root);
+//        }
+//        else {
+//            while (topLevelNodes.hasNext()) {
+//                GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
+//                makeHyperNodes(topLevelNode);
+//            }
+//        }
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
         NodePlacementDetails rootNode = new NodePlacementDetails();
         rootNode.node = root;

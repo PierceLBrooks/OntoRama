@@ -88,13 +88,17 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                 hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
+
         int relLinkInt = treeNode.getRelLink();
         RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
+        //System.out.println("treeNode = " + treeNode + ", relLinkDetails = " + relLinkDetails + ", relLinkInt = " + relLinkInt);
 
-        //setBackgroundNonSelectionColor(isChild(relLinkDetails));
-        //setBackgroundSelectionColor(isChild(relLinkDetails));
-
-        setToolTipText(getToolTipText(value, relLinkDetails));
+        /// @todo shouldn't have to check for null here
+        if (relLinkDetails != null) {
+            //setBackgroundNonSelectionColor(isChild(relLinkDetails));
+            //setBackgroundSelectionColor(isChild(relLinkDetails));
+            setToolTipText(getToolTipText(value, relLinkDetails));
+        }
 
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(_nodeImageIcon);
@@ -132,7 +136,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * get tool tip text for given object and relation link
      */
     protected String getToolTipText(Object value, RelationLinkDetails relLinkDetails) {
-        OntoTreeNode treeNode = (OntoTreeNode) value;
+        //OntoTreeNode treeNode = (OntoTreeNode) value;
         String relLinkName = relLinkDetails.getLinkName();
         String result = "";
         //result = "Concept: " + treeNode.getGraphNode().getName();

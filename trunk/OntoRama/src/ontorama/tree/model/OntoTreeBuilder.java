@@ -36,24 +36,33 @@ public class OntoTreeBuilder {
     public OntoTreeBuilder(Graph graph) {
         this.graph = graph;
 
-        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
-        while (topLevelNodes.hasNext()) {
-            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
+//        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
+//        if (!topLevelNodes.hasNext()) {
+            processNode(graph.getRootNode());
+//        }
+//        while (topLevelNodes.hasNext()) {
+//            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
+//            processNode(topLevelNode);
+//        }
+    }
 
-            //Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
-            Iterator outboundEdges = Edge.getOutboundEdges(topLevelNode);
+    /**
+     *
+     */
+    private void processNode (GraphNode topGraphNode) {
+        Iterator outboundEdges = Edge.getOutboundEdges(topGraphNode);
 
-            // take care of a case when we only have one node and no edges
-            if (!outboundEdges.hasNext()) {
-                OntoTreeNode ontoTreeNode = new OntoTreeNode(graph.getRootNode());
-                ontoHash.put(graph.getRootNode(), ontoTreeNode);
-            }
-
-            while (outboundEdges.hasNext()) {
-                Edge edge = (Edge) outboundEdges.next();
-                graphNodeToOntoTreeNode(graph.getRootNode(), edge.getType());
-            }
+        // take care of a case when we only have one node and no edges
+        if (!outboundEdges.hasNext()) {
+            OntoTreeNode ontoTreeNode = new OntoTreeNode(topGraphNode);
+            ontoHash.put(topGraphNode, ontoTreeNode);
         }
+
+        while (outboundEdges.hasNext()) {
+            Edge edge = (Edge) outboundEdges.next();
+            graphNodeToOntoTreeNode(topGraphNode, edge.getType());
+        }
+
     }
 
     /**

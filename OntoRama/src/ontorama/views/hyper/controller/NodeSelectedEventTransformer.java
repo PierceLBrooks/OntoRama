@@ -24,8 +24,8 @@ public class NodeSelectedEventTransformer implements EventBrokerListener {
     }
 
     public void processEvent(Event e) {
-        HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-        eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
-        //System.out.println("processEvent: NodeSelected: " + nodeView);
+//        HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+//        eventBroker.processEvent(new NodeSelectedEvent(nodeView.getTreeNode()));
+//        //System.out.println("processEvent: NodeSelected: " + nodeView);
     }
 }

@@ -12,13 +12,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.graph.view.GraphView;
+import ontorama.model.tree.Tree;
+import ontorama.model.tree.TreeEdge;
+import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.view.TreeView;
 import ontorama.views.hyper.controller.DraggedEventHandler;
 import ontorama.views.hyper.controller.NodeActivatedEventHandler;
 import ontorama.views.hyper.controller.NodeContextMenuHandler;
@@ -34,7 +33,7 @@ import org.tockit.canvas.events.CanvasItemMouseMovementEvent;
 import org.tockit.events.EventBroker;
 
 
-public class SimpleHyperView extends Canvas implements GraphView {
+public class SimpleHyperView extends Canvas implements TreeView {
 
     /**
      * Hold the mapping of HyperNode to GraphNodes
@@ -47,11 +46,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
     protected Hashtable hypernodeviews = new Hashtable();
 
     /**
-     * Hold the top concept (root node) for current query.
+     * Hold the top concept (_root node) for current query.
      */
-    private Node root = null;
+    private TreeNode _root = null;
 
-    private Graph graph;
+    private Tree _tree;
 
     /**
      * Store the HyperNode that has focus.
@@ -60,7 +59,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
     /**
      * Stores the hyperNodeView that is having its
-     * EdgeImpl highlighted back to the root node.
+     * EdgeImpl highlighted back to the _root node.
      */
     private HyperNodeView currentHighlightedView = null;
 
@@ -111,33 +110,64 @@ public class SimpleHyperView extends Canvas implements GraphView {
     public SimpleHyperView(EventBroker eventBroker, Projection projection) {
         super(eventBroker);
         this.projection = projection;
-        new NodeSelectedEventTransformer(eventBroker);
-        new GraphViewFocusEventHandler(eventBroker, this);
-        new NodeActivatedEventHandler(this, eventBroker);
-        //new NodeDraggedEventHandler(this, eventBroker);
-        new NodePointedEventHandler(this, eventBroker);
-        if (OntoramaConfig.EDIT_ENABLED) {
-        	new NodeContextMenuHandler(this, eventBroker);
-        }
-        new SphereMouseMovedEventHandler(this, eventBroker);
-    	new DraggedEventHandler(this, eventBroker);
-    	new RotateEventHandler(this, eventBroker);
+//        new NodeSelectedEventTransformer(eventBroker);
+//        new GraphViewFocusEventHandler(eventBroker, this);
+//        new NodeActivatedEventHandler(this, eventBroker);
+//        //new NodeDraggedEventHandler(this, eventBroker);
+//        new NodePointedEventHandler(this, eventBroker);
+//        if (OntoramaConfig.EDIT_ENABLED) {
+//        	new NodeContextMenuHandler(this, eventBroker);
+//        }
+//        new SphereMouseMovedEventHandler(this, eventBroker);
+//    	new DraggedEventHandler(this, eventBroker);
+//    	new RotateEventHandler(this, eventBroker);
         SimpleHyperView.sphereView = new SphereView(((SphericalProjection)projection).getSphereRadius());
     }
 
-    public Graph getGraph() {
-        return graph;
+	/**
+	 * Loads new ontology with top concept.
+	 */
+	public void setTree(Tree tree) {
+		// reset canvas variables
+		resetCanvas();
+		_tree = tree;
+		_root = _tree.getRootNode();
+
+		makeHyperNodes(_root);
+		NodePlacementDetails rootNode = new NodePlacementDetails();
+		rootNode.node = _root;
+		rootNode.numOfLeaves = getLeafNodeTotal(_root);
+		weightedRadialLayout(rootNode, 0);
+		System.out.println("Running radial layout...");
+		long start = System.currentTimeMillis();
+		long end = System.currentTimeMillis();
+		end = System.currentTimeMillis();
+		System.out.println("Time taken: " + ((end - start)) + "ms");
+
+		addCanvasItem(SimpleHyperView.sphereView);
+		addLinesToHyperNodeViews(hypernodeviews, _root);
+		addHyperNodeViews();
+		addLabelViews();
+
+		setLeafNodes();
+
+		repaint();
+	}
+
+
+    public Tree getTree() {
+        return _tree;
     }
 
     /**
      *
      */
-    public void focus(Node graphNode) {
-        if ((focusNode != null) && (graphNode.equals(focusNode.getGraphNode())) ) {
+    public void focus(TreeNode treeNode) {
+        if ((focusNode != null) && (treeNode.equals(focusNode.getTreeNode())) ) {
             return;
         }
 
-        focusNode = (HyperNode) this.hypernodes.get(graphNode);
+        focusNode = (HyperNode) this.hypernodes.get(treeNode);
         double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
                 focusNode.getY() * focusNode.getY());
         if(distance == 0) {
@@ -145,7 +175,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
 
         // set focused node label to selected
-        HyperNodeView hyperNodeView  = (HyperNodeView) this.hypernodeviews.get(graphNode);
+        HyperNodeView hyperNodeView  = (HyperNodeView) this.hypernodeviews.get(treeNode);
         testIfVisibleOrFolded(hyperNodeView);
         setLabelSelected(hyperNodeView);
 
@@ -157,7 +187,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    public void toggleFold(Node node) {
+    public void toggleFold(TreeNode node) {
         HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
             return;
@@ -167,18 +197,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
         boolean foldedState = focusedHyperNodeView.getFolded();
         drawFolded(foldedState, node);
-        node.setFoldState(!foldedState);
+        focusedHyperNodeView.setFolded(!foldedState);
         repaint();
     }
 
     /**
      * Method to fold and unfold HyperNodeViews.
      */
-    private void drawFolded(boolean foldedState, Node node) {
-        Iterator it = graph.getOutboundEdgesDisplayedInGraph(node).iterator();
+    private void drawFolded(boolean foldedState, TreeNode node) {
+        Iterator it = node.getChildren().iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node cur = curEdge.getToNode();
+            TreeEdge curEdge = (TreeEdge) it.next();
+            TreeNode cur = curEdge.getToNode();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView != null) {
                 hyperNodeView.setVisible(foldedState);
@@ -190,22 +220,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
     /**
-     * Unfold nodes back to root node.
+     * Unfold nodes back to _root node.
      */
     private void unfoldNodes(HyperNodeView hyperNodeView) {
-        Node node = hyperNodeView.getGraphNode();
-        Iterator it = graph.getInboundEdgesDisplayedInGraph(node).iterator();
-        while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
-            Node cur = edge.getFromNode();
-            HyperNodeView curHyperNode = (HyperNodeView) hypernodeviews.get(cur);
-            if (!curHyperNode.getVisible()) {
-                unfoldNodes(curHyperNode);
-            }
-            if (curHyperNode.getFolded()) {
-                drawFolded(true, cur);
-                curHyperNode.setFolded(false);
-            }
+        TreeNode node = hyperNodeView.getTreeNode();
+        TreeNode parent = node.getParent();
+        HyperNodeView curHyperNode = (HyperNodeView) hypernodeviews.get(parent);
+        if (!curHyperNode.getVisible()) {
+            unfoldNodes(curHyperNode);
+        }
+        if (curHyperNode.getFolded()) {
+            drawFolded(true, parent);
+            curHyperNode.setFolded(false);
         }
         repaint();
     }
@@ -225,38 +251,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
     }
 
-    /**
-     * Loads new ontology with top concept.
-     */
-    public void setGraph(Graph graph) {
-        // reset canvas variables
-        this.resetCanvas();
-        this.root = graph.getRootNode();
-        this.graph = graph;
-
-        if (root == null) {
-            return;
-        }
-        makeHyperNodes(root);
-        NodePlacementDetails rootNode = new NodePlacementDetails();
-        rootNode.node = root;
-        rootNode.numOfLeaves = getLeafNodeTotal(root);
-        weightedRadialLayout(rootNode, 0);
-        System.out.println("Running radial layout...");
-        long start = System.currentTimeMillis();
-        long end = System.currentTimeMillis();
-        end = System.currentTimeMillis();
-        System.out.println("Time taken: " + ((end - start)) + "ms");
-
-        addCanvasItem(SimpleHyperView.sphereView);
-        addLinesToHyperNodeViews(hypernodeviews, root);
-        addHyperNodeViews();
-        addLabelViews();
-
-        setLeafNodes();
-
-        repaint();
-    }
 
     /**
      * This method set the flag in HyperViewNode to indicate if a
@@ -267,7 +261,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         int numOfLeaves = 0;
         while (it.hasNext()) {
             HyperNodeView hnv = (HyperNodeView) it.next();
-            numOfLeaves = graph.getOutboundEdgesDisplayedInGraph(hnv.getGraphNode()).size();
+            TreeNode treeNode = hnv.getTreeNode();
+            numOfLeaves = treeNode.getChildren().size();
             if (numOfLeaves == 0) {
                 hnv.setNodeAsLeafNode();
             }
@@ -278,9 +273,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    private void makeHyperNodes(Node node) {
+    private void makeHyperNodes(TreeNode node) {
         HyperNode hn = new HyperNode(node);
-        NodeType nodeType = node.getNodeType();
+        NodeType nodeType = node.getGraphNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
@@ -295,10 +290,10 @@ public class SimpleHyperView extends Canvas implements GraphView {
         HyperNodeView hnv = new HyperNodeView(hn, nodeType, projection);
         hypernodes.put(node, hn);
         hypernodeviews.put(node, hnv);
-        Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(node).iterator();
-        while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            Node gn = edge.getToNode();
+        Iterator childrenEdges = node.getChildren().iterator();
+        while (childrenEdges.hasNext()) {
+            TreeEdge edge = (TreeEdge) childrenEdges.next();
+            TreeNode gn = edge.getToNode();
             makeHyperNodes(gn);
         }
     }
@@ -308,18 +303,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Try to give the ontology a basic layout.
      * The spring and electrical algorthms shall they do the rest.
      */
-    private void radialLayout(Node root, double rads, double startAngle) {
-        List outboundEdgesList = graph.getOutboundEdgesDisplayedInGraph(root);
-        Iterator outboundEdgesIterator = outboundEdgesList.iterator();
-        int numOfOutboundNodes = outboundEdgesList.size();
+    private void radialLayout(TreeNode root, double rads, double startAngle) {
+        List childrenEdgesList = root.getChildren();
+        Iterator childrenEdges = childrenEdgesList.iterator();
+        int numOfOutboundNodes = childrenEdgesList.size();
         if (numOfOutboundNodes == 0) {
             return;
         }
         double angle = rads / numOfOutboundNodes;
         double x = 0, y = 0, radius = 0, count = 1;
-        while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node node = edge.getToNode();
+        while (childrenEdges.hasNext()) {
+            TreeEdge edge = (TreeEdge) childrenEdges.next();
+            TreeNode node = edge.getToNode();
             double ang = (angle * count) + startAngle - rads / 2;
             count = count + 1;
             radius = springLength * (node.getDepth());
@@ -338,7 +333,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Inner class to store graph node radial layouting info.
      */
     private class NodePlacementDetails {
-        public Node node = null;
+        public TreeNode node = null;
         public double numOfLeaves = 0;
         // (Math.PI * 2) is the number of radians in a circle
         public double wedge = Math.PI * 2;
@@ -440,7 +435,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         // Position node in the euclidean plane.
         // Calculate node radius from the center.
         double radius = springLength * rootNode.node.getDepth();
-        if (radius != 0) { // Not root node
+        if (radius != 0) { // Not _root node
             // Not sure if I like this effect, but shall leave it here for now
 //            System.out.println("Radius before: " + radius + " numOfLeaves " + rootNode.numOfLeaves);
 //            radius = radius - ((springLength * rootNode.weight));
@@ -451,26 +446,28 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double y = Math.sin(drawAngle) * radius;
         HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         hn.setLocation(x, y);
+        
+        List childrenEdgesList = (rootNode.node).getChildren();
 
-        double numOfOutboundNodes = graph.getOutboundEdgesDisplayedInGraph(rootNode.node).size();
+        double numOfOutboundNodes = childrenEdgesList.size();
         if (numOfOutboundNodes < 1) {
             return;
         }
         NodePlacementDetails[] nodeList = getNewNodeList((int) numOfOutboundNodes);
-        Iterator outboundEdgesIterator = graph.getOutboundEdgesDisplayedInGraph(rootNode.node).iterator();
+        Iterator childrenEdgesIterator = childrenEdgesList.iterator();
         int count = 0;
 
         //get graph node and their leaf count
-        while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node cur = edge.getToNode();
+        while (childrenEdgesIterator.hasNext()) {
+            TreeEdge edge = (TreeEdge) childrenEdgesIterator.next();
+            TreeNode cur = edge.getToNode();
             double numOfLeaves = getLeafNodeTotal(cur);
             nodeList[count].node = cur;
             nodeList[count].numOfLeaves = numOfLeaves;
             count = count + 1;
         }
 
-        this.sortNodeListAscending(nodeList);// sort list in ascending orde
+        sortNodeListAscending(nodeList);// sort list in ascending orde
         // calculate each nodes wedge space.
         // node with no children will be at the end of the list.
         // they shall get a equal share of what ever wedge space is left
@@ -503,13 +500,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * This method counts the number of leaves on a sub branch.
      */
-    private int getLeafNodeTotal(Node root) {
+    private int getLeafNodeTotal(TreeNode root) {
         int sumOfLeafNodes = 0;
-        Iterator outboundEdgesIterator = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
-        while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node cur = edge.getToNode();
-            int numOfchildren = graph.getOutboundEdgesDisplayedInGraph(cur).size();
+        Iterator childrenEdgesIterator = root.getChildren().iterator();
+        while (childrenEdgesIterator.hasNext()) {
+            TreeEdge edge = (TreeEdge) childrenEdgesIterator.next();
+            TreeNode cur = edge.getToNode();
+            int numOfchildren = cur.getChildren().size();
             if (numOfchildren == 0) {
                 sumOfLeafNodes++;
             } else {
@@ -534,20 +531,20 @@ public class SimpleHyperView extends Canvas implements GraphView {
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             count = 0;
             sumOfAverageMoves = 0;
-            Iterator it = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
+            Iterator it = _root.getChildren().iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                TreeEdge edge = (TreeEdge) it.next();
+                TreeNode node = edge.getToNode();
                 queue.add(node);
             }
             while (!queue.isEmpty()) {
-                Node cur = (Node) queue.remove(0);
+                TreeNode cur = (TreeNode) queue.remove(0);
                 sumOfAverageMoves += adjustPosition(cur);
                 count++;
-                it = graph.getOutboundEdgesDisplayedInGraph(cur).iterator();
+                it = cur.getChildren().iterator();
                 while (it.hasNext()) {
-                    Edge edge = (Edge) it.next();
-                    Node node = edge.getToNode();
+                    TreeEdge edge = (TreeEdge) it.next();
+                    TreeNode node = edge.getToNode();
                     queue.add(node);
                 }
             }
@@ -564,7 +561,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Adjust the position of the node using spring algorithm.
      */
-    public double adjustPosition(Node cur) {
+    public double adjustPosition(TreeNode cur) {
         // calculate spring forces for _graphEdges to parents
         double sumOfMoves = 0;
         int count = 0;
@@ -572,191 +569,67 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double yMove = 0;
         double curX = 0;
         double curY = 0;
-        Iterator it = graph.getInboundEdges(cur).iterator();
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node parent = curEdge.getFromNode();
-            HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
-            HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
-            double vectorLength = curHyperNode.distance(curHyperNodeParent);
-            if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero
-                double springlength = springLength;
-                //double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
-                double force = STIFFNESS * (springlength - vectorLength) / vectorLength;
-                curX = curHyperNode.getX();
-                curY = curHyperNode.getY();
-                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
-                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
-                curHyperNode.setLocation(xMove, yMove);
-                sumOfMoves = sumOfMoves + (Math.abs(xMove - curX) + Math.abs(yMove - curY)) / 2;
-                count++;
-            } else {
-                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
-                        curHyperNode.getY() + (Math.random() - 0.5));
-            }
+        TreeNode parent = cur.getParent();
+        HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
+        HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
+        double vectorLength = curHyperNode.distance(curHyperNodeParent);
+        if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero
+            double springlength = springLength;
+            //double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
+            double force = STIFFNESS * (springlength - vectorLength) / vectorLength;
+            curX = curHyperNode.getX();
+            curY = curHyperNode.getY();
+            xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
+            yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
+            curHyperNode.setLocation(xMove, yMove);
+            sumOfMoves = sumOfMoves + (Math.abs(xMove - curX) + Math.abs(yMove - curY)) / 2;
+            count++;
+        } else {
+            curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
+                    curHyperNode.getY() + (Math.random() - 0.5));
         }
         // calculate the electrical (repulsory) forces
         List queue = new LinkedList();
-        queue.add(root);
+        queue.add(_root);
         mainWhile: while (!queue.isEmpty()) {
-            Node other = (Node) queue.remove(0);
-            it = graph.getOutboundEdgesDisplayedInGraph(other).iterator();
+            TreeNode other = (TreeNode) queue.remove(0);
+            Iterator it = other.getChildren().iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                TreeEdge edge = (TreeEdge) it.next();
+                TreeNode node = edge.getToNode();
                 queue.add(node);
             }
             if (other == cur) {
                 continue;
             }
-            it = graph.getInboundEdges(cur).iterator();
-            while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
-                Node node = curEdge.getFromNode();
-                if (node == other) {
-                    continue mainWhile;
-                }
+            TreeNode node = cur.getParent();
+            if (node == other) {
+                continue mainWhile;
             }
-            HyperNode curHyperNodeOther = (HyperNode) hypernodes.get(other);
-            HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
-            double vectorLength = curHyperNode.distance(curHyperNodeOther);
-            if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero0.00001
+            HyperNode hyperNodeOther = (HyperNode) hypernodes.get(other);
+            HyperNode hyperNode = (HyperNode) hypernodes.get(cur);
+            double vectorLength1 = hyperNode.distance(hyperNodeOther);
+            if (vectorLength1 > 0.00001) { // don't try to calculate spring if length is zero0.00001
                 //int levelDiff = Math.abs(cur.getDepth() - other.getDepth() + 1);
                 //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
-                double force = (ELECTRIC_CHARGE) / (vectorLength * vectorLength);
-                curX = curHyperNode.getX();
-                curY = curHyperNode.getY();
-                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());
-                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeOther.getY());
-                curHyperNode.setLocation(xMove, yMove);
+                double force = (ELECTRIC_CHARGE) / (vectorLength1 * vectorLength1);
+                curX = hyperNode.getX();
+                curY = hyperNode.getY();
+                xMove = hyperNode.getX() + force * (hyperNode.getX() - hyperNodeOther.getX());
+                yMove = hyperNode.getY() + force * (hyperNode.getY() - hyperNodeOther.getY());
+            	hyperNode.setLocation(xMove, yMove);
                 sumOfMoves = sumOfMoves + (Math.abs(xMove - curX) + Math.abs(yMove - curY)) / 2;
                 count++;
             } else {
-                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
-                        curHyperNode.getY() + (Math.random() - 0.5));
+            	hyperNode.setLocation(hyperNode.getX() + (Math.random() - 0.5),
+            	hyperNode.getY() + (Math.random() - 0.5));
             }
         }
         double averageMove = sumOfMoves / count;
         return averageMove;
     }
 
-    /**
-     * Use a spring algorithm to layout nodes.
-     */
-    public int layoutNodes2(int iteration) {
-        List finishedNodes = new LinkedList();
-        List queue = new LinkedList();
-        int numOfItorations = 0;
-        double averageMove;
-        boolean loopAgain;
-        System.out.println("Starting spring and force algorthms: ");
-        do {
-            loopAgain = false;
-            Iterator it = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
-            while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
-                queue.add(node);
-            }
-            while (!queue.isEmpty()) {
-                Node cur = (Node) queue.remove(0);
-                if (!finishedNodes.contains(cur)) {
-                    averageMove = adjustPosition2(cur);
-                    loopAgain = true;
-                    if (averageMove < (ELECTRIC_CHARGE * STIFFNESS * (1 - (1 / springLength)) / 10)) {
-                        finishedNodes.add(cur);
-                    }
-                }
-                it = graph.getOutboundEdgesDisplayedInGraph(cur).iterator();
-                while (it.hasNext()) {
-                    Edge edge = (Edge) it.next();
-                    Node node = edge.getToNode();
-                    queue.add(node);
-                }
-            }
-            numOfItorations++;
-        } while (numOfItorations < iteration && loopAgain == true);
-        return numOfItorations;
-    }
 
-    /**
-     * Adjust the position of the node using spring algorithm.
-     */
-    public double adjustPosition2(Node cur) {
-        // calculate spring forces for _graphEdges to parents
-        double sumOfMoves = 0;
-        int count = 0;
-        double xMove = 0;
-        double yMove = 0;
-        double curX = 0;
-        double curY = 0;
-        Iterator it = graph.getInboundEdges(cur).iterator();
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node parent = curEdge.getFromNode();
-            HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
-            HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
-            double vectorLength = curHyperNode.distance(curHyperNodeParent);
-            if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero
-                //double springlength = springLength;
-                double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
-                double force = STIFFNESS * (springlength - vectorLength) / vectorLength;
-                curX = curHyperNode.getX();
-                curY = curHyperNode.getY();
-                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
-                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
-                curHyperNode.setLocation(xMove, yMove);
-                sumOfMoves = sumOfMoves + (Math.abs(xMove - curX) + Math.abs(yMove - curY)) / 2;
-                count++;
-            } else {
-                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
-                        curHyperNode.getY() + (Math.random() - 0.5));
-            }
-        }
-        // calculate the electrical (repulsory) forces
-        List queue = new LinkedList();
-        queue.add(root);
-        mainWhile: while (!queue.isEmpty()) {
-            Node other = (Node) queue.remove(0);
-            it = graph.getOutboundEdgesDisplayedInGraph(other).iterator();
-            while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
-                queue.add(node);
-            }
-            if (other == cur) {
-                continue;
-            }
-            it = graph.getInboundEdges(cur).iterator();
-            while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
-                Node node = curEdge.getFromNode();
-                if (node == other) {
-                    continue mainWhile;
-                }
-            }
-            HyperNode curHyperNodeOther = (HyperNode) hypernodes.get(other);
-            HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
-            double vectorLength = curHyperNode.distance(curHyperNodeOther);
-            if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero0.00001
-                int levelDiff = Math.abs(cur.getDepth() - other.getDepth() + 1);
-                double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
-                //double force = (ELECTRIC_CHARGE)/ (vectorLength * vectorLength);
-                curX = curHyperNode.getX();
-                curY = curHyperNode.getY();
-                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());
-                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeOther.getY());
-                curHyperNode.setLocation(xMove, yMove);
-                sumOfMoves = sumOfMoves + (Math.abs(xMove - curX) + Math.abs(yMove - curY)) / 2;
-                count++;
-            } else {
-                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
-                        curHyperNode.getY() + (Math.random() - 0.5));
-            }
-        }
-        double averageMove = sumOfMoves / count;
-        return averageMove;
-    }
 
     public void update(Graphics g) {
         paintComponent(g);
@@ -800,13 +673,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
             animate();
         }
         else {
-            if (focusNode.getGraphNode().hasClones()) {
-                Node graphNode = focusNode.getGraphNode();
-                HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
-                if (graphNode.hasClones()) {
-                    Iterator it = graphNode.getClones().iterator();
+            if (focusNode.hasClones()) {
+                TreeNode treeNode = focusNode.getTreeNode();
+                HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(treeNode);
+                if (treeNode.getClones().size() != 0) {
+                    Iterator it = treeNode.getClones().iterator();
                     while (it.hasNext()) {
-                        Node cloneNode = (Node) it.next();
+                        TreeNode cloneNode = (TreeNode) it.next();
                         unfoldNodes((HyperNodeView) hypernodeviews.get(cloneNode));
                     }
                     hyperNodeView.showClones(g2d, hypernodeviews);
@@ -875,18 +748,14 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
     /**
-     * Method called to highlight _graphEdges back to the root node.
+     * Method called to highlight _graphEdges back to the _root node.
      */
-    private void highlightEdge(Node node) {
-        Iterator it = graph.getInboundEdges(node).iterator();
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node cur = curEdge.getFromNode();
-            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
-            if (hyperNodeView != null) {
-                hyperNodeView.setHighlightEdge(true);
-                this.highlightEdge(cur);
-            }
+    private void highlightEdge(TreeNode node) {
+    	TreeNode parent = node.getParent();
+        HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(parent);
+        if (hyperNodeView != null) {
+            hyperNodeView.setHighlightEdge(true);
+            this.highlightEdge(parent);
         }
     }
 
@@ -925,20 +794,20 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Add lines to join HyperNodeViews.
      *
      */
-    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, Node root) {
+    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, TreeNode root) {
         List queue = new LinkedList();
         queue.add(root);
         while (!queue.isEmpty()) {
-            Node curGraphNode = (Node) queue.remove(0);
-            HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curGraphNode);
-            Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(curGraphNode).iterator();
-            while (outboundEdges.hasNext()) {
-                Edge edge = (Edge) outboundEdges.next();
+            TreeNode curTreeNode = (TreeNode) queue.remove(0);
+            HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curTreeNode);
+            Iterator childrenEdges = curTreeNode.getChildren().iterator();
+            while (childrenEdges.hasNext()) {
+                TreeEdge edge = (TreeEdge) childrenEdges.next();
                 EdgeType edgeType = edge.getEdgeType();
-                Node outboundGraphNode = edge.getToNode();
-                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
+                TreeNode childNode = edge.getToNode();
+                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(childNode);
                 addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType, projection));
-                queue.add(outboundGraphNode);
+                queue.add(childNode);
             }
         }
     }
@@ -1009,7 +878,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
 
     /**
-     * Highlight all _graphEdges on the path from the root to a closest node for current mouse event
+     * Highlight all _graphEdges on the path from the _root to a closest node for current mouse event
      */
     public void highlightPathToRoot(CanvasItemMouseMovementEvent pointedEvent) {
         Iterator it = canvasItems.iterator();
@@ -1043,7 +912,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (!node.equals(currentHighlightedView)) {
             currentHighlightedView = node;
             node.setHighlightEdge(true);
-            this.highlightEdge(node.getGraphNode());
+            this.highlightEdge(node.getTreeNode());
             repaint();
         }
     }

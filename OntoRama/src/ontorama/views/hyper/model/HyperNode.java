@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import ontorama.model.tree.TreeNode;
+
 public class HyperNode implements PositionChangedObservable {
 
     /**
@@ -37,16 +39,13 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store the graph node for this hyper node.
      */
-    private ontorama.model.graph.Node graphNode;
+    private TreeNode _treeNode;
 
     /**
      * Constructor
      */
-    public HyperNode(ontorama.model.graph.Node graphNode) {
-        this.graphNode = graphNode;
-        /*
-        this.graphNode.addObserver( this );
-        */
+    public HyperNode(TreeNode treeNode) {
+        _treeNode = treeNode;
         this.position = new Position3D();
     }
 
@@ -74,38 +73,29 @@ public class HyperNode implements PositionChangedObservable {
             hno.positionChanged();
         }
     }
-    /**
-     * Update method called from obserable (NodeImpl)
-     */
-    /*
-   public void update( Object observer, Object observable ) {
-       Iterator it = focusListener.iterator();
-       while( it.hasNext() ) {
-           FocusChangedObserver fo = (FocusChangedObserver)it.next();
-           fo.focusChanged( this );
-       }
-   }
-   */
 
     /**
      * Returns NodeImpl.
      */
-    public ontorama.model.graph.Node getGraphNode() {
-        return graphNode;
+    public TreeNode getTreeNode() {
+        return _treeNode;
     }
 
     /**
      * Return true if NodeImpl has clones.
      */
     public boolean hasClones() {
-        return this.graphNode.hasClones();
+    	if (_treeNode.getClones().size() > 0) {
+    		return true;
+    	}
+        return false;
     }
 
     /**
      * Get the concept name.
      */
     public String getName() {
-        return this.graphNode.getName();
+        return _treeNode.getGraphNode().getName();
     }
 
     /**
@@ -135,16 +125,6 @@ public class HyperNode implements PositionChangedObservable {
     public double getNodeRadius() {
         return nodeRadius;
     }
-
-    /**
-     * Notify NodeImpl that it has focus.
-     */
-    /*
-   public void hasFocus() {
-       System.out.println("HyperNode hasFocus()");
-       graphNode.hasFocus();
-   }
-   */
 
     /**
      * Move node position by offset x and y.
@@ -182,6 +162,6 @@ public class HyperNode implements PositionChangedObservable {
     }
 
     public String toString() {
-        return this.graphNode.getName();
+        return getName();
     }
 }

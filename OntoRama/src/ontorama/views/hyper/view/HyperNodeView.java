@@ -21,6 +21,7 @@ import java.util.Iterator;
 import ontorama.OntoramaConfig;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.model.graph.NodeType;
+import ontorama.model.tree.TreeNode;
 import ontorama.views.hyper.model.HyperNode;
 import ontorama.views.hyper.model.PositionChangedObserver;
 import org.tockit.canvas.CanvasItem;
@@ -95,6 +96,8 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
 
 	private SphericalProjection projection = null;
 	
+	private boolean _isFolded = false;
+	
     /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
@@ -142,16 +145,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Set if ui is folded.
      */
     public void setFolded(boolean state) {
-//        System.out.println("HyperNodeView: " + this.getGraphNode().getName() + " folded state is being set to " + state);
-        this.getGraphNode().setFoldState(state);
+        _isFolded = state;
     }
 
     /**
      * Get if ui is folded.
      */
     public boolean getFolded() {
-        return this.getGraphNode().getFoldedState();
-        //return this.isFolded;
+    	return _isFolded;
     }
 
     /**
@@ -260,8 +261,8 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Returns Node.
      */
-    public ontorama.model.graph.Node getGraphNode() {
-        return this.model.getGraphNode();
+    public TreeNode getTreeNode() {
+        return this.model.getTreeNode();
     }
 
     /**
@@ -336,7 +337,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     public void showClones(Graphics2D g2d, Hashtable hypernodeviews) {
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
         // draw lines to, and show clones
-        Iterator it = this.getGraphNode().getClones().iterator();
+        Iterator it = this.getTreeNode().getClones().iterator();
         while (it.hasNext()) {
             ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);

@@ -1,0 +1,10 @@
+<ontoramaExamples>
+    <example name="p2p" root="" loadOnStart="yes">
+        <source uri="examples/test/p2p"
+            isSourceDynamic="true"
+            sourcePackagePathSuffix="JarSource"/>
+        <queryOutputFormat>RDF</queryOutputFormat>
+        <parserPackagePathSuffix>rdf.RdfP2PParser</parserPackagePathSuffix>
+    </example>
+</ontoramaExamples>
+

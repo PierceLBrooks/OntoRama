@@ -24,20 +24,6 @@ import java.util.List;
 
 public class SimpleHyperView extends Canvas implements GraphView {
 
-    /**
-     *
-     */
-    private class SphereMouseMovedEventHandler implements EventListener {
-        public SphereMouseMovedEventHandler(EventBroker eventBroker) {
-            eventBroker.subscribe(this, CanvasItemMouseMovementEvent.class, SphereView.class);
-        }
-
-        public void processEvent(Event e) {
-            CanvasItemMouseMovementEvent pointedEvent = (CanvasItemMouseMovementEvent) e;
-            //System.out.println("processEvent: SpherePointed ");
-            highlightPathToRoot(pointedEvent);
-        }
-    }
 
     /**
      * Hold the mapping of HyperNode to GraphNodes
@@ -113,8 +99,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new GraphViewFocusEventHandler(eventBroker, this);
         new NodeActivatedEventHandler(this, eventBroker);
         new NodeDraggedEventHandler(this, eventBroker);
-        new NodePointedEvent(this, eventBroker);
-        new SphereMouseMovedEventHandler(eventBroker);
+        new NodePointedEventHandler(this, eventBroker);
+        new SphereMouseMovedEventHandler(this, eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 

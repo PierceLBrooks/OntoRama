@@ -177,19 +177,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         EventBroker eventBroker = new EventBroker();
         new LoggingEventListener(eventBroker, CanvasItemEvent.class, Object.class, System.out);
 
+        _descriptionViewPanel = new DescriptionView(eventBroker);
+
         _queryPanel = new QueryPanel(this, eventBroker);
         _treeView = new OntoTreeView(eventBroker);
         _hyperView = new SimpleHyperView(eventBroker);
 
-        //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(_hyperView, _treeView);
-
-        /** create description panel
-         *  NOTE: description panel can't be created before hyper view and tree view
-         *  because then a view that is created after description panel doesn't
-         *  display clones for the first time a user clicks on a clone in one of the views
-         */
-        _descriptionViewPanel = new DescriptionView(eventBroker);
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.add(_queryPanel, BorderLayout.NORTH);
@@ -570,7 +564,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     public static void showErrorDialog(String message) {
         Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-        ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, frames[0]);
+        new ErrorPopupMessage(message, frames[0]);
     }
 
     /**
@@ -600,6 +594,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * main
      */
     public static void main(String[] args) {
-        JFrame frame = new OntoRamaApp();
+        new OntoRamaApp();
     }
 }

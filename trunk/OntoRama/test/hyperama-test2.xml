@@ -1,0 +1,26 @@
+<ontology top="root">
+	<node name="root">
+      		<child name="node1" />
+      		<child name="node2" />
+		<child name="node3"/>
+	</node>
+	<node name="node3">
+		<child name="node3.1"/>
+		<child name="node3.2"/>
+		<child name="node3.3"/>
+	</node>
+	<node name="node3.2">
+		<child name="node3.2.1"/>
+		<child name="node3.2.2"/>
+		<child name="node3.2.3"/>
+	</node>
+	<node name="node3.1">
+		<child name="node3.2"/>
+	</node>
+		<node name="node3.2">
+		<child name="node3.2.1"/>
+		<child name="node3.2.2"/>
+		<child name="node3.2.3"/>
+	</node>
+
+</ontology>

@@ -1,0 +1,402 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+         xmlns:dc="http://purl.org/metadata/dublin_core#"
+         xmlns:daml="http://www.daml.org/2000/10/daml-ont#"
+         xmlns:pm="pm#">
+
+
+<rdfs:Class rdf:about="comms#CommsObject">
+  <rdfs:label xml:lang="en">comms_object</rdfs:label>
+  <dc:Creator>comms@gu.edu.au</dc:Creator>
+  <rdfs:subClassOf rdf:resource="pm#DomainObject"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="comms#NetworkObject">
+     <rdfs:label xml:lang="en">network_object</rdfs:label>
+     <dc:Creator>comms@gu.edu.au</dc:Creator>
+     <rdfs:subClassOf rdf:resource="comms#CommsObject"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#TMN">
+        <rdfs:label xml:lang="en">TMN</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>telecommunication management network</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#NetworkObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#CMIP">
+        <rdfs:label xml:lang="en">CMIP</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>common management information protocol</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Protocol"/>
+        <rdfs:subClassOf rdf:resource="comms#NetworkObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#SMTP">
+        <rdfs:label xml:lang="en">SMTP</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>simple mail transfer protocol, simple network management protocol</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Protocol"/>
+        <rdfs:subClassOf rdf:resource="comms#NetworkObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#TrafficObject">
+        <rdfs:label xml:lang="en">traffic_object</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="comms#NetworkObject"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="comms#TelecomAndTrafficObject">
+           <rdfs:label xml:lang="en">telecom_and_traffic_object</rdfs:label>
+           <dc:Creator>comms@gu.edu.au</dc:Creator>
+           <rdfs:subClassOf rdf:resource="comms#TrafficObject"/>
+           <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#AsynchronousTransferMode">
+              <rdfs:label xml:lang="en">asynchronous_transfer_mode</rdfs:label>
+              <rdfs:label xml:lang="en">ATM</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>a means of digital communications that is capable of very high speeds; suitable for transmission of images or voice or video as well as data; "ATM is used for both LAN and WAN"</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#DigitalCommunication"/>
+              <rdfs:subClassOf rdf:resource="comms#TelecomAndTrafficObject"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="comms#SubscriberLine">
+              <rdfs:label xml:lang="en">subscriber_line</rdfs:label>
+              <dc:Creator>comms@gu.edu.au</dc:Creator>
+              <rdfs:subClassOf rdf:resource="wn#ElectronicDevice"/>
+              <rdfs:subClassOf rdf:resource="comms#TelecomAndTrafficObject"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="comms#ADSL">
+                 <rdfs:label xml:lang="en">ADSL</rdfs:label>
+                 <dc:Creator>comms@gu.edu.au</dc:Creator>
+                 <rdfs:comment>asynchronous subscriber line, assymetric digital subscriber line</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="comms#SubscriberLine"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="comms#DSL">
+                 <rdfs:label xml:lang="en">DSL</rdfs:label>
+                 <dc:Creator>comms@gu.edu.au</dc:Creator>
+                 <rdfs:comment>digital subscriber line, HDSL, VDSL</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="comms#SubscriberLine"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="comms#FrameRelay">
+              <rdfs:label xml:lang="en">frame_relay</rdfs:label>
+              <dc:Creator>comms@gu.edu.au</dc:Creator>
+              <rdfs:subClassOf rdf:resource="wn#Relay_2"/>
+              <rdfs:subClassOf rdf:resource="comms#TelecomAndTrafficObject"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="comms#ISDN">
+              <rdfs:label xml:lang="en">ISDN</rdfs:label>
+              <dc:Creator>comms@gu.edu.au</dc:Creator>
+              <rdfs:comment>integrated services digital network</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+              <rdfs:subClassOf rdf:resource="comms#TelecomAndTrafficObject"/>
+            </rdfs:Class>
+
+   <rdfs:Class rdf:about="comms#TelecomObject">
+     <rdfs:label xml:lang="en">telecom_object</rdfs:label>
+     <dc:Creator>comms@gu.edu.au</dc:Creator>
+     <rdfs:subClassOf rdf:resource="comms#CommsObject"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#TelecomAndTrafficObject">
+        <rdfs:label xml:lang="en">telecom_and_traffic_object</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="comms#TrafficObject"/>
+        <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#VPN">
+        <rdfs:label xml:lang="en">VPN</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>(virtual) private network</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#IBDN">
+        <rdfs:label xml:lang="en">IBDN</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>integrated building distribution network</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#CTI">
+        <rdfs:label xml:lang="en">CTI</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>computer telephony integration</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#GSM">
+        <rdfs:label xml:lang="en">GSM</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>group special mobile, global system mobile, cellular,mobile phone,pcs</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TelecomObject"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="comms#SwitchingObject">
+     <rdfs:label xml:lang="en">switching_object</rdfs:label>
+     <dc:Creator>comms@gu.edu.au</dc:Creator>
+     <rdfs:subClassOf rdf:resource="comms#CommsObject"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#TollSwitch">
+        <rdfs:label xml:lang="en">toll_switch</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#OfficeSwitch">
+        <rdfs:label xml:lang="en">office_switch</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#TandemSwitch">
+        <rdfs:label xml:lang="en">tandem_switch</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#PBX">
+        <rdfs:label xml:lang="en">PBX</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>public branch exchange</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#InternationalGateway">
+        <rdfs:label xml:lang="en">international_gateway</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>international switch</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#Router">
+        <rdfs:label xml:lang="en">router</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Switch"/>
+        <rdfs:subClassOf rdf:resource="comms#SwitchingObject"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="comms#TransmissionObject">
+     <rdfs:label xml:lang="en">transmission_object</rdfs:label>
+     <dc:Creator>comms@gu.edu.au</dc:Creator>
+     <rdfs:subClassOf rdf:resource="comms#CommsObject"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#WDM">
+        <rdfs:label xml:lang="en">WDM</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:comment>wave length division multiplexer</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Multiplexer"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="wn#Cable_2">
+        <rdfs:label xml:lang="en">cable</rdfs:label>
+        <rdfs:label xml:lang="en">electrical_cable</rdfs:label>
+        <rdfs:label xml:lang="en">line</rdfs:label>
+        <rdfs:label xml:lang="en">transmission_line</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>an electrical conductor connecting telephones or television or power stations</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Conductor_4"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#CoaxialCable">
+           <rdfs:label xml:lang="en">coaxial_cable</rdfs:label>
+           <rdfs:label xml:lang="en">coax</rdfs:label>
+           <rdfs:label xml:lang="en">coax_cable</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a transmission line for high-frequency signals</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Cable_2"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#EthernetCable">
+              <rdfs:label xml:lang="en">ethernet_cable</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>any of several types of coaxial cable used in ethernets</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#CoaxialCable"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#FiberOpticCable">
+           <rdfs:label xml:lang="en">fiber_optic_cable</rdfs:label>
+           <rdfs:label xml:lang="en">fibre_optic_cable</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a cable made of optical fibers that can transmit large amounts of information at the speed of light</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Cable_2"/>
+           <pm:part rdf:resource="wn#OpticalFiber"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#PowerLine">
+           <rdfs:label xml:lang="en">power_line</rdfs:label>
+           <rdfs:label xml:lang="en">power_cable</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>cable used to distribute electricity</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Cable_2"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#PrinterCable">
+           <rdfs:label xml:lang="en">printer_cable</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a cable between a computer and a printer</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Cable_2"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="wn#Microwave">
+        <rdfs:label xml:lang="en">microwave</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a very short electromagnetic wave</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#ElectromagneticRadiation"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="wn#Satellite">
+        <rdfs:label xml:lang="en">satellite</rdfs:label>
+        <rdfs:label xml:lang="en">artificial_satellite</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a man-made object that orbits around the earth</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="wn#Equipment"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+        <pm:part rdf:resource="wn#SolarArray"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#AstronomySatellite">
+           <rdfs:label xml:lang="en">astronomy_satellite</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a satellite equipped with a telescope to observe infra-red radiation</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#CommunicationsSatellite">
+           <rdfs:label xml:lang="en">communications_satellite</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>an artificial satellite that relays signals back to earth; orbits at the same rate the earth turns and so remains effectively stationary</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+           <pm:part rdf:resource="wn#SatelliteReceiver"/>
+           <pm:part rdf:resource="wn#SatelliteTransmitter"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#Spacecraft">
+           <rdfs:label xml:lang="en">spacecraft</rdfs:label>
+           <rdfs:label xml:lang="en">ballistic_capsule</rdfs:label>
+           <rdfs:label xml:lang="en">space_vehicle</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a vehicle capable of traveling in outer space; technically a satellite around the sun</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Craft"/>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+           <pm:part rdf:resource="wn#Cabin_3"/>
+           <pm:part rdf:resource="wn#HeatShield"/>
+           <pm:part rdf:resource="wn#InertialGuidanceSystem"/>
+           <pm:part rdf:resource="wn#Module"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#LunarExcursionModule">
+              <rdfs:label xml:lang="en">lunar_excursion_module</rdfs:label>
+              <rdfs:label xml:lang="en">lunar_module</rdfs:label>
+              <rdfs:label xml:lang="en">LEM</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>a spacecraft that carries astronauts from the command module to the surface of the moon and back</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#Spacecraft"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#SpaceCapsule">
+              <rdfs:label xml:lang="en">space_capsule</rdfs:label>
+              <rdfs:label xml:lang="en">capsule</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>a spacecraft designed to transport people and support human life in outer space</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#Spacecraft"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="wn#CommandModule">
+                 <rdfs:label xml:lang="en">command_module</rdfs:label>
+                 <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+                 <rdfs:comment>a space capsule in which astronauts can live and control the spacecraft and communicate with earth</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="wn#SpaceCapsule"/>
+               </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#SpaceStation">
+           <rdfs:label xml:lang="en">space_station</rdfs:label>
+           <rdfs:label xml:lang="en">space_platform</rdfs:label>
+           <rdfs:label xml:lang="en">space_laboratory</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a manned artificial satellite in a fixed orbit designed for scientific research</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#Salyut">
+              <rdfs:label xml:lang="en">Salyut</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>either of two Soviet space stations launched in the 1970s</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#SpaceStation"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="wn#Skylab">
+              <rdfs:label xml:lang="en">Skylab</rdfs:label>
+              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+              <rdfs:comment>U.S. space station; in orbit 1973-79</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="wn#SpaceStation"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#Sputnik">
+           <rdfs:label xml:lang="en">sputnik</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a Russian artificial satellite; "Sputnik was the first man-made satellite to orbit the earth"</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#SpySatellite">
+           <rdfs:label xml:lang="en">spy_satellite</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a satellite with sensors to detect nuclear explosions</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="wn#WeatherSatellite">
+           <rdfs:label xml:lang="en">weather_satellite</rdfs:label>
+           <rdfs:label xml:lang="en">meteorological_satellite</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a satellite that transmits frequent picture of the earth below</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="comms#VSAT">
+           <rdfs:label xml:lang="en">VSAT</rdfs:label>
+           <dc:Creator>comms@gu.edu.au</dc:Creator>
+           <rdfs:subClassOf rdf:resource="wn#Satellite"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#WirelessNetwork">
+        <rdfs:label xml:lang="en">wireless_network</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Network_2"/>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="comms#BroadbandNetwork">
+        <rdfs:label xml:lang="en">broadband_network</rdfs:label>
+        <dc:Creator>comms@gu.edu.au</dc:Creator>
+        <rdfs:subClassOf rdf:resource="wn#Network_2"/>
+        <rdfs:subClassOf rdf:resource="wn#Network_3"/>
+        <rdfs:subClassOf rdf:resource="comms#TransmissionObject"/>
+      </rdfs:Class>
+
+
+</rdf:RDF>

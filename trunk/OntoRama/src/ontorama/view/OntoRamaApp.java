@@ -155,7 +155,7 @@ public class OntoRamaApp extends JFrame {
     Debug debug = new Debug(false);
 
     /**
-     *
+     * actions
      */
     public Action _backAction;
     public Action _forwardAction;
@@ -184,14 +184,14 @@ public class OntoRamaApp extends JFrame {
         /**
          * create Menu Bar
          */
-         buildMenuBar();
-//        _menuBar = new OntoRamaMenu(this);
+        buildMenuBar();
         this.setJMenuBar(_menuBar);
 
         /**
          * create tool bar
          */
-        _backForwardToolBar = new OntoRamaToolBar(this);
+         buildBackForwardToolBar();
+//        _backForwardToolBar = new OntoRamaToolBar(this);
         JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
         combinedToolBarQueryPanel.add(_backForwardToolBar,BorderLayout.NORTH);
 
@@ -265,13 +265,6 @@ public class OntoRamaApp extends JFrame {
       _aboutAction = new AboutOntoRamaAction();
     }
 
-
-    /**
-     *
-     */
-//    public static void closeMainApp () {
-//      System.exit(0);
-//    }
 
     /**
      * repaint method. takes care of repositioning divider bar in split panel
@@ -398,21 +391,16 @@ public class OntoRamaApp extends JFrame {
       try {
           QueryEngine queryEngine = new QueryEngine (query);
           QueryResult queryResult = queryEngine.getQueryResult();
-
-          //GraphBuilder graphBuilder = new GraphBuilder(queryResult);
           graph = new Graph(queryResult);
-          //graph = graphBuilder.getGraph();
           //System.out.println(graph.printXml());
       }
       catch (NoTypeFoundInResultSetException noTypeExc) {
           System.err.println(noTypeExc);
           showErrorDialog(noTypeExc.getMessage());
-          //System.exit(-1);
       }
       catch (NoSuchRelationLinkException noRelExc) {
           System.err.println(noRelExc);
           showErrorDialog(noRelExc.getMessage());
-          //System.exit(-1);
       }
       catch (IOException ioExc) {
         System.out.println(ioExc);
@@ -439,31 +427,22 @@ public class OntoRamaApp extends JFrame {
         instExc.printStackTrace();
         showErrorDialog(instExc.getMessage());
       }
-
       catch (Exception e) {
           System.err.println();
           e.printStackTrace();
           showErrorDialog("Unable to build graph: " + e.getMessage());
-          //System.exit(-1);
       }
       return graph;
     }
 
-    /**
-     *
-     */
-    public Query buildNewQuery () {
-        debug.message(".............. buildNewQuery  for " + queryPanel.getQueryField() + " ...................");
+//    /**
+//     *
+//     */
+//    public Query buildNewQuery () {
+//        Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
+//        return query;
+//    }
 
-        List wantedLinks = queryPanel.getWantedRelationLinks();
-
-        debug.message("wanted links list: " + wantedLinks);
-        debug.message("building graph with root = " + queryPanel.getQueryField());
-
-        Query query = new Query (queryPanel.getQueryField(), wantedLinks);
-
-        return query;
-    }
 
     /**
      *

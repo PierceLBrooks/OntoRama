@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import java.awt.event.ActionListener;
 import java.awt.event.*;
@@ -37,43 +39,38 @@ import ontorama.util.event.ViewEventObserver;
  */
 public class QueryPanel extends JPanel implements ViewEventObserver {
 
-    private JTextField queryField;
-    private JButton querySubmitButton;
+    private JTextField _queryField;
+    private JButton _querySubmitButton;
 
     /**
      *
      */
-    private JPanel queryFieldPanel = new JPanel();
-
-    /**
-     *
-     */
-    private JPanel relationLinksPanel = new JPanel();
+    private JPanel _relationLinksPanel = new JPanel();
 
     /**
      * table of check boxes for relation links
      * keys - checkBoxes, values - relation type integers
      */
-    private Hashtable relationLinksCheckBoxes = new Hashtable();
+    private Hashtable _relationLinksCheckBoxes = new Hashtable();
 
     /**
      * holds relation links that user has chosen to display
      */
-    private LinkedList wantedRelationLinks = new LinkedList ();
+    private LinkedList _wantedRelationLinks = new LinkedList ();
 
     //temp variable for creating svg image of hyper view
-    private TextField imgNameField = new TextField("", 10);
-    private SimpleHyperView hyperView;
+    private TextField _imgNameField = new TextField("", 10);
+    private SimpleHyperView _hyperView;
 
     /**
      *
      */
-    private ViewEventListener viewListener;
+    private ViewEventListener _viewListener;
 
     /**
      *
      */
-    private OntoRamaApp ontoRamaApp;
+    private OntoRamaApp _ontoRamaApp;
 
     /**
      * @todo  constructor doesn't need parameter hyperView, this is just temporary.Remove later!!!
@@ -82,30 +79,35 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
      *        Observer Pattern
      */
     public QueryPanel (SimpleHyperView hyperView, ViewEventListener viewListener, OntoRamaApp ontoRamaApp) {
-        this.hyperView = hyperView;
+        _hyperView = hyperView;
 
-        this.viewListener = viewListener;
-        this.viewListener.addObserver(this);
+        _viewListener = viewListener;
+        _viewListener.addObserver(this);
 
-        this.ontoRamaApp = ontoRamaApp;
+        _ontoRamaApp = ontoRamaApp;
+
+        JPanel queryFieldPanel = new JPanel();
 
         // create a query panel
-        queryField = new JTextField(25);
-        querySubmitButton = new JButton("Get");
-        querySubmitButton.addActionListener(new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            //notifyQueryAction();
-            doQuery();
+        _queryField = new JTextField(25);
+        _queryField.addActionListener(new ActionListener() {
+          public void actionPerformed (ActionEvent ae) {
+            //(e.getKeyCode() == KeyEvent.VK_ENTER)
+            _querySubmitButton.doClick();
           }
         });
 
-        queryFieldPanel.add(queryField);
-        queryFieldPanel.add(querySubmitButton);
+        //_querySubmitButton = new JButton("Get");
+        QueryAction queryAction = new QueryAction();
+        _querySubmitButton = new JButton(queryAction);
 
-        this.setLayout(new BorderLayout());
+        queryFieldPanel.add(_queryField);
+        queryFieldPanel.add(_querySubmitButton);
+
+        setLayout(new BorderLayout());
 
         buildRelationLinksQueryPanel();
-        this.add(relationLinksPanel,BorderLayout.NORTH);
+        add(_relationLinksPanel,BorderLayout.NORTH);
 
 //        JButton makeSVG = new JButton("Run Spring and force test");
 //        makeSVG.addActionListener( new ActionListener() {
@@ -123,28 +125,45 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
 //        queryFieldPanel.add(snapshot);
 
 
-        this.add(queryFieldPanel, BorderLayout.CENTER);
+        add(queryFieldPanel, BorderLayout.CENTER);
     }
 
     /**
      *
      */
     public String getQueryField () {
-        return queryField.getText();
+        return _queryField.getText();
     }
 
     /**
      *
      */
     public void setQueryField (String queryString) {
-        queryField.setText(queryString);
+        _queryField.setText(queryString);
     }
 
     /**
      *
      */
     public List getWantedRelationLinks () {
-      return this.wantedRelationLinks;
+      return _wantedRelationLinks;
+    }
+
+    /**
+     *
+     */
+    public void setWantedRelationLinks (List wantedLinks) {
+      Enumeration enum = _relationLinksCheckBoxes.keys();
+      while (enum.hasMoreElements()) {
+        JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
+        Integer correspondingRelLink = (Integer) _relationLinksCheckBoxes.get(curCheckBox);
+        if (wantedLinks.contains(correspondingRelLink)) {
+          curCheckBox.setSelected(true);
+        }
+        else {
+          curCheckBox.setSelected(false);
+        }
+      }
     }
 
     /**
@@ -164,9 +183,9 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
           JLabel displayIconLabel = new JLabel (displayIcon);
           curCheckBox.setSelected(true);
           curCheckBox.addItemListener(new CheckBoxListener());
-          this.relationLinksCheckBoxes.put(curCheckBox,new Integer(i));
-          relationLinksPanel.add(displayIconLabel);
-          relationLinksPanel.add(curCheckBox);
+          _relationLinksCheckBoxes.put(curCheckBox,new Integer(i));
+          _relationLinksPanel.add(displayIconLabel);
+          _relationLinksPanel.add(curCheckBox);
         }
       }
 
@@ -183,8 +202,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
             double stiffness = Math.random();
             //generate electric_charge values between 0 - 1000;
             double electric_charge = (Math.random() * 1000) + 1;
-            this.hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
-            this.hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
+            _hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
+            _hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
         }
         System.out.println("Test Finished...");
     }
@@ -193,8 +212,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
      * Temp method to take a snap shot of hyper view
      */
     private void takeSnapshot() {
-        if( !this.imgNameField.getText().equals("") ) {
-            hyperView.saveCanvasToFile( this.imgNameField.getText());
+        if( ! _imgNameField.getText().equals("") ) {
+            _hyperView.saveCanvasToFile( _imgNameField.getText());
         }
     }
 
@@ -203,20 +222,50 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
      */
     class CheckBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-            wantedRelationLinks = new LinkedList();
+            _wantedRelationLinks = new LinkedList();
             Object source = e.getItemSelectable();
             //if (source == buttonX) { }
-            Enumeration en = relationLinksCheckBoxes.keys();
+            Enumeration en = _relationLinksCheckBoxes.keys();
             while (en.hasMoreElements()) {
               JCheckBox key = (JCheckBox) en.nextElement();
               if (key.isSelected()) {
-                Integer relLinkType = (Integer) relationLinksCheckBoxes.get(key);
-                wantedRelationLinks.add(relLinkType);
+                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
+                _wantedRelationLinks.add(relLinkType);
               }
             }
 
         }
     }
+
+    /**
+     * query Action
+     */
+    class QueryAction extends AbstractAction {
+
+      private static final String ACTION_COMMAND_KEY_COPY = "execute-query-command";
+      private static final String NAME_COPY = "Get";
+      private static final String SHORT_DESCRIPTION_COPY = "Execute Query";
+      private static final String LONG_DESCRIPTION_COPY = "Execute Query";
+
+      /**
+       *
+       */
+      public QueryAction() {
+        putValue(Action.NAME, NAME_COPY);
+        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
+        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
+        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
+      }
+
+      /**
+       *
+       */
+      public void actionPerformed(ActionEvent parm1) {
+        /**@todo: implement this javax.swing.AbstractAction abstract method*/
+        System.out.println("___action: query");
+        doQuery();
+      }
+  }
 
     /**
      *
@@ -228,10 +277,19 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     /**
      *
      */
+    private Query buildNewQuery () {
+      //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
+      Query query = new Query (_queryField.getText(), _wantedRelationLinks);
+      return query;
+    }
+
+    /**
+     *
+     */
     protected void doQuery () {
-      Query newQuery = ontoRamaApp.buildNewQuery();
-      ontoRamaApp.executeQuery(newQuery);
-      ontoRamaApp.appendHistoryMenu(newQuery);
+      Query newQuery = buildNewQuery();
+      _ontoRamaApp.executeQuery(newQuery);
+      _ontoRamaApp.appendHistoryMenu(newQuery);
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -240,10 +298,10 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
      *
      */
     public void focus ( GraphNode node) {
-            System.out.println();
-            System.out.println("******* queryPanel got focus for node " + node.getName());
-            this.queryField.setText(node.getName());
-            System.out.println();
+      System.out.println();
+      System.out.println("******* queryPanel got focus for node " + node.getName());
+      _queryField.setText(node.getName());
+      System.out.println();
     }
 
     /**
@@ -253,12 +311,11 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     }
 
     /**
-     *
      */
     public void query ( GraphNode node) {
-            System.out.println("QUERY action !!!");
-            this.queryField.setText(node.getName());
-            doQuery();
+      System.out.println("QUERY action !!!");
+      _queryField.setText(node.getName());
+      doQuery();
     }
 
 

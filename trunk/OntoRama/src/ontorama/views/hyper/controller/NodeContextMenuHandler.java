@@ -14,7 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
@@ -75,7 +75,7 @@ public class NodeContextMenuHandler implements EventBrokerListener {
                     tree.removeNode(treeNode);
                 }
                 catch (TreeModificationException exc) {
-                    new ErrorPopupMessage(exc.getMessage(), OntoRamaApp.getMainFrame());
+                	ErrorDialog.showError(OntoRamaApp.getMainFrame(), exc, "Error", exc.getMessage());
                 }
             }
         });

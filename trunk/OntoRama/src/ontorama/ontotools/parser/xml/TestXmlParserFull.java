@@ -4,7 +4,6 @@ import java.io.Reader;
 import java.util.Iterator;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
@@ -30,7 +29,7 @@ public class TestXmlParserFull extends TestCase {
 		//OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
 		//		"ontorama.properties", "examples/test/data/testCase-config.xml");
                 
-		Backend backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+		OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
 		Source source = (Source) (Class.forName(sourcePackageName).newInstance());
 		Reader r = source.getSourceResult("examples/ontorama-test.xml", new Query("root")).getReader();
 

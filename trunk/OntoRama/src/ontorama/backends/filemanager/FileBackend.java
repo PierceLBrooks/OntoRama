@@ -1,11 +1,6 @@
 package ontorama.backends.filemanager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +19,9 @@ import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.writer.ModelWriter;
+import ontorama.webkbtools.writer.ModelWriterException;
+import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
 
 import javax.swing.*;
 
@@ -136,13 +134,20 @@ public class FileBackend implements Backend{
             System.out.println("Saving file = " + filename);
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
-            String rdfOutput = this.graph.toRDFString();
+
+            ModelWriter modelWriter = new RdfP2PWriter();
+            Writer _writer = new StringWriter();
+            modelWriter.write(this.graph, _writer);
+
+            String rdfOutput = _writer.toString();
             writer.write(rdfOutput);
             writer.close();
             
         } catch (IOException e) {
              System.err.println("Error when writing file");
              e.printStackTrace();
+        } catch (ModelWriterException e) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
     }
 

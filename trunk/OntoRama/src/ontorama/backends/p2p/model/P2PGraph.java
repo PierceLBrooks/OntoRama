@@ -17,7 +17,6 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import java.net.URI;
 
 public interface P2PGraph extends Graph {
-	public String toRDFString();
 	public P2PGraph search(Query query);
 	/**
 	 * Adds a parsser result to the graph

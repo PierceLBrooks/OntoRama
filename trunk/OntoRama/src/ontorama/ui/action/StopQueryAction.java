@@ -6,6 +6,9 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import ontorama.ui.OntoRamaApp;
+import ontorama.ui.events.QueryCancelledEvent;
+import ontorama.ontotools.query.Query;
+import org.tockit.events.EventBroker;
 
 /**
  * Action to stop current query
@@ -17,14 +20,14 @@ public class StopQueryAction extends AbstractAction {
     private static final String SHORT_DESCRIPTION_COPY = "Stop Query";
     private static final String LONG_DESCRIPTION_COPY = "Stop current Query";
 
-    private OntoRamaApp _mainApp;
+    private EventBroker _eventBroker;
 
     /**
      *
      */
-    public StopQueryAction(OntoRamaApp mainApp) {
+    public StopQueryAction(EventBroker eventBroker) {
 
-        _mainApp = mainApp;
+        _eventBroker = eventBroker;
 
         putValue(Action.NAME, NAME_COPY);
         putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
@@ -37,6 +40,8 @@ public class StopQueryAction extends AbstractAction {
      */
     public void actionPerformed(ActionEvent parm1) {
         System.out.println("___action: stop query");
-        _mainApp.stopQuery();
+        /// @todo get rid of this dummyQuery
+        Query dummyQuery = new Query("");
+        _eventBroker.processEvent(new QueryCancelledEvent(dummyQuery));
     }
 }

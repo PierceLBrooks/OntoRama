@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.graph.events;
+package ontorama.ui.events;
 
 import ontorama.ontotools.query.Query;
 import org.tockit.events.Event;
@@ -17,6 +17,7 @@ public class GeneralQueryEvent implements Event {
 
     public GeneralQueryEvent(Query subject) {
         this.query = subject;
+        System.out.println("new GeneralQueryEvent() for query " + query);
     }
 
 

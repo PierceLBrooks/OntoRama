@@ -35,22 +35,20 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
 import ontorama.model.tree.events.TreeNodeEvent;
-import ontorama.ui.events.QueryEndEvent;
-import ontorama.ui.events.QueryStartEvent;
-import ontorama.ui.events.QueryEvent;
+import ontorama.ui.events.*;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.action.StopQueryAction;
+import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
@@ -103,7 +101,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 */
 	public Action _exitAction;
 	public Action _aboutAction;
-	public StopQueryAction _stopQueryAction;
+
 	/**
 	 * desctiption ui panel contains concept properties details
 	 */
@@ -194,35 +192,31 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 	}
 
-    private class GeneralQueryEventHandler implements EventBrokerListener {
-        public void processEvent(Event event) {
-            System.out.println("GeneralQueryEventHandler processEvent()");
-            Query query = (Query) event.getSubject();
-            _modelEventBroker.processEvent(new QueryStartEvent(query));
-        }
-    }
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
+            System.out.println("QueryStartEventHandler, processEvent()");
             Query query = (Query) event.getSubject();
             _lastQuery = _query;
             _query = query;
             _worker = new QueryEngineThread(_query, _modelEventBroker);
-            //System.out.println("_modelEventBroker.removeSubscriptions(_viewsEventBroker)");
+            System.out.println("_modelEventBroker.removeSubscriptions(_viewsEventBroker)");
             _modelEventBroker.removeSubscriptions(_viewsEventBroker);
             _worker.start();
             _timer.start();
             _progressBar.setIndeterminate(true);
-            _stopQueryAction.setEnabled(true);
+            _queryPanel.enableStopQueryAction(true);
         }
     }
 
     private class QueryEndEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
+            System.out.println("QueryEndEventHandler, processEvent()");
         	Graph graph = (Graph) event.getSubject();
         	_progressBar.setIndeterminate(false);
         	setStatusLabel("");
-        	_stopQueryAction.setEnabled(false);
+            _queryPanel.enableStopQueryAction(false);
+            System.out.println("_modelEventBroker resubscribe _viewsEventBroker");
         	_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
         	if (graph == null) {
         		return;
@@ -233,6 +227,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
         	_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
         	updateViews();
+        }
+    }
+
+    class QueryCancelledEventHandler implements EventBrokerListener {
+        public void processEvent (Event event) {
+            System.out.println("QueryCancelledEventHandler processEvent()");
+            _worker.stopProcess();
+            _query = _lastQuery;
+            _queryPanel.setQuery(_query);
+            _progressBar.setIndeterminate(false);
+            setStatusLabel("");
+            _queryPanel.enableStopQueryAction(false);
+            System.out.println("_modelEventBroker resubscribe _viewsEventBroker");
+        	_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
         }
     }
 
@@ -248,16 +256,23 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("_modelEventBroker.subscribe(_viewsEventBroker,...)");
         System.out.println("_viewsEventBroker.subscribe(_modelEventBroker, ...)");
 
- 		_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
- 		_viewsEventBroker.subscribe(_modelEventBroker, TreeNodeEvent.class, Object.class);
 
-       _viewsEventBroker.subscribe(new GeneralQueryEventHandler(), GeneralQueryEvent.class, Query.class);
-        _modelEventBroker.subscribe(new GeneralQueryEventHandler(), GeneralQueryEvent.class, Query.class);
+       //_viewsEventBroker.subscribe(new GeneralQueryEventHandler(), GeneralQueryEvent.class, Query.class);
+        //_modelEventBroker.subscribe(new GeneralQueryEventHandler(_modelEventBroker), GeneralQueryEvent.class, Query.class);
+        new GeneralQueryEventHandler(_modelEventBroker);
+        new GeneralQueryEventHandler(_viewsEventBroker);
 
         _viewsEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
          _modelEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
 
 		_modelEventBroker.subscribe(new QueryEndEventHandler(), QueryEndEvent.class, Object.class);
+
+        _modelEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);
+        _viewsEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);
+
+        System.out.println("_modelEventBroker = " + _modelEventBroker);
+        System.out.println("_viewsEventBroker = " + _viewsEventBroker);
+
 
 		_timer = new Timer(TIMER_INTERVAL, this);
 		initBackends();
@@ -274,13 +289,18 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		//new LoggingEventListener(_modelEventBroker,	NodeAddedEvent.class,Object.class,System.out);
 		//new LoggingEventListener(_modelEventBroker,GraphChangedEvent.class,Object.class,System.out);
-		new LoggingEventListener(_modelEventBroker,TreeChangedEvent.class,Object.class,System.out);
-        new LoggingEventListener(_modelEventBroker,QueryEvent.class,Object.class,System.out);
-        new LoggingEventListener(_modelEventBroker,QueryStartEvent.class,Object.class,System.out);
-		new LoggingEventListener(_modelEventBroker,QueryEndEvent.class,Object.class,System.out);
+//		new LoggingEventListener(_modelEventBroker,TreeChangedEvent.class,Object.class,System.out);
+//        new LoggingEventListener(_modelEventBroker,QueryEvent.class,Object.class,System.out);
+//        new LoggingEventListener(_modelEventBroker,QueryStartEvent.class,Object.class,System.out);
+//		new LoggingEventListener(_modelEventBroker,QueryEndEvent.class,Object.class,System.out);
+
+        new LoggingEventListener(_modelEventBroker,GeneralQueryEvent.class,Object.class,System.out);
+
+        new LoggingEventListener(_modelEventBroker,QueryCancelledEvent.class,Object.class,System.out);
+
 
 		_descriptionViewPanel = new DescriptionView(_viewsEventBroker);
-		_queryPanel = new QueryPanel(this, _viewsEventBroker);
+		_queryPanel = new QueryPanel(_viewsEventBroker);
 		_treeView = new OntoTreeView(_viewsEventBroker);
 		_hyperView = new SimpleHyperView(_viewsEventBroker, projection);
 
@@ -323,14 +343,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 *
 	 */
-	public OntoRamaApp(
-		String examplesConfigFilePath,
-		String ontoramaPropertiesPath,
-		String configFilePath) {
-		OntoramaConfig.loadAllConfig(
-			configFilePath,
-			ontoramaPropertiesPath,
-			examplesConfigFilePath);
+	public OntoRamaApp(	String examplesConfigFilePath, String ontoramaPropertiesPath, String configFilePath) {
+		OntoramaConfig.loadAllConfig( configFilePath, ontoramaPropertiesPath, examplesConfigFilePath);
 		new OntoRamaApp();
 	}
 
@@ -343,16 +357,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * @param exampleURL
 	 * @todo this approach is a hack to make distillery work. need to rethink whole process
 	 */
-	public OntoRamaApp(
-		String examplesConfigFilePath,
-		String ontoramaPropertiesPath,
-		String configFilePath,
-		String exampleRoot,
-		String exampleURL) {
-		OntoramaConfig.loadAllConfig(
-			configFilePath,
-			ontoramaPropertiesPath,
-			examplesConfigFilePath);
+	public OntoRamaApp( String examplesConfigFilePath, String ontoramaPropertiesPath,
+                        String configFilePath, String exampleRoot, String exampleURL) {
+		OntoramaConfig.loadAllConfig( configFilePath, ontoramaPropertiesPath, examplesConfigFilePath);
 		OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
 		new OntoRamaApp();
 	}
@@ -398,8 +405,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private void initActions() {
 		_exitAction = new ExitAction();
 		_aboutAction = new AboutOntoRamaAction();
-		_stopQueryAction = new StopQueryAction(this);
-		_stopQueryAction.setEnabled(false);
 	}
 
 	/**
@@ -466,21 +471,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_mainSplitPaneWidth = applicationWidth;
 		_mainSplitPaneHeight = (applicationHeigth * 70) / 100;
 		int dividerBarWidth = _splitPane.getDividerSize();
-		int leftPanelWidth =
-			calculateLeftPanelWidth(
-				applicationWidth,
-				this._leftSplitPanelWidthPercent);
+		int leftPanelWidth = calculateLeftPanelWidth(applicationWidth,this._leftSplitPanelWidthPercent);
 		int rigthPanelWidth = applicationWidth - leftPanelWidth;
-		_hyperView.setPreferredSize(
-			new Dimension(
-				leftPanelWidth - dividerBarWidth,
-				_mainSplitPaneHeight));
-		_treeView.setPreferredSize(
-			new Dimension(
-				rigthPanelWidth - dividerBarWidth,
-				_mainSplitPaneHeight));
-		_splitPane.setPreferredSize(
-			new Dimension(_mainSplitPaneWidth, _mainSplitPaneHeight));
+		_hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth,	_mainSplitPaneHeight));
+		_treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth,	_mainSplitPaneHeight));
+		_splitPane.setPreferredSize(new Dimension(_mainSplitPaneWidth, _mainSplitPaneHeight));
 		_dividerBarLocation = leftPanelWidth;
 		_splitPane.setDividerLocation(_dividerBarLocation);
 	}
@@ -626,14 +621,14 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			_descriptionViewPanel.disableDynamicFields();
 		}
 	}
-	/**
-	 *
-	 */
-	public void stopQuery() {
-		_worker.stopProcess();
-		_query = _lastQuery;
-		_queryPanel.setQuery(_query);
-	}
+//	/**
+//	 *
+//	 */
+//	public void stopQuery() {
+//		_worker.stopProcess();
+//		_query = _lastQuery;
+//		_queryPanel.setQuery(_query);
+//	}
 	/**
 	 *
 	 */

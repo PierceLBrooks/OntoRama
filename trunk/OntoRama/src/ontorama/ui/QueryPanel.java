@@ -25,11 +25,14 @@ import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.ViewQueryEventHandler;
 import ontorama.model.ViewQuery;
 import ontorama.model.graph.view.GraphView;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
+import ontorama.ui.events.GeneralQueryEvent;
+import ontorama.ui.events.QueryCancelledEvent;
+import ontorama.ui.action.StopQueryAction;
+import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -38,7 +41,7 @@ import org.tockit.events.EventBroker;
  * will be used to query Ontology Server (using GraphBuilder)
  *
  */
-public class QueryPanel extends JPanel implements ActionListener, ViewQuery, GraphView {
+public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     private int _depth = -1;
 
@@ -73,23 +76,14 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
      */
     private EventBroker _eventBroker;
 
-    /**
-     *
-     */
-    private OntoRamaApp _ontoRamaApp;
+    public StopQueryAction _stopQueryAction;
 
-    /**
-     * @todo  maybe OntoRamaApp shouldn't be a parameter in constructor
-     *        (this is done for executing queries). Better way to do this is to follow
-     *        Observer Pattern
-     */
-    public QueryPanel(OntoRamaApp ontoRamaApp, EventBroker eventBroker) {
-
+    public QueryPanel(EventBroker eventBroker) {
         _eventBroker = eventBroker;
-        new GraphViewFocusEventHandler(eventBroker, this);
-        new ViewQueryEventHandler(eventBroker, this);
-
-        _ontoRamaApp = ontoRamaApp;
+        System.out.println("QueryPanel event broker = " + _eventBroker);
+        _stopQueryAction = new StopQueryAction(_eventBroker);
+        new GraphViewFocusEventHandler(_eventBroker, this);
+        //new ViewQueryEventHandler(_eventBroker, this);
 
         JPanel queryFieldPanel = new JPanel();
 
@@ -124,15 +118,7 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
         });
 
         _querySubmitButton = new JButton(new QueryAction());
-        _queryStopButton = new JButton(_ontoRamaApp._stopQueryAction);
-
-//		ImageIcon leftButtonIcon = new ImageIcon("images/right.gif");
-//		JButton newButton = new JButton("Test button", leftButtonIcon);
-//		newButton.setMnemonic(KeyEvent.VK_T);
-//		newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-//        newButton.setHorizontalTextPosition(AbstractButton.CENTER);
-//        newButton.setLabel("test button label");
-//		//newButton.setEnabled(false);
+        _queryStopButton = new JButton(_stopQueryAction);
 
         queryFieldPanel.add(new JLabel("Search for: "));
         queryFieldPanel.add(_queryField);
@@ -142,7 +128,6 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
 
         queryFieldPanel.add(_querySubmitButton);
         queryFieldPanel.add(_queryStopButton);
-//        queryFieldPanel.add(newButton);
 
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEtchedBorder());
@@ -151,6 +136,14 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
         add(_relationLinksPanel, BorderLayout.NORTH);
 
         add(queryFieldPanel, BorderLayout.CENTER);
+    }
+
+    public Action getStopQueryAction () {
+        return _stopQueryAction;
+    }
+
+    public void enableStopQueryAction (boolean isEnabled) {
+        _stopQueryAction.setEnabled(isEnabled);
     }
 
     /**
@@ -164,13 +157,6 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
         if (ae.getSource() == _depthField) {
             _querySubmitButton.doClick();
         }
-    }
-
-    /**
-     *
-     */
-    public Query getQuery() {
-        return buildNewQuery();
     }
 
     /**
@@ -326,29 +312,12 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
          *
          */
         public void actionPerformed(ActionEvent parm1) {
-            doQuery();
+            System.out.println("... query action");
+            Query query = new Query(getQueryField(), getWantedRelationLinks());
+            query.setDepth(getDepthField());
+            _eventBroker.processEvent(new GeneralQueryEvent(query));
         }
     }
-
-
-    /**
-     *
-     */
-    private Query buildNewQuery() {
-        Query query = new Query(getQueryField(), getWantedRelationLinks());
-        query.setDepth(getDepthField());
-        return query;
-    }
-
-    /**
-     *
-     */
-    protected void doQuery() {
-//        Query newQuery = buildNewQuery();
-//        _ontoRamaApp.executeQuery(newQuery);
-//        _ontoRamaApp.appendHistoryMenu(newQuery);
-    }
-
 
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -358,13 +327,6 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
      */
     public void focus(Node node) {
         _queryField.setText(node.getName());
-    }
-
-    /**
-     */
-    public void query(String nodeName) {
-//        _queryField.setText(nodeName);
-        doQuery();
     }
 
     public void setGraph (Graph graph) {

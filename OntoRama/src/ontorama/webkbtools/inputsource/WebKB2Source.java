@@ -192,6 +192,10 @@ public class WebKB2Source implements Source {
      * Build list of top/root types extracted from the multiple documents,
      * and build a mapping between types and documents themselfs;
      *
+     * The way we do this is: iterate through streams and extract list of types
+     * for each stream, than add contents of each list to the global  list of
+     * possible query candidates.
+     *
      * @todo  think what to do with exceptions: throw them? then we need
      * to change the Source interface... OR introduce our own SourceException
      * that can take care of all this.
@@ -234,9 +238,26 @@ public class WebKB2Source implements Source {
       }
     }
 
-
-   /**
+    /**
+     * Get list of types that we think user may have meant to search for
+     * from the given reader.
      *
+     * The way we do this: we parse each reader into iterator of ontology types
+     * using corresponding webkb parser, then we go through this iterator and
+     * look for types with synonym equals to 'termName' (term name that user
+     * searched for).
+     *
+     * Another way to do this: use rdf parser and do pretty much the same:
+     * go through rdf statements that have 'label' propertyr value that
+     * equals 'termName'. We use 'label' property because it is describing
+     * synonyms.
+     *
+     * Assumption: we assume that in WebKB2 each ambuguous result has
+     * an original search term as a synonym. Otherwise, it is not clear
+     * how to extract these 'wanted' terms from the list of ontology terms
+     * returned from webkb for each ambuguous choice.
+     *
+     * @todo  check if this assumption (above) is fair
      */
     private List getTypesListFromRdfStream (Reader reader, String termName)
                         throws ParserException, AccessControlException {

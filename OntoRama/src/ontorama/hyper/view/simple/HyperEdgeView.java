@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
-public class LineView extends CanvasItem{
+public class HyperEdgeView extends CanvasItem{
 
     /**
      * Store from NodeView.
@@ -26,9 +26,15 @@ public class LineView extends CanvasItem{
      */
     private HyperNodeView to;
 
-    public LineView( HyperNodeView from, HyperNodeView to ) {
+    /**
+     *
+     */
+    int relLink;
+
+    public HyperEdgeView( HyperNodeView from, HyperNodeView to, int relLink ) {
         this.from = from;
         this.to = to;
+        this.relLink = relLink;
     }
 
     public void draw ( Graphics2D  g2d ) {

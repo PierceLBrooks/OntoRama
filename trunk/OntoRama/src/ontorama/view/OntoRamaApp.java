@@ -317,6 +317,11 @@ public class OntoRamaApp extends JFrame {
           showErrorDialog(noRelExc.getMessage());
           //System.exit(-1);
       }
+      catch (IOException ioExc) {
+        System.out.println(ioExc);
+        ioExc.printStackTrace();
+        showErrorDialog(ioExc.getMessage());
+      }
       catch (Exception e) {
           System.err.println("Unable to build graph: " + e);
           e.printStackTrace();
@@ -333,14 +338,7 @@ public class OntoRamaApp extends JFrame {
         System.out.println(".............. buildNewQuery  for " + queryPanel.getQueryField() + " ...................");
 
         List wantedLinks = queryPanel.getWantedRelationLinks();
-        // debug
-        /*
-        Iterator it = wantedLinks.iterator();
-        while (it.hasNext()) {
-          Integer relLink = (Integer) it.next();
-          System.out.println("--wanted link: " + relLink);
-        }
-        */
+
         //end of debug
         System.out.println("wanted links list: " + wantedLinks);
         System.out.println("building graph with root = " + queryPanel.getQueryField());
@@ -353,10 +351,13 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    public void executeQuery (Query query) {
+    public boolean executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
 
         graph = getGraphFromQuery(query);
+        if (graph == null) {
+          return false;
+        }
 
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
@@ -370,6 +371,7 @@ public class OntoRamaApp extends JFrame {
         hyperView.repaint();
         treeView.repaint();
         splitPane.repaint();
+        return true;
     }
 
     /**

@@ -98,8 +98,15 @@ public class OntoRamaApp extends JFrame {
     private JMenu _helpMenu;
 
     /**
-     * toolbar
+     * back_forward toolbar
      */
+    private JToolBar _backForwardToolBar;
+
+    /**
+     *
+     */
+    private DescriptionView descriptionViewPanel;
+
 
     /**
      *
@@ -145,16 +152,6 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    private JToolBar toolBar;
-
-    /**
-     *
-     */
-    private DescriptionView descriptionViewPanel;
-
-    /**
-     *
-     */
     Debug debug = new Debug(false);
 
     /**
@@ -194,9 +191,9 @@ public class OntoRamaApp extends JFrame {
         /**
          * create tool bar
          */
-        toolBar = new OntoRamaToolBar(this);
+        _backForwardToolBar = new OntoRamaToolBar(this);
         JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
-        combinedToolBarQueryPanel.add(toolBar,BorderLayout.NORTH);
+        combinedToolBarQueryPanel.add(_backForwardToolBar,BorderLayout.NORTH);
 
         /**
          * Create OntoTreeView
@@ -377,8 +374,19 @@ public class OntoRamaApp extends JFrame {
       _menuBar.add(_examplesMenu);
       _menuBar.add(_historyMenu);
       _menuBar.add(_helpMenu);
+    }
 
+    /**
+     *
+     */
+    private void buildBackForwardToolBar () {
+      _backForwardToolBar = new JToolBar();
 
+      JButton backButton = _backForwardToolBar.add(_backAction);
+      _backForwardToolBar.add(backButton);
+
+      JButton forwardButton = _backForwardToolBar.add(_forwardAction);
+      _backForwardToolBar.add(forwardButton);
     }
 
     /**

@@ -20,6 +20,8 @@ import javax.swing.Action;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
+import ontorama.webkbtools.query.Query;
+
 import ontorama.view.action.*;
 
 /**
@@ -95,19 +97,33 @@ public class HistoryMenu extends JMenu {
 
     addSeparator();
 
+
+	System.out.println("\n\n\nappend history, example = " +  OntoramaConfig.getCurrentExample());
     appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
-
   }
-
+  
   /**
-   *
+   * Append history menu with new example
+   * 
+   * Assumptions:	we are assuming that each example would correspond to 
+   * a query with ALL relation links.
    */
   public void appendHistory (String termName, OntoramaExample example) {
+    Query query = new Query(termName, OntoramaConfig.getRelationLinksList());
+    appendHistory(query, example);
+  }
+  
+
+  /**
+   * Append history menu with new example
+   * 
+   */
+  public void appendHistory (Query query, OntoramaExample example) {
 
     //int historyItemsCount = this.menuItemHistoryMapping.size();
     Enumeration historyItemsEnum =  _menuItemHistoryMapping.keys();
 
-    String historyItemLabelName = termName + " (" + example.getName() + ") ";
+    String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
 
     if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
       // need to remove first item
@@ -117,8 +133,9 @@ public class HistoryMenu extends JMenu {
       _menuItemHistoryMapping.remove(firstMenuItem);
       remove(firstMenuItem);
     }
-
-    HistoryElement historyElement = new HistoryElement(historyItemLabelName, termName, example);
+    
+    System.out.println("example = " + example);
+    HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, example);
 
     JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
     setSelectedMenuItem( historyItem);
@@ -132,7 +149,6 @@ public class HistoryMenu extends JMenu {
     });
     add(historyItem);
     enableBackForwardButtons();
-
   }
 
   /**
@@ -152,10 +168,13 @@ public class HistoryMenu extends JMenu {
 
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
+    
+//    // get corresponding query
+//    Query query = historyElement.getQuery();
 
     //JCheckBoxMenuItem correspondingExampleMenuItem = _ontoramaMenu.findExampleMenuItem(example);
 
-    boolean querySuccessfull = _mainApp.executeQueryForGivenExample(historyElement.getTermName(), example);
+    boolean querySuccessfull = _mainApp.executeQueryForHistoryElement(historyElement);
     if (!querySuccessfull) {
       return;
     }
@@ -247,7 +266,9 @@ public class HistoryMenu extends JMenu {
     while (enum.hasMoreElements()) {
       JCheckBoxMenuItem historyMenuItem = (JCheckBoxMenuItem) enum.nextElement();
       HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyMenuItem);
+      System.out.println("historyElement = " + historyElement);
       OntoramaExample curExample = historyElement.getExample();
+      System.out.println("curExample = " + curExample);
       if (curExample.equals(example)) {
         setSelectedMenuItem(historyMenuItem);
         return;

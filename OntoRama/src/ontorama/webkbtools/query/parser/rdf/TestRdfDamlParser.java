@@ -87,7 +87,7 @@ public class TestRdfDamlParser extends TestCase {
     testType_someSubstanceNode = getOntologyTypeFromList("test#SomeSubstanceNode", resultCollection);
     testType_table = getOntologyTypeFromList("test#Table", resultCollection);
     testType_someLocation = getOntologyTypeFromList("test#SomeLocation", resultCollection);
-    testType_url = getOntologyTypeFromList("ontorama", resultCollection);
+    testType_url = getOntologyTypeFromList("OntoRama", resultCollection);
     testType_someObject = getOntologyTypeFromList("test#SomeObject", resultCollection);
     testType_allChairs = getOntologyTypeFromList("test#AllChairs", resultCollection);
   }
@@ -254,7 +254,7 @@ public class TestRdfDamlParser extends TestCase {
   public void testTypeRelationLinks_chair_url () throws NoSuchRelationLinkException {
     //System.out.println("testType_chair = " + testType_chair);
     //System.out.println("testType_url = " + testType_url);
-    testingRelationLink("url", 11, testType_chair, "ontorama", 1);
+    testingRelationLink("url", 11, testType_chair, "OntoRama", 1);
     testingRelationLink("url", 11, testType_url, "test#Chair", 0);
   }
 

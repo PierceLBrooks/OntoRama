@@ -61,7 +61,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
     testType_someSubstanceNode = getOntologyTypeFromList("test#some_substance_node", resultCollection);
     testType_table = getOntologyTypeFromList("test#table", resultCollection);
     testType_someLocation = getOntologyTypeFromList("test#some_location", resultCollection);
-    testType_url = getOntologyTypeFromList("http://www.webkb.org/ontorama", resultCollection);
+    testType_url = getOntologyTypeFromList("http://www.webkb.org/_onto_rama", resultCollection);
     testType_someObject = getOntologyTypeFromList("test#some_object", resultCollection);
     testType_allChairs = getOntologyTypeFromList("test#all_chairs", resultCollection);
     testType_ACHRONYM = getOntologyTypeFromList("test#ACHRONYM", resultCollection);
@@ -176,7 +176,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
   public void testTypeRelationLinks_chair_url () throws NoSuchRelationLinkException {
     //System.out.println("testType_chair = " + testType_chair);
     //System.out.println("testType_url = " + testType_url);
-    testingRelationLink("url", 11, testType_chair, "http://www.webkb.org/ontorama", 1);
+    testingRelationLink("url", 11, testType_chair, "http://www.webkb.org/_onto_rama", 1);
     testingRelationLink("url", 11, testType_url, "test#chair", 0);
   }
 }

@@ -52,6 +52,11 @@ public interface OntologyType {
   public void setDescription(String description);
 
   /**
+   * Sets the type creator
+   */
+   public void setCreator(String creator);
+
+  /**
    * Check if given type is already listed with given relation link
    * @param ontologyType, relationLink
    * @return true if type ontologyType is listed in this type with
@@ -64,6 +69,11 @@ public interface OntologyType {
    * gets the type description
    */
   public String getDescription();
+
+  /**
+   * get type creator
+   */
+   public String getCreator();
 
   /**
    * get name of this type

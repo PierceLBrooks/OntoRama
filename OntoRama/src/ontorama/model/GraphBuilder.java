@@ -100,6 +100,8 @@ public class GraphBuilder {
             node = new GraphNode (ot.getName());
             processedNodes.put(ot.getName(), node);
         }
+        node.setDescription(ot.getDescription());
+        node.setCreator(ot.getCreator());
 
         if (rootName.equals(node.getName())) {
             edgeRoot = node;
@@ -147,6 +149,7 @@ public class GraphBuilder {
 
     /**
      * Read nodes into hashtable
+     * @todo    remove this method
      */
     private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException {
 
@@ -159,6 +162,9 @@ public class GraphBuilder {
             // add child to hashtable
             nodes.put(nodeName, conceptNode );
         }
+        conceptNode.setDescription(ot.getDescription());
+        conceptNode.setCreator(ot.getCreator());
+
         //get children
 
         Iterator it = ot.getIterator(relLink);

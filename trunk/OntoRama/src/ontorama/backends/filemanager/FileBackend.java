@@ -85,7 +85,6 @@ public class FileBackend implements Backend{
     }
 
     public FileBackend(){
-        System.out.println("file backend constructor");
         this.graph = new P2PGraphImpl();
         //We don't have any panels to this backend
         this.panels = new LinkedList();
@@ -97,7 +96,10 @@ public class FileBackend implements Backend{
     }
 
     public P2PGraph search(Query query){
-        return this.graph.search(query);
+        ///@todo temporarily commented out
+        //return this.graph.search(query);
+        P2PGraph graph = new P2PGraphImpl();
+        return graph;
     }
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{

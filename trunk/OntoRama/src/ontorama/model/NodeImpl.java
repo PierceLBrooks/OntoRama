@@ -232,7 +232,7 @@ public class NodeImpl implements Cloneable, Node {
      * toString method
      */
     public String toString() {
-        String str = "Node: " + name;
+        String str = "Node: " + name + "(" + fullName + ")";
         return str;
 
     }

@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.pipe.InputPipe;
 
 /**
  * This class handles the P2P communication and implements the 
@@ -45,8 +46,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			communicationInit.initJxtaTopGroup();
 
-            //TODO this should be uncoimment on Friday
-			//communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
+            communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
 
 		} catch (GroupExceptionInit e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();

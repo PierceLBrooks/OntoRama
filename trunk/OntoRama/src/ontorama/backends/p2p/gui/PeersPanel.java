@@ -147,6 +147,7 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
                  peersList.add(peerID);
 
                 _peerIdToPeerNameMapping.put(peerID, peerName);
+                System.out.println("addPeer: peerName = " + peerName);
 
                 listModel.addElement(peerName);
                 repaint();

@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JToolBar;
 
 import ontorama.OntoramaConfig;
 
@@ -126,6 +127,12 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
+    //private OntoRamaToolBar toolBar;
+    private JToolBar toolBar;
+
+    /**
+     *
+     */
     private DescriptionView descriptionViewPanel;
 
     /**
@@ -161,6 +168,14 @@ public class OntoRamaApp extends JFrame {
         this.setJMenuBar(menu.getMenuBar());
 
         /**
+         * create tool bar
+         */
+        //toolBar = new OntoRamaToolBar();
+        toolBar = menu.getToolBar();
+        JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
+        combinedToolBarQueryPanel.add(toolBar,BorderLayout.NORTH);
+
+        /**
          * Create OntoTreeView
          */
         //treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
@@ -179,6 +194,7 @@ public class OntoRamaApp extends JFrame {
          */
         queryPanel = new QueryPanel(hyperView, viewListener, this);
         queryPanel.setQueryField(termName);
+        combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
 
         /** create description panel
          *  NOTE: description panel can't be created before hyper view and tree view
@@ -196,7 +212,8 @@ public class OntoRamaApp extends JFrame {
         addComponentsToScrollPanel(hyperView, treeView);
 
         //Add the split pane to this frame.
-        getContentPane().add(queryPanel,BorderLayout.NORTH);
+        //getContentPane().add(queryPanel,BorderLayout.NORTH);
+        getContentPane().add(combinedToolBarQueryPanel, BorderLayout.NORTH);
         getContentPane().add(splitPane, BorderLayout.CENTER);
 
         // Add description panel to this frame

@@ -427,14 +427,12 @@ public class GraphImpl implements Graph {
             throws NoSuchRelationLinkException {
         LinkedList queue = new LinkedList();
         queue.add(root);
-        System.out.println("convertIntoTree, root = " + root);
         while (!queue.isEmpty()) {
             Node nextQueueNode = (Node) queue.remove(0);
             debug.message(
                     "Graph",
                     "convertIntoTree",
                     "--- processing node " + nextQueueNode.getName() + " -----");
-            //System.out.println("--- processing node " + nextQueueNode.getName() + " -----");
             Iterator allOutboundEdges = getOutboundEdges(nextQueueNode).iterator();
             while (allOutboundEdges.hasNext()) {
                 Edge curEdge = (Edge) allOutboundEdges.next();
@@ -461,10 +459,8 @@ public class GraphImpl implements Graph {
         while (inboundEdges.hasNext()) {
             Edge edge = (Edge) inboundEdges.next();
             EdgeType edgeType = edge.getEdgeType();
-            System.out.println("inbound edge " + edge);
             if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                 edgesToCloneQueue.add(curEdge);
-                //System.out.println("adding to edges to clone queue " + curEdge);
             }
         }
 
@@ -477,7 +473,6 @@ public class GraphImpl implements Graph {
             _graphNodes.add(cloneNode);
 
             Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
-            //System.out.println("cloning edge " + edgeToClone);
             Edge newEdge = new EdgeImpl(edgeToClone.getFromNode(),  cloneNode, edgeToClone.getEdgeType());
             try {
                 addEdge(newEdge);
@@ -486,7 +481,6 @@ public class GraphImpl implements Graph {
             }
             removeEdge(edgeToClone);
             // copy/clone all structure below
-            //System.out.println("calling deepCopy for node " + toNode.getName() + ", ref =" + toNode);
             deepCopy(toNode, cloneNode);
         }
     }
@@ -505,7 +499,6 @@ public class GraphImpl implements Graph {
         Iterator outboundEdgesIterator = getOutboundEdges(node).iterator();
         while (outboundEdgesIterator.hasNext()) {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
-            //System.out.println("deepCopy, edge = " + curEdge);
             Node toNode = curEdge.getToNode();
             Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
@@ -551,7 +544,6 @@ public class GraphImpl implements Graph {
      */
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException {
         Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
-        System.out.println("adding new edge " + newEdge);
         addEdge(newEdge);
     }
 
@@ -639,7 +631,6 @@ public class GraphImpl implements Graph {
             throw new AddUnconnectedNodeIsDisallowedException(node);
         }
         */
-        System.out.println("addNode: node = " + node);
         if (_graphNodes.contains(node)) {
             throw new NodeAlreadyExistsException(node);
         }

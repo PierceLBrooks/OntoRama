@@ -11,7 +11,9 @@ import ontorama.model.Edge;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
 import ontorama.controller.NodeSelectedEvent;
+import ontorama.controller.NodeToggleFoldEvent;
 import ontorama.tree.controller.GraphViewFocusEventHandler;
+import ontorama.tree.controller.GraphViewToggleFoldEventHandler;
 import ontorama.graph.view.GraphView;
 
 import java.awt.Color;
@@ -40,6 +42,7 @@ import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
 import org.tockit.events.Event;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.canvas.events.CanvasItemActivatedEvent;
 
 
 
@@ -56,6 +59,20 @@ public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEv
         public void processEvent(Event e) {
             HyperNodeView view = (HyperNodeView) e.getSubject();
             eventBroker.processEvent(new NodeSelectedEvent(view.getGraphNode()));
+        }
+    }
+
+    private class NodeActivatedEventTransformer implements EventListener {
+        private EventBroker eventBroker;
+
+        public NodeActivatedEventTransformer(EventBroker eventBroker, Class eventType) {
+            this.eventBroker = eventBroker;
+            eventBroker.subscribe(this, eventType, HyperNodeView.class);
+        }
+
+        public void processEvent(Event e) {
+            HyperNodeView view = (HyperNodeView) e.getSubject();
+            eventBroker.processEvent(new NodeToggleFoldEvent(view.getGraphNode()));
         }
     }
 
@@ -94,6 +111,8 @@ public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEv
         super(viewListener, eventBroker);
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
         new GraphViewFocusEventHandler(eventBroker, this);
+        new NodeActivatedEventTransformer(eventBroker, CanvasItemActivatedEvent.class);
+        new GraphViewToggleFoldEventHandler(eventBroker, this);
     }
 
     public void focus ( GraphNode node) {
@@ -113,6 +132,7 @@ public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEv
         }
         boolean foldedState = focusedHyperNodeView.getFolded();
         setFolded( foldedState,  node );
+        node.setFoldState(!foldedState);
         repaint();
     }
 

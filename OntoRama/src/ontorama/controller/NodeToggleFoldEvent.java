@@ -10,8 +10,8 @@ package ontorama.controller;
 
 import ontorama.model.GraphNode;
 
-public class NodeSelectedEvent extends NodeEvent {
-    public NodeSelectedEvent(GraphNode subject) {
+public class NodeToggleFoldEvent extends NodeEvent {
+    public NodeToggleFoldEvent(GraphNode subject) {
         super(subject);
     }
 }

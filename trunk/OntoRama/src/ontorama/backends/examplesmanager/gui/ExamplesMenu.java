@@ -11,13 +11,8 @@ import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
-import ontorama.OntoramaConfig;
-import ontorama.ui.events.QueryStartEvent;
-import ontorama.ontotools.query.Query;
 import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.backends.examplesmanager.OntoramaExample;
-
-import org.tockit.events.EventBroker;
 
 /**
  * <p>Title: </p>

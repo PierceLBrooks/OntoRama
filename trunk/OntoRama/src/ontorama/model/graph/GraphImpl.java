@@ -17,7 +17,6 @@ import ontorama.model.graph.events.GraphNodeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
-import ontorama.ui.events.ErrorEvent;
 import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 

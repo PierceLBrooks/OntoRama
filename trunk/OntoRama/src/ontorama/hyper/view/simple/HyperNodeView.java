@@ -339,6 +339,9 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
     }
 
+    /**
+     * @todo get movement out into nodeShape, then turn this into a function object.
+     */
     private Shape transform(Shape inShape) {
         GeneralPath outShape = new GeneralPath();
         PathIterator path = inShape.getPathIterator(null);

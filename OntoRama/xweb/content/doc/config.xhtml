@@ -14,29 +14,30 @@
 			'properties', please, see  <a href="intro.html#definitions">Introduction section</a>
 		</p>
 		<p>
-			Relation links and concept type properties in the OntoRama a fully
+			Relation links in the OntoRama a fully
 			configurable via 'config' XML file. This mean that if we need to display
-			an ontology with a different set of relation links or with different set
-			of properties for each concept types, we only need to alter config file
+			an ontology with a different set of relation links, we only need to alter config file
 			without having to modify and recompile the application.
 		</p>
+        <p>
+            We 'classify' relation links into two categories for displying purposes: first one
+            is displayed in the graph visualisations and second one is displayed in the description
+            section of the application window. Relations most suitable for the second category are
+            description, synonyms, creator, etc.
+        </p>
 		<p>
 			OntoRama reads a configuration file on the startup and processes it. File
-			is XML file and consist of two sections: 'ontology' section and
+			is XML file and consist of three sections: 'ontology', 'displayInfo' sections and
 			'rdfMapping' section.
 		</p>
 		<p>
-			The 'ontology' section describes all details relevant to loading an
-			ontology. This section includes a set of 'relation' elements, each of
-			them defining an ontology relation link. Similary, we define concept
-			type properties. Concept type properties are properties that are
-			applicable to concept type in the current ontology. For example, concept
-			types have properties such as type description, creator, synonyms.
+            The 'ontology' section describes relation links available in the current ontology.
+            This section includes a set of 'relation' elements, each of them defining an ontology relation link.
 		</p>
 		<p>
 			Each relation is defined as an element 'relation' and gets an id
 			assigned to it. This id is going to be a reference to the corresponding
-			relation  that OntoRama is going to use. We also define a name for each
+			relation. We also define a name for each
 			relation link. Some relations could have two names, which means that
 			they are reversable.
 		</p>
@@ -52,12 +53,11 @@
 			subtype/supertype relation:
 		</p>
 		<xml>
-			<relation id="1">
-				<relationType name="subtype" mappingSymbol="&lt;"/>
-				<relationType name="supertype" mappingSymbol="&gt;"/>
-				<display color="#33CCFF" symbol="&lt;"/>
-			</relation>
-		</xml>
+		<relation id="1">
+			<relationType name="subtype"/>
+			<relationType name="supertype"/>
+		</relation>
+        </xml>
 		<p>
 			Each  relation is uniquely identified by relation id number and relation
 			name. It should be noted that OntoRama will display only one relation
@@ -65,27 +65,61 @@
 			present, the first declared link in the 'relation' element will be
 			displayed.
 		</p>
-		<p>
-			We also specify display properties for each relation link, such as color
-			and symbol. We use these display properties to create an icon that will
-			represent relation link the ontology visualisation. It would be also
-			possible to simply specify an icon/image location for each relation
-			link.
-		</p>
-		<p>
-			Concept type properties are defined using elements 'conceptProperty'. At
-			present this element only has an id, which is a string describing this
-			property. Once these elements are read by OntoRama, application 'knows'
-			that it needs to create corresponding entries  in the description panel.
-		</p>
-		<p>
-			Here is a sniplet describing properties from our configuration file:
-		</p>
-
-		<xml>
-				<conceptProperty id="Description"/>
-				<conceptProperty id="Creator"/>
-		</xml>
+        <p>The 'displayInfo' section describes how OntoRama should display each relation, here
+        is a section of configuration file corresponding to subtype/supertype relation link.
+        </p>
+        <xml>
+        <relation id="1">
+            <displayInGraphView>
+                <createIcon color="#33CCFF">
+                    <relationType name="subtype" mappingSymbol="&lt;"/>
+                    <relationType name="supertype" mappingSymbol="&gt;"/>
+                </createIcon>
+            </displayInGraphView>
+            <displayInDescriptionWindow>
+                <relationType name="supertype" displayLabel="Parents"/>
+            </displayInDescriptionWindow>
+        </relation>
+        </xml>
+        <p>
+            DisplayInfo element has an attribute id that specifies relation id. Further on this element
+            can have two children: displayInGraphView and/or displayInDescriptionView. It is compulsory for
+            relation to have at least one of these elements specified, otherwise OntoRama won't display this
+            relation link.
+            <ul>
+                <li>
+                    displayInGraphView - specifies whether OntoRama should display this relation link in the
+                    graph visualisations. This element should have either of the following two sublements:
+                    <ul>
+                        <li>
+                            createIcon - if this element is present, then application will create an Icon
+                            corresponding to this relation link with given color and mappingSymbol.
+                        </li>
+                        <li>
+                            loadIcon - if this element is present, icon corresponding to this relation link will
+                            be loaded from specified location. This element should have two sublements:
+                            relationType, each having attribute 'name' tying it to the desired relation link and
+                            attribute 'path' specifying location of icon to load. (Note: this feature is not
+                            fully implemented yet ;)
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    displayInDescriptionWindow - specifies whether OntoRama should display this relation
+                    link in the description section of the application. This could be usefull for relation
+                    links such as description, synonyms, etc. We also used this to tell OntoRama to display
+                    node's parents in the description view as seen in the example above. Here is a sniplet of
+                    configuration file corresponding to synonyms relation link:
+                </li>
+            </ul>
+            <xml>
+       <relation id="15">
+            <displayInDescriptionWindow>
+                <relationType name="synonym" displayLabel="Synonym"/>
+            </displayInDescriptionWindow>
+        </relation>
+            </xml>
+        </p>
 		<p>
 			While Ontology section of configuration file sets the scene, RdfMapping
 			section specifies how application should be able to find items defined
@@ -118,40 +152,6 @@
 			relation link 'subtype', this means that the application has to reverse
 			'supertype' links to be able to display them. Here is example RDF:
 		</p>
-<!--
-<table border="0" width="95%">
-<tr>
-<td>
-<pre>
-<code>
-&lt;rdfs:Class
-	rdf:about= "http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"&gt;
-  &lt;rdfs:label xml:lang= "en"&gt; cat &lt;/rdfs:label&gt;
-  &lt;rdfs:label xml:lang= "en"&gt; domestic_cat &lt;/rdfs:label&gt;
-  &lt;rdfs:label xml:lang= "en"&gt; house_cat &lt;/rdfs:label&gt;
-  &lt;rdfs:label xml:lang= "en"&gt; Felis_domesticus &lt;/rdfs:label&gt;
-  &lt;rdfs:label xml:lang= "en"&gt; Felis_catus &lt;/rdfs:label&gt;
-  &lt;dc:Creator&gt;
-    http://www.cogsci.princeton.edu/~wn/
-  &lt;/dc:Creator&gt;
-  &lt;rdfs:comment&gt;
-  	any domesticated member of the genus Felis
-  &lt;/rdfs:comment&gt;
-  &lt;rdfs:subClassOf
-  	rdf:resource= "http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat" /&gt;
-&lt;/rdfs:Class&gt;
-</code>
-</pre>
-</td></tr>
-</table>
--->
-
-<!--
-<table border="0" width="95%" class="xmlSnipplet">
-<tr>
-<td>
-<code>
--->
 <xml>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
@@ -185,11 +185,6 @@
 </rdfs:Class>
 </rdf:RDF>
 </xml>
-<!--
-</code>
-</td></tr>
-</table>
--->
 		<p>
 			The last statement will be translated by OntoRama as following:
 			'wn#TrueCat' is 'supertype'of 'wn#Cat'. However, OntoRama needs to

@@ -19,7 +19,6 @@ import java.awt.event.ActionEvent;
 public class SearchPanel extends JPanel {
 
     private JTextField queryField;
-    private JTextField queryDepth;
     private JButton submitButton;
     
 
@@ -27,30 +26,22 @@ public class SearchPanel extends JPanel {
         super();
 
         queryField = new JTextField(10);
-        queryDepth = new JTextField(2);
-  
+
         submitButton = new JButton("Search");
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 String searchTerm = queryField.getText();
-                String searchDepth = queryDepth.getText();
-                
+
                 if (searchTerm.length() == 0) {
                     new ErrorPopupMessage("Please type search term", OntoRamaApp.getMainFrame());
                 }
-                else if (searchDepth.length() == 0) {
-                    new ErrorPopupMessage("Please type search depth", OntoRamaApp.getMainFrame());
-                }
                 else {
                     Query tmpQuery = new Query(searchTerm);
-                    Integer depth = new Integer(searchDepth);
-                    tmpQuery.setDepth(depth.intValue());
                     BackendSearch.search(tmpQuery);
                 }
             }
         });
         add(queryField);
-        add(queryDepth);
         add(submitButton);
     }
 

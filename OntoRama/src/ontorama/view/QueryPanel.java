@@ -24,7 +24,11 @@ import java.util.Enumeration;
 
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.*;
+
+import ontorama.view.action.StopQueryAction;
+
 import ontorama.hyper.view.simple.*;
+
 import ontorama.model.GraphNode;
 
 import ontorama.webkbtools.query.Query;
@@ -101,7 +105,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         QueryAction queryAction = new QueryAction();
         _querySubmitButton = new JButton(queryAction);
 
-        StopQueryAction stopQueryAction = new StopQueryAction();
+        StopQueryAction stopQueryAction = new StopQueryAction(_ontoRamaApp);
         _queryStopButton = new JButton(stopQueryAction);
 
         queryFieldPanel.add(_queryField);
@@ -271,34 +275,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       }
   }
 
-    /**
-     * stop query action
-     */
-    class StopQueryAction extends AbstractAction {
-
-      private static final String ACTION_COMMAND_KEY_COPY = "stop-query-command";
-      private static final String NAME_COPY = "Cancel";
-      private static final String SHORT_DESCRIPTION_COPY = "Stop Query";
-      private static final String LONG_DESCRIPTION_COPY = "Stop current Query";
-
-      /**
-       *
-       */
-      public StopQueryAction() {
-        putValue(Action.NAME, NAME_COPY);
-        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
-        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
-      }
-
-      /**
-       *
-       */
-      public void actionPerformed(ActionEvent parm1) {
-        System.out.println("___action: stop query");
-        stopQuery();
-      }
-  }
 
     /**
      *
@@ -325,12 +301,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       _ontoRamaApp.appendHistoryMenu(newQuery);
     }
 
-    /**
-     *
-     */
-    protected void stopQuery () {
-      _ontoRamaApp.stopQuery();
-    }
 
     //////////////////////////ViewEventObserver interface implementation////////////////
 

@@ -241,7 +241,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Returns true if this is the node clicked on
      */
     public boolean containsPoint(Point2D point) {
-        return projectedShape.contains(point);
+        return projectedShape.getBounds2D().contains(point);
     }
 
     /**

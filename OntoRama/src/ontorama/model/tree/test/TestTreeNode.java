@@ -54,11 +54,11 @@ public class TestTreeNode  extends TestCase{
         }
         EdgeType et1 = (EdgeType) edgeTypes.get(0);
         EdgeType et2 = (EdgeType) edgeTypes.get(1);
-        Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
+        Edge edge1 = _backend.createEdge(_graphNode, childGraphNode1, et1);
         _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
         _treeNode.addChild(_childNode1, _childEdge1);
         _childNode1.setParent(_treeNode);
-        Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
+        Edge edge2 = _backend.createEdge(_graphNode, childGraphNode2, et2);
         _childEdge2 = new TreeEdgeImpl(edge2, _childNode2);
         _treeNode.addChild(_childNode2, _childEdge2);
         _childNode2.setParent(_treeNode);

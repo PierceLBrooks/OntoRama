@@ -16,6 +16,9 @@ import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.NoTypeFoundInResultSetException;
@@ -189,6 +192,14 @@ public class FileBackend implements Peer2PeerBackend{
 	 */
 	public Node createNode(String name, String fullName) {
 		return new NodeImpl(name, fullName);
+	}
+
+	/**
+	 * @see ontorama.backends.Backend#createEdge(ontorama.model.graph.Node, ontorama.model.graph.Node, ontorama.model.graph.EdgeType)
+	 */
+	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType)
+							throws NoSuchRelationLinkException {
+		return new EdgeImpl(fromNode, toNode, edgeType);
 	}
 
 }

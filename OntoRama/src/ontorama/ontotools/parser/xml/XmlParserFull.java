@@ -21,7 +21,6 @@ import java.util.List;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
@@ -246,9 +245,9 @@ public class XmlParserFull implements Parser {
         while (edgeTypesIterator.hasNext()) {
             EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
             if ((edgeType.getName()).equals(edgeName)) {
-                edge = new EdgeImpl(fromNode, toNode, edgeType);
+                edge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
             } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(edgeName)) ) {
-                edge = new EdgeImpl(toNode, fromNode, edgeType);
+                edge = OntoramaConfig.getBackend().createEdge(toNode, fromNode, edgeType);
             }
         }
     	if (edge == null) {

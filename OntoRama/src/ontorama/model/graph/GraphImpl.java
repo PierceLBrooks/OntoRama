@@ -321,7 +321,7 @@ public class GraphImpl implements Graph {
      * @param edgeType
      */
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException {
-        Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        Edge newEdge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
         addEdge(newEdge);
     }
 

@@ -11,7 +11,6 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PEdge;
-import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
@@ -107,13 +106,20 @@ public class TestP2PEdge extends TestCase {
         node6.addRejection(creatorUri2);
 
         try {
-            edge1 = new P2PEdgeImpl(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype),creatorUri1,null);
-            edge2 = new P2PEdgeImpl(node1, node3, OntoramaConfig.getEdgeType(edgeName_subtype),creatorUri1,null);
-            edge3 = new P2PEdgeImpl(node1, node4, OntoramaConfig.getEdgeType(edgeName_similar),creatorUri1,null);
-            edge4 = new P2PEdgeImpl(node1, node5, OntoramaConfig.getEdgeType(edgeName_reverse),null,creatorUri2);
-            edge5 = new P2PEdgeImpl(node2, node6, OntoramaConfig.getEdgeType(edgeName_subtype),null,creatorUri2);
-            edge6 = new P2PEdgeImpl(node3, node6, OntoramaConfig.getEdgeType(edgeName_similar),null,creatorUri2);
-            edge7 = new P2PEdgeImpl(node4, node6, OntoramaConfig.getEdgeType(edgeName_reverse),null,creatorUri2);
+        	edge1 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype));
+        	edge1.addAssertion(creatorUri1);
+        	edge2 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node3, OntoramaConfig.getEdgeType(edgeName_subtype));
+        	edge2.addAssertion(creatorUri1);
+        	edge3 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node4, OntoramaConfig.getEdgeType(edgeName_similar));
+        	edge3.addAssertion(creatorUri1);
+        	edge4 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node5, OntoramaConfig.getEdgeType(edgeName_reverse));
+        	edge4.addRejection(creatorUri2);
+        	edge5 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node2, node6, OntoramaConfig.getEdgeType(edgeName_subtype));
+        	edge5.addRejection(creatorUri2);
+        	edge6 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node3, node6, OntoramaConfig.getEdgeType(edgeName_similar));
+        	edge6.addRejection(creatorUri2);
+        	edge7 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node4, node6, OntoramaConfig.getEdgeType(edgeName_reverse));
+        	edge7.addRejection(creatorUri2);
 
             // create relation links set
             relLinksSet = createSet(OntoramaConfig.getEdgeType(edgeName_similar), OntoramaConfig.getEdgeType(edgeName_reverse));

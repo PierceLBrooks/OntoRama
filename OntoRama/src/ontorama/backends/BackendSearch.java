@@ -24,7 +24,7 @@ import ontorama.ontotools.query.Query;
 public class BackendSearch {
 
 	public static P2PGraph search(Query query, EventBroker eventBroker){
-        P2PGraph retVal = new P2PGraphImpl(eventBroker);
+        P2PGraph retVal = new P2PGraphImpl();
         try {
             P2PBackend backend = (P2PBackend) OntoramaConfig.getBackend();
             System.out.println("---searching backend " + backend + " for query " + query);
@@ -45,7 +45,7 @@ public class BackendSearch {
 	}
 
     public static P2PGraph searchLocal(Query query, EventBroker eventBroker) {
-        P2PGraph retVal = new P2PGraphImpl(eventBroker);
+        P2PGraph retVal = new P2PGraphImpl();
         try{
             P2PBackend backend = (P2PBackend) OntoramaConfig.getBackend();
             System.out.println("--1---searching backend " + backend + " for query " + query);

@@ -39,7 +39,7 @@ public interface Backend {
 	
 	public Edge createEdge (Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException;
 	
-	public Graph createGraph (QueryResult qr, EventBroker eb) throws InvalidArgumentException;
+	public Graph createGraph (QueryResult qr) throws InvalidArgumentException;
 	
 //	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
 

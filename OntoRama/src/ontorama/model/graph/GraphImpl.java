@@ -53,17 +53,18 @@ public class GraphImpl implements Graph {
      */
     private List _graphEdges = new LinkedList();
 
-    EventBroker _eventBroker;
+    private EventBroker _eventBroker;
 
     private String termName;
 
     /**
      * Constructor for GraphImpl
      */
-    public GraphImpl(EventBroker eventBroker) {
+    public GraphImpl() {
         _topLevelUnconnectedNodes = new LinkedList();
         _graphNodes = new LinkedList();
-        _eventBroker = eventBroker;
+        _eventBroker = new EventBroker();
+        System.out.println("GRAPH impl event broker " + _eventBroker);
     }
 
     /**
@@ -81,19 +82,11 @@ public class GraphImpl implements Graph {
      *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the ui.
      *  Yet, comms#WirelessNetwork is thinking it's got 3 clones, but user can't navigate to them.
      *  (We will call those unconnected nodes 'hanging' nodes).
-     *  One way to get around it is: to remove _graphEdges that don't have incoming _graphEdges (parents).
-     *  This is our solution for the present.
-     *  However, this solution may not be beneficial for some ontologies (that are not strict
-     *  hierarchy. Some of RDF examples found on the web are such ontologies). Solution could be:
-     *  instead of removing 'hanging' nodes - introduce artafficial root node and attach all these nodes
-     *  to it.
-     *
-     * @param   queryResult
-     * @throws  ontorama.ontotools.NoSuchRelationLinkException
-     * @throws  ontorama.model.graph.NoTypeFoundInResultSetException
+     *  These nodes will be presented in a separate list, at present called "Componenets List"
+     *  located in the toolbar of the main application window.
      */
-    public GraphImpl(QueryResult queryResult, EventBroker eventBroker) throws InvalidArgumentException {
-       	this(eventBroker);
+    public GraphImpl(QueryResult queryResult) throws InvalidArgumentException {
+       	this();
        	try{
 	        termName = queryResult.getQuery().getQueryTypeName();
 	        List nodesList = queryResult.getNodesList();
@@ -113,10 +106,11 @@ public class GraphImpl implements Graph {
        		throw new InvalidArgumentException("Cyclic structure in query result", e);
        	}
     }
+    
+    public EventBroker getEventBroker () {
+    	return _eventBroker;
+    }
 
-    /**
-     *
-     */
     private void buildGraph( List nodesList, List edgesList) throws GraphCyclesDisallowedException {
         _graphNodes = nodesList;
         _graphEdges = edgesList;

@@ -249,7 +249,7 @@ public class OntoRamaApp extends JFrame {
 							QueryIsFinishedEvent.class,
 							Object.class);
 
-        _modelEventBroker.subscribe(
+        _viewsEventBroker.subscribe(
 				            new GraphIsLoadedEventHandler(),
 				            GraphIsLoadedEvent.class,
 				            Object.class);
@@ -345,7 +345,6 @@ public class OntoRamaApp extends JFrame {
         	System.exit(1);
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
-		System.out.println("\nOntoRamaApp::initBackend passing event broker " + _modelEventBroker + "\n");
 		backend.setEventBroker(_viewsEventBroker);
     }
 
@@ -376,7 +375,7 @@ public class OntoRamaApp extends JFrame {
 	        JMenu importMenu = new JMenu("Import");
 	    	Action fileImportAction = new AbstractAction("from file backend...") {
 	    		public void actionPerformed(ActionEvent e) {
-	    			FileImporter importer = new FileImporter(_modelEventBroker);
+	    			FileImporter importer = new FileImporter(_viewsEventBroker);
 	    			importer.doImport();
 	    		}
 	    	};

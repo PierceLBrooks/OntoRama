@@ -58,13 +58,7 @@ public class FileBackend implements Backend {
 	
 	private QueryEngine _lastQueryEngine;
 	
-    private class GraphIsLoadedEventHandler implements EventBrokerListener {
-        EventBroker eventBroker;
-        public GraphIsLoadedEventHandler(EventBroker eventBroker)  {
-            this.eventBroker = eventBroker;
-            eventBroker.subscribe(this, GraphIsLoadedEvent.class, Graph.class);
-        }
-
+    private class FileBackendGraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             _graph = (Graph) event.getSubject();
             System.out.println("\n\nloaded graph = " + _graph);
@@ -76,7 +70,7 @@ public class FileBackend implements Backend {
 
     public void setEventBroker(EventBroker eventBroker) {
         _eventBroker = eventBroker;
-        new GraphIsLoadedEventHandler(this._eventBroker);
+		eventBroker.subscribe(new FileBackendGraphIsLoadedEventHandler(), GraphIsLoadedEvent.class, Graph.class);
     }
 
     public JPanel getPanel(){
@@ -88,16 +82,10 @@ public class FileBackend implements Backend {
         return menu;
     }
 
-	/**
-	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)
-	 */
 	public Node createNode(String name, String fullName) {
 		return new NodeImpl(name, fullName);
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#createEdge(Node, Node, EdgeType)
-	 */
 	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType)
 							throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
@@ -161,14 +149,8 @@ public class FileBackend implements Backend {
     	_eventBroker.processEvent(queryEvent);    	
     }
 
-	
-
-	/**
-	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
-	 */
-	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException  {
-		Graph res = new GraphImpl(qr, eb);
-		return res;
+	public Graph createGraph(QueryResult qr) throws InvalidArgumentException  {
+		return new GraphImpl(qr);
 	}
 
 
@@ -183,9 +165,6 @@ public class FileBackend implements Backend {
 //		return null;
 //	}
 
-	/**
-	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query, org.tockit.events.EventBroker)
-	 */
 	public HistoryElement createHistoryElement(Query query,EventBroker eventBroker) {
 		FileHistoryElement res = new FileHistoryElement(query, eventBroker, this, _querySettings);
 		return res;

@@ -155,10 +155,9 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public boolean sendLeaveGroup(String groupID) throws GroupException, IOException {
-    boolean leaved = this.comm.sendLeaveGroup(groupID);
+        boolean leaved = this.comm.sendLeaveGroup(groupID);
         if (leaved){
-            //TODO maybe we should solve this in an other way, forexample send its own PeerID
-            peersPanel.removePeer("self");
+            peersPanel.removeGroup(groupID);
             return true;
         }
         return false;

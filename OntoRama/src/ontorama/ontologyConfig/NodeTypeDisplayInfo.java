@@ -11,15 +11,27 @@ package ontorama.ontologyConfig;
 import java.awt.*;
 
 public class NodeTypeDisplayInfo {
-    private static final int CONCEPT_TYPE = 1;
-    private static final int RELATION_TYPE = 2;
 
     private Color _color;
     private Image _image;
-    private int _type;
 
-    public NodeTypeDisplayInfo(int type) {
-        this._type = type;
+    public NodeTypeDisplayInfo() {
+    }
+
+    public Color getColor() {
+        return _color;
+    }
+
+    public void setColor(Color color) {
+        _color = color;
+    }
+
+    public Image getImage() {
+        return _image;
+    }
+
+    public void setImage(Image image) {
+        _image = image;
     }
 
 

@@ -185,6 +185,7 @@ public class NodeImpl implements Cloneable, Node {
     public Node makeClone() {
         // clone curNode to cloneNode
         Node cloneNode = new NodeImpl(name);
+        cloneNode.setNodeType(this.getNodeType());
 
         // iterate through existing clones and add new clone to all of them
         Iterator it = clones.iterator();

@@ -97,7 +97,7 @@ public class QueryEngine implements QueryEngineInterface {
         }
 
         Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getReader(queryUrl);
+        Reader r = source.getReader(queryUrl, query);
 
         // todo: if source is not static - check if the result is ok. in webkb case -
         // if it returns rdf file. if not - there is an error. Possibly reiterate through all

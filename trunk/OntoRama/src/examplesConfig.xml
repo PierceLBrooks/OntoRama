@@ -5,6 +5,13 @@
 		<queryOutputFormat>XML</queryOutputFormat>
 		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
 	</example>
+	<example name="Ontorama RDF Test" root="chair" >
+		<source relativeUri="examples/test/data/testCase.rdf" 
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+
 	<!--
 	<example name="Ontorama Xml Test (via URL)" root="root">
 		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml" 
@@ -108,5 +115,14 @@
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>		
 	</example>
+	-->
+	<!--
+	<example name="wn#cat" root="wn#cat" >
+		<source relativeUri="http://www.webkb.org/bin/termSearch.cgi"
+				sourcePackagePathSuffix="UrlSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="WebKB"/>		
+	</example>	
 	-->
 </ontoramaExamples>

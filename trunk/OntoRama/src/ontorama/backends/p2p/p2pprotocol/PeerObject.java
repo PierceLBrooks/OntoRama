@@ -1,4 +1,4 @@
-package ontorama.backends.p2p.gui;
+package ontorama.backends.p2p.p2pprotocol;
 
 /**
  * @author nataliya

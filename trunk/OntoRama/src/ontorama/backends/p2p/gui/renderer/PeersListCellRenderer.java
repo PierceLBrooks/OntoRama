@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import ontorama.backends.p2p.gui.PeerObject;
+import ontorama.backends.p2p.p2pprotocol.PeerObject;
 
 /**
  * Renderer for a list displaying peers.

@@ -83,7 +83,7 @@ public class TestWebKB2Source extends TestCase {
      */
     public void testForUnexistingTerm() throws CancelledQueryException {
         try {
-            query_nonExistentTerm = new Query("fjldsjf", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
+            query_nonExistentTerm = new Query("fjldsjf");
             sourceResult_nonExistentTerm = webkbSource.getSourceResult(sourceUri, query_nonExistentTerm);
             fail("Failed to catch expected SourceException (WebkbError)");
         } catch (SourceException e) {
@@ -94,7 +94,7 @@ public class TestWebKB2Source extends TestCase {
      *
      */
     public void testAmbiguousQuery() throws SourceException, CancelledQueryException {
-        query_cat = new Query("cat", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
+        query_cat = new Query("cat");
         sourceResult_cat = webkbSource.getSourceResult(sourceUri, query_cat);
         queryIsAmbiguous_cat = webkbSource.resultIsAmbiguous();
         numOfChoices_cat = webkbSource.getNumOfChoices();
@@ -121,7 +121,7 @@ public class TestWebKB2Source extends TestCase {
      *
      */
     public void testQueryForAName() throws SourceException, CancelledQueryException {
-        query_woodMouse = new Query("wood_mouse", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
+        query_woodMouse = new Query("wood_mouse");
         sourceResult_woodMouse = webkbSource.getSourceResult(sourceUri, query_woodMouse);
         queryIsAmbiguous_woodMouse = webkbSource.resultIsAmbiguous();
         numOfChoices_woodMouse = webkbSource.getNumOfChoices();
@@ -142,7 +142,7 @@ public class TestWebKB2Source extends TestCase {
      */
     public void testForARPException() throws CancelledQueryException {
         try {
-            query_dog = new Query("dog", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
+            query_dog = new Query("dog");
             sourceResult_dog = webkbSource.getSourceResult(sourceUri, query_dog);
 
             fail("Failed to throw expected exception");

@@ -93,9 +93,9 @@ public class TestQueryEngine extends TestCase {
         
     	queryEngine = new QueryEngine(sourcePackageName, parserPackageName, sourceUri);
         
-        query1 = new Query(queryTerm, sourcePackageName, parserPackageName, sourceUri);
+        query1 = new Query(queryTerm);
 
-        query2 = new Query(queryTerm, relationLinksList, sourcePackageName, parserPackageName, sourceUri);
+        query2 = new Query(queryTerm, relationLinksList);
     }
     
     /**

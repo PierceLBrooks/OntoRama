@@ -93,7 +93,7 @@ public class TestRdfDamlParser extends TestCase {
     	OntoramaConfig.activateBackend(backend);
         
     	source = (Source) (Class.forName(sourcePackageName).newInstance());
-    	Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair", "", "", "")).getReader();
+    	Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair")).getReader();
 
         parser = new RdfDamlParser();
         buildResult(parser, r);
@@ -323,7 +323,7 @@ public class TestRdfDamlParser extends TestCase {
             SourceException, CancelledQueryException {
 
 		source = (Source) Class.forName(sourcePackageName).newInstance();
-    	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-1.rdf", new Query("test#Chair", "", "", "")).getReader();
+    	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-1.rdf", new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);
@@ -340,7 +340,7 @@ public class TestRdfDamlParser extends TestCase {
             SourceException, CancelledQueryException {
 
     	source = (Source) Class.forName(sourcePackageName).newInstance();
-    	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-2.rdf", new Query("test#Chair", "", "", "")).getReader();
+    	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-2.rdf", new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);

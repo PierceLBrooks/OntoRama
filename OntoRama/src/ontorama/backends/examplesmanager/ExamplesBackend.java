@@ -212,7 +212,7 @@ public class ExamplesBackend implements Backend {
         setCurrentExample(example);
 
         // create a new query
-        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList(), getSourcePackageName(), getParser(), getSourceUri());
+        Query query = new Query(example.getRoot());
 
         // get graph for this query and load it into app
         _eventBroker.processEvent(new QueryStartEvent(query));
@@ -223,10 +223,8 @@ public class ExamplesBackend implements Backend {
 	 */
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
 		QueryEngine queryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
-
-		QueryResult queryResult = queryEngine.getQueryResult(query);
-		
-		return null;
+		QueryResult queryResult = queryEngine.getQueryResult(query);	
+		return queryResult;
 	}
 
 }

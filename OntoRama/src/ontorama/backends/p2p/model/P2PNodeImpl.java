@@ -30,12 +30,24 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
     private HashSet rejecters;
 
     /**
+     * Create a new P2PNodeImpl with given name and fullName
+     *
+     * @param name
+     * @param fullName
+     */
+	public P2PNodeImpl(String name, String fullName) {
+		super(name,fullName);
+		this.asserters = new HashSet();
+		this.rejecters = new HashSet();
+	}
+
+
+    /**
      * Create a new P2PNodeImpl with given name and asserter or rejecter
      *
      * @param name
      * @param asserter
      * @param rejecter
-     * @param fullName
      */
 	public P2PNodeImpl(String name, URI asserter, URI rejecter) {
 		super(name);
@@ -71,9 +83,11 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
 			this.asserters.add(asserter);
 		}
 		if (rejecter != null) {
-			this.rejecters.add(rejecter);		
+			this.rejecters.add(rejecter);
 		}
 	}
+
+
 
     /**
      * Add an asserter for this node. If the asserter is registered as a 

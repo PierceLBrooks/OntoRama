@@ -34,6 +34,7 @@ import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.model.GraphBuilder;
+import ontorama.model.NoTypeFoundInResultSetException;
 
 import ontorama.hyper.view.simple.SimpleHyperView;
 
@@ -54,24 +55,34 @@ public class OntoRamaApp extends JFrame {
 
     private QueryPanel queryPanel;
 
+    /**
+     * @todo: introduce error dialogs for exception
+     */
     public OntoRamaApp() {
         super("OntoRamaApp");
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        //termName = "root";
-        termName = "comms#CommsObject";
-        LinkedList wantedLinks = new LinkedList();
-        wantedLinks.add(new Integer (OntoramaConfig.SUBTYPE));
-        Query query = new Query (termName, wantedLinks);
+        termName = "root";
+        //termName = "comms#CommsObject";
+
+        //LinkedList wantedLinks = new LinkedList();
+        //wantedLinks.add(new Integer (OntoramaConfig.SUBTYPE));
+        //wantedLinks.add (new Integer (OntoramaConfig.SUPERTYPE));
+        //Query query = new Query (termName, wantedLinks);
+
+        Query query = new Query (termName);
 
         try {
             QueryEngine queryEngine = new QueryEngine (query);
             QueryResult queryResult = queryEngine.getQueryResult();
 
             graphBuilder = new GraphBuilder(queryResult);
-            System.out.println("got graph = " + graph);
             graph = graphBuilder.getGraph();
+        }
+        catch (NoTypeFoundInResultSetException noTypeExc) {
+            System.err.println(noTypeExc);
+            System.exit(-1);
         }
         catch (Exception e) {
             System.err.println("Unable to build graph: " + e);

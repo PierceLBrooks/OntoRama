@@ -29,6 +29,7 @@ public class UrlSource implements Source {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("uri = " + uri);
         }
+        System.out.println ("class UrlSource, uri = " + uri);
         URL url = new URL (uri);
         URLConnection connection = url.openConnection();
         InputStreamReader reader = new InputStreamReader(connection.getInputStream());

@@ -94,6 +94,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         querySubmitButton = new JButton("Get");
         querySubmitButton.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
+            //notifyQueryAction();
             doQuery();
           }
         });
@@ -159,10 +160,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         }
         else {
           JCheckBox curCheckBox = new JCheckBox(cur.getLinkName());
-          //JCheckBox curCheckBox = new JCheckBox(cur.getLinkName(),cur.getDisplayIcon());
           ImageIcon displayIcon = cur.getDisplayIcon();
           JLabel displayIconLabel = new JLabel (displayIcon);
-          //curCheckBox.setIcon(cur.getDisplayIcon());
           curCheckBox.setSelected(true);
           curCheckBox.addItemListener(new CheckBoxListener());
           this.relationLinksCheckBoxes.put(curCheckBox,new Integer(i));
@@ -172,7 +171,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       }
 
     }
-
 
     /**
      * Method to test layouting usin spring and force algorthms
@@ -223,7 +221,14 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     /**
      *
      */
-    public void doQuery () {
+    //protected void notifyQueryAction () {
+    //  viewListener.notifyChange(ViewEventListener.MOUSE_SINGLECLICK_KEY_CTRL);
+    //}
+
+    /**
+     *
+     */
+    protected void doQuery () {
       Query newQuery = ontoRamaApp.buildNewQuery();
       ontoRamaApp.executeQuery(newQuery);
     }

@@ -63,23 +63,13 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    * @todo  think of a way to not hardcode clones
    */
   String clonesLabelName = "Clones";
-  
+
   private ViewEventListener viewListener;
-  
+
 
   public DescriptionView(Graph graph, ViewEventListener viewListener) {
-	  this.viewListener = viewListener;
-	  this.viewListener.addObserver(this);	
-
-    // add this view to the list of GraphNode  observers
-	/*
-    List graphNodesList = graph.getNodesList();
-    Iterator graphNodesIterator = graphNodesList.iterator();
-    while (graphNodesIterator.hasNext()) {
-      GraphNode curNode = (GraphNode) graphNodesIterator.next();
-      curNode.addObserver(this);
-    }
-	*/
+    this.viewListener = viewListener;
+    this.viewListener.addObserver(this);
 
     // set up hashtable of labels
     //initLabels();
@@ -138,57 +128,54 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
     }
 
   /**
-   * Method called to update observer.
-   * Communication from GraphNode to DescriptionView
-   * @todo  think of a way to not hardcode clones
+   * clear description value panel from any leftover properties (left from previous example)
    */
-   /*
-  public void update( Object observer, Object observable ) {
-    GraphNode node = (GraphNode) observable;
-    //System.out.println(".......method update, node = " + node.getName());
-    Enumeration e = this.nodePropertiesPanels.keys();
-    while (e.hasMoreElements()) {
-      String propertyName = (String) e.nextElement();
-      NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
-      propPanel.update(node.getProperty(propertyName));
-
-    }
-    // deal with clones
-    clonesPanel.update(node.getClones());
+  public void clear () {
+      Enumeration e = this.nodePropertiesPanels.keys();
+      while (e.hasMoreElements()) {
+        String propertyName = (String) e.nextElement();
+        NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
+        propPanel.clear();
+      }
+      clonesPanel.clear();
   }
-  */
-  
-	//////////////////////////ViewEventObserver interface implementation////////////////
-	
-	/**
-	 *
-	 */
-	public void focus ( GraphNode node) {
-		System.out.println();
-		System.out.println("******* desciptionView got focus for node " + node.getName());
-	    //System.out.println(".......method update, node = " + node.getName());
-	    Enumeration e = this.nodePropertiesPanels.keys();
-	    while (e.hasMoreElements()) {
-	      String propertyName = (String) e.nextElement();
-	      NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
-	      propPanel.update(node.getProperty(propertyName));
-	
-	    }
-	    // deal with clones
-	    clonesPanel.update(node.getClones());		
-		System.out.println();
-	}
-	
-	/**
-	 *
-	 */
-	public void toggleFold ( GraphNode node) {
-	}
-	
-	/**
-	 *
-	 */
-	public void query ( GraphNode node) {
-	}
-  
+
+  public void setFocus (GraphNode node) {
+      Enumeration e = this.nodePropertiesPanels.keys();
+      while (e.hasMoreElements()) {
+        String propertyName = (String) e.nextElement();
+        NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
+        propPanel.update(node.getProperty(propertyName));
+
+      }
+      // deal with clones
+      clonesPanel.update(node.getClones());
+      this.repaint();
+  }
+
+
+  //////////////////////////ViewEventObserver interface implementation////////////////
+
+  /**
+   *
+   */
+  public void focus ( GraphNode node) {
+      System.out.println();
+      System.out.println("******* desciptionView got focus for node " + node.getName());
+      setFocus(node);
+      System.out.println();
+  }
+
+  /**
+   *
+   */
+  public void toggleFold ( GraphNode node) {
+  }
+
+  /**
+   *
+   */
+  public void query ( GraphNode node) {
+  }
+
 }

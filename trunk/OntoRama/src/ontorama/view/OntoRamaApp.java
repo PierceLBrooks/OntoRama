@@ -120,7 +120,12 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    //private OntoRamaMenu menu;
+    private OntoRamaMenu menu;
+
+    /**
+     *
+     */
+    private DescriptionView descriptionViewPanel;
 
     /**
      * @todo: introduce error dialogs for exception
@@ -131,45 +136,55 @@ public class OntoRamaApp extends JFrame {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         termName = OntoramaConfig.ontologyRoot;
-
-        //termName = "root";
-        //termName = "comms#CommsObject";
-        //termName = "comms_CommsObject";
         Query query = new Query (termName);
-
         graph = getGraphFromQuery(query);
 
-        // find preferred sizes for application window.
+        /**
+         * find preferred sizes for application window.
+         */
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.screenWidth = (int) screenSize.getWidth();
         this.screenHeight = (int) screenSize.getHeight();
         this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
-        // create Menu Bar
-        OntoRamaMenu menu = new OntoRamaMenu(this);
+        /**
+         * create Menu Bar
+         */
+        menu = new OntoRamaMenu(this, viewListener);
         this.setJMenuBar(menu.getMenuBar());
-        //setMenuBar(menu.getMenuBar());
 
-        // Create OntoTreeView
+        /**
+         * Create OntoTreeView
+         */
         //treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
         treeView = new OntoTreeView(graph, viewListener);
         treeView.setGraph(graph);
 
-        // create description panel
-        DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);
-        //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
-                               //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                               //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
-        // Create HyperView
+        /**
+         * Create HyperView
+         */
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
 
-        // create a query panel
+        /**
+         * create a query panel
+         */
         queryPanel = new QueryPanel(hyperView, viewListener, this);
         queryPanel.setQueryField(termName);
+
+        /** create description panel
+         *  NOTE: description panel can't be created before hyper view and tree view
+         *  because then a view that is created after description panel doesn't
+         *  display clones for the first time a user clicks on a clone in one of the views
+         */
+        descriptionViewPanel = new DescriptionView(graph, viewListener);
+        //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
+                               //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                               //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        descriptionViewPanel.setFocus(graph.getRootNode());
+        JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
         //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(hyperView, treeView);
@@ -213,26 +228,19 @@ public class OntoRamaApp extends JFrame {
         // account for user specified position of divider bar
         int currentDividerBarLocation = splitPane.getDividerLocation();
         if (this.dividerBarLocation != currentDividerBarLocation) {
-            System.out.println("*****this.dividerBarLocation != currentDividerBarLocation: " + this.dividerBarLocation + ", " + currentDividerBarLocation);
+            //System.out.println("*****this.dividerBarLocation != currentDividerBarLocation: " + this.dividerBarLocation + ", " + currentDividerBarLocation);
         }
         double scale = (double) curAppWidth/(double) this.appWidth;
 
         double scaledDividerLocation = ((double) this.dividerBarLocation * scale);
-        //System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
-        //System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
         int newLeftPanelPercent = (currentDividerBarLocation * 100) / this.appWidth;
-        //System.out.println("newLeftPanelPercent = " + newLeftPanelPercent);
         double scaledDividerPercent = (scaledDividerLocation * 100) / curAppWidth;
-        //System.out.println("scaled percent = " + scaledDividerPercent);
-        //System.out.println("calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
         if ( ((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)-scaledDividerLocation) > 25) ||
                  ((scaledDividerLocation- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
-          //System.out.println("newLeftPanelPercent = " + newLeftPanelPercent + ", calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
           if ( ((newLeftPanelPercent - scaledDividerPercent) > 10) || ((scaledDividerPercent - newLeftPanelPercent) > 10) ) {
               this.leftSplitPanelWidthPercent = newLeftPanelPercent;
           }
         }
-        //System.out.println("this.leftSplitPanelWidthPercent = " + this.leftSplitPanelWidthPercent);
         setSplitPanelSizes(curAppWidth, curAppHeight);
         this.appWidth = curAppWidth;
         this.appHeight = curAppHeight;
@@ -355,6 +363,9 @@ public class OntoRamaApp extends JFrame {
         hyperView.setGraph(graph);
         treeView.setGraph(graph);
         queryPanel.setQueryField(graph.getRootNode().getName());
+        descriptionViewPanel.clear();
+        descriptionViewPanel.setFocus(graph.getRootNode());
+        menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
 
         addComponentsToScrollPanel(hyperView, treeView);
 

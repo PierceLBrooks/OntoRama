@@ -395,9 +395,9 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
       System.out.println("******* treeView got focus for node " + node.getName());
 
       OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
-      if (treeNode == null) {
-              return;
-      }
+      //if (treeNode == null) {
+      //        return;
+      //}
       TreePath path = treeNode.getTreePath();
       this.tree.setSelectionPath(path);
       this.tree.scrollPathToVisible(path);
@@ -411,9 +411,9 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
       this.tree.repaint();
 
       OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
-      if (treeNode == null) {
-              return;
-      }
+      //if (treeNode == null) {
+      //        return;
+      //}
       TreePath path = treeNode.getTreePath();
       System.out.println(".....path = " + path);
 //      int row = this.tree.getRowForPath(path);

@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.ButtonGroup;
@@ -57,7 +58,7 @@ public class HistoryMenu extends JMenu {
      * hold all history menu items for operating
      * back and forward buttons
      */
-    private static LinkedList _historyItems;
+    private static List _historyItems;
 
     /**
      * event broker capable of processing queries
@@ -151,8 +152,8 @@ public class HistoryMenu extends JMenu {
 		System.out.println("HistoryMenu::appendHistory for query " + query);
 			
 		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
-		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.getFirst();
-		    _historyItems.removeFirst();
+		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.get(0);
+		    _historyItems.remove(0);
 		    _menuItemHistoryMapping.remove(firstMenuItem);
 		    remove(firstMenuItem);
 		}

@@ -4,11 +4,7 @@ import ontorama.ontotools.query.Query;
 import org.tockit.events.Event;
 
 /**
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Dec 9, 2002
- * Time: 1:38:14 PM
- * To change this template use Options | File Templates.
+ * Event sent when query is cancelled.
  */
 public class QueryCancelledEvent implements Event {
     private Query query;

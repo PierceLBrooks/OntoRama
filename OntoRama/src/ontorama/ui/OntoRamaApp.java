@@ -44,7 +44,6 @@ import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
-import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.ui.controller.QueryNodeEventHandler;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
@@ -200,15 +199,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());
 				e.printStackTrace();
 			}
-//            Query query = (Query) event.getSubject();
-//            _lastQuery = _query;
-//            _query = query;
-//            _worker = new QueryEngineThread(_query, _modelEventBroker);
-//            _modelEventBroker.removeSubscriptions(_viewsEventBroker);
-//            _worker.start();
-//            _timer.start();
-//            _progressBar.setIndeterminate(true);
-//            _queryPanel.enableStopQueryAction(true);
         }
     }
 
@@ -269,7 +259,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 	}
 
-	private class LoadGraphEventHandler implements EventBrokerListener {
+	private class QueryIsFinishedEventHandler implements EventBrokerListener {
 		public void processEvent(Event event) {
 			QueryResult queryResult = (QueryResult) event.getSubject();
 			_worker = new GraphCreatorThread(queryResult, _modelEventBroker);
@@ -285,9 +275,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _viewsEventBroker = new EventBroker();
 
         /// @todo need to sort out what broker is responsible for handling what events
-
-        new GeneralQueryEventHandler(_modelEventBroker);
-        new GeneralQueryEventHandler(_viewsEventBroker);
 
         new QueryNodeEventHandler(_modelEventBroker);
         new QueryNodeEventHandler(_viewsEventBroker);
@@ -330,8 +317,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							Object.class);
 							
 		_modelEventBroker.subscribe(
-							new LoadGraphEventHandler(),
-							LoadGraphEvent.class,
+							new QueryIsFinishedEventHandler(),
+							QueryIsFinishedEvent.class,
 							Object.class);
 
 		_modelEventBroker.subscribe(
@@ -351,11 +338,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         buildToolBar();
         buildStatusBar();
 
-        new LoggingEventListener(
-				            _modelEventBroker,
-				            GeneralQueryEvent.class,
-				            Object.class,
-				            System.out);
 
         new LoggingEventListener(
 				            _modelEventBroker,
@@ -545,7 +527,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		if (_worker.done()) {
         	if (_worker instanceof QueryEngineThread) {
                 QueryResult qr = (QueryResult) _worker.getResult();
-                _modelEventBroker.processEvent(new LoadGraphEvent(qr));
+                _modelEventBroker.processEvent(new QueryIsFinishedEvent(qr));
 			}
 			if (_worker instanceof GraphCreatorThread) { 				
 				Graph graph = (Graph) _worker.getResult();

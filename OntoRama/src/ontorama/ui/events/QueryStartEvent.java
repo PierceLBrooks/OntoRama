@@ -4,6 +4,8 @@ import org.tockit.events.Event;
 import ontorama.ontotools.query.Query;
 
 /**
+ * Event created every time we want to start a new query.
+ * 
  * Created by IntelliJ IDEA.
  * User: nataliya
  * Date: Dec 4, 2002

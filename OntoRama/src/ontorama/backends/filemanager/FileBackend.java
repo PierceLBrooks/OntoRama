@@ -22,7 +22,7 @@ import ontorama.model.graph.NodeImpl;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ui.events.GeneralQueryEvent;
+import ontorama.ui.events.QueryStartEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.QueryFailedException;
@@ -119,7 +119,7 @@ public class FileBackend implements Backend {
 	    
 	    	System.out.println("FileBackend::parserName = " + _parserName);
 	       
-			GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
+			QueryStartEvent queryEvent = new QueryStartEvent(new Query());
 			_eventBroker.processEvent(queryEvent);
     	}
     	catch (ParserNotSpecifiedException e) {
@@ -157,7 +157,7 @@ public class FileBackend implements Backend {
     
     protected void processQueryFromHistoryElement(Query query, QuerySettings querySettings) {
     	_querySettings = querySettings;
-    	GeneralQueryEvent queryEvent = new GeneralQueryEvent(query);
+    	QueryStartEvent queryEvent = new QueryStartEvent(query);
     	_eventBroker.processEvent(queryEvent);    	
     }
 

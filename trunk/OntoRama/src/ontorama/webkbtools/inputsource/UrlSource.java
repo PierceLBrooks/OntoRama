@@ -22,6 +22,16 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.SourceException;
 
 public class UrlSource implements Source {
+    /**
+     *  Get a SourceResult from given uri.
+     *  @param  uri  this object specified resource file
+     *  @return sourceResult
+     *  @throws SourceException
+     */
+    public SourceResult getSourceResult (String uri, Query query) throws SourceException {
+      Reader reader = getReader(uri, query);
+      return ( new SourceResult(true, reader, null) );
+    }
 
     /**
      *  Get a Reader from given uri.
@@ -29,7 +39,7 @@ public class UrlSource implements Source {
      *  @return reader
      *  @throws Exception
      */
-    public Reader getReader (String uri, Query query) throws SourceException {
+    private Reader getReader (String uri, Query query) throws SourceException {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("uri = " + uri);
         }
@@ -50,5 +60,6 @@ public class UrlSource implements Source {
 
         return reader;
     }
+
 
 }

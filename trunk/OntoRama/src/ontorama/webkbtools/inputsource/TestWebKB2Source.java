@@ -39,7 +39,8 @@ public class TestWebKB2Source extends TestCase {
     //String parserPackage = OntoramaConfig.getParserPackageName();
 
     WebKB2Source webkbSource = new WebKB2Source();
-    webkbSource.getReader(sourceUri, new Query("cat"));
+    webkbSource.getSourceResult(sourceUri, new Query("cat"));
+    //webkbSource.getReader(sourceUri, new Query("cat"));
     boolean queryIsAmbiguous_cat = webkbSource.resultIsAmbiguous();
     int numOfChoices_cat = webkbSource.getNumOfChoices();
     List choicesList_cat = webkbSource.getChoicesList();

@@ -84,6 +84,11 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         this.model = model;
         model.addPositionChaingedObserver( this );
         project( model.getX(), model.getY() );
+        if( model.hasClones() ) {
+            nodeColor = Color.red;
+        } else {
+          nodeColor = Color.blue;
+        }
     }
 
     /**

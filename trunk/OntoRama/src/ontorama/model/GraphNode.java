@@ -85,6 +85,13 @@ public class GraphNode implements Cloneable, NodeObservable {
     }
 
     /**
+     * Return true if GraphNode has clones.
+     */
+    public boolean hasClones(){
+      return !this.clones.isEmpty();
+    }
+
+    /**
      *
      */
     public void hasFocus () {

@@ -91,6 +91,13 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     }
 
     /**
+     * Return true if GraphNode has clones.
+     */
+    public boolean hasClones() {
+      return this.graphNode.hasClones();
+    }
+
+    /**
      * Get the concept name.
      */
     public String getName() {

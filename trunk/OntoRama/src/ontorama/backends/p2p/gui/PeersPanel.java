@@ -1,10 +1,7 @@
 package ontorama.backends.p2p.gui;
 
 import javax.swing.*;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -129,7 +126,7 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
     }
 
     private class GroupPanel extends JPanel {
-        //Vector peersList;
+        HashSet peersList = new HashSet();
         DefaultListModel listModel = new DefaultListModel();
         JList jlist;
         Hashtable _peerIdToPeerNameMapping = new Hashtable();
@@ -146,13 +143,14 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
         }
 
         public void addPeer (String peerID, String peerName) {
-            _peerIdToPeerNameMapping.put(peerID, peerName);
-            //peersList.add(peerName);
-            listModel.addElement(peerName);
-            //System.out.println("PeersPanel::GroupPanel::AddPeer" + peerName + "(peers in list after add:" + peersList + ")");
-            //jlist.setListData(peersList);
-            repaint();
-            //@todo repaint problem on peer panel update, works fine for recieveJoinGroup but NOT update panel
+            if (!peersList.contains(peerID)) {
+                 peersList.add(peerID);
+
+                _peerIdToPeerNameMapping.put(peerID, peerName);
+
+                listModel.addElement(peerName);
+                repaint();
+            }
         }
 
         public void removePeer (String peerID) {
@@ -160,12 +158,9 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
             peerName = (String) _peerIdToPeerNameMapping.remove(peerID);
             if (peerName != null) {
                 listModel.removeElement(peerName);
-                //peersList.remove(peerName);
-                //System.out.println("GroupPanel::removePeer:" + peerName + "(" + peersList + ")");
-                //jlist.setListData(peersList);
+                peersList.remove(peerID);
                 repaint();
             }
         }
     }
-
 }

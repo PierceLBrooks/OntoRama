@@ -388,6 +388,9 @@ public class OntoramaConfig {
         nodeTypes.add(typeConcept);
         NodeType typeRelation = new NodeTypeImpl("relation");
         nodeTypes.add(typeRelation);
+        NodeType typeUnknown = new NodeTypeImpl("unknown");
+        nodeTypes.add(typeUnknown);
+
         return nodeTypes;
     }
 
@@ -409,10 +412,14 @@ public class OntoramaConfig {
             if (curNodeType.getNodeType().equals("relation")) {
                 displayInfo.setColor(Color.green);
             }
+            if (curNodeType.getNodeType().equals("unknown")) {
+                displayInfo.setColor(Color.white);
+            }
             result.put(curNodeType, displayInfo);
         }
         return result;
     }
+
 
     public static List getNodeTypesList() {
         return nodeTypesList;

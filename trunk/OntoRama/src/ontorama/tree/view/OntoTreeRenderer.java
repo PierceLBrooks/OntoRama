@@ -96,6 +96,16 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         EdgeType edge = treeNode.getRelLink();
 
         NodeType nodeType = treeNode.getGraphNode().getNodeType();
+        // @todo hack for unknown node type
+        if (nodeType == null) {
+            Iterator it = OntoramaConfig.getNodeTypesList().iterator();
+            while (it.hasNext()) {
+                NodeType cur = (NodeType) it.next();
+                if (cur.getNodeType().equals("unknown")) {
+                    nodeType = cur;
+                }
+            }
+        }
 
         String nodeTextStr = treeNode.getGraphNode().getName();
 

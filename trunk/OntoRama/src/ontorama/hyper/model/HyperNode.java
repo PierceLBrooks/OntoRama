@@ -1,8 +1,11 @@
 
 package ontorama.hyper.model;
 
+import ontorama.hyper.canvas.FocusChangedObservable;
+import ontorama.hyper.canvas.FocusChangedObserver;
+import ontorama.model.GraphNode;
 import ontorama.model.NodeObserver;
-import ontorama.hyper.model.HyperNodeObservable;
+import ontorama.hyper.model.PositionChaingedObservable;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -15,12 +18,17 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
 
-public class HyperNode implements NodeObserver, HyperNodeObservable {
+public class HyperNode implements NodeObserver, PositionChaingedObservable,  FocusChangedObservable {
 
     /**
      * Store all the Hyper observers
      */
-    private List HyperObservers = new LinkedList();
+    private List positionChaingedObserver = new LinkedList();
+
+    /**
+     * Store focus observer.
+     */
+    private List focusListener = new LinkedList();
 
     /**
      * Store the position of the node.
@@ -32,55 +40,61 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
      */
     private int nodeRadius = 25;
 
-    //private GraphNode node;
 
-    private String name;
+    /**
+     * Store the graph node for this hyper node.
+     */
+    private GraphNode graphNode;
 
     /**
      * Constructor
      */
-    public HyperNode( String name ) {
-      //this.node = node;
-      this.name = name;
+    public HyperNode( GraphNode graphNode ) {
+      this.graphNode = graphNode;
+      this.graphNode.addObserver( this );
       this.position = new Position3D();
+    }
+
+    /**
+     * Add focus observers to list.
+     */
+    public void addFocusChangedObserver( Object obj ) {
+        focusListener.add( obj );
     }
 
     /**
      * Add a Hyper observer.
      */
-    public void addHyperObserver( Object obj ) {
-        HyperObservers.add(obj);
+    public void addPositionChaingedObserver( Object obj ) {
+        positionChaingedObserver.add(obj);
     }
 
     /**
      * Tell all Hyper observers of change.
      */
-    public void notifyChange() {
-        Iterator it = HyperObservers.iterator();
+    public void notifyPositionMoved( double x, double y ) {
+        Iterator it = positionChaingedObserver.iterator();
         while( it.hasNext() ) {
-            HyperNodeObserver hno = (HyperNodeObserver)it.next();
-            hno.update( hno );
+            PositionChaingedObserver hno = (PositionChaingedObserver)it.next();
+            hno.positionUpdate( x, y );
         }
     }
     /**
      * Update method called from obserable (GraphNode)
      */
     public void update( Object obj ) {
-        System.out.println("HyperNode method update: " + getName());
-    }
-
-    /**
-     * Get the current NodeObserver.
-     */
-    public NodeObserver getNodeObserver() {
-        return this;
+        Iterator it = focusListener.iterator();
+        while( it.hasNext() ) {
+            FocusChangedObserver fo = (FocusChangedObserver)it.next();
+            fo.focusChanged( this );
+        }
     }
 
     /**
      * Get the concept name.
      */
     public String getName() {
-        return name;
+        return this.graphNode.getName();
     }
 
     /**
@@ -125,14 +139,14 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
         return this.position.distance(other.position);
     }
 
-    public void setLocation(double x, double y ) {
+    public void setLocation( double x, double y ) {
         position.setLocation( x, y );
-        notifyChange();
+        notifyPositionMoved( x, y);
     }
 
 
     public String toString() {
-        return name;
+        return this.graphNode.getName();
     }
 
 }

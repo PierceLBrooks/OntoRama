@@ -9,14 +9,14 @@ import ontorama.hyper.canvas.CanvasItem;
 //import hyper.canvas.CanvasItem;
 import ontorama.hyper.model.HyperNode;
 //import hyper.model.Position3D;
-import ontorama.hyper.model.HyperNodeObserver;
+import ontorama.hyper.model.PositionChaingedObserver;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.Iterator;
 
-public class HyperNodeView extends CanvasItem implements HyperNodeObserver{
+public class HyperNodeView extends CanvasItem implements PositionChaingedObserver {
 
         /**
      * Hold the model for this view.
@@ -97,15 +97,15 @@ public class HyperNodeView extends CanvasItem implements HyperNodeObserver{
 
     public HyperNodeView( HyperNode model ) {
         this.model = model;
-        model.addHyperObserver(this);
-        project();
+        model.addPositionChaingedObserver( this );
+        project( model.getX(), model.getY() );
     }
 
     /**
-     * Notify observer of change in model.
+     * Update observer of change in model.
      */
-    public void update( Object obj ) {
-        project();
+    public void positionUpdate( double x, double y ) {
+        project( x, y);
     }
 
     /**
@@ -129,9 +129,9 @@ public class HyperNodeView extends CanvasItem implements HyperNodeObserver{
     /**
      * Project the model coordinates into the hyperbolic plana.
      */
-    public void project() {
-        double x = model.getX();
-        double y = model.getY();
+    public void project( double x, double y ) {
+        //double x = model.getX();
+        //double y = model.getY();
         double length = Math.sqrt( x*x + y*y + focalDepth*focalDepth );
         double scale = sphereRadius / length;
         projectedX = scale * x;

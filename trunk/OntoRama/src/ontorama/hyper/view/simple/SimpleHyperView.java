@@ -22,7 +22,7 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 100;
+    private static double springLength = 150;
 
     public SimpleHyperView() {
         this.addMouseListener( this );
@@ -40,8 +40,7 @@ public class SimpleHyperView  extends CanvasManager {
         Iterator it = graph.iterator();
         while( it.hasNext() ) {
             GraphNode gn = (GraphNode)it.next();
-            HyperNode hn = new HyperNode( gn.getName() );
-            gn.addObserver( hn.getNodeObserver() );
+            HyperNode hn = new HyperNode( gn );
             hypernodes.put( gn, hn );
         }
         GraphNode root = graph.getRootNode();
@@ -56,10 +55,12 @@ public class SimpleHyperView  extends CanvasManager {
         while( it.hasNext() ) {
             HyperNode node = (HyperNode)it.next();
             HyperNodeView hnv = new HyperNodeView( node );
-            node.addHyperObserver( hnv );
+            //node.addHyperObserver( hnv );
+            // add focus changed observers
+            node.addFocusChangedObserver( this );
             canvasItems.add( hnv );
         }
-        System.out.println("Repainting hyper view");
+
         repaint();
     }
 

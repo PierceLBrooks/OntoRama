@@ -1,6 +1,5 @@
 package ontorama.views.tree.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -184,18 +183,13 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         g2.setColor(Color.white);
         g2.fillRect(0, 0, width, height);
         g2.drawRect(0, 0, width, height);
-
-        int x1 = 0;
+        
+        int x1 = width/3;
         int y1 = height / 2;
-        int x2 = width;
+        int x2 = width - width/3;
         int y2 = y1;
 
-        float dash1[] = {1.0f};
-        BasicStroke dashed = new BasicStroke(0.01f, BasicStroke.CAP_BUTT,
-                                        BasicStroke.JOIN_MITER, 1.0f, dash1, 0.0f);
-
         g2.setColor(_lineColor);
-        g2.setStroke(dashed);
         g2.drawLine(x1, y1, x2, y2);
 
         return (new ImageIcon(image));

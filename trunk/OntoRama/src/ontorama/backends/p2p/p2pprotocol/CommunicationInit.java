@@ -25,8 +25,8 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-public class CommunicationInit extends Communication {
-//public class CommunicationInit {
+//public class CommunicationInit extends Communication {
+public class CommunicationInit {
 	private CommunicationProtocolJxta commProt = null;
 
     private Hashtable inputPipes = null;
@@ -39,8 +39,8 @@ public class CommunicationInit extends Communication {
     * toRama 1.0.0
     *
     */     
-	public CommunicationInit(CommunicationProtocolJxta obj) {
-		commProt = obj;
+	public CommunicationInit(CommunicationProtocolJxta commProt) {
+		this.commProt = commProt;
         this.inputPipes = new Hashtable();
 	}
 	
@@ -56,11 +56,11 @@ public class CommunicationInit extends Communication {
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			PeerGroup newPeerGroup = PeerGroupFactory.newPlatform();
 			System.out.println("newPeerGroup: name = " + newPeerGroup.getPeerGroupName() + ", id = " + newPeerGroup.getPeerGroupID());
-			this.setGlobalPlatform(newPeerGroup);
-			System.out.println("getGlobalPlatform(): name  = " + this.getGlobalPlatform().getPeerGroupName() + ", id = " + this.getGlobalPlatform().getPeerGroupID());
-			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform());
+			this.commProt.setGlobalPlatform(newPeerGroup);
+			System.out.println("getGlobalPlatform(): name  = " + this.commProt.getGlobalPlatform().getPeerGroupName() + ", id = " + this.commProt.getGlobalPlatform().getPeerGroupID());
+			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.commProt.getGlobalPlatform());
 			System.out.println("pg: name =  " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
-			this.setGlobalPG(pg);
+			this.commProt.setGlobalPG(pg);
 		} catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
 		} catch (ClassNotFoundException e) {
@@ -102,7 +102,6 @@ public class CommunicationInit extends Communication {
 		try {
 			//Create a listerner to listen for incomming messages to a pipe
 			pipeMessageListener = new InputPipeListener(this.commProt,
-														this,
 														commProt.getRecieverObject());
 
 			//Create a new inputPipe from adverisement and pipeMessageListerner
@@ -116,7 +115,7 @@ public class CommunicationInit extends Communication {
 			discServ.remotePublish(pipeAdvert,DiscoveryService.ADV);
 					
 			//SEts the PipeAdvertisement
-			this.setOutputPropagatePipe(pg.getPeerGroupID(),outputPipe);
+			this.commProt.setOutputPropagatePipe(pg.getPeerGroupID(),outputPipe);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -150,7 +149,6 @@ public class CommunicationInit extends Communication {
 		try {
 			//Create a listerner to listen for incomming messages to a pipe
 			pipeMessageListener = new InputPipeListener(this.commProt,
-														this,
 														commProt.getRecieverObject());
 	
 			//Create a new inputPipe from adverisement and pipeMessageListerner
@@ -166,7 +164,7 @@ public class CommunicationInit extends Communication {
 									DiscoveryService.ADV,
 									30*1000);
 									
-			this.setInputPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
+			this.commProt.setInputPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();

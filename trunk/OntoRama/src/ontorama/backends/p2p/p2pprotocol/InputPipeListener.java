@@ -20,7 +20,6 @@ import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 */
 
 public class InputPipeListener implements PipeMsgListener {
-	private CommunicationInit comm = null;
 	private P2PRecieverInterface reciever = null;
 	private CommunicationProtocolJxta commProt = null;
 
@@ -33,10 +32,9 @@ public class InputPipeListener implements PipeMsgListener {
 	* 
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public InputPipeListener (CommunicationProtocolJxta commProt, CommunicationInit comm, P2PRecieverInterface recieverObject) {
+	public InputPipeListener (CommunicationProtocolJxta commProt, P2PRecieverInterface recieverObject) {
 		this.reciever = recieverObject;		
 		this.commProt = commProt;
-		this.comm = comm;
 	}
 
 	/** 
@@ -59,11 +57,11 @@ public class InputPipeListener implements PipeMsgListener {
 
             //Only process messages that this peer has not sent
             if (!(senderPeerIDStr.equals(
-					Communication.getGlobalPG().getPeerID().toString()))) {
+				this.commProt.getGlobalPG().getPeerID().toString()))) {
 
 
                 switch(new Integer(var).intValue()) {
-                    case Communication.TAGPROPAGATE :
+                    case CommunicationProtocolJxta.TAGPROPAGATE :
                         this.getP2PReciever().recievePropagateCommand(
                                                         new Integer(message.getString("propType")).intValue(),
                                                         message.getString("SenderPeerID"),
@@ -71,18 +69,18 @@ public class InputPipeListener implements PipeMsgListener {
                                                         message.getString("GroupID"),
                                                         message.getString("Body"));
                         break;
-                    case Communication.TAGLOGOUT :
+                    case CommunicationProtocolJxta.TAGLOGOUT :
                         this.getP2PReciever().recieveLogoutCommand(message.getString("SenderPeerID"));
                         break;
-                    case Communication.TAGSEARCH :
+                    case CommunicationProtocolJxta.TAGSEARCH :
 
                         this.getP2PReciever().recieveSearchRequest(message.getString("SenderPipeID"),
                                                                    message.getString("Body"));
                         break;
-                    case Communication.TAGSEARCHRESPONSE :
+                    case CommunicationProtocolJxta.TAGSEARCHRESPONSE :
                         this.recieveSearchResponse(message);
                         break;
-                    case Communication.TAGFLUSHPEER :
+                    case CommunicationProtocolJxta.TAGFLUSHPEER :
                         this.recieveFlushPeerAdvertisement(message.getString("GroupID"),
                                                             message.getString("PeerID"));
                         break;
@@ -107,7 +105,7 @@ public class InputPipeListener implements PipeMsgListener {
                     
         responsePeerID = response.getString("SenderPeerID");
         responseText = response.getString("Body");            
-        this.comm.getSearchResult().add(new SearchResultElement(responsePeerID, responseText)); 
+        this.commProt.getSearchResult().add(new SearchResultElement(responsePeerID, responseText)); 
     }
 
 

@@ -34,28 +34,21 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-//public class CommunicationGroup extends Communication {
 public class CommunicationGroup  {
 
-//	private CommunicationProtocol commProt = null;
-
-	private Communication comm;
-
-	//Keeps track of which group this peer belongs to
-	private Hashtable _memberOfGroups;
+	// Keeps track of which group this peer belongs to
+	// keys - PeerGroupID, values - PeerGroup
+	private Hashtable memberOfGroups;
+	
+	private CommunicationProtocolJxta commProt;
 	
 	
 	
 	private Hashtable createdGroups = null;
 
-	public CommunicationGroup(Communication comm) {
-//		public CommunicationGroup(CommunicationProtocolJxta commProt) {
-//		this.commProt = commProt;
-
-		this.comm = comm;
-		
-		_memberOfGroups = new Hashtable();
-		
+	public CommunicationGroup(CommunicationProtocolJxta commProt) {
+		this.commProt = commProt;
+		this.memberOfGroups = new Hashtable();
 		this.createdGroups = new Hashtable();
 	}
 
@@ -77,10 +70,10 @@ public class CommunicationGroup  {
 
 		//Get the ModuleImplAdvertisement
 		try {
-			implAdv = Communication.getGlobalPG().getAllPurposePeerGroupImplAdvertisement();
+			implAdv = this.commProt.getGlobalPG().getAllPurposePeerGroupImplAdvertisement();
 
 			//Create group
-			pg = Communication.getGlobalPG().newGroup(null,implAdv, name,descr);
+			pg = this.commProt.getGlobalPG().newGroup(null,implAdv, name,descr);
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
 			
@@ -120,7 +113,7 @@ public class CommunicationGroup  {
             } else {
                 pg = (PeerGroup) this.createdGroups.get(groupID);
                 if (null == pg) {         
-                  pg = Communication.getGlobalPG().newGroup(groupID);
+                  pg = this.commProt.getGlobalPG().newGroup(groupID);
                 } 
                 this.joinGroup(pg);
             }
@@ -205,7 +198,7 @@ public class CommunicationGroup  {
 
 		//Get PeerGroup
 		try {
-			pg = Communication.getGlobalPG().newGroup(groupID);
+			pg = this.commProt.getGlobalPG().newGroup(groupID);
 		} catch (PeerGroupException e) {
 			throw new GroupException(e, "The group does not exist");
 		}
@@ -230,7 +223,7 @@ public class CommunicationGroup  {
 
 
 			//Flushs the advertisment from the parent group (in this case the Global Group)
-			DiscoveryService discServGlobal = Communication.getGlobalPG().getDiscoveryService();
+			DiscoveryService discServGlobal = this.commProt.getGlobalPG().getDiscoveryService();
 			discServGlobal.flushAdvertisements(groupIDasString, DiscoveryService.GROUP);
 
 			//if left group, then update memberOfGroups
@@ -243,7 +236,7 @@ public class CommunicationGroup  {
 			
 			//remove the inputpipe by flushing it from local cache
 //			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
-			pipeAdv = this.comm.getInputPipeAdvertisement(pg.getPeerGroupID());
+			pipeAdv = this.commProt.getInputPipeAdvertisement(pg.getPeerGroupID());
 			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
 									+ pipeAdv);
 			if (pipeAdv == null) {
@@ -279,7 +272,7 @@ public class CommunicationGroup  {
 								throws GroupExceptionThread, IOException {
 									
 		Vector result = new Vector();
-		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
+		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
 		PeerGroupAdvertisement pgAdv = null;
 		Enumeration enum = null;
 				
@@ -341,7 +334,7 @@ public class CommunicationGroup  {
 		
 		PeerAdvertisement peerAdv = null;
 		PeerGroup pg = null;
-		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();		
+		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();		
         Enumeration enum1 = null;
 		Enumeration enum = null;
        		
@@ -389,25 +382,25 @@ public class CommunicationGroup  {
 	
 	
 	protected void addToMemberOfGroups (PeerGroup pg) {
-		_memberOfGroups.put(pg.getPeerGroupID(), pg);
+		memberOfGroups.put(pg.getPeerGroupID(), pg);
 	}
 	
 	protected Collection memberOfGroupsByValues () {
-		return _memberOfGroups.values();
+		return memberOfGroups.values();
 	}
 
 	protected Enumeration memberOfGroupsEnumeration () {
-		return _memberOfGroups.elements();
+		return memberOfGroups.elements();
 	}
 	
 	protected void removeFromMemberOfGroups (String groupIDasString) {
 		PeerGroup pg = getPeerGroupFromMemberOfGroups(groupIDasString);
-		if (pg != null) {_memberOfGroups.remove(pg.getPeerGroupID());
+		if (pg != null) {memberOfGroups.remove(pg.getPeerGroupID());
 		}
 	}
 
 	protected PeerGroup getPeerGroupFromMemberOfGroups (String groupIDasString) {
-		Enumeration enum = _memberOfGroups.elements();
+		Enumeration enum = memberOfGroups.elements();
 		while (enum.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) enum.nextElement();
 			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
@@ -418,7 +411,7 @@ public class CommunicationGroup  {
 	}
 	
 	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
-		return _memberOfGroups.containsKey(peerGroupId);
+		return memberOfGroups.containsKey(peerGroupId);
 	}
 	
 	
@@ -431,7 +424,7 @@ public class CommunicationGroup  {
 	protected PeerGroupID getPeerGroupID(String groupIDasString) {
 		PeerGroupID retVal = null;
 		PeerGroupAdvertisement pgAdv = null;
-		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
+		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
 		Enumeration enum = null;
 		try {
 			enum = discServ.getLocalAdvertisements(
@@ -461,7 +454,7 @@ public class CommunicationGroup  {
 	protected PeerGroup getPeerGroup(String groupIDasString) {
 		PeerGroup pg = null;
 		try {
-			pg = Communication.getGlobalPG().newGroup(this.getPeerGroupID(groupIDasString));
+			pg = this.commProt.getGlobalPG().newGroup(this.getPeerGroupID(groupIDasString));
 		} catch (PeerGroupException e) {
 			System.out.println("Error");
 			e.printStackTrace();			
@@ -470,32 +463,31 @@ public class CommunicationGroup  {
 	}
 	
 	
+	public Vector peerDiscoveryForGlobalGroup () {
+		PeerGroup globalGroup = this.commProt.getGlobalPG();
+		Vector result = new Vector();
+		try {
+			DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
+			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
+											null,null,	10);
+			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
+													null,null);
+			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
+			while (e.hasMoreElements()){
+				Object obj = e.nextElement();
+				System.out.println("obj = " + obj);
+				PeerAdvertisement cur = (PeerAdvertisement) obj;
+				ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
+				System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
+			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
+			  	result.addElement(element);
+			}
+		}
+		catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return result;
+	}
 	
-
-//	private void removeElementFromMembersOfGroup(String groupIDasString) {
-//		Enumeration enum = this.getMemberOfGroups().elements();
-//		
-//		PeerGroup pg = null;
-//		int i = 0;
-//		
-//		while (enum.hasMoreElements()) {
-//			pg = (PeerGroup) enum.nextElement();
-//			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
-//				this.getMemberOfGroups().remove(pg);
-//			} 
-//			i++;
-//		}
-//	}
-
-//	private void printMembers() {
-//		Enumeration enum = this.getMemberOfGroups().elements();
-//		PeerGroup pg = null;
-//		
-//		System.err.println("This are the members in mermbersOfGroup");
-//		
-//		while (enum.hasMoreElements()) {
-//			pg = (PeerGroup) enum.nextElement();
-//			System.err.println("PG:" + pg.getPeerGroupName());	
-//		}
-//	}
 }

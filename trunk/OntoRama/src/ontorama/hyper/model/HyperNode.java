@@ -176,7 +176,7 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Set a new location for the Hypernode.
      *
-     * Notify view of change of position.
+     * Notify ui of change of position.
      */
     public void setLocation(double x, double y) {
         position.setLocation(x, y);

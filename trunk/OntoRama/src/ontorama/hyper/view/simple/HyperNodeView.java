@@ -32,7 +32,7 @@ import org.tockit.canvas.CanvasItem;
 public class HyperNodeView extends CanvasItem implements PositionChangedObserver {
 
     /**
-     * Hold the model for this view.
+     * Hold the model for this ui.
      */
     private HyperNode model;
 
@@ -75,7 +75,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private Color fadeColor = nodeColor;
 
     /**
-     * Holds the current node view radius.
+     * Holds the current node ui radius.
      */
     private double viewRadius;
 
@@ -87,7 +87,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
 
 
     /**
-     * Stores if this view is visible.
+     * Stores if this ui is visible.
      */
     private boolean isVisible = true;
 
@@ -163,7 +163,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Set if view is folded.
+     * Set if ui is folded.
      */
     public void setFolded(boolean state) {
 //        System.out.println("HyperNodeView: " + this.getGraphNode().getName() + " folded state is being set to " + state);
@@ -171,7 +171,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Get if view is folded.
+     * Get if ui is folded.
      */
     public boolean getFolded() {
         return this.getGraphNode().getFoldedState();
@@ -179,14 +179,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Set if view is visible.
+     * Set if ui is visible.
      */
     public void setVisible(boolean state) {
         this.isVisible = state;
     }
 
     /**
-     * Get if view is visible.
+     * Get if ui is visible.
      */
     public boolean getVisible() {
         return this.isVisible;
@@ -286,7 +286,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Method called to find nearest node view to mouse pointer.
+     * Method called to find nearest node ui to mouse pointer.
      */
     public boolean isNearestItem(double scrX, double scrY) {
         return false;
@@ -323,7 +323,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Return the node view radius.
+     * Return the node ui radius.
      */
     public double getViewRadius() {
         return viewRadius;
@@ -456,7 +456,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     public String toString() {
-        return "Node view for " + this.model.getName();
+        return "Node ui for " + this.model.getName();
     }
 
 	public static double getRelativeFocus() {

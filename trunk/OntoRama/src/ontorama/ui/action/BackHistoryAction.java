@@ -1,4 +1,4 @@
-package ontorama.view.action;
+package ontorama.ui.action;
 
 import java.awt.event.ActionEvent;
 
@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 
-import ontorama.view.HistoryMenu;
+import ontorama.ui.HistoryMenu;
 
 
 /**

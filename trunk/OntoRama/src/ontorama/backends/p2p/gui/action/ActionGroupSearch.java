@@ -9,7 +9,7 @@ import javax.swing.AbstractAction;
 import ontorama.backends.p2p.gui.GroupSearchDialog;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 
 /*
  * Created by IntelliJ IDEA.

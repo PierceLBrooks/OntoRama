@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 
 import ontorama.backends.p2p.gui.JoinGroupDialog;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 
 /*
  * Created by IntelliJ IDEA.

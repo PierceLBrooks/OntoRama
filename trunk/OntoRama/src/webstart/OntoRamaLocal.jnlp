@@ -10,7 +10,7 @@
 		<icon href="img/OntoramaLogo-smaller.jpg"/>
 		<offline-alowed/>
 	</information>
-	<application-desc main-class="ontorama.view.OntoRamaApp"/>
+	<application-desc main-class="ontorama.ui.OntoRamaApp"/>
     <resources>
         <j2se version="1.4"/>
         <jar href="OntoRama.jar"/>

@@ -25,7 +25,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
 
     /**
      * Create multi values panel that can be used as
-     * a component in the description view.
+     * a component in the description ui.
      * This panel will consist of label that describes
      * name of the property we want to display and of
      * another subpanel that will contain list of values

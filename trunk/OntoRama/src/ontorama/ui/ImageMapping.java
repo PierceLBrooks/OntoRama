@@ -1,4 +1,4 @@
-package ontorama.view;
+package ontorama.ui;
 
 import java.net.URL;
 

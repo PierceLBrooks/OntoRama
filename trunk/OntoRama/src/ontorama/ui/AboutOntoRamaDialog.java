@@ -1,4 +1,4 @@
-package ontorama.view;
+package ontorama.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

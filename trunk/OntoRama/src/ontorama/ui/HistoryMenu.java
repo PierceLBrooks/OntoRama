@@ -1,4 +1,4 @@
-package ontorama.view;
+package ontorama.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

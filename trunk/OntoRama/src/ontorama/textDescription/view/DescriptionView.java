@@ -125,7 +125,7 @@ public class DescriptionView extends JPanel implements GraphView {
         rightSubPanel.setLayout(new BoxLayout(rightSubPanel, BoxLayout.Y_AXIS));
         rightSubPanel.setBorder(BorderFactory.createEtchedBorder());
 
-        // add panels to the view
+        // add panels to the ui
         Enumeration propPanelsEnum = _nodePropertiesPanels.keys();
         while (propPanelsEnum.hasMoreElements()) {
             String propName = (String) propPanelsEnum.nextElement();

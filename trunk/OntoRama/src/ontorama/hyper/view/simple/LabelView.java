@@ -18,7 +18,7 @@ import org.tockit.canvas.CanvasItem;
 public class LabelView extends CanvasItem {
 
     /**
-     * Hold the model for this view.
+     * Hold the model for this ui.
      */
     private HyperNodeView hyperNodeView = null;
 

@@ -8,7 +8,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 
 import ontorama.backends.filemanager.FileBackend;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 
 /*
  * Created by IntelliJ IDEA.

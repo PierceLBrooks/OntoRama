@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ontorama.backends.BackendSearch;
-import ontorama.view.ErrorPopupMessage;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.OntoRamaApp;
 import ontorama.webkbtools.query.Query;
 
 /*

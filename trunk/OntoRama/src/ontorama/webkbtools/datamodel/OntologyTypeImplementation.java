@@ -36,7 +36,8 @@ public class OntologyTypeImplementation implements OntologyType {
   private LinkedList[] relationshipTypes = new LinkedList[OntoramaConfig.MAXTYPELINK + 1];
 
   /**
-   *
+   * keys - string, property name
+   * values - linked list of property values
    */
    private Hashtable typeProperties = new Hashtable();
 

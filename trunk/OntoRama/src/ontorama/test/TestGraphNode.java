@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import ontorama.model.GraphNode;
 import ontorama.model.NoTypeFoundInResultSetException;
 
+import ontorama.webkbtools.util.NoSuchPropertyException;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -45,7 +47,7 @@ public class TestGraphNode extends TestCase {
   /**
    *
    */
-  protected void setUp() {
+  protected void setUp () throws NoSuchPropertyException {
     node1 = new GraphNode("node1");
     node2 = new GraphNode("node2");
     node3 = new GraphNode("node3");
@@ -73,7 +75,7 @@ public class TestGraphNode extends TestCase {
   /**
    *
    */
-  public void testSetProperty () {
+  public void testSetProperty () throws NoSuchPropertyException {
     node2.setProperty(propName, propValue);
 
     List node2PropValue = node2.getProperty(propName);
@@ -85,7 +87,7 @@ public class TestGraphNode extends TestCase {
   /**
    *
    */
-  public void testGetProperty () {
+  public void testGetProperty () throws NoSuchPropertyException {
     // test when we do have a property
     List node1PropValue = node1.getProperty(propName);
     assertEquals(propValue.size(), node1PropValue.size());
@@ -121,7 +123,7 @@ public class TestGraphNode extends TestCase {
    * all clones of node2 as well. Vice Versa, testCloneNode should
    * have node2 and all it's clones in the clones list
    */
-  public void testMakeClone () {
+  public void testMakeClone () throws NoSuchPropertyException{
 
     GraphNode testCloneNode = node2.makeClone();
 

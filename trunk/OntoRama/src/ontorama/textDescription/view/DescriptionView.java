@@ -29,6 +29,8 @@ import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
 
+import ontorama.webkbtools.util.NoSuchPropertyException;
+
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
 
@@ -177,15 +179,22 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
   }
 
   /**
-   *
+   * @todo  check if its safe to ignore NoSuchPropertyException (probably is safe
+   *        for browsing the ontology only. Could be a different story when we
+   *        are editing it )
    */
   public void setFocus (GraphNode node) {
       Enumeration e = this.nodePropertiesPanels.keys();
       while (e.hasMoreElements()) {
         String propertyName = (String) e.nextElement();
-        NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
-        propPanel.update(node.getProperty(propertyName));
-
+        try {
+          NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
+          propPanel.update(node.getProperty(propertyName));      }
+        catch (NoSuchPropertyException exc) {
+          // this exception should have been caught when building the graph
+          // we are displaying, so it should be safe to ignore it here
+          System.err.println("NoSuchPropertyException exception: " + exc);
+        }
       }
       // deal with clones
       clonesPanel.update(node.getClones());

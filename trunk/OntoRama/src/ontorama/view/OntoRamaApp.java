@@ -38,7 +38,6 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
-import ontorama.model.GraphBuilder;
 import ontorama.model.NoTypeFoundInResultSetException;
 
 import ontorama.hyper.view.simple.SimpleHyperView;
@@ -73,6 +72,7 @@ public class OntoRamaApp extends JFrame {
      * holds graph
      */
     private Graph graph;
+
 
     /**
      *
@@ -322,13 +322,15 @@ public class OntoRamaApp extends JFrame {
      *
      */
     public Graph getGraphFromQuery (Query query) {
+
       Graph graph = null;
       try {
           QueryEngine queryEngine = new QueryEngine (query);
           QueryResult queryResult = queryEngine.getQueryResult();
 
-          GraphBuilder graphBuilder = new GraphBuilder(queryResult);
-          graph = graphBuilder.getGraph();
+          //GraphBuilder graphBuilder = new GraphBuilder(queryResult);
+          graph = new Graph(queryResult);
+          //graph = graphBuilder.getGraph();
           //System.out.println(graph.printXml());
       }
       catch (NoTypeFoundInResultSetException noTypeExc) {

@@ -55,7 +55,22 @@ public class GraphNode implements Cloneable {
      */
     public GraphNode( String name ) {
         this.name = name;
+        initNodeProperties();
     }
+
+    /**
+     * @todo    this method is the same as intiConceptTypeProperties in
+     *          OntologyTypeImplementation... check if there is a way to remove
+     *          this redunancy!
+     */
+    private void initNodeProperties() {
+      Enumeration propertiesList = OntoramaConfig.getConceptPropertiesTable().keys();
+      while (propertiesList.hasMoreElements()) {
+        String propName = (String) propertiesList.nextElement();
+        nodeDetails.put(propName,new LinkedList());
+      }
+    }
+
 
     /**
      * Return GraphNodes name/title.
@@ -149,7 +164,7 @@ public class GraphNode implements Cloneable {
      *
      * @return cloneNode
      */
-    public GraphNode makeClone ()   {
+    public GraphNode makeClone ()  throws NoSuchPropertyException {
         // clone curNode to cloneNode
         GraphNode cloneNode = new GraphNode(name);
 
@@ -186,9 +201,10 @@ public class GraphNode implements Cloneable {
      *
      * @param   propertyName - name of property to set
      * @param   propertyValue - value for this property
-     * @todo    should we throw NoSuchPropertyException?
+     * @trows   NoSuchPropertyException
      */
-    public void setProperty (String propertyName, List propertyValue) {
+    public void setProperty (String propertyName, List propertyValue)
+                          throws NoSuchPropertyException {
         nodeDetails.put(propertyName, propertyValue);
     }
 
@@ -196,28 +212,10 @@ public class GraphNode implements Cloneable {
      * Get property value for given property name
      *
      * @param   propertyName
-     * @todo    should we throw NoSuchPropertyException?
-     * @todo    not sure if it's a good idea to return new LinkedList
-     *          if our property has not been set. If we don't return
-     *          new list - then we will get null and null pointer exceptions
-     *          everywhere and will need to check it every time we use this
-     *          method => not easily maintainable code.
-     *          If we assume that all graph nodes are created from ontology
-     *          type, then this situation shouldn't occur. But is it a safe
-     *          assumption????...  probably not, one case i can think of - test
-     *          cases for graph node where graph nodes are not created
-     *          from an ont.type
-     *          Or should graph node be initialised with initialised set of
-     *          concept properties (as it is in ontology type)? In this case
-     *          it looks as graph node and ontology type will have redunant
-     *          code...
+     * @throw   NoSuchPropertyException
      */
-    public List getProperty (String propertyName) {
-        if (nodeDetails.containsKey(propertyName)) {
-            return (List) nodeDetails.get(propertyName);
-        }
-        return new LinkedList();
-        //return null;
+    public List getProperty (String propertyName) throws NoSuchPropertyException {
+        return (List) nodeDetails.get(propertyName);
     }
 
     /**

@@ -203,14 +203,7 @@ public class RdfP2pParser implements Parser {
         Iterator resBindIterator = resBindList.iterator();
         while (resBindIterator.hasNext()) {
             ResultBinding cur = (ResultBinding) resBindIterator.next();
-            Set resultTriples = cur.getTriples();
-            Iterator triplesIt = resultTriples.iterator();
-            while (triplesIt.hasNext()) {
-                Statement triple = (Statement) triplesIt.next();
-                Object mainNode = triple.getObject();
-                mainNodeName = mainNode.toString();
-            }
-
+            mainNodeName = cur.getValue("z").toString();
         }
         return mainNodeName;
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html>
+	<head>
+		<title>OntoRama Documentation: Introduction</title>
+	</head>
+	<body>
+		<h1 align="center">
+			What is OntoRama for?
+		</h1>
+		<p>
+			Ontorama is an Ontology browser.
+		</p>
+		<p>
+			This tool is intended to be a <b>generic ontology browser</b>. 
+		</p>
+		<p>
+			We model an ontology as a Graph with a set of nodes
+			and edges. Each Node can have certain properties (description, creator for instance) which are configurable. Edges are
+			relation links that connect nodes. These links can be of different types (subtype, partOf, etc). These types
+			are fully configurable. See 'Configuration' section for more details on config.
+		</p>
+		<p>
+			An ontology term can have more then one supertype, thus resulting in a graph node with multipe parents
+			(inbound edges). This could be dificult to display and resulting visualisation could be confusing for a
+			user. Thus, we clone nodes that have multiple inheritance. Each cloned node 'knows' about its clones and
+			vice versa.
+			[..... how user can see that, example....]
+		</p>
+		<p>
+
+
+We have used RDF-based ontologies as an input source format. This
+approach has the following benefits and disadvatages. Benefits are: RDF
+is a widely used standard for knowledge exchange. Here is a quote from
+W3C RDF website: "The RDF specifications provide a lightweight ontology
+system to support the exchange of knowledge on the Web." Thus, by using
+RDF we hope we should be able to process wider selection of ontologies.
+Another advantage is technical: access to a good selection of RDF
+libraries. We also are planning to adapt DAML compliant RDF in the
+future and this transition should be quite smooth since we are already
+using RDF format.
+
+Disadvantages are: firstly, some of RDF ontologies that we came across
+are not strictly hierarchical. Some ontology items are not reachable by
+following subtype relation links from the top (root) item. OntoRama
+relies on a fact that all it's items are interconnected and are directly
+or indirectly connected to the top ontology item. Secondly, OntoRama at
+the moment only displays concept types (represented by Classes in RDF)
+and ignores relation types (represented by Properties). Thus, we are
+loosing some information from RDF ontologies since we can't display it.
+</p>
+
+		<p>
+			
+		</p>
+		<p>
+			Some conventions:
+			<br/>
+			To simplify the drawings, a common convention is to omit the arrows that show the direction of the ordering and to assume that the lower node represents a subtype of the higher node.
+			(http://www.jfsowa.com/ontology/ontoshar.htm#s1)
+			<br/>
+		</p>
+		
+	</body>
+</html>

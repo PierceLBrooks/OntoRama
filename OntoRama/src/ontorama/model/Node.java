@@ -100,4 +100,8 @@ public interface Node {
      */
     public void setCreatorUri(URI creatorUri);
 
+    public void setNodeType (NodeType nodeType);
+
+    public NodeType getNodeType ();
+
 }

@@ -32,6 +32,11 @@ public class NodeImpl implements Cloneable, Node {
     private URI creatorUri;
 
     /**
+     * store type of this node
+     */
+    private NodeType nodeType;
+
+    /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
     private int depth = 0;
@@ -212,6 +217,14 @@ public class NodeImpl implements Cloneable, Node {
      */
     public void setCreatorUri(URI creatorUri) {
         this.creatorUri = creatorUri;
+    }
+
+    public void setNodeType(NodeType nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public NodeType getNodeType() {
+        return this.nodeType;
     }
 
     /**

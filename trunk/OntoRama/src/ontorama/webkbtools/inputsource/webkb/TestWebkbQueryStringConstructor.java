@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.cgi;
+package ontorama.webkbtools.inputsource.webkb;
 
 import junit.framework.TestCase;
 

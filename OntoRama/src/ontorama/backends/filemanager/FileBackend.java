@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.DataFormatMapping;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.p2p.model.P2PEdge;
@@ -51,6 +53,8 @@ public class FileBackend implements Peer2PeerBackend{
     private List panels = null;
     private EventBroker eventBroker;
     private String filename;
+    
+    private List _dataFormatsMapping = new LinkedList();
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
@@ -84,6 +88,17 @@ public class FileBackend implements Peer2PeerBackend{
         this.graph = new P2PGraphImpl();
         //We don't have any panels to this backend
         this.panels = new LinkedList();
+        
+    	/// @todo  data formats should be read from the config files.
+    	DataFormatMapping rdfDataFormat = new DataFormatMapping("RDF", "rdf",
+    						"ontorama.ontotools.parser.rdf.RdfDamlParser",
+    						"ontorama.ontotools.writer.rdf.RdfModelWriter");
+    	_dataFormatsMapping.add(rdfDataFormat);
+
+    	DataFormatMapping xmlDataFormat = new DataFormatMapping ("XML", "xml",
+    						"ontorama.ontotools.parser.xml.XmlParserFull",
+    						null);
+    	_dataFormatsMapping.add(xmlDataFormat);
     }
 
     public void setEventBroker(EventBroker eventBroker) {
@@ -200,6 +215,12 @@ public class FileBackend implements Peer2PeerBackend{
 	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType)
 							throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
+	}
+	/**
+	 * @see ontorama.backends.Backend#getDataFormats()
+	 */
+	public Collection getDataFormats() {
+		return _dataFormatsMapping;
 	}
 
 }

@@ -1,5 +1,6 @@
 package ontorama.backends;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -16,7 +17,6 @@ import org.tockit.events.EventBroker;
  * @author nataliya
  */
 /* Methods we want:
-Edge createEdge(...) // instead of constructor
 Collection getExportFormats() // returns (writer,format name, extension..)
 Parser getParser() // ???
 Graph search(Query)
@@ -32,6 +32,6 @@ public interface Backend {
 	
 	public Edge createEdge (Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException;
 	
-
+	public Collection getDataFormats();
 
 }

@@ -1,0 +1,379 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:base = "http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#"
+  xmlns:doc = "http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#"
+  xmlns:gen = "http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>university-ont, v.1.0</versionInfo>
+  <comment>An ontology for describing universities and the activities that occur at them.</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml" />
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml" />
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml" />
+</Ontology>
+
+<Class ID="TeachingAssistant">
+  <label>university teaching assistant</label>
+  <subClassOf resource="#Assistant" />
+</Class>
+
+<Property ID="teachingAssistantOf">
+  <label>is a teaching assistant for</label>
+  <domain resource="#TeachingAssistant" />
+  <range resource="#Course" />
+</Property>
+
+<Class ID="EducationOrganization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Class ID="Director">
+  <label>director</label>
+  <subClassOf resource="#AdministrativeStaff" />
+</Class>
+
+<Class ID="Employee">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Employee" />
+</Class>
+
+<Property ID="researchProject">
+  <label>has as a research project</label>
+  <domain resource="#ResearchGroup" />
+  <range resource="#Research" />
+</Property>
+
+<Property ID="subOrganizationOf">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#subOrganizationOf" />
+</Property>
+
+<Property ID="subject">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#subject" />
+</Property>
+
+<Class ID="Schedule">
+  <label>schedule</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="Faculty">
+  <label>faculty member</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Employee" />
+</Class>
+
+<Class ID="WorkshopPaper">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#WorkshopPaper" />
+</Class>
+
+<Class ID="Person">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Class>
+
+<Class ID="Journal">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Journal" />
+</Class>
+
+<Class ID="Student">
+  <label>student</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Class>
+
+<Class ID="FullProfessor">
+  <label>full professor</label>
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Property ID="head">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#head" />
+</Property>
+
+<Class ID="Dean">
+  <label>dean</label>
+  <subClassOf resource="#AdministrativeStaff" />
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Class ID="GraduateStudent">
+  <label>graduate student</label>
+  <subClassOf resource="#Student" />
+</Class>
+
+<Property ID="alumnus">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#alumnus" />
+</Property>
+
+<Property ID="publicationAuthor">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#author" />
+</Property>
+
+<Property ID="researchInterest">
+  <label>is researching</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="#Research" />
+</Property>
+
+<Class ID="DoctoralThesis">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#DoctoralThesis" />
+</Class>
+
+<Class ID="Organization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Class ID="Publication">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Publication" />
+</Class>
+
+<Class ID="AssociateProfessor">
+  <label>associate professor</label>
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Class ID="ConferencePaper">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#ConferencePaper" />
+</Class>
+
+<Class ID="Department">
+  <label>university department</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Class ID="Institute">
+  <label>institute</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Class ID="Program">
+  <label>program</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Class ID="Chair">
+  <label>chair</label>
+  <subClassOf resource="#AdministrativeStaff" />
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Property ID="doctoralDegreeFrom">
+  <label>has a doctoral degree from</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="#University" />
+</Property>
+
+<Class ID="Conference">
+  <label>conference</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Event" />
+</Class>
+
+<Property ID="affiliateOf">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#affiliateOf" />
+</Property>
+
+<Property ID="publisher">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#publisher" />
+</Property>
+
+<Property ID="offers">
+  <label>offers</label>
+  <domain resource="#University" />
+  <range resource="#Course" />
+</Property>
+
+<Property ID="publicationDate">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#publishDate" />
+</Property>
+
+<Class ID="Research">
+  <label>research work</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Work" />
+</Class>
+
+<Class ID="ResearchAssistant">
+  <label>university research assistant</label>
+  <subClassOf resource="#Assistant" />
+</Class>
+
+<Class ID="Professor">
+  <label>professor</label>
+  <subClassOf resource="#Faculty" />
+</Class>
+
+<Class ID="Lecturer">
+  <label>lecturer</label>
+  <subClassOf resource="#Faculty" />
+</Class>
+
+<Property ID="advisor">
+  <label>is being advised by</label>
+  <domain resource="#Student" />
+  <range resource="#Professor" />
+</Property>
+
+<Class ID="AdministrativeStaff">
+  <label>administrative staff worker</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Employee" />
+</Class>
+
+<Class ID="AssistantProfessor">
+  <label>assistant professor</label>
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Property ID="name">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#name" />
+</Property>
+
+<Class ID="BookArticle">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#BookArticle" />
+</Class>
+
+<Property ID="listedCourse">
+  <label>lists as a course</label>
+  <domain resource="#Schedule" />
+  <range resource="#Course" />
+</Property>
+
+<Class ID="SystemsStaff">
+  <label>systems staff worker</label>
+  <subClassOf resource="#AdministrativeStaff" />
+</Class>
+
+<Class ID="Book">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Book" />
+</Class>
+
+<Class ID="ResearchGroup">
+  <label>research group</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Property ID="takesCourse">
+  <label>is taking</label>
+  <domain resource="#Student" />
+  <range resource="#Course" />
+</Property>
+
+<Class ID="Work">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Work" />
+</Class>
+
+<Property ID="undergraduateDegreeFrom">
+  <label>has an undergraduate degree from</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="#University" />
+</Property>
+
+<Class ID="JournalArticle">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#JournalArticle" />
+</Class>
+
+<Class ID="PostDoc">
+  <label>post-doctorate</label>
+  <subClassOf resource="#Faculty" />
+</Class>
+
+<Class ID="MastersThesis">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#MastersThesis" />
+</Class>
+
+<Property ID="affiliatedOrganization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#affiliatedOrganization" />
+</Property>
+
+<Property ID="member">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#member" />
+</Property>
+
+<Property ID="teacherOf">
+  <label>teaches</label>
+  <domain resource="#Faculty" />
+  <range resource="#Course" />
+</Property>
+
+<Property ID="publicationResearch">
+  <label>is about</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Publication" />
+  <range resource="#Research" />
+</Property>
+
+<Class ID="VisitingProfessor">
+  <label>visiting professor</label>
+  <subClassOf resource="#Professor" />
+</Class>
+
+<Property ID="emailAddress">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#emailAddress" />
+</Property>
+
+<Property ID="containedIn">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#containedIn" />
+</Property>
+
+<Class ID="Assistant">
+  <label>assistant</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Employee" />
+</Class>
+
+<Class ID="Periodical">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Periodical" />
+</Class>
+
+<Class ID="Thesis">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Thesis" />
+</Class>
+
+<Property ID="tenured">
+  <label>is tenured:</label>
+  <domain resource="#Professor" />
+</Property>
+
+<Class ID="Article">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Article" />
+</Class>
+
+<Class ID="Course">
+  <label>teaching course</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Work" />
+</Class>
+
+<Property ID="mastersDegreeFrom">
+  <label>has a masters degree from</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="#University" />
+</Property>
+
+<Class ID="School">
+  <label>school</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Class ID="University">
+  <label>university</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#EducationOrganization" />
+</Class>
+
+<Property ID="publicationOrg">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#authorOrg" />
+</Property>
+
+<Class ID="UndergraduateStudent">
+  <label>undergraduate student</label>
+  <subClassOf resource="#Student" />
+</Class>
+
+<Class ID="ClericalStaff">
+  <label>clerical staff worker</label>
+  <subClassOf resource="#AdministrativeStaff" />
+</Class>
+
+<Class ID="Magazine">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Magazine" />
+</Class>
+
+<Class ID="Proceedings">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/docmnt1.0.daml#Proceedings" />
+</Class>
+
+</rdf:RDF>

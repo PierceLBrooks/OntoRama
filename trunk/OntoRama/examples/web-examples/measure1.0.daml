@@ -1,0 +1,94 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:base = "http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>measure-ont, v.1.0</versionInfo>
+  <comment>An ontology that models basic measurements and measurement units.</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml" />
+</Ontology>
+
+<rdf:Description ID="KG">
+  <type resource="#WeightUnit" />
+</rdf:Description>
+
+<rdf:Description ID="CM">
+  <type resource="#LengthUnit" />
+</rdf:Description>
+
+<rdf:Description ID="M">
+  <type resource="#LengthUnit" />
+</rdf:Description>
+
+<Class ID="VolumeUnit">
+  <subClassOf resource="#MeasurementUnit" />
+</Class>
+
+<rdf:Description ID="GRAM">
+  <type resource="#WeightUnit" />
+</rdf:Description>
+
+<Class ID="MeasurementUnit">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<rdf:Description ID="CM^3">
+  <type resource="#VolumeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="MONTH">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="M^3">
+  <type resource="#VolumeUnit" />
+</rdf:Description>
+
+<Class ID="WeightUnit">
+  <subClassOf resource="#MeasurementUnit" />
+</Class>
+
+<rdf:Description ID="MM">
+  <type resource="#LengthUnit" />
+</rdf:Description>
+
+<Class ID="TimeUnit">
+  <subClassOf resource="#MeasurementUnit" />
+</Class>
+
+<rdf:Description ID="HOUR">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+<Class ID="LengthUnit">
+  <subClassOf resource="#MeasurementUnit" />
+</Class>
+
+<rdf:Description ID="MIN">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="YEAR">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="DAY">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="KM">
+  <type resource="#LengthUnit" />
+</rdf:Description>
+
+<rdf:Description ID="MM^3">
+  <type resource="#VolumeUnit" />
+</rdf:Description>
+
+<rdf:Description ID="SEC">
+  <type resource="#TimeUnit" />
+</rdf:Description>
+
+</rdf:RDF>

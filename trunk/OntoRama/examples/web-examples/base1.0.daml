@@ -1,0 +1,55 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+>
+
+<Ontology about="">
+  <versionInfo>base-ontology, v.1.0</versionInfo>
+  <comment>The base SHOE ontology</comment>
+</Ontology>
+
+<Class ID="TRUTH">
+  <label>YES or NO</label>
+  <comment>A boolean YES or NO value</comment>
+</Class>
+
+<Class ID="STRING">
+  <label>A string</label>
+  <comment>An HTML 2.0 String Literal constant</comment>
+</Class>
+
+<Property ID="name">
+  <label>is called</label>
+  <domain resource="#Entity" />
+  <comment>A descriptive name for the instance.  This should be a (preferably singular or mass) noun or correctly cased proper noun.</comment>
+</Property>
+
+<Class ID="NUMBER">
+  <label>A number</label>
+  <comment>A floating-point numerical constant</comment>
+</Class>
+
+<Property ID="description">
+  <label>is described as</label>
+  <domain resource="#Entity" />
+  <comment>This is a human-readable description of a particular instance.</comment>
+</Property>
+
+<Class ID="SHOEEntity">
+  <label>SHOE Entity</label>
+  <subClassOf resource="#Entity" />
+  <comment>The preferred ancestor category of all SHOE categories defined outside this ontology.</comment>
+</Class>
+
+<Class ID="DATE">
+  <label>A date/time stamp</label>
+  <comment>An RFC 1123 Timestamp, as shown in section 3.3.1 of the HTTP/1.0 spec</comment>
+</Class>
+
+<Class ID="Entity">
+  <label>Entity</label>
+  <comment>The preferred ancestor category of all SHOE categories.  Do not subcategorize from this category--use SHOEEntity instead.</comment>
+</Class>
+
+</rdf:RDF>

@@ -1,0 +1,223 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:gen = "http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>beer-ont, v.1.0</versionInfo>
+  <comment>An ontology that models brewers and types of beer.</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml" />
+</Ontology>
+
+<Class ID="ScotchAle">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Class ID="Brewery">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Class ID="Perle">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Chinook">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Yeast">
+  <subClassOf resource="#Ingredient" />
+</Class>
+
+<Class ID="Hallertau">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Porter">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="Caramel">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Class ID="Pilsner">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="Carapils">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Class ID="Mild">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Class ID="Ale">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="ImperialStout">
+  <subClassOf resource="#Stout" />
+</Class>
+
+<Property ID="brews">
+  <domain resource="#Brewery" />
+  <range resource="#Beer" />
+</Property>
+
+<Class ID="Beer">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Liquid" />
+</Class>
+
+<Class ID="MountHood">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Microbrewery">
+  <subClassOf resource="#Brewery" />
+</Class>
+
+<Property ID="name">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#name" />
+</Property>
+
+<Class ID="Pale">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Property ID="awarded">
+  <domain resource="#Beer" />
+  <range resource="#Award" />
+</Property>
+
+<Class ID="Munich">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Class ID="Bitter">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Class ID="PaleAle">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Class ID="Ingredient">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="sponsors">
+  <domain resource="#Association" />
+  <range resource="#Festival" />
+</Property>
+
+<Property ID="awardCategory">
+  <domain resource="#Award" />
+</Property>
+
+<Class ID="Organization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Class ID="Cascade">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Property ID="isLocated">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#isLocated" />
+</Property>
+
+<Class ID="BrownAle">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Class ID="KentGoldings">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Award">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="Black">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Class ID="SweetStout">
+  <subClassOf resource="#Stout" />
+</Class>
+
+<Class ID="Stout">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="DryStout">
+  <subClassOf resource="#Stout" />
+</Class>
+
+<Property ID="alcoholContent">
+  <domain resource="#Beer" />
+</Property>
+
+<Class ID="IndiaPaleAle">
+  <subClassOf resource="#Ale" />
+</Class>
+
+<Property ID="awardedAt">
+  <domain resource="#Award" />
+  <range resource="#Festival" />
+</Property>
+
+<Class ID="Galena">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Bock">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="Chocolate">
+  <subClassOf resource="#Malt" />
+</Class>
+
+<Class ID="Willamette">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Property ID="madeFrom">
+  <domain resource="#Beer" />
+  <range resource="#Ingredient" />
+</Property>
+
+<Class ID="Tettnang">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Saaz">
+  <subClassOf resource="#Hops" />
+</Class>
+
+<Class ID="Association">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Class ID="Malt">
+  <subClassOf resource="#Ingredient" />
+</Class>
+
+<Class ID="Lager">
+  <subClassOf resource="#Beer" />
+</Class>
+
+<Class ID="Hops">
+  <subClassOf resource="#Ingredient" />
+</Class>
+
+<Class ID="Festival">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Event" />
+</Class>
+
+</rdf:RDF>

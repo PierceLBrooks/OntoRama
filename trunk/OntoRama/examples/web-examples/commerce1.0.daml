@@ -1,0 +1,108 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:base = "http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#"
+  xmlns:meas = "http://www.cs.umd.edu/projects/plus/DAML/onts/measure1.0.daml#"
+  xmlns:gen = "http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>commerce-ont, v.1.0</versionInfo>
+  <comment>An ontology that describes the basics concepts of commerce, including suppliers, manufacturers, and products.</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/measure1.0.daml" />
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml" />
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml" />
+</Ontology>
+
+<Property ID="affiliatedOrganization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#affiliatedOrganization" />
+</Property>
+
+<Property ID="orgPhone">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#orgPhone" />
+</Property>
+
+<Class ID="CommercialOrganization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#CommercialOrganization" />
+</Class>
+
+<Class ID="Supplier">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#CommercialOrganization" />
+</Class>
+
+<Property ID="addressZip">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressZip" />
+</Property>
+
+<Property ID="orgAddress">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#orgAddress" />
+</Property>
+
+<Class ID="MeasurementUnit">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/measure1.0.daml#MeasurementUnit" />
+</Class>
+
+<Property ID="manufacturerPartId">
+  <domain resource="#Product" />
+</Property>
+
+<Class ID="Manufacturer">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#CommercialOrganization" />
+</Class>
+
+<Class ID="Organization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Property ID="subOrganizationOf">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#subOrganizationOf" />
+</Property>
+
+<Class ID="Product">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="addressCity">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressCity" />
+</Property>
+
+<Property ID="price">
+  <domain resource="#Product" />
+</Property>
+
+<Property ID="description">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#description" />
+</Property>
+
+<Property ID="unitQuantity">
+  <!-- ignoring args of n-ary relation unitQuantity -->
+</Property>
+
+<Property ID="suppliedBy">
+  <domain resource="#Product" />
+  <range resource="#Supplier" />
+</Property>
+
+<Property ID="addressStreet">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressStreet" />
+</Property>
+
+<Property ID="addressState">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressState" />
+</Property>
+
+<Property ID="supplierPartId">
+  <domain resource="#Product" />
+</Property>
+
+<Property ID="manufacturedBy">
+  <domain resource="#Product" />
+  <range resource="#Manufacturer" />
+</Property>
+
+<Property ID="name">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#name" />
+</Property>
+
+</rdf:RDF>

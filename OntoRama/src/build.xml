@@ -141,17 +141,6 @@
   <target name="webstart" depends="webstartDeploy,zip">
   </target>
 
-  
-  <!--
-    <target name="compiletests" depends="JUNIT,compile">
-        <javac srcdir="${src.home}/ontorama/test" destdir="${deploy.home}/ontorama/testcases">
-			<classpath refid="project.class.path"/>
-			<src path="${src.home}"/>
-            <include name="**/*.java"/>
-        </javac>
-    </target>
-  -->
-  
   <target name="runtests" depends="compile">
   	<java fork="yes" classname="junit.textui.TestRunner" 
     	taskname="junit" failonerror="true">
@@ -159,7 +148,49 @@
 		<classpath refid="project.class.path"/>
     </java>
   </target>
-  
+
+    <target name="xweb">
+        <property environment="env"/>
+        <java classname="net.sourceforge.xweb.backend.WebsiteProcessor">
+          <arg value="${basedir}/xweb/ontoramaWeb.xweb"/>
+          <classpath>
+            <pathelement location="${env.XWEBHOME}/xweb.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/jdom.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/xerces.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/saxon.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/JimiProClasses.zip"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-transcoder.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-dom.jar"/>
+              <pathelement location="${env.XWEBHOMEe}/libs/batik-bridge.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-svg-dom.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-css.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-gvt.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-ext.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-util.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-xml.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/crimson-parser.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-awt-util.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs//batik-script.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-parser.jar"/>
+              <pathelement location="${env.JAVA_HOME}/jre/lib/rt.jar"/>
+              <pathelement location="${env.JAVA_HOME}/jre/lib/ext/dnsns.jar"/>
+              <pathelement location="${env.JAVA_HOME}/jre/lib/ext/ldapsec.jar"/>
+              <pathelement location="${env.JAVA_HOME}/jre/lib/localedata.jar"/>
+              <pathelement location="${env.JAVA_HOME}/jre/lib/sunjce_provider.jar"/>
+          </classpath>
+        </java>
+
+        <!--
+        <java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
+
+        <exec dir="${xweb.home}" executable="bin/wp.bat">
+          <arg line="ontoramaWeb.xweb"/>
+        </exec>
+        -->
+
+    </target>
+
+
   <!-- targets for rebuilding jena library -->
   <!--
   <target name="jenaCompile" depends="prepare">

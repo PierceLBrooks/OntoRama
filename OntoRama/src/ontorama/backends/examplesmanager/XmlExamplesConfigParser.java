@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.examplesmanager.*;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.XmlParserAbstract;

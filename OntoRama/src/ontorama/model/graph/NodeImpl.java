@@ -105,12 +105,12 @@ public class NodeImpl implements Cloneable, Node {
         return this.nodeType;
     }
 
-    /**
-     * toString method
-     */
-    public String toString() {
-        String str = "Node: " + name + "(" + fullName + ")";
-        return str;
-
-    }
+//    /**
+//     * toString method
+//     */
+//    public String toString() {
+//        String str = "Node: " + name + "(" + fullName + ")";
+//        return str;
+//
+//    }
 }

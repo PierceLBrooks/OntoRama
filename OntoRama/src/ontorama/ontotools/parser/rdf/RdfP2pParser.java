@@ -13,7 +13,6 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.conf.RdfMapping;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
@@ -420,7 +419,7 @@ public class RdfP2pParser implements Parser {
             return (P2PNode) _nodesHash.get(nodeName);
         }
         else {
-            P2PNode node = new P2PNodeImpl(nodeName, nodeName);
+            P2PNode node = (P2PNode) OntoramaConfig.getBackend().createNode(nodeName, nodeName);
             _nodesHash.put(nodeName, node);
             return node;
         }

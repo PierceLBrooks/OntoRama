@@ -76,9 +76,7 @@ public class P2PJMenu extends JMenu {
         }
 
         public void actionPerformed(ActionEvent e) {
-            //_p2pBackend = new P2PBackend();
-            //P2PMainPanel p2pPanel = new P2PMainPanel(_parentFrame);
-            //p2pPanel.showP2PPanel(true);
+            //_p2pBackend.activate();
             _p2pBackend.showPanels(true);
 
         }

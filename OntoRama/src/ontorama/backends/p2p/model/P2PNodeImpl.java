@@ -1,7 +1,6 @@
 package ontorama.backends.p2p.model;
 
 
-import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 
 import java.net.URI;
@@ -39,66 +38,6 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
 		this.asserters = new HashSet();
 		this.rejecters = new HashSet();
 	}
-
-    /**
-         * Create a new P2PNodeImpl with given name and fullName
-         *
-         * @param node
-         */
-        public P2PNodeImpl(Node node) {
-            super(node.getName(),node.getIdentifier());
-            this.setCreatorUri(node.getCreatorUri());
-            this.setNodeType(node.getNodeType());
-            this.asserters = new HashSet();
-            this.rejecters = new HashSet();
-        }
-
-
-    /**
-     * Create a new P2PNodeImpl with given name and asserter or rejecter
-     *
-     * @param name
-     * @param asserter
-     * @param rejecter
-     */
-	public P2PNodeImpl(String name, URI asserter, URI rejecter) {
-		super(name, name);
-		
-		this.asserters = new HashSet();
-		this.rejecters = new HashSet();
-
-		if (asserter != null) {
-			this.asserters.add(asserter);
-		}
-		if (rejecter != null) {
-			this.rejecters.add(rejecter);		
-		}
-	}
-
-
-    /**
-     * Create a new P2PNodeImpl with given name and asserter or rejecter
-     *
-     * @param name
-     * @param fullName
-     * @param asserter
-     * @param rejecter
-     */
-	public P2PNodeImpl(String name, String fullName, URI asserter, URI rejecter) {
-		super(name,fullName);
-		
-		
-		this.asserters = new HashSet();
-		this.rejecters = new HashSet();
-
-		if (asserter != null) {
-			this.asserters.add(asserter);
-		}
-		if (rejecter != null) {
-			this.rejecters.add(rejecter);
-		}
-	}
-
 
 
     /**

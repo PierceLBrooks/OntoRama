@@ -7,8 +7,9 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.backends.p2p.model.P2PNodeImpl;
 
 /**
  * <p>Title: </p>
@@ -47,11 +48,17 @@ public class TestP2PNode extends TestCase {
      *
      */
     protected void setUp() throws URISyntaxException {
+    	Backend backend = OntoramaConfig.getBackend();
+    	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
-        node1 = new P2PNodeImpl("node1", nodeIdentifier1, creatorUri1,null);
-        node2 = new P2PNodeImpl("node2", creatorUri1,null);
-        node3 = new P2PNodeImpl("node3", null,creatorUri2);
+        
+        node1 = (P2PNode) backend.createNode("node1", nodeIdentifier1);
+        node1.addAssertion(creatorUri1);
+    	node2 = (P2PNode) backend.createNode("node2", "node2");
+    	node2.addAssertion(creatorUri1);
+    	node3 = (P2PNode) backend.createNode("node3", "node3");
+    	node3.addRejection(creatorUri2);
 
         node1.setCreatorUri(creatorUri1);
         node2.setCreatorUri(creatorUri2);

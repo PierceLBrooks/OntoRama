@@ -20,6 +20,7 @@ import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
 
 import ontorama.util.event.ViewEventListener;
+import org.tockit.events.EventBroker;
 
 /**
  * Title:        OntoRama
@@ -30,13 +31,12 @@ import ontorama.util.event.ViewEventListener;
  * @version 1.0
  */
 public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
-    //JLabel _propNameLabel = new JLabel();
-    JPanel _propValuePanel = new JPanel();
+    protected JPanel _propValuePanel = new JPanel();
 
-    Hashtable _componentToPropValueMapping = new Hashtable();
+    protected ViewEventListener _viewListener;
 
-    ViewEventListener _viewListener;
-    
+    protected EventBroker _eventBroker;
+
     /**
      * Create multi values panel that can be used as 
      * a component in the description view.
@@ -60,9 +60,10 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * should create GUI component required and implement
      * action listener for this component.
      */
-    public AbstractMultiValuesPanel (String propName, ViewEventListener viewListener) {
+    public AbstractMultiValuesPanel (String propName, ViewEventListener viewListener, EventBroker eventBroker) {
         _viewListener = viewListener;
-        
+        _eventBroker = eventBroker;
+
         _propNameLabel.setText(propName);
         
         layoutFirstComponent();
@@ -89,12 +90,10 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
         // on a clone button and clone is focused - we don't get a 'clone
         // button'
         _propValuePanel.updateUI();
-        _componentToPropValueMapping = new Hashtable();
         while (propValuesIterator.hasNext()) {
           GraphNode curNode = (GraphNode) propValuesIterator.next();
           JComponent component = createPropertyComponent(curNode);
           _propValuePanel.add(component);
-          //_componentToPropValueMapping.put(component, curNode);
         }
         _propValuePanel.update(_propValuePanel.getGraphics());
     }

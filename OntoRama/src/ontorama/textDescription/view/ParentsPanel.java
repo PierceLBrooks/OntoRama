@@ -2,6 +2,7 @@ package ontorama.textDescription.view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -9,6 +10,8 @@ import javax.swing.JLabel;
 import ontorama.model.GraphNode;
 
 import ontorama.util.event.ViewEventListener;
+import ontorama.controller.NodeSelectedEvent;
+import org.tockit.events.EventBroker;
 
 /**
  * @author nataliya
@@ -19,39 +22,24 @@ import ontorama.util.event.ViewEventListener;
  * Window>Preferences>Java>Code Generation.
  */
 public class ParentsPanel extends AbstractMultiValuesPanel {
-	
-	public ParentsPanel (String clonesPropName, ViewEventListener viewListener) {
-    	super(clonesPropName, viewListener);
+
+    public ParentsPanel(String propName, ViewEventListener viewListener, EventBroker eventBroker) {
+        super(propName, viewListener, eventBroker);
     }
 
-	/**
+    /**
 	 * @see ontorama.textDescription.view.AbstractMultiValuesPanel#createPropertyComponent(GraphNode)
 	 */
-	protected JComponent createPropertyComponent(GraphNode node) {
+	protected JComponent createPropertyComponent(final GraphNode node) {
 		String labelText = "<html><font color=blue><u>" + node.getName() + "</u></font></html>";
 		JLabel label = new JLabel(labelText);
 		label.setToolTipText("Click to browse to this term");
-		_componentToPropValueMapping.put(label, node);
-		label.addMouseListener(new MouseListener() {
-			public void mouseClicked (MouseEvent me) {
-				//System.out.println("mouseClicked");
-				GraphNode graphNode = (GraphNode) _componentToPropValueMapping.get(me.getSource());
-				_viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_SINGLECLICK_KEY_CTRL);
-			}
-			public void mousePressed (MouseEvent me) {
-				//System.out.println("mousePressed");
-			}
-			public void mouseReleased (MouseEvent me) {
-				//System.out.println("mouseReleased");
-			}			
-			public void mouseEntered (MouseEvent me) {
-				//System.out.println("mouseEntered");
-			}
-			public void mouseExited (MouseEvent me) {
-				//System.out.println("mouseExited");
-			}
-		});
-		
+        label.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                _eventBroker.processEvent(new NodeSelectedEvent(node));
+            }
+        });
+
 		return (JComponent) label;
 	}
 

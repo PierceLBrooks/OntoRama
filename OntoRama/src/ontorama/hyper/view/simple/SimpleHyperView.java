@@ -9,6 +9,10 @@ import ontorama.model.GraphNode;
 import ontorama.model.Edge;
 
 import ontorama.util.event.ViewEventListener;
+import ontorama.util.event.ViewEventObserver;
+import ontorama.controller.NodeSelectedEvent;
+import ontorama.tree.controller.GraphViewFocusEventHandler;
+import ontorama.graph.view.GraphView;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,10 +36,28 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DOMImplementation;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
+import org.tockit.events.Event;
+import org.tockit.canvas.events.CanvasItemSelectedEvent;
 
 
 
-public class SimpleHyperView  extends CanvasManager  {
+public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEventObserver {
+
+    private class NodeSelectedEventTransformer implements EventListener {
+        private EventBroker eventBroker;
+
+        public NodeSelectedEventTransformer(EventBroker eventBroker, Class eventType) {
+            this.eventBroker = eventBroker;
+            eventBroker.subscribe(this, eventType, HyperNodeView.class);
+        }
+
+        public void processEvent(Event e) {
+            HyperNodeView view = (HyperNodeView) e.getSubject();
+            eventBroker.processEvent(new NodeSelectedEvent(view.getGraphNode()));
+        }
+    }
 
     /**
      * Temp flag to turn off spring and force algorithms.
@@ -68,14 +90,103 @@ public class SimpleHyperView  extends CanvasManager  {
      */
     private String testFileOutputPath = "benchmark_out/";
 
+    public SimpleHyperView(ViewEventListener viewListener, EventBroker eventBroker) {
+        super(viewListener, eventBroker);
+        new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
+        new GraphViewFocusEventHandler(eventBroker, this);
+    }
 
-    public SimpleHyperView(ViewEventListener viewListener) {
-		this.viewListener = viewListener;
-		this.viewListener.addObserver(this);
-        this.addMouseListener( this );
-        this.addMouseMotionListener( this );
-        this.setDoubleBuffered( true );
-        this.setOpaque( true );
+    public void focus ( GraphNode node) {
+      System.out.println();
+      System.out.println("******* hyperView got focus for node " + node.getName());
+      focusChanged(node);
+      System.out.println();
+    }
+
+    public void toggleFold ( GraphNode node) {
+        HyperNodeView focusedHyperNodeView = (HyperNodeView)this.hypernodeviews.get( node );
+        if( focusedHyperNodeView == null ) {
+            return;
+        }
+        if( focusedHyperNodeView.isLeaf() == true ) {
+            return;
+        }
+        boolean foldedState = focusedHyperNodeView.getFolded();
+        setFolded( foldedState,  node );
+        repaint();
+    }
+
+    /**
+     * Method to fold and unfold HyperNodeViews.
+     */
+    private void setFolded( boolean foldedState, GraphNode node ) {
+        System.out.println("Setting folded: " + node.getName());
+        Iterator it = Edge.getOutboundEdgeNodes( node );
+        while( it.hasNext() ) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
+            if( hyperNodeView != null ) {
+                hyperNodeView.setVisible( foldedState );
+                if( !hyperNodeView.getFolded() ) {
+                    this.setFolded( foldedState, cur );
+                }
+            }
+        }
+    }
+
+    /**
+     * Unfold nodes back to root node.
+     */
+    private void unfoldNodes( HyperNodeView hyperNodeView ) {
+        Iterator it = Edge.getInboundEdgeNodes( hyperNodeView.getGraphNode());
+        while(it.hasNext()) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView curHyperNode = (HyperNodeView)hypernodeviews.get(cur);
+            if( !curHyperNode.getVisible() ) {
+                unfoldNodes( curHyperNode );
+            }
+            if( curHyperNode.getFolded() ) {
+                setFolded( true, cur );
+                curHyperNode.setFolded( false );
+            }
+        }
+    }
+
+    /**
+     * When node gets focus.
+     * Test if node is visible, if not find folded node and unfold.
+     * If node is folded, unfold.
+     */
+    private void testIfVisibleOrFolded( HyperNodeView hyperNodeView ) {
+        // test if visible, if not find folded node.
+        if( hyperNodeView == null ) {
+            return;
+        }
+        System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
+        if( !hyperNodeView.getVisible() ) {
+            System.out.println(hyperNodeView.getName() + " is not visible");
+            unfoldNodes( hyperNodeView );
+        }
+    }
+
+    /**
+     * FocusChanged called by FocusListen to
+     * emit a change in which node has focus.
+     * The node that has focus is centered.
+     */
+    public void focusChanged( GraphNode graphNode ){
+        focusNode = (HyperNode) this.hypernodes.get (graphNode);
+        // set focused node label to selected
+        testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
+        setLabelSelected( (HyperNodeView)(hypernodeviews.get(graphNode) ) );
+        //place the label last in the list so that it gets drawn last.
+        // calculate the length of the animation as a function of the distance
+        // in the euclidian space (before hyperbolic projection)
+        double distance = Math.sqrt( focusNode.getX() * focusNode.getX() +
+                                     focusNode.getY() * focusNode.getY() );
+        lengthOfAnimation = (long)(distance*1.5);
+        animationTime = System.currentTimeMillis();
+        repaint();
     }
 
     /**
@@ -755,5 +866,6 @@ public class SimpleHyperView  extends CanvasManager  {
         drawNodes( g2d );
     }
 
-
+    public void query(GraphNode node) {
+    }
 }

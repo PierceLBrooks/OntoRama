@@ -17,8 +17,10 @@ import java.awt.event.ActionEvent;
 import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
+import ontorama.controller.NodeSelectedEvent;
 
 import ontorama.util.event.ViewEventListener;
+import org.tockit.events.EventBroker;
 
 /**
  * Title:        OntoRama
@@ -29,21 +31,17 @@ import ontorama.util.event.ViewEventListener;
  * @version 1.0
  */
 public class ClonesPanel extends AbstractMultiValuesPanel {
-	
-    public ClonesPanel (String clonesPropName, ViewEventListener viewListener) {
-    	super(clonesPropName, viewListener);
+
+    public ClonesPanel(String propName, ViewEventListener viewListener, EventBroker eventBroker) {
+        super(propName, viewListener, eventBroker);
     }
 
-   protected JComponent createPropertyComponent (GraphNode graphNode) {
+    protected JComponent createPropertyComponent (final GraphNode graphNode) {
           JButton button = new JButton();
           button.setText(graphNode.getName());
-          _componentToPropValueMapping.put(button, graphNode);
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	System.out.println("action performed for clone button");
-                GraphNode node = (GraphNode) _componentToPropValueMapping.get(e.getSource());
-                System.out.println("sending focus request to view listener for node = " + node.getName() + ", address = " + node);
-                _viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
+                _eventBroker.processEvent(new NodeSelectedEvent(graphNode));
             }
           });
           return (JComponent) button;

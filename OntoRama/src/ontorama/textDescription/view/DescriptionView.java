@@ -27,11 +27,13 @@ import java.awt.FontMetrics;
 import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
+import ontorama.tree.controller.GraphViewFocusEventHandler;
 
 import ontorama.webkbtools.util.NoSuchPropertyException;
 
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
+import org.tockit.events.EventBroker;
 
 /**
  * Title:        OntoRama
@@ -103,21 +105,25 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 *
 	 */
 	private ViewEventListener _viewListener;
-	
+    private EventBroker _eventBroker;
+
 	/**
 	 *
 	 */
-	public DescriptionView(ViewEventListener viewListener) {
+	public DescriptionView(ViewEventListener viewListener, EventBroker eventBroker) {
 		_viewListener = viewListener;
 		_viewListener.addObserver(this);
-		
+
+        _eventBroker = eventBroker;
+        new GraphViewFocusEventHandler(eventBroker, this);
+
 		initReverseRelation();
 
 		initPropertiesPanels();
 		_fullUrlPanel = 
 			new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
-		_clonesPanel = new ClonesPanel(_clonesLabelName,_viewListener);
-		_parentsPanel = new ParentsPanel(_reverseRelationLinkName, _viewListener);
+		_clonesPanel = new ClonesPanel(_clonesLabelName,_viewListener, _eventBroker);
+		_parentsPanel = new ParentsPanel(_reverseRelationLinkName, _viewListener, _eventBroker);
 		
 		_propertyNameLabelsDimension = calcLabelSize();
 		setLabelSizesForNodePropertiesPanels();

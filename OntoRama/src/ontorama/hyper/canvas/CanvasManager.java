@@ -25,14 +25,17 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import org.tockit.canvas.CanvasItem;
+import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.events.EventBroker;
 
 
 
 public class CanvasManager extends JComponent
-        implements MouseListener, MouseMotionListener,
-		ViewEventObserver {
+        implements MouseListener, MouseMotionListener {
 
 	protected ViewEventListener viewListener;
+
+    private EventBroker eventBroker;
 
     /**
      * Inner class to handle canvasItem single click
@@ -44,9 +47,12 @@ public class CanvasManager extends JComponent
         }
 
         public void run() {
-            //hyperNodeView.hasFocus();
-			viewListener.notifyChange(hyperNodeView.getGraphNode() , ViewEventListener.MOUSE_SINGLECLICK);
-            //viewListener.notifyChange(hyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
+            eventBroker.processEvent(
+                    new CanvasItemSelectedEvent(
+                            hyperNodeView,
+                            new Point2D.Double(0.0,0.0),
+                            new Point2D.Double(0.0,0.0))
+            );
         }
     }
 
@@ -89,7 +95,7 @@ public class CanvasManager extends JComponent
     /**
      * Store the HyperNode that has focus.
      */
-    private HyperNode focusNode = null;
+    protected HyperNode focusNode = null;
 
     /**
      * Stores the hyperNodeView that is having its
@@ -100,24 +106,34 @@ public class CanvasManager extends JComponent
     /**
      * Stores the LabelView that is selected.
      */
-    private static LabelView labelView = null;
+    protected static LabelView labelView = null;
 
     /**
      * Holds the remaining length of the animation.
      *
      * If negative animation we don't animate at the moment.
      */
-    private long lengthOfAnimation = -1;
+    protected long lengthOfAnimation = -1;
 
     /**
      * The time when we did the last animation step.
      */
-    private long animationTime = 0;
+    protected long animationTime = 0;
 
     /**
      * A timer to distinguish between single and double clicks.
      */
     private Timer singleClickTimer = new Timer();
+
+    public CanvasManager(ViewEventListener viewListener, EventBroker eventBroker) {
+		this.viewListener = viewListener;
+        this.eventBroker = eventBroker;
+		this.viewListener.addObserver(this);
+        this.addMouseListener( this );
+        this.addMouseMotionListener( this );
+        this.setDoubleBuffered( true );
+        this.setOpaque( true );
+    }
 
     /**
      * draw canvas items.
@@ -205,7 +221,7 @@ public class CanvasManager extends JComponent
      * canvasItems list ( so as to be drawn last), and is told
      * that it has focus.
      */
-    private void setLabelSelected( HyperNodeView selectedNodeView ) {
+    protected void setLabelSelected( HyperNodeView selectedNodeView ) {
 //        if( selectedNodeView == null ) {
 //            return;
 //        }
@@ -253,24 +269,6 @@ public class CanvasManager extends JComponent
                 this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
             }
             repaint();
-        }
-    }
-
-    /**
-     * Method to fold and unfold HyperNodeViews.
-     */
-    private void setFolded( boolean foldedState, GraphNode node ) {
-        System.out.println("Setting folded: " + node.getName());
-        Iterator it = Edge.getOutboundEdgeNodes( node );
-        while( it.hasNext() ) {
-            GraphNode cur = (GraphNode)it.next();
-            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
-            if( hyperNodeView != null ) {
-                hyperNodeView.setVisible( foldedState );
-                if( !hyperNodeView.getFolded() ) {
-                    this.setFolded( foldedState, cur );
-                }
-            }
         }
     }
 
@@ -324,65 +322,6 @@ public class CanvasManager extends JComponent
         while( it.hasNext() ) {
             HyperNode hn = (HyperNode)it.next();
             hn.move( x, y );
-        }
-    }
-
-    /**
-     * FocusChanged called by FocusListen to
-     * emit a change in which node has focus.
-     * The node that has focus is centered.
-     */
-    public void focusChanged( GraphNode graphNode ){
-        focusNode = (HyperNode) this.hypernodes.get (graphNode);
-        // set focused node label to selected
-        testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
-        setLabelSelected( (HyperNodeView)(hypernodeviews.get(graphNode) ) );
-        //place the label last in the list so that it gets drawn last.
-        // calculate the length of the animation as a function of the distance
-        // in the euclidian space (before hyperbolic projection)
-        double distance = Math.sqrt( focusNode.getX() * focusNode.getX() +
-                                     focusNode.getY() * focusNode.getY() );
-        lengthOfAnimation = (long)(distance*1.5);
-        animationTime = System.currentTimeMillis();
-        repaint();
-    }
-
-    /**
-     * When node gets focus.
-     * Test if node is visible, if not find folded node and unfold.
-     * If node is folded, unfold.
-     */
-    private void testIfVisibleOrFolded( HyperNodeView hyperNodeView ) {
-        // test if visible, if not find folded node.
-        if( hyperNodeView == null ) {
-            return;
-        }
-        System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
-        if( !hyperNodeView.getVisible() ) {
-            System.out.println(hyperNodeView.getName() + " is not visible");
-            unfoldNodes( hyperNodeView );
-        }
-    }
-
-    /**
-     * Unfold nodes back to root node.
-     */
-    private void unfoldNodes( HyperNodeView hyperNodeView ) {
-//        if( hyperNodeView.getFolded() ) {
-//            setFolded( true, hyperNodeView.getGraphNode() );
-//            hyperNodeView.setFolded( false );
-//        }
-        Iterator it = Edge.getInboundEdgeNodes( hyperNodeView.getGraphNode());
-        while(it.hasNext()) {
-            GraphNode cur = (GraphNode)it.next();
-            HyperNodeView curHyperNode = (HyperNodeView)hypernodeviews.get(cur);
-            if( !curHyperNode.getVisible() ) {
-                unfoldNodes( curHyperNode );
-            }
-            if( curHyperNode.getFolded() ) {
-                setFolded( true, cur );
-                curHyperNode.setFolded( false );
-            }
         }
     }
 
@@ -446,40 +385,4 @@ public class CanvasManager extends JComponent
         this.currentHighlightedView = null;
         this.labelView = null;
     }
-
-    //////////////////////////ViewEventObserver interface implementation////////////////
-
-    /**
-     *
-     */
-    public void focus ( GraphNode node) {
-      System.out.println();
-      System.out.println("******* hyperView got focus for node " + node.getName());
-      focusChanged(node);
-      System.out.println();
-    }
-
-    /**
-     *
-     */
-    public void toggleFold ( GraphNode node) {
-//        System.out.println("******* CanvasManager got toggleFold for node comms#TransmissionObject");
-        HyperNodeView focusedHyperNodeView = (HyperNodeView)this.hypernodeviews.get( node );
-        if( focusedHyperNodeView == null ) {
-            return;
-        }
-        if( focusedHyperNodeView.isLeaf() == true ) {
-            return;
-        }
-        boolean foldedState = focusedHyperNodeView.getFolded();
-        setFolded( foldedState,  node );
-        repaint();
-    }
-
-    /**
-     *
-     */
-    public void query ( GraphNode node) {
-    }
-
  }

@@ -2,7 +2,7 @@
  * Copyright DSTC Pty.Ltd. (http://www.dstc.com),
  * $id$
  */
-package ontorama.util;
+package ontorama.conf;
 
 import java.awt.Shape;
 import java.awt.geom.*;

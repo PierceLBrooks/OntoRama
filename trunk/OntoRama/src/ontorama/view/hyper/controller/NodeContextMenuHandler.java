@@ -15,8 +15,8 @@ import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.NodeSelectedEvent;
-import ontorama.view.hyper.view.simple.HyperNodeView;
-import ontorama.view.hyper.view.simple.SimpleHyperView;
+import ontorama.view.hyper.view.HyperNodeView;
+import ontorama.view.hyper.view.SimpleHyperView;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;

@@ -172,6 +172,25 @@ public class TestRdfDamlParser extends TestCase {
     // default produced by rdf parser: rdf-schema#Class
     assertEquals(15,resultCollection.size());
   }
+  
+  /**
+   * 
+   */
+  public void testFullName () {
+  	String message = "full name of the ontology type";
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testType_chair.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Furniture", testType_furniture.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Backrest", testType_backrest.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Leg", testType_leg.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#MyChair", testType_myChair.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#AllChairs", testType_allChairs.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#SomeSubstanceNode", testType_someSubstanceNode.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Table", testType_table.getFullName());
+  	assertEquals(message, "http://www.webkb.org/OntoRama", testType_url.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#SomeLocation", testType_someLocation.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#SomeObject", testType_someObject.getFullName());
+  	assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testType_armchair.getFullName()); 	
+  }
 
   /**
    *

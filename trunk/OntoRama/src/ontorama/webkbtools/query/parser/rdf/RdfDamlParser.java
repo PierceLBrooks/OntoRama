@@ -111,9 +111,11 @@ public class RdfDamlParser implements Parser {
       Property predicate = st.getPredicate();
       Resource resource = st.getSubject();
       RDFNode object = st.getObject();
+      
+      //System.out.println( "resource = " + resource + ", predicate = " + predicate + ", object = " + object);
 
       //System.out.println ("resource: local name = " + resource.getLocalName() + ", namespace = " + resource.getNameSpace()
-       //                 + ", uri = " + resource.getURI());
+      //                  + ", uri = " + resource.getURI());
 
       doConceptPropertiesMapping(resource, predicate, object);
       doRelationLinksMapping(resource, predicate, object);
@@ -177,8 +179,8 @@ public class RdfDamlParser implements Parser {
       String fromTypeName = stripUri(fromTypeResource);
       String toTypeName = stripUri(toTypeResource);
 
-      OntologyType fromType = getOntTypeByName(fromTypeName);
-      OntologyType toType = getOntTypeByName(toTypeName);
+      OntologyType fromType = getOntTypeByName(fromTypeName, fromTypeResource.toString());
+      OntologyType toType = getOntTypeByName(toTypeName, toTypeResource.toString());
 
       fromType.addRelationType(toType,relLinkId);
     }
@@ -193,7 +195,7 @@ public class RdfDamlParser implements Parser {
       //
       String resourceName = stripUri(ontTypeResource);
       String propValueName = propValueResource.toString();
-      OntologyType ontType = getOntTypeByName(resourceName);
+      OntologyType ontType = getOntTypeByName(resourceName, ontTypeResource.toString());
       ontType.addTypeProperty(propName, stripCarriageReturn(propValueName));
     }
 
@@ -297,13 +299,16 @@ public class RdfDamlParser implements Parser {
      * @return  OntologyType
      * @todo    need an exception if can't get OntologyType for some reason
      */
-      public OntologyType getOntTypeByName (String ontTypeName) {
+      public OntologyType getOntTypeByName (String ontTypeName,
+      							String fullOntTypeName) {
         OntologyType ontType = null;
         if (ontHash.containsKey(ontTypeName)) {
           ontType = (OntologyType) ontHash.get(ontTypeName);
         }
         else {
-          ontType = new OntologyTypeImplementation(ontTypeName);
+          ontType = new OntologyTypeImplementation(ontTypeName, fullOntTypeName);
+          //System.out.println("created type: " + ontType.toString());
+          //System.out.println("full name = " + ontType.getFullName());
           ontHash.put(ontTypeName,ontType);
         }
         return ontType;

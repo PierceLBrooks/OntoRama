@@ -84,7 +84,16 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      */
     private boolean isVisible = true;
 
+    /**
+     * Create 2D object for node representation.
+     */
     private Ellipse2D nodeShape = new Ellipse2D.Double( 0,0,0,0 );
+
+    /**
+     * Hold the percentage increase for cloned node rind
+     * used for showing cloned node when a cloned node gets focus.
+     */
+    private static final int RINGPERCENTAGE = 10;
 
     /**
      * Returns the radius of the projection sphere.
@@ -312,18 +321,15 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Draws ring around cloned node and connects the together with a line.
      */
     public void showClones( Graphics2D g2d, Hashtable hypernodeviews ) {
-        int RINGPERCENTAGE = 10;
         double ringRadius = viewRadius + (viewRadius/RINGPERCENTAGE);
-        nodeShape.setFrame( projectedX - ringRadius,
-                            projectedY - ringRadius,
-                            ringRadius * 2, ringRadius * 2 );
-        g2d.draw( nodeShape );
+        this.showClone( g2d );
         // draw lines to, and show clones
         Iterator it = this.getGraphNode().getClones();
         while( it.hasNext() ) {
             GraphNode cur = (GraphNode)it.next();
             HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
             if( hyperNodeView == null ) {
+            System.out.println("HyperNodeView not found for " + cur.getName());
                 return;
             }
             hyperNodeView.showClone( g2d );
@@ -349,7 +355,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Highlight clones for focused clone node.
      */
     public void showClone( Graphics2D g2d ) {
-        double ringRadius = viewRadius + (viewRadius/10);
+        double ringRadius = viewRadius + (viewRadius/RINGPERCENTAGE);
         nodeShape.setFrame( projectedX - ringRadius,
                             projectedY - ringRadius,
                             ringRadius * 2, ringRadius * 2 );

@@ -12,5 +12,5 @@ import java.io.Writer;
  * To change this template use Options | File Templates.
  */
 public interface ModelWriter {
-    public void write(Graph graph, Writer out);
+    public void write(Graph graph, Writer out) throws ModelWriterException;
 }

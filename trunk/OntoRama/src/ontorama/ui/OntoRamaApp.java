@@ -40,14 +40,10 @@ import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
-import ontorama.model.tree.events.TreeNodeEvent;
 import ontorama.ui.events.*;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.action.AboutOntoRamaAction;
-import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ExitAction;
-import ontorama.ui.action.ForwardHistoryAction;
-import ontorama.ui.action.StopQueryAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
@@ -256,9 +252,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("_modelEventBroker.subscribe(_viewsEventBroker,...)");
         System.out.println("_viewsEventBroker.subscribe(_modelEventBroker, ...)");
 
-
-       //_viewsEventBroker.subscribe(new GeneralQueryEventHandler(), GeneralQueryEvent.class, Query.class);
-        //_modelEventBroker.subscribe(new GeneralQueryEventHandler(_modelEventBroker), GeneralQueryEvent.class, Query.class);
         new GeneralQueryEventHandler(_modelEventBroker);
         new GeneralQueryEventHandler(_viewsEventBroker);
 
@@ -286,13 +279,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		buildToolBar();
 		buildStatusBar();
 		setStatusLabel("status bar is here");
-
-		//new LoggingEventListener(_modelEventBroker,	NodeAddedEvent.class,Object.class,System.out);
-		//new LoggingEventListener(_modelEventBroker,GraphChangedEvent.class,Object.class,System.out);
-//		new LoggingEventListener(_modelEventBroker,TreeChangedEvent.class,Object.class,System.out);
-//        new LoggingEventListener(_modelEventBroker,QueryEvent.class,Object.class,System.out);
-//        new LoggingEventListener(_modelEventBroker,QueryStartEvent.class,Object.class,System.out);
-//		new LoggingEventListener(_modelEventBroker,QueryEndEvent.class,Object.class,System.out);
 
         new LoggingEventListener(_modelEventBroker,GeneralQueryEvent.class,Object.class,System.out);
 
@@ -596,6 +582,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         appendHistoryMenu(_query);
 		repaint();
 	}
+
 	/**
 	 *
 	 */
@@ -608,6 +595,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_descriptionViewPanel.setGraph(graph);
 		_listViewer.setGraph(graph);
 	}
+
 	/**
 	 * enable/disable components that should be only shown
 	 * for dynamically loaded ontologies
@@ -621,14 +609,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			_descriptionViewPanel.disableDynamicFields();
 		}
 	}
-//	/**
-//	 *
-//	 */
-//	public void stopQuery() {
-//		_worker.stopProcess();
-//		_query = _lastQuery;
-//		_queryPanel.setQuery(_query);
-//	}
+
 	/**
 	 *
 	 */
@@ -636,14 +617,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("append history for given query " + query);
 		_historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
 	}
-
-//	/**
-//	 *
-//	 */
-//	protected void appendHistoryForGivenExample( String termName, OntoramaExample example) {
-//        System.out.println("append history for given example and term " + termName);
-//		_historyMenu.appendHistory(termName, example);
-//	}
 
 	/**
 	 *
@@ -653,22 +626,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * @todo	do we need two methods: executeQueryForGivenExample and executeQueryForHistoryElement
-	 * probably not - think of a better way to handle this.
-	 */
-	protected void executeQueryForHistoryElement(HistoryElement historyElement) {
-		// reset details in OntoramaConfig
-		OntoramaConfig.setCurrentExample(historyElement.getExample());
-		// get graph for this query and load it into app
-        _modelEventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
-	}
-	/**
 	 *
 	 */
 	public static void showErrorDialog(String message) {
 		Frame parentFrame = getMainFrame();
 		new ErrorPopupMessage(message, parentFrame);
 	}
+
+    /**
+     *
+     */
 	public static Frame getMainFrame() {
 		Frame[] frames = ontorama.ui.OntoRamaApp.getFrames();
 		if (frames.length == 0) {
@@ -676,6 +643,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 		return frames[0];
 	}
+
 	/**
 	 *
 	 */

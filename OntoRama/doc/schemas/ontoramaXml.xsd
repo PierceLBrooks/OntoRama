@@ -5,7 +5,7 @@
 	<xsd:element name="ontology">
 		<xsd:annotation>
 			<xsd:documentation>
-				Top level element
+				Top level  element
 			</xsd:documentation>
 		 </xsd:annotation>
 		<xsd:complexType>

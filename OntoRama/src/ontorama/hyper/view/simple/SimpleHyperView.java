@@ -8,6 +8,8 @@ import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
 
+import ontorama.util.event.ViewEventListener;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -33,7 +35,7 @@ import org.w3c.dom.DOMImplementation;
 
 
 
-public class SimpleHyperView  extends CanvasManager {
+public class SimpleHyperView  extends CanvasManager  {
 
     /**
      * Temp flag to turn off spring and force algorithms.
@@ -65,8 +67,12 @@ public class SimpleHyperView  extends CanvasManager {
      * Path for test output files.
      */
     private String testFileOutputPath = "benchmark_out/";
+	
 
-    public SimpleHyperView() {
+    public SimpleHyperView(ViewEventListener viewListener) {
+		this.viewListener = viewListener;
+		this.viewListener.addObserver(this);
+		
         this.addMouseListener( this );
         this.addMouseMotionListener( this );
         this.setDoubleBuffered( true );
@@ -607,4 +613,6 @@ public class SimpleHyperView  extends CanvasManager {
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
         drawNodes( g2d );
     }
+	
+
 }

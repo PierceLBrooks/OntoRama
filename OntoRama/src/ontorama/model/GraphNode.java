@@ -19,17 +19,12 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
  * <br>
  * Company:     DSTC
  */
-public class GraphNode implements Cloneable, NodeObservable {
+public class GraphNode implements Cloneable {
 
     /**
      * Store the name/label of GraphNode.
      */
     private String name;
-
-    /**
-     * Hold the list of observers.
-     */
-    private List observers = new LinkedList();
 
     /**
      * Stores the depth of the node in the graph (distance to the root element).
@@ -58,26 +53,6 @@ public class GraphNode implements Cloneable, NodeObservable {
     }
 
     /**
-     * Add observers to the list of observers.
-     *
-     * @param observer
-     */
-    public void addObserver( Object observer ) {
-        this.observers.add( observer );
-    }
-
-    /**
-     * Update all views of change.
-     */
-    public void notifyChange() {
-        Iterator it = observers.iterator();
-        while(it.hasNext()) {
-            NodeObserver cur = (NodeObserver) it.next();
-            cur.update( cur, this );
-        }
-    }
-
-    /**
      * Return GraphNodes name/title.
      */
     public String getName() {
@@ -94,12 +69,13 @@ public class GraphNode implements Cloneable, NodeObservable {
     /**
      *
      */
+	 /*
     public void hasFocus () {
 //        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
         System.out.println("\t\tclones: " + this.clones);
 
-        notifyChange();
     }
+	*/
 
     /**
      * Return an iterator of all clones.

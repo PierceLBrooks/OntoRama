@@ -20,13 +20,17 @@ import java.util.Enumeration;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.*;
 import ontorama.hyper.view.simple.*;
+import ontorama.model.GraphNode;
+
+import ontorama.util.event.ViewEventListener;
+import ontorama.util.event.ViewEventObserver;
 
 /**
  * QueryPanel is responsible for building an interface for a query that
  * will be used to query Ontology Server (using GraphBuilder)
  *
  */
-public class QueryPanel extends JPanel {
+public class QueryPanel extends JPanel implements ViewEventObserver {
 
     private JTextField queryField;
     private JButton querySubmitButton;
@@ -54,16 +58,21 @@ public class QueryPanel extends JPanel {
 
     //temp variable for creating svg image of hyper view
     private TextField imgNameField = new TextField("", 10);
-    SimpleHyperView hyperView;
+    private SimpleHyperView hyperView;
+	
+	private ViewEventListener viewListener;
 
     /**
      * @todo  constructor doesn't need parameter hyperView, this is just temporary.Remove later!!!
      */
-    public QueryPanel (SimpleHyperView hyperView) {
+    public QueryPanel (SimpleHyperView hyperView, ViewEventListener viewListener) {		
         this.hyperView = hyperView;
-
+		
+		this.viewListener = viewListener;
+		this.viewListener.addObserver(this);		
+		
         // create a query panel
-	queryField = new JTextField(10);
+		queryField = new JTextField(10);
         querySubmitButton = new JButton("Get");
         queryFieldPanel.add(queryField);
         queryFieldPanel.add(querySubmitButton);
@@ -175,7 +184,29 @@ public class QueryPanel extends JPanel {
         }
     }
 
-
+	//////////////////////////ViewEventObserver interface implementation////////////////
+	
+	/**
+	 *
+	 */
+	public void focus ( GraphNode node) {
+		System.out.println();
+		System.out.println("******* queryPanel got focus for node " + node.getName());
+		this.queryField.setText(node.getName());
+		System.out.println();
+	}
+	
+	/**
+	 *
+	 */
+	public void toggleFold ( GraphNode node) {
+	}
+	
+	/**
+	 *
+	 */
+	public void query ( GraphNode node) {
+	}
 
 
 }

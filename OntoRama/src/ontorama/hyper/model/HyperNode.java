@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class HyperNode implements NodeObserver, PositionChaingedObservable,  FocusChangedObservable {
+public class HyperNode implements  PositionChaingedObservable,  FocusChangedObservable {
 
     /**
      * Store all the Hyper observers
@@ -51,7 +51,9 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
      */
     public HyperNode( GraphNode graphNode ) {
       this.graphNode = graphNode;
+	  /*
       this.graphNode.addObserver( this );
+	  */
       this.position = new Position3D();
     }
 
@@ -82,6 +84,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Update method called from obserable (GraphNode)
      */
+	 /*
     public void update( Object observer, Object observable ) {
         Iterator it = focusListener.iterator();
         while( it.hasNext() ) {
@@ -89,6 +92,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
             fo.focusChanged( this );
         }
     }
+	*/
 
     /**
      * Returns GraphNode.
@@ -142,10 +146,12 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Notify GraphNode that it has focus.
      */
+	 /*
     public void hasFocus() {
         System.out.println("HyperNode hasFocus()");
         graphNode.hasFocus();
     }
+	*/
 
     /**
      * Move node position by offset.

@@ -18,6 +18,8 @@ import ontorama.model.Edge;
 import ontorama.model.NodeObserver;
 
 import ontorama.util.Debug;
+import ontorama.util.event.ViewEventObserver;
+import ontorama.util.event.ViewEventListener;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode
@@ -27,7 +29,7 @@ import ontorama.util.Debug;
  * Company:     DSTC
  */
 
-public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable {
+public class OntoTreeNode implements TreeNode, OntoNodeObservable {
 
     /**
      * Set to true if this node can have children
@@ -62,8 +64,6 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      */
     public OntoTreeNode ( GraphNode graphNode ) {
         this.graphNode = graphNode;
-        this.graphNode.addObserver(this);
-        //System.out.println("----" + this);
     }
 
     /**
@@ -79,16 +79,6 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
       public int getRelLink () {
         return this.relLink;
       }
-
-    /**
-     * Update method called from NodeObservable (GraphNode)
-     * Communication from GraphNode to OntoTreeNode.
-     * @param   obj
-     */
-    public void update( Object observer, Object observable ) {
-        debug.message("OntoTreeNode","update", this.graphNode.getName());
-        notifyTreeChange();
-    }
 
     /**
      * Add observer to the list of OntoTree observers.
@@ -161,10 +151,13 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
     /**
      * Set focus on this node
      */
+	 /*
     public void setFocus() {
         //System.out.println("OntoTreeNode setFocus()");
         this.graphNode.hasFocus();
     }
+	*/
+	
 
     //////////////Implementation of TreeNode interface methods//////////////
 
@@ -310,5 +303,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
         //String str = "OntoTreeNode: " + this.graphNode.toString();
         return this.graphNode.getName();
     }
+	
+
 
 }

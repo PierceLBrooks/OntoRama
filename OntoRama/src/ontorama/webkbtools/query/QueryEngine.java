@@ -67,12 +67,13 @@ public class QueryEngine {
             // query WebKB
             TypeQuery typeQuery = new TypeQueryImplementation ();
             this.typeRelativesIterator = typeQuery.getTypeRelative(query.getQueryTypeName());
-
         }
         catch (ClassNotFoundException ce) {
+          System.out.println("class QueryEngine, got exception: " + ce);
           throw ce;
         }
         catch (Exception e) {
+          System.out.println("class QueryEngine, got exception: " + e);
           throw e;
         }
     }

@@ -118,6 +118,8 @@ public class PeersPanel extends JPanel  implements GroupView {
     	System.out.println("PeersPanel::addPeer, peerName = " + peerName + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
         groupPanel.addPeer(peerId, peerName);
+        groupPanel.repaint();
+        repaint();
     }
 
     public void removePeer(String senderPeerID, String groupID) {
@@ -175,14 +177,16 @@ public class PeersPanel extends JPanel  implements GroupView {
         }
 
         public void addPeer (String peerID, String peerName) {
-            if (!peersList.contains(peerID)) {
+        	System.out.println("PeersPanel::GroupPanel::addPeer, peerName = " + peerName + ", peerID = " + peerID);
+//            if (!peersList.contains(peerID)) {
                  peersList.add(peerID);
 
                 _peerIdToPeerNameMapping.put(peerID, peerName);
 
                 listModel.addElement(peerName);
+                System.out.println("adding, list model size = " + listModel.size());
                 repaint();
-            }
+//            }
         }
 
         public void removePeer (String peerID) {

@@ -3,7 +3,6 @@ package ontorama.backends.examplesmanager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,10 +61,6 @@ public class ExamplesBackend implements Backend {
 	
 	private QueryEngine _lastQueryEngine;
 	
-	/// @todo this a hack to get history working properly
-	/// see Backend::setQueryEngine for more details.
-	/// key - query engine, value = example
-	private Hashtable _queryEngineToExampleMapping;
 
 	/**
 	 * Handle a case where query is not completed for whatever reason - 
@@ -98,7 +93,6 @@ public class ExamplesBackend implements Backend {
 	public ExamplesBackend() {
 		loadExamples();
 		_menu = new ExamplesMenu(this);
-		_queryEngineToExampleMapping = new Hashtable();
 	}
 
 	/**
@@ -225,27 +219,9 @@ public class ExamplesBackend implements Backend {
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
 		_lastQueryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
 		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
-		_queryEngineToExampleMapping.put(_lastQueryEngine, _curExample);	
 		return queryResult;
 	}
 	
-//	public QueryEngine getQueryEngine() {
-//		return _lastQueryEngine;
-//	}
-//	
-//	/**
-//	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
-//	 */
-//	public void setQueryEngine(QueryEngine queryEngine) {
-//		_lastQueryEngine = queryEngine;
-//		OntoramaExample example = (OntoramaExample) _queryEngineToExampleMapping.get(queryEngine);
-//		if (example != null) {
-//			setCurrentExample(example);
-//		}
-//	}
-	
-	
-
 	/**
 	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query)
 	 */

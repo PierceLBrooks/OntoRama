@@ -101,96 +101,132 @@ public class RdfDamlParser implements Parser {
      * @todo shouldn't strip URI's from resource name. This may create problems later if, for example,
      * user wants to specify resource uri for something, he/she will end up with only last component of it.
      */
-    private void processStatement (Statement st) {
-        Property predicate = st.getPredicate();
-        Resource resource = st.getSubject();
-        String resourceName = stripUri(resource);
-        RDFNode object = st.getObject();
-        String objectName = stripUri(object);
+    protected void processStatement (Statement st) {
+      //System.out.println("RdfDamlParser processStatement()");
+//      System.out.println("predicate = '" + predicate + "', resource = '" + resource + "', object = '" + object + "'");
+//      System.out.println("\tpredicate: getLocalName() = " + predicate.getLocalName() + ", getNamespace() = " + predicate.getNameSpace() + ", getURI = " + predicate.getURI());
+//      System.out.println("\tresource: getLocalName() = " + resource.getLocalName() + ", getNamespace() = " + resource.getNameSpace() + ", getURI = " + resource.getURI());
+//      if (object instanceof Resource) {
+//        System.out.println ("\tobject is Resource");
+//      }
+//      else if (object instanceof Literal) {
+//        System.out.println ("\tobject is Literal");
+//      }
+//      else {
+//        System.out.println ("\tobject is unknown");
+//      }
 
-        //System.out.println("predicate = '" + predicate + "', resource = '" + resourceName + "', object = '" + object + "'");
+      Property predicate = st.getPredicate();
+      Resource resource = st.getSubject();
 
-        OntologyType subjectType = getOntTypeByName(resourceName);
-        //System.out.println("created subjectType = " + subjectType.getName());
+      //String resourceName = stripUri(resource);
 
-        List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
-        Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
-        while ( ontologyRelationRdfMappingIterator.hasNext() ) {
-            RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
-            String mappingTag = rdfMapping.getRdfTag();
-            //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
-            if (predicate.getLocalName().endsWith(mappingTag)) {
-                int mappingId = rdfMapping.getId();
-                //System.out.println("MATCHED mappingTag = " + mappingTag);
-                String mappingType = rdfMapping.getType();
-                RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+      RDFNode object = st.getObject();
 
-                //System.out.println("mappingType = " + mappingType);
-                //System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
-                //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
+      //String objectName = stripUri(object);
 
-                try {
-                  OntologyType objectType = getOntTypeByName(objectName);
-                  //System.out.println("created objectType = " + objectType.getName());
+      //System.out.println("predicate = '" + predicate + "', resource = '" + resourceName + "', object = '" + object + "'");
 
-                    if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
-                        //System.out.println("case 1");
-                        subjectType.addRelationType(objectType,mappingId);
-                        //System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
-                    }
-                    else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
-                        //System.out.println("case 2");
-                        objectType.addRelationType(subjectType, mappingId);
-                        //System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
-                    }
-                    else {
-                        // ERROR
-                        // throw exception here
-                        //System.out.println("case 3");
-                        System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                        java.awt.Toolkit.getDefaultToolkit().beep();
-                        System.exit(-1);
-                    }
-                }
-                catch (NoSuchRelationLinkException e) {
-                    System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-                    System.exit(-1);
-                }
-            }
-
-
-        }
-        Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
-        Enumeration e = conceptPropertiesRdfMapping.elements();
-        while (e.hasMoreElements()) {
-            ConceptPropertiesMapping conceptRdfMapping = (ConceptPropertiesMapping) e.nextElement();
-            String mappingTag = conceptRdfMapping.getRdfTag();
-             if (predicate.getLocalName().endsWith(mappingTag)) {
-                // found rdf element/resource that is matching mapping tag. Now
-                // need to find out what concept property name/id corresponds
-                // to this mapping tag.
-                String mappingId = conceptRdfMapping.getId();
-                // now we need to map this id/name to ConceptPropertiesDetails
-                ConceptPropertiesDetails conceptPropertiesDetails = OntoramaConfig.getConceptPropertiesDetails(mappingId);
-                try {
-                    if (conceptPropertiesDetails != null) {
-                        // add this info as a property of ontology type
-                        subjectType.addTypeProperty(mappingId,stripCarriageReturn(object.toString()));
-                        //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = '" + stripCarriageReturn(object.toString()) + "'");
-                    }
-                    else {
-                       // ERROR
-                        // throw exception here
-                        System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                    }
-                }
-                catch (NoSuchPropertyException propExc ) {
-                    System.err.println("NoSuchPropertyException: " + propExc);
-                    System.exit(-1);
-                }
-             }
-        }
+      doConceptPropertiesMapping(resource, predicate, object);
+      doRelationLinksMapping(resource, predicate, object);
     }
+
+    /**
+     *
+     */
+    protected void doRelationLinksMapping (Resource resource, Property predicate, RDFNode object) {
+      String resourceName = stripUri(resource);
+      String objectName = stripUri(object);
+
+      OntologyType subjectType = getOntTypeByName(resourceName);
+
+      List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
+      Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
+      while ( ontologyRelationRdfMappingIterator.hasNext() ) {
+          RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
+          String mappingTag = rdfMapping.getRdfTag();
+          //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
+          if (predicate.getLocalName().endsWith(mappingTag)) {
+              int mappingId = rdfMapping.getId();
+              //System.out.println("MATCHED mappingTag = " + mappingTag);
+              String mappingType = rdfMapping.getType();
+              RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+
+              //System.out.println("mappingType = " + mappingType);
+              //System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
+              //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
+
+              try {
+                OntologyType objectType = getOntTypeByName(objectName);
+                //System.out.println("created objectType = " + objectType.getName());
+
+                  if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
+                      //System.out.println("case 1");
+                      subjectType.addRelationType(objectType,mappingId);
+                      //System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
+                  }
+                  else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
+                      //System.out.println("case 2");
+                      objectType.addRelationType(subjectType, mappingId);
+                      //System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
+                  }
+                  else {
+                      // ERROR
+                      // throw exception here
+                      //System.out.println("case 3");
+                      System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+                      java.awt.Toolkit.getDefaultToolkit().beep();
+                      System.exit(-1);
+                  }
+              }
+              catch (NoSuchRelationLinkException e) {
+                  System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+                  System.exit(-1);
+              }
+          }
+      }
+
+    }
+
+    /**
+     *
+     */
+    protected void doConceptPropertiesMapping (Resource resource, Property predicate, RDFNode object) {
+      String resourceName = stripUri(resource);
+      String objectName = stripUri(object);
+      OntologyType subjectType = getOntTypeByName(resourceName);
+      Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
+      Enumeration e = conceptPropertiesRdfMapping.elements();
+      while (e.hasMoreElements()) {
+          ConceptPropertiesMapping conceptRdfMapping = (ConceptPropertiesMapping) e.nextElement();
+          String mappingTag = conceptRdfMapping.getRdfTag();
+           if (predicate.getLocalName().endsWith(mappingTag)) {
+              // found rdf element/resource that is matching mapping tag. Now
+              // need to find out what concept property name/id corresponds
+              // to this mapping tag.
+              String mappingId = conceptRdfMapping.getId();
+              // now we need to map this id/name to ConceptPropertiesDetails
+              ConceptPropertiesDetails conceptPropertiesDetails = OntoramaConfig.getConceptPropertiesDetails(mappingId);
+              try {
+                  if (conceptPropertiesDetails != null) {
+                      // add this info as a property of ontology type
+                      //subjectType.addTypeProperty(mappingId,stripCarriageReturn(object.toString()));
+                      subjectType.addTypeProperty(mappingId,stripCarriageReturn(objectName));
+                      //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = '" + stripCarriageReturn(object.toString()) + "'");
+                  }
+                  else {
+                     // ERROR
+                      // throw exception here
+                      System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+                  }
+              }
+              catch (NoSuchPropertyException propExc ) {
+                  System.err.println("NoSuchPropertyException: " + propExc);
+                  System.exit(-1);
+              }
+           }
+      }
+  }
 
     /**
      * @todo    need to check if this rdfNode string contains any uri's, otherwise

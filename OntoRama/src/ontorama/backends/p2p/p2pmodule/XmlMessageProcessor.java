@@ -47,103 +47,127 @@ public class XmlMessageProcessor {
 	private static final String FROM = "fromNodeIdentifier";
 	private static final String TO = "toNodeIdentifier";
 	
-	public static final String ASSERT = "assert";
-	public static final String REJECT = "reject";
 	
 	public static Change parseXmlMessage (String modelChange) throws 
-											ParserConfigurationException,
-											SAXException, IOException {
+											XmlMessageParserException {
 												
 		Change result = null;
-		
-		InputStream stream = new DataInputStream(
-									new ByteArrayInputStream(modelChange.getBytes()));
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.parse( stream );
-		
-		Element root = document.getDocumentElement();
-		
-		NodeList actionElements = root.getElementsByTagName(ACTION);
-
-		Node actionEl = actionElements.item(0);
-		NamedNodeMap attr = actionEl.getAttributes();
-
-		String actionTypeAttr = attr.getNamedItem(TYPE).getNodeValue();
-		String initiatorAttr = attr.getNamedItem(INITIATOR_URI).getNodeValue();
-		
-
-		NodeList nodeElements = root.getElementsByTagName(NODE);
-		if (nodeElements.getLength() != 0) {
-			Node nodeEl = nodeElements.item(0);
-
-			NamedNodeMap nodeAttr = nodeEl.getAttributes();
-			String identifierAttr = nodeAttr.getNamedItem(IDENTIFIER).getNodeValue();
-			String nodeTypeAttr = nodeAttr.getNamedItem(TYPE).getNodeValue();
-
-			result = new NodeChange(identifierAttr, nodeTypeAttr, actionTypeAttr, initiatorAttr);
+		try {
+			InputStream stream = new DataInputStream(
+										new ByteArrayInputStream(modelChange.getBytes()));
+	
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse( stream );
+			
+			Element root = document.getDocumentElement();
+			
+			NodeList actionElements = root.getElementsByTagName(ACTION);
+	
+			Node actionEl = actionElements.item(0);
+			NamedNodeMap attr = actionEl.getAttributes();
+	
+			String actionTypeAttr = attr.getNamedItem(TYPE).getNodeValue();
+			String initiatorAttr = attr.getNamedItem(INITIATOR_URI).getNodeValue();
+			
+	
+			NodeList nodeElements = root.getElementsByTagName(NODE);
+			if (nodeElements.getLength() != 0) {
+				Node nodeEl = nodeElements.item(0);
+	
+				NamedNodeMap nodeAttr = nodeEl.getAttributes();
+				String identifierAttr = nodeAttr.getNamedItem(IDENTIFIER).getNodeValue();
+				String nodeTypeAttr = nodeAttr.getNamedItem(TYPE).getNodeValue();
+	
+				result = new NodeChange(identifierAttr, nodeTypeAttr, actionTypeAttr, initiatorAttr);
+			}
+			else {
+				NodeList edgeElements = root.getElementsByTagName(EDGE);
+				Node edgeEl = edgeElements.item(0);
+	
+				NamedNodeMap edgeAttr = edgeEl.getAttributes();
+				String fromNodeAttr = edgeAttr.getNamedItem(FROM).getNodeValue();
+				String toNodeAttr = edgeAttr.getNamedItem(TO).getNodeValue();
+				String edgeTypeAttr = edgeAttr.getNamedItem(TYPE).getNodeValue();
+	
+				result = new EdgeChange(fromNodeAttr, toNodeAttr, edgeTypeAttr, actionTypeAttr, initiatorAttr);
+			}
 		}
-		else {
-			NodeList edgeElements = root.getElementsByTagName(EDGE);
-			Node edgeEl = edgeElements.item(0);
-
-			NamedNodeMap edgeAttr = edgeEl.getAttributes();
-			String fromNodeAttr = edgeAttr.getNamedItem(FROM).getNodeValue();
-			String toNodeAttr = edgeAttr.getNamedItem(TO).getNodeValue();
-			String edgeTypeAttr = edgeAttr.getNamedItem(TYPE).getNodeValue();
-
-			result = new EdgeChange(fromNodeAttr, toNodeAttr, edgeTypeAttr, actionTypeAttr, initiatorAttr);
+		catch (ParserConfigurationException e) {
+			e.printStackTrace();
+			throw new XmlMessageParserException(e);
 		}
+		catch (SAXException e) {
+			e.printStackTrace();
+			throw new XmlMessageParserException(e);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			throw new XmlMessageParserException(e);
+		}
+
 		return result;
 	}
 	
 	public static String createMessage(Change modelChange) throws 
-											ParserConfigurationException,
-											TransformerConfigurationException,
-											TransformerException {
+											XmlMessageCreatorException {
 		String res = "";
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.newDocument();
-		
-		Element root = document.createElement(MESSAGE);
-		
-		Element actionNode = document.createElement(ACTION);
-		actionNode.setAttribute(INITIATOR_URI, modelChange.getInitiatorUri());
-		actionNode.setAttribute(TYPE, modelChange.getAction());
-		
-		document.appendChild(root);
-		root.appendChild(actionNode);
-		
-		Element itemNode = null;
-		if (modelChange instanceof NodeChange) {
-			NodeChange nodeChange = (NodeChange) modelChange;
-			itemNode = document.createElement(NODE);
-			itemNode.setAttribute(IDENTIFIER, nodeChange.getNodeName());
-			itemNode.setAttribute(TYPE, nodeChange.getNodeType());
-		}
-		else {
-			EdgeChange edgeChange = (EdgeChange) modelChange;
-			itemNode = document.createElement(EDGE);
-			itemNode.setAttribute(FROM, edgeChange.getFromNode());
-			itemNode.setAttribute(TO, edgeChange.getToNode());
-			itemNode.setAttribute(TYPE, edgeChange.getEdgeType());
-		}
-		root.appendChild(itemNode);
-		
-		DOMSource domSource = new DOMSource(document);
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		Transformer transformer = tFactory.newTransformer();
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.newDocument();
+			
+			Element root = document.createElement(MESSAGE);
+			
+			Element actionNode = document.createElement(ACTION);
+			actionNode.setAttribute(INITIATOR_URI, modelChange.getInitiatorUri());
+			actionNode.setAttribute(TYPE, modelChange.getAction());
+			
+			document.appendChild(root);
+			root.appendChild(actionNode);
+			
+			Element itemNode = null;
+			if (modelChange instanceof NodeChange) {
+				NodeChange nodeChange = (NodeChange) modelChange;
+				itemNode = document.createElement(NODE);
+				itemNode.setAttribute(IDENTIFIER, nodeChange.getNodeName());
+				itemNode.setAttribute(TYPE, nodeChange.getNodeType());
+			}
+			else {
+				EdgeChange edgeChange = (EdgeChange) modelChange;
+				itemNode = document.createElement(EDGE);
+				itemNode.setAttribute(FROM, edgeChange.getFromNode());
+				itemNode.setAttribute(TO, edgeChange.getToNode());
+				itemNode.setAttribute(TYPE, edgeChange.getEdgeType());
+			}
+			root.appendChild(itemNode);
+			
+			DOMSource domSource = new DOMSource(document);
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Transformer transformer = tFactory.newTransformer();
 
-		OutputStream outStream = new ByteArrayOutputStream();
-		StreamResult result = new StreamResult(outStream);
-		transformer.transform(domSource, result);
-		
-		res = outStream.toString();		
+			OutputStream outStream = new ByteArrayOutputStream();
+			StreamResult result = new StreamResult(outStream);
+			transformer.transform(domSource, result);
+			
+			res = outStream.toString();		
+		}
+		catch (ParserConfigurationException e) {
+			e.printStackTrace();
+			throw new XmlMessageCreatorException(e);
+		}
+		catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+			throw new XmlMessageCreatorException(e);
+		}
+		catch (TransformerException e) {
+			e.printStackTrace();
+			throw new XmlMessageCreatorException(e);			
+		}
 		System.out.println("stream result = " + res);
+
 		return res;
 	}
 	

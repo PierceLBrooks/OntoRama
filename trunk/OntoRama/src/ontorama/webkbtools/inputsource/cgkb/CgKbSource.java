@@ -21,6 +21,8 @@ import java.net.*;
 
 public class CgKbSource implements Source {
 
+    private static final int _defaultDepth = 1;
+
     public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException {
         UrlQueryStringConstructor queryStringConstructor = new UrlQueryStringConstructor();
         List relLinksList = query.getRelationLinksList();
@@ -41,7 +43,7 @@ public class CgKbSource implements Source {
             paramTable.put("rel", relDetails.getLinkName());
             int depth = query.getDepth();
             if ((depth < 1) || (depth > 3)) {
-                depth=2;
+                depth=_defaultDepth;
             }
             Integer depthInt = new Integer(depth);
             paramTable.put("depth",depthInt.toString());

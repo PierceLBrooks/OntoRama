@@ -6,6 +6,7 @@ import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.model.*;
+import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;
 import ontorama.OntoramaConfig;
 
 import java.util.Iterator;
@@ -175,6 +176,16 @@ public class TestGraph extends TestCase {
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
             assertEquals( OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype), inEdge.getEdgeType());
+        }
+    }
+
+    public void testAddNode() {
+        Node newNode = new NodeImpl("newNode");
+        try {
+            graph.addNode(newNode);
+            fail("Should raise AddUnconnectedNodeIsDisallowedException ");
+        }
+        catch (AddUnconnectedNodeIsDisallowedException e) {
         }
     }
 

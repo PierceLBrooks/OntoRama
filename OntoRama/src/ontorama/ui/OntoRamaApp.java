@@ -39,6 +39,7 @@ import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
 import ontorama.ui.events.*;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
@@ -118,7 +119,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * holds thread that will do all the work: querying ont server
      * and building graph
      */
-    private QueryEngineThread _worker;
+    private ThreadWorker _worker;
 
     /**
      * holds current query
@@ -149,6 +150,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * nodes list viewer, used to show unconnected nodes
      */
     private NodesListViewer _listViewer;
+    
     private static EventBroker _modelEventBroker;
     private static EventBroker _viewsEventBroker;
 
@@ -225,6 +227,30 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         }
     }
+    
+    private class PutThinkingCapOnEventHandler implements EventBrokerListener {
+    	public void  processEvent (Event event) {
+    		String message = (String) event.getSubject();
+    		_progressBar.setIndeterminate(true);
+    		setStatusLabel(message);
+    	}
+    }
+
+	private class TakeThinkingCapOffEventHandler implements EventBrokerListener {
+		public void  processEvent (Event event) {
+			_progressBar.setIndeterminate(false);
+			setStatusLabel("");
+		}
+	}
+
+	private class LoadGraphEventHandler implements EventBrokerListener {
+		public void processEvent(Event event) {
+			QueryResult queryResult = (QueryResult) event.getSubject();
+			_worker = new GraphCreatorThread(queryResult, _modelEventBroker);
+			_worker.start();
+			_timer.restart();
+		}
+	}
 
     public OntoRamaApp() {
         super("OntoRama");
@@ -268,6 +294,21 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				            QueryCancelledEvent.class,
 				            Object.class);
 
+		_modelEventBroker.subscribe(
+							new PutThinkingCapOnEventHandler(),
+							PutThinkingCapOnEvent.class,
+							Object.class);
+		_modelEventBroker.subscribe(
+							new TakeThinkingCapOffEventHandler(),
+							TakeThinkingCapOffEvent.class,
+							Object.class);
+							
+		_modelEventBroker.subscribe(
+							new LoadGraphEventHandler(),
+							LoadGraphEvent.class,
+							Object.class);
+
+
         _timer = new Timer(TIMER_INTERVAL, this);
         initBackend();
         _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -279,7 +320,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         buildToolBar();
         buildStatusBar();
-        setStatusLabel("status bar is here");
 
         new LoggingEventListener(
 				            _modelEventBroker,
@@ -466,17 +506,21 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * waiting - update progress bar.
      */
     public void actionPerformed(ActionEvent evt) {
-        Graph graph = null;
         setStatusLabel(_worker.getMessage());
-        if ((_worker.done()) || (_worker.isStopped())) {
-            if (_worker.isStopped()) {
-                graph = _graph;
-                _modelEventBroker.processEvent(new QueryCancelledEvent(_query));
-            } else {
-                //if (_worker.done()) {
-                graph = _worker.getGraph();
-                _modelEventBroker.processEvent(new QueryEndEvent(graph));
-            }
+		if (_worker.isStopped()) {
+			_modelEventBroker.processEvent(new QueryCancelledEvent(_query));
+			_timer.stop();
+			return;
+		}
+		if (_worker.done()) {
+        	if (_worker instanceof QueryEngineThread) {
+                QueryResult qr = (QueryResult) _worker.getResult();
+                _modelEventBroker.processEvent(new LoadGraphEvent(qr));
+			}
+			if (_worker instanceof GraphCreatorThread) { 				
+				Graph graph = (Graph) _worker.getResult();
+				_modelEventBroker.processEvent(new QueryEndEvent(graph));
+			}
             _timer.stop();
         }
     }

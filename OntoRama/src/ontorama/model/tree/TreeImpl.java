@@ -8,6 +8,7 @@ import org.tockit.events.EventBroker;
 
 import ontorama.model.graph.*;
 import ontorama.model.tree.events.TreeNodeAddedEvent;
+import ontorama.model.tree.events.TreeNodeRemovedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
@@ -21,9 +22,6 @@ public class TreeImpl implements Tree {
     private Node _graphRootNode;
     private TreeNode _root;
     private EventBroker _eventBroker;
-
-    private List _nodes = new LinkedList();
-    private List _edges = new LinkedList();
 
     /**
      * Create a tree from the given graph with the given root node. The second parameter
@@ -72,7 +70,31 @@ public class TreeImpl implements Tree {
 		catch (GraphModificationException e) {
 			throw new TreeModificationException(e.getMessage());
 		}
-	}    
+	}
+	
+	public void removeNode (TreeNode nodeToRemove) {
+		removeTreeNode(nodeToRemove);
+		
+		Iterator clones = nodeToRemove.getClones().iterator();
+		while  (clones.hasNext()) {
+			TreeNode clone = (TreeNode) clones.next();
+			removeTreeNode(clone);
+		}
+		_eventBroker.processEvent(new TreeNodeRemovedEvent(this, nodeToRemove));
+	}
+	
+	private void removeTreeNode(TreeNode nodeToRemove) {
+		TreeNode parent = nodeToRemove.getParent();
+		TreeEdge parentEdge = parent.getEdge(nodeToRemove);
+			
+		Node graphNode = ((TreeNodeImpl) nodeToRemove).getGraphNode();
+		Edge graphEdge = ((TreeEdgeImpl) parentEdge).getGraphEdge();
+		_graph.removeEdge(graphEdge);
+		if (nodeToRemove.getClones().size() == 0) {
+			_graph.removeNode(graphNode);
+		}
+		parent.removeChild(nodeToRemove, parentEdge);
+	}	    
 
     private void buildTree (Node topGraphNode) {
         _root = addTreeNode(topGraphNode);
@@ -92,7 +114,9 @@ public class TreeImpl implements Tree {
 
     private TreeNode addTreeNode (Node graphNode) {
         TreeNode treeNode = new TreeNodeImpl(graphNode);
-        addTreeNode (treeNode);
+        if (_root != null ) {
+        	addTreeNode (treeNode);
+        }
         return treeNode;
     }
 
@@ -100,20 +124,21 @@ public class TreeImpl implements Tree {
 		/// since we should be
 		/// able to uniquely identify nodes by the graph nodes they contain - if we find two nodes with
 		/// the same graph node, we assume that they are each other clones.
-		Iterator it = _nodes.iterator();
-		while (it.hasNext()) {
-			TreeNode cur = (TreeNode) it.next();
+		List q = new LinkedList();
+		q.add(_root);
+		while (!q.isEmpty()) {
+			TreeNode cur = (TreeNode) q.remove(0);
+			List children = cur.getChildren();
+			q.addAll(children);
 			if (cur.isClone(treeNode)) {
 					cur.addClone(treeNode);
 					treeNode.addClone(cur);
 			}
 		}
-		_nodes.add(treeNode);
 	}
 
     private TreeEdge addTreeEdge (Edge graphEdge, TreeNode fromNode, TreeNode toNode) {
         TreeEdge treeEdge = new TreeEdgeImpl(graphEdge, toNode);
-        _edges.add(treeEdge);
     	fromNode.addChild(toNode, treeEdge);
     	toNode.setParent(fromNode);
         return treeEdge;

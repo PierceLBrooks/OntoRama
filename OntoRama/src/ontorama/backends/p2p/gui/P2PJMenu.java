@@ -12,7 +12,6 @@ import java.awt.Frame;
 import java.io.File;
 
 import javax.swing.Action;
-import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.filechooser.FileFilter;
 
@@ -40,8 +39,6 @@ public class P2PJMenu extends JMenu {
     private Action _updatePanelAction;
     private Action _resetChangePanelAction;
     
-    private JFileChooser _fileChooser;
-
     public P2PJMenu (P2PBackend p2pBackend) {
         super();
         _p2pBackend = p2pBackend;

@@ -10,7 +10,6 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.XmlParserAbstract;
-import ontorama.util.Debug;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -32,15 +31,8 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlExamplesConfigParser extends XmlParserAbstract {
 
-    private LinkedList examplesList;
+    private List examplesList;
     private OntoramaExample mainExample;
-
-
-    /**
-     *
-     */
-    private Debug debug = new Debug(false);
-
 
     public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {

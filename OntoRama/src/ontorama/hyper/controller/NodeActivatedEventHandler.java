@@ -30,4 +30,3 @@ public class NodeActivatedEventHandler implements EventListener {
         simpleHyperView.toggleFold(nodeView.getGraphNode());
     }
 }
-Argument NodeActivatedEventHandl

@@ -40,6 +40,19 @@
 	<pathelement path="${lib.home}/concurrent-1.3.0.jar/"/>
 	<pathelement path="${lib.home}/db3-3-11.jar/"/>
 	-->
+      <pathelement path="${lib.home}/p2p/beepcore.jar/"/>
+      <pathelement path="${lib.home}/p2p/cryptix32.jar/"/>
+      <pathelement path="${lib.home}/p2p/cryptix-asn1.jar/"/>
+      <pathelement path="${lib.home}/p2p/javax.servlet.jar/"/>
+      <pathelement path="${lib.home}/p2p/jxta.jar/"/>
+      <pathelement path="${lib.home}/p2p/jxtacms.jar/"/>
+      <pathelement path="${lib.home}/p2p/jxtaptls.jar/"/>
+      <pathelement path="${lib.home}/p2p/jxtasecurity.jar/"/>
+      <pathelement path="${lib.home}/p2p/log4j.jar/"/>
+      <pathelement path="${lib.home}/p2p/minimalBC.jar/"/>
+      <pathelement path="${lib.home}/p2p/org.mortbay.jetty.jar/"/>
+
+
   </path>
 
   <!-- Targets and Rules -->

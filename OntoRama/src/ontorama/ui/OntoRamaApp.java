@@ -520,20 +520,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         setStatusLabel(_worker.getMessage());
 		if (_worker.isStopped()) {
-			_modelEventBroker.processEvent(new QueryCancelledEvent(_query));
 			_timer.stop();
+			_modelEventBroker.processEvent(new QueryCancelledEvent(_query));
 			return;
 		}
 		if (_worker.done()) {
+			_timer.stop();
         	if (_worker instanceof QueryEngineThread) {
                 QueryResult qr = (QueryResult) _worker.getResult();
                 _modelEventBroker.processEvent(new QueryIsFinishedEvent(qr));
-			}
-			if (_worker instanceof GraphCreatorThread) { 				
+			} else if (_worker instanceof GraphCreatorThread) { 				
 				Graph graph = (Graph) _worker.getResult();
 				_modelEventBroker.processEvent(new GraphIsLoadedEvent(graph));
 			}
-            _timer.stop();
         }
     }
 

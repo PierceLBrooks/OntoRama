@@ -235,6 +235,7 @@ public class RdfP2pParser implements Parser {
         }
 
         P2PEdge edge = mapEdgeIntoModel(subject.toString(), predicate.toString(), object.toString());
+        edge.getEdgeType().setNamespace(predicate.getNameSpace());
         addEdgeToEdgesList(edge);
 
     }
@@ -343,7 +344,6 @@ public class RdfP2pParser implements Parser {
         //System.out.println(object1 + ", -> " + predicate2 + " -> " + object2);
 
         P2PEdge edge = mapEdgeIntoModel(subject1, predicate1, object1);
-
         if (predicate2.toString().endsWith("value")) {
             // we already processed this one above in findNameForAnonymousSubject() method
             return;

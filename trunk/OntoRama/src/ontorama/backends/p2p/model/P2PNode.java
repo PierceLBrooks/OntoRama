@@ -11,7 +11,7 @@ package ontorama.backends.p2p.model;
 import ontorama.model.graph.Node;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.Collection;
 
 public interface P2PNode extends Node {
 
@@ -35,17 +35,13 @@ public interface P2PNode extends Node {
 
     
     /**
-     * Returns the asserters
-     *
-     * @return a list of the asserter
+     * Returns the assertions.
      */
-    public Set getAssertionsList ();
+    public Collection getAssertions ();
 	
 	
     /**
-    * Returns the rejecter
-    *
-    * @return a list of the rejecters
-    */
-    public Set getRejectionsList ();
+     * Returns the rejections.
+     */
+    public Collection getRejectionsList ();
 }

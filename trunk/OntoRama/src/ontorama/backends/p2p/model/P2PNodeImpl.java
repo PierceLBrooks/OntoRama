@@ -5,8 +5,8 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Basic P2PNodeImpl for ontology viewers.
@@ -132,7 +132,7 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
      *
      * @return a list of the asserter
      */
-    public Set getAssertionsList () {
+    public Collection getAssertions () {
     	return this.asserters;
     }
     
@@ -141,7 +141,7 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
      *
      * @return a list of the rejecters
      */
-    public Set getRejectionsList () {
+    public Collection getRejectionsList () {
     	return this.rejecters;
     }
 }

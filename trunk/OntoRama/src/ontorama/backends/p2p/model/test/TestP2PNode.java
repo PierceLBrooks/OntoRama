@@ -103,8 +103,8 @@ public class TestP2PNode extends TestCase {
 		HashSet set = new HashSet();
 		set.add(creatorUri1);
 		
-		assertEquals("getAssertion for node1", set, (HashSet) node1.getAssertionsList());
-		assertEquals("getAssertion for node2", set, (HashSet) node2.getAssertionsList());
+		assertEquals("getAssertion for node1", set, (HashSet) node1.getAssertions());
+		assertEquals("getAssertion for node2", set, (HashSet) node2.getAssertions());
 	}
 
 	public void testGetRejectionList() {
@@ -118,16 +118,16 @@ public class TestP2PNode extends TestCase {
 
 	public void testAddAssertion() {
 		HashSet set = new HashSet();		
-		assertEquals("addAssertion for node3a", set, (HashSet) node3.getAssertionsList());
+		assertEquals("addAssertion for node3a", set, (HashSet) node3.getAssertions());
 		set.add(creatorUri1);
 		
 		node1.addAssertion(creatorUri1);
-		assertEquals("addAssertion for node1", set, (HashSet) node1.getAssertionsList());
+		assertEquals("addAssertion for node1", set, (HashSet) node1.getAssertions());
 		
 		set.add(creatorUri2);
 		node3.addAssertion(creatorUri1);
 		node3.addAssertion(creatorUri2);
-		assertEquals("addAssertion for node3b", set, (HashSet) node3.getAssertionsList());
+		assertEquals("addAssertion for node3b", set, (HashSet) node3.getAssertions());
 	}
 
 	public void testAddRejection() {

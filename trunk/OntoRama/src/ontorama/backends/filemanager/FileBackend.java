@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JMenu;
+import javax.swing.JPanel;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
@@ -51,7 +51,6 @@ import org.tockit.events.EventBrokerListener;
  */
 public class FileBackend implements Backend {
     private Graph _graph = null;
-    private List _panels = null;
     private EventBroker _eventBroker;
     private String _parserName;
     
@@ -73,8 +72,6 @@ public class FileBackend implements Backend {
     }
 
     public FileBackend(){
-        //We don't have any panels to this backend
-        _panels = new LinkedList();       
     }
 
     public void setEventBroker(EventBroker eventBroker) {
@@ -82,8 +79,8 @@ public class FileBackend implements Backend {
         new GraphLoadedEventHandler(this._eventBroker);
     }
 
-    public List getPanels(){
-        return _panels;
+    public JPanel getPanel(){
+        return null;
     }
 
     public JMenu getMenu() {

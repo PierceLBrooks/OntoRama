@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JMenu;
+import javax.swing.JPanel;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
@@ -100,7 +101,7 @@ public class ExamplesBackend implements Backend {
 	/**
 	 * @see ontorama.backends.Backend#getPanels()
 	 */
-	public List getPanels() {
+	public JPanel getPanel() {
 		return null;
 	}
 

@@ -30,13 +30,5 @@ public interface Peer2PeerBackend extends Backend {
 
     public void rejectNode(P2PNode node, URI rejecter) 
     	throws GraphModificationException;
-
-
-
-    /**
-     * @todo this a hack, couldn't figure out other way to get this panel to show from ontorama app.
-     * @param show
-     */
-    public void showPanels (boolean show);
     
 }

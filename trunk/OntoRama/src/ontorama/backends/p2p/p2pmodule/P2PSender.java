@@ -7,6 +7,7 @@ import java.util.Vector;
 import net.jxta.peergroup.PeerGroup;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
@@ -39,7 +40,7 @@ public class P2PSender{
     public P2PSender(CommunicationProtocol commProt, P2PBackend backend){
         this.comm = commProt;
         this.backend = backend;
-        this.peersPanel = (PeersPanel) backend.getPanels().get(0);
+        this.peersPanel = ((P2PMainPanel) backend.getPanel()).getPeerPanel();
        }
 
     /**

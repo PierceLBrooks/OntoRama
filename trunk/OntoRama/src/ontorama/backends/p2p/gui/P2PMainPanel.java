@@ -1,11 +1,8 @@
 package ontorama.backends.p2p.gui;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Point;
+import java.awt.GridLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /*
@@ -15,9 +12,8 @@ import javax.swing.JTabbedPane;
  * Time: 13:04:28
  * To change this template use Options | File Templates.
  */
-public class P2PMainPanel extends JFrame {
+public class P2PMainPanel extends JPanel {
 
-    private static final String _title = "P2P";
     private static final String _peerPanelTitle = "Peers";
     private static final String _peerPanelToolTip = "Information about group you have goined and other peers can be found here";
     private static final String _changePanelTitle = "Updates from other peers";
@@ -26,16 +22,15 @@ public class P2PMainPanel extends JFrame {
     PeersPanel peerPanel;
     ChangePanel changePanel;
     SearchPanel searchPanel;
-    Frame parent;
 
 
-    public P2PMainPanel(Frame parent) {
-        super(_title);
+    public P2PMainPanel() {
+        super();
+        this.setLayout(new GridLayout(1,1));
 
         peerPanel = new PeersPanel();
         changePanel = new ChangePanel();
         searchPanel = new SearchPanel();
-        this.parent = parent;
 
         JTabbedPane tabbedPanel = new JTabbedPane();
         tabbedPanel.addTab(_changePanelTitle, null, changePanel, _changePanelToolTip);
@@ -44,16 +39,7 @@ public class P2PMainPanel extends JFrame {
         tabbedPanel.addTab("Changes", null, changePanel, "See changes");
         tabbedPanel.addTab("Search", null, searchPanel, "Search for a term");
 
-        Container contentPanel = getContentPane();
-        contentPanel.add(tabbedPanel);
-        pack();
-        setLocationOnScreen(parent);
-    }
-
-    public void showP2PPanel (boolean show) {
-        pack();
-        setLocationOnScreen(this.parent);
-        setVisible(show);
+		add(tabbedPanel);
     }
 
     public PeersPanel getPeerPanel() {
@@ -62,21 +48,6 @@ public class P2PMainPanel extends JFrame {
 
     public ChangePanel getChangePanel() {
         return changePanel;
-    }
-
-    private void setLocationOnScreen (Frame parent) {
-    	if (parent == null) {
-    		return;
-    	}
-        Dimension parentSize = parent.getSize();
-        Point parentLocation = parent.getLocation();
-
-        Dimension p2pPanelSize = getSize();
-
-        double x = parentLocation.getX() + parentSize.getWidth() - p2pPanelSize.getWidth();
-        double y = parentLocation.getY() + parentSize.getHeight() - p2pPanelSize.getHeight();
-
-        setLocation((int) x, (int) y);
     }
 
 

@@ -1,6 +1,6 @@
 <ontoramaExamples>
-	<example name="csv" root="group" loadOnStart="yes" >
-		<source uri="examples/cgkb/test.csv" 
+	<example name="csv" root="net.sourceforge.toscanaj" loadOnStart="yes" >
+		<source uri="examples/cgkb/test1.csv" 
 					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>CSV</queryOutputFormat>
 		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>

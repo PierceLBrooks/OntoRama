@@ -22,15 +22,11 @@ non-transitive:
 <ontConfig>
 	<ontology>
 		<relation id="1">
-			<relationType name="subtype" mappingSymbol="!is-a"/>
-			<relationType name="is-a" mappingSymbol="is-a"/>
-			<display color="#33CCFF" symbol="&lt;"/>
-		</relation>
-		<relation id="2">
-			<relationType name="in-rel" mappingSymbol="!in"/>
-			<relationType name="in" mappingSymbol="in"/>
-			<display color="#FFFFCC" symbol="m"/>
+			<relationType name="is-in" mappingSymbol="!is-a"/>
+			<relationType name="in" mappingSymbol="is-a"/>
+			<display color="#33CCFF" symbol="is-in"/>
 		</relation>
 	</ontology>
+
 </ontConfig>
 

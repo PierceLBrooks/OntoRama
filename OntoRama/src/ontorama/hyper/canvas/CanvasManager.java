@@ -492,12 +492,12 @@ public class CanvasManager extends JComponent
             return;
         }
         boolean foldedState = focusedHyperNodeView.getFolded();
-        System.out.println("hyper view: foldedState = " + foldedState);
-        focusedHyperNodeView.setFolded( !foldedState);
-        System.out.println("hyper view: foldedState = " + focusedHyperNodeView.getFolded());
+        //System.out.println("hyper view: foldedState = " + foldedState);
+        //focusedHyperNodeView.setFolded( !foldedState);
+        //System.out.println("hyper view: foldedState = " + focusedHyperNodeView.getFolded());
         setFolded( foldedState,  node );
         repaint();
-        System.out.println("hyper view: finished");
+        //System.out.println("hyper view: finished");
     }
 
     /**

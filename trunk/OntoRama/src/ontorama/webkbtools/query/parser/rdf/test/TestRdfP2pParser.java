@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.parser.rdf.test;
+package ontorama.ontotools.query.parser.rdf.test;
 
 import java.io.Reader;
 import java.util.Iterator;
@@ -10,11 +10,11 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfP2pParser;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.query.parser.rdf.RdfP2pParser;
 
 /*
  * Created by IntelliJ IDEA.

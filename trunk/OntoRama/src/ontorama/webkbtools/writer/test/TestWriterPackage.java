@@ -1,11 +1,11 @@
-package ontorama.webkbtools.writer.test;
+package ontorama.ontotools.writer.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import ontorama.webkbtools.writer.rdf.test.TestRdfP2PWriter;
-import ontorama.webkbtools.writer.rdf.test.TestRdfWriter;
+import ontorama.ontotools.writer.rdf.test.TestRdfP2PWriter;
+import ontorama.ontotools.writer.rdf.test.TestRdfWriter;
 
 /*
  * Created by IntelliJ IDEA.
@@ -20,7 +20,7 @@ public class TestWriterPackage  extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("ontorama.webkbtools.writer");
+        TestSuite suite = new TestSuite("ontorama.ontotools.writer");
         suite.addTest(new TestSuite(TestRdfWriter.class));
         suite.addTest(new TestSuite(TestRdfP2PWriter.class));
         return suite;

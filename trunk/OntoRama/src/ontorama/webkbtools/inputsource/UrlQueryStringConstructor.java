@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

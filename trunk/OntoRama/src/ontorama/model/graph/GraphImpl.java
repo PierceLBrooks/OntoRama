@@ -21,8 +21,8 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.util.Debug;
 import ontorama.ui.OntoRamaApp;
-import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.QueryResult;
+import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
 /**
@@ -117,7 +117,7 @@ public class GraphImpl implements Graph {
      *  to it.
      *
      * @param   queryResult
-     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
+     * @throws  ontorama.ontotools.NoSuchRelationLinkException
      * @throws  ontorama.model.graph.NoTypeFoundInResultSetException
      */
     public GraphImpl(QueryResult queryResult, EventBroker eventBroker)
@@ -430,7 +430,7 @@ public class GraphImpl implements Graph {
      * Convert Graph into Tree by cloning nodes with duplicate parents (inbound _graphEdges)
      *
      * @param   root - root node for the graph
-     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
+     * @throws  ontorama.ontotools.NoSuchRelationLinkException
      */
     private void convertIntoTree(Node root)
             throws NoSuchRelationLinkException {
@@ -501,7 +501,7 @@ public class GraphImpl implements Graph {
      *
      * @param   node    original node
      * @param   cloneNode   copy node that needs all outbound _graphEdges filled in
-     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
+     * @throws  ontorama.ontotools.NoSuchRelationLinkException
      */
     private void deepCopy(Node node, Node cloneNode)
             throws NoSuchRelationLinkException {

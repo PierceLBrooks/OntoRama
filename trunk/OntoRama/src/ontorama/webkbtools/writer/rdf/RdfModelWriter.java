@@ -1,4 +1,4 @@
-package ontorama.webkbtools.writer.rdf;
+package ontorama.ontotools.writer.rdf;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -17,9 +17,9 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.conf.RdfMapping;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.writer.ModelWriter;
-import ontorama.webkbtools.writer.ModelWriterException;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.writer.ModelWriter;
+import ontorama.ontotools.writer.ModelWriterException;
 
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;

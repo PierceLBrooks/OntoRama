@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query;
+package ontorama.ontotools.query;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,14 +10,14 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.util.Debug;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.inputsource.SourceResult;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.NoSuchTypeInQueryResult;
-import ontorama.webkbtools.ParserException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.inputsource.SourceResult;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.NoSuchTypeInQueryResult;
+import ontorama.ontotools.ParserException;
+import ontorama.ontotools.SourceException;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -41,7 +41,7 @@ import ontorama.webkbtools.SourceException;
  * Company: DSTC
  * @author
  * @version 1.0
- * @see ontorama.webkbtools.query.Query
+ * @see ontorama.ontotools.query.Query
  */
 
 public class QueryEngine implements QueryEngineInterface {

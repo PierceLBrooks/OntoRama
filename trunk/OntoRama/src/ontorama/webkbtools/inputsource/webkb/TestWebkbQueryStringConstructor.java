@@ -1,8 +1,8 @@
-package ontorama.webkbtools.inputsource.webkb;
+package ontorama.ontotools.inputsource.webkb;
 
 import junit.framework.TestCase;
 
-import ontorama.webkbtools.query.Query;
+import ontorama.ontotools.query.Query;
 
 /**
  * <p>Description:

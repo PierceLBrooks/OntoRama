@@ -6,7 +6,7 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.webkbtools.inputsource.cgkb;
+package ontorama.ontotools.inputsource.cgkb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,12 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import ontorama.model.graph.EdgeType;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.inputsource.SourceResult;
-import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.inputsource.SourceResult;
+import ontorama.ontotools.inputsource.UrlQueryStringConstructor;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.SourceException;
 
 public class CgKbSource implements Source {
 

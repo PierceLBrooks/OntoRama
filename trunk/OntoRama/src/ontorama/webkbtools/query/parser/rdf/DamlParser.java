@@ -1,13 +1,13 @@
-package ontorama.webkbtools.query.parser.rdf;
+package ontorama.ontotools.query.parser.rdf;
 
 import java.io.Reader;
 import java.security.AccessControlException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.ParserException;
 
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;

@@ -24,14 +24,14 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.GraphModificationException;
-import ontorama.webkbtools.TestWebkbtoolsPackage;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.writer.ModelWriter;
-import ontorama.webkbtools.writer.ModelWriterException;
-import ontorama.webkbtools.writer.rdf.RdfModelWriter;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.query.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.writer.ModelWriter;
+import ontorama.ontotools.writer.ModelWriterException;
+import ontorama.ontotools.writer.rdf.RdfModelWriter;
 
 /**
  * Description

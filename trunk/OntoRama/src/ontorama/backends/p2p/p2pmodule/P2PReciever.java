@@ -9,10 +9,10 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.model.graph.GraphModificationException;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.query.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
 
 
 /**

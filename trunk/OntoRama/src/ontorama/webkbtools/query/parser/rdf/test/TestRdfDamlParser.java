@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.parser.rdf.test;
+package ontorama.ontotools.query.parser.rdf.test;
 
 import java.io.Reader;
 import java.util.Collection;
@@ -15,16 +15,16 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.TestWebkbtoolsPackage;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.query.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
+import ontorama.ontotools.SourceException;
 
 /**
  * <p>Title: </p>

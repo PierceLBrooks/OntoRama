@@ -37,7 +37,8 @@ public class P2PMainPanel extends JFrame {
         tabbedPanel.addTab(_changePanelTitle, null, changePanel, _changePanelToolTip);
         tabbedPanel.setSelectedComponent(changePanel);
         tabbedPanel.addTab(_peerPanelTitle, null, peerPanel, _peerPanelToolTip);
-        tabbedPanel.addTab("Search", null, changePanel, "Search for a term");
+        tabbedPanel.addTab("Changes", null, changePanel, "See changes");
+        tabbedPanel.addTab("Search", null, searchPanel, "Search for a term");
 
         Container contentPanel = getContentPane();
         contentPanel.add(tabbedPanel);

@@ -60,7 +60,7 @@ public class DialogUtil{
     }
     
     public static JTextField createNewGroupNameTextField() {
-    	JTextField field = new JTextField(20);
+    	JTextField field = new JTextField(40);
     	field.setToolTipText("Type name of a group you want to create");
     	return field;
     }

@@ -925,16 +925,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
     /**
-     * @todo not sure how this animation used to work before refactoring -
-     * seems that we move nodes distance = some coordinates multiplied by time...
-     * debugging shows that elapsedTime in our case is always 0 which means that
-     * no animation would be done....
      */
     protected void animate() {
 
         long newTime = System.currentTimeMillis();
         long elapsedTime = newTime - animationTime;
-        System.out.println("newTime = " + newTime + ", animationTime = " + animationTime);
         double animDist = elapsedTime / (double) lengthOfAnimation;
         lengthOfAnimation -= elapsedTime;
         animationTime = newTime;

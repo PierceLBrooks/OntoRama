@@ -3,7 +3,7 @@ package ontorama.webkbtools.datamodel;
 /**
  * Title:
  * Description:
- * Copyright:    Copyright (c) 2001
+ * Copyright:    Copyright DSTC (c) 2001
  * Company:
  * @author
  * @version 1.0

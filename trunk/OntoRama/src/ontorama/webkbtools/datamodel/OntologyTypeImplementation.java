@@ -58,9 +58,9 @@ public class OntologyTypeImplementation implements OntologyType {
   }
 
   /**
-   * Set Iterator with given relation link
+   * add given Ontology type with given relation link
    */
-  public void setIterator(OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException {
+  public void addRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException {
     if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
       throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
     }

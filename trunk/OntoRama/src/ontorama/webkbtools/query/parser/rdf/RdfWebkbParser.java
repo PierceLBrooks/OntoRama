@@ -189,7 +189,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         try {
-            EdgeType edgeType = OntoramaConfig.getRelationLinkDetails("Synonym");
+            EdgeType edgeType = OntoramaConfig.getEdgeType("Synonym");
             Iterator it = _edgesList.iterator();
             while (it.hasNext()) {
                 Edge edge = (Edge) it.next();

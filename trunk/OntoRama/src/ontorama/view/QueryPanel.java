@@ -255,8 +255,8 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     private void buildRelationLinksQueryPanel() {
-        //RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
-        Iterator it = OntoramaConfig.getRelationLinksSet().iterator();
+        //RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getEdgeType();
+        Iterator it = OntoramaConfig.getEdgeTypesSet().iterator();
 
         while (it.hasNext()) {
 //        for (int i = 0; i < relationLinksDetails.length; i++) {

@@ -6,10 +6,8 @@
  * To change template for new interface use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.graph.view;
+package ontorama.model.graph;
 
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
 
 
 public interface GraphView  {

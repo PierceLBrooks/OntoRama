@@ -8,7 +8,7 @@
  */
 package ontorama.model.graph.controller;
 
-import ontorama.model.graph.view.GraphView;
+import ontorama.model.graph.GraphView;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.events.NodeSelectedEvent;

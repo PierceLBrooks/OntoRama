@@ -1,9 +1,9 @@
 package ontorama.model.tree.controller;
 
-import ontorama.model.tree.view.TreeView;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
+import ontorama.model.tree.TreeView;
 import ontorama.model.graph.events.NodeSelectedEvent;
 import org.tockit.events.EventBroker;
 import org.tockit.events.Event;

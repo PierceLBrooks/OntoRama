@@ -1,7 +1,5 @@
-package ontorama.model.tree.view;
+package ontorama.model.tree;
 
-import ontorama.model.tree.Tree;
-import ontorama.model.tree.TreeNode;
 
 /**
  * @author nataliya

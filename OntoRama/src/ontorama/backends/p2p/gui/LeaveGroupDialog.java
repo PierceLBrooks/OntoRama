@@ -16,6 +16,7 @@ import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
 
 import ontorama.backends.p2p.GroupItemReference;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
@@ -34,7 +35,7 @@ public class LeaveGroupDialog extends JDialog {
 
     private static final String _title = "Leave P2P Group";
 
-    private P2PBackendImpl _p2pBackend;
+    private P2PBackend _p2pBackend;
 
 	private class LocalGroupJoinedEventHandler implements EventBrokerListener {
 		JDialog dialog;
@@ -47,7 +48,7 @@ public class LeaveGroupDialog extends JDialog {
 
 	}
 
-    public LeaveGroupDialog(Frame parent, P2PBackendImpl p2pBackend)  {
+    public LeaveGroupDialog(Frame parent, P2PBackend p2pBackend)  {
         super(parent, _title, true);
         _p2pBackend = p2pBackend;
         
@@ -55,7 +56,7 @@ public class LeaveGroupDialog extends JDialog {
 
         Vector foundGroups = new Vector();
         try {
-            foundGroups = _p2pBackend.getSender().joinedGroups();
+            foundGroups = ((P2PBackendImpl)_p2pBackend).getSender().joinedGroups();
             Iterator it = foundGroups.iterator();
         }
         catch (Exception e) {

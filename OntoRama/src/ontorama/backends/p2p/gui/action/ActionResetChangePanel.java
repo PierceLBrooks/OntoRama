@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import ontorama.backends.p2p.P2PBackendImpl;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 
 /*
@@ -15,9 +15,9 @@ import ontorama.backends.p2p.gui.P2PMainPanel;
  * To change this template use Options | File Templates.
  */
 public class ActionResetChangePanel extends AbstractAction {
-     private P2PBackendImpl _p2pBackend;
+     private P2PBackend _p2pBackend;
 
-    public ActionResetChangePanel(String name, P2PBackendImpl p2pBackend) {
+    public ActionResetChangePanel(String name, P2PBackend p2pBackend) {
         super(name);
         _p2pBackend = p2pBackend;
     }

@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.AbstractAction;
 
 import ontorama.backends.p2p.GroupItemReference;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.gui.GroupSearchDialog;
 import ontorama.ui.OntoRamaApp;
@@ -20,9 +21,9 @@ import ontorama.ui.OntoRamaApp;
  */
 public class ActionGroupSearch extends AbstractAction{
 
-    private P2PBackendImpl _p2pBackend;
+    private P2PBackend _p2pBackend;
 
-    public ActionGroupSearch(String name, P2PBackendImpl p2pBackend) {
+    public ActionGroupSearch(String name, P2PBackend p2pBackend) {
         super(name);
         _p2pBackend = p2pBackend;
     }
@@ -39,7 +40,7 @@ public class ActionGroupSearch extends AbstractAction{
             if (selectedOption == GroupSearchDialog.OPTION_ALL) {
                 System.out.println("option selected: all groups");
                 try {
-                    Vector searchGroupResult = _p2pBackend.getSender().sendSearchGroup(null,null);
+                    Vector searchGroupResult = ( (P2PBackendImpl)_p2pBackend).getSender().sendSearchGroup(null,null);
                     GroupItemReference searchGroupResultElement = null;
                     System.out.println("Found following matching " + "s");
                     Enumeration tmpEnumernation = searchGroupResult.elements();

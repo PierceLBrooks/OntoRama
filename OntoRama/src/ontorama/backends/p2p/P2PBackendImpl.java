@@ -22,7 +22,6 @@ import ontorama.backends.p2p.controller.JoinGroupEventHandler;
 import ontorama.backends.p2p.controller.LeaveGroupEventHandler;
 import ontorama.backends.p2p.controller.NewGroupEventHandler;
 import ontorama.backends.p2p.controller.NodeAddedEventHandler;
-import ontorama.backends.p2p.controller.GraphLoadedEventHandler;
 import ontorama.backends.p2p.controller.NodeRemovedEventHandler;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
@@ -189,7 +188,6 @@ public class P2PBackendImpl implements P2PBackend {
         new EdgeAddedEventHandler(_eventBroker, this);
 		new NodeRemovedEventHandler(_eventBroker, this);
 		new EdgeRemovedEventHandler(_eventBroker, this);
-        new GraphLoadedEventHandler(_eventBroker, this);
         
         
     	new LoggingEventListener(
@@ -448,9 +446,6 @@ public class P2PBackendImpl implements P2PBackend {
         return this.graph;
     }
 
-    public void setP2PGraph(P2PGraph graph){
-        this.graph = graph;
-    }
 
 
 //	// dont' need this one me thinks since noone calls it
@@ -536,7 +531,8 @@ public class P2PBackendImpl implements P2PBackend {
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
 	 */
 	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException {
-		Graph res = new P2PGraphImpl(qr, eb); 	
+		Graph res = new P2PGraphImpl(qr, eb); 
+		System.out.println("\n\n\nCREATE GRAPH\n\n\n");
 		return res;
 	}
 

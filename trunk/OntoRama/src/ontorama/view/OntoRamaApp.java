@@ -1,7 +1,7 @@
 package ontorama.view;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.filemanager.FileJMenu;
+import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PJMenu;

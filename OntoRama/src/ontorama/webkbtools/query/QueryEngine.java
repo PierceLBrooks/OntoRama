@@ -194,9 +194,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
             Edge curEdge = (Edge) edgesIt.next();
-            System.out.println("curEdge = " + curEdge);
             if (wantedLinks.contains(curEdge.getEdgeType())) {
-                System.out.println("want this edge");
                 _resultEdgesList.add(curEdge);
                 GraphNode fromNode = curEdge.getFromNode();
                 GraphNode toNode = curEdge.getToNode();
@@ -210,8 +208,12 @@ public class QueryEngine implements QueryEngineInterface {
                 }
             }
         }
-        if (nodes.size() > 0) {
-            System.out.println("\n\n\nleft over nodes: " + nodes);
+
+        Iterator nodesIt = nodes.iterator();
+        while (nodesIt.hasNext()) {
+            GraphNode curNode = (GraphNode) nodesIt.next();
+            System.out.println("left over node = " + curNode);
+            _resultNodesList.add(curNode);
         }
     }
 

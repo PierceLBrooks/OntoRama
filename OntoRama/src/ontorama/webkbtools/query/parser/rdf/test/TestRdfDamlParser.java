@@ -169,7 +169,7 @@ public class TestRdfDamlParser extends TestCase {
      */
     public void testResultSize() {
         // expecting 14 types in the result
-        assertEquals(34, parserResult.getNodesList().size());
+        assertEquals("number of nodes", 34, parserResult.getNodesList().size());
     }
 
     /**

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import javax.swing.JMenu;
@@ -81,7 +82,8 @@ public class P2PBackend implements Peer2PeerBackend {
     private EventBroker _eventBroker;
 
     /// @todo need to change this to something meaninfull
-    private static final String _defaultUserUri = "mailto:user@p2p.ontorama.org";
+    private static final String _defaultUserUriString = "mailto:user@p2p.ontorama.org";
+    private URI _defaultUserUri;
 
     private P2PMainPanel mainPanel;
 
@@ -115,7 +117,13 @@ public class P2PBackend implements Peer2PeerBackend {
 		System.out.println("p2p backend constructor, p2pbackend = " + this);
 			
 		activate();
-
+		
+		try {
+			_defaultUserUri = new URI(_defaultUserUriString);
+		}
+		catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	} 
 	
 
@@ -317,17 +325,13 @@ public class P2PBackend implements Peer2PeerBackend {
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
         try {
-			String asserterStr = "";
 			if (asserter == null) {
-				asserterStr = _defaultUserUri;
-			}
-			else {
-				asserterStr = asserter.toString();
+				asserter = _defaultUserUri;
 			}
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 
 										edge.getEdgeType().getName(), 
-										Change.ASSERT, asserterStr);
+										Change.ASSERT, asserter.toString());
 			String message = XmlMessageProcessor.createMessage(edgeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 
@@ -354,12 +358,8 @@ public class P2PBackend implements Peer2PeerBackend {
 
     public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
         try {
-            String asserterStr = "";
             if (asserter == null) {
-                asserterStr = _defaultUserUri;
-            }
-            else {
-                asserterStr = asserter.toString();
+                asserter = _defaultUserUri;
             }
             System.out.println("\n\nP2PBackend::assertNode sending propagate for node " + node.getName());
              
@@ -369,7 +369,7 @@ public class P2PBackend implements Peer2PeerBackend {
              	nodeType = OntoramaConfig.UNKNOWN_TYPE;
              }
 			System.out.println("\nnode type for new node: " + nodeType.getName());
-             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserterStr);
+             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserter.toString());
              String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 			this.graph.assertNode(node,asserter);
@@ -386,27 +386,23 @@ public class P2PBackend implements Peer2PeerBackend {
       }
 
 
-    public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
+    public void rejectNode(P2PNode node, URI rejector) throws GraphModificationException{
         try {
 			System.out.println("\n\nP2PBackend::rejectNode sending propagate for node " + node.getName());
-            String rejectorStr = "";
-            if (rejecter == null) {
-                rejectorStr = _defaultUserUri;
+            if (rejector == null) {
+                rejector = _defaultUserUri;
             }
-            else {
-                rejectorStr = rejecter.toString();
-            }            
 			NodeType nodeType = node.getNodeType();
 			if (nodeType == null) {
 			   // @todo a hack here for node type. Need to fix where adding nodes.
 			   nodeType = OntoramaConfig.UNKNOWN_TYPE;
 			}
 
-			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejectorStr);
+			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejector.toString());
 			String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
              		
-			this.graph.rejectNode(node,rejecter);
+			this.graph.rejectNode(node,rejector);
         } catch (GroupExceptionThread e) {
                e.printStackTrace();
 		} catch (GraphModificationException e) {
@@ -419,25 +415,21 @@ public class P2PBackend implements Peer2PeerBackend {
       }
 
 
-    public void rejectEdge(P2PEdge edge, URI rejecter) throws GraphModificationException, NoSuchRelationLinkException{
+    public void rejectEdge(P2PEdge edge, URI rejector) throws GraphModificationException, NoSuchRelationLinkException{
 		try {
 			System.out.println("\n\nP2PBackend::rejectEdge sending propagate for edge " + edge);
-			String rejectorStr = "";
-			if (rejecter == null) {
-				rejectorStr = _defaultUserUri;
-			}
-			else {
-				rejectorStr = rejecter.toString();
+			if (rejector == null) {
+				rejector = _defaultUserUri;
 			}
 
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 
 										edge.getEdgeType().getName(), 
-										Change.ASSERT, rejectorStr);
+										Change.ASSERT, rejector.toString());
 			String message = XmlMessageProcessor.createMessage(edgeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
              		
-			this.graph.rejectEdge(edge,rejecter);
+			this.graph.rejectEdge(edge,rejector);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in rejectRelation()");
                e.printStackTrace();

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:dc="http://purl.org/metadata/dublin_core#" 
+	xmlns:daml="http://www.daml.org/2000/10/daml-ont#" 
+	xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
+
+<rdfs:Class rdf:about="http://www.webkb.org/ontorama/chair">
+  <rdfs:label xml:lang="en">a chair</rdfs:label>
+  <rdfs:label xml:lang="en">a sit</rdfs:label>
+  <dc:Creator>nataliya@dstc.edu.au</dc:Creator>
+  <rdfs:comment>test term 'chair'</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/furniture"/>
+  <pm:part rdf:resource="http://www.webkb.org/ontorama/backrest"/>
+  <pm:part rdf:resource="http://www.webkb.org/ontorama/leg"/>
+  <pm:similar rdf:resource="http://www.webkb.org/ontorama/otherChairs"/>
+  <pm:instanceOf rdf:resource="http://www.webkb.org/ontorama/myChair"/>
+  <pm:wnMember rdf:resource="http://www.webkb.org/ontorama/allChairs"/>
+  <pm:substance rdf:resource="http://www.webkb.org/ontorama/someSubstanceNode"/>
+  <daml:complementOf rdf:resource="http://www.webkb.org/ontorama/table"/>
+  <pm:url rdf:resource="http://www.webkb.org/ontorama"/>
+  <pm:location rdf:resource="http://www.webkb.org/ontorama/someLocation"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/someObject"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:about="http://www.webkb.org/ontorama/armchair">
+  <rdfs:label xml:lang="en">an armchair</rdfs:label>
+  <dc:Creator>nataliya@dstc.edu.au</dc:Creator>
+  <rdfs:comment>test term 'armchair'</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/chair"/>
+</rdfs:Class>
+</rdf:RDF>

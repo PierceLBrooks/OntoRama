@@ -1,0 +1,8 @@
+<ontoramaExamples>
+	<example name="testCase" root="chair" loadOnStart="yes" >
+		<source relativeUri="examples/test/data/testCase.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+</ontoramaExamples>

@@ -7,6 +7,7 @@ package ontorama.hyper.canvas;
 
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.view.simple.HyperNodeView;
+import ontorama.hyper.view.simple.LabelView;
 
 import javax.swing.JComponent;
 
@@ -75,6 +76,9 @@ import java.util.LinkedList;
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
+            if( noLabels && cur instanceof LabelView ) {
+                continue;
+            }
             cur.draw(g2d);
         }
     }
@@ -84,10 +88,8 @@ import java.util.LinkedList;
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
             if( cur instanceof HyperNodeView ) {
-                double x = getSize().width - e.getX();
-                double y = getSize().height - e.getY();
-                double curX = (e.getX() + ( -1 * x ))/2;
-                double curY = (e.getY() + ( -1 * y ))/2;
+                double curX = e.getX() - getSize().width/2;
+                double curY = e.getY() - getSize().height/2;
                 curX = curX * ( 1 / canvasScale);
                 curY = curY  * (1 / canvasScale);
                 boolean found = cur.isClicked( curX, curY);
@@ -125,6 +127,7 @@ import java.util.LinkedList;
             double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
             if( dragedAmount > DRAG ) {
                 dragmode = true;
+                //noLabels = true;
             }
             else {
                 return;
@@ -134,8 +137,8 @@ import java.util.LinkedList;
         double yDif = (lpy - y);
         lastPoint.setLocation( x, y );
         moveCanvasItems( xDif, yDif );
-        noLabels = true;
-        repaint();
+        paint(this.getGraphics());
+        //repaint();
     }
 
     /**
@@ -162,6 +165,7 @@ import java.util.LinkedList;
         int i = 0;
         double lastX = xMax;
         double lastY = yMax;
+        noLabels = true;
         while( i < STEPS ) {
             double moveby = (STEPS - i - 1)/( STEPS - 1);
             double x = xMax * moveby;
@@ -178,7 +182,8 @@ import java.util.LinkedList;
 //                // nothing
 //            }
         }
-
+        noLabels = false;
+        paint(this.getGraphics());
         //animationStartTime = System.currentTimeMillis();
         //animate();
     }

@@ -20,7 +20,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.jxta.peergroup.PeerGroup;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
@@ -94,6 +93,8 @@ public class PeersPanel extends JPanel  implements GroupView {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");						
 				System.out.println("REFRESH on peers, time (mils): " + sdf.format(new Date()));
 				_p2pBackend.getSender().peerDiscovery();
+				System.out.println("----+++++-------");
+				_p2pBackend.getSender().peerDiscoveryForGlobalGroup();
 			}
         	
         });
@@ -107,10 +108,6 @@ public class PeersPanel extends JPanel  implements GroupView {
 
     }
 
-	public void setGlobalGroup(PeerGroup pg) {
-		_globalGroupReferenceElement = new GroupReferenceElement(pg.getPeerGroupID(), pg.getPeerGroupName(), "Global Net Group");
-		addGroup(_globalGroupReferenceElement);
-	}
 
 	public void addGroup(GroupReferenceElement groupReferenceElement) {
 		String groupId = groupReferenceElement.getID().toString();
@@ -124,6 +121,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     public void addPeer (String peerId, String peerName, String groupId) {
+    	System.out.println("addPeer, peerName = " + peerName + ", peerId = " + peerId + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
         groupPanel.addPeer(peerId, peerName);
         groupPanel.repaint();
@@ -183,7 +181,10 @@ public class PeersPanel extends JPanel  implements GroupView {
         
 
         public void addPeer (String peerID, String peerName) {
-        	System.out.println("PeersPanel::GroupPanel::addPeer peerName = " + peerName + ", peerId = " + peerID + ", group = " + this.group.getName());
+        	System.out.println("PeersPanel::GroupPanel::addPeer, panel = " + group.getName() +
+        					", group id = " + group.getID() +  
+							"\n\t peerName = " + peerName + ", peerId = " 
+							+ peerID );
             if (!peersList.contains(peerID)) {
                  peersList.add(peerID);
                 _peerIdToPeerNameMapping.put(peerID, peerName);

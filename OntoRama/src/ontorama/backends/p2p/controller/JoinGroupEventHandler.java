@@ -1,5 +1,6 @@
 package ontorama.backends.p2p.controller;
 
+import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
@@ -24,7 +25,7 @@ public class JoinGroupEventHandler implements EventBrokerListener{
 		System.out.println("\n\nJoinGroupEventHandler::processEvent");
 		GroupReferenceElement groupRefElement = (GroupReferenceElement) event.getSubject();
 		try {
-			_sender.sendJoinGroup(groupRefElement.getID());
+			_sender.sendJoinGroup((PeerGroupID) groupRefElement.getID());
 		}
 		catch (GroupException e) {
 			e.printStackTrace();

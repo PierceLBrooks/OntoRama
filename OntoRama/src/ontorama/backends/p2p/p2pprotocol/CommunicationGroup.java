@@ -60,10 +60,10 @@ public class CommunicationGroup extends Communication {
 
 		//Get the ModuleImplAdvertisement
 		try {
-			implAdv = this.getGlobalPG().getAllPurposePeerGroupImplAdvertisement();
+			implAdv = Communication.getGlobalPG().getAllPurposePeerGroupImplAdvertisement();
 
 			//Create group
-			pg = this.getGlobalPG().newGroup(null,implAdv, name,descr);
+			pg = Communication.getGlobalPG().newGroup(null,implAdv, name,descr);
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
 			
@@ -101,7 +101,7 @@ public class CommunicationGroup extends Communication {
             } else {
                 pg = (PeerGroup) this.createdGroups.get(groupID);
                 if (null == pg) {         
-                  pg = this.getGlobalPG().newGroup(groupID);
+                  pg = Communication.getGlobalPG().newGroup(groupID);
                 } 
                 this.joinGroup(pg);
             }
@@ -184,7 +184,7 @@ public class CommunicationGroup extends Communication {
 
 		//Get PeerGroup
 		try {
-			pg = this.getGlobalPG().newGroup(groupID);
+			pg = Communication.getGlobalPG().newGroup(groupID);
 		} catch (PeerGroupException e) {
 			throw new GroupException(e, "The group does not exist");
 		}
@@ -209,7 +209,7 @@ public class CommunicationGroup extends Communication {
 
 
 			//Flushs the advertisment from the parent group (in this case the Global Group)
-			DiscoveryService discServGlobal = this.getGlobalPG().getDiscoveryService();
+			DiscoveryService discServGlobal = Communication.getGlobalPG().getDiscoveryService();
 			discServGlobal.flushAdvertisements(groupIDasString, DiscoveryService.GROUP);
 
 			//if left group, then update memberOfGroups
@@ -256,7 +256,7 @@ public class CommunicationGroup extends Communication {
 								throws GroupExceptionThread, IOException {
 									
 		Vector result = new Vector();
-		DiscoveryService discServ = this.getGlobalPG().getDiscoveryService();
+		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
 		PeerGroupAdvertisement pgAdv = null;
 		Enumeration enum = null;
 				
@@ -318,26 +318,16 @@ public class CommunicationGroup extends Communication {
 		
 		PeerAdvertisement peerAdv = null;
 		PeerGroup pg = null;
-		DiscoveryService discServ = this.getGlobalPG().getDiscoveryService();		
+		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();		
         Enumeration enum1 = null;
 		Enumeration enum = null;
-
-		discServ.getRemoteAdvertisements(null,
-									DiscoveryService.PEER,
-										null,null,
-										10);
-        		
+       		
 		//Get the group the the peer answering the question belongs to. 
 		pg = getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
 		DiscoveryService discServ1 = pg.getDiscoveryService();
-		
-		/// @todo added line below instead of commented out above while trying to figure out why we can't see other peers in our group
-		//DiscoveryService discServ1 = discServ;
-		
-		//discServ = pg.getDiscoveryService();
-
+			
 		//Send a request to other peers
 		discServ1.getRemoteAdvertisements(null,
 									DiscoveryService.PEER,
@@ -345,9 +335,6 @@ public class CommunicationGroup extends Communication {
 										10);
 		try {
 			Thread.sleep(3*1000);
-
-			enum = discServ.getLocalAdvertisements(DiscoveryService.PEER,
-													null,null);
 
 			enum1 = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
 													null,null);
@@ -362,21 +349,14 @@ public class CommunicationGroup extends Communication {
 		//Get all peer advertisements that are stored in the local cahe
 		Vector searchGroupResult = new Vector();	
 		System.out.println("\tCommunicationGroup::peerDiscovery retuning");				
-		while (enum.hasMoreElements()) {
-			//Add the peer information to the searchGroupResult
-			peerAdv = (PeerAdvertisement) enum.nextElement();
-			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
-								+ peerAdv.getPeerGroupID());
-			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
-																	peerAdv.getName(),
-																	peerAdv.getDescription()));
-		}
 		while (enum1.hasMoreElements()) {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum1.nextElement();
-			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
-								+ peerAdv.getPeerGroupID());
-			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
+			System.out.println("\t.peerAdv.getName() = " + peerAdv.getName()
+								+ ", peerAdv.getPeerID() = " 
+								+ peerAdv.getPeerID()
+								+ ", group = " + peerAdv.getPeerGroupID());
+			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerID(),
 								  									peerAdv.getName(),
 								  									peerAdv.getDescription()));
 		}

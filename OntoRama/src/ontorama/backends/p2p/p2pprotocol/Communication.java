@@ -108,7 +108,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	public String getPeerIDasString() {
-		return this.getGlobalPG().getPeerID().toString();
+		return Communication.getGlobalPG().getPeerID().toString();
 	}
 
 	/**
@@ -138,13 +138,13 @@ public class Communication {
 	}
 	
 	protected void removeFromMemberOfGroups (String groupIDasString) {
-		PeerGroup pg = getMemberOfGroups(groupIDasString);
+		PeerGroup pg = getPeerGroupFromMemberOfGroups(groupIDasString);
 		if (pg != null) {
 			Communication.memberOfGroups.remove(pg.getPeerGroupID());
 		}
 	}
 
-	protected PeerGroup getMemberOfGroups (String groupIDasString) {
+	protected PeerGroup getPeerGroupFromMemberOfGroups (String groupIDasString) {
 		Enumeration enum = Communication.memberOfGroups.elements();
 		while (enum.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) enum.nextElement();
@@ -230,7 +230,7 @@ public class Communication {
 	* @return the globa peergroup
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public PeerGroup getGlobalPG() {
+	public static PeerGroup getGlobalPG() {
 		return Communication.globalP2PGroup;
 	}
 	
@@ -252,7 +252,7 @@ public class Communication {
 	protected PeerGroupID getPeerGroupID(String groupIDasString) {
 		PeerGroupID retVal = null;
 		PeerGroupAdvertisement pgAdv = null;
-		DiscoveryService discServ = this.getGlobalPG().getDiscoveryService();
+		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
         Enumeration enum = null;
 		try {
 			enum = discServ.getLocalAdvertisements(
@@ -282,7 +282,7 @@ public class Communication {
     protected PeerGroup getPeerGroup(String groupIDasString) {
 		PeerGroup pg = null;
 		try {
-			pg = this.getGlobalPG().newGroup(this.getPeerGroupID(groupIDasString));
+			pg = Communication.getGlobalPG().newGroup(this.getPeerGroupID(groupIDasString));
 		} catch (PeerGroupException e) {
 			System.out.println("Error");
 			e.printStackTrace();			

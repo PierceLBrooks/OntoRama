@@ -55,11 +55,11 @@ public class InputPipeListener implements PipeMsgListener {
 
         //check to see if the message is sent for us
         if ((senderPeerIDStr != null) && var != null) {
-            System.err.println("We have recieved a message with TAG, senderPeerID:" + var + "," + senderPeerIDStr + " Body:" + message.getString("Body"));
+            System.err.println("We have recieved a message with TAG, senderPeerName = " + message.getString("SenderPeerName") + ", senderPeerID:" + var + "," + senderPeerIDStr + " Body:" + message.getString("Body"));
 
             //Only process messages that this peer has not sent
             if (!(senderPeerIDStr.equals(
-                    this.comm.getGlobalPG().getPeerID().toString()))) {
+					Communication.getGlobalPG().getPeerID().toString()))) {
 
 
                 switch(new Integer(var).intValue()) {

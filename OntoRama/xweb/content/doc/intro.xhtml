@@ -21,6 +21,7 @@
 		<p>
 			OntoRama is  tool is intended to be a <b>generic ontology browser</b>. 
 		</p>
+		<h3>Model</h3>
 		<p>
 			We model an ontology as a Graph with a set of nodes
 			and edges. Each Node represents an ontology term and its
@@ -29,15 +30,17 @@
 			(<a href="config.html">See 'Configuration' section</a> for more details on
 			config)
 		</p>
+		<h3>Clones</h3>
 		<p>
 			An ontology term can have more than one supertype, thus resulting in 
 			a graph node with multipe parents (inbound edges). This can be 
 			difficult to display and the resulting visualisation could be 
 			confusing for a	user. Thus, we clone nodes that have multiple 
 			parents. Each cloned node 'knows' about its clones and
-			vice versa.
+			vice versa. 
 			[..... how user can see that, example....]
 		</p>
+		<h3>Using RDF as input</h3>
 		<p>
 We have used RDF/XML as an input format. This
 approach has benefits and disadvantages. 
@@ -61,9 +64,33 @@ the moment OntoRama only displays concept types ("Classes" in RDF)
 and ignores relation types ("Properties"). Thus, we are
 loosing some information from ontologies.
 </p>
-
+		<h3>RDF Parser</h3>
 		<p>
-			
+			We used Jena toolkit to parse RDF input. We have chosen this tool
+			for a couple of reasons:
+		</p>
+		<ul>
+			<li>
+				This parser among all other things can build RDF memory model
+				of RDF triples, 
+				which is a very convenient and simple way to read RDF data 
+				(as opposed
+				to callback interface).
+			</li>
+			<li>
+				Supports DAML ontologies, which is an added bonus for us.
+			</li>
+		</ul>
+		<p>
+			However, we encountered one problem with using Jena in our
+			application: it's not totally compatable with Java Webstart.
+			Java Webstart runs an application in a sandbox and has a lot of 
+			security restrictions. One of restricted actions: reading and writing
+			System properties. One of Jena's classes relies on this action.
+			As a temporary workaround this we ammended the offending class and
+			are using this updated Jena API.  We also notified jena development
+			team and are hoping that this will be taken in consideration in the 
+			future Jena releases.
 		</p>
 		<p>
 			Some conventions:

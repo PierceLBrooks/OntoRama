@@ -43,7 +43,7 @@ import ontorama.util.event.ViewEventObserver;
  */
 
 public class DescriptionView extends JPanel implements ViewEventObserver {
-
+	
 	/**
 	 * this hashtable will hold labels of concept property names as keys
 	 * and labels of corresponding values for a node as values
@@ -73,8 +73,16 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	
 	/**
 	 * @todo  think of a way to not hardcode _parents
+	 * 
+	 * @todo	shouldn't hardcode parent relation, see line 
+	 * because if someone changed config file for supertype/subtype relation to
+	 * be some other integer - this won't work. there is also other scenarios for
+	 * failure. maybe should have some rules for constructing config.xml file
+	 * or some other way to tell which relation is supertype/subtype. 
+	 * 
 	 */
-	private String _parentsLabelName = "Parents";
+	private String _reverseRelationLinkName;
+	private int _firstRelationLink = 1;
 	
 	/**
 	 * 
@@ -102,12 +110,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	public DescriptionView(ViewEventListener viewListener) {
 		_viewListener = viewListener;
 		_viewListener.addObserver(this);
+		
+		initReverseRelation();
 
 		initPropertiesPanels();
 		_fullUrlPanel = 
 			new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
 		_clonesPanel = new ClonesPanel(_clonesLabelName,_viewListener);
-		_parentsPanel = new ParentsPanel(_parentsLabelName, _viewListener);
+		_parentsPanel = new ParentsPanel(_reverseRelationLinkName, _viewListener);
 		
 		_propertyNameLabelsDimension = calcLabelSize();
 		setLabelSizesForNodePropertiesPanels();
@@ -144,6 +154,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 */
 	public void setGraph(Graph graph) {
 
+	}
+	
+	/**
+	 * 
+	 */
+	private void initReverseRelation () {
+		RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(_firstRelationLink);
+		_reverseRelationLinkName = relLinkDetails.getReversedLinkName();
 	}
 
 	/**
@@ -267,7 +285,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		fullUrlPropList.add(node.getFullName());
 		_fullUrlPanel.update(fullUrlPropList);
 
-        Iterator it = Edge.getInboundEdgeNodes(node,1);
+        Iterator it = Edge.getInboundEdgeNodes(node,_firstRelationLink);
         while (it.hasNext()) {
           GraphNode parent = (GraphNode) it.next();
           System.out.println("  parent: " + parent.getName());

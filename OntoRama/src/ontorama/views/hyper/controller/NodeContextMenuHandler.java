@@ -58,8 +58,14 @@ public class NodeContextMenuHandler implements EventBrokerListener {
                     public void actionPerformed(ActionEvent e) {
                         NewRelatedNodeCreator creator =
                                         new NewRelatedNodeCreator(_simpleHyperView, nodeView.getTreeNode(), edgeType);
-                        TreeNode newNode = creator.createNewRelatedNode();
-                        _eventBroker.processEvent(new TreeNodeSelectedEvent(newNode, _eventBroker));
+						try {
+							TreeNode newNode = creator.createNewRelatedNode();
+							_eventBroker.processEvent(new TreeNodeSelectedEvent(newNode, _eventBroker));
+						}
+						catch (TreeModificationException e1) {
+							e1.printStackTrace();
+							ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error adding new node", e1.getMessage());
+						}
                     }
                 });
                 newNodeMenu.add(menuItem);

@@ -214,7 +214,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator nodesIt = nodes.iterator();
         while (nodesIt.hasNext()) {
             Node curNode = (Node) nodesIt.next();
-            System.out.println("left over node = " + curNode);
+            //System.out.println("left over node = " + curNode);
             _resultNodesList.add(curNode);
         }
     }

@@ -287,9 +287,6 @@ public class DescriptionView extends JPanel implements GraphView {
         _graph = graph;
     }
 
-    public Graph getGraph () {
-        return _graph;
-    }
 
     public void repaint () {
         super.repaint();

@@ -1157,9 +1157,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
 
-    public Graph getGraph () {
-        return this.graph;
-    }
 
 
     public void repaint() {

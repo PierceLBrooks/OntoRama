@@ -37,28 +37,28 @@ public interface Graph {
      */
     public List getNodesList();
 
-    /**
-     * find root of branch corresponding to the given node
-     * @param node
-     * @return
-     */
-    public GraphNode getBranchRootForNode (GraphNode node);
+//    /**
+//     * find root of branch corresponding to the given node
+//     * @param node
+//     * @return
+//     */
+//    public GraphNode getBranchRootForNode (GraphNode node);
 
 
-    /**
-     *
-     * @param rootNode
-     * @todo temp: shouldn't need this once implement trees
-     */
-    public void setRoot(GraphNode rootNode);
+//    /**
+//     *
+//     * @param rootNode
+//     * @todo temp: shouldn't need this once implement trees
+//     */
+//    public void setRoot(GraphNode rootNode);
 
-    /**
-     *
-     * @param rootNode
-     * @param node
-     * @todo temp: shouldn't need this once implement trees
-     */
-    public boolean nodeIsInCurrentGivenBranch(GraphNode rootNode, GraphNode node);
+//    /**
+//     *
+//     * @param rootNode
+//     * @param node
+//     * @todo temp: shouldn't need this once implement trees
+//     */
+//    public boolean nodeIsInCurrentGivenBranch(GraphNode rootNode, GraphNode node);
 
 
 

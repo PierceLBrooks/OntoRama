@@ -51,11 +51,12 @@ public class GraphImpl implements Graph {
      * list of unconnected nodes or top level nodes
      */
     private List _unconnectedNodes;
+    private List _unconnectedEdges;
 
     /**
      * list of all graph nodes
      */
-    private List _allNodes;
+    private List _graphNodes;
 
 
     /**
@@ -106,7 +107,8 @@ public class GraphImpl implements Graph {
 
         processedTypes = new LinkedList();
         _unconnectedNodes = new LinkedList();
-        _allNodes = new LinkedList();
+        _unconnectedEdges = new LinkedList();
+        _graphNodes = new LinkedList();
 
         // remove all edges before building new set of edges
         Edge.removeAllEdges();
@@ -116,53 +118,20 @@ public class GraphImpl implements Graph {
 
             listUnconnectedEdgesAndNodes();
             System.out.println("\n\nunconnectedNodes = " + _unconnectedNodes);
+            System.out.println("all nodes num = " + _graphNodes.size());
 
             // clean up
             removeUnconnectedEdges();
-
-            debug.message("graph , root = " + root);
+            removeUnconnectedNodesFromGraph();
+            System.out.println("\n\nunconnectedNodes = " + _unconnectedNodes);
+            System.out.println("all nodes num = " + _graphNodes.size());
 
             if (!processedNodes.containsKey(termName)) {
                 throw new NoTypeFoundInResultSetException(termName);
             }
-            debug.message("graph , num of nodes = " + processedNodes.size());
-
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "before convertIntoTree testIfTree(): " + testIfTree(root));
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "before convertIntoTree number of nodes: "
-                    + getNodesList().size());
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "before convertIntoTree number of edges: "
-                    + Edge.getIteratorSize(Edge.edges.iterator()));
             //System.out.println( printXml());
             convertIntoTree(root);
             root.calculateDepths();
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "after convertIntoTree testIfTree(): " + testIfTree(root));
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "after convertIntoTree number of nodes: "
-                    + getNodesList().size());
-            debug.message(
-                    "Graph",
-                    "constructor",
-                    "after convertIntoTree number of edges: "
-                    + Edge.getIteratorSize(Edge.edges.iterator()));
-            debug.message(
-                    "Graph , constructor, after convertIntoTree number of nodes: "
-                    + getNodesList().size());
-
-            //graph = new Graph( root );
         } catch (NoSuchRelationLinkException e) {
             throw e;
         } catch (NoSuchPropertyException e2) {
@@ -285,7 +254,7 @@ public class GraphImpl implements Graph {
             node = new GraphNode(nodeName);
             node.setFullName(fullName);
             processedNodes.put(nodeName, node);
-            _allNodes.add(node);
+            _graphNodes.add(node);
         }
         return node;
     }
@@ -307,7 +276,6 @@ public class GraphImpl implements Graph {
         }
         debug.message("number of Edges = " + Edge.edges.size());
         debug.message("root = " + root);
-        listUnconnectedEdgesAndNodes();
     }
 
     /**
@@ -315,29 +283,39 @@ public class GraphImpl implements Graph {
      * have any parents).
      */
     private void cleanUpEdges() {
-        Iterator unconnectedEdges = listUnconnectedEdgesAndNodes().iterator();
-        while (unconnectedEdges.hasNext()) {
-            Edge cur = (Edge) unconnectedEdges.next();
+        Iterator unconnectedEdgesIt = _unconnectedEdges.iterator();
+        while (unconnectedEdgesIt.hasNext()) {
+            Edge cur = (Edge) unconnectedEdgesIt.next();
             //System.out.println("removing edge = " + cur);
             Edge.removeEdge(cur);
         }
+
+    }
+
+    /**
+     *
+     */
+    private void removeUnconnectedNodesFromGraph() {
         Iterator unconnectedNodesIt = _unconnectedNodes.iterator();
         while (unconnectedNodesIt.hasNext()) {
-            GraphNode curNode = (GraphNode) unconnectedNodesIt.next();
-            _allNodes.remove(curNode);
+            GraphNode node = (GraphNode) unconnectedNodesIt.next();
+            _graphNodes.remove(node);
         }
     }
 
     /**
      */
-    private List listUnconnectedEdgesAndNodes() {
-        _unconnectedNodes = new LinkedList();
-        List unconnectedEdges = new LinkedList();
+    private void listUnconnectedEdgesAndNodes() {
+        _unconnectedEdges = new LinkedList();
 
 //        Iterator allNodes = processedNodes.values().iterator();
-        Iterator allNodes = _allNodes.iterator();
+        Iterator allNodes = _graphNodes.iterator();
         while (allNodes.hasNext()) {
             GraphNode curNode = (GraphNode) allNodes.next();
+
+            if (curNode.equals(root)) {
+                continue;
+            }
 
             // get inbound nodes (parents) and check how many there is.
             // If there is no parents - this node is not attached
@@ -357,13 +335,12 @@ public class GraphImpl implements Graph {
                         // don't remove parents of root node
                         continue;
                     }
-                    unconnectedEdges.add(curEdge);
+                    _unconnectedEdges.add(curEdge);
                     //Edge.removeEdge(curEdge);
                     //System.out.println("unconnected Edge = " + curEdge);
                 }
             }
         }
-        return unconnectedEdges;
     }
 
     /**
@@ -375,57 +352,57 @@ public class GraphImpl implements Graph {
         return root;
     }
 
-    /**
-     * Set root node
-     */
-    public void setRoot(GraphNode rootNode) {
-        System.out.println("\n\n\n");
-        System.out.println("setRoot method for node = " + rootNode + ", current root = " + root);
-        boolean nodeIsInCurrentBranch = nodeIsInCurrentGivenBranch(this.root, rootNode);
-        System.out.println("setRoot method, nodeIsInCurrentBranch = " + nodeIsInCurrentBranch);
+//    /**
+//     * Set root node
+//     */
+//    public void setRoot(GraphNode rootNode) {
+//        System.out.println("\n\n\n");
+//        System.out.println("setRoot method for node = " + rootNode + ", current root = " + root);
+//        boolean nodeIsInCurrentBranch = nodeIsInCurrentGivenBranch(this.root, rootNode);
+//        System.out.println("setRoot method, nodeIsInCurrentBranch = " + nodeIsInCurrentBranch);
+//
+//        root = rootNode;
+//        System.out.println("\n\n\n");
+//    }
+//
 
-        root = rootNode;
-        System.out.println("\n\n\n");
-    }
 
+//    /**
+//     *
+//     */
+//    public GraphNode getBranchRootForNode (GraphNode node) {
+//        Iterator it = _unconnectedNodes.iterator();
+//        while (it.hasNext()) {
+//            GraphNode branchRoot = (GraphNode) it.next();
+//            if (nodeIsInCurrentGivenBranch(branchRoot,node)) {
+//                return branchRoot;
+//            }
+//        }
+//        return null;
+//    }
 
-
-    /**
-     *
-     */
-    public GraphNode getBranchRootForNode (GraphNode node) {
-        Iterator it = _unconnectedNodes.iterator();
-        while (it.hasNext()) {
-            GraphNode branchRoot = (GraphNode) it.next();
-            if (nodeIsInCurrentGivenBranch(branchRoot,node)) {
-                return branchRoot;
-            }
-        }
-        return null;
-    }
-
-    /**
-     *
-     */
-    public boolean nodeIsInCurrentGivenBranch (GraphNode branchRoot, GraphNode node) {
-        List queue = new LinkedList();
-        queue.add(branchRoot);
-
-        while (!queue.isEmpty()) {
-            GraphNode curNode = (GraphNode) queue.remove(0);
-
-            if (curNode.equals(node)) {
-                return true;
-            }
-
-            Iterator it = Edge.getOutboundEdgeNodes(curNode);
-            while (it.hasNext()) {
-                GraphNode nextNode = (GraphNode) it.next();
-                queue.add(nextNode);
-            }
-        }
-        return false;
-    }
+//    /**
+//     *
+//     */
+//    public boolean nodeIsInCurrentGivenBranch (GraphNode branchRoot, GraphNode node) {
+//        List queue = new LinkedList();
+//        queue.add(branchRoot);
+//
+//        while (!queue.isEmpty()) {
+//            GraphNode curNode = (GraphNode) queue.remove(0);
+//
+//            if (curNode.equals(node)) {
+//                return true;
+//            }
+//
+//            Iterator it = Edge.getOutboundEdgeNodes(curNode);
+//            while (it.hasNext()) {
+//                GraphNode nextNode = (GraphNode) it.next();
+//                queue.add(nextNode);
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * Get nodes list. Convinience method.
@@ -451,7 +428,7 @@ public class GraphImpl implements Graph {
 //            }
 //        }
 //        return result;
-        return _allNodes;
+        return _graphNodes;
     }
 
     /**
@@ -552,7 +529,7 @@ public class GraphImpl implements Graph {
                     }
 
                     GraphNode cloneNode = curNode.makeClone();
-                    _allNodes.add(cloneNode);
+                    _graphNodes.add(cloneNode);
 
                     // add edge from cloneNode to a NodeParent with this rel type and
                     // remove edge from curNode to a NodeParent with this rel type

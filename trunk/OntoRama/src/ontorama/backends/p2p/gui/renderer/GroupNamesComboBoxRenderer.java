@@ -1,4 +1,4 @@
-package ontorama.backends.p2p.gui;
+package ontorama.backends.p2p.gui.renderer;
 
 import java.awt.Component;
 

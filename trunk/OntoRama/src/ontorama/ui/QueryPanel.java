@@ -24,9 +24,9 @@ import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.graph.view.GraphView;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.GraphView;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
 import ontorama.ui.action.StopQueryAction;

@@ -20,9 +20,9 @@ import javax.swing.tree.TreeSelectionModel;
 
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.TreeView;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
-import ontorama.model.tree.view.TreeView;
 import ontorama.ui.events.QueryNodeEvent;
 import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeModel;

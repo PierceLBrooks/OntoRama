@@ -45,7 +45,7 @@ inclusive: 	purple:9999FF
 		</relation>
 		<relation id="2">
 			<relationType name="synonym"/>
-			<display color="#FFCC99" symbol="syn"/>
+			<display color="#FFCC99" symbol="="/>
 		</relation>
 		<relation id="4">
 			<relationType name="part" mappingSymbol="p"/>

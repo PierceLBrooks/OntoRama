@@ -26,5 +26,5 @@
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
 #OntoRama*     /usr/bin/perl /home/31/ontorama/cvs/CVSROOT/log_mail2.pl -m ontorama@itee.uq.edu.au %{Vsv}
-OntoRama*     /usr/bin/perl /data/projects/ontorama/cvs/CVSROOT/log_mail2.pl -m nataliya@dstc.edu.au -m pbecker@itee.uq.edu.au %{Vsv}
+#OntoRama*     /usr/bin/perl /data/projects/ontorama/cvs/CVSROOT/log_mail2.pl -m nataliya@dstc.edu.au -m pbecker@itee.uq.edu.au %{Vsv}
 

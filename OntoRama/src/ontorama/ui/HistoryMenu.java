@@ -164,23 +164,11 @@ public class HistoryMenu extends JMenu {
      *
      */
     public static void displayHistoryItem(JCheckBoxMenuItem historyItem) {
-
-        //System.out.println("displayHistoryItem for historyItem = " + historyItem.getText());
-
         HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
 
         // get corresponding example
         OntoramaExample example = historyElement.getExample();
-
-//    // get corresponding query
-//    Query query = historyElement.getQuery();
-
-        //JCheckBoxMenuItem correspondingExampleMenuItem = _ontoramaMenu.findExampleMenuItem(example);
-
-        boolean querySuccessfull = _mainApp.executeQueryForHistoryElement(historyElement);
-        if (!querySuccessfull) {
-            return;
-        }
+        _mainApp.executeQueryForHistoryElement(historyElement);
 
         // select corresponding example
         _mainApp.setSelectedExampleMenuItem(example);

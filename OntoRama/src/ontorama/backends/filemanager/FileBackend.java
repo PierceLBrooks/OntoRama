@@ -15,6 +15,7 @@ import ontorama.model.util.GraphModificationException;
 import ontorama.model.events.GraphChangedEvent;
 import ontorama.model.Graph;
 import ontorama.model.NoTypeFoundInResultSetException;
+import ontorama.model.NodeImpl;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -24,14 +25,19 @@ import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.writer.ModelWriter;
 import ontorama.webkbtools.writer.ModelWriterException;
 import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
+import ontorama.webkbtools.writer.rdf.RdfModelWriter;
 import ontorama.controller.QueryEvent;
 import ontorama.controller.GeneralQueryEvent;
+import ontorama.controller.NodeSelectedEvent;
+import ontorama.controller.GraphLoadedEvent;
 import ontorama.OntoramaConfig;
 import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;
 
 import org.tockit.events.EventBroker;
+import org.tockit.events.Event;
+import org.tockit.events.EventListener;
 
 
 /**
@@ -44,9 +50,39 @@ import org.tockit.events.EventBroker;
  */
 public class FileBackend implements Backend{
     private P2PGraph graph = null;
+    private Graph ontoramaGraph = null;
     private List panels = null;
     private EventBroker eventBroker;
     private String filename;
+
+    private class GraphLoadedEventHandler implements EventListener {
+        EventBroker eventBroker;
+        public GraphLoadedEventHandler(EventBroker eventBroker)  {
+            this.eventBroker = eventBroker;
+            eventBroker.subscribe(this, GraphLoadedEvent.class, Graph.class);
+        }
+
+        public void processEvent(Event event) {
+            ontoramaGraph = (Graph) event.getSubject();
+            //ontoramaGraph = OntoRamaApp.getCurrentGraph();
+            System.out.println("\n\nloaded graph = " + ontoramaGraph);
+            /// @todo total hack, need to work out workflows
+            // totally faked query and query result.
+            QueryResult queryResult = new QueryResult(new Query(), ontoramaGraph.getNodesList(), ontoramaGraph.getEdgesList());
+            try {
+                System.out.println("creating new p2p graph");
+                graph = new P2PGraphImpl(queryResult);
+            }
+            catch (NoSuchRelationLinkException e) {
+                /// @todo deal with the exceptions
+                e.printStackTrace();
+            }
+            catch (NoTypeFoundInResultSetException e) {
+                /// @todo deal with the exceptions
+                e.printStackTrace();
+            }
+        }
+    }
 
     public FileBackend(){
         System.out.println("file backend constructor");
@@ -57,26 +93,11 @@ public class FileBackend implements Backend{
 
     public void setEventBroker(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
+        new GraphLoadedEventHandler(this.eventBroker);
     }
 
     public P2PGraph search(Query query){
-//        return this.graph.search(query);
-        Graph ontoramaGraph = OntoRamaApp.getCurrentGraph();
-        /// @todo total hack, need to work out workflows
-        QueryResult queryResult = new QueryResult(query, ontoramaGraph.getNodesList(), ontoramaGraph.getEdgesList());
-        P2PGraph p2pGraph = null;
-        try {
-            p2pGraph = new P2PGraphImpl(queryResult);
-        }
-        catch (NoSuchRelationLinkException e) {
-            /// @todo deal with the exceptions
-            e.printStackTrace();
-        }
-        catch (NoTypeFoundInResultSetException e) {
-            /// @todo deal with the exceptions
-            e.printStackTrace();
-        }
-        return p2pGraph;
+        return this.graph.search(query);
     }
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
@@ -137,6 +158,7 @@ public class FileBackend implements Backend{
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        System.out.println("querEvent = " + queryEvent);
        eventBroker.processEvent(queryEvent);
+
     }
 
     public void saveFile(String filename){
@@ -145,12 +167,14 @@ public class FileBackend implements Backend{
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
 
-            ModelWriter modelWriter = new RdfP2PWriter();
-            Writer _writer = new StringWriter();
-            modelWriter.write(this.graph, _writer);
+//            ModelWriter modelWriter = new RdfP2PWriter();
+//            System.out.println("writing graph = " + graph);
+//            modelWriter.write(this.graph, writer);
 
-            String rdfOutput = _writer.toString();
-            writer.write(rdfOutput);
+            ModelWriter modelWriter = new RdfModelWriter();
+            System.out.println("writing graph = " + ontoramaGraph);
+            modelWriter.write(this.ontoramaGraph, writer);
+
             writer.close();
 
         } catch (IOException e) {

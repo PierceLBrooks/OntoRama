@@ -3,6 +3,7 @@ package ontorama.backends.p2p.gui;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -16,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import net.jxta.peergroup.PeerGroup;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
@@ -32,10 +35,9 @@ public class PeersPanel extends JPanel  implements GroupView {
 
     /**
      * holds mapping from groupId to the corresponding groupPanel
+     * keys - id strings, values - corresponding panels.
      */
     private Hashtable _groupToPanelMapping;
-    private Hashtable _groupNameToGroupIdMapping;
-    private Hashtable _groupIdToGroupNameMapping;
        
     private DefaultComboBoxModel _groupsComboBoxModel;
 
@@ -44,33 +46,36 @@ public class PeersPanel extends JPanel  implements GroupView {
     private CardLayout _cardLayout;
     
     private P2PBackend _p2pBackend;
-
+    
+    private GroupReferenceElement _globalGroupReferenceElement;
+    
     public PeersPanel(P2PBackend backend) {
         super();
         _p2pBackend = backend;
         
         _groupToPanelMapping = new Hashtable();
-        _groupNameToGroupIdMapping = new Hashtable();
-        _groupIdToGroupNameMapping = new Hashtable();
         
         _groupsComboBoxModel = new DefaultComboBoxModel();
 
         _comboBox = new JComboBox(_groupsComboBoxModel);
+        _comboBox.setRenderer(new GroupNamesComboBoxRenderer());
+
         _comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String selectedGroupName = (String) _comboBox.getSelectedItem();
-
-                if (selectedGroupName == null) {
+                GroupReferenceElement selectedGroup = (GroupReferenceElement) _comboBox.getSelectedItem();
+                if (selectedGroup == null) {
                     return;
                 }
                 if (_groupToPanelMapping.size() == 0 ) {
                     return;
                 }
-                String selectedGroupId = (String) _groupNameToGroupIdMapping.get(selectedGroupName);
 
-                GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroupId);
+                GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroup.getID().toString());
                 _cardLayout.show(_cardPanel, groupPanel.getName());
+                
                 groupPanel.setVisible(true);
+                System.out.println("group panel list: " + groupPanel.listModel);
+                groupPanel.repaint();
                 repaint();
             }
         });
@@ -85,9 +90,6 @@ public class PeersPanel extends JPanel  implements GroupView {
         refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				_p2pBackend.getSender().peerDiscovery();
-//				addPeer("peer1", "peer1", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
-//				addPeer("peer2", "peer2", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
-//				addPeer("peer2", "peer2", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
 			}
         	
         });
@@ -101,26 +103,24 @@ public class PeersPanel extends JPanel  implements GroupView {
 
     }
 
+	public void setGlobalGroup(PeerGroup pg) {
+		_globalGroupReferenceElement = new GroupReferenceElement(pg.getPeerGroupID(), pg.getPeerGroupName(), "Global Net Group");
+		addGroup(_globalGroupReferenceElement);
+	}
+
 	public void addGroup(GroupReferenceElement groupReferenceElement) {
-		System.out.println("\nPeersPanel::addGroup, group = " + groupReferenceElement.getName() + ", group id = " + groupReferenceElement.getID());
 		String groupId = groupReferenceElement.getID().toString();
-		String groupName = groupReferenceElement.getName();
-        if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
-        	_groupsComboBoxModel.addElement(groupName);
-            GroupPanel groupPanel = new GroupPanel(groupId);
-            _cardLayout.addLayoutComponent(groupPanel, groupId);
-            _cardPanel.add(groupId, groupPanel);
+        if (!_groupToPanelMapping.containsKey(groupId)) {
+        	_groupsComboBoxModel.addElement(groupReferenceElement);
+            GroupPanel groupPanel = new GroupPanel(groupReferenceElement);
+            _cardPanel.add(groupReferenceElement.getName(), groupPanel);
             _groupToPanelMapping.put(groupId, groupPanel);
-            _groupNameToGroupIdMapping.put(groupName,groupId);
-            _groupIdToGroupNameMapping.put(groupId,groupName);
             repaint();
         }
     }
 
     public void addPeer (String peerId, String peerName, String groupId) {
-    	System.out.println("PeersPanel::addPeer, peerName = " + peerName + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
-        System.out.println("group panel: " + groupPanel + ", isVisible = " + groupPanel.isVisible());
         groupPanel.addPeer(peerId, peerName);
         groupPanel.repaint();
         repaint();
@@ -134,32 +134,29 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     public void removePeerFromAllGroups(String senderPeerID) {
-        //@todo implement should remove the id from every group, I don't think this method is called from the application (i.e. not generated when a peer logout)
+        Enumeration enum = _groupToPanelMapping.elements();
+        while (enum.hasMoreElements()) {
+			String element = (String) enum.nextElement();
+			GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(element);
+			groupPanel.removePeer(senderPeerID);
+		}
     }
 
     public void removeGroup(GroupReferenceElement groupRefElement) {
     	String groupID = groupRefElement.getID().toString();
-        String groupName = null;
-        groupName = (String) _groupIdToGroupNameMapping.get(groupID);
 
-        if (groupName != null) {
-            GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
-            _cardLayout.removeLayoutComponent(groupPanel);
-            _cardPanel.remove(groupPanel);
+        GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
+        _cardPanel.remove(groupPanel);
 
-            _groupsComboBoxModel.removeElement(groupName);
-            _groupToPanelMapping.remove(groupID);
-            _groupNameToGroupIdMapping.remove(groupName);
-            _groupIdToGroupNameMapping.remove(groupID);
-            repaint();
-            //@todo repaint problem, the combobox is not repainted
-        }
+        _groupsComboBoxModel.removeElement(groupRefElement);
+        _groupToPanelMapping.remove(groupID);
+        repaint();
     }
 
     public void clear() {
         _groupToPanelMapping.clear();
-        _groupNameToGroupIdMapping.clear();
         _groupsComboBoxModel.removeAllElements();
+        addGroup(_globalGroupReferenceElement);
         repaint();
     }
 
@@ -168,29 +165,33 @@ public class PeersPanel extends JPanel  implements GroupView {
         DefaultListModel listModel = new DefaultListModel();
         JList jlist;
         Hashtable _peerIdToPeerNameMapping = new Hashtable();
+        GroupReferenceElement group;
 
-        public GroupPanel(String groupId) {
-            //peersList = new Vector();
-            setName(groupId);
-
+        public GroupPanel(GroupReferenceElement group) {
+        	this.group =  group;
+            setName(group.getName().toString());
 
             jlist = new JList(listModel);
 
             JScrollPane scrollPanel = new JScrollPane(jlist);
             add(scrollPanel);
         }
+        
 
         public void addPeer (String peerID, String peerName) {
-        	System.out.println("PeersPanel::GroupPanel::addPeer, peerName = " + peerName + ", peerID = " + peerID);
-//            if (!peersList.contains(peerID)) {
+        	System.out.println("PeersPanel::GroupPanel::addPeer peerName = " + peerName + ", peerId = " + peerID + ", group = " + this.group.getName());
+            //if (!peersList.contains(peerID)) {
+			if (!listModel.contains(peerName)) {
                  peersList.add(peerID);
-
                 _peerIdToPeerNameMapping.put(peerID, peerName);
 
                 listModel.addElement(peerName);
-                System.out.println("adding, list model size = " + listModel.size());
+                System.out.println("list model = " + listModel);
                 repaint();
-//            }
+            }
+            else {
+            	System.out.println("addPeer skipping peer " + peerName + ", listmodel = " + listModel);
+            }
         }
 
         public void removePeer (String peerID) {
@@ -202,5 +203,6 @@ public class PeersPanel extends JPanel  implements GroupView {
                 repaint();
             }
         }
+        
     }
 }

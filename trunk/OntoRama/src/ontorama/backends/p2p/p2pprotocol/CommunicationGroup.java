@@ -92,6 +92,7 @@ public class CommunicationGroup extends Communication {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
+		System.out.println("CommunicationGroup::joinGroup, groupIDasString = " + groupIDasString);
 		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
 		//Get PeerGroup

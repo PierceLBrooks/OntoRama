@@ -164,7 +164,8 @@ public class Communication {
 	}
 	
 	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
-		return memberOfGroups.contains(peerGroupId);
+		System.out.println("Communication::memberOfGroupsContains, peerGroupId = " + peerGroupId + ", hashtable = " + memberOfGroups);
+		return memberOfGroups.containsKey(peerGroupId);
 	}
 	
 

@@ -189,7 +189,6 @@ public class P2PSender{
     */
     public void peerDiscovery (){
         Enumeration enum = this.joinedGroups().elements();
-        this.peersPanel.clear();
         String groupName = null;
         while (enum.hasMoreElements()){
             groupName = ((PeerGroup) enum.nextElement()).getPeerGroupName();
@@ -216,9 +215,8 @@ public class P2PSender{
                   Enumeration enum = result.elements();
                   System.out.println("\nPeer Discovery returned: size = " + result.size());
                   while (enum.hasMoreElements()){
-                  	Object obj = enum.nextElement();
-                  	System.out.println("---obj = " + obj);
-                    GroupReferenceElement element = (GroupReferenceElement) obj;
+                    GroupReferenceElement element = (GroupReferenceElement) enum.nextElement();
+					System.out.println("--- name = " + element.getName() + ", id = " + element.getID());
                     this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
                   }
                } else {

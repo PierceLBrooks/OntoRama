@@ -367,4 +367,12 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
         return new Vector(this.communicationGroup.memberOfGroupsByValues());   
         
     }
+    
+	/**
+	 * @return PeerGroup
+	 */
+	public PeerGroup getGlobalPG() {
+		return this.communicationInit.getGlobalPG();
+	}
+    
 }

@@ -22,6 +22,7 @@ import ontorama.model.graph.Graph;
 import ontorama.util.Debug;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.QueryResult;
 import org.tockit.events.EventBroker;
 
 /**

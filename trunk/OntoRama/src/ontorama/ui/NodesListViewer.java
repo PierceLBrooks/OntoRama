@@ -24,6 +24,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
+import ontorama.conf.ImageMaker;
+import ontorama.ontotools.query.Query;
 import ontorama.model.graph.controller.GeneralQueryEvent;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphImpl;

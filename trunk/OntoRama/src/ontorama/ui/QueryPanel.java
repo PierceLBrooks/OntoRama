@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontotools.query.Query;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.controller.GraphViewQueryEventHandler;
 import ontorama.model.graph.view.GraphQuery;

@@ -12,6 +12,8 @@ import java.net.URI;
 
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.query.Query;
 
 public interface P2PGraph extends ontorama.model.graph.Graph {
 	public P2PGraph search(Query query);

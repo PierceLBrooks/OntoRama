@@ -147,7 +147,7 @@ public class RdfDamlParser implements Parser {
             model.read(reader, "");
 
             findNamespaces(model);
-            
+
             /// @todo this list should be built on basis of xml config file
             predicatesConnectingPropertyToProperty.add("subPropertyOf");
             predicatesConnectingPropertyToProperty.add("similar");
@@ -156,7 +156,7 @@ public class RdfDamlParser implements Parser {
             predicatesConnectingPropertyToProperty.add("complementOf");
             predicatesConnectingPropertyToProperty.add("wnMember");
             predicatesConnectingPropertyToProperty.add("wnObject");
-            
+
             sortResourcesIntoClassesAndProperties(model);
 
             ResIterator resIt = model.listSubjects();
@@ -192,7 +192,7 @@ public class RdfDamlParser implements Parser {
         ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
         return result;
     }
-    
+
 	private void sortResourcesIntoClassesAndProperties (Model model) throws RDFException, ParserException {
         /// @todo following is an  attempt to classify rdf objects into Classes
         // and Properties. This may not work very well for some rdf files.
@@ -223,7 +223,7 @@ public class RdfDamlParser implements Parser {
                 }
             }
         }
-	}    
+	}
 
     /**
      *
@@ -355,11 +355,11 @@ public class RdfDamlParser implements Parser {
                         } else {
                             // ERROR
                             // throw exception here
-                            System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                            java.awt.Toolkit.getDefaultToolkit().beep();
+                            System.out.println("Dont' know about RDF Property '" + predicate.getLocalName() + "'");
                             System.exit(-1);
                         }
                     } catch (NoSuchRelationLinkException e) {
+                        e.printStackTrace();
                         System.err.println("NoSuchRelationLinkException: " + e.getMessage());
                         System.exit(-1);
                     }

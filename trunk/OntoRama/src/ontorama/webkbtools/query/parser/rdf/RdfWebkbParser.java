@@ -175,7 +175,7 @@ public class RdfWebkbParser extends RdfDamlParser {
             return typeName;
         }
 
-        List synonyms = null;
+        List synonyms = new LinkedList();
 
         String typeNamePreffix = null;
         String typeNameSuffix = null;
@@ -189,7 +189,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         try {
-            EdgeType edgeType = OntoramaConfig.getEdgeType("Synonym");
+            EdgeType edgeType = OntoramaConfig.getEdgeType("synonym");
             Iterator it = _edgesList.iterator();
             while (it.hasNext()) {
                 Edge edge = (Edge) it.next();
@@ -200,7 +200,8 @@ public class RdfWebkbParser extends RdfDamlParser {
                 }
             }
         } catch (NoSuchRelationLinkException e) {
-            System.out.println("edgeTy[e 'Synonyms' doesn't exist. Check config.xml file ");
+            e.printStackTrace();
+            System.out.println("edgeType 'synonym' doesn't exist. Check config.xml file ");
             System.out.println("NoSuchRelationLinkException: " + e);
             System.exit(-1);
         }

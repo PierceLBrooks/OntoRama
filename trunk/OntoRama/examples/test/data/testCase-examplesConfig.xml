@@ -29,5 +29,11 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
 	</example>
+	<example name="comprehensive test" root="root">
+		<source uri="examples/web-examples/imdb.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.DamlParser</parserPackagePathSuffix>
+	</example>
 </ontoramaExamples>
 

@@ -6,6 +6,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.PeersPanel;
+import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
@@ -36,8 +38,10 @@ public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATEJOINGROUP = 5;
 
     P2PBackend backend = null;
+//    PeersPanel activePeers = null;
+//    ChangePanel changes = null;
     PeersPanel activePeers = null;
-    ChangePanel changes = null;        
+    ChangePanel changes = null;
     Hashtable idMapping = null;
   
     public P2PReciever(P2PBackend backend){
@@ -53,7 +57,7 @@ public class P2PReciever implements P2PRecieverInterface{
     public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
             switch (TAG){
                     case P2PReciever.TAGPROPAGATEINIT:
-                          this.receiveInit(senderPeerID,senderPeerID, internalModel);                                       
+                          this.receiveInit(senderPeerID,senderPeerID, senderGroupID,internalModel);
                           break;
 
                     case P2PReciever.TAGPROPAGATEDELETE:
@@ -74,7 +78,7 @@ public class P2PReciever implements P2PRecieverInterface{
                         changes.addChange(internalModel, senderPeerName); 
                         break;
                     case P2PReciever.TAGPROPAGATEJOINGROUP: 
-                         this.recieveJoinGroup(senderPeerID, senderPeerName, senderGroupID);
+                         this.recieveJoinGroup(senderPeerID, senderPeerName, internalModel);
                     break;
             }   
     }
@@ -120,11 +124,11 @@ public class P2PReciever implements P2PRecieverInterface{
 
 
     //Help classes
-	private void receiveInit(String senderPeerID, String senderPeerName, String internalModel){
+	private void receiveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
     	try{ 
         	//Add the new host to the panel showing connected peers
             this.idMapping.put(senderPeerID, senderPeerName);
-			activePeers.addPeer(senderPeerID, senderPeerName, null);
+			activePeers.addPeer(senderPeerID, senderPeerName, senderGroupID);
 
 			//Parse the input recieved from the new peer                     
 			Reader intModel = new StringReader(internalModel);

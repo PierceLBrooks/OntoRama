@@ -146,4 +146,7 @@ public class FileBackend implements Backend{
         }
     }
 
+    public void showPanels(boolean show) {
+    }
+
 }

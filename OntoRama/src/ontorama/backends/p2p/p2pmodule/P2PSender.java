@@ -22,44 +22,44 @@ import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
  * Window>Preferences>Java>Code Generation.
  */
 public class P2PSender{
-    public final static int TAGPROPAGATEADD = 1;    
+    public final static int TAGPROPAGATEADD = 1;
     public final static int TAGPROPAGATEDELETE = 2;
-    public final static int TAGPROPAGATEUPDATE = 3;     
+    public final static int TAGPROPAGATEUPDATE = 3;
     public final static int TAGPROPAGATEINIT = 4;
     public final static int TAGPROPAGATEJOINGROUP = 5;
-    
+
     private CommunicationProtocol comm = null;
     private Backend backend = null;
     private PeersPanel peersPanel = null;
-    
-        
+
+
     //Constructor
     public P2PSender(CommunicationProtocol commProt, P2PBackend backend){
         this.comm = commProt;
-        this.backend = backend;   
+        this.backend = backend;
         this.peersPanel = (PeersPanel) backend.getPanels().get(0);
        }
 
     /**
-    * Sends a Logout Command to every Peer in the network that response to 
-    * the PeerDiscovery. 
-    * 
-    * @exception 
+    * Sends a Logout Command to every Peer in the network that response to
+    * the PeerDiscovery.
+    *
+    * @exception
     *
     * @version P2P-OntoRama 1.0.0
     */
     public void sendLogoutCommand() throws GroupExceptionThread, GroupExceptionFlush{
-            this.comm.sendLogoutCommand();    
+            this.comm.sendLogoutCommand();
      }
-    
+
     /**
-    * Propagate information to every peer that 
-    * response to the PeerDiscovery. 
-    * 
+    * Propagate information to every peer that
+    * response to the PeerDiscovery.
+    *
     * @param TAG the kind of propagate to send
     * @param recieverID the peer id of the reciever (null if the message shall be sent to every peer)
     * @param internalModel the changes that has been done
-    * @exception 
+    * @exception
     *
     * @version P2P-OntoRama 1.0.0
     */
@@ -72,29 +72,29 @@ public class P2PSender{
 
 
     /**
-    * Is called to do searches for at other peers. The methods sends out a search request and 
+    * Is called to do searches for at other peers. The methods sends out a search request and
     * then waits for 20 seconds to get responses
-    * 
-    * @param query a string containing the query 
+    *
+    * @param query a string containing the query
     * @return a vector of searchResultElement
-    * @exception 
+    * @exception
     *
     * @version P2P-OntoRama 1.0.0
     */
     public Vector sendSearch(String query) throws IOException, GroupExceptionThread {
-            return this.comm.sendSearch(query);            
+            return this.comm.sendSearch(query);
     }
 
 
     /**
      * Search for PeerGroups, can choose to search for:
      * group name, group descr or both
-     * 
+     *
      * @param searchAttrib null/SEARCHGROUPNAME/SEARCHGROUPDESCR
      * @param searchString null/string and or wildcards (e.g. ?,*)
-     * 
+     *
      * @return a vector of SearchGroupResultElement
-     * @exception 
+     * @exception
      *
      * @version P2P-OntoRama 1.0.0
      */
@@ -105,11 +105,11 @@ public class P2PSender{
 
     /**
      * Create a group
-     * 
+     *
      * @param name name of the group
      * @param descr description of the group
      * @return PeerGroup the created PeerGroup
-     * @exception 
+     * @exception
      *
      * @version P2P-OntoRama 1.0.0
      */
@@ -117,15 +117,15 @@ public class P2PSender{
         PeerGroup pg = this.comm.sendCreateGroup(name, descr);
         this.peersPanel.addGroup(pg.getPeerGroupID().toString(), name);
     }
-    
 
 
-    /** 
+
+    /**
      * Join the group that has given groupID.
-     * 
+     *
      * @param groupID group to join
      * @return true if joined sucessfully
-     * @exception 
+     * @exception
      *
      * @version P2P-OntoRama 1.0.0
      */
@@ -133,23 +133,23 @@ public class P2PSender{
     	String groupName = this.comm.sendJoinGroup(groupID);
         if (groupName != null){
             //TODO maybe we should solve this in an other way, forexample send its own PeerID
-            this.peersPanel.addGroup(groupID, groupName); 
+            this.peersPanel.addGroup(groupID, groupName);
             this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupName);
-            return true;    
+            return true;
         }
     return false;
-        
+
     }
-    
+
 
 
     /**
      * Leave a group with PeerGroupID groupID
-     * 
+     *
      * @param groupID PeerGroupID of the group to leave
-     * 
+     *
      * @return true if leaved group sucessfully
-     * @exception 
+     * @exception
      *
      * @version P2P-OntoRama 1.0.0
      */
@@ -157,40 +157,40 @@ public class P2PSender{
     boolean leaved = this.comm.sendLeaveGroup(groupID);
         if (leaved){
             //TODO maybe we should solve this in an other way, forexample send its own PeerID
-            peersPanel.removePeer("self");       
-            return true;    
+            peersPanel.removePeer("self");
+            return true;
         }
         return false;
     }
 
-    
+
     /**
     * Sends a response to a question
-    * 
+    *
     * @param recieverPeerID the peer that made the request
     * @param body what will be sent as a response
-    * @exception 
+    * @exception
     *
     * @version P2P-OntoRama 1.0.0
     *
-    */  
+    */
     public void sendSearchResponse(String recieverPeerID, String body) throws GroupExceptionThread{
           this.comm.sendSearchResponse(recieverPeerID, body);
-    
+
     }
 
     /**
-    * Is called to do searches for at other peers. The methods sends out a search request and 
+    * Is called to do searches for at other peers. The methods sends out a search request and
     * then waits for 20 seconds to get responses
-    * 
+    *
     * @param groupIDasString a string with the peer group id for the group to send a peer discovery in
     * @return a vector of SearchGroupResultElement
-    * @exception 
+    * @exception
     *
     * @version P2P-OntoRama 1.0.0
     */
     public void peerDiscovery (String groupName){
-    	 try { 
+    	 try {
               Vector searchGroupResult = this.comm.sendSearchGroup("Name",groupName);
               Enumeration tmpEnumernation = searchGroupResult.elements();
               if (tmpEnumernation.hasMoreElements()) {
@@ -198,17 +198,17 @@ public class P2PSender{
                   System.out.println("Peer discovery in "
                   + searchGroupResultElement.getName()
                   + " (ID:" + searchGroupResultElement.getID()+ "):");
-                  String tmpGroupID = searchGroupResultElement.getID().toString();                  
+                  String tmpGroupID = searchGroupResultElement.getID().toString();
                   this.peersPanel.addGroup(tmpGroupID, groupName);
-                  
+
                   Vector result = this.comm.peerDiscovery(tmpGroupID);
                   Enumeration enum = result.elements();
                   while (enum.hasMoreElements()){
                           SearchGroupResultElement element = (SearchGroupResultElement)enum.nextElement();
-                          this.peersPanel.addPeer(element.getID().toString(), element.getName(), groupName);                     
+                          this.peersPanel.addPeer(element.getID().toString(), element.getName(), groupName);
                   }
                } else {
-                  System.out.println("Couldn't find any group with that name");   
+                  System.out.println("Couldn't find any group with that name");
                         }
           } catch (GroupExceptionThread e) {
                   System.out.println("ERROR:");
@@ -217,12 +217,12 @@ public class P2PSender{
                   System.out.println("ERROR:");
                   e.printStackTrace();
           }
-          
+
         }
-  
+
 /**
     * Return all the groups the peer has joined
-    * 
+    *
     * @return a vector of IDs of group that have been joined
     *
     * @version P2P-OntoRama 1.0.0
@@ -230,7 +230,7 @@ public class P2PSender{
     public Vector joinedGroups(){
         return this.comm.getMemberOfGroups();
  }
-  
+
 
 
 
@@ -248,13 +248,13 @@ public class P2PSender{
         Enumeration tmpEnumernation = obj.elements();
             while (tmpEnumernation.hasMoreElements()) {
             searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
-            System.out.println(tag + ":" + 
-                searchGroupResultElement.getName() 
+            System.out.println(tag + ":" +
+                searchGroupResultElement.getName()
                 + " (ID:" + searchGroupResultElement.getID() + ")");
                 System.out.println("Description:" +
                 searchGroupResultElement.getDescription());
         }
     }
-    
+
 
 }

@@ -20,6 +20,7 @@ public class P2PMainPanel extends JFrame {
 
     PeersPanel peerPanel;
     ChangePanel changePanel;
+    Frame parent;
 
 
     public P2PMainPanel(Frame parent) {
@@ -27,6 +28,7 @@ public class P2PMainPanel extends JFrame {
 
         peerPanel = new PeersPanel();
         changePanel = new ChangePanel();
+        this.parent = parent;
 
         JTabbedPane tabbedPanel = new JTabbedPane();
         tabbedPanel.addTab(_changePanelTitle, null, changePanel, _changePanelToolTip);
@@ -40,6 +42,9 @@ public class P2PMainPanel extends JFrame {
     }
 
     public void showP2PPanel (boolean show) {
+        pack();
+        setLocationOnScreen(this.parent);
+        System.out.println("pwp main panel show: " + show);
         setVisible(show);
     }
 

@@ -23,7 +23,7 @@ public class PeersPanel extends JPanel {
      * holds mapping from groupId to the corresponding groupPanel
      */
     private Hashtable _groupToPanelMapping;
-
+    private Hashtable _groupNameToGroupIdMapping;
     private Vector _groupsVector;
 
     private JComboBox _comboBox;
@@ -33,19 +33,24 @@ public class PeersPanel extends JPanel {
     public PeersPanel() {
         super();
         _groupToPanelMapping = new Hashtable();
+        _groupNameToGroupIdMapping = new Hashtable();
         _groupsVector = new Vector();
 
         _comboBox = new JComboBox(_groupsVector);
         _comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selectedGroupName = (String) _comboBox.getSelectedItem();
+
                 if (selectedGroupName == null) {
                     return;
                 }
                 if (_groupToPanelMapping.size() == 0 ) {
                     return;
                 }
-                GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroupName);
+                String selectedGroupId = (String) _groupNameToGroupIdMapping.get(selectedGroupName);
+                System.out.println("PeersPanel, selectedGroupName" + selectedGroupName);
+
+                GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroupId);
                 _cardLayout.show(_cardPanel, groupPanel.getName());
                 groupPanel.setVisible(true);
             }
@@ -63,27 +68,19 @@ public class PeersPanel extends JPanel {
         add(_comboBox);
         add(_cardPanel);
 
-        addGroup("testId", "testGroup");
-        addGroup("id2", "group2");
-        addGroup("id3", "group3");
-
-        addPeer("peerId1", "peerName1", "id2");
-        addPeer("peerId2", "peerName2", "id2");
-        addPeer("peerId3", "peerName3", "id2");
-        addPeer("peerId4", "peerName4", "id2");
-        addPeer("peerId5", "peerName5", "id2");
     }
 
     public void addGroup(String groupId, String groupName) {
-        _groupsVector.add(groupId);
-
-        GroupPanel groupPanel = new GroupPanel(groupId);
-
-        _cardLayout.addLayoutComponent(groupPanel, groupId);
-        _cardPanel.add(groupId, groupPanel);
-
-        _groupToPanelMapping.put(groupId, groupPanel);
-        repaint();
+        System.out.println("Peer Panel::add group" + groupId + "," + groupName);
+        if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
+            _groupsVector.add(groupName);
+            GroupPanel groupPanel = new GroupPanel(groupId);
+            _cardLayout.addLayoutComponent(groupPanel, groupId);
+            _cardPanel.add(groupId, groupPanel);
+            _groupToPanelMapping.put(groupId, groupPanel);
+            _groupNameToGroupIdMapping.put(groupName,groupId);
+            repaint();
+        }
     }
 
     public void addPeer (String peerId, String peerName, String groupId) {
@@ -95,26 +92,32 @@ public class PeersPanel extends JPanel {
         /// @todo implement
     }
 
+    public void removeGroup(String groupID) {
+        /// @todo implement
+    }
+
     private class GroupPanel extends JPanel {
         Vector peersList;
         JList jlist;
 
-        public GroupPanel(String groupName) {
+        public GroupPanel(String groupId) {
             peersList = new Vector();
-            setName(groupName);
+            setName(groupId);
             jlist = new JList(peersList);
+
             JScrollPane scrollPanel = new JScrollPane(jlist);
             add(scrollPanel);
         }
 
         public void addPeer (String name) {
-            System.out.println("addPeer for name " + name);
             peersList.add(name);
+            jlist.setListData(peersList);
             repaint();
         }
 
         public void removePeer (String name) {
             peersList.remove(name);
+            jlist.setListData(peersList);
             repaint();
         }
     }

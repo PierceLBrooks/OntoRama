@@ -1,9 +1,7 @@
 package ontorama.view;
 
 import ontorama.model.*;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.QueryEngine;
-import ontorama.webkbtools.query.QueryResult;
+import ontorama.webkbtools.query.*;
 import ontorama.webkbtools.util.*;
 
 import java.io.IOException;

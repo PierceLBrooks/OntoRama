@@ -5,12 +5,8 @@ import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.webkbtools.query.Query;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.LinkedList;
+import java.awt.event.*;
+import java.util.*;
 
 /**
  * <p>Title: </p>

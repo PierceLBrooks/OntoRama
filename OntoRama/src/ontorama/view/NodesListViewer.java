@@ -1,19 +1,15 @@
 package ontorama.view;
 
-import ontorama.model.GraphNode;
 import ontorama.controller.QueryEvent;
+import ontorama.model.GraphNode;
+import org.tockit.events.EventBroker;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
-
-import org.tockit.events.EventBroker;
 
 /**
  * @author nataliya

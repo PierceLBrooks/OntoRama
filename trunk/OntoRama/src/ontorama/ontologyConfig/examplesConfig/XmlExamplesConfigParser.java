@@ -20,10 +20,14 @@ import ontorama.ontologyConfig.XmlParserAbstract;
 
 /**
  * Title:
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
+ * Description: Parse config file (xml) that contains examples details
+ *              and populate instatiate OntoramaExample objects according
+ *              to details found in config file. Build examples list that
+ *              can be used by other objects and find 'main example', so
+ *              applications knows what example to load first.
+ * Copyright:    Copyright (c) DSTC 2001
+ * Company: DSTC
+ * @author  nataliya
  * @version 1.0
  */
 
@@ -93,10 +97,19 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
       OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
                               relativeUriAttr.getValue(), queryOutputFormatElement.getText(),
                               parserPackagePathSuffixElement.getText());
-      this.examplesList.add(example);
       if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
         this.mainExample = example;
+        example.setLoadFirst(true);
       }
+      this.examplesList.add(example);
+
+//      OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
+//                              relativeUriAttr.getValue(), queryOutputFormatElement.getText(),
+//                              parserPackagePathSuffixElement.getText());
+//      this.examplesList.add(example);
+//      if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
+//        this.mainExample = example;
+//      }
 
       Element displayMenuElement = element.getChild("displayMenu");
       //System.out.println("element name = " + nameAttr.getValue() + ", displayMenuElement = " + displayMenuElement);

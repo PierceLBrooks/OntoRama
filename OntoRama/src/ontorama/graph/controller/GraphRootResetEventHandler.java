@@ -10,8 +10,7 @@ package ontorama.graph.controller;
 
 import org.tockit.events.*;
 import ontorama.graph.view.GraphView;
-import ontorama.model.GraphNode;
-import ontorama.model.Graph;
+import ontorama.model.*;
 
 public class GraphRootResetEventHandler implements EventListener {
     private GraphView graphView;
@@ -28,7 +27,7 @@ public class GraphRootResetEventHandler implements EventListener {
         System.out.println("GraphRootResetEventHandler processEvent for node " + node.getName());
         System.out.println("graphView = " + graphView);
 
-        Graph graph = this.graphView.getGraph();
+        GraphInterface graph = this.graphView.getGraph();
         GraphNode branchRootNode = graph.getBranchRootForNode(node);
         System.out.println("...node is not in current displayed branch, setting root to " + branchRootNode);
 

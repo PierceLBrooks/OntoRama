@@ -11,7 +11,7 @@ package ontorama.graph.controller;
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.view.GraphView;
 import ontorama.model.GraphNode;
-import ontorama.model.Graph;
+import ontorama.model.GraphInterface;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
@@ -31,7 +31,7 @@ public class GraphViewFocusEventHandler implements EventListener {
 //        System.out.println("graphview = " + graphView);
 
 
-        Graph graph = this.graphView.getGraph();
+        GraphInterface graph = this.graphView.getGraph();
         if (graph != null) {
             if (graph.nodeIsInCurrentGivenBranch(graph.getRootNode(), node)) {
                 System.out.println("node is in current displayed branch");

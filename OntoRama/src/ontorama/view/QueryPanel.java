@@ -6,7 +6,7 @@ import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.graph.view.*;
 import ontorama.model.GraphNode;
-import ontorama.model.Graph;
+import ontorama.model.GraphInterface;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -59,7 +59,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      */
     private EventBroker _eventBroker;
 
-    private Graph _graph;
+    private GraphInterface _graph;
 
     /**
      *
@@ -362,11 +362,11 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         doQuery();
     }
 
-    public void setGraph (Graph graph) {
+    public void setGraph (GraphInterface graph) {
         _graph = graph;
     }
 
-    public Graph getGraph () {
+    public GraphInterface getGraph () {
         return _graph;
     }
 

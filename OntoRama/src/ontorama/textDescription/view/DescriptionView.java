@@ -4,7 +4,7 @@ import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.model.Edge;
-import ontorama.model.Graph;
+import ontorama.model.GraphInterface;
 import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
@@ -87,7 +87,7 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private EventBroker _eventBroker;
 
-    private Graph _graph;
+    private GraphInterface _graph;
 
     /**
      *
@@ -283,11 +283,11 @@ public class DescriptionView extends JPanel implements GraphView {
     }
 
 
-    public void setGraph (Graph graph) {
+    public void setGraph (GraphInterface graph) {
         _graph = graph;
     }
 
-    public Graph getGraph () {
+    public GraphInterface getGraph () {
         return _graph;
     }
 

@@ -8,13 +8,12 @@
  */
 package ontorama.graph.view;
 
-import ontorama.model.GraphNode;
-import ontorama.model.Graph;
+import ontorama.model.*;
 
 public interface GraphView  {
     public void focus(GraphNode node);
-    public void setGraph(Graph graph);
-    public Graph getGraph();
+    public void setGraph(GraphInterface graph);
+    public GraphInterface getGraph();
     public void repaint();
 //    public void nodeIsInCurrentBranch(GraphNode node);
 //    public void displayBranch(GraphNode brachRootNode);

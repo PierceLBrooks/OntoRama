@@ -1,7 +1,6 @@
 package ontorama.model.tree.events;
 
 import ontorama.model.tree.TreeNode;
-import ontorama.model.graph.events.NodeSelectedEvent;
 import org.tockit.events.EventBroker;
 
 /**

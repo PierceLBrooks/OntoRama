@@ -10,7 +10,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import ontorama.model.graph.EdgeType;
-import ontorama.model.tree.TreeEdge;
 import ontorama.util.Debug;
 
 /**

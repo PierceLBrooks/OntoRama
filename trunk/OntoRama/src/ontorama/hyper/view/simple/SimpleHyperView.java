@@ -136,7 +136,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             return;
         }
         boolean foldedState = focusedHyperNodeView.getFolded();
-        setFolded(foldedState, node);
+        drawFolded(foldedState, node);
         node.setFoldState(!foldedState);
         repaint();
     }
@@ -144,7 +144,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Method to fold and unfold HyperNodeViews.
      */
-    private void setFolded(boolean foldedState, GraphNode node) {
+    private void drawFolded(boolean foldedState, GraphNode node) {
         Iterator it = Edge.getOutboundEdgeNodes(node);
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
@@ -152,7 +152,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             if (hyperNodeView != null) {
                 hyperNodeView.setVisible(foldedState);
                 if (!hyperNodeView.getFolded()) {
-                    this.setFolded(foldedState, cur);
+                    this.drawFolded(foldedState, cur);
                 }
             }
         }
@@ -170,10 +170,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 unfoldNodes(curHyperNode);
             }
             if (curHyperNode.getFolded()) {
-                setFolded(true, cur);
+                drawFolded(true, cur);
                 curHyperNode.setFolded(false);
             }
         }
+        repaint();
     }
 
     /**
@@ -763,6 +764,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 GraphNode graphNode = focusNode.getGraphNode();
                 HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
                 if (graphNode.hasClones()) {
+                    Iterator it = graphNode.getClones();
+                    while (it.hasNext()) {
+                        GraphNode cloneNode = (GraphNode) it.next();
+                        unfoldNodes((HyperNodeView) hypernodeviews.get(cloneNode));
+                    }
                     hyperNodeView.showClones(g2d, hypernodeviews);
                 }
             }
@@ -1016,4 +1022,5 @@ public class SimpleHyperView extends Canvas implements GraphView {
     public void repaint() {
         super.repaint();
     }
+
 }

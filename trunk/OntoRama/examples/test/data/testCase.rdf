@@ -23,7 +23,7 @@
   <pm:location rdf:resource="http://www.webkb.org/ontorama/test#SomeLocation"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#SomeObject"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#ACHRONYM"/>
-  <daml:complementOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relation"/>
+  <daml:complementOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/daml#Nothing"/>
 </rdfs:Class>
 
 <rdfs:Class rdf:about="http://www.webkb.org/ontorama/test#Armchair">

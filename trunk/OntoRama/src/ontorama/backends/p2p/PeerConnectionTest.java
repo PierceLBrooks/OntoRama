@@ -3,6 +3,8 @@ package ontorama.backends.p2p;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 
 import net.jxta.credential.AuthenticationCredential;
@@ -82,7 +84,8 @@ public class PeerConnectionTest implements DiscoveryListener {
 		 discovery.addDiscoveryListener(this);
 		
 		 while (true) {
-			 System.out.println("Sending a Discovery Message");
+			 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");						
+			 System.out.println("Sending a Discovery Message " + sdf.format(new Date()));
 			 // look for any peer
 			 discovery.getRemoteAdvertisements(null, DiscoveryService.PEER,
 			 									null, null, 5, null);

@@ -1,8 +1,5 @@
 package ontorama.backends.p2p.p2pprotocol;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -57,7 +54,7 @@ public class Communication {
   	public final static int TAGFLUSHPEER = 5;
   	
   	// added while refactoring 4.03.03
-  	CommunicationGroup comGroup;
+//  	CommunicationGroup comGroup;
 
     public Communication() {
 		//this.setMemberOfGroups(new Hashtable());
@@ -65,7 +62,7 @@ public class Communication {
         outputPropagatePipe = new Hashtable();
         inputPropagatePipe = new Hashtable();
         
-        this.comGroup = new CommunicationGroup(this);
+//        this.comGroup = new CommunicationGroup(this);
 	}
 
 	/**
@@ -113,49 +110,6 @@ public class Communication {
 		return globalP2PGroup.getPeerID().toString();
 	}
 
-//	/**
-//	* Sets the memberOfGroups object, which is used to save all the groups the peer 
-//    * belongs to.
-//	* @param obj a Hashtable cointaining the groups the peer belongs to.
-//	* @version P2P-OntoRama 1.0.0
-//	*/
-//	private void setMemberOfGroups(Hashtable obj)  {
-//		Communication.memberOfGroups = obj;
-//	}
-//	
-//	protected void addToMemberOfGroups (PeerGroup pg) {
-//		Communication.memberOfGroups.put(pg.getPeerGroupID(), pg);
-//	}
-//	
-//	protected Collection memberOfGroupsByValues () {
-//		return memberOfGroups.values();
-//	}
-//
-//	protected Enumeration memberOfGroupsEnumeration () {
-//		return memberOfGroups.elements();
-//	}
-//	
-//	protected void removeFromMemberOfGroups (String groupIDasString) {
-//		PeerGroup pg = getPeerGroupFromMemberOfGroups(groupIDasString);
-//		if (pg != null) {
-//			Communication.memberOfGroups.remove(pg.getPeerGroupID());
-//		}
-//	}
-//
-//	protected PeerGroup getPeerGroupFromMemberOfGroups (String groupIDasString) {
-//		Enumeration enum = Communication.memberOfGroups.elements();
-//		while (enum.hasMoreElements()) {
-//			PeerGroup pg = (PeerGroup) enum.nextElement();
-//			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
-//				return pg;
-//			} 
-//		}
-//		return null;
-//	}
-//	
-//	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
-//		return memberOfGroups.containsKey(peerGroupId);
-//	}
 	
 	/**
 	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
@@ -241,80 +195,34 @@ public class Communication {
 		Communication.globalP2PGroup = obj;
 	}	
 
-//    /**
-//    * Transfer a peer group ID as a String to the actual object representing the group 
-//    * @param groupIDasString the ID as a string
-//    * @return the group ID as an object
-//    * @version P2P-OntoRama 1.0.0
-//    */
-//	protected PeerGroupID getPeerGroupID(String groupIDasString) {
-//		PeerGroupID retVal = null;
-//		PeerGroupAdvertisement pgAdv = null;
-//		DiscoveryService discServ = globalP2PGroup.getDiscoveryService();
-//        Enumeration enum = null;
-//		try {
-//			enum = discServ.getLocalAdvertisements(
-//													DiscoveryService.GROUP,
-//													"GID",
-//													groupIDasString);
-//		} catch (IOException e) {
-//			System.out.println("Error");
-//    	    e.printStackTrace();
-//        	System.exit(1);   
-//        }
-//        
-//        while (enum.hasMoreElements()) {
-//           //found at least one adv
-//            pgAdv = (PeerGroupAdvertisement) enum.nextElement();
-//			retVal = pgAdv.getPeerGroupID();
-//        }
-//		return retVal;
-//	}
-//
-//    /**
-//    * Returns a PeerGroup with a certain groupID
-//    * @param groupIDasString the ID as a string
-//    * @return the object representing the group
-//    * @version P2P-OntoRama 1.0.0
-//    */
-//    protected PeerGroup getPeerGroup(String groupIDasString) {
-//		PeerGroup pg = null;
-//		try {
-//			pg = globalP2PGroup.newGroup(this.getPeerGroupID(groupIDasString));
-//		} catch (PeerGroupException e) {
-//			System.out.println("Error");
-//			e.printStackTrace();			
-//		}
-//        return pg;
-//	}
 	
 	
-	// added while refactoring 4.03.03
-	public PeerGroup createGroup(String name,String descr) throws GroupException {
-		return this.comGroup.createGroup(name, descr);
-	}
-	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
-		return this.comGroup.joinGroup(groupIDasString);
-	}	
-	public boolean leaveGroup(String groupIDasString) throws GroupException, IOException{
-		return this.comGroup.leaveGroup(groupIDasString); 
-	}
-	public Vector searchGroup(String searchAttrib, 
-									String searchString) 
-									throws GroupExceptionThread, IOException {
-		return this.comGroup.searchGroup(searchAttrib, searchString);
-	}
-	public Vector peerDiscovery (String groupIDasString) 
-									throws IOException, GroupExceptionThread {
-		return this.comGroup.peerDiscovery(groupIDasString);
-	}	
-	protected Collection memberOfGroupsByValues () {
-		return this.comGroup.memberOfGroupsByValues();
-	}
-	protected Enumeration memberOfGroupsEnumeration () {
-		return this.comGroup.memberOfGroupsEnumeration();
-	}
-	protected PeerGroup getPeerGroup(String groupIDasString) {
-		return this.comGroup.getPeerGroup(groupIDasString);
-	}
+//	// added while refactoring 4.03.03
+//	public PeerGroup createGroup(String name,String descr) throws GroupException {
+//		return this.comGroup.createGroup(name, descr);
+//	}
+//	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
+//		return this.comGroup.joinGroup(groupIDasString);
+//	}	
+//	public boolean leaveGroup(String groupIDasString) throws GroupException, IOException{
+//		return this.comGroup.leaveGroup(groupIDasString); 
+//	}
+//	public Vector searchGroup(String searchAttrib, 
+//									String searchString) 
+//									throws GroupExceptionThread, IOException {
+//		return this.comGroup.searchGroup(searchAttrib, searchString);
+//	}
+//	public Vector peerDiscovery (String groupIDasString) 
+//									throws IOException, GroupExceptionThread {
+//		return this.comGroup.peerDiscovery(groupIDasString);
+//	}	
+//	protected Collection memberOfGroupsByValues () {
+//		return this.comGroup.memberOfGroupsByValues();
+//	}
+//	protected Enumeration memberOfGroupsEnumeration () {
+//		return this.comGroup.memberOfGroupsEnumeration();
+//	}
+//	protected PeerGroup getPeerGroup(String groupIDasString) {
+//		return this.comGroup.getPeerGroup(groupIDasString);
+//	}
 }

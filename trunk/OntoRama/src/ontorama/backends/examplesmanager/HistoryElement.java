@@ -1,9 +1,10 @@
-package ontorama.ui;
+package ontorama.backends.examplesmanager;
 
 import org.tockit.events.EventBroker;
 
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
+import ontorama.ui.HistoryElementInterface;
 import ontorama.ui.events.HistoryQueryStartEvent;
 
 

@@ -20,6 +20,7 @@ import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.*;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;

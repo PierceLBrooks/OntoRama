@@ -1,7 +1,8 @@
 package ontorama.ui.events;
 
 import org.tockit.events.Event;
-import ontorama.ui.HistoryElement;
+
+import ontorama.backends.examplesmanager.HistoryElement;
 
 /**
  * Created by IntelliJ IDEA.

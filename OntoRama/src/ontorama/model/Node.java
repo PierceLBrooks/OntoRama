@@ -33,6 +33,7 @@ public interface Node {
     public void addClones (List clones);
 
     public int getDepth();
+    public void setDepth(int depth);
 
     public boolean getFoldedState();
 

@@ -58,7 +58,7 @@ public class OntoramaConfig {
 
     /**
      * Specify Parser to use with queryOutputFormat.
-     * All parsers should have ontorama.ontotools.query.parser as root
+     * All parsers should have ontorama.ontotools.parser as root
      * and implement Parser iterface.
      */
     public static String parserPackageName;
@@ -71,7 +71,7 @@ public class OntoramaConfig {
     /**
      * where to find parser
      */
-    private static final String parserPackagePathPrefix = "ontorama.ontotools.query.parser";
+    private static final String parserPackagePathPrefix = "ontorama.ontotools.parser";
 
     /**
      * where to find source package

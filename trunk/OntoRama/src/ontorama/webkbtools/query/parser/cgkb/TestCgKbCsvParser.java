@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.ontotools.query.parser.cgkb;
+package ontorama.ontotools.parser.cgkb;
 
 import java.io.Reader;
 
@@ -17,8 +17,8 @@ import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.parser.Parser;
-import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
 
 public class TestCgKbCsvParser extends TestCase {
 

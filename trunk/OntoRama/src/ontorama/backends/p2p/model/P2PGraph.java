@@ -13,7 +13,7 @@ import java.net.URI;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 public interface P2PGraph extends ontorama.model.graph.Graph {

@@ -148,7 +148,7 @@ public class FileBackend implements Backend{
        OntoramaConfig.ontologyRoot = null;
        OntoramaConfig.sourceUri = filename;
        OntoramaConfig.sourcePackageName = "ontorama.ontotools.source.FileSource";
-       OntoramaConfig.parserPackageName = "ontorama.ontotools.query.parser.rdf.RdfDamlParser";
+       OntoramaConfig.parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        System.out.println("querEvent = " + queryEvent);
        eventBroker.processEvent(queryEvent);

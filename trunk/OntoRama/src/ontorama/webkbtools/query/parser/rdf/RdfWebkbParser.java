@@ -1,4 +1,4 @@
-package ontorama.ontotools.query.parser.rdf;
+package ontorama.ontotools.parser.rdf;
 
 import java.io.Reader;
 import java.security.AccessControlException;
@@ -11,7 +11,7 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
-import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 

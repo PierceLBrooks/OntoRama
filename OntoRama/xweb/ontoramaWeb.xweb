@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<website baseURL="http://www.webkb.org/ontorama" sourceDir="content" targetDir="output">-->
+<website baseURL="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/web" sourceDir="content" targetDir="output">
+	<structure>
+		<section name="Home" title="Home" sourceDir="home" targetDir="home" type="home">
+			<!-- use this as homepage, i.e. put it in the top directory (output: ../) -->
+			<entry name="Home" sourceFile="index.xhtml" targetFile="../index.html" type="XHTML"/>
+		</section>
+		<section name="Doc" title="Doc" sourceDir="doc" targetDir="doc" type="doc">
+			<entry name="Documentation" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
+			<entry name="Introduction" sourceFile="intro.xhtml" targetFile="intro.html" type="XHTML"/>
+			<entry name="Configuration" sourceFile="config.xhtml" targetFile="config.html" type="XHTML"/>
+			<entry name="Future Plans" sourceFile="plans.xhtml" targetFile="plans.html" type="XHTML"/>
+			<entry name="WebKB Notes" sourceFile="OntologyServerNotes.xhtml" targetFile="OntologyServerNotes.html" type="XHTML"/>
+			<entry name="Dev. Doc" sourceFile="dev_doc.xhtml" targetFile="dev_doc.html" type="XHTML"/>
+			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>
+		</section>
+		<section name="Demo" title="Demo" sourceDir="demo" targetDir="demo" type="demo">
+			<entry name="Demo" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
+		</section>
+		<section name="Links" title="Resources" sourceDir="links" targetDir="links" type="links">
+			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
+		</section>
+		<file sourceFile="ontoramaStyle.css" targetFile="ontoramaStyle.css" type="copy" id="style"/>
+			<file sourceFile="img/OntoramaLogo-smaller.jpg" targetFile="img/OntoramaLogo-smaller.jpg" type="copy" id="firstLogo"/>
+			<file sourceFile="img/ontoramaBanner.png" targetFile="img/ontoramaBanner.png" type="copy" id="ontoramaBanner"/>
+			<file sourceFile="img/dl-javawebstart3.jpe" targetFile="img/dl-javawebstart3.jpe" type="copy"/>
+			<file sourceFile="img/dstc-crc.gif" targetFile="img/dstc-crc.gif" type="copy"/>
+			<file sourceFile="img/kvo-logo.gif" targetFile="img/kvo-logo.gif" type="copy"/>
+			<file sourceFile="img/OntoramaLogo.jpg" targetFile="img/OntoramaLogo.jpg" type="copy"/>
+			<file sourceFile="img/ontorama-screenshot.png" targetFile="img/ontorama-screenshot.png" type="copy"/>
+		</structure>
+	<layout>
+		<sectionStyle type="home">
+			<image type="normalSectionButton"/>
+			<image type="activeSectionButton"/>
+			<!--<image type="sectionBanner"/>-->
+		</sectionStyle>	
+		<sectionStyle type="img">
+		</sectionStyle>
+		<sectionStyle type="doc">
+			<image type="normalSectionButton"/>
+			<image type="activeSectionButton"/>
+			<!--<image type="sectionBanner"/>-->
+		</sectionStyle>	
+		<sectionStyle type="demo">
+			<image type="normalSectionButton"/>
+			<image type="activeSectionButton"/>
+			<!--<image type="sectionBanner"/>-->
+		</sectionStyle>	
+		<sectionStyle type="plans">
+			<image type="normalSectionButton"/>
+			<image type="activeSectionButton"/>
+			<!--<image type="sectionBanner"/>-->
+		</sectionStyle>	
+		<sectionStyle type="links">
+			<image type="normalSectionButton"/>
+			<image type="activeSectionButton"/>
+			<!--<image type="sectionBanner"/>-->
+		</sectionStyle>	
+
+		<documentStyle type="XHTML">
+			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
+			<!--<xsl stylesheet="stylesheets/orangeLayout.xsl" navigationElement="html">-->
+				<parameter name="nav.main.pos" value="left"/>
+				<parameter name="nav.sec.pos" value="nested"/>
+				<parameter name="nav.sec.visible" value="current"/>
+				<parameter name="nav.sec.firstEntry" value="section"/>
+				<parameter name="style.markup.firstLetter" value="on"/>
+				<parameter name="style.markup.linkTypes" value="on"/>
+				<parameter name="feature.include.footer" value="footer.xml"/>
+				<parameter name="feature.internalLink.token" value="!"/>
+			</xsl>
+			<imageGroup name="pageButtons"/>
+			<!--<image type="banner"/>-->
+		</documentStyle>
+		<!--
+		<documentStyle type="XMLCurrentProjects">
+			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
+				<parameter name="nav.main.pos" value="left"/>
+				<parameter name="nav.sec.pos" value="below"/>
+				<parameter name="nav.sec.visible" value="current"/>
+				<parameter name="nav.sec.firstEntry" value="section"/>
+				<parameter name="style.markup.firstLetter" value="on"/>
+				<parameter name="style.markup.linkTypes" value="on"/>
+				<parameter name="feature.include.footer" value="footer.xml"/>
+				<parameter name="feature.internalLink.token" value="!"/>
+				<xsl stylesheet="layout/projects.xsl">
+					<parameter name="type" value="Current"/>
+				</xsl>
+			</xsl>
+		</documentStyle>
+		-->
+		<!--
+		<documentStyle type="XMLPeople">
+			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
+				<parameter name="nav.main.pos" value="left"/>
+				<parameter name="nav.sec.pos" value="below"/>
+				<parameter name="nav.sec.visible" value="current"/>
+				<parameter name="nav.sec.firstEntry" value="section"/>
+				<parameter name="style.markup.firstLetter" value="on"/>
+				<parameter name="style.markup.linkTypes" value="on"/>
+				<parameter name="feature.include.footer" value="footer.xml"/>
+				<parameter name="feature.internalLink.token" value="!"/>
+				<xsl stylesheet="layout/person.xsl" navigationElement="person"/>
+			</xsl>
+		</documentStyle>
+		<documentStyle type="XMLResources">
+			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
+				<parameter name="nav.main.pos" value="left"/>
+				<parameter name="nav.sec.pos" value="below"/>
+				<parameter name="nav.sec.visible" value="current"/>
+				<parameter name="nav.sec.firstEntry" value="section"/>
+				<parameter name="style.markup.firstLetter" value="on"/>
+				<parameter name="style.markup.linkTypes" value="on"/>
+				<parameter name="feature.include.footer" value="footer.xml"/>
+				<parameter name="feature.internalLink.token" value="!"/>
+				<xsl stylesheet="layout/resources.xsl"/>
+			</xsl>
+		</documentStyle>
+		-->
+		<documentStyle type="copy">
+			<copy/>
+		</documentStyle>
+		<!--<sectionStyle type="section"/>-->
+		<documentStyle type="debugEmbHTML">
+			<xsl stylesheet="layout/debug.xsl" navigationElement="navigation"/>
+		</documentStyle>
+		
+		<imageGroup name="pageButtons">
+			<image type="normal"/>
+			<image type="active"/>
+		</imageGroup>
+		
+		<!-- the page buttons -->
+		<!-- normal -->
+		<imageStyle width="120" height="40" fileNamePattern="button_%n.png" type="normal">
+			<!--<svg xwebid="xweb">
+				<path fill-opacity="1" fill="rgb(238,156,0)" opacity="1" d="M37 0 L37 3 L40 7 L43 3 L43 0"/>
+				<text font-family="Arial" font-size="13" fill-opacity="1" fill="rgb(89,89,89)" x="40" y="18" text-anchor="middle" id="xweb">oopsala</text>
+			</svg>
+			-->
+			<svg xwebid="xweb" >
+				<rect x="-2" y="-1" width="102" height="41" style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+				<text x="36px" y="30px" style="fill:rgb(25,76,191);font-size:20;font-family:Georgia"  id="xweb">oopsala</text>
+			</svg>			
+		</imageStyle>
+		<!-- active page -->
+		<imageStyle width="120" height="40" fileNamePattern="button_%n_act.png" type="active">
+			<svg  xwebid="xweb">
+				<rect x="-2" y="-1" width="102" height="41"
+					 style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+				<text x="36px" y="30px" style="fill:rgb(25,76,191);font-size:20;font-family:Georgia" id="xweb">oopsala</text>
+				<path
+					d="M13.4877 25.4667 C17.3375 17.7965 28 10 28 10 C28 10 24.0597 15.3838 26.0788 18.4004 C19.9993 19.5422 17.5886 21.3515 12.4236 29 C11.4557 28.717 12.3038 22.0331 10 19.1935 C10.0608 19.1661 12.6273 16.0313 13.7242 16.0209 C14.3 18.8238 12.0025 28.306 13.4877 25.4667 z"
+					 style="fill:rgb(25,76,191);stroke:rgb(0,0,128);stroke-width:1"/>
+			</svg>
+			<!--
+			<svg xwebid="xweb">
+				<path fill-opacity="1" fill="rgb(238,156,0)" opacity="1" d="M37 0 L37 3 L40 7 L43 3 L43 0"/>
+				<text font-family="Arial" font-size="13" fill-opacity="1" fill="rgb(238,156,0)" x="40" y="18" text-anchor="middle" id="xweb">oopsala</text>
+			</svg>
+			-->
+		</imageStyle>		
+		<!-- buttons for the sections -->
+		<!-- normal -->
+		<imageStyle width="120" height="40" fileNamePattern="button_%n.png" type="normalSectionButton">
+			<!--
+			<svg xwebid="xweb">
+				<rect fill="rgb(89,89,89)" x="1" y="2" width="78" height="28"/>
+				<text font-family="Arial" font-size="13" fill-opacity="1" fill="rgb(255,255,255)" x="40" y="20" text-anchor="middle" id="xweb">oopsala</text>
+			</svg>
+			-->
+			<svg xwebid="xweb" >
+				<rect x="-2" y="-1" width="102" height="41" style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+				<text x="36px" y="30px" style="fill:rgb(25,76,191);font-size:20;font-family:Georgia"  id="xweb">oopsala</text>
+			</svg>			
+		</imageStyle>
+		<!-- active section -->
+		<imageStyle width="120" height="40" fileNamePattern="button_%n_act.png" type="activeSectionButton">
+			<!--
+			<svg xwebid="xweb">
+				<rect fill="rgb(238,156,0)" x="1" y="2" width="78" height="28"/>
+				<text font-family="Arial" font-size="13" fill-opacity="1" fill="rgb(255,255,255)" x="40" y="20" text-anchor="middle" id="xweb">oopsala</text>
+			</svg>
+			-->
+			<svg  xwebid="xweb">
+				<rect x="-2" y="-1" width="102" height="41"
+					 style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+				<text x="36px" y="30px" style="fill:rgb(25,76,191);font-size:20;font-family:Georgia" id="xweb">oopsala</text>
+				<path
+					d="M13.4877 25.4667 C17.3375 17.7965 28 10 28 10 C28 10 24.0597 15.3838 26.0788 18.4004 C19.9993 19.5422 17.5886 21.3515 12.4236 29 C11.4557 28.717 12.3038 22.0331 10 19.1935 C10.0608 19.1661 12.6273 16.0313 13.7242 16.0209 C14.3 18.8238 12.0025 28.306 13.4877 25.4667 z"
+					 style="fill:rgb(25,76,191);stroke:rgb(0,0,128);stroke-width:1"/>
+			</svg>
+		</imageStyle>
+		<!-- this is the section banner -->
+		<!--
+		<imageStyle width="500" height="70" render="title" fileNamePattern="banner_%n.png" type="sectionBanner">
+			<svg xwebid="xweb">
+				<filter id="dropShadow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="650" height="100">
+					<feFlood result="grey" flood-color="rgb(89,89,89)" flood-opacity="1"/>
+					<feOffset in="SourceAlpha" result="offset" dx="2" dy="1"/>
+					<feComposite operator="in" in="grey" in2="offset" result="shadow"/>
+					<feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+				</filter>
+				<rect fill="rgb(238,156,0)" x="0" y="0" width="500" height="70"/>
+				<rect fill="rgb(255,255,255)" x="20" y="10" width="460" height="50"/>
+				<rect fill="rgb(89,89,89)" x="21" y="11" width="458" height="48"/>
+				<rect fill="rgb(255,255,255)" x="25" y="15" width="450" height="40"/>
+				<text font-family="Arial" font-weight="bold" font-size="32" fill-opacity="1" fill="rgb(238,156,0)" stroke-opacity="1" stroke-width="3" color="rgb(238,156,0)" text-anchor="middle" x="250" y="45" filter="url(#dropShadow)" id="xweb">oopsala</text>
+			</svg>	
+		</imageStyle>
+		-->		
+		<imageStyle width="300" height="100" fileNamePattern="banner_%n.png" type="banner">
+		<svg xwebid="xweb">
+			<defs>
+				<filter id="Drop_Shadow" filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
+					<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blurredAlpha"/>
+					<feOffset in="blurredAlpha" dx="3" dy="3" result="offsetBlurredAlpha"/>
+					<feFlood result="flooded" style="flood-color:rgb(128,128,128);flood-opacity:0.65"/>
+					<feComposite in="flooded" operator="in" in2="offsetBlurredAlpha" result="coloredShadow"/>
+					<feComposite in="SourceGraphic" in2="coloredShadow" operator="over"/>
+				</filter>
+			</defs>
+			<rect x="1.9984e-014" y="-1" width="302" height="100"
+				 style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+			<text x="10" y="65px" style="filter:url(#Drop_Shadow);fill:rgb(25,76,191);font-size:70;font-family:Monotype Corsiva;" id="xweb">OntoRama</text>
+			<path
+				d="M11.4458 94.2771 C30.0889 84.1081 52.1519 84.8338 72.8916 84.0361 C103.035 82.8768 136.741 69.6555 166.867 76.2048 C192.216 81.7153 151.336 75.9488 180.12 85.8434 C206.867 95.0374 260.669 83.4918 286.145 75"
+				 style="fill:none;stroke:rgb(25,76,191);stroke-width:2;filter:url(#Drop_Shadow)"/>
+		</svg>		
+		</imageStyle>
+	</layout>
+</website>

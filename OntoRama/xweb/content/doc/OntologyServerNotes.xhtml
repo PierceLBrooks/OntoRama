@@ -1,0 +1,432 @@
+<html>
+	<head>
+		<title>WebKB Notes</title>
+	</head>
+	<body>
+		<h1>
+		Notes: Using WebKB
+	</h1>
+	<p>
+		This is a supplementary documentation for WebKB, targeted on programmers wishing to exploit WebKB capabilities.
+	</p>
+	<h3>
+		What is WebKB
+	</h3>
+	<p>
+		WebKB is a web accessible Knowledge Base that contains a type hierarchy + some knowledge statements.
+	</p>
+	<p>
+		<img border="0" src="img/kb.gif" width="135" height="111" />
+	</p>
+	<p>
+		We are mainly interested in the taxonomy. Ontology consist of category types interconnected by links. Interconnecting links are called '
+	<b>
+		<a name="relation links">relation links</a>
+	</b>'.
+	</p>
+		<p>
+			<a name="Table of relation links and corresponding symbols:">Table of relation links and corresponding symbols:</a>
+		</p>
+		<table border="1">
+			<tr>
+			<td>
+				&lt;
+			</td>
+				<td>
+					subtypeOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					&gt;
+				</td>
+				<td>
+					subtype
+				</td>
+			</tr>
+			<tr>
+				<td>
+					^
+				</td>
+				<td>
+					instanceOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:
+				</td>
+				<td>
+					instance
+				</td>
+			</tr>
+			<tr>
+				<td>
+					!
+				</td>
+				<td>
+					exclusion
+				</td>
+			</tr>
+			<tr>
+				<td>
+					~
+				</td>
+				<td>
+					similar
+				</td>
+			</tr>
+			<tr>
+				<td>
+					P
+				</td>
+				<td>
+					partOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					p
+				</td>
+				<td>
+					part
+				</td>
+			</tr>
+			<tr>
+				<td>
+					M
+				</td>
+				<td>
+					memberOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					m
+				</td>
+				<td>
+					member
+				</td>
+			</tr>
+			<tr>
+				<td>
+					O
+				</td>
+				<td>
+					objectOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					o
+				</td>
+				<td>
+					object
+				</td>
+			</tr>
+			<tr>
+				<td>
+					S
+				</td>
+				<td>
+					substanceOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					s
+				</td>
+				<td>
+					substance
+				</td>
+			</tr>
+			<tr>
+				<td>
+					U
+				</td>
+				<td>
+					urlOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					u
+				</td>
+				<td>
+					url
+				</td>
+			</tr>
+		</table>
+		<h4>Some other related terminology</h4>
+		<b>
+			<a name="Name">
+			  Name
+			</a>
+		</b>
+		<a name="Name" /> - a word describing an entity you	wish to search for, e.g. 'cat', 'dog'. ( Case sensitive )	
+		<p>
+		<b>
+			<a name="Identifier">
+				  Identifier
+			</a>
+		</b>
+			- unique name given by WebKB to identify the name you are searching for, e.g. 'wn#cat' is identifier for 'cat'.
+		</p>
+		<p>
+			Identifier Format: 'prefix#word', where:
+		</p>
+		<ul>
+			<li>
+				prefix is a creator name (a.e. 'pm') or domain name (a.e 'wn' for WordNet or 'comms' for telecommunications ontology). In 'wn' case prefix can be omitted.
+			</li>
+			<li>
+				word is an english word. Most likely individuals will be using term names in their searches and programms will be using identifiers (according to WebKB documentation). One name can have a more then one meaning and each meaning can have unique identifier. for example: cat can have following meanings: #cat, #true_cat, #big_cat, #Catterpillar, etc
+			</li>
+		</ul>
+		<p>
+			<b>
+				<a name="User Identifier">User Identifier</a>
+			</b>
+		</p>
+		<p>
+			Definition of Ontology can be found in WebKB documentation....?
+		</p>
+		<h3> 
+			What we can do with WebKB Ontology
+		</h3>
+		<p>
+			In order to avoid to specify full WebKB URL's we will assume that the base URL is known and use relative paths. For instance, currently WebKB is installed	at following location: 
+			<a href="http://meganesia.int.gu.edu.au/~phmartin/WebKB">
+				http://meganesia.int.gu.edu.au/~phmartin/WebKB
+			</a>
+		</p>
+		<p>
+			Main functionality we are interested in is following:
+			<ul>
+				<li>
+					<a href="#SearchingOnt">search</a>
+				</li>
+				<li>
+					<a href="#CompareTypes">compare</a>
+				</li>
+				<li>
+					<a href="#ModifyOntologyType/type relationships">modify</a>
+				</li>
+			</ul>
+		</p>
+		<h4>
+			<a name="SearchingOnt">Searching</a>
+		</h4>
+		<p>
+			Search for types and relationships between types.
+		</p>
+		<p>
+			CGI path: bin/termSearch.cgi
+		</p>
+		<p>
+			CGI Parameters
+		</p>
+		<table border="1">
+			<tr>
+				<th>Parameter Name</th>
+				<th>Expected Parameter Value</th>
+				<th>Description</th>
+				<th>Required</th>
+			</tr>
+			<tr>
+				<td>term</td>
+				<td>Category <a href="#Name"> name</a> or <a href="#Identifier">Identifier</a>
+				</td>
+				<td>Term you are searching for</td>
+				<td>yes</td>
+			</tr>
+			<tr>
+				<td>link</td>
+				<td>
+					<a href="#relation links">Relation link </a>between terms</td>
+				<td />
+				<td>no</td>
+			</tr>
+			<tr>
+				<td>
+					destTerm
+				</td>
+			<td>
+				Category <a href="#Identifier">Identifier</a>
+			</td>
+			<td>
+				Used to find direct connection between two terms.
+				<br />
+				Terms in question are specified by parameters 'term' and 'destTerm' and connection is specified by 'link'.
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+		<tr>
+			<td>
+				recursLink
+			</td>
+			<td>
+				<a href="#relation links">Relation link </a>
+			</td>
+			<td>
+				Used to set constrains on the search for a given term.
+				<br />
+				If this parameter is not set - WebKB will return search term and all terms connected to it via direct relations.
+				<br />
+				Otherwise recursLink can be set to any of valid 
+				<a href="#Table of relation links and corresponding symbols:">
+					relation links
+				</a>. 
+				This will return the above set of data <b>plus</b> all terms connected to search term via recursLink.
+				<br />
+				However, only a limited section of a large search will be displayed
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+		<tr>
+			<td>
+				depth
+			</td>
+			<td>
+				an integer
+			</td>
+			<td>
+				Use in conjunction with recursLink to specify the depth of recursion you require.
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+		<tr>
+			<td>
+				creator
+			</td>
+			<td>
+				<a href="#User Identifier"> user identifier</a>
+			</td>
+			<td>
+				Used to search for terms created by certain person or of  a certain domain.
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+		<tr>
+			<td>
+				nonCreator
+			</td>
+			<td>
+				<a href="#User Identifier"> user identifier</a>
+			</td>
+			<td>
+				The inverse of 'creator' parameter.
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+		<tr>
+			<td>
+				format
+			</td>
+			<td>
+				FCG
+				<br />
+				RDF
+			</td>
+			<td>
+				Used to specify format of output data.
+				<br />
+				Result available in following formats:
+				<br />
+				- if none is specified - default is 'minimal, user friendly'
+				<br />
+				- FCG - EBNF format wrapped in html between &lt;pre> and &lt;/pre> tags
+				<br />
+				- RDF
+			</td>
+			<td>
+				default value is
+				<br />
+				'minimal, user friendly'
+			</td>
+		</tr>
+		<tr>
+			<td>
+				hyperlinks
+			</td>
+			<td />
+			<td>
+				This parameter is a flag that indicates if returned terms should be hyperlinked.
+				<br />
+				If this parameter is present - terms are hyperlinked
+			</td>
+			<td>
+				no
+			</td>
+		</tr>
+	</table>
+	<p />
+	<h4>
+		<a name="CompareTypes">Compare types</a>
+	</h4>
+	<p>Compare types</p>
+	<p>CGI path: bin/termCompare.cgi</p>
+		<h4>
+			<a name="ModifyOntologyType/type relationships">Modify Ontology type/type relationships</a>
+		</h4>
+		<p>We can modify existing types (add/remove/modify types and relationships between types.)</p>
+		<p>CGI path: bin/objectHandling.cgi</p>
+		<p>Capabilities:</p>
+		<ul>
+			<li>modify ontology type/type relations</li>
+			<li>search cg's</li>
+			<li>modify cg's</li>
+		</ul>
+		<p>CGI Parameters</p>
+		<table border="1">
+			<tr>
+				<th>Parameter Name</th>
+				<th>Expected Parameter Value</th>
+				<th>Description</th>
+				<th>Required</th>
+			</tr>
+			<tr>
+				<td>commands</td>
+				<td>WebKB commands</td>
+				<td />
+				<td>yes</td>
+			</tr>
+			<tr>
+				<td>user</td>
+				<td>WebKB username (User Identifier)</td>
+				<td />
+				<td>yes</td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td>WebKB password</td>
+				<td />
+				<td>yes</td>
+			</tr>
+		</table>
+		<p>Statement	FS (includes several sub-languages)<br />
+			<br />
+			Query FS
+			<br />
+			Command	Statement, query or control command
+			<br />
+			<br />
+			FS
+			<br />
+			FC "for control"<br />
+			FO "for ontology"<br />
+			FCG<br />
+			FE,.....,RDF
+		</p>
+	</body>
+</html>

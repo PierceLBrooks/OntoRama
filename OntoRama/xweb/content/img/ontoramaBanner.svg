@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+	"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="300" height="100">
+	<defs>
+		<filter id="Drop_Shadow" filterUnits="objectBoundingBox" x="-10%" y="-10%"
+			width="150%" height="150%">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blurredAlpha"/>
+			<feOffset in="blurredAlpha" dx="3" dy="3" result="offsetBlurredAlpha"/>
+			<feFlood result="flooded" style="flood-color:rgb(128,128,128);flood-opacity:0.65"/>
+			<feComposite in="flooded" operator="in" in2="offsetBlurredAlpha"
+				result="coloredShadow"/>
+			<feComposite in="SourceGraphic" in2="coloredShadow" operator="over"/>
+		</filter>
+	</defs>
+	<rect x="1.9984e-014" y="-1" width="302" height="100"
+		 style="fill:rgb(255,255,255);stroke:rgb(255,255,255);stroke-width:1"/>
+	<text x="10" y="65px" style="filter:url(#Drop_Shadow);fill:rgb(25,76,191);font-size:70;font-family:Monotype Corsiva;
+		">OntoRama</text>
+	<path
+		d="M11.4458 94.2771 C30.0889 84.1081 52.1519 84.8338 72.8916 84.0361 C103.035 82.8768 136.741 69.6555 166.867 76.2048 C192.216 81.7153 151.336 75.9488 180.12 85.8434 C206.867 95.0374 260.669 83.4918 286.145 75"
+		 style="fill:none;stroke:rgb(25,76,191);stroke-width:2;filter:url(#Drop_Shadow)"/>
+</svg>

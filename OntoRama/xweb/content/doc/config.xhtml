@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html>
+	<head>
+		<title>OntoRama Documentation:Config</title>
+	</head>
+	<body>
+		<h1 align="center">
+			Configuration
+		</h1>
+		<p>
+			Relation Links and Concept Type properties in the OntoRama a fully
+			configurable via 'config' XML file. This mean that if we need to display
+			an ontology with a different set of relation links or with different set
+			of properties for each concept types, we only need to alter config file
+			without having to modify and recompile the application.
+		</p>
+		<p>
+			OntoRama reads configuration file on the startup and processes it. File
+			is XML file and consist of two sections: 'ontology' section and
+			'rdfMapping' section.
+		</p>
+		<p>
+			'ontology' section describes all details relevant to loading an
+			ontology. This section includes a set of 'relation' elements, each of
+			them defining an ontology relation link. Similary, we define concept
+			type properties. Concept type properties are properties that are
+			applicable to concept type in the current ontology. For example, concept
+			types have properties such as type description, creator, synonyms.
+		</p>
+		<p>
+			Each relation is defined as an element 'relation' and gets an id
+			assigned to it. This id is going to be a reference to the corresponding
+			relation  that OntoRama is going to use. We also define a name for each
+			relation link. Some relations could have two names, which means that
+			they are reversable. 
+		</p>
+		<p>
+			An example of reversable relation: subtype/supertype relation. Consider
+			term 'wn#Cat', this term is connected to term 'wn#TrueCat' via relation
+			link 'subtype' (wn#Cat is subtype of 'wn#TrueCat'). Reverse relation
+			link to 'subtype' is 'supertype' and following is true: 'wn#TrueCat' is
+			connected to 'wn#Cat' via relation link 'supertype'.
+		</p>
+		<p>
+			Here is a sniplet from the configuration file describing
+			subtype/supertype relation:
+			<span class="xmlSnipplet">
+			<pre>
+			&lt;relation id="1"&gt;
+					&lt;relationType name="subtype" mappingSymbol="&lt;"/&gt;
+					&lt;relationType name="supertype" mappingSymbol="&gt;"/&gt;
+					&lt;display color="#33CCFF" symbol="&lt;"/&gt;
+			&lt;/relation&gt;
+			</pre>
+			</span>
+		</p>
+		<p>
+			Each  relation is uniquely identified by relation id number and relation
+			name. It should be noted that OntoRama will display only one relation
+			link for each relation (due to the fact that they are reversable). At
+			present, the first declared link in the 'relation' element will be
+			displayed.
+		</p>
+		<p>
+			We also specify display properties for each relation link, such as color
+			and symbol. We use these display properties to create an icon that will
+			represent relation link the ontology visualisation. It would be also
+			possible to simply specify an icon/image location for each relation
+			link.
+		</p>
+		<p>
+			Concept type properties are defined using elements 'conceptProperty'. At
+			present this element only has an id, which is a string describing this
+			property. Once these elements are read by OntoRama, application 'knows'
+			that it needs to create corresponding entries  in the description panel.
+		</p>
+		<p>
+			Here is a sniplet describing properties from our configuration file:
+			&lt;conceptProperty id="Description"/&gt;
+			&lt;conceptProperty id="Creator"/&gt;
+		</p>
+		<p>
+			While Ontology section of configuration file sets the scene, RdfMapping
+			section specifies how application should be able to find items defined
+			in the ontology section in the source RDF file. Here is an example of
+			'rdfMapping' element:
+			<pre>
+			&lt;rdfMapping&gt;
+					&lt;relationLinks&gt;
+							&lt;map id="1" type="supertype" tag="subClassOf"/&gt;
+							&lt;map id="3" type="part" tag="part"/&gt;
+							&lt;map id="6" type="inclusive" tag="jointWith"/&gt;
+					&lt;/relationLinks&gt;
+					&lt;conceptProperties&gt;
+							&lt;map id="Description" tag="comment"/&gt;
+							&lt;map id="Creator" tag="Creator"/&gt;
+							&lt;map id="Synonym" tag="label"/&gt;
+					&lt;/conceptProperties&gt;
+			&lt;/rdfMapping&gt;
+			</pre>
+		</p>
+		<p>
+			It also consists of two subsections, one: 'relationLinks' maps relation
+			links defined in the 'ontology' section to RDF tags. Another subsection
+			'conceptProperties' maps concept type properties to RDF tags. 
+		</p>
+		<p>
+			For instance, element '<map id="1" type="supertype" tag="subClassOf"/>'
+			is mapping relation type 'supertype' to RDF tag 'subClassOf'. This is an
+			interesting example because as stated above, OntoRama would display
+			relation link 'subtype', this means that the application has to reverse
+			'supertype' links to be able to display them. Here is example RDF:
+			<pre>
+			&lt;rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"&gt;
+					&lt;rdfs:label xml:lang="en"&gt;cat&lt;/rdfs:label&gt;
+					&lt;rdfs:label xml:lang="en"&gt;domestic_cat&lt;/rdfs:label&gt;
+					&lt;rdfs:label xml:lang="en"&gt;house_cat&lt;/rdfs:label&gt;
+					&lt;rdfs:label xml:lang="en"&gt;Felis_domesticus&lt;/rdfs:label&gt;
+					&lt;rdfs:label xml:lang="en"&gt;Felis_catus&lt;/rdfs:label&gt;
+					&lt;dc:Creator&gt;http://www.cogsci.princeton.edu/~wn/&lt;/dc:Creator&gt;
+					&lt;rdfs:comment&gt;any domesticated member of the genus Felis&lt;/rdfs:comment&gt;
+					&lt;rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/&gt;
+			&lt;/rdfs:Class&gt;
+			</pre>
+			The last statement will be translated by OntoRama as following:
+			'wn#TrueCat' is 'supertype'of 'wn#Cat'. However, OntoRama needs to
+			reverse this statement as only 'subtype' relation links are displayed
+			resulting in: 'wn#Cat' is 'subtype' of 'wn#TrueCat'.
+		</p>
+	</body>
+</html>

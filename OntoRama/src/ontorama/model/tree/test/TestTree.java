@@ -134,25 +134,48 @@ public class TestTree extends TestCase{
         assertEquals("number of tree edges ", 15, _tree.getEdgesList().size());
     }
 
-    public void testClones () {
+    public void testCloneWithChildren () {
+        TreeNode treeNode = getNodeByName("node6");
+        List clones = treeNode.getClones();
+        assertEquals("number of clones for node6 ", 1, clones.size());
+        TreeNode clone = (TreeNode) clones.get(0);
+
+        List treeNodeChildren = treeNode.getChildren();
+        List cloneNodeChildren = clone.getChildren();
+        assertEquals("number of children in clones should be the same (checking clones for node6) ",
+                                        treeNodeChildren.size(), cloneNodeChildren.size());
+    }
+
+    public void testClone () {
+        TreeNode treeNode = getNodeByName("node7");
+        List clones = treeNode.getClones();
+        assertEquals("number of clones for node7 ", 2, clones.size());
+
+        Iterator it = clones.iterator();
+        while (it.hasNext()) {
+            TreeNode curClone = (TreeNode) it.next();
+            assertEquals("number of clones in each clones should be the same ",
+                                    treeNode.getClones().size(), curClone.getClones().size());
+            assertEquals("number of children in each clones should be the same ",
+                                    treeNode.getChildren().size(), curClone.getChildren().size());
+            assertEquals("clones should contain the same graph node object ",
+                                    treeNode.getGraphNode(), curClone.getGraphNode());
+        }
+    }
+
+
+    private TreeNode getNodeByName (String nodeName) {
         Iterator it = _tree.getNodesList().iterator();
         while (it.hasNext()) {
             TreeNode treeNode = (TreeNode) it.next();
             if (treeNode.getClones().isEmpty()) {
                 continue;
             }
-            /// look for node6 as we know it has clones
-            if (treeNode.getGraphNode().getName().equals("node6")) {
-                List clones = treeNode.getClones();
-                assertEquals("number of clones for node6 ", 1, clones.size());
-                TreeNode clone = (TreeNode) clones.get(0);
-
-                List treeNodeChildren = treeNode.getChildren();
-                List cloneNodeChildren = clone.getChildren();
-                assertEquals("number of children in clones should be the same (checking clones for node6) ",
-                                    treeNodeChildren.size(), cloneNodeChildren.size());
-
+            if (treeNode.getGraphNode().getName().equals(nodeName)) {
+                return treeNode;
             }
         }
+        return null;
+
     }
 }

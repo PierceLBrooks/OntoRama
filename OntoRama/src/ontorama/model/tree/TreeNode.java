@@ -28,12 +28,6 @@ public interface TreeNode {
     public void addClone (TreeNode cloneNode);
 
     /**
-     * set children edges for this node
-     * @param childEdges - list of outbound edges
-     */
-    public void setChildren (List childEdges);
-
-    /**
      * get children of this node
      * @return list of outbound edges
      */

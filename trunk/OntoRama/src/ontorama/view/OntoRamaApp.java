@@ -111,6 +111,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     public Action _forwardAction;
     public Action _exitAction;
     public Action _aboutAction;
+    public StopQueryAction _stopQueryAction;
 
 
     /**
@@ -249,6 +250,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
       _forwardAction = new ForwardHistoryAction();
       _exitAction = new ExitAction();
       _aboutAction = new AboutOntoRamaAction();
+      _stopQueryAction = new StopQueryAction(this);
+      _stopQueryAction.setEnabled(false);
     }
 
 
@@ -397,6 +400,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             _timer.stop();
             _progressBar.setIndeterminate(false);
             setStatusLabel("");
+            _stopQueryAction.setEnabled(false);
             if (graph == null) {
               return;
             }
@@ -421,6 +425,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _timer.start();
         _progressBar.setIndeterminate(true);
+        _stopQueryAction.setEnabled(true);
+        
 
         System.out.println("END of executeQuery method");
         System.out.println("---------------------------------------------------------------\n\n\n");
@@ -449,7 +455,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      *
      */
-    protected void stopQuery () {
+    public void stopQuery () {
       System.out.println("\n\n\nSTOP QUERY");
       //_worker.stop();
       //_worker.interrupt();

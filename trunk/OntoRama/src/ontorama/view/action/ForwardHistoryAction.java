@@ -19,8 +19,8 @@ public class ForwardHistoryAction extends AbstractAction {
 
   private static final String ACTION_COMMAND_KEY_COPY = "forward-history-command";
   private static final String NAME_COPY = "Forward";
-  private static final String SHORT_DESCRIPTION_COPY = "Forward to previous ontology";
-  private static final String LONG_DESCRIPTION_COPY = "Forward to previous ontology";
+  private static final String SHORT_DESCRIPTION_COPY = "Forward to the next ontology";
+  private static final String LONG_DESCRIPTION_COPY = "Forward to the next ontology in the History";
   //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
   //private static final String ACCELERATOR_KEY="ALT+Right";
 

@@ -105,8 +105,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         QueryAction queryAction = new QueryAction();
         _querySubmitButton = new JButton(queryAction);
 
-        StopQueryAction stopQueryAction = new StopQueryAction(_ontoRamaApp);
-        _queryStopButton = new JButton(stopQueryAction);
+        //StopQueryAction stopQueryAction = new StopQueryAction(_ontoRamaApp);
+        _queryStopButton = new JButton(_ontoRamaApp._stopQueryAction);
 
         queryFieldPanel.add(_queryField);
         queryFieldPanel.add(_querySubmitButton);

@@ -85,10 +85,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         OntoTreeNode treeNode = (OntoTreeNode) value;
         EdgeType relLinkDetails = treeNode.getRelLink();
 
-        /// @todo shouldn't have to check for null here
-        if (relLinkDetails != null) {
-            setToolTipText(getToolTipText(value, relLinkDetails));
-        }
+        setToolTipText(getToolTipText(value, relLinkDetails));
 
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(_nodeImageIcon);
@@ -121,12 +118,16 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get tool tip text for given object and relation link
      */
-    protected String getToolTipText(Object value, EdgeType relLinkDetails) {
-        String relLinkName = relLinkDetails.getName();
+    protected String getToolTipText(Object value, EdgeType edgeType) {
         String result = "";
-        //result = "Concept: " + treeNode.getGraphNode().getName();
-        //result = result + "\n";
-        result = result + "Relation Type: " + relLinkName;
+        OntoTreeNode treeNode = (OntoTreeNode) value;
+        if (edgeType == null) {
+            result = result + "Node: " + treeNode.getGraphNode().getName();
+        }
+        else {
+            String edgeTypeName = edgeType.getName();
+            result = result + "Relation Type: " + edgeTypeName;
+        }
         return result;
     }
 

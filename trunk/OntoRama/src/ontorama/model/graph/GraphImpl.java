@@ -154,7 +154,9 @@ public class GraphImpl implements Graph {
         Iterator it = _graphNodes.iterator();
         while (it.hasNext()) {
             Node curNode = (Node) it.next();
+            System.out.println("graphImpl:: curNode = " + curNode.getName() );
             int descendantsNum = calculateNodeDescendants(curNode);
+			System.out.println("graphImpl:: curNode descendants = " + descendantsNum );
             originalNodeDescendantsMapping.put(curNode, new Integer(descendantsNum));
         }
     	_topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
@@ -165,6 +167,9 @@ public class GraphImpl implements Graph {
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
+			System.out.println("graphImpl checkForCycles:: " + curEdge.getFromNode().getName() 
+										+ " -> " + curEdge.getToNode().getName() 
+										+ " : " + curEdge.getEdgeType());
             List curEdgesToRemove = checkEdgeForCycle(curEdge);
             edgesToRemove.addAll(curEdgesToRemove);
         }
@@ -577,7 +582,7 @@ public class GraphImpl implements Graph {
                 continue;
             }
             int numOfDescendants = calculateNodeDescendants(node);
-            if (numOfDescendants > maxDescendants) {
+            if (numOfDescendants >= maxDescendants) {
                 maxDescendants = numOfDescendants;
                 rootNode = node;
             }
@@ -599,6 +604,7 @@ public class GraphImpl implements Graph {
                  continue;
             }
             Node curNode = curEdge.getToNode();
+			//System.out.println("--- " + curNode);
 
             List children = getOutboundEdges(curNode);
             q.addAll(children);

@@ -2,34 +2,51 @@ package ontorama.ontotools.parser.rdf;
 
 import java.io.Reader;
 import java.security.AccessControlException;
-import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
+import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 
 import com.hp.hpl.jena.daml.DAMLClass;
+import com.hp.hpl.jena.daml.DAMLCommon;
+import com.hp.hpl.jena.daml.DAMLInstance;
 import com.hp.hpl.jena.daml.DAMLModel;
+import com.hp.hpl.jena.daml.DAMLProperty;
+import com.hp.hpl.jena.daml.DAMLRestriction;
 import com.hp.hpl.jena.daml.common.DAMLModelImpl;
-import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
-import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.Model;
-import com.hp.hpl.mesa.rdf.jena.model.NsIterator;
-import com.hp.hpl.mesa.rdf.jena.model.Property;
-import com.hp.hpl.mesa.rdf.jena.model.RDFError;
+import com.hp.hpl.mesa.rdf.jena.model.AnonId;
 import com.hp.hpl.mesa.rdf.jena.model.RDFException;
-import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
 import com.hp.hpl.mesa.rdf.jena.model.Resource;
-import com.hp.hpl.mesa.rdf.jena.model.Statement;
-import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
 
 
 /**
  * @author nataliya
  */
 public class DamlParser implements Parser {
+	/**
+	 * key - identifier, value - node
+	 */
+	Hashtable _nodes = new Hashtable();
+	
+	List _edges = new LinkedList();
+	
+	Backend _backend = OntoramaConfig.getBackend();
+	
+	private final static String sameClassAs = "sameClassAs";
+	private final static String restriction = "restriction";
+	private final static String subtype = "subtype";
+	private final static String supertype = "supertype";
 
     /**
      * @todo return proper ParserResult (not null)
@@ -47,148 +64,164 @@ public class DamlParser implements Parser {
     		while (damlClasses.hasNext()) {
 				DAMLClass curClass = (DAMLClass) damlClasses.next();
 				System.out.println("class: " + curClass + ", local name: " + curClass.getLocalName());
-//				if (curClass.isAnon()) {
-//					System.out.println("\tproperties: ");
-					StmtIterator it = curClass.listProperties();
-					while (it.hasNext()) {
-						Statement element =  it.next();
-						System.out.println("\t" + element);
-						
-					}
-//				}
+				processClass(curClass);					
 			}
+			Iterator damlInstances = model.listDAMLInstances();
+			while (damlInstances.hasNext()) {
+				DAMLInstance cur = (DAMLInstance) damlInstances.next();
+				System.out.println("instance: " + cur + ", local name: " + cur.getLocalName());
+			}
+			Iterator damlProperties = model.listDAMLProperties();
+			while (damlProperties.hasNext()) {
+				DAMLProperty cur = (DAMLProperty) damlProperties.next();
+				System.out.println("property: " + cur + ", local name: " + cur.getLocalName());
+			}
+
     	}
     	catch (RDFException e) {
     		e.fillInStackTrace();
     		throw new ParserException("Parser Failed ");
     	}
-        return null;
+    	catch (NoSuchRelationLinkException e) {
+    		e.fillInStackTrace();
+    		e.printStackTrace();
+    		throw new ParserException(e.getMessage());
+    	}
+    	List nodes = new LinkedList(_nodes.values());
+    	System.out.println("\n returning nodes: " + nodes);
+        return new ParserResult(nodes, _edges);
+    }
+    
+    private void processClass (DAMLClass damlClass) throws NoSuchRelationLinkException, 
+    										RDFException  {
+		if (damlClass.isAnon()) {
+			System.out.println("\tanonymous!    id = " + damlClass.getId() );
+			AnonId id = damlClass.getId();
+			return;
+		}
+    	
+		Node node = getNode(damlClass, OntoramaConfig.CONCEPT_TYPE);
+			
+		Iterator sameClasses = damlClass.getSameClasses();
+		while (sameClasses.hasNext()) {
+			DAMLClass cur = (DAMLClass) sameClasses.next();
+			System.out.println("\t\tsameClass: " + cur.getLocalName());
+			Node connectedNode = getNode(cur, OntoramaConfig.CONCEPT_TYPE);
+			if (! node.equals(connectedNode)) {
+				getEdge(node, connectedNode, sameClassAs);
+			}
+		}
+		
+		Iterator subClasses = damlClass.getSubClasses();
+		while (subClasses.hasNext()) {
+			DAMLCommon cur = (DAMLCommon) subClasses.next();
+			System.out.println("\t\tsubClass: " + cur);
+			processRelationship(node, cur, subtype);
+			
+		}
+		
+		Iterator superClasses = damlClass.getSuperClasses();
+		while (superClasses.hasNext()) {
+			Resource cur = (Resource) superClasses.next();
+			System.out.println("\t\tsuperClass: " + cur);
+			processRelationshipForResource(node, cur, supertype);
+		}
+		
+		Iterator instances = damlClass.getInstances();
+		while (instances.hasNext()) {
+			//DAMLInstance cur = (DAMLInstance) instances.next();
+			System.out.println("\t\tinstance: " + instances.next());
+		}		
     }
 
-    /**
-     *
-     */
-    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException, AccessControlException {
-        return getOntologyTypeCollection(reader).iterator();
+	private void processRelationshipForResource (Node node, Resource resource, 
+								String edgeTypeName) 
+								throws RDFException, NoSuchRelationLinkException {
+		if (resource instanceof DAMLCommon) {
+			processRelationship(node, (DAMLCommon) resource, edgeTypeName);
+		}
+		else {
+			System.err.println("dont know yet how to deal with resource " + resource + ", class = " + resource.getClass());
+		}
+	}
+
+	private void processRelationship(Node node, DAMLCommon resource, String edgeTypeName)
+							throws RDFException, NoSuchRelationLinkException {
+		Node connectedNode = getNode(resource, OntoramaConfig.CONCEPT_TYPE);
+		if (resource instanceof DAMLClass) {
+			DAMLClass cl = (DAMLClass) resource;
+			getEdge(node, connectedNode, edgeTypeName);
+		}
+		if (resource instanceof DAMLRestriction) {
+			DAMLRestriction restr = (DAMLRestriction) resource;
+			getEdge(node, connectedNode, restriction);
+		}
+	}
+    
+    private void processInstance (DAMLInstance damlInstance) throws RDFException {
+    	String identifier = damlInstance.getNameSpace() + damlInstance.getLocalName();
+    	getNode(damlInstance, OntoramaConfig.CONCEPT_TYPE);
     }
 
-    /**
-     *
-     */
-    public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
-        try {
+	private Node getNode(DAMLCommon damlCommon, NodeType nodeType) throws RDFException {
+		String identifier;
+		String name;
+		if (damlCommon.getLocalName() == null) {
+			identifier = damlCommon.getId().toString();
+			name = identifier;	
+		}
+		else {
+			name = damlCommon.getLocalName();
+			identifier = damlCommon.getNameSpace() + damlCommon.getLocalName();
+		}
+		Node node = (Node) _nodes.get(identifier);
+		if (node == null) {
+			node = _backend.createNode(name, identifier);
+			node.setNodeType(nodeType);
+			_nodes.put(identifier, node);
+		}
+		return node;
+	}
+	
+	private Edge getEdge (Node fromNode, Node toNode, String edgeTypeName) throws NoSuchRelationLinkException {
+		Edge edge = null;
+		Iterator it = _edges.iterator();
+		while (it.hasNext()) {
+			Edge cur = (Edge) it.next();
+			if (cur.getFromNode().getIdentifier().equals(fromNode.getIdentifier())) {
+				if (cur.getToNode().getIdentifier().equals(toNode.getIdentifier())) {
+					if (cur.getEdgeType().getName().equals(edgeTypeName)) {
+						edge = cur;
+					}
+				}
+			}
+		}
+		if (edge == null) {
+			boolean foundEdgeType = false;
+			Iterator edgeTypes = OntoramaConfig.getEdgeTypesList().iterator();
+			while (edgeTypes.hasNext()) {
+				EdgeType cur = (EdgeType) edgeTypes.next();
+				if (cur.getName().equals(edgeTypeName)) {
+					edge = _backend.createEdge(fromNode, toNode, cur);
+					System.out.println("\n\ncreating edge: " + fromNode + " -> " + toNode + ": " + cur.getName());
+					_edges.add(edge);
+				}
+				else if (cur.getReverseEdgeName() != null) {
+					if (cur.getReverseEdgeName().equals(edgeTypeName)) {
+						edge = _backend.createEdge(toNode, fromNode, cur);
+						System.out.println("\n\ncreating edge: " + toNode + " -> " + fromNode + ": " + cur.getName());
+						_edges.add(edge);
+					}
+				}
+			}
+			if (! foundEdgeType) {
+				System.err.println("EdgeType is not defined for " + edgeTypeName);
+			}
+		}
+		
+		return edge;
+	}
 
-            Model model = new ModelMem();
-            model.read(reader, "");
-
-
-//    		StmtIterator stIterator = model.listStatements();
-//    		while (stIterator.hasNext()) {
-//    			Statement st = stIterator.next();
-//    			System.out.println(st);
-//    		}
-//    		System.out.println("\n----------------------------------------------\n");
-
-            NsIterator nsIterator = model.listNameSpaces();
-            String rdfsNamespace = null;
-            String rdfSyntaxTypeNamespace = null;
-            String rdfsNamespaceSuffix = "rdf-schema#";
-            String rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
-            while (nsIterator.hasNext()) {
-                String namespace = (String) nsIterator.next();
-                //System.out.println("namespace: " + namespace);
-                if (namespace.endsWith(rdfSyntaxTypeNamespaceSuffix)) {
-                    rdfSyntaxTypeNamespace = namespace;
-                }
-                if (namespace.endsWith(rdfsNamespaceSuffix)) {
-                    rdfsNamespace = namespace;
-                }
-            }
-            System.out.println("\nrdfsNamespace = " + rdfsNamespace);
-            System.out.println("rdfSyntaxTypeNamespace = " + rdfSyntaxTypeNamespace);
-
-            Property typeProperty = new PropertyImpl(rdfSyntaxTypeNamespace, "type");
-            System.out.println("property = " + typeProperty);
-
-            Resource classResource = new ResourceImpl(rdfsNamespace, "Class");
-            System.out.println("class resource = " + classResource);
-            Resource propertyResource = new ResourceImpl(rdfSyntaxTypeNamespace, "Property");
-            System.out.println("property resource = " + propertyResource);
-
-
-            System.out.println("\nsubjects with property 'type' and object 'class'");
-            ResIterator resIterator = model.listSubjectsWithProperty(typeProperty, classResource);
-            int count1 = 0;
-            while (resIterator.hasNext()) {
-                Resource resource = (Resource) resIterator.next();
-                System.out.println(resource);
-                StmtIterator it = resource.listProperties();
-                while (it.hasNext()) {
-                    Statement st = it.next();
-                    System.out.println("\t" + st);
-                }
-                count1++;
-            }
-            System.out.println("total = " + count1 + "\n");
-
-            System.out.println("\n\n\nsubjects with property 'type' and object 'property'");
-            ResIterator resIterator2 = model.listSubjectsWithProperty(typeProperty, propertyResource);
-            int count2 = 0;
-            while (resIterator2.hasNext()) {
-                Resource curR = resIterator2.next();
-                System.out.println(curR);
-                StmtIterator it = curR.listProperties();
-                while (it.hasNext()) {
-                    Statement st = it.next();
-                    System.out.println("\t" + st);
-                }
-                count2++;
-            }
-            System.out.println("total = " + count2 + "\n");
-
-
-//	    	DAMLModel model = new DAMLModelImpl();
-//	        model.read(reader, "");
-//
-//	        Iterator classesIterator = model.listDAMLClasses();
-//	        System.out.println("\nclasses:");
-//	        while (classesIterator.hasNext()) {
-//	        	DAMLClass cl = (DAMLClass) classesIterator.next();
-//	        	System.out.println(cl);
-//
-//	        	Iterator definedPropertiesIterator = cl.getDefinedProperties();
-//	        	System.out.println("defined properties: ");
-//	        	while (definedPropertiesIterator.hasNext()) {
-//	        		Property cur = (Property) definedPropertiesIterator.next();
-//	        		System.out.println("\t" + cur);
-//	        	}
-//	        }
-//
-//	        Iterator propIterator = model.listDAMLProperties();
-//	        System.out.println("\nproperties:");
-//	        while (propIterator.hasNext()) {
-//	        	DAMLProperty pr = (DAMLProperty) propIterator.next();
-//	        	System.out.println(pr);
-//	        }
-//
-//	        Iterator instIterator = model.listDAMLInstances();
-//	        System.out.println("\ninstances:");
-//	        while (instIterator.hasNext()) {
-//	        	DAMLInstance inst = (DAMLInstance) propIterator.next();
-//	        	System.out.println(inst);
-//	        }
-
-
-        } catch (AccessControlException secExc) {
-            throw secExc;
-        } catch (RDFException e) {
-            e.printStackTrace();
-            throw new ParserException("Error in parsing RDF: " + e.getMessage());
-        } catch (RDFError err) {
-            throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
-        }
-        return null;
-    }
 
 
 }

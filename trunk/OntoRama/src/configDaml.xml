@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+http://www.gotomy.com/color.html
+-->
+<ontConfig>
+	<ontology>
+		<relation id="1">
+			<relationType name="subtype"/>
+			<relationType name="supertype"/>
+		</relation>
+		<relation id="2">
+			<relationType name="sameClassAs"/>
+		</relation>
+		<relation id="3">
+			<relationType name="reverse"/>
+		</relation>
+        <relation id="4">
+            <relationType name="description"/>
+        </relation>
+        <relation id="5">
+            <relationType name="creator"/>
+        </relation>
+        <relation id="6">
+            <relationType name="synonym"/>
+        </relation>
+        <relation id="7">
+            <relationType name="relSignature1"/>
+        </relation>
+        <relation id="8">
+            <relationType name="relSignature2"/>
+        </relation>
+        <relation id="9">
+            <relationType name="restriction"/>
+        </relation>
+	</ontology>
+    <displayInfo>
+        <relation id="1">
+            <displayInGraphView>
+                <createIcon color="#33CCFF">
+                    <relationType name="subtype" mappingSymbol="&lt;"/>
+                    <relationType name="supertype" mappingSymbol="&gt;"/>
+                </createIcon>
+            </displayInGraphView>
+            <displayInDescriptionWindow>
+                <relationType name="supertype" displayLabel="Parents" queryOn="yes"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="2">
+            <displayInGraphView>
+                <createIcon color="#FF99CC">
+                    <relationType name="sameClassAs" mappingSymbol="~"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="3">
+            <displayInGraphView>
+                <createIcon color="#FFCC99">
+                    <relationType name="reverse" mappingSymbol="-"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="4">
+            <displayInDescriptionWindow>
+                <relationType name="description" displayLabel="Description"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="5">
+            <displayInDescriptionWindow>
+                <relationType name="creator" displayLabel="Creator"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="6">
+            <displayInDescriptionWindow>
+                <relationType name="synonym" displayLabel="Synonym"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="7">
+            <displayInDescriptionWindow>
+                <relationType name="relSignature1" displayLabel="Range" queryOn="yes"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="8">
+            <displayInDescriptionWindow>
+                <relationType name="relSignature2" displayLabel="Domain" queryOn="yes"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="9">
+            <displayInGraphView>
+                <createIcon color="#FFCC99">
+                    <relationType name="restriction" mappingSymbol="r"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+    </displayInfo>
+<!--
+	<rdfMapping>
+        <map id="1" type="supertype" tag="subClassOf"/>
+        <map id="1" type="supertype" tag="subPropertyOf"/>
+        <map id="2" type="similar" tag="sameClassAs"/>
+        <map id="2" type="similar" tag="samePropertyAs"/>
+        <map id="4" type="part" tag="part"/>
+        <map id="5" type="substanceOf" tag="substance"/>
+        <map id="6" type="instanceOf" tag="type"/>
+        <map id="7" type="complement" tag="complementOf"/>
+        <map id="8" type="location" tag="location"/>
+        <map id="9" type="member" tag="wnMember"/>
+        <map id="10" type="object" tag="wnObject"/>
+        <map id="11" type="url" tag="url"/>
+        <map id="13" type="description" tag="comment"/>
+        <map id="14" type="creator" tag="Creator"/>
+        <map id="15" type="synonym" tag="label"/>
+        <map id="16" type="relSignature1" tag="range"/>
+        <map id="17" type="relSignature2" tag="domain"/>
+	</rdfMapping>
+-->
+</ontConfig>

@@ -110,6 +110,9 @@ public class EdgeImpl implements Edge {
     
     
 	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
 		Edge edgeObj = (Edge) obj;
 		if ((this.fromNode.equals(edgeObj.getFromNode())) &&
 				(this.toNode.equals(edgeObj.getToNode())) &&
@@ -117,6 +120,11 @@ public class EdgeImpl implements Edge {
 			return true;
 		}
 		return false;
+	}
+	
+	public int hashCode() {
+		int result = fromNode.hashCode() + toNode.hashCode() + edgeType.hashCode();
+		return result;
 	}
 
 }

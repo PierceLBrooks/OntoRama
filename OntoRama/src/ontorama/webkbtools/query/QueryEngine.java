@@ -14,14 +14,18 @@ import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
 
 import ontorama.webkbtools.query.parser.Parser;
+
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
+
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
+
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.NoSuchTypeInQueryResult;
+import ontorama.webkbtools.util.CancelledQueryException;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -75,11 +79,10 @@ public class QueryEngine implements QueryEngineInterface {
 
     /**
      * Execute a query to OntologyServer and get a query result
-     * @todo: think what to do with exceptions
      */
     public QueryEngine(Query query) throws ParserException, IOException,
                       ClassNotFoundException, InstantiationException,
-                      IllegalAccessException, SourceException, NoSuchTypeInQueryResult {
+                      IllegalAccessException, SourceException, NoSuchTypeInQueryResult, CancelledQueryException {
         this.query = query;
 
         String queryUrl = OntoramaConfig.sourceUri;
@@ -98,6 +101,7 @@ public class QueryEngine implements QueryEngineInterface {
         Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
 
         this.queryResult = executeQuery(source, parser, queryUrl, query);
+
         System.out.println("QueryEngine: got query result from executeQuery method");
     }
 
@@ -106,21 +110,22 @@ public class QueryEngine implements QueryEngineInterface {
      */
     private QueryResult executeQuery (Source source, Parser parser, String queryUrl, Query query)
                                       throws NoSuchTypeInQueryResult, SourceException,
-                                      ParserException, IOException {
+                                      ParserException, IOException, CancelledQueryException {
       QueryResult queryResult = null;
       Reader r = null;
       Query newQuery = null;
       System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
+
       SourceResult sourceResult = source.getSourceResult(queryUrl, query);
       System.out.println(sourceResult.toString());
       if (! sourceResult.queryWasSuccess()) {
-        System.out.println("successfull: NO");
+        //System.out.println("successfull: NO");
         newQuery = sourceResult.getNewQuery();
         queryResult = executeQuery(source, parser, queryUrl, newQuery);
-        System.out.println("executeQuery returned from recursive");
+        //System.out.println("executeQuery returned from recursive");
       }
       else {
-        System.out.println("successfull: YES");
+        //System.out.println("successfull: YES");
         r = sourceResult.getReader();
         this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
         r.close();
@@ -128,12 +133,12 @@ public class QueryEngine implements QueryEngineInterface {
         if (! newTermName.equals(query.getQueryTypeName())) {
           query = new Query(newTermName, query.getRelationLinksList());
         }
-        System.out.println("query result list = " + getQueryTypesList().size());
+        //System.out.println("query result list = " + getQueryTypesList().size());
         queryResult = new QueryResult(query, getQueryTypesList().iterator());
 
         //System.out.println("Returning query result for " + query.getQueryTypeName() + "\n");
       }
-      System.out.println("Returning query result " + queryResult + "\n");
+      //System.out.println("Returning query result " + queryResult + "\n");
       return queryResult;
     }
 

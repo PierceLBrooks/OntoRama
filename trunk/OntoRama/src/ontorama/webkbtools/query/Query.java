@@ -21,19 +21,24 @@ public class Query {
     /**
      * name of ontology type we are quering for
      */
-    private String typeName;
+    private String _typeName;
 
     /**
      * list of relation links for the ontology type typeName.
 
      */
-    private List relationLinks = new LinkedList();
+    private List _relationLinks = new LinkedList();
+    
+    /**
+     * depth of recursive query
+     */
+    private int _depth = -1;
 
     /**
      * Constructor. Initialise query type name
      */
     public Query (String typeName) {
-        this.typeName = typeName;
+        _typeName = typeName;
     }
 
     /**
@@ -41,8 +46,8 @@ public class Query {
      * Initialise query type name and relation links
      */
     public Query (String typeName,List relationLinks) {
-        this.typeName = typeName;
-        this.relationLinks = relationLinks;
+        _typeName = typeName;
+        _relationLinks = relationLinks;
     }
 
     /**
@@ -50,7 +55,7 @@ public class Query {
      * @return typeName
      */
     public String getQueryTypeName () {
-        return typeName;
+        return _typeName;
     }
 
     /**
@@ -58,7 +63,7 @@ public class Query {
      * @param   List relationLinks
      */
     public void setRelationLinks (List relationLinks) {
-        this.relationLinks = relationLinks;
+        _relationLinks = relationLinks;
     }
 
     /**
@@ -66,7 +71,7 @@ public class Query {
      * @return relationLinks Iterator
      */
     public Iterator getRelationLinksIterator () {
-       return this.relationLinks.iterator();
+       return _relationLinks.iterator();
     }
 
     /**
@@ -74,14 +79,28 @@ public class Query {
      * @return relationLinks List
      */
     public List getRelationLinksList () {
-        return this.relationLinks;
+        return _relationLinks;
     }
 
     /**
      *
      */
     public Collection getRelationLinksCollection () {
-        return (Collection) this.relationLinks;
+        return (Collection) _relationLinks;
+    }
+    
+    /**
+     * set depth for recursive query
+     */
+    public void setDepth (int depth) {
+    	_depth = depth;
+    }
+    
+    /**
+     * get depth of recursive query
+     */
+    public int getDepth () {
+    	return _depth;
     }
 
 }

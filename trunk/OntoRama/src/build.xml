@@ -5,6 +5,7 @@
   <property name="lib.home"   value="${basedir}/lib"/>
   <property name="classes.home"   value="${basedir}/classes"/>
   <property name="javadoc.home"   value="${basedir}/doc/api"/>
+  <property name="jar.file"	value="${basedir}/OntoRama.jar"/>
   
   <!-- Set Classpath -->
   <path id="project.class.path">
@@ -27,14 +28,15 @@
   <!-- Targets and Rules -->
   <target name="all" depends="clean,prepare,compile"/>
   
-  <target name="prepare">
+  <target name="prepare" depends="clean">
     <mkdir  dir="${classes.home}"/>
     <mkdir  dir="${javadoc.home}"/>
   </target>
 
   <target name="clean">
+	<delete file="${jar.file}"/>
     <delete dir="${classes.home}"/>
-	<delete dir="${javadoc.home}"/>
+	<!--<delete dir="${javadoc.home}"/>-->
   </target>
 
   <target name="compile" depends="prepare">
@@ -46,11 +48,15 @@
     <copy   todir="${classes.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
       <fileset dir="${src.home}" includes="**/config.xml"/>
+      <fileset dir="${src.home}" includes="MANIFEST.MF"/>
 	  </copy>
   </target>
 
   <target name="jar" depends="compile">
-    <jar jarfile="${app.home}/OntoRama.jar" basedir="${classes.home}"/>
+  	<copy todir="${classes.home}"> 
+		<fileset dir="${lib.home}" includes="**/*.jar"/>
+	</copy>
+    <jar jarfile="${jar.file}" basedir="${classes.home}" manifest="${classes.home}/MANIFEST.MF"/>
   </target>
 
 
@@ -61,9 +67,14 @@
 			classpathref="project.class.path"/>
   </target>
 
-  <target name="run" depends="compile">
+  <target name="run" depends="jar">
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
   </target>
+
+  <target name="runJar" depends="jar">
+  	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
+  </target>
+
   
   <!--
     <target name="compiletests" depends="JUNIT,compile">

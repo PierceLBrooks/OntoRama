@@ -101,15 +101,9 @@ public class OntoramaConfig {
     
     
     public static String examplesConfigLocation = "examplesConfig.xml";
-    public static final String examplesBackendPackageName = "ontorama.backends.examplesmanager.ExamplesBackend";
 
 	/// @todo not sure if this should be static - need to check
 	private static Backend _activeBackend;
-	
-	/// @todo need some thought for default backend and if there is a need for one
-	/// at all. Presently this is used so TestCases can use this backend if 
-	/// nothing else is initialised by OntoRamaApp. Probably dont' need this at all?...
-	private static Backend _defaultBackend;
 	
 	private static List _dataFormatsMappingList;
 

@@ -4,7 +4,7 @@ import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphImpl;
@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 public class TestP2PBackend2 extends TestCase {
 	
 	private Graph _graph;
-	private P2PBackend _p2pBackend;
+	private P2PBackendImpl _p2pBackend;
 	private Backend _backend = OntoramaConfig.getBackend();
 
 	/**
@@ -75,7 +75,7 @@ public class TestP2PBackend2 extends TestCase {
 		_graph.addEdge(edge8);
 		
 		
-		_p2pBackend = new P2PBackend();		
+		_p2pBackend = new P2PBackendImpl();		
 	}
 	
 //	public void testBuildP2PGraph() {

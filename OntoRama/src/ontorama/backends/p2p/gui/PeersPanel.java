@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 
 
 import ontorama.backends.p2p.*;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.gui.renderer.*;
 
 
@@ -48,11 +48,11 @@ public class PeersPanel extends JPanel  implements GroupView {
     private JPanel _cardPanel;
     private CardLayout _cardLayout;
     
-    private P2PBackend _p2pBackend;
+    private P2PBackendImpl _p2pBackend;
     
     private GroupPanel _globalGroupPanel;
        
-    public PeersPanel(P2PBackend backend) {
+    public PeersPanel(P2PBackendImpl backend) {
         super();
         _p2pBackend = backend;
         

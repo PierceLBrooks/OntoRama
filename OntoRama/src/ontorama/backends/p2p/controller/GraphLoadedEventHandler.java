@@ -3,7 +3,7 @@ package ontorama.backends.p2p.controller;
 import org.tockit.events.EventBrokerListener;
 import org.tockit.events.EventBroker;
 import org.tockit.events.Event;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
@@ -17,9 +17,9 @@ import ontorama.model.graph.events.GraphLoadedEvent;
  */
 public class GraphLoadedEventHandler implements EventBrokerListener {
     private EventBroker _eventBroker;
-    private P2PBackend _p2pBackend;
+    private P2PBackendImpl _p2pBackend;
 
-    public GraphLoadedEventHandler (EventBroker eventBroker, P2PBackend backend) {
+    public GraphLoadedEventHandler (EventBroker eventBroker, P2PBackendImpl backend) {
         _eventBroker = eventBroker;
         _p2pBackend = backend;
         _eventBroker.subscribe(this, GraphLoadedEvent.class, Graph.class);

@@ -7,7 +7,7 @@ import java.util.Vector;
 import javax.swing.AbstractAction;
 
 import ontorama.backends.p2p.GroupItemReference;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.gui.GroupSearchDialog;
 import ontorama.ui.OntoRamaApp;
 
@@ -20,9 +20,9 @@ import ontorama.ui.OntoRamaApp;
  */
 public class ActionGroupSearch extends AbstractAction{
 
-    private P2PBackend _p2pBackend;
+    private P2PBackendImpl _p2pBackend;
 
-    public ActionGroupSearch(String name, P2PBackend p2pBackend) {
+    public ActionGroupSearch(String name, P2PBackendImpl p2pBackend) {
         super(name);
         _p2pBackend = p2pBackend;
     }

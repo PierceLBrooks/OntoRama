@@ -2,7 +2,7 @@ package ontorama.backends.p2p.p2pmodule;
 
 import java.util.Hashtable;
 
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.P2PMainPanel;
@@ -34,12 +34,12 @@ public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATEJOINGROUP = 5;
     public final static int TAGPROPAGATELEAVEGROUP = 6;
 
-    P2PBackend backend = null;
+    P2PBackendImpl backend = null;
     PeersPanel activePeers = null;
     ChangePanel changes = null;
     Hashtable idMapping = null;
 
-    public P2PReciever(P2PBackend backend){
+    public P2PReciever(P2PBackendImpl backend){
         this.backend = backend;
         //Get the panel used to status of peers
     	P2PMainPanel panel = (P2PMainPanel) backend.getPanel();
@@ -101,7 +101,7 @@ public class P2PReciever implements P2PRecieverInterface{
             //Parse the input recieved from the new peer
             //RdfDamlParser parser = new RdfDamlParser();
             /// @todo shouldn't have empty query here
-            QueryResult qr = P2PBackend.getQueryResult(result, new Query());
+            QueryResult qr = P2PBackendImpl.getQueryResult(result, new Query());
 			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
             System.err.println("Error in recieveSearchResponse");
@@ -135,7 +135,7 @@ public class P2PReciever implements P2PRecieverInterface{
 			//Parse the input recieved from the new peer
 			//RdfDamlParser parser = new RdfDamlParser();
             /// @todo shouldn't have empty query here
-            QueryResult qr = P2PBackend.getQueryResult(internalModel, new Query());
+            QueryResult qr = P2PBackendImpl.getQueryResult(internalModel, new Query());
 			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
         	System.err.println("An error accured");

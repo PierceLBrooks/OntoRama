@@ -13,7 +13,8 @@ import java.util.Set;
 import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+
+import ontorama.util.TestingUtils;
 
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -78,6 +79,7 @@ public class TestQueryEngine extends TestCase {
                             NoSuchRelationLinkException, Exception {
     OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                "ontorama.properties","examples/test/data/testCase-config.xml");
+    OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
     queryTerm = OntoramaConfig.ontologyRoot;
     relationLinksList = new LinkedList();

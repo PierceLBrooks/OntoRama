@@ -4,6 +4,9 @@ import junit.framework.*;
 
 
 import ontorama.OntoramaConfig;
+
+import ontorama.util.TestingUtils;
+
 import ontorama.webkbtools.query.parser.rdf.TestRdfDamlParser;
 import ontorama.webkbtools.query.parser.rdf.TestRdfWebkbParser;
 
@@ -36,7 +39,8 @@ public class TestQueryPackage extends TestCase {
      suite.addTest( new TestSuite(TestQueryResult.class));
 
      // webkb relevant
-     suite.addTest( new TestSuite(TestRdfWebkbParser.class));
+    //OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
+    suite.addTest( new TestSuite(TestRdfWebkbParser.class));
 
      return suite;
   }

@@ -131,6 +131,9 @@ public class WebKB2Source implements Source {
         catch (IOException ioExc) {
           throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
         }
+        catch (ParserException parserExc) {
+          throw new SourceException("Error parsing returned RDF data, here is error provided by parser: " + parserExc.getMessage());
+        }
         System.out.println("resultReader = " + resultReader);
        return (new SourceResult (true, resultReader, null));
        //return (new SourceResult (true, br, null));
@@ -186,10 +189,11 @@ public class WebKB2Source implements Source {
         String buf = "";
         String line = br.readLine();
         StringTokenizer st;
-        int count = 1;
+        //int count = 1;
         while(line != null) {
-          System.out.print(count + ".");
-          count++;
+          //System.out.print(count + ".");
+          System.out.print(".");
+          //count++;
             st = new StringTokenizer(line, "<", true);
 
             while(st.hasMoreTokens()) {
@@ -210,7 +214,7 @@ public class WebKB2Source implements Source {
      * from the list of received documents and popup dialog box prompting
      * user to make a choice.
      */
-    private Query processAmbiguousResultSet () {
+    private Query processAmbiguousResultSet () throws ParserException {
       getRootTypesFromStreams();
 
       Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
@@ -250,38 +254,26 @@ public class WebKB2Source implements Source {
      * for each stream, than add contents of each list to the global  list of
      * possible query candidates.
      *
-     * @todo  think what to do with exceptions: throw them? then we need
-     * to change the Source interface... OR introduce our own SourceException
-     * that can take care of all this.
-     *
      */
-    private void getRootTypesFromStreams() {
-      try {
+    private void getRootTypesFromStreams() throws ParserException {
+      //System.out.println("Number of documents found = " + docs.size());
 
-        //System.out.println("Number of documents found = " + docs.size());
+      //System.out.println("**********\n\n\n" + (String)docs.remove(0) + "\n\n\n***********");
 
-        //System.out.println("**********\n\n\n" + (String)docs.remove(0) + "\n\n\n***********");
-
-        Iterator it = docs.iterator();
-        while (it.hasNext()) {
-          String nextDocStr = (String) it.next();
-          StringReader curReader  = new StringReader(nextDocStr);
-          //System.out.println("query term name = " + query.getQueryTypeName());
-          List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
-          for (int i = 0; i < curTypesList.size(); i++) {
-            OntologyType type = (OntologyType) curTypesList.get(i);
-            if ( ! typesList.contains(type)) {
-              //System.out.println ("adding type " + type.getName() + " to the big list");
-              typesList.add(type);
-            }
+      Iterator it = docs.iterator();
+      while (it.hasNext()) {
+        String nextDocStr = (String) it.next();
+        StringReader curReader  = new StringReader(nextDocStr);
+        //System.out.println("query term name = " + query.getQueryTypeName());
+        List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
+        for (int i = 0; i < curTypesList.size(); i++) {
+          OntologyType type = (OntologyType) curTypesList.get(i);
+          if ( ! typesList.contains(type)) {
+            //System.out.println ("adding type " + type.getName() + " to the big list");
+            typesList.add(type);
           }
-
         }
-      }
-      catch (ParserException parserExc) {
-        System.out.println("ParserException: " + parserExc);
-        parserExc.printStackTrace();
-        System.exit(-1);
+
       }
     }
 

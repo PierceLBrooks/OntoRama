@@ -10,6 +10,8 @@ import ontorama.util.IteratorUtil;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
+import ontorama.util.TestingUtils;
+
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.Query;
@@ -72,9 +74,11 @@ public class TestRdfDamlParser extends TestCase {
    *
    */
   protected void setUp () throws Exception {
+    //System.out.println("\nsetUp method");
 
     OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                "ontorama.properties","examples/test/data/testCase-config.xml");
+    OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
     source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
     //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
@@ -106,6 +110,59 @@ public class TestRdfDamlParser extends TestCase {
     resultCollection = parser.getOntologyTypeCollection(r);
   }
 
+  /**
+   *
+   */
+  public void testInvalidRDF_extraColumnInElementName () throws java.lang.ClassNotFoundException,
+                            java.lang.IllegalAccessException, java.lang.InstantiationException,
+                            SourceException {
+
+    OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 1");
+    OntoramaConfig.setCurrentExample(testCaseToLoad);
+
+    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+    parser = new RdfDamlParser();
+    try {
+      parser.getOntologyTypeCollection(r);
+      fail("failed to catch ParserException for invalid RDF file");
+    }
+    catch (ParserException e) {
+      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
+    }
+  }
+
+  /**
+   *
+   */
+  public void testInvalidRDF_DoubleSlashComments () throws java.lang.ClassNotFoundException,
+                            java.lang.IllegalAccessException, java.lang.InstantiationException,
+                            SourceException {
+
+    OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 2");
+    OntoramaConfig.setCurrentExample(testCaseToLoad);
+
+    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+    parser = new RdfDamlParser();
+    try {
+      parser.getOntologyTypeCollection(r);
+      fail("failed to catch ParserException for invalid RDF file");
+    }
+    catch (ParserException e) {
+      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
+    }
+
+  }
+
+  /**
+   * @todo  HACK: this test is here to reset setup to default values.
+   * I think the problem is when we use other examples, and then
+   * try to use default one - we need to get a new instance of source or get a new
+   * reader or get a new instance of parser. not sure how to fix this
+   */
+  public void testNothing() {
+  }
 
   /**
    *
@@ -265,50 +322,6 @@ public class TestRdfDamlParser extends TestCase {
     testingRelationLink("url", 11, testType_url, "test#Chair", 0);
   }
 
-  /**
-   *
-   */
-  public void testInvalidRDF_extraColumnInElementName () throws java.lang.ClassNotFoundException,
-                            java.lang.IllegalAccessException, java.lang.InstantiationException,
-                            SourceException {
-
-    OntoramaExample testCaseToLoad = getExampleByName("testCase: invalid RDF 1");
-    OntoramaConfig.setCurrentExample(testCaseToLoad);
-
-    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
-    parser = new RdfDamlParser();
-    try {
-      parser.getOntologyTypeCollection(r);
-      fail("failed to catch ParserException for invalid RDF file");
-    }
-    catch (ParserException e) {
-      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
-    }
-  }
-
-  /**
-   *
-   */
-  public void testInvalidRDF_DoubleSlashComments () throws java.lang.ClassNotFoundException,
-                            java.lang.IllegalAccessException, java.lang.InstantiationException,
-                            SourceException {
-
-    OntoramaExample testCaseToLoad = getExampleByName("testCase: invalid RDF 2");
-    OntoramaConfig.setCurrentExample(testCaseToLoad);
-
-    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
-    parser = new RdfDamlParser();
-    try {
-      parser.getOntologyTypeCollection(r);
-      fail("failed to catch ParserException for invalid RDF file");
-    }
-    catch (ParserException e) {
-      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
-    }
-
-  }
 
 
   /**
@@ -343,20 +356,7 @@ public class TestRdfDamlParser extends TestCase {
     return IteratorUtil.getOntologyTypeFromList (name, list);
   }
 
-  /**
-   *
-   */
-  private OntoramaExample getExampleByName (String exampleName) {
-    List examplesList = OntoramaConfig.getExamplesList();
-    OntoramaExample result = null;
-    for (int i = 0; i < examplesList.size(); i++) {
-      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
-      if (curExample.getName().equals(exampleName)) {
-        result = curExample;
-      }
-    }
-    return result;
-  }
+
 
 
 

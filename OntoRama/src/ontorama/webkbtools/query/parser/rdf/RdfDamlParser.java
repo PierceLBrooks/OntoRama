@@ -97,6 +97,7 @@ public class RdfDamlParser implements Parser {
         catch (RDFError err) {
           throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
         }
+        //System.out.println("\n\nreturning result collection: " + ontHash.values().size());
         return ontHash.values();
     }
 

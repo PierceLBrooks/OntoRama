@@ -24,11 +24,17 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorPopupMessage;
 import ontorama.ui.OntoRamaApp;
+import ontorama.ui.events.QueryCancelledEvent;
+import ontorama.ui.events.QueryEndEvent;
+import ontorama.ui.events.QueryStartEvent;
 
+import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
+import org.tockit.events.EventBrokerListener;
 
 /**
  * This is backend to be used by test cases.
@@ -39,31 +45,43 @@ public class ExamplesBackend implements Backend {
 	private List _dataFormats = OntoramaConfig.getDataFormatsMapping();
 
 	private List _examples = new LinkedList();
+	
 	private OntoramaExample _curExample;
+	private OntoramaExample _prevExample;
 
-	private String _parserPackage;
-	private String _sourcePackage;
-	
 	private EventBroker _eventBroker;
-	
-	/**
-	 * URI for Ontology Source. It can be file or URL to CGI script.
-	 * If file is used - it is important to formulate correct URI,
-	 * for example:
-	 * file:/H:/devel/OntoRama/test/wn_cat-children_rdf.html
-	 * for file H:/devel/OntoRama/test/wn_cat-children_rdf.html
-	 */	
-	private String _sourceUri;
-	
-	/**
-	 * default ontology root
-	 */	
-	private String _ontologyRoot;
 
 	private ExamplesMenu _menu;
+	
+	private boolean _isNewExample = false;
 
 	/**
-	 * Constructor for TestingBackend.
+	 * Handle a case where query is not completed for whatever reason - 
+	 * we then need to return to the previous Example's settings. Note that we 
+	 * do that only when we are processing query on a new example. If there is 
+	 * a multiple queries on an existing example - we don't want to roll back to
+	 * an older example.
+	 * @todo perhaps  a better solution would be to not leave old graph displayed when querying?... but have a back button for it...
+	 */
+    private class QueryCancelledEventHandler implements EventBrokerListener {
+        public void processEvent(Event event) {
+        	if (_isNewExample) {
+	        	_curExample = _prevExample;
+	        	_menu.setSelectedExampleMenuItem(_curExample);
+        	}
+        	_isNewExample = false;
+        }
+    }
+    
+    private class QueryEndEventHandler implements EventBrokerListener {
+        public void processEvent(Event event) {
+        	_isNewExample = false;
+        }
+    }
+    
+
+	/**
+	 * Constructor. Load all examples defined in the config file.
 	 */
 	public ExamplesBackend() {
 		loadExamples();
@@ -89,7 +107,8 @@ public class ExamplesBackend implements Backend {
 	 */
 	public void setEventBroker(EventBroker eventBroker) {
 		_eventBroker = eventBroker;
-		_menu.setEventBroker(_eventBroker);
+        _eventBroker.subscribe(new QueryCancelledEventHandler(),QueryCancelledEvent.class,Query.class);
+        _eventBroker.subscribe(new QueryEndEventHandler(),QueryEndEvent.class,Object.class);
 	}
 
 	/**
@@ -105,8 +124,6 @@ public class ExamplesBackend implements Backend {
 	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
 	}
-	
-	
 
 	/**
 	 * @see ontorama.backends.Backend#getDataFormats()
@@ -119,10 +136,8 @@ public class ExamplesBackend implements Backend {
 	 * @see ontorama.backends.Backend#getParser()
 	 */
 	public String getParser() {
-		return _parserPackage;
-	}
-	
-	
+		return _curExample.getDataFormatMapping().getParserName();
+	}	
 	
 	private void loadExamples() {
 		try {
@@ -132,6 +147,7 @@ public class ExamplesBackend implements Backend {
 			_examples = examplesConfig.getExamplesList();
 			_curExample = examplesConfig.getMainExample();
 	
+			_prevExample = _curExample;
 			setCurrentExample(_curExample);
 		}
 		catch (SourceException sourceExc) {
@@ -147,56 +163,59 @@ public class ExamplesBackend implements Backend {
 	}
 
 	public void setCurrentExample(OntoramaExample example) {
+        _isNewExample = true;
+		_prevExample = _curExample;
 		_curExample = example;
-		_sourceUri = example.getRelativeUri();
-		_parserPackage = example.getDataFormatMapping().getParserName();
-		_sourcePackage =  example.getSourcePackagePathSuffix();
-		_ontologyRoot = example.getRoot();
 	}
 
 	public List getExamplesList() {
 		return _examples;
 	}
 
-
 	/**
 	 * @see ontorama.backends.Backend#getSourcePackageName()
 	 */
 	public String getSourcePackageName() {
-		return _sourcePackage;
+		return _curExample.getSourcePackagePathSuffix();
 	}
 	
 	public String getSourceUri() {
-		return _sourceUri;
+		return _curExample.getRelativeUri();
 	}
 	
 	public String getOntologyRoot() {
-		return _ontologyRoot;
+		return _curExample.getRoot();
 	}
 	
 	/**
 	 * @todo this approach is a hack to make distillery work. need to rethink whole process
 	 */
 	public void overrideExampleRootAndUrl (String root, String url) {
-		_sourceUri = url;
-		_ontologyRoot = root;
-		System.out.println("Overriden sourceUri = " + _sourceUri + ", root = " + _ontologyRoot);
+		System.out.println("Overriden sourceUri = " + url + ", root = " + root);
 		_curExample.setRoot(root);
 		_curExample.setRelativeUri(url);
 	}
 	
-
 	/**
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
 	 */
 	public Graph createGraph(QueryResult qr, EventBroker eb)
-												throws
-													GraphModificationException,
-													NoSuchRelationLinkException,
-													NoTypeFoundInResultSetException,
-													GraphCyclesDisallowedException {
+										throws	GraphModificationException,	NoSuchRelationLinkException,
+										NoTypeFoundInResultSetException, GraphCyclesDisallowedException {
 		Graph res = new GraphImpl(qr, eb);
 		return res;
+	}
+	
+	public void processQueryFromExampleMenu (OntoramaExample example) {
+	
+        // reset parser and source details corresponding to this example.       
+        setCurrentExample(example);
+
+        // create a new query
+        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList(), getSourcePackageName(), getParser(), getSourceUri());
+
+        // get graph for this query and load it into app
+        _eventBroker.processEvent(new QueryStartEvent(query));
 	}
 
 }

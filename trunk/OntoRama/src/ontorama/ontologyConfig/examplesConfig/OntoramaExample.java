@@ -159,6 +159,14 @@ public class OntoramaExample {
         return this.isSourceDynamic;
     }
 
+    public void setRoot(String root) {
+        this.root = root;
+    }
+
+    public void setRelativeUri(String relativeUri) {
+        this.relativeUri = relativeUri;
+    }
+
 
     /**
      *

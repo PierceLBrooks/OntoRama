@@ -50,8 +50,17 @@ public class JoinGroupDialog extends JDialog {
         super(parent, _title, true);
 
         _p2pSender = p2pSender;
+        Vector foundGroups = new Vector();
+        try {
+            foundGroups = _p2pSender.sendSearchGroup(null, null);
+        }
+        catch (Exception e) {
+            /// @todo deal with exceptions propertly
+            e.printStackTrace();
+        }
 
-        _existingGroupPanel = new GroupChooser(_p2pSender);
+
+        _existingGroupPanel = new GroupChooser(foundGroups, "Choose group to join");
         _newGroupPanel = new JPanel();
         JTabbedPane tabbedPanel = buildTabbedPanel();
 

@@ -19,8 +19,6 @@ import java.awt.*;
  */
 public class GroupChooser extends JPanel {
 
-    private P2PSender _p2pSender;
-
     private JRadioButton _nameButton;
     private JRadioButton _descriptionButton;
 
@@ -29,9 +27,11 @@ public class GroupChooser extends JPanel {
 
     private SearchGroupResultElement _value = null;
 
-    public GroupChooser (P2PSender p2pSender) {
+    private Vector _groups;
+
+    public GroupChooser (Vector groups, String labelString) {
         super();
-        _p2pSender = p2pSender;
+        _groups = groups;
 
         _nameButton = new JRadioButton("Name");
         _nameButton.addActionListener(new ActionListener() {
@@ -51,16 +51,7 @@ public class GroupChooser extends JPanel {
         buttonGroup.add(_nameButton);
         buttonGroup.add(_descriptionButton);
 
-        Vector foundGroups = new Vector();
-        try {
-            foundGroups = _p2pSender.sendSearchGroup(null, null);
-        }
-        catch (Exception e) {
-            /// @todo deal with exceptions propertly
-            e.printStackTrace();
-        }
-
-        _nameChooser = new JComboBox(foundGroups);
+        _nameChooser = new JComboBox(_groups);
         _nameChooser.setRenderer(new GroupNamesComboBoxRenderer());
 
         _nameChooser.addActionListener(new ActionListener() {
@@ -71,7 +62,7 @@ public class GroupChooser extends JPanel {
         });
 
 
-        _descriptionChooser = new JComboBox(new Vector());
+        _descriptionChooser = new JComboBox(_groups);
         _descriptionChooser.setRenderer(new GroupDescriptionsComboBoxRenderer());
 
         _descriptionChooser.addActionListener(new ActionListener() {
@@ -84,7 +75,7 @@ public class GroupChooser extends JPanel {
         setLayout(new BorderLayout());
 
         JPanel p = new JPanel();
-        p.add(new JLabel("Choose group to join"));
+        p.add(new JLabel(labelString));
         add(p, BorderLayout.NORTH);
 
         JPanel p1 = new JPanel(new FlowLayout());

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.swing.JMenu;
 
+import org.tockit.events.EventBroker;
+
 /**
  * Backend interface
  * @author nataliya
@@ -21,6 +23,9 @@ public interface Backend {
 	
 	public List getPanels();
 	public JMenu getMenu();
+	
+	public void setEventBroker(EventBroker eventBroker);
+	
 
 
 }

@@ -9,10 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -33,7 +30,6 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.backends.Peer2PeerBackend;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
@@ -151,7 +147,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * nodes list viewer, used to show unconnected nodes
      */
     private NodesListViewer _listViewer;
-    private static Vector _backends;
     private static EventBroker _modelEventBroker;
     private static EventBroker _viewsEventBroker;
 
@@ -397,42 +392,43 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     }
 
     private void initBackends() {
-        _backends = new Vector();
         List backendsList = OntoramaConfig.getBackends();
-        Iterator it = backendsList.iterator();
-        while (it.hasNext()) {
-            String backendName = (String) it.next();
-            try {
-                Peer2PeerBackend curBackend =
-                    (Peer2PeerBackend) Class.forName(backendName).newInstance();
-                curBackend.setEventBroker(_modelEventBroker);
-                _backends.add(curBackend);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                new ErrorPopupMessage(
-                    "Couldn't find class for backendName " + backendName,
-                    this);
-            } catch (InstantiationException instExc) {
-                instExc.printStackTrace();
-                new ErrorPopupMessage(
-                    "Couldn't instantiate backendName " + backendName,
-                    this);
-            } catch (IllegalAccessException illegalAccExc) {
-                illegalAccExc.printStackTrace();
-                new ErrorPopupMessage(
-                    "Couldn't load backend "
-                        + backendName
-                        + " (Illegal Access Exception)",
-                    this);
-            } catch (Exception e) {
-                e.printStackTrace();
-                new ErrorPopupMessage(
-                    "Couldn't load backend "
-                        + backendName
-                        + ": "
-                        + e.getMessage(),
-                    this);
-            }
+    	String backendName = null;
+        if (backendsList.size() != 0) {
+        	backendName = (String) backendsList.get(0);
+        }
+        else {
+        	new ErrorPopupMessage("No backends specified in ontorama.properties", this);
+        	return;
+        }
+        try {
+        	_activeBackend = (Backend) Class.forName(backendName).newInstance();
+        	_activeBackend.setEventBroker(_modelEventBroker);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            new ErrorPopupMessage(
+                "Couldn't find class for backendName " + backendName,
+                this);
+        } catch (InstantiationException instExc) {
+            instExc.printStackTrace();
+            new ErrorPopupMessage(
+                "Couldn't instantiate backendName " + backendName,
+                this);
+        } catch (IllegalAccessException illegalAccExc) {
+            illegalAccExc.printStackTrace();
+            new ErrorPopupMessage(
+                "Couldn't load backend "
+                    + backendName
+                    + " (Illegal Access Exception)",
+                this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            new ErrorPopupMessage(
+                "Couldn't load backend "
+                    + backendName
+                    + ": "
+                    + e.getMessage(),
+                this);
         }
     }
 
@@ -472,17 +468,14 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _menuBar.add(_examplesMenu);
         _menuBar.add(_historyMenu);
 
-        if (!_backends.isEmpty()) {
-            JMenu backendsMenu = new JMenu("Backends");
-            backendsMenu.setMnemonic(KeyEvent.VK_B);
-            Enumeration backendsEnum = _backends.elements();
-            while (backendsEnum.hasMoreElements()) {
-                Peer2PeerBackend backend = (Peer2PeerBackend) backendsEnum.nextElement();
-                JMenu backendMenu = backend.getMenu();
-                backendsMenu.add(backendMenu);
-            }
-            _menuBar.add(backendsMenu);
-        }
+        JMenu backendsMenu = new JMenu("Backends");
+        backendsMenu.setMnemonic(KeyEvent.VK_B);
+        Backend backend = _activeBackend;
+        JMenu backendMenu = backend.getMenu();
+        backendsMenu.add(backendMenu);
+
+        _menuBar.add(backendsMenu);
+
         _menuBar.add(_helpMenu);
     }
 
@@ -582,9 +575,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _statusLabel.setText(statusMessage);
     }
 
-    public static Vector getBackends() {
-        return _backends;
-    }
 
     protected void closeWindow() {
     	ConfigurationManager.storePlacement(CONFIGURATION_SECTION_NAME, this);

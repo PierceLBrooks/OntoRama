@@ -8,7 +8,6 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
-import org.tockit.events.EventBroker;
 
 /**
  * @author henrika
@@ -33,7 +32,6 @@ public interface Peer2PeerBackend extends Backend {
     	throws GraphModificationException;
 
 
-    public void setEventBroker(EventBroker eventBroker);
 
     /**
      * @todo this a hack, couldn't figure out other way to get this panel to show from ontorama app.

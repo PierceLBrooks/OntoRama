@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:ontoP2P="http://www.kvocentral.com/ontoP2P#"
+	xmlns:ontoP2P="http://www.ontorama.org/ontoP2P#"
 	xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
 	xmlns:dc="http://purl.org/metadata/dublin_core#">
 
@@ -19,7 +19,7 @@
 			<ontoP2P:rejected>mailto:nataliya@ontorama.org</ontoP2P:rejected>
 		</rdfs:subClassOf>
 		<rdfs:part rdf:parseType="Resource">
-			<rdf:value> http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4</rdf:value>
+			<rdf:value>http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4</rdf:value>
 			<ontoP2P:asserted>mailto:johan@ontorama.org</ontoP2P:asserted>
 		</rdfs:part>
 	</rdfs:Class>

@@ -33,7 +33,7 @@ public class WebkbQueryStringConstructor  {
     //queryString = queryString + "term=" + URLEncoder.encode("wn#cat");
     queryString = queryString + "&recursLink=" + URLEncoder.encode(">");;
     queryString = queryString + "&format=" + URLEncoder.encode(queryOutputFormat);
-    //queryString = queryString + "&depth=" + URLEncoder.encode("5");
+    queryString = queryString + "&depth=" + URLEncoder.encode(String.valueOf(query.getDepth()));
     queryString = queryString + "&noHTML";
     System.out.println("\nqueryString = " + queryString + "\n");
     return queryString;

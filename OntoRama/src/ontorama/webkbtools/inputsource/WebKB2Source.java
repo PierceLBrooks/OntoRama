@@ -70,7 +70,7 @@ public class WebKB2Source implements Source {
      * query we want to post to webkb
      */
    private Query query;
-
+   
     /**
      * List used to hold multi RDF document.
      */

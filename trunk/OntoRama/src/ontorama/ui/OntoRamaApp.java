@@ -101,8 +101,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 * actions
 	 */
-	public Action _backAction;
-	public Action _forwardAction;
 	public Action _exitAction;
 	public Action _aboutAction;
 	public StopQueryAction _stopQueryAction;
@@ -235,7 +233,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
         	_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
         	updateViews();
-            appendHistoryMenu(_query);
         }
     }
 
@@ -399,8 +396,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * Initialise actions
 	 */
 	private void initActions() {
-		_backAction = new BackHistoryAction();
-		_forwardAction = new ForwardHistoryAction();
 		_exitAction = new ExitAction();
 		_aboutAction = new AboutOntoRamaAction();
 		_stopQueryAction = new StopQueryAction(this);
@@ -522,7 +517,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		_examplesMenu = new ExamplesMenu(_modelEventBroker);
 
-		_historyMenu = new HistoryMenu(this);
+		_historyMenu = new HistoryMenu(_modelEventBroker);
 
 		_helpMenu = new JMenu("Help");
 		_helpMenu.add(_aboutAction);
@@ -550,9 +545,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 */
 	private void buildToolBar() {
 		_toolBar = new JToolBar();
-		JButton backButton = _toolBar.add(_backAction);
+		JButton backButton = _toolBar.add(_historyMenu.getBackAction());
 		_toolBar.add(backButton);
-		JButton forwardButton = _toolBar.add(_forwardAction);
+		JButton forwardButton = _toolBar.add(_historyMenu.getForwardAction());
 		_toolBar.add(forwardButton);
 		_toolBar.addSeparator();
 		_toolBar.add(_listViewer);
@@ -602,9 +597,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_treeView.repaint();
 		_splitPane.repaint();
 		setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
-		// don't following method, remove later.
-		//setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
 		enableDisableDynamicFields();
+        appendHistoryMenu(_query);
 		repaint();
 	}
 	/**

@@ -7,14 +7,19 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 import ontorama.OntoramaConfig;
+import ontorama.ui.action.BackHistoryAction;
+import ontorama.ui.action.ForwardHistoryAction;
+import ontorama.ui.events.DisplayHistoryItemEvent;
+import ontorama.model.QueryStartEvent;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.ontotools.query.Query;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventBrokerListener;
+import org.tockit.events.Event;
+import org.tockit.events.LoggingEventListener;
 
 /**
  * <p>Title: </p>
@@ -39,7 +44,6 @@ public class HistoryMenu extends JMenu {
      */
     private static Hashtable _menuItemHistoryMapping;
 
-
     /**
      *
      */
@@ -52,23 +56,52 @@ public class HistoryMenu extends JMenu {
     private static LinkedList _historyItems;
 
     /**
-     *
+     * event broker capable of processing queries
      */
-    private static OntoRamaApp _mainApp;
+    private EventBroker _eventBroker;
+
+    public Action _backAction;
+    public Action _forwardAction;
+
+    private class DisplayHistoryItemEventHandler implements EventBrokerListener {
+        public void processEvent (Event event) {
+            JMenuItem menuItem = (JMenuItem) event.getSubject();
+            JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) menuItem;
+            HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+            // get corresponding example
+            OntoramaExample example = historyElement.getExample();
+            OntoramaConfig.setCurrentExample(example);
+            // get graph for this query and load it into app
+            _eventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
+            //setSelectedMenuItem(historyItem);
+            enableBackForwardButtons();
+        }
+    }
+
 
     /**
-     * @todo  shouldn't pass reference to ontoramaMenu and mainApp
      */
-    public HistoryMenu(OntoRamaApp mainApp) {
+    public HistoryMenu(EventBroker eventBroker) {
         super("History");
-        _mainApp = mainApp;
+        _eventBroker = eventBroker;
         _menuItemHistoryMapping = new Hashtable();
         _historyItems = new LinkedList();
+        _backAction = new BackHistoryAction(_eventBroker);
+        _forwardAction = new ForwardHistoryAction(_eventBroker);
+
+        _eventBroker.subscribe(new DisplayHistoryItemEventHandler(), DisplayHistoryItemEvent.class, JMenuItem.class);
+        new LoggingEventListener(_eventBroker,DisplayHistoryItemEvent.class,Object.class,System.out);
 
         setMnemonic(KeyEvent.VK_H);
-
-
         buildHistoryMenu();
+    }
+
+    public Action getBackAction () {
+        return _backAction;
+    }
+
+    public Action getForwardAction () {
+        return _forwardAction;
     }
 
     /**
@@ -77,8 +110,8 @@ public class HistoryMenu extends JMenu {
     private void buildHistoryMenu() {
 
         // create back and forward buttons
-        _historyBackMenuItem = add(_mainApp._backAction);
-        _historyForwardMenuItem = add(_mainApp._forwardAction);
+        _historyBackMenuItem = add(_backAction);
+        _historyForwardMenuItem = add(_forwardAction);
 
         // set shortcut keys
         _historyBackMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK));
@@ -134,7 +167,7 @@ public class HistoryMenu extends JMenu {
         historyItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) e.getSource();
-                displayHistoryItem(historyItem);
+                _eventBroker.processEvent(new DisplayHistoryItemEvent(historyItem));
             }
         });
         add(historyItem);
@@ -146,23 +179,6 @@ public class HistoryMenu extends JMenu {
      */
     public static JCheckBoxMenuItem getMenuItem(int index) {
         return (JCheckBoxMenuItem) _historyItems.get(index);
-    }
-
-
-    /**
-     *
-     */
-    public static void displayHistoryItem(JCheckBoxMenuItem historyItem) {
-        HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
-
-        // get corresponding example
-        OntoramaExample example = historyElement.getExample();
-        _mainApp.executeQueryForHistoryElement(historyElement);
-
-        // select corresponding example
-        _mainApp.setSelectedExampleMenuItem(example);
-        setSelectedMenuItem(historyItem);
-        enableBackForwardButtons();
     }
 
     /**
@@ -178,7 +194,6 @@ public class HistoryMenu extends JMenu {
         while (e.hasMoreElements()) {
             JCheckBoxMenuItem cur = (JCheckBoxMenuItem) e.nextElement();
             if (cur.isSelected()) {
-                //System.out.println("getSelectedHistoryMenuItem returning " + cur);
                 return cur;
             }
         }
@@ -190,32 +205,26 @@ public class HistoryMenu extends JMenu {
      */
     public static int getIndexOfSelectedHistoryMenuItem() {
         JCheckBoxMenuItem curSelectedItem = getSelectedHistoryMenuItem();
-        //System.out.println(" curSelectedItem = " + curSelectedItem);
         if (curSelectedItem == null) {
             return (-1);
         }
-        System.out.println("getIndexOfSelectedHistoryMenuItem, returning: " + _historyItems.indexOf(curSelectedItem));
         return (_historyItems.indexOf(curSelectedItem));
     }
 
     /**
      *
      */
-    protected static void enableBackForwardButtons() {
+    protected void enableBackForwardButtons() {
         int curSelectedHistoryIndex = getIndexOfSelectedHistoryMenuItem();
         if (curSelectedHistoryIndex <= 0) {
-            //this.historyBackMenuItem.setEnabled(false);
-            _mainApp._backAction.setEnabled(false);
+            _backAction.setEnabled(false);
         } else {
-            //this.historyBackMenuItem.setEnabled(true);
-            _mainApp._backAction.setEnabled(true);
+            _backAction.setEnabled(true);
         }
         if (curSelectedHistoryIndex >= (_menuItemHistoryMapping.size() - 1)) {
-            //this.historyForwardMenuItem.setEnabled(false);
-            _mainApp._forwardAction.setEnabled(false);
+            _forwardAction.setEnabled(false);
         } else {
-            //this.historyForwardMenuItem.setEnabled(true);
-            _mainApp._forwardAction.setEnabled(true);
+            _forwardAction.setEnabled(true);
         }
     }
 
@@ -223,9 +232,6 @@ public class HistoryMenu extends JMenu {
      * will only work for menu items that are JCheckBoxMenuItem's
      */
     protected static void setSelectedMenuItem(JCheckBoxMenuItem selectItem) {
-
-        //System.out.println("setSelectedMenuItem for item = " + selectItem.getText());
-
         // first deselect previously selected item
         Enumeration enum = _menuItemHistoryMapping.keys();
         while (enum.hasMoreElements()) {
@@ -236,26 +242,4 @@ public class HistoryMenu extends JMenu {
         // select given item
         selectItem.setSelected(true);
     }
-
-
-// this method appears to cause a bug: history menu items are selected
-// incorrectly when user browses to some nodes (not root node). first history
-// item corresponding to the given example is selected. this is not always what
-// we want. should compare by example and query details
-//
-//  /**
-//   *
-//   */
-//   protected void setSelectedHistoryMenuItem (OntoramaExample example) {
-//    Enumeration enum = _menuItemHistoryMapping.keys();
-//    while (enum.hasMoreElements()) {
-//      JCheckBoxMenuItem historyMenuItem = (JCheckBoxMenuItem) enum.nextElement();
-//      HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyMenuItem);
-//      OntoramaExample curExample = historyElement.getExample();
-//      if (curExample.equals(example)) {
-//        setSelectedMenuItem(historyMenuItem);
-//        return;
-//      }
-//    }
-//   }
 }

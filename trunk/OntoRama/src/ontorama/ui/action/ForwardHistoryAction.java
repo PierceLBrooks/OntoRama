@@ -7,6 +7,8 @@ import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 
 import ontorama.ui.HistoryMenu;
+import ontorama.ui.events.DisplayHistoryItemEvent;
+import org.tockit.events.EventBroker;
 
 /**
  * <p>Title: </p>
@@ -26,26 +28,27 @@ public class ForwardHistoryAction extends AbstractAction {
     //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
     //private static final String ACCELERATOR_KEY="ALT+Right";
 
+    private EventBroker _eventBroker;
+
     /**
      *
      */
-    public ForwardHistoryAction() {
+    public ForwardHistoryAction(EventBroker eventBroker) {
+        _eventBroker = eventBroker;
         putValue(Action.NAME, NAME_COPY);
         putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
         putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-//    putValue(Action.ACCELERATOR_KEY, ACCELERATOR_KEY);
         putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
     }
 
     /**
      *
-     * @todo remove static reference to HistoryMenu.
      */
     public void actionPerformed(ActionEvent parm1) {
         int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
         int forwardInd = indexOfCur + 1;
         JCheckBoxMenuItem forwardItem = HistoryMenu.getMenuItem(forwardInd);
         System.out.println("___action: forward");
-        HistoryMenu.displayHistoryItem(forwardItem);
+        _eventBroker.processEvent(new DisplayHistoryItemEvent(forwardItem));
     }
 }

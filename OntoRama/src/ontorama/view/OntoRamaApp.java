@@ -34,6 +34,7 @@ import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
@@ -348,6 +349,27 @@ public class OntoRamaApp extends JFrame {
         ioExc.printStackTrace();
         showErrorDialog(ioExc.getMessage());
       }
+      catch (ParserException parserExc) {
+        System.out.println(parserExc);
+        parserExc.printStackTrace();
+        showErrorDialog(parserExc.getMessage());
+      }
+      catch (ClassNotFoundException classExc) {
+        System.out.println(classExc);
+        classExc.printStackTrace();
+        showErrorDialog("Sorry, couldn't find one of the classes you specified in config.xml");
+      }
+      catch (IllegalAccessException iae) {
+        System.out.println(iae);
+        iae.printStackTrace();
+        showErrorDialog(iae.getMessage());
+      }
+      catch (InstantiationException instExc) {
+        System.out.println(instExc);
+        instExc.printStackTrace();
+        showErrorDialog(instExc.getMessage());
+      }
+
       catch (Exception e) {
           System.err.println();
           e.printStackTrace();

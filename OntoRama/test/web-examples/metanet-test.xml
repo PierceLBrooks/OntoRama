@@ -1,0 +1,609 @@
+<ontology top='Resource'>
+      	<conceptTypes>
+      		<conceptType name='Resource'>
+      		</conceptType>
+      		<conceptType name='Event'>
+      			<description>Something which happens.</description>
+      		</conceptType>
+      		<conceptType name='Object'>
+      		</conceptType>
+      		<conceptType name='Agent'>
+      			<description>The resources which contribute to or act
+               in an event. Typically agents are people, groups of people, 
+               organisations or instruments.</description>
+      		</conceptType>
+      		<conceptType name='Happening'>
+      		</conceptType>
+      		<conceptType name='Occurrence'>
+      		</conceptType>
+      		<conceptType name='Act'>
+      		</conceptType>
+      		<conceptType name='Action'>
+      		</conceptType>
+      		<conceptType name='Activity'>
+      		</conceptType>
+      		<conceptType name='Phenomenon'>
+      		</conceptType>
+      		<conceptType name='Occasion'>
+      		</conceptType>
+      		<conceptType name='Episode'>
+      		</conceptType>
+      		<conceptType name='Development'>
+      		</conceptType>
+      		<conceptType name='Incident'>
+      		</conceptType>
+      		<conceptType name='Situation'>
+      		</conceptType>
+      		<conceptType name='Acquisition'>
+      			<description>To acquire ownership.</description>
+      		</conceptType>
+      		<conceptType name='Accession'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Publication'>
+      			<description>A publishing event</description>
+      		</conceptType>
+      		<conceptType name='Modification'>
+      			<description>An event which changes something.</description>
+      		</conceptType>
+      		<conceptType name='Creation'>
+      			<description>An event which generates a new identity.</description>
+      		</conceptType>
+      		<conceptType name='Classification'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Recording'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Copying'>
+      			<description>A copying event</description>
+      		</conceptType>
+      		<conceptType name='Destruction'>
+      			<description>An event which causes one or more objects to no longer exist.</description>
+      		</conceptType>
+      		<conceptType name='Performance'>
+      			<description>A portrayal or depiction of a concept or creative work.</description>
+      		</conceptType>
+      		<conceptType name='Entity'>
+      		</conceptType>
+      		<conceptType name='Thing'>
+      		</conceptType>
+      		<conceptType name='Item'>
+      		</conceptType>
+      		<conceptType name='Creation'>
+      			<description>An event which generates a new identity.</description>
+      		</conceptType>
+      		<conceptType name='Work'>
+      		</conceptType>
+      		<conceptType name='Stuff'>
+      		</conceptType>
+      		<conceptType name='Artefact'>
+      		</conceptType>
+      		<conceptType name='Article'>
+      		</conceptType>
+      		<conceptType name='Actor'>
+      		</conceptType>
+      		<conceptType name='Contributor'>
+      		</conceptType>
+      		<conceptType name='Player'>
+      		</conceptType>
+      		<conceptType name='Doer'>
+      		</conceptType>
+      		<conceptType name='Worker'>
+      		</conceptType>
+      		<conceptType name='Performer'>
+      		</conceptType>
+      		<conceptType name='Creator'>
+      			<description>Agent who creates something new.</description>
+      		</conceptType>
+      		<conceptType name='Instrument'>
+      		</conceptType>
+      		<conceptType name='Musician'>
+      		</conceptType>
+      		<conceptType name='Artist'>
+      		</conceptType>
+      		<conceptType name='Author'>
+      		</conceptType>
+      		<conceptType name='Conservationist'>
+      		</conceptType>
+      		<conceptType name='User'>
+      		</conceptType>
+      		<conceptType name='Sculptor'>
+      		</conceptType>
+      		<conceptType name='Composer'>
+      		</conceptType>
+      		<conceptType name='Cataloguer'>
+      		</conceptType>
+      		<conceptType name='Owner'>
+      		</conceptType>
+      		<conceptType name='Singer'>
+      		</conceptType>
+      		<conceptType name='Presenter'>
+      		</conceptType>
+      		<conceptType name='Photographer'>
+      		</conceptType>
+      		<conceptType name='Purchase'>
+      		</conceptType>
+      		<conceptType name='Transferral'>
+      		</conceptType>
+      		<conceptType name='TitleTransferral'>
+      		</conceptType>
+      		<conceptType name='CustodyTransferral'>
+      		</conceptType>
+      		<conceptType name='Ownership'>
+      		</conceptType>
+      		<conceptType name='Usage'>
+      		</conceptType>
+      		<conceptType name='Broadcast'>
+      		</conceptType>
+      		<conceptType name='Dissemination'>
+      		</conceptType>
+      		<conceptType name='Distribution'>
+      		</conceptType>
+      		<conceptType name='Issue'>
+      		</conceptType>
+      		<conceptType name='MakeAvailable'>
+      		</conceptType>
+      		<conceptType name='PlaceOnline'>
+      			<description>To make available on the Internet.</description>
+      		</conceptType>
+      		<conceptType name='Broadcasting'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Transmission'>
+      		</conceptType>
+      		<conceptType name='Conversion'>
+      		</conceptType>
+      		<conceptType name='Transformation'>
+      		</conceptType>
+      		<conceptType name='Transmutation'>
+      		</conceptType>
+      		<conceptType name='Metamorphosis'>
+      		</conceptType>
+      		<conceptType name='Alteration'>
+      		</conceptType>
+      		<conceptType name='Extraction'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Adaptation'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Translation'>
+      			<description>Conversion from one language to another.</description>
+      		</conceptType>
+      		<conceptType name='Compilation'>
+      			<description></description>
+      		</conceptType>
+      		<conceptType name='Digitization'>
+      			<description>Conversion from analogue to digital format.</description>
+      		</conceptType>
+      		<conceptType name='Reformatting'>
+      			<description>Conversion from one format to another</description>
+      		</conceptType>
+      		<conceptType name='Editing'>
+      			<description>An editing event</description>
+      		</conceptType>
+      		<conceptType name='Origin'>
+      		</conceptType>
+      		<conceptType name='Conception'>
+      		</conceptType>
+      		<conceptType name='Birth'>
+      		</conceptType>
+      		<conceptType name='Indexing'>
+      		</conceptType>
+      		<conceptType name='Cataloguing'>
+      		</conceptType>
+      		<conceptType name='Duplication'>
+      		</conceptType>
+      		<conceptType name='Reproduction'>
+      		</conceptType>
+      		<conceptType name='Replication'>
+      		</conceptType>
+      		<conceptType name='Digitization'>
+      		</conceptType>
+      		<conceptType name='Reformatting'>
+      		</conceptType>
+      		<conceptType name='Death'>
+      		</conceptType>
+      		<conceptType name='Termination'>
+      		</conceptType>
+      		<conceptType name='Ending'>
+      		</conceptType>
+      		<conceptType name='Expression'>
+      		</conceptType>
+      		<conceptType name='Rendition'>
+      		</conceptType>
+      		<conceptType name='Origin'>
+      		</conceptType>
+      		<conceptType name='Conception'>
+      		</conceptType>
+      		<conceptType name='Birth'>
+      		</conceptType>
+      		<conceptType name='Originator'>
+      		</conceptType>
+      		<conceptType name='Initiator'>
+      		</conceptType>
+      		<conceptType name='Tool'>
+      		</conceptType>
+      		<conceptType name='Device'>
+      		</conceptType>
+      		<conceptType name='Implement'>
+      		</conceptType>
+      		<conceptType name='Utensil'>
+      		</conceptType>
+      		<conceptType name='Aid'>
+      		</conceptType>
+      		<conceptType name='Mechanism'>
+      		</conceptType>
+      		<conceptType name='Instrumentalist'>
+      		</conceptType>
+      		<conceptType name='Painter'>
+      		</conceptType>
+      		<conceptType name='Expressionist'>
+      		</conceptType>
+      		<conceptType name='Impressionist'>
+      		</conceptType>
+      		<conceptType name='Realist'>
+      		</conceptType>
+      		<conceptType name='Watercolourist'>
+      		</conceptType>
+      		<conceptType name='Etcher'>
+      		</conceptType>
+      		<conceptType name='Portraitist'>
+      		</conceptType>
+      		<conceptType name='Surrealist'>
+      		</conceptType>
+      		<conceptType name='Abstractionist'>
+      		</conceptType>
+      		<conceptType name='Cubist'>
+      		</conceptType>
+      		<conceptType name='Illustrator'>
+      		</conceptType>
+      		<conceptType name='Symbolist'>
+      		</conceptType>
+      		<conceptType name='Landscapist'>
+      		</conceptType>
+      		<conceptType name='Colourist'>
+      		</conceptType>
+      		<conceptType name='Modernist'>
+      		</conceptType>
+      		<conceptType name='Animator'>
+      		</conceptType>
+      		<conceptType name='Characturist'>
+      		</conceptType>
+      		<conceptType name='Classicist'>
+      		</conceptType>
+      		<conceptType name='Writer'>
+      		</conceptType>
+      		<conceptType name='Wordsmith'>
+      		</conceptType>
+      		<conceptType name='Scriptwriter'>
+      		</conceptType>
+      		<conceptType name='Novelist'>
+      		</conceptType>
+      		<conceptType name='Copywriter'>
+      		</conceptType>
+      		<conceptType name='Journalist'>
+      		</conceptType>
+      		<conceptType name='Poet'>
+      		</conceptType>
+      		<conceptType name='Playwright'>
+      		</conceptType>
+      		<conceptType name='Essayist'>
+      		</conceptType>
+      		<conceptType name='Preservationist'>
+      		</conceptType>
+      		<conceptType name='Consumer'>
+      		</conceptType>
+      		<conceptType name='Viewer'>
+      		</conceptType>
+      		<conceptType name='Spectator'>
+      		</conceptType>
+      		<conceptType name='Audience'>
+      		</conceptType>
+      		<conceptType name='Visitor'>
+      		</conceptType>
+      		<conceptType name='Reader'>
+      		</conceptType>
+      		<conceptType name='Client'>
+      		</conceptType>
+      		<conceptType name='Listener'>
+      		</conceptType>
+      		<conceptType name='Punter'>
+      		</conceptType>
+      		<conceptType name='Customer'>
+      		</conceptType>
+      		<conceptType name='Patron'>
+      		</conceptType>
+      		<conceptType name='Sculpturer'>
+      		</conceptType>
+      		<conceptType name='Carver'>
+      		</conceptType>
+      		<conceptType name='Indexer'>
+      		</conceptType>
+      		<conceptType name='Classifier'>
+      		</conceptType>
+      		<conceptType name='Assessor'>
+      		</conceptType>
+      		<conceptType name='Keeper'>
+      		</conceptType>
+      		<conceptType name='Retainer'>
+      		</conceptType>
+      		<conceptType name='Holder'>
+      		</conceptType>
+      		<conceptType name='Possessor'>
+      		</conceptType>
+      		<conceptType name='Proprietor'>
+      		</conceptType>
+      		<conceptType name='Provenance'>
+      		</conceptType>
+      		<conceptType name='Vocalist'>
+      		</conceptType>
+      		<conceptType name='AnchorPerson'>
+      		</conceptType>
+      		<conceptType name='Speaker'>
+      		</conceptType>
+      		<conceptType name='Lecturer'>
+      		</conceptType>
+      		<conceptType name='CameraPerson'>
+      		</conceptType>
+      		<conceptType name='Cinematographer'>
+      		</conceptType>
+      		<conceptType name='Transmission'>
+      		</conceptType>
+      		<conceptType name='Encoding'>
+      		</conceptType>
+      		<conceptType name='Scanning'>
+      		</conceptType>
+      		<conceptType name='Encoding'>
+      		</conceptType>
+      		<conceptType name='Scanning'>
+      		</conceptType>
+      		<conceptType name='Cartoonist'>
+      		</conceptType>
+      		<conceptType name='Columnist'>
+      		</conceptType>
+      		<conceptType name='Reporter'>
+      		</conceptType>
+      		<conceptType name='Dramatist'>
+      		</conceptType>
+      	</conceptTypes>
+      	<relationLinks>	
+      		<relationLink name='synonym' from='Owner' to='Keeper'/>
+      		<relationLink name='synonym' from='Owner' to='Retainer'/>
+      		<relationLink name='synonym' from='Owner' to='Holder'/>
+      		<relationLink name='synonym' from='Owner' to='Possessor'/>
+      		<relationLink name='synonym' from='Owner' to='Proprietor'/>
+      		<relationLink name='synonym' from='Owner' to='Provenance'/>
+      		<relationLink name='synonym' from='format' to='form'/>
+      		<relationLink name='synonym' from='format' to='medium'/>
+      		<relationLink name='synonym' from='format' to='media'/>
+      		<relationLink name='synonym' from='format' to='material'/>
+      		<relationLink name='synonym' from='format' to='physical'/>
+      		<relationLink name='synonym' from='format' to='carrier'/>
+      		<relationLink name='synonym' from='format' to='storage'/>
+      		<relationLink name='synonym' from='format' to='file_type'/>
+      		<relationLink name='synonym' from='format' to='presentation'/>
+      		<relationLink name='synonym' from='format' to='layout'/>
+      		<relationLink name='synonym' from='Creator' to='Originator'/>
+      		<relationLink name='synonym' from='Creator' to='Initiator'/>
+      		<relationLink name='synonym' from='Conservationist' to='Preservationist'/>
+      		<relationLink name='synonym' from='Copying' to='Duplication'/>
+      		<relationLink name='synonym' from='Copying' to='Reproduction'/>
+      		<relationLink name='synonym' from='Copying' to='Replication'/>
+      		<relationLink name='synonym' from='Digitization' to='Encoding'/>
+      		<relationLink name='synonym' from='Digitization' to='Scanning'/>
+      		<relationLink name='synonym' from='Animator' to='Cartoonist'/>
+      		<relationLink name='synonym' from='subject' to='keywords'/>
+      		<relationLink name='synonym' from='subject' to='topic'/>
+      		<relationLink name='synonym' from='subject' to='issue'/>
+      		<relationLink name='synonym' from='subject' to='theme'/>
+      		<relationLink name='synonym' from='subject' to='field'/>
+      		<relationLink name='synonym' from='subject' to='branch'/>
+      		<relationLink name='synonym' from='subject' to='discipline'/>
+      		<relationLink name='synonym' from='Modification' to='Conversion'/>
+      		<relationLink name='synonym' from='Modification' to='Transformation'/>
+      		<relationLink name='synonym' from='Modification' to='Transmutation'/>
+      		<relationLink name='synonym' from='Modification' to='Metamorphosis'/>
+      		<relationLink name='synonym' from='Modification' to='Alteration'/>
+      		<relationLink name='subtype' from='Modification' to='Extraction'/>
+      		<relationLink name='subtype' from='Modification' to='Adaptation'/>
+      		<relationLink name='subtype' from='Modification' to='Translation'/>
+      		<relationLink name='subtype' from='Modification' to='Compilation'/>
+      		<relationLink name='subtype' from='Modification' to='Digitization'/>
+      		<relationLink name='subtype' from='Modification' to='Reformatting'/>
+      		<relationLink name='subtype' from='Modification' to='Editing'/>
+      		<relationLink name='synonym' from='type' to='has_type'/>
+      		<relationLink name='synonym' from='type' to='category'/>
+      		<relationLink name='synonym' from='type' to='class'/>
+      		<relationLink name='synonym' from='type' to='genre'/>
+      		<relationLink name='synonym' from='type' to='classification'/>
+      		<relationLink name='synonym' from='type' to='genus'/>
+      		<relationLink name='synonym' from='type' to='form'/>
+      		<relationLink name='synonym' from='type' to='style'/>
+      		<relationLink name='synonym' from='mimetype' to='encoding'/>
+      		<relationLink name='synonym' from='mimetype' to='compression'/>
+      		<relationLink name='synonym' from='mimetype' to='encapsulation'/>
+      		<relationLink name='synonym' from='description' to='abstract'/>
+      		<relationLink name='synonym' from='description' to='account'/>
+      		<relationLink name='synonym' from='description' to='definition'/>
+      		<relationLink name='synonym' from='description' to='overview'/>
+      		<relationLink name='synonym' from='description' to='note'/>
+      		<relationLink name='synonym' from='description' to='summary'/>
+      		<relationLink name='synonym' from='description' to='synopsis'/>
+      		<relationLink name='synonym' from='description' to='outline'/>
+      		<relationLink name='synonym' from='description' to='sketch'/>
+      		<relationLink name='synonym' from='description' to='statement'/>
+      		<relationLink name='synonym' from='description' to='table_of_contents'/>
+      		<relationLink name='synonym' from='identifier' to='id'/>
+      		<relationLink name='synonym' from='identifier' to='code'/>
+      		<relationLink name='synonym' from='identifier' to='label'/>
+      		<relationLink name='synonym' from='identifier' to='number'/>
+      		<relationLink name='synonym' from='identifier' to='locator'/>
+      		<relationLink name='synonym' from='identifier' to='reference'/>
+      		<relationLink name='synonym' from='identifier' to='token'/>
+      		<relationLink name='synonym' from='identifier' to='identified_by'/>
+      		<relationLink name='synonym' from='Agent' to='Actor'/>
+      		<relationLink name='synonym' from='Agent' to='Contributor'/>
+      		<relationLink name='synonym' from='Agent' to='Player'/>
+      		<relationLink name='synonym' from='Agent' to='Doer'/>
+      		<relationLink name='synonym' from='Agent' to='Worker'/>
+      		<relationLink name='synonym' from='Agent' to='Performer'/>
+      		<relationLink name='subtype' from='Agent' to='Creator'/>
+      		<relationLink name='subtype' from='Agent' to='Instrument'/>
+      		<relationLink name='synonym' from='Instrument' to='Tool'/>
+      		<relationLink name='synonym' from='Instrument' to='Device'/>
+      		<relationLink name='synonym' from='Instrument' to='Implement'/>
+      		<relationLink name='synonym' from='Instrument' to='Utensil'/>
+      		<relationLink name='synonym' from='Instrument' to='Aid'/>
+      		<relationLink name='synonym' from='Instrument' to='Mechanism'/>
+      		<relationLink name='subtype' from='Agent' to='Musician'/>
+      		<relationLink name='synonym' from='Musician' to='Instrumentalist'/>
+      		<relationLink name='subtype' from='Agent' to='Artist'/>
+      		<relationLink name='synonym' from='Artist' to='Painter'/>
+      		<relationLink name='subtype' from='Artist' to='Expressionist'/>
+      		<relationLink name='subtype' from='Artist' to='Impressionist'/>
+      		<relationLink name='subtype' from='Artist' to='Realist'/>
+      		<relationLink name='subtype' from='Artist' to='Watercolourist'/>
+      		<relationLink name='subtype' from='Artist' to='Etcher'/>
+      		<relationLink name='subtype' from='Artist' to='Portraitist'/>
+      		<relationLink name='subtype' from='Artist' to='Surrealist'/>
+      		<relationLink name='subtype' from='Artist' to='Abstractionist'/>
+      		<relationLink name='subtype' from='Artist' to='Cubist'/>
+      		<relationLink name='subtype' from='Artist' to='Illustrator'/>
+      		<relationLink name='subtype' from='Artist' to='Symbolist'/>
+      		<relationLink name='subtype' from='Artist' to='Landscapist'/>
+      		<relationLink name='subtype' from='Artist' to='Colourist'/>
+      		<relationLink name='subtype' from='Artist' to='Modernist'/>
+      		<relationLink name='subtype' from='Artist' to='Animator'/>
+      		<relationLink name='subtype' from='Artist' to='Characturist'/>
+      		<relationLink name='subtype' from='Artist' to='Classicist'/>
+      		<relationLink name='subtype' from='Agent' to='Author'/>
+      		<relationLink name='synonym' from='Author' to='Writer'/>
+      		<relationLink name='synonym' from='Author' to='Wordsmith'/>
+      		<relationLink name='subtype' from='Author' to='Scriptwriter'/>
+      		<relationLink name='subtype' from='Author' to='Novelist'/>
+      		<relationLink name='subtype' from='Author' to='Copywriter'/>
+      		<relationLink name='subtype' from='Author' to='Journalist'/>
+      		<relationLink name='synonym' from='Journalist' to='Columnist'/>
+      		<relationLink name='synonym' from='Journalist' to='Reporter'/>
+      		<relationLink name='subtype' from='Author' to='Poet'/>
+      		<relationLink name='subtype' from='Author' to='Playwright'/>
+      		<relationLink name='synonym' from='Playwright' to='Dramatist'/>
+      		<relationLink name='subtype' from='Author' to='Essayist'/>
+      		<relationLink name='subtype' from='Agent' to='Conservationist'/>
+      		<relationLink name='subtype' from='Agent' to='User'/>
+      		<relationLink name='synonym' from='User' to='Consumer'/>
+      		<relationLink name='synonym' from='User' to='Viewer'/>
+      		<relationLink name='synonym' from='User' to='Spectator'/>
+      		<relationLink name='synonym' from='User' to='Audience'/>
+      		<relationLink name='synonym' from='User' to='Visitor'/>
+      		<relationLink name='synonym' from='User' to='Reader'/>
+      		<relationLink name='synonym' from='User' to='Client'/>
+      		<relationLink name='synonym' from='User' to='Listener'/>
+      		<relationLink name='synonym' from='User' to='Punter'/>
+      		<relationLink name='synonym' from='User' to='Customer'/>
+      		<relationLink name='synonym' from='User' to='Patron'/>
+      		<relationLink name='subtype' from='Agent' to='Sculptor'/>
+      		<relationLink name='synonym' from='Sculptor' to='Sculpturer'/>
+      		<relationLink name='synonym' from='Sculptor' to='Carver'/>
+      		<relationLink name='subtype' from='Agent' to='Composer'/>
+      		<relationLink name='subtype' from='Agent' to='Cataloguer'/>
+      		<relationLink name='synonym' from='Cataloguer' to='Indexer'/>
+      		<relationLink name='synonym' from='Cataloguer' to='Classifier'/>
+      		<relationLink name='synonym' from='Cataloguer' to='Assessor'/>
+      		<relationLink name='subtype' from='Agent' to='Owner'/>
+      		<relationLink name='subtype' from='Agent' to='Singer'/>
+      		<relationLink name='synonym' from='Singer' to='Vocalist'/>
+      		<relationLink name='subtype' from='Agent' to='Presenter'/>
+      		<relationLink name='synonym' from='Presenter' to='AnchorPerson'/>
+      		<relationLink name='synonym' from='Presenter' to='Speaker'/>
+      		<relationLink name='synonym' from='Presenter' to='Lecturer'/>
+      		<relationLink name='subtype' from='Agent' to='Photographer'/>
+      		<relationLink name='synonym' from='Photographer' to='CameraPerson'/>
+      		<relationLink name='synonym' from='Photographer' to='Cinematographer'/>
+      		<relationLink name='synonym' from='Publication' to='Broadcast'/>
+      		<relationLink name='synonym' from='Publication' to='Dissemination'/>
+      		<relationLink name='synonym' from='Publication' to='Distribution'/>
+      		<relationLink name='synonym' from='Publication' to='Issue'/>
+      		<relationLink name='synonym' from='Publication' to='MakeAvailable'/>
+      		<relationLink name='subtype' from='Publication' to='PlaceOnline'/>
+      		<relationLink name='subtype' from='Publication' to='Broadcasting'/>
+      		<relationLink name='synonym' from='Broadcasting' to='Transmission'/>
+      		<relationLink name='synonym' from='Event' to='Happening'/>
+      		<relationLink name='synonym' from='Event' to='Occurrence'/>
+      		<relationLink name='synonym' from='Event' to='Act'/>
+      		<relationLink name='synonym' from='Event' to='Action'/>
+      		<relationLink name='synonym' from='Event' to='Activity'/>
+      		<relationLink name='synonym' from='Event' to='Phenomenon'/>
+      		<relationLink name='synonym' from='Event' to='Occasion'/>
+      		<relationLink name='synonym' from='Event' to='Episode'/>
+      		<relationLink name='synonym' from='Event' to='Development'/>
+      		<relationLink name='synonym' from='Event' to='Incident'/>
+      		<relationLink name='synonym' from='Event' to='Situation'/>
+      		<relationLink name='subtype' from='Event' to='Acquisition'/>
+      		<relationLink name='synonym' from='Acquisition' to='Purchase'/>
+      		<relationLink name='synonym' from='Acquisition' to='Transferral'/>
+      		<relationLink name='synonym' from='Acquisition' to='TitleTransferral'/>
+      		<relationLink name='synonym' from='Acquisition' to='CustodyTransferral'/>
+      		<relationLink name='synonym' from='Acquisition' to='Ownership'/>
+      		<relationLink name='subtype' from='Event' to='Accession'/>
+      		<relationLink name='synonym' from='Accession' to='Usage'/>
+      		<relationLink name='subtype' from='Event' to='Publication'/>
+      		<relationLink name='subtype' from='Event' to='Modification'/>
+      		<relationLink name='subtype' from='Event' to='Creation'/>
+      		<relationLink name='synonym' from='Creation' to='Origin'/>
+      		<relationLink name='synonym' from='Creation' to='Conception'/>
+      		<relationLink name='synonym' from='Creation' to='Birth'/>
+      		<relationLink name='subtype' from='Event' to='Classification'/>
+      		<relationLink name='synonym' from='Classification' to='Indexing'/>
+      		<relationLink name='synonym' from='Classification' to='Cataloguing'/>
+      		<relationLink name='subtype' from='Event' to='Recording'/>
+      		<relationLink name='subtype' from='Event' to='Copying'/>
+      		<relationLink name='subtype' from='Event' to='Destruction'/>
+      		<relationLink name='synonym' from='Destruction' to='Death'/>
+      		<relationLink name='synonym' from='Destruction' to='Termination'/>
+      		<relationLink name='synonym' from='Destruction' to='Ending'/>
+      		<relationLink name='subtype' from='Event' to='Performance'/>
+      		<relationLink name='synonym' from='Performance' to='Expression'/>
+      		<relationLink name='synonym' from='Performance' to='Rendition'/>
+      		<relationLink name='subtype' from='Object' to='Concept'/>
+      		<relationLink name='synonym' from='Concept' to='Idea'/>
+      		<relationLink name='synonym' from='Concept' to='Notion'/>
+      		<relationLink name='synonym' from='Concept' to='Abstraction'/>
+      		<relationLink name='synonym' from='Concept' to='Theory'/>
+      		<relationLink name='synonym' from='Concept' to='Paradigm'/>
+      		<relationLink name='synonym' from='shotlist' to='keyframes'/>
+      		<relationLink name='subtype' from='Resource' to='Event'/>
+      		<relationLink name='subtype' from='Resource' to='Object'/>
+      		<relationLink name='synonym' from='Object' to='Entity'/>
+      		<relationLink name='synonym' from='Object' to='Thing'/>
+      		<relationLink name='synonym' from='Object' to='Item'/>
+      		<relationLink name='synonym' from='Object' to='Creation'/>
+      		<relationLink name='synonym' from='Object' to='Work'/>
+      		<relationLink name='synonym' from='Object' to='Stuff'/>
+      		<relationLink name='synonym' from='Object' to='Artefact'/>
+      		<relationLink name='synonym' from='Object' to='Article'/>
+      		<relationLink name='subtype' from='Resource' to='Agent'/>
+      		<relationLink name='synonym' from='relation' to='relationship'/>
+      		<relationLink name='synonym' from='relation' to='related_to'/>
+      		<relationLink name='synonym' from='relation' to='connection'/>
+      		<relationLink name='synonym' from='relation' to='link'/>
+      		<relationLink name='synonym' from='relation' to='linkage'/>
+      		<relationLink name='synonym' from='relation' to='association'/>
+      		<relationLink name='synonym' from='relation' to='interaction'/>
+      		<relationLink name='synonym' from='relation' to='kinship'/>
+      		<relationLink name='synonym' from='language' to='lang'/>
+      		<relationLink name='synonym' from='language' to='dialect'/>
+      		<relationLink name='synonym' from='title' to='name'/>
+      		<relationLink name='synonym' from='title' to='appellation'/>
+      		<relationLink name='synonym' from='title' to='designation'/>
+      		<relationLink name='synonym' from='title' to='heading'/>
+      		<relationLink name='synonym' from='Publication' to='Transmission'/>
+      		<relationLink name='subtype' from='Copying' to='Digitization'/>
+      		<relationLink name='synonym' from='Digitization' to='Encoding'/>
+      		<relationLink name='synonym' from='Digitization' to='Scanning'/>
+      		<relationLink name='subtype' from='Copying' to='Reformatting'/>
+      	</relationLinks>
+      
+      </ontology>

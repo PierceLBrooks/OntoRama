@@ -1,0 +1,350 @@
+<?xml version="1.0"?>
+
+<!--Draft RDF Schema for the SCHEMAS Namespace (smes)
+
+  Please note that the SCHEMAS metadata set is still under development and
+  therefore subject to changes.  
+
+  The XML namespace declaration for this schema is:
+  xmlns:smes="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes#"
+  
+  Manjula Patel -m.patel@ukoln.ac.uk
+  2001-02-28
+-->
+
+
+<rdf:RDF xml:lang="en"
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      	 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<NsSchema rdf:about="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes">
+  <rdf:value>The SCHEMAS Vocabulary v1.0</rdf:value> 
+  <dc:title>The SCHEMAS Vocabulary v1.0</dc:title>
+  <dc:date>2001-02-28</dc:date>
+  <dc:description>
+      The SCHEMAS vocabulary is intended to support the SCHEMAS metadata registry
+
+      Please note that the SCHEMAS metadata set is still under development and
+      therefore subject to changes.  
+  </dc:description>
+  <dc:identifier
+       rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"
+  />
+  <dc:creator
+       rdf:resource="http://www.schemas-forum.org/registry/Person/ManjulaPatel"
+  />
+  <dc:contributor
+       rdf:resource="http://www.schemas-forum.org/registry/Person/EricMiller"
+  />
+  <dc:contributor
+       rdf:resource="http://www.schemas-forum.org/registry/Person/TomBaker"
+  />
+  <dc:publisher>The SCHEMAS Project </dc:publisher>  
+  <dc:format>RDF/XML</dc:format>
+  <dc:language>en-uk</dc:language>
+  <dc:type>Namespace</dc:type>
+  <dc:relation rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/" />
+</NsSchema>
+
+
+<!-- Class declarations -->
+
+<rdfs:Class rdf:ID="Schema">
+  <rdfs:label>RDF Schema</rdfs:label>
+  <rdfs:comment>An RDF schema</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://dublincore.org/2000/03/13/dctype#Text"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="NsSchema">
+  <rdfs:label>Namespace Schema</rdfs:label>
+  <rdfs:comment>A namespace schema</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="ApSchema">
+  <rdfs:label>Application Profile Schema</rdfs:label>
+  <rdfs:comment>An application profile</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="WebPageSchema">
+  <rdfs:label>Web Page Schema</rdfs:label>
+  <rdfs:comment>A web page schema</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="ActivityReport">
+  <rdfs:label>Activity Report</rdfs:label>
+  <rdfs:comment>A metadata watch activity report</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://dublincore.org/2000/03/13/dctype#Text"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+
+<rdfs:Class rdf:ID="StandardsReport">
+  <rdfs:label>StandardsReport</rdfs:label>
+  <rdfs:comment>A standards watch report</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://dublincore.org/2000/03/13/dctype#Text"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+
+<!-- Data Type declaration -->
+
+<rdfs:Class rdf:ID="DataType">
+  <rdfs:label>Data Type</rdfs:label>
+  <rdfs:comment>A data type.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+
+<!-- Schema: Property declarations -->
+
+<rdf:Property rdf:ID="label">
+  <rdfs:label>label</rdfs:label>
+  <rdfs:comment>A application-specific label.</rdfs:comment>
+  <rdfs:domain rdf:resource="#ApSchema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="uses">
+  <rdfs:label>uses</rdfs:label>
+  <rdfs:comment>Application profiles reuse elements from one or more namespaces</rdfs:comment>
+  <rdfs:domain rdf:resource="#ApSchema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="isProfileOf">
+  <rdfs:label>isProfileOf</rdfs:label>
+  <rdfs:comment>An application profile of some element set</rdfs:comment>
+  <rdfs:domain rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="definition">
+  <rdfs:label>Definition</rdfs:label>
+  <rdfs:comment>A local adaptation of a term specific to an application.</rdfs:comment>
+  <rdfs:domain rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="comment">
+  <rdfs:label>Comment</rdfs:label>
+  <rdfs:comment>A comment or note providing additional application-specific information.</rdfs:comment>
+  <rdfs:domain rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="usage">
+  <rdfs:label>Usage</rdfs:label>
+  <rdfs:comment>Information relating to application specific usage guidelines.</rdfs:comment>
+  <rdfs:domain rdf:resource="#Schema"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+
+<!-- ActivityReport: Property declarations -->
+
+<rdf:Property rdf:ID="reviewDate">
+  <rdfs:label>Review Date</rdfs:label>
+  <rdfs:comment>Date when the report is due to be reviewed</rdfs:comment>
+  <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+  <rdfs:domain rdf:resource="#ActivityReport"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="deliverable">
+  <rdfs:label>Deliverable</rdfs:label>
+  <rdfs:comment>A project report with which the activity report is associated</rdfs:comment>
+  <rdfs:domain rdf:resource="#ActivityReport"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="correspondent">
+  <rdfs:label>Correspondent</rdfs:label>
+  <rdfs:comment>The person responsible for creating the report</rdfs:comment>
+  <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/creator"/>
+  <rdfs:domain rdf:resource="#ActivityReport"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="expertOpinion">
+  <rdfs:label>Expert Opinion</rdfs:label>
+  <rdfs:comment>A review by an export in the domain</rdfs:comment>
+  <rdfs:domain rdf:resource="#ActivityReport"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<rdf:Property rdf:ID="sector">
+  <rdfs:label>Sector</rdfs:label>
+  <rdfs:comment>The domain described in the report</rdfs:comment>
+  <rdfs:range rdf:resource="#SectorType"/>
+  <rdfs:domain rdf:resource="#ActivityReport"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdf:Property>
+
+<!-- scheme for sector in activity reports
+     Industry, Publishing, AudioVisual, CulturalHeritage, Education, Academic,
+     GeographicInfo, CrossDomain, Basic     
+ -->
+
+<rdfs:Class rdf:ID="SectorType">
+  <rdfs:label>Types of Sector</rdfs:label> 
+  <rdfs:comment>A set of enumerated types for sectors or domains</rdfs:comment>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Industry">
+  <rdfs:label>Industry</rdfs:label> 
+  <rdfs:comment>Industrial sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Publishing">
+  <rdfs:label>Publishing</rdfs:label> 
+  <rdfs:comment>Publishing sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="AudioVisual">
+  <rdfs:label>Audio Visual</rdfs:label> 
+  <rdfs:comment>Audio Visual sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="CulturalHeritage">
+  <rdfs:label>Cultural Heritage</rdfs:label> 
+  <rdfs:comment>Cultural Heritage sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Education">
+  <rdfs:label>Education</rdfs:label> 
+  <rdfs:comment>Educational sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Academic">
+  <rdfs:label>Academic</rdfs:label> 
+  <rdfs:comment>Academic sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="GeographicInfo">
+  <rdfs:label>Geographic Information</rdfs:label> 
+  <rdfs:comment>Geographic Information sector</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="CrossDomain">
+  <rdfs:label>Cross-domain</rdfs:label> 
+  <rdfs:comment>Cross sectoral</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Basic">
+  <rdfs:label>Basic</rdfs:label> 
+  <rdfs:comment>Basic</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#SectorType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<!-- scheme for dc:type for activity reports
+     Project, Inititative, Software, Documentation, Programme, WorkingGroup,
+     Resource, Daatbase, Registry, Service
+  -->
+
+<rdfs:Class rdf:ID="ActivityType">
+  <rdfs:label>Types of activities</rdfs:label> 
+  <rdfs:comment>A set of enumerated types for activities</rdfs:comment>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Project">
+  <rdfs:label>Project</rdfs:label> 
+  <rdfs:comment>An activity of type project</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Initiative">
+  <rdfs:label>Initiative</rdfs:label> 
+  <rdfs:comment>An activity of type initiative</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Software">
+  <rdfs:label>Software</rdfs:label> 
+  <rdfs:comment>An activity of type software</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Documentation">
+  <rdfs:label>Documentation</rdfs:label> 
+  <rdfs:comment>An activity of type documentation</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Programme">
+  <rdfs:label>Programme</rdfs:label> 
+  <rdfs:comment>An activity of type programme</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="WorkingGroup">
+  <rdfs:label>Working Group</rdfs:label> 
+  <rdfs:comment>An activity of type working group</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Resource">
+  <rdfs:label>Resource</rdfs:label> 
+  <rdfs:comment>An activity of type resource</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Database">
+  <rdfs:label>Database</rdfs:label> 
+  <rdfs:comment>An activity of type database</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Registry">
+  <rdfs:label>Registry</rdfs:label> 
+  <rdfs:comment>An activity of type registry</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Service">
+  <rdfs:label>Service</rdfs:label> 
+  <rdfs:comment>An activity of type service</rdfs:comment> 
+  <rdfs:subClassOf rdf:resource="#ActivityType"/>
+  <rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/SCHEMAS/1.0/smes"/>
+</rdfs:Class>
+
+</rdf:RDF>
+
+
+

@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">     
+
+<rdfs:Class rdf:ID="mathint"/>
+<rdfs:Class rdf:ID="mathint_events">
+    <rdfs:subClassOf rdf:resource="#mathint"/>
+  </rdfs:Class>      
+<rdfs:Class rdf:ID="block_events">
+    <rdfs:subClassOf rdf:resource="#mathint_events"/>
+  </rdfs:Class>     
+<rdfs:Class rdf:ID="excursions">
+    <rdfs:subClassOf rdf:resource="#block_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="games">
+    <rdfs:subClassOf rdf:resource="#block_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="sports">
+    <rdfs:subClassOf rdf:resource="#block_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="semester_events">
+    <rdfs:subClassOf rdf:resource="#mathint_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="lectures">
+    <rdfs:subClassOf rdf:resource="#semester_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="seminars">
+    <rdfs:subClassOf rdf:resource="#semester_events"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="mathint_program">
+    <rdfs:subClassOf rdf:resource="#mathint"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="language_course">
+    <rdfs:subClassOf rdf:resource="#mathint_program"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="german_course">
+    <rdfs:subClassOf rdf:resource="#language_course"/>
+    <rdfs:subClassOf rdf:resource="#lectures"/>
+ </rdfs:Class>    
+ <rdfs:Class rdf:ID="specializations">
+    <rdfs:subClassOf rdf:resource="#mathint_program"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="ag-ca">
+    <rdfs:subClassOf rdf:resource="#specializations"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="aa-pr">
+    <rdfs:subClassOf rdf:resource="#specializations"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fm">
+    <rdfs:subClassOf rdf:resource="#specializations"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im">
+    <rdfs:subClassOf rdf:resource="#specializations"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="op-st">
+    <rdfs:subClassOf rdf:resource="#specializations"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="lectures_mathint_groups">
+    <rdfs:subClassOf rdf:resource="#lectures"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="lectures_gr_aa-pr">
+    <rdfs:subClassOf rdf:resource="#lectures_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_im"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_aa-pr"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="lectures_gr_ag-ca">
+    <rdfs:subClassOf rdf:resource="#lectures_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="pure_math_ag-ca">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="specialization_ag-ca">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#math_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="lectures_gr_fm">
+    <rdfs:subClassOf rdf:resource="#lectures_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_fm"/>
+  </rdfs:Class>  
+  <rdfs:Class rdf:ID="fan_math_fm">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_fm"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+  </rdfs:Class>    
+
+ <rdfs:Class rdf:ID="statistics_fm">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_fm"/>
+    <rdfs:subClassOf rdf:resource="#specialization_op-st"/>
+ </rdfs:Class>  
+  <rdfs:Class rdf:ID="lectures_gr_im">
+    <rdfs:subClassOf rdf:resource="#lectures_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#specialization_im"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+</rdfs:Class>   
+  <rdfs:Class rdf:ID="lectures_gr_op-st">
+    <rdfs:subClassOf rdf:resource="#lectures_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+    <rdfs:subClassOf rdf:resource="#specialization_op-st"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+  </rdfs:Class>    
+<rdfs:Class rdf:ID="lectures_non_mathint_groups">
+    <rdfs:subClassOf rdf:resource="#lectures"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="lectures_gr_gen_math">
+    <rdfs:subClassOf rdf:resource="#lectures_non_mathint_groups"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="subsidiary">
+    <rdfs:subClassOf rdf:resource="#lectures"/>
+    <rdfs:subClassOf rdf:resource="#math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#math_fm"/>
+    <rdfs:subClassOf rdf:resource="#math_im"/>
+    <rdfs:subClassOf rdf:resource="#math_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="pr08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pr41">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="fa01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+   </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+    <rdfs:subClassOf rdf:resource="#specialization_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="fa09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fa41">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+</rdfs:Class>
+  <rdfs:Class rdf:ID="ag02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag10">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag11">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag12">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag13">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="ag14">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag15">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="ag16">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="ag41">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>  
+ <rdfs:Class rdf:ID="ag42">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#specialization_ag-ca"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+</rdfs:Class>    
+ <rdfs:Class rdf:ID="gm05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+ </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_ag-ca"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+ </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm10">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm11">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="gm20">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="gm30">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_gen_math"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_ag-ca"/>
+  </rdfs:Class>   
+ <rdfs:Class rdf:ID="fm01">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="fm02">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="fm03">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="fm04">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fm05">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fm06">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="fm07">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="fm41">
+    <rdfs:subClassOf rdf:resource="#fan_math_fm"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="st01">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+    <rdfs:subClassOf rdf:resource="#specialization_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st02">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+    <rdfs:subClassOf rdf:resource="#specialization_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st03">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st04">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st05">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st06">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st07">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st08">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="st09">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="st41">
+    <rdfs:subClassOf rdf:resource="#statistics_fm"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+  </rdfs:Class> 
+<rdfs:Class rdf:ID="im02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im10">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im11">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im12">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im13">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im14">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im15">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im16">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im17">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im18">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im19">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im20">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im21">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im22">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im23">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im24">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im25">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im26">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im27">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im28">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im29">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im31">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im32">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im33">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im34">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im35">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im41">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im42">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im43">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im44">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im45">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="im51">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="im52">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im53">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="im54">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_im"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="op01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+    <rdfs:subClassOf rdf:resource="#specialization_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op10">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op11">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op12">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op13">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="op14">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="op15">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op16">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op17">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="op18">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="op41">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="misp">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="go01">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go02">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go03">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go04">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go05">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go06">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go07">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go08">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="go09">
+    <rdfs:subClassOf rdf:resource="#lectures_gr_ag-ca"/>
+  </rdfs:Class>  
+  <rdfs:Class rdf:ID="technical_subsidiary">
+    <rdfs:subClassOf rdf:resource="#subsidiary"/>
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_im"/>
+  </rdfs:Class>  
+  <rdfs:Class rdf:ID="electro_technical_engineering">
+    <rdfs:subClassOf rdf:resource="#technical_subsidiary"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="mechanical_engineering">
+    <rdfs:subClassOf rdf:resource="#technical_subsidiary"/>
+  </rdfs:Class> 
+    <rdfs:Class rdf:ID="technical_physics">
+    <rdfs:subClassOf rdf:resource="#technical_subsidiary"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="non_technical_subsidiary">
+    <rdfs:subClassOf rdf:resource="#subsidiary"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="biology">
+    <rdfs:subClassOf rdf:resource="#non_technical_subsidiary"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="chemistry">
+    <rdfs:subClassOf rdf:resource="#non_technical_subsidiary"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="computer_science">
+    <rdfs:subClassOf rdf:resource="#non_technical_subsidiary"/>
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_fm"/>
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_im"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_op-st"/>
+  </rdfs:Class>   
+
+ <rdfs:Class rdf:ID="economics">
+    <rdfs:subClassOf rdf:resource="#non_technical_subsidiary"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_fm"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_op-st"/>
+ </rdfs:Class>   
+
+  <rdfs:Class rdf:ID="physics">
+    <rdfs:subClassOf rdf:resource="#non_technical_subsidiary"/>
+  </rdfs:Class>    
+ <rdfs:Class rdf:ID="industrial_mathematics_aa-pr">
+    <rdfs:subClassOf rdf:resource="#aa-pr"/>
+  </rdfs:Class>  
+  
+  <rdfs:Class rdf:ID="general_math_aa-pr">
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_aa-pr"/>
+  </rdfs:Class>    
+
+ <rdfs:Class rdf:ID="applied_math_aa-pr">
+    <rdfs:subClassOf rdf:resource="#general_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#math_aa-pr"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="pure_math_aa-pr">
+    <rdfs:subClassOf rdf:resource="#general_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#math_aa-pr"/>
+ </rdfs:Class>   
+
+  <rdfs:Class rdf:ID="specialization_aa-pr">
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#management_mathematics_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#math_aa-pr"/>
+  </rdfs:Class>   
+ 
+ <rdfs:Class rdf:ID="management_mathematics_aa-pr">
+    <rdfs:subClassOf rdf:resource="#aa-pr"/>
+  </rdfs:Class>   
+    
+  <rdfs:Class rdf:ID="math_aa-pr">
+    <rdfs:subClassOf rdf:resource="#aa-pr"/>
+  </rdfs:Class>   
+   <rdfs:Class rdf:ID="math_ag-ca">
+    <rdfs:subClassOf rdf:resource="#ag-ca"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="applied_math_ag-ca">
+    <rdfs:subClassOf rdf:resource="#math_ag-ca"/>
+  </rdfs:Class>  
+       
+  <rdfs:Class rdf:ID="management_mathematics_fm">
+    <rdfs:subClassOf rdf:resource="#fm"/>
+  </rdfs:Class>  
+         
+ <rdfs:Class rdf:ID="general_math_fm">
+    <rdfs:subClassOf rdf:resource="#management_mathematics_fm"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="applied_math_fm">
+    <rdfs:subClassOf rdf:resource="#general_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#math_fm"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="pure_math_fm">
+    <rdfs:subClassOf rdf:resource="#general_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#math_fm"/>
+  </rdfs:Class>  
+  <rdfs:Class rdf:ID="specialization_fm">
+    <rdfs:subClassOf rdf:resource="#management_mathematics_fm"/>
+    <rdfs:subClassOf rdf:resource="#math_fm"/>
+   </rdfs:Class>   
+  <rdfs:Class rdf:ID="math_fm">
+    <rdfs:subClassOf rdf:resource="#fm"/>
+  </rdfs:Class>   
+ 
+  <rdfs:Class rdf:ID="industrial_mathematics_im">
+    <rdfs:subClassOf rdf:resource="#im"/>
+  </rdfs:Class>   
+  
+  <rdfs:Class rdf:ID="general_math_im">
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="applied_math_im">
+    <rdfs:subClassOf rdf:resource="#general_math_im"/>
+    <rdfs:subClassOf rdf:resource="#math_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pure_math_im">
+    <rdfs:subClassOf rdf:resource="#general_math_im"/>
+    <rdfs:subClassOf rdf:resource="#math_im"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="specialization_im">
+    <rdfs:subClassOf rdf:resource="#industrial_mathematics_im"/>
+    <rdfs:subClassOf rdf:resource="#math_im"/>
+ </rdfs:Class>   
+  <rdfs:Class rdf:ID="math_im">
+    <rdfs:subClassOf rdf:resource="#im"/>
+  </rdfs:Class>   
+     
+ <rdfs:Class rdf:ID="management_mathematics_op-st">
+    <rdfs:subClassOf rdf:resource="#op-st"/>
+  </rdfs:Class>   
+ <rdfs:Class rdf:ID="general_math_op-st">
+    <rdfs:subClassOf rdf:resource="#management_mathematics_op-st"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="applied_math_op-st">
+    <rdfs:subClassOf rdf:resource="#general_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#math_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="pure_math_op-st">
+    <rdfs:subClassOf rdf:resource="#general_math_op-st"/>
+    <rdfs:subClassOf rdf:resource="#math_op-st"/>
+  </rdfs:Class>  
+   <rdfs:Class rdf:ID="specialization_op-st">
+    <rdfs:subClassOf rdf:resource="#management_mathematics_op-st"/>
+    <rdfs:subClassOf rdf:resource="#math_op-st"/>
+  </rdfs:Class>   
+  <rdfs:Class rdf:ID="math_op-st">
+    <rdfs:subClassOf rdf:resource="#op-st"/>
+  </rdfs:Class>   
+
+ <rdfs:Class rdf:ID="lectures_gen_math">
+    <rdfs:subClassOf rdf:resource="#applied_math_im"/>
+  </rdfs:Class>    
+     
+   <rdfs:Class rdf:ID="fa05">
+    <rdfs:subClassOf rdf:resource="#pure_math"/>
+    <rdfs:subClassOf rdf:resource="#lectures_gr_aa-pr"/>
+  </rdfs:Class>  
+  <rdfs:Class rdf:ID="pure_math">
+    <rdfs:subClassOf rdf:resource="#pure_math_aa-pr"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_fm"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_im"/>
+    <rdfs:subClassOf rdf:resource="#pure_math_op-st"/>
+  </rdfs:Class>  
+      
+</rdf:RDF>
+
+<!-- This page was served in 2282 milliseconds by Cocoon 1.8 -->

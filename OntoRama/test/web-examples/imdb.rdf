@@ -1,0 +1,1153 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+         <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+         <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+]>
+<rdf:RDF xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;">
+<rdfs:Class rdf:ID="Acting"
+         rdfs:comment="Actor related information">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Actor"
+         rdfs:comment="Actor details">
+        <rdfs:domain rdf:resource="#Acting"/>
+        <rdfs:range rdf:resource="#ActorInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="ActorInfo"
+         rdfs:comment="Details of actor information">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="AddressOfPlace">
+        <rdfs:comment>Address of a place described by building number, street name, city, state, zip, country</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Advertising">
+        <rdfs:comment>The process of getting the public interested in the movie before and after it is released</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Art">
+        <rdfs:comment>People related to creation, design and contruction of Art for the movie  </rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="AwardsandNominations">
+        <rdfs:comment>Component describing nominations and awards for various categories</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#IMdb"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="AwardsCollection">
+        <rdfs:comment>Collection of awards; subclass of Bag</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="BuildingNumber"
+         rdfs:comment="Building number">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Business"
+         rdfs:comment="Budget and receipts information">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Casting">
+        <rdfs:comment>Information on people and agencies involved in selecting actors for the movie</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Certification"
+         rdfs:comment="Certification info, country-wise">
+        <rdfs:range rdf:resource="#CountryRating"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="CertificationCollection">
+         <rdfs:comment>List of Certification(s)</rdfs:comment>
+         <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="CertificationList"
+         rdfs:comment="points to Certification list">
+        <rdfs:range rdf:resource="#CertificationCollection"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Cinematographer"
+         rdfs:comment="describes more specifically the responsibilities of this job">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Cinematography">
+        <rdfs:comment>Also called Photography. Information on people and techniques related to it.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="CityName"
+         rdfs:comment="City name">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Color">
+        <rdfs:comment>[CDATA[Color/B and W]]</rdfs:comment>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="ComposedSongs"
+         rdfs:comment="Song details">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Compostion"
+         rdfs:comment="Information on songs (composed for)/(used in) the movie">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="CostumeDesign"
+         rdfs:comment="details of people and things related to designing costumes">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Country"
+         rdfs:comment="Country where movie is screened">
+        <rdfs:domain rdf:resource="#CountryRating"/>
+        <rdfs:domain rdf:resource="#LengthInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="CountryName"
+         rdfs:comment="Country Name">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="CountryRating">
+        <rdfs:comment>Certification prescribed by censors of each country where movie is screened</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Date"
+         rdfs:comment="Definition of Date day, month, year, dayofweek">
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="DateOfRelease"
+         rdfs:comment="Date of release in origin country">
+        <rdfs:range rdf:resource="#Date"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Day">
+        <rdfs:domain rdf:resource="#Date"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="DayOfWeek">
+        <rdfs:domain rdf:resource="#Date"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Direction">
+        <rdfs:comment>Information on people who direct the movie - chief and assistants</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="DirectorsCut">
+        <rdfs:comment>Length of the movie as desired by the director
+and shown to select audiences</rdfs:comment>
+        <rdfs:domain rdf:resource="#LengthInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Distribution">
+        <rdfs:comment>Information on distribution company, format of distribution etc.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Distributor"
+         rdfs:comment="Distributor specifics">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="DistributorCollection">
+        <rdfs:comment>List of distributors</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Editing"
+         rdfs:comment="Information on people and places where editing was done">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="FinalLength"
+         rdfs:comment="Length of the movie as shown in theatres">
+        <rdfs:domain rdf:resource="#LengthInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Genre"
+         rdfs:comment="Type of movie">
+        <rdfs:range rdf:resource="#GenreInstance"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="GenreInstance"
+         rdfs:comment="Describes specific genre and keywords associated with it">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="GenreCollection">
+         <rdfs:comment>List of GenreInstance(s)</rdfs:comment>
+         <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="GenreList"
+         rdfs:comment="points to list of GenreInstances">
+        <rdfs:range rdf:resource="#GenreCollection"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Hour">
+        <rdfs:domain rdf:resource="#Time"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="IMdb"
+         rdfs:comment="IMdb Service">
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Language"
+         rdfs:comment="Principal language used in the movie">
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Length"
+         rdfs:comment="Information regarding the length of the movie">
+        <rdfs:range rdf:resource="#LengthInfo"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="LengthInfo"
+         rdfs:comment="Describes movie length info (final, directors cut, units)">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="LengthCollection">
+         <rdfs:comment>List of LengthInfo</rdfs:comment>
+         <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="LengthList"
+         rdfs:comment="points to list of LengthInfo">
+        <rdfs:range rdf:resource="#LengthCollection"/>
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="LocationDetail"
+         rdfs:comment="detailed info of theatres screening movies all over the US">
+        <rdfs:subClassOf rdf:resource="#SchedulesandLocation"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="LocationInfo"
+         rdfs:comment="contains a slot pointing to LocationDetail subclass">
+        <rdfs:subClassOf rdf:resource="#SchedulesandLocation"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="MainMovieInfo"
+         rdfs:comment="Main details of movie like Name, language etc.">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Makeup"
+         rdfs:comment="Information on people involved in make up">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Minute">
+        <rdfs:domain rdf:resource="#Time"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Month">
+        <rdfs:domain rdf:resource="#Date"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Movie">
+        <rdfs:comment>Central movie related information - processes and people are described by this class</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#IMdb"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="MovieCompany"
+         rdfs:comment="Template to describe companies engaged in the Movie business">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="MoviePerson"
+         rdfs:comment="Person who belongs to movies">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="MovieReleaseInfo"
+         rdfs:comment="details of format and year of movie release">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Music"
+         rdfs:comment="Music score details">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="OriginCountry"
+         rdfs:comment="Country where the movie was made or first released">
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Production">
+        <rdfs:comment>Information on producers, production companies and other production processes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="productionDesignCollection">
+        <rdfs:comment>List of production designers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="productionChiefCollection">
+        <rdfs:comment>List of chief producers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="productionManagerCollection">
+        <rdfs:comment>List of production managers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="coproducersCollection">
+        <rdfs:comment>List of associate/co-producers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="executiveProducersCollection">
+        <rdfs:comment>List of executive producers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="productionCompanyCollection">
+        <rdfs:comment>List of production companies</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Rating">
+        <rdfs:comment>Country specific rating
+e.g PG-13(US), 12(UK) M(Australia).</rdfs:comment>
+        <rdfs:domain rdf:resource="#CountryRating"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="Review"
+         rdfs:comment="Review process information">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="ReviewPerson"
+         rdfs:comment="Reviewer details">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="SchedulesandLocation"
+         rdfs:comment="Component for describing show timings and locations">
+        <rdfs:subClassOf rdf:resource="#IMdb"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Scripting">
+        <rdfs:comment>Information on people and events related to writing of the story of the movie</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="scriptWriterCollection">
+        <rdfs:comment>List of script writers</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&rdf;Bag"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Second">
+        <rdfs:domain rdf:resource="#Time"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="ShowDayInfo"
+         rdfs:comment="Per day show info for upto 1 week ahead">
+        <rdfs:subClassOf rdf:resource="#SchedulesandLocation"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="ShowInfo"
+         rdfs:comment="contains details of showtimes for each movie">
+        <rdfs:subClassOf rdf:resource="#SchedulesandLocation"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Sound">
+        <rdfs:comment>Information on the Sound creation, mixing etc processes and people who do them</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="SpecialEffects">
+        <rdfs:comment>Information on people and techniques used to generate special effects, if any</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="StateName"
+         rdfs:comment="State name">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="StreetName1"
+         rdfs:comment="Street name">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="StreetName2"
+         rdfs:comment="More street name info">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="StuntDoublePerson"
+         rdfs:comment="Info on person who performs stunts instead of an actor">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Stunts"
+         rdfs:comment="Information on stunts performed in the movie">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Time"
+         rdfs:comment="Definition of Time HH:MM:SS">
+        <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Title"
+         rdfs:comment="Name of the movie">
+        <rdfs:domain rdf:resource="#MainMovieInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="Units">
+        <rdfs:comment>Units used to measure the length of the film - usually minutes.</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="VisualEffects"
+         rdfs:comment="Info on people who create visual effects for the movie">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="Year">
+        <rdfs:domain rdf:resource="#Date"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="ZIP"
+         rdfs:comment="ZIP info">
+        <rdfs:domain rdf:resource="#AddressOfPlace"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="actorPerson"
+         rdfs:comment="points to MoviePerson">
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="actorRating"
+         rdfs:comment="Rating of actor for his/her part in the movie">
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="actorsAgent"
+         rdfs:comment="Actor&apos;s agent details">
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="advertAgency"
+         rdfs:comment="info on Agency that advertises the movie">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="advertCompany"
+         rdfs:comment="Details of the company that does the adertising">
+        <rdfs:range rdf:resource="#MovieCompany"/>
+        <rdfs:domain rdf:resource="#advertAgency"/>
+</rdf:Property>
+<rdf:Property rdf:ID="advertisesOnMedium">
+        <rdfs:comment>specific medium that this advertiser uses to advertise the movie</rdfs:comment>
+        <rdfs:domain rdf:resource="#advertAgency"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="advertisingCost"
+         rdfs:comment="Total cost of advertising">
+        <rdfs:domain rdf:resource="#Advertising"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="alsoDoes">
+        <rdfs:comment>[CDATA[describes other movie related processes that this person can engage in (e.g. lead actor and director)]]</rdfs:comment>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="artDirectedBy"
+         rdfs:comment="info on Art director">
+        <rdfs:domain rdf:resource="#Art"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="artProcess"
+         rdfs:comment="points to Art">
+        <rdfs:range rdf:resource="#Art"/>
+        <rdfs:domain rdf:resource="#preProductionProcess"/>
+</rdf:Property>
+<rdf:Property rdf:ID="asstCinematographer"
+         rdfs:comment="Assistant to the Chief">
+        <rdfs:domain rdf:resource="#Cinematographer"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="asstMusicDirector"
+         rdfs:comment="details of assistant music director(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="asstSoundDesigner"
+         rdfs:comment="Details of assistant sound designers">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="asstSoundEditor"
+         rdfs:comment="Details of editing assistant(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="asstToDirector"
+         rdfs:comment="details of assistant directors">
+        <rdfs:domain rdf:resource="#Direction"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardCategory"
+         rdfs:comment="Category in which the award is given">
+        <rdfs:domain rdf:resource="#AwardsandNominations"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardName"
+         rdfs:comment="Name of the award, e.g. Oscar">
+        <rdfs:domain rdf:resource="#AwardsandNominations"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardOrganization"
+         rdfs:comment="Organization that gives out the award">
+        <rdfs:domain rdf:resource="#AwardsandNominations"/>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardResult"
+         rdfs:comment="won/nominated">
+        <rdfs:domain rdf:resource="#AwardsandNominations"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardYear"
+         rdfs:comment="Year for which the movie was nominated/awarded">
+        <rdfs:domain rdf:resource="#AwardsandNominations"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardsWon"
+         rdfs:comment="points to information regarding awards won">
+        <rdfs:range rdf:resource="#AwardsandNominations"/>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="awardsList"
+         rdfs:comment="points to list of awards">
+         <rdfs:range rdf:resource="#AwardsCollection"/>
+         <rdfs:domain rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="backgroundMusicType"
+         rdfs:comment="general background music in the entire movie">
+        <rdfs:domain rdf:resource="#Music"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="backgroundScoreBy"
+         rdfs:comment="details of orchestra or band that provided background score">
+        <rdfs:range rdf:resource="#MovieCompany"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="belongsTo">
+        <rdfs:comment>Organization the person belongs to, e.g, the Writers Guild, Actors Guild etc.</rdfs:comment>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="boxOfficeSales"
+         rdfs:comment="money earned at box office (in millions of $)">
+        <rdfs:domain rdf:resource="#Business"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="castingAgency">
+        <rdfs:comment>info on the casting agency that liased with the casting person to select actors</rdfs:comment>
+        <rdfs:domain rdf:resource="#Casting"/>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdf:Property rdf:ID="castingBy"
+         rdfs:comment="info on person(s) involved in casting">
+        <rdfs:domain rdf:resource="#Casting"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="cgAnimator"
+         rdfs:comment="details of computer graphics animator(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="cgArtist"
+         rdfs:comment="details of computer graphics artist(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="characterName"
+         rdfs:comment="Name of character played by actor in this movie">
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="chiefCinematographer"
+         rdfs:comment="Director of Photography">
+        <rdfs:domain rdf:resource="#Cinematographer"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="cinemasInTheatre"
+         rdfs:comment="Number of cinemas in theatre">
+        <rdfs:domain rdf:resource="#LocationDetail"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="cinematographyBy"
+         rdfs:comment="info on person(s) in charge of cinematography">
+        <rdfs:range rdf:resource="#Cinematographer"/>
+        <rdfs:domain rdf:resource="#Cinematography"/>
+</rdf:Property>
+<rdf:Property rdf:ID="collectiblesSales">
+        <rdfs:comment>money earned from sales of collectibles e.g, replicas of main characters</rdfs:comment>
+        <rdfs:domain rdf:resource="#Business"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="companyBusiness"
+         rdfs:comment="main movie business type the company engages in">
+        <rdfs:domain rdf:resource="#MovieCompany"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="companyCreatedYear"
+         rdfs:comment="Year when the company was created">
+        <rdfs:domain rdf:resource="#MovieCompany"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="composedBy"
+         rdfs:comment="composer details">
+        <rdfs:domain rdf:resource="#ComposedSongs"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="constructionBy"
+         rdfs:comment="info on Art construction manager">
+        <rdfs:domain rdf:resource="#Art"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="coordinatedBy"
+         rdfs:comment="info on Art Coordinator">
+        <rdfs:domain rdf:resource="#Art"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="coproducers"
+         rdfs:comment="Co-producer(s) details">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="coproducersList"
+         rdfs:comment="points to list of Co-producer(s) details">
+        <rdfs:range rdf:resource="#coproducersCollection"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="costumeDesignBy"
+         rdfs:comment="details of person(s) in charge of costume design">
+        <rdfs:domain rdf:resource="#CostumeDesign"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="costumeType"
+         rdfs:comment="info on type(s) of costumes used in the movie">
+        <rdfs:domain rdf:resource="#CostumeDesign"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="countryOfBirth"
+         rdfs:comment="country this person is from">
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="currentShows"
+         rdfs:comment="points to class containing show related information">
+        <rdfs:domain rdf:resource="#LocationDetail"/>
+        <rdfs:range rdf:resource="#ShowInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="dateOfBirth"
+         rdfs:comment="DOB">
+        <rdfs:range rdf:resource="#Date"/>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="dialogueEditor"
+         rdfs:comment="Details of dialogue editor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="digitalArtist"
+         rdfs:comment="details of digital artist(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="digitalComposer"
+         rdfs:comment="details of digital composer(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="directionBy"
+         rdfs:comment="details of director(s)">
+        <rdfs:domain rdf:resource="#Direction"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distribFormatNYear"
+         rdfs:comment="distribution format and year">
+        <rdfs:domain rdf:resource="#Distribution"/>
+        <rdfs:range rdf:resource="#MovieReleaseInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distributesIn"
+         rdfs:comment="countries this distributor can distribute the movie in">
+        <rdfs:domain rdf:resource="#Distributor"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distributionBy"
+         rdfs:comment="details of distribution company">
+        <rdfs:domain rdf:resource="#Distribution"/>
+        <rdfs:range rdf:resource="#Distributor"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distributionYear"
+         rdfs:comment="Year of distribution">
+        <rdfs:domain rdf:resource="#MovieReleaseInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distributorInfo"
+         rdfs:comment="details of distribution company">
+        <rdfs:domain rdf:resource="#Distributor"/>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdf:Property rdf:ID="distributionList"
+         rdfs:comment="List of distribution companies">
+         <rdfs:domain rdf:resource="#Distribution"/>
+         <rdfs:range rdf:resource="#DistributorCollection"/>
+</rdf:Property>
+<rdf:Property rdf:ID="doubleForActor"
+         rdfs:comment="points to Acting class">
+        <rdfs:range rdf:resource="#ActorInfo"/>
+        <rdfs:domain rdf:resource="#StuntDoublePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="doublePersonInfo"
+         rdfs:comment="details of double person">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#StuntDoublePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="editedAt">
+        <rdfs:comment>details of laboratory or company (if any) where the editing took place</rdfs:comment>
+        <rdfs:domain rdf:resource="#Editing"/>
+        <rdfs:range rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdf:Property rdf:ID="editingBy"
+         rdfs:comment="movie editor details">
+        <rdfs:domain rdf:resource="#Editing"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="editingProcess"
+         rdfs:comment="points to Editing process">
+        <rdfs:range rdf:resource="#Editing"/>
+        <rdfs:domain rdf:resource="#postProductionProcess"/>
+</rdf:Property>
+<rdf:Property rdf:ID="executiveProducers"
+         rdfs:comment="Executive Producer(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="executiveProducersList"
+         rdfs:comment="points to list of Executive Producer(s)">
+        <rdfs:range rdf:resource="#executiveProducersCollection"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="generalReviewInfo"
+         rdfs:comment="Comments of pre-reviewers">
+        <rdfs:domain rdf:resource="#preReviewInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="generatedSpecialEffect">
+        <rdfs:comment>Description of the exact special effect for scenes in the movie</rdfs:comment>
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="genreKeywords">
+        <rdfs:comment>Keywords associated with content of genre, e.g. car chases, dance,
+futuristic.</rdfs:comment>
+        <rdfs:domain rdf:resource="#GenreInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="genreType">
+        <rdfs:comment>One of Action, Comedy, Adventure, War, Drama,
+etc.</rdfs:comment>
+        <rdfs:domain rdf:resource="#GenreInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hairStyleBy"
+         rdfs:comment="Hair stylist details">
+        <rdfs:domain rdf:resource="#Makeup"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="handledBy">
+        <rdfs:comment>points to information on agencies that handle the advertising</rdfs:comment>
+        <rdfs:domain rdf:resource="#Advertising"/>
+        <rdfs:range rdf:resource="#advertAgency"/>
+</rdf:Property>
+<rdf:Property rdf:ID="imageCaptureMethod"
+         rdfs:comment="describes principal technique used to capture images">
+        <rdfs:domain rdf:resource="#Cinematography"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="kindOfStunt"
+         rdfs:comment="general description of the kind of stunts in the movie">
+        <rdfs:domain rdf:resource="#Stunts"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="lightingScheme"
+         rdfs:comment="Principal method of lighting used throughout the movie">
+        <rdfs:domain rdf:resource="#Cinematography"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="locationInfoDetail"
+         rdfs:comment="points to LocationDetail">
+        <rdfs:range rdf:resource="#LocationDetail"/>
+        <rdfs:domain rdf:resource="#LocationInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="locationScouting">
+        <rdfs:comment>process of evaluating various location for shooting the movie</rdfs:comment>
+        <rdfs:domain rdf:resource="#preProductionProcess"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="mediaSales">
+        <rdfs:comment>money earned through sales of CDs, DVDs etc., related to movie</rdfs:comment>
+        <rdfs:domain rdf:resource="#Business"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="moneyEarned">
+        <rdfs:comment>amount of money earned per movie (info available only for the top people associated with the movie)</rdfs:comment>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieBudget"
+         rdfs:comment="amount of money spent in making the movie (millions of $)">
+        <rdfs:domain rdf:resource="#Business"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieCompanyAddress"
+         rdfs:comment="Address of Movie company">
+        <rdfs:range rdf:resource="#AddressOfPlace"/>
+        <rdfs:domain rdf:resource="#MovieCompany"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieCompanyName"
+         rdfs:comment="Name of movie company">
+        <rdfs:domain rdf:resource="#MovieCompany"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieFormat"
+         rdfs:comment="format of release - DVD, 35mm, VHS etc.">
+        <rdfs:domain rdf:resource="#MovieReleaseInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieShowing">
+        <rdfs:comment>points to Movie class to indicate the movie screened in this theatre</rdfs:comment>
+        <rdfs:range rdf:resource="#Movie"/>
+        <rdfs:domain rdf:resource="#ShowInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="movieSkills"
+         rdfs:comment="specific movie related skills this person possesses">
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicArrangedBy"
+         rdfs:comment="details of Music Arranger(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicBy">
+        <rdfs:comment>music director details(described under Music class)</rdfs:comment>
+        <rdfs:domain rdf:resource="#ComposedSongs"/>
+        <rdfs:range rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicDirector"
+         rdfs:comment="details of Music Director">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicEditedBy"
+         rdfs:comment="Music editor details">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicEditor"
+         rdfs:comment="Details of Music Editor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicMood"
+         rdfs:comment="overall mood of music in the movie (sad, happy, scary etc)">
+        <rdfs:domain rdf:resource="#Music"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="musicPreparedBy"
+         rdfs:comment="Music Preparer details">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Music"/>
+</rdf:Property>
+<rdf:Property rdf:ID="nameOfPerson"
+         rdfs:comment="Person&apos;s Name">
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="nameOfSong"
+         rdfs:comment="Name of Song">
+        <rdfs:domain rdf:resource="#ComposedSongs"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="overallRating"
+         rdfs:comment="Overall rating of the movie taking into account all reviews">
+        <rdfs:domain rdf:resource="#Review"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="postProduction"
+         rdfs:comment="points to post production process list">
+        <rdfs:domain rdf:resource="#Production"/>
+        <rdfs:range rdf:resource="#postProductionProcess"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="postProductionProcess"
+         rdfs:comment="List of post production processes">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="postReviewRating"
+         rdfs:comment="Rating this reviewer gave the movie after it was released">
+        <rdfs:domain rdf:resource="#ReviewPerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="preProductionProcess"
+         rdfs:comment="List of pre-production processes">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="preReview"
+         rdfs:comment="Review process info before the movie is released">
+        <rdfs:domain rdf:resource="#Review"/>
+        <rdfs:range rdf:resource="#preReviewInfo"/>
+</rdf:Property>
+<rdfs:Class rdf:ID="preReviewInfo"
+         rdfs:comment="Information on pre-release review">
+        <rdfs:subClassOf rdf:resource="#Movie"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="preReviewRating"
+         rdfs:comment="Rating of movie before it is released">
+        <rdfs:domain rdf:resource="#preReviewInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="preproduction"
+         rdfs:comment="points to list of pre-procudction processes">
+        <rdfs:domain rdf:resource="#Production"/>
+        <rdfs:range rdf:resource="#preProductionProcess"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionChief"
+         rdfs:comment="Chief Producer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionChiefList"
+         rdfs:comment="points to list of chief producers">
+        <rdfs:range rdf:resource="#productionChiefCollection"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionCompany"
+         rdfs:comment="Production Company details">
+        <rdfs:range rdf:resource="#MovieCompany"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionCompanyList"
+         rdfs:comment="points to list of production companies">
+        <rdfs:range rdf:resource="#productionCompanyCollection"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionDesignby"
+         rdfs:comment="Production Designer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionDesignList"
+         rdfs:comment="points to List of Production Designers">
+         <rdfs:range rdf:resource="#productionDesignCollection"/>
+         <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionManager"
+         rdfs:comment="Production Manager">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="productionManagerList"
+         rdfs:comment="points to List of Production Managers">
+         <rdfs:range rdf:resource="#productionManagerCollection"/>
+         <rdfs:domain rdf:resource="#Production"/>
+</rdf:Property>
+<rdf:Property rdf:ID="propType"
+         rdfs:comment="info on prop types used in the movie">
+        <rdfs:domain rdf:resource="#CostumeDesign"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="re-recordingMixer"
+         rdfs:comment="details of sound re-recording mixer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="reviewPersonInfo">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#ReviewPerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="reviewedBy">
+        <rdfs:comment>points to info on reviewer(s) of this movie after it is released</rdfs:comment>
+        <rdfs:domain rdf:resource="#Review"/>
+        <rdfs:range rdf:resource="#ReviewPerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="reviewedOnMedium">
+        <rdfs:comment>Medium - newspaper, magazine, TV, Internet - used by reviewer</rdfs:comment>
+        <rdfs:domain rdf:resource="#ReviewPerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="rolePlayed">
+        <rdfs:comment>Role played by the actor in this movie - lead, supporting, etc</rdfs:comment>
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scenicArtBy"
+         rdfs:comment="info on person that designed the scenic art">
+        <rdfs:domain rdf:resource="#Art"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="schoolOf">
+        <rdfs:comment>information on where this person learned his/her movie skills</rdfs:comment>
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptAdaptedBy"
+         rdfs:comment="Details of script adapter">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Scripting"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptEditor"
+         rdfs:comment="Details of script editor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Scripting"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptInspiredBy"
+         rdfs:comment="Incident(s) or event(s) that inspired this story">
+        <rdfs:domain rdf:resource="#Scripting"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptSupervisedBy"
+         rdfs:comment="Details of script supervisor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Scripting"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptWriter"
+         rdfs:comment="Details of script writer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Scripting"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptWriterList"
+         rdfs:comment="points to list of script writers">
+        <rdfs:range rdf:resource="#scriptWriterCollection"/>
+        <rdfs:domain rdf:resource="#Scripting"/>
+</rdf:Property>
+<rdf:Property rdf:ID="scriptingProcess"
+         rdfs:comment="Points to Scripting process">
+        <rdfs:range rdf:resource="#Scripting"/>
+        <rdfs:domain rdf:resource="#preProductionProcess"/>
+</rdf:Property>
+<rdf:Property rdf:ID="showDate"
+         rdfs:comment="show date (range is Date class)">
+        <rdfs:range rdf:resource="#Date"/>
+        <rdfs:domain rdf:resource="#ShowDayInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="showTime">
+        <rdfs:comment>List of times at which this movie is screening (range is Time class)</rdfs:comment>
+        <rdfs:domain rdf:resource="#ShowDayInfo"/>
+        <rdfs:range rdf:resource="#Time"/>
+</rdf:Property>
+<rdf:Property rdf:ID="showWeekInfo"
+         rdfs:comment="list of show days/times for this movie">
+        <rdfs:range rdf:resource="#ShowDayInfo"/>
+        <rdfs:domain rdf:resource="#ShowInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="softwareRnDby"
+         rdfs:comment="details of software research and development person(s)">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="songInfo"
+         rdfs:comment="specific song details - name, composer etc.">
+        <rdfs:range rdf:resource="#ComposedSongs"/>
+        <rdfs:domain rdf:resource="#Compostion"/>
+</rdf:Property>
+<rdf:Property rdf:ID="songType"
+         rdfs:comment="category the song belongs to">
+        <rdfs:domain rdf:resource="#ComposedSongs"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="soundDesigner"
+         rdfs:comment="Details of sound designer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="soundEditor"
+         rdfs:comment="details of sound editor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="soundEffectsEditor"
+         rdfs:comment="Details of sound effects editor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Sound"/>
+</rdf:Property>
+<rdf:Property rdf:ID="soundMixType"
+         rdfs:comment="Type of Sound mixing - Dolby, DLTS etc.">
+        <rdfs:domain rdf:resource="#Sound"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="speaksLanguages"
+         rdfs:comment="Languages this person can speak">
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialEffectsCompany"
+         rdfs:comment="Details of company that created the special effects">
+        <rdfs:range rdf:resource="#MovieCompany"/>
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialEffectsLocation">
+        <rdfs:comment>Details of specific locations involved in creating the special effects</rdfs:comment>
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialEffectsModelingBy">
+        <rdfs:comment>details of person who creates models for special effects such as blowing up bridges</rdfs:comment>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialEffectsSupervisor"
+         rdfs:comment="Details of special effects supervisor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialEffectsTechniques"
+         rdfs:comment="Details of special effects techniques used in the movie">
+        <rdfs:domain rdf:resource="#SpecialEffects"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specialMakeupEffectsby"
+         rdfs:comment="Special makeup effects person(s) info">
+        <rdfs:domain rdf:resource="#Makeup"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="stuntCoordinator"
+         rdfs:comment="Details of stunt co-ordinator">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Stunts"/>
+</rdf:Property>
+<rdf:Property rdf:ID="stuntDouble"
+         rdfs:comment="points to StuntDoublePerson">
+        <rdfs:range rdf:resource="#StuntDoublePerson"/>
+        <rdfs:domain rdf:resource="#Stunts"/>
+</rdf:Property>
+<rdf:Property rdf:ID="stuntPerformer"
+         rdfs:comment="Details of stunt performer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#Stunts"/>
+</rdf:Property>
+<rdf:Property rdf:ID="sungBy"
+         rdfs:comment="singer details">
+        <rdfs:domain rdf:resource="#ComposedSongs"/>
+        <rdfs:range rdf:resource="#MoviePerson"/>
+</rdf:Property>
+<rdf:Property rdf:ID="theatreAddress"
+         rdfs:comment="Address of theatre">
+        <rdfs:range rdf:resource="#AddressOfPlace"/>
+        <rdfs:domain rdf:resource="#LocationDetail"/>
+</rdf:Property>
+<rdf:Property rdf:ID="theatreName"
+         rdfs:comment="Name of theatre">
+        <rdfs:domain rdf:resource="#LocationDetail"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="theatrePhoneNumber"
+         rdfs:comment="Phone number of theatre">
+        <rdfs:domain rdf:resource="#LocationDetail"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="trainingInfo">
+        <rdfs:comment>details of any special training the actor had to undergo to play the part in this movie</rdfs:comment>
+        <rdfs:domain rdf:resource="#ActorInfo"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="visualEffectsCoordinator"
+         rdfs:comment="details of visual effects coordinator">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="visualEffectsProcess"
+         rdfs:comment="points to visual effects process">
+        <rdfs:range rdf:resource="#VisualEffects"/>
+        <rdfs:domain rdf:resource="#postProductionProcess"/>
+</rdf:Property>
+<rdf:Property rdf:ID="visualEffectsProducer"
+         rdfs:comment="details of visual effects producer">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="visualEffectsSupervisor"
+         rdfs:comment="details of visual effects supervisor">
+        <rdfs:range rdf:resource="#MoviePerson"/>
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+</rdf:Property>
+<rdf:Property rdf:ID="visualEffectsTechnique"
+         rdfs:comment="Description of visual effects technique(s) used">
+        <rdfs:domain rdf:resource="#VisualEffects"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="withMoviesSince"
+         rdfs:comment="Indicates the year the person started working with movies">
+        <rdfs:domain rdf:resource="#MoviePerson"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+</rdf:RDF>

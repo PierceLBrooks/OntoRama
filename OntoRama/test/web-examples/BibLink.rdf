@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!--Draft RDF Schema for the BIBLINK Namespace (bc)
+
+  This is an attempt at defining the bc namespace as used in the
+  BIBLINK Core schema: 
+  http://www.schemas-forum.org/registry/schemas/BIBLINK/BC-schema.html
+
+  The XML namespace declaration for this schema is:
+  xmlns:bc="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc#"
+
+  Manjula Patel -m.patel@ukoln.ac.uk
+  2000-08-22
+-->
+
+<!-- replaced rdf:ID with rdf:about -->
+<rdf:RDF xml:lang="en" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vCard="http://139.91.183.30:9090/RDF/VRP/Examples/vcard3_0.rdf#" xmlns:smes="http://139.91.183.30:9090/RDF/VRP/Examples/smes.rdf#">
+	<smes:NsSchema rdf:about="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc">
+		<rdf:value>The BIBLINK Vocabulary v1.0</rdf:value>
+		<dc:title>The BIBLINK Vocabulary v1.0</dc:title>
+		<dc:date>2000-08-22</dc:date>
+		<dc:description>The BIBLINK vocaulary supports the BIBLINK project which aims to link publishers and National Bibliographic Agencies</dc:description>
+		<dc:identifier rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+		<dc:creator rdf:resource="http://www.schemas-forum.org/registry/Person/ManjulaPatel"/>
+		<dc:publisher>The SCHEMAS Project</dc:publisher>
+		<dc:format>RDF/XML</dc:format>
+		<dc:type>Namespace</dc:type>
+		<dc:language>en-uk</dc:language>
+		<dc:relation rdf:resource="http://hosted.ukoln.ac.uk/biblink/"/>
+	</smes:NsSchema>
+	<rdf:Property rdf:about="creatorOrganisation">
+		<rdfs:label>Creator Organisation</rdfs:label>
+		<rdfs:comment>The organisation primarily responsible for the intellectual content</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="contributorOrganisation">
+		<rdfs:label>Contributor Organisation</rdfs:label>
+		<rdfs:comment>An organisation responsible for making contributions</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="price">
+		<rdfs:label>Price</rdfs:label>
+		<rdfs:comment>A simple retail price for physical resources</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="checksum">
+		<rdfs:label>Checksum</rdfs:label>
+		<rdfs:comment> A hash value computed for authentication purposes</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="frequency">
+		<rdfs:label>Frequency</rdfs:label>
+		<rdfs:comment>The frequency of issue for serials</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="edition">
+		<rdfs:label>Edition</rdfs:label>
+		<rdfs:comment>A statement indicating the version or edition of the resource</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="placePublication">
+		<rdfs:label>Place Publication</rdfs:label>
+		<rdfs:comment>Geographic location of the publisher</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="systemRequirements">
+		<rdfs:label>System Requirements</rdfs:label>
+		<rdfs:comment>Hardware or software requirements for the system needed to view the resource</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<!-- Qualifiers -->
+	<rdf:Property rdf:about="titleAlternate">
+		<rdfs:label>Title Alternate</rdfs:label>
+		<rdfs:comment>A title other than the main title,including subtitle</rdfs:comment>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/title"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="extent">
+		<rdfs:label>Extent</rdfs:label>
+		<rdfs:comment>The size of the resource in bytes, number of files or CD-ROMs</rdfs:comment>
+		<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/format"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdf:Property>
+	<rdfs:Class rdf:about="SubjectScheme">
+		<rdfs:label>Subject Encoding Schemes</rdfs:label>
+		<rdfs:comment>A set of subject encoding schemes and/or formats</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="LCSH">
+		<rdfs:label>LCSH</rdfs:label>
+		<rdfs:comment>Library of Congress Subject Headings</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#SubjectScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="DDC">
+		<rdfs:label>DDC</rdfs:label>
+		<rdfs:comment>Dewey Decimal Classification</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#SubjectScheme"/>
+		<rdfs:seeAlso rdf:resource="http://www.oclc.org/fp/"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="UDC">
+		<rdfs:label>UDC</rdfs:label>
+		<rdfs:comment>UDC Subject Headings</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#SubjectScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="LCC">
+		<rdfs:label>LCC</rdfs:label>
+		<rdfs:comment>LCC Subject Headings</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#SubjectScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="IdentifierScheme">
+		<rdfs:label>Identifier Schemes</rdfs:label>
+		<rdfs:comment>A set of identifier encoding schemes and/or formats</rdfs:comment>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="URI">
+		<rdfs:label>URI</rdfs:label>
+		<rdfs:comment>Uniform Resource Locator</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#IdentifierScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="DOI">
+		<rdfs:label>DOI</rdfs:label>
+		<rdfs:comment>Digital Object Identifier</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#IdentifierScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="ISBN">
+		<rdfs:label>ISBN</rdfs:label>
+		<rdfs:comment>International Standard Book Number</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#IdentifierScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="ISSN">
+		<rdfs:label>ISSN</rdfs:label>
+		<rdfs:comment>International Standard Serial Number</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#IdentifierScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+	<rdfs:Class rdf:about="SICI">
+		<rdfs:label>SICI</rdfs:label>
+		<rdfs:comment>Serial Item and Contribution Identifier</rdfs:comment>
+		<rdfs:subClassOf rdf:resource="#IdentifierScheme"/>
+		<rdfs:isDefinedBy rdf:resource="http://www.schemas-forum.org/registry/schemas/BIBLINK/1.0/bc"/>
+	</rdfs:Class>
+</rdf:RDF>

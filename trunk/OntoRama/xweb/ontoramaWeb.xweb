@@ -12,8 +12,8 @@
 			<entry name="Configuration" sourceFile="config.xhtml" targetFile="config.html" type="XHTML"/>
 			<!--<entry name="Future Plans" sourceFile="plans.xhtml"
 			targetFile="plans.html" type="XHTML"/>-->
-			<entry name="WebKB Notes" sourceFile="OntologyServerNotes.xhtml" targetFile="OntologyServerNotes.html" type="XHTML"/>
-			<entry name="Dev. Doc" sourceFile="dev_doc.xhtml" targetFile="dev_doc.html" type="XHTML"/>
+			<entry name="Menus Behaviour" sourceFile="menus.xhtml" targetFile="menus.html" type="XHTML"/>
+			<entry name="WebKB Notes" sourceFile="webkbNotes.xhtml" targetFile="webkbNotes.html" type="XHTML"/>
 			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>
 		</section>
 		<section name="Demo" title="Demo" sourceDir="demo" targetDir="demo" type="demo">

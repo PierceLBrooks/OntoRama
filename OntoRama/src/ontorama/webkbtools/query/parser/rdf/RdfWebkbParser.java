@@ -1,9 +1,9 @@
 package ontorama.webkbtools.query.parser.rdf;
 
 import ontorama.model.*;
-import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.*;
 import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.OntoramaConfig;
 
 import java.io.Reader;
 import java.security.AccessControlException;
@@ -189,10 +189,19 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         try {
-            synonyms = node.getProperty("Synonym");
-        } catch (NoSuchPropertyException e) {
-            System.out.println("property 'Synonyms' doesn't exist. Check config.xml file ");
-            System.out.println("NoSuchPropertyException: " + e);
+            EdgeType edgeType = OntoramaConfig.getRelationLinkDetails("Synonym");
+            Iterator it = _edgesList.iterator();
+            while (it.hasNext()) {
+                Edge edge = (Edge) it.next();
+                if (edge.getEdgeType().equals(edgeType)) {
+                    if (edge.getFromNode().equals(node)) {
+                        synonyms.add(edge.getToNode().getName());
+                    }
+                }
+            }
+        } catch (NoSuchRelationLinkException e) {
+            System.out.println("edgeTy[e 'Synonyms' doesn't exist. Check config.xml file ");
+            System.out.println("NoSuchRelationLinkException: " + e);
             System.exit(-1);
         }
 

@@ -5,6 +5,7 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.model.*;
 import ontorama.OntoramaConfig;
 
@@ -29,7 +30,6 @@ import java.util.List;
  * - all private methods
  * - printXml method
  *
- * @todo how can we check if nodes that are created are what we expect...
  */
 
 public class TestGraph extends TestCase {
@@ -39,18 +39,8 @@ public class TestGraph extends TestCase {
     List _nodesList = new LinkedList();
     List _edgesList = new LinkedList();
 
-    private String typePropertyName = "Description";
-
-    private String rootNodeDescr = "root element here";
-    private String node1Descr = "ontType1 for node1";
-
     private Node node1;
     private Node node1_2;
-
-    private static final String edgeName_subtype = "subtype";
-    private static final String edgeName_similar = "similar";
-    private static final String edgeName_reverse = "reverse";
-
 
     /**
      *
@@ -67,13 +57,6 @@ public class TestGraph extends TestCase {
     protected void setUp() throws NoSuchRelationLinkException,
             NoSuchPropertyException,
             NoTypeFoundInResultSetException {
-        // set up some _graphEdges and nodes, so we can see if they are cleared properly
-        Node tmpNode1 = new NodeImpl("tmpNode1");
-        Node tmpNode2 = new NodeImpl("tmpNode2");
-        Node tmpNode3 = new NodeImpl("tmpNode3");
-        Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
-        Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
-
 
         // create queryResult
         Query query = new Query("root");
@@ -89,14 +72,6 @@ public class TestGraph extends TestCase {
         Node gn6 = new NodeImpl("node4");
         Node gn7 = new NodeImpl("node5");
 
-        List prop1 = new LinkedList();
-        prop1.add(rootNodeDescr);
-        gn.setProperty(typePropertyName, prop1);
-
-        List prop2 = new LinkedList();
-        prop2.add(node1Descr);
-        gn1.setProperty(typePropertyName,prop2);
-
         _nodesList.add(gn);
         _nodesList.add(gn1);
         _nodesList.add(gn2);
@@ -106,12 +81,12 @@ public class TestGraph extends TestCase {
         _nodesList.add(gn6);
         _nodesList.add(gn7);
 
-        Edge e = new EdgeImpl(gn, gn1, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
-        Edge e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
-        Edge e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
-        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
-        Edge e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
-        Edge e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+        Edge e = new EdgeImpl(gn, gn1,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e1 = new EdgeImpl(gn, gn2,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar));
+        Edge e2 = new EdgeImpl(gn, gn3,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar));
+        Edge e4 = new EdgeImpl(gn2, gn5,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e5 = new EdgeImpl(gn6, gn7,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
         _edgesList.add(e);
         _edgesList.add(e1);
         _edgesList.add(e2);
@@ -135,8 +110,6 @@ public class TestGraph extends TestCase {
     public void testGraphRoot() throws NoSuchPropertyException {
         Node rootNode = graph.getRootNode();
         assertEquals("root", rootNode.getName());
-        List propList = rootNode.getProperty(typePropertyName);
-        assertEquals(rootNodeDescr, propList.get(0));
     }
 
     /**
@@ -152,8 +125,6 @@ public class TestGraph extends TestCase {
      * test properties, clones and depth for node1
      */
     public void testNode1() throws NoSuchPropertyException {
-        List propList = node1.getProperty(typePropertyName);
-        assertEquals("description property for node1", node1Descr, propList.get(0));
         assertEquals("depth of node1", 1, node1.getDepth());
         assertEquals("does node1 have clones", false, node1.hasClones());
     }
@@ -185,11 +156,11 @@ public class TestGraph extends TestCase {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
                 // should be edge to node1.1 with type 1
-                assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), cur.getEdgeType());
+                assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), cur.getEdgeType());
             }
             if ((cur.getToNode().getName()).equals("node1.2")) {
                 // should be edge to node1.2 with type2
-                assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_similar), cur.getEdgeType());
+                assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar), cur.getEdgeType());
             }
         }
     }
@@ -205,7 +176,7 @@ public class TestGraph extends TestCase {
             Edge inEdge = (Edge) inboundEdges.next();
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
-            assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), inEdge.getEdgeType());
+            assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), inEdge.getEdgeType());
         }
     }
 

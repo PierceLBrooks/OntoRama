@@ -1,10 +1,11 @@
 package ontorama.textDescription.view;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.model.*;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -145,12 +146,25 @@ public class DescriptionView extends JPanel implements GraphView {
      * initialise concept properties panels
      */
     private void initPropertiesPanels() {
-        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (e.hasMoreElements()) {
-            String propName = (String) e.nextElement();
-            NodePropertiesPanel propPanel =
-                    new NodePropertiesPanel(propName, new LinkedList());
-            _nodePropertiesPanels.put(propName, propPanel);
+
+        List edgeTypesToDisplay = new LinkedList();
+        List edgeTypesList = OntoramaConfig.getRelationLinksList();
+        Iterator it = edgeTypesList.iterator();
+        while (it.hasNext()) {
+            EdgeType edgeType = (EdgeType) it.next();
+            EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
+            if (displayInfo.isDisplayInDescription()) {
+                edgeTypesToDisplay.add(edgeType);
+                NodePropertiesPanel propPanel =
+                        new NodePropertiesPanel(edgeType.getName(), new LinkedList());
+                _nodePropertiesPanels.put(edgeType.getName(), propPanel);
+            }
+            if (displayInfo.isDisplayReverseEdgeInDescription()) {
+                edgeTypesToDisplay.add(edgeType);
+                NodePropertiesPanel propPanel =
+                        new NodePropertiesPanel(edgeType.getReverseEdgeName(), new LinkedList());
+                _nodePropertiesPanels.put(edgeType.getReverseEdgeName(), propPanel);
+            }
         }
     }
 
@@ -253,19 +267,41 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     public void focus(Node node) {
-        //System.out.println("description view: focus()");
+
+//        List edgeTypesToDisplay = new LinkedList();
+//        List edgeTypesList = OntoramaConfig.getRelationLinksList();
+//        Iterator it = edgeTypesList.iterator();
+//        while (it.hasNext()) {
+//            EdgeType edgeType = (EdgeType) it.next();
+//            EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
+//            if (displayInfo.isDisplayInDescription()) {
+//                edgeTypesToDisplay.add(edgeType);
+//            }
+//            if (displayInfo.isDisplayReverseEdgeInDescription()) {
+//                edgeTypesToDisplay.add(edgeType);
+//            }
+//        }
+
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
-            String propertyName = (String) e.nextElement();
+            String edgeName = (String) e.nextElement();
             try {
                 NodePropertiesPanel propPanel =
-                        (NodePropertiesPanel) _nodePropertiesPanels.get(
-                                propertyName);
-                propPanel.update(node.getProperty(propertyName));
-            } catch (NoSuchPropertyException exc) {
+                        (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
+                List value = new LinkedList();
+                EdgeType edgeType = OntoramaConfig.getRelationLinkDetails(edgeName);
+                EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
+                if (displayInfo.isDisplayInDescription()) {
+                    value = _graph.getOutboundEdgeNodes(node, edgeType);
+                }
+                else if (displayInfo.isDisplayReverseEdgeInDescription()) {
+                    value = _graph.getInboundEdgeNodes(node, edgeType);
+                }
+                propPanel.update(value);
+            } catch (NoSuchRelationLinkException exc) {
                 // this exception should have been caught when building the graph
                 // we are displaying, so it should be safe to ignore it here
-                System.err.println("NoSuchPropertyException exception: " + exc);
+                System.err.println("NoSuchRelationLinkException exception: " + exc);
             }
         }
         // deal with clones

@@ -39,8 +39,4 @@ public interface Node {
 
     public void setFoldState(boolean isFolded);
 
-    public void setProperty(String propertyName, List propertyValue)
-            throws NoSuchPropertyException;
-
-    public List getProperty(String propertyName) throws NoSuchPropertyException;
 }

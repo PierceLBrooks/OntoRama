@@ -35,9 +35,6 @@ public class TestGraphNode extends TestCase {
     private Node cloneNode2;
     private Node cloneNode3;
 
-    private String propName = "Description";
-    private List propValue = new LinkedList();
-
     /**
      *
      */
@@ -52,11 +49,6 @@ public class TestGraphNode extends TestCase {
         node1 = new NodeImpl("node1", fullNameNode1);
         node2 = new NodeImpl("node2");
         node3 = new NodeImpl("node3");
-
-        propValue.add("description str1");
-        propValue.add("description str2");
-
-        node1.setProperty(propName, propValue);
 
         cloneNode2 = node2.makeClone();
         cloneNode3 = node2.makeClone();
@@ -94,31 +86,6 @@ public class TestGraphNode extends TestCase {
         assertEquals("testing setFullName() for node2", testFullName2, node2.getFullName());
     }
 
-    /**
-     *
-     */
-    public void testSetProperty() throws NoSuchPropertyException {
-        node2.setProperty(propName, propValue);
-
-        List node2PropValue = node2.getProperty(propName);
-        assertEquals(propValue.size(), node2PropValue.size());
-        compareLists(propValue, node2PropValue);
-    }
-
-
-    /**
-     *
-     */
-    public void testGetProperty() throws NoSuchPropertyException {
-        // test when we do have a property
-        List node1PropValue = node1.getProperty(propName);
-        assertEquals(propValue.size(), node1PropValue.size());
-        compareLists(propValue, node1PropValue);
-
-        // test for a node that doesn't have properties
-        List node2PropValue = node2.getProperty(propName);
-        assertEquals(0, node2PropValue.size());
-    }
 
     /**
      * test method getClones()
@@ -186,15 +153,6 @@ public class TestGraphNode extends TestCase {
     }
 
     ///////////////////****** Helper methods ***********///////////////////
-
-    /**
-     *
-     */
-    private void compareLists(List list1, List list2) {
-        for (int i = 0; i < list1.size(); i++) {
-            assertEquals(list1.get(i), list2.get(i));
-        }
-    }
 
     /**
      * check for given graph node name in the given iterator

@@ -15,7 +15,6 @@ import ontorama.model.*;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 import org.jdom.Attribute;
@@ -81,7 +80,7 @@ public class XmlParserFull implements Parser {
      * and addTypeProperty("creator", creatorEl.getText()) so they are dinamically read
      * from OntoramaConfig.
      */
-    private void readConceptTypes(Element top) throws ParserException, NoSuchPropertyException {
+    private void readConceptTypes(Element top) throws ParserException {
         List conceptTypeElementsList = top.getChildren("conceptType");
         Iterator conceptTypeElementsIterator = conceptTypeElementsList.iterator();
 
@@ -97,21 +96,6 @@ public class XmlParserFull implements Parser {
                 // add child to hashtable
                 _nodes.put(nameAttr.getValue(), node);
             }
-            Enumeration conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable().keys();
-            while (conceptPropertiesConfig.hasMoreElements()) {
-                String propName = (String) conceptPropertiesConfig.nextElement();
-                Element propEl = conceptTypeEl.getChild(propName);
-                // this is a hack!!!!
-                if (propEl == null) {
-                    propEl = conceptTypeEl.getChild(propName.toLowerCase());
-                }
-                if (propEl != null) {
-                    List propValue = node.getProperty(propName);
-                    propValue.add(propEl.getText());
-                    node.setProperty(propName, propValue);
-                }
-            }
-
             debug.message("XmlParserFull", "readConceptTypes", "created type: " + node);
         }
     }

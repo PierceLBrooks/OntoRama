@@ -212,7 +212,6 @@ public class TestRdfDamlParser extends TestCase {
         //System.out.println("\n\n\n testing property description");
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("test term 'chair'");
-        testingNodeProperty(propName_descr, expectedValueList, testNode_chair);
     }
 
     /**
@@ -221,7 +220,6 @@ public class TestRdfDamlParser extends TestCase {
     public void testNodePropertyCreator_chair() throws NoSuchPropertyException {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("nataliya@dstc.edu.au");
-        testingNodeProperty(propName_creator, expectedValueList, testNode_chair);
     }
 
     /**
@@ -231,27 +229,8 @@ public class TestRdfDamlParser extends TestCase {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("chair");
         expectedValueList.add("sit");
-        testingNodeProperty(propName_synonym, expectedValueList, testNode_chair);
     }
 
-    /**
-     *
-     */
-    protected void testingNodeProperty(String propName, List expectedPropValueList,
-                                       Node node) throws NoSuchPropertyException {
-        //
-        assertEquals("graph node should never be null here, check setUp() method" +
-                " for node " + node, false, (node == null));
-        String message = "checking concept type property '" + propName;
-        message = message + "' for type '" + node.getName() + "'";
-
-        List propValue = testNode_chair.getProperty(propName);
-        assertEquals(message + ", number of prop. values", expectedPropValueList.size(), propValue.size());
-
-        for (int i = 0; i < expectedPropValueList.size(); i++) {
-            assertEquals(message, expectedPropValueList.get(i), propValue.get(i));
-        }
-    }
 
     /**
      * test rel link 'subtype' for type chair

@@ -218,13 +218,17 @@ public class OntoramaConfig {
 //          fatalExit("Unable to read xml configuration file, IOException", ioe);
 //        }
         catch (SourceException sourceExc) {
+            sourceExc.printStackTrace();
             fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
         } catch (ConfigParserException cpe) {
+            cpe.printStackTrace();
             fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
         } catch (ArrayIndexOutOfBoundsException arrayExc) {
+            arrayExc.printStackTrace();
             fatalExit("Please make sure relation id's in xml config are ordered from 1 to Max number, ArrayIndexOutOfBoundsException",
                     arrayExc);
         } catch (Exception e) {
+            e.printStackTrace();
             fatalExit("Unable to read properties file in", e);
         }
     }

@@ -6,9 +6,9 @@ import java.util.Iterator;
 
 import javax.swing.filechooser.FileFilter;
 
-import ontorama.backends.DataFormatMapping;
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.filemanager.Util;
+import ontorama.conf.DataFormatMapping;
 
 /**
  * @author nataliya

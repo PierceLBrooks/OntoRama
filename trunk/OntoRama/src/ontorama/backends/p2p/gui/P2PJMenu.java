@@ -6,7 +6,9 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.backends.p2p;
+package ontorama.backends.p2p.gui;
+
+import ontorama.backends.p2p.P2PBackend;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

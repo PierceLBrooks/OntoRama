@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- JNLP File for OntoRama Application -->
-<jnlp spec="1.0+" codebase="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/deployWebstart/" href="OntoRama.jnlp">
+<jnlp spec="1.0+" codebase="http://www.webkb.org/ontorama/deployWebstart/" href="OntoRama.jnlp">
 	<information>
 		<title>OntoRama Demo Application</title>
 		<vendor>DSTC, KVO (GU)</vendor>

@@ -58,7 +58,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     public OntoTreeRenderer() {
         //tutorialIcon = new ImageIcon("images/middle.gif");
         _bgColor = this.backgroundNonSelectionColor;
-        System.out.println("OntoTreeRenderer: backgroundNonSelectionColor = " + this.backgroundNonSelectionColor + ", backgroundSelectionColor = " + this.backgroundSelectionColor);
+        //System.out.println("OntoTreeRenderer: backgroundNonSelectionColor = " + this.backgroundNonSelectionColor + ", backgroundSelectionColor = " + this.backgroundSelectionColor);
 
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
@@ -189,7 +189,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         BufferedImage image = new BufferedImage(totalWidth + 1, totalHeight, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(Color.white);
         g2.fillRect(0, 0, totalWidth, totalHeight);

@@ -1,5 +1,5 @@
 <ontoramaExamples>
-	<example name="WebKB2 Interface" root="wn#cat" >
+	<example name="WebKB2 Interface" root="comms#comms_object" loadOnStart="yes" >
 		<!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
         <!--<source uri="http://www.webkb.org/bin/termSearch.cgi"-->
 		<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"
@@ -10,7 +10,7 @@
 	</example>	
 
 
-	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes" >
+	<example name="Comms Ontology" root="comms#CommsObject">
 		<source uri="examples/comms_comms_object-children.rdf" 
 				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>

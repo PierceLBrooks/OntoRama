@@ -93,12 +93,12 @@ public class CgKbCsvParser implements Parser {
                 }
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if (rel.equals(relationLinkDetails.getLinkName())) {
-                    //fromType.addRelationType(toType, i);
-                    toType.addRelationType(fromType, i);
+                    fromType.addRelationType(toType, i);
+                    //toType.addRelationType(fromType, i);
                     foundRelationLink = true;
                 } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
-                    toType.addRelationType(fromType, i);
-                    //fromType.addRelationType(toType, i);
+                    //toType.addRelationType(fromType, i);
+                    fromType.addRelationType(toType, i);
                     foundRelationLink = true;
                 }
             }

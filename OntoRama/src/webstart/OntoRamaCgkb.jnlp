@@ -17,7 +17,7 @@
 	</application-desc>
 	<resources>
 		<j2se version="1.4"/>
-		<jar href="OntoRamaCg.jar"/>
+		<jar href="OntoRama.jar"/>
 		<jar href="lib/jdom.jar"/>
 		<jar href="lib/jenaOntorama.jar"/>
 		<jar href="lib/junit.jar"/>

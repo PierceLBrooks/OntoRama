@@ -185,15 +185,15 @@ public class RdfDamlParser implements Parser {
         //ResIterator it = model.listSubjects();
         LinkedList result = new LinkedList();
         ResIterator it = model.listSubjectsWithProperty(p, o);
-        System.out.println("\n\n\n\n");
+        //System.out.println("\n\n\n\n");
         int count = 0;
         while (it.hasNext()) {
             Resource res = it.next();
-            System.out.println(res);
+            //System.out.println(res);
             result.add(res);
             count++;
         }
-        System.out.println("count = " + count + "\n\n\n\n");
+        //System.out.println("count = " + count + "\n\n\n\n");
         return result;
     }
 

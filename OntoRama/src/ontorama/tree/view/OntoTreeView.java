@@ -2,8 +2,7 @@ package ontorama.tree.view;
 
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.controller.QueryEvent;
-import ontorama.graph.controller.GraphViewFocusEventHandler;
-import ontorama.graph.controller.GraphViewQueryEventHandler;
+import ontorama.graph.controller.*;
 import ontorama.graph.view.GraphView;
 import ontorama.graph.view.GraphQuery;
 import ontorama.model.Graph;
@@ -60,6 +59,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
+        new GraphRootResetEventHandler(eventBroker, this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -296,10 +296,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      * @todo	shouldn't need to check if treeNode == null. This is a hack! this should be fixed in graphBuilder
      */
     public void focus(GraphNode node) {
-        Iterator it = node.getClones();
-        while (it.hasNext()) {
-            System.out.println("\t...clone: " + it.next());
-        }
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
         //System.out.println("FOCUS: ontotreenode = " + node.getName());
         //if (treeNode == null) {

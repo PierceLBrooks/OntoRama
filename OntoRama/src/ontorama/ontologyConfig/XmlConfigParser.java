@@ -40,6 +40,7 @@ public class XmlConfigParser {
      */
     private static LinkedList relationRdfMappingList;
 
+
     /**
      *
      */

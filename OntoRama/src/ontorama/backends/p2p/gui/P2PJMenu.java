@@ -48,6 +48,7 @@ public class P2PJMenu extends JMenu {
     public P2PJMenu (P2PBackend p2pBackend) {
         super();
         _p2pBackend = p2pBackend;
+    	System.out.println("p2p menu, p2p backend = " + _p2pBackend);
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
         

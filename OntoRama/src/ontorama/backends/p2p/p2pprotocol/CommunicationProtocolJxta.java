@@ -36,19 +36,33 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public CommunicationProtocolJxta (P2PRecieverInterface recieverObject) throws GroupExceptionInit {
+		System.out.println("CommunicationProtocolJxta 1");
 		communicationGroup = new CommunicationGroup(this);
+		System.out.println("CommunicationProtocolJxta 2");
 		communicationInit = new CommunicationInit(this);
+		System.out.println("CommunicationProtocolJxta 3");
 		communicationSender = new CommunicationSender(this);
+		System.out.println("CommunicationProtocolJxta 4");
+		
 		
 		this.reciever = recieverObject;
+		System.out.println("CommunicationProtocolJxta 5");
+		
 		try {
 			communicationInit.initJxtaTopGroup();
 
+			System.out.println("CommunicationProtocolJxta 6");
+
             communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
+			System.out.println("CommunicationProtocolJxta 7");
+            
 
 		} catch (GroupExceptionInit e) {
+			e.printStackTrace();
 			throw (GroupExceptionInit) e.fillInStackTrace();
 		}
+		System.out.println("CommunicationProtocolJxta end");
+		
 	}
 
 	/**

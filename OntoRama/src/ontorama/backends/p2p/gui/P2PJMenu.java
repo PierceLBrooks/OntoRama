@@ -9,6 +9,7 @@
 package ontorama.backends.p2p.gui;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.gui.action.*;
 import ontorama.view.OntoRamaApp;
 
@@ -19,6 +20,7 @@ import java.awt.*;
 public class P2PJMenu extends JMenu {
 
     private P2PBackend _p2pBackend;
+    private P2PSender _p2pSender;
     private Frame _parentFrame;
 
     private static boolean p2pEnabled = false;
@@ -32,22 +34,22 @@ public class P2PJMenu extends JMenu {
     private Action _updatePanelAction;
     private Action _resetChangePanelAction;
 
-    public P2PJMenu (P2PBackend p2pBackend) {
+    public P2PJMenu (P2PBackend p2pBackend, P2PSender p2pSender) {
         super();
         _p2pBackend = p2pBackend;
+        _p2pSender = p2pSender;
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
 
         _enableP2PAction = new ActionEnableP2P("Start P2P");
-        _searchAction = new ActionGroupSearch("Group search");
-
         add(_enableP2PAction);
         addSeparator();
 
-        add(_searchAction);
-        addSeparator();
+//        _searchAction = new ActionGroupSearch("Group search", _p2pSender);
+//        add(_searchAction);
+//        addSeparator();
 
-        _joinGroupAction = new ActionJoinGroup("Join Group");
+        _joinGroupAction = new ActionJoinGroup("Join Group", _p2pSender);
         add(_joinGroupAction);
         _leaveGroupAction = new ActionLeaveGroup("Leave Group");
         add(_leaveGroupAction);

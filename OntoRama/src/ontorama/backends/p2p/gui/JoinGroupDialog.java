@@ -1,9 +1,23 @@
 package ontorama.backends.p2p.gui;
 
+import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
+import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
+import ontorama.backends.p2p.p2pprotocol.GroupException;
+import ontorama.view.ErrorPopupMessage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.util.Vector;
+import java.util.Iterator;
+import java.io.IOException;
+
+import net.jxta.peergroup.PeerGroupID;
 
 /*
  * Created by IntelliJ IDEA.
@@ -19,21 +33,24 @@ public class JoinGroupDialog extends JDialog {
 
     private static final String _title = "Join P2P Group";
 
-    private JPanel _existingGroupPanel;
+    private P2PSender _p2pSender;
+
+    private GroupChooser _existingGroupPanel;
     private JPanel _newGroupPanel;
     private JTabbedPane _tabbedPanel;
 
-    private JTextField _existingGroupNameField;
     private JTextField _newGroupNameField;
 
     private boolean _cancelled = false;
     private int _selectedOption;
-    private String _value = null;
+    private SearchGroupResultElement _value = null;
 
-    public JoinGroupDialog(Frame parent)  {
+    public JoinGroupDialog(Frame parent, P2PSender p2pSender)  {
         super(parent, _title, true);
 
-        _existingGroupPanel = new JPanel();
+        _p2pSender = p2pSender;
+
+        _existingGroupPanel = new GroupChooser(_p2pSender);
         _newGroupPanel = new JPanel();
         JTabbedPane tabbedPanel = buildTabbedPanel();
 
@@ -51,6 +68,9 @@ public class JoinGroupDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if (verifyInputCorrect() ) {
                     _cancelled = false;
+                    if (joinGroup(_value)) {
+                        setVisible(false);
+                    }
                     setVisible(false);
                 }
             }
@@ -71,12 +91,6 @@ public class JoinGroupDialog extends JDialog {
         _tabbedPanel = new JTabbedPane();
         JLabel nameLabel = new JLabel("Name ");
 
-        _existingGroupNameField = new JTextField(20);
-        _existingGroupNameField.setToolTipText("Type name of a group you want to join");
-
-        _existingGroupPanel.add(new JLabel("Name "));
-        _existingGroupPanel.add(_existingGroupNameField);
-
         _tabbedPanel.addTab("Existing Group", null, _existingGroupPanel, "Join existing group");
         _tabbedPanel.setSelectedComponent(_existingGroupPanel);
 
@@ -91,26 +105,78 @@ public class JoinGroupDialog extends JDialog {
         return _tabbedPanel;
     }
 
+    /**
+     *
+     * @return
+     * @todo quite a mess, think how to refactor.
+     */
     private boolean verifyInputCorrect () {
+        SearchGroupResultElement groupToJoin;
         if (_tabbedPanel.getSelectedComponent().equals(_existingGroupPanel) ) {
-            String input = _existingGroupNameField.getText();
-            if (DialogUtil.textInputIsValid(this, input, "name")) {
-                System.out.println("input = " + input);
-                _selectedOption = JoinGroupDialog.OPTION_EXISTING_GROUP;
-                _value = input;
-                return true;
+            groupToJoin = _existingGroupPanel.getValue();
+            if (groupToJoin == null) {
+                return false;
             }
+            //String input = groupToJoin.getName();
+            //System.out.println("input = " + input);
+            _selectedOption = JoinGroupDialog.OPTION_EXISTING_GROUP;
+            _value = groupToJoin;
+            return true;
         }
         if (_tabbedPanel.getSelectedComponent().equals(_newGroupPanel)) {
             String input = _newGroupNameField.getText();
             if (DialogUtil.textInputIsValid(this, input, "name")) {
                 System.out.println("input = " + input);
                 _selectedOption = JoinGroupDialog.OPTION_NEW_GROUP;
-                _value = input;
+
+                try {
+                    Vector groupsVector = _p2pSender.sendSearchGroup("Name",input);
+                    Iterator it = groupsVector.iterator();
+                    if (it.hasNext()) {
+                        SearchGroupResultElement cur = (SearchGroupResultElement) it.next();
+                        groupToJoin = cur;
+                    }
+                    else {
+                        new ErrorPopupMessage("Couldn't find group with name " + input, this);
+                        return false;
+                    }
+
+                } catch (GroupExceptionThread e) {
+                    new ErrorPopupMessage("Error: " + e.getMessage(), this);
+                    System.out.println("ERROR:");
+                    e.printStackTrace();
+                    return false;
+                } catch (IOException e) {
+                    new ErrorPopupMessage("Error: " + e.getMessage(), this);
+                    System.out.println("ERROR:");
+                    e.printStackTrace();
+                    return false;
+                }
+                //_value = input;
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean joinGroup (SearchGroupResultElement group) {
+        try {
+            String groupId = group.getID().toString();
+            System.out.println("trying to join group id " + groupId);
+            _p2pSender.sendJoinGroup(groupId);
+        } catch (GroupExceptionNotAllowed e) {
+            new ErrorPopupMessage("Error: " + e.getMessage(), this);
+            System.out.println("ERROR:");
+            e.printStackTrace();
+            return false;
+        } catch (GroupException e) {
+            new ErrorPopupMessage("Error: " + e.getMessage(), this);
+            System.out.println("ERROR:");
+            e.printStackTrace();
+            return false;
+        }
+        System.out.println("Joined: " + group.getName() + " (ID:" + group.getID() + ")");
+        return true;
     }
 
     public boolean actionWasCancelled () {
@@ -121,7 +187,7 @@ public class JoinGroupDialog extends JDialog {
         return _selectedOption;
     }
 
-    public String getGroupName () {
+    public SearchGroupResultElement getGroupName () {
         return _value;
     }
 

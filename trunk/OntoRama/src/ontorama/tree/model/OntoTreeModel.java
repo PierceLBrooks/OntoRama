@@ -78,8 +78,8 @@ public class OntoTreeModel implements TreeModel {
         //GraphNode rootGraphNode = this.graph.getRootNode();
         GraphNode rootGraphNode = this.graph.getEdgeRootNode();
         debug.message("OntoTreeModel","getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
-        System.out.println("OntoTreeModel, getRoot(), root graphNode = " + rootGraphNode);
-        System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
+        //System.out.println("OntoTreeModel, getRoot(), root graphNode = " + rootGraphNode);
+        //System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         return this.ontoTreeBuilder.getTreeNode(rootGraphNode);
     }
 
@@ -106,7 +106,7 @@ public class OntoTreeModel implements TreeModel {
       * @return the number of children of the node parent
       */
       public int getChildCount(Object parent) {
-        System.out.println("ontoTreeModel, getChildCount for node " + (TreeNode)parent);
+        //System.out.println("ontoTreeModel, getChildCount for node " + (TreeNode)parent);
         return ((TreeNode) parent).getChildCount();
       }
 
@@ -120,7 +120,7 @@ public class OntoTreeModel implements TreeModel {
        */
        public boolean isLeaf(Object node) {
             TreeNode treeNode = (OntoTreeNode) node;
-            System.out.println("ontoTreeModel isLeaf for node = " + treeNode);
+            //System.out.println("ontoTreeModel isLeaf for node = " + treeNode);
             return treeNode.isLeaf();
        }
 
@@ -156,7 +156,7 @@ public class OntoTreeModel implements TreeModel {
           * @see  removeTreeModelListener(javax.swing.event.TreeModelListener)
           */
           public void addTreeModelListener(TreeModelListener l) {
-            System.out.println("OntoTreeModel, method addTreeModelListener");
+            //System.out.println("OntoTreeModel, method addTreeModelListener");
           }
 
           /**
@@ -165,7 +165,7 @@ public class OntoTreeModel implements TreeModel {
            * @see addTreeModelListener(javax.swing.event.TreeModelListener)
            */
           public void removeTreeModelListener(TreeModelListener l) {
-            System.out.println("OntoTreeModel, method removeTreeModelListener");
+            //System.out.println("OntoTreeModel, method removeTreeModelListener");
           }
 
         ////////////////////End of TreeModel implementation///////////////////

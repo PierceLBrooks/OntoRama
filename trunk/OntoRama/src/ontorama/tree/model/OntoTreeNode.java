@@ -197,7 +197,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      */
     public int getChildCount() {
         List outboundNodes = Edge.getOutboundEdgeNodesList(this.graphNode);
-        System.out.println("node = " + this.graphNode.getName() + " returning "  + outboundNodes.size());
+        //System.out.println("node = " + this.graphNode.getName() + " returning "  + outboundNodes.size());
 
         //List childrenList = this.graphNode.getChildrenList();
         //debug.message("OntoTreeNode","getChildCount","node = " + this.graphNode.getName() + " returning "  + childrenList.size());
@@ -266,13 +266,12 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-        System.out.println("isLeaf for node " + this);
       if (this.getChildCount() <= 0 ) {
-        System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
+        //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
        // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
         return true;
       }
-        System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning false");
+        //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning false");
 
       //debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning false");
       return false;

@@ -2,7 +2,6 @@ package ontorama.backends.p2p.p2pmodule;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;

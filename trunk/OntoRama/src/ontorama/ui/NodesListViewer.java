@@ -86,7 +86,7 @@ public class NodesListViewer extends JComboBox {
      */
     public void setGraph (Graph graph) {
         _graph = graph;
-        _nodesList = graph.getUnconnectedNodesList();
+        _nodesList = graph.getBranchRootsList();
         removeAllItems();
         addItem(_defaultHeadingString);
         setListSizeDependantProperties();

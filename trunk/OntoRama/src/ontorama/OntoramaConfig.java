@@ -12,19 +12,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.NodeType;
-import ontorama.model.graph.NodeTypeImpl;
-import ontorama.conf.ConfigParserException;
-import ontorama.conf.EdgeTypeDisplayInfo;
-import ontorama.conf.NodeTypeDisplayInfo;
-import ontorama.conf.XmlConfigParser;
-import ontorama.conf.examplesConfig.OntoramaExample;
-import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
 import ontorama.ui.ErrorPopupMessage;
-import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
+import ontorama.conf.examplesConfig.OntoramaExample;
+import ontorama.conf.ConfigParserException;
+import ontorama.conf.XmlConfigParser;
+import ontorama.conf.EdgeTypeDisplayInfo;
+import ontorama.conf.NodeTypeDisplayInfo;
 
 
 /**

@@ -28,6 +28,7 @@ import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.*;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
 
 import ontorama.util.Debug;
@@ -80,8 +81,11 @@ public class XmlParserFull implements Parser {
 
   /**
    *
+   * @todo change: harcoded addTypeProperty("description", descriptionEl.getText())
+   * and addTypeProperty("creator", creatorEl.getText()) so they are dinamically read
+   * from OntoramaConfig.
    */
-    private void readConceptTypes(Element top) throws ParserException {
+    private void readConceptTypes(Element top) throws ParserException, NoSuchPropertyException {
         List conceptTypeElementsList = top.getChildren("conceptType");
         Iterator conceptTypeElementsIterator = conceptTypeElementsList.iterator();
 
@@ -100,10 +104,12 @@ public class XmlParserFull implements Parser {
                 ontHash.put(nameAttr.getValue(), type );
             }
             if (descriptionEl != null) {
-                type.setDescription(descriptionEl.getText());
+                //type.setDescription(descriptionEl.getText());
+                type.addTypeProperty("description", descriptionEl.getText());
             }
             if (creatorEl != null ) {
-                type.setCreator(creatorEl.getText());
+                //type.setCreator(creatorEl.getText());
+                type.addTypeProperty("creator", creatorEl.getText());
             }
 
             debug.message("XmlParserFull", "readConceptTypes", "created type: " + type);

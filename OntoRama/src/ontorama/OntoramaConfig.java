@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
 
@@ -90,7 +91,7 @@ public class OntoramaConfig {
      * whenever we need to find out what details are available for each concept
      * type.
      */
-    private static List conceptPropertiesDetails;
+    private static Hashtable conceptPropertiesDetails;
 
     /**
      *
@@ -163,7 +164,7 @@ public class OntoramaConfig {
             relationLinksSet = buildRelationLinksSet (allRelationsArray);
             relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
-            conceptPropertiesDetails = xmlConfig.getConceptPropertiesList();
+            conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
             conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
             //xmlConfig.printConceptPropertiesRdfMapping();
         }
@@ -239,6 +240,27 @@ public class OntoramaConfig {
      */
      public static List getRelationRdfMapping () {
         return relationRdfMapping;
+     }
+
+     /**
+      *
+      */
+     public static Hashtable getConceptPropertiesTable () {
+        return conceptPropertiesDetails;
+     }
+
+     /**
+      *
+      */
+     public static ConceptPropertiesDetails getConceptPropertiesDetails (String propertyName) {
+        return (ConceptPropertiesDetails) conceptPropertiesDetails.get(propertyName);
+     }
+
+     /**
+      *
+      */
+     public static Hashtable getConceptPropertiesRdfMapping () {
+        return conceptPropertiesRdfMapping;
      }
 }
 

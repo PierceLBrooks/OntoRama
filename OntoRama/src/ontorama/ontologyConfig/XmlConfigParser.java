@@ -36,7 +36,7 @@ public class XmlConfigParser {
      * whenever we need to find out what details are available for each concept
      * type.
      */
-    private static LinkedList conceptPropertiesConfig;
+    private static Hashtable conceptPropertiesConfig;
 
     /**
      * Holds mapping for concept properties. Keys of this hashtable should
@@ -81,7 +81,7 @@ public class XmlConfigParser {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException {
-        conceptPropertiesConfig = new LinkedList();
+        conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
 
@@ -114,7 +114,7 @@ public class XmlConfigParser {
     /**
      *
      */
-    public static List getConceptPropertiesList () {
+    public static Hashtable getConceptPropertiesTable () {
         return conceptPropertiesConfig;
     }
 
@@ -200,7 +200,7 @@ public class XmlConfigParser {
             Attribute conceptPropertyIdAttr = conceptPropertyEl.getAttribute("id");
             checkCompulsoryAttr(conceptPropertyIdAttr, "id", "conceptProperty");
             ConceptPropertiesDetails conceptPropertyDetails = new ConceptPropertiesDetails(conceptPropertyIdAttr.getValue());
-            conceptPropertiesConfig.add(conceptPropertyDetails);
+            conceptPropertiesConfig.put(conceptPropertyIdAttr.getValue(),conceptPropertyDetails);
         }
 
     }
@@ -253,10 +253,10 @@ public class XmlConfigParser {
             Attribute tagAttr = mapEl.getAttribute("tag");
             checkCompulsoryAttr(tagAttr, "tag", "map");
 
-            Iterator conceptPropertiesConfigIterator = conceptPropertiesConfig.iterator();
-            while (conceptPropertiesConfigIterator.hasNext()) {
-                ConceptPropertiesDetails curDetails = (ConceptPropertiesDetails) conceptPropertiesConfigIterator.next();
-                if (idAttr.getValue().equals(curDetails.getName()) ){
+            Enumeration conceptPropertiesConfigEnum = conceptPropertiesConfig.keys();
+            while (conceptPropertiesConfigEnum.hasMoreElements()) {
+                String curDetailsName = (String) conceptPropertiesConfigEnum.nextElement();
+                if (idAttr.getValue().equals(curDetailsName) ){
                     ConceptPropertiesMapping conceptMapping = new ConceptPropertiesMapping(idAttr.getValue(), tagAttr.getValue());
                     conceptPropertiesMapping.put(idAttr.getValue(), conceptMapping);
                 }

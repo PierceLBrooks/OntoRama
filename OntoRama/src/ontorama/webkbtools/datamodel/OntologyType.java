@@ -14,6 +14,7 @@ package ontorama.webkbtools.datamodel;
 import java.util.Iterator;
 
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 
 /**
  * Model an Ontology Type with all it's properties,
@@ -46,15 +47,25 @@ public interface OntologyType {
    */
    public void removeRelation (int relationLink) throws NoSuchRelationLinkException ;
 
-  /**
-   * Sets the type description
-   */
-  public void setDescription(String description);
+   /**
+    *
+    */
+    public void addTypeProperty (String propertyName, String propertyValue) throws NoSuchPropertyException;
 
-  /**
-   * Sets the type creator
-   */
-   public void setCreator(String creator);
+    /**
+     *
+     */
+     public String getTypeProperty (String propertyName) throws NoSuchPropertyException;
+
+//  /**
+//   * Sets the type description
+//   */
+//  public void setDescription(String description);
+//
+//  /**
+//   * Sets the type creator
+//   */
+//   public void setCreator(String creator);
 
   /**
    * Check if given type is already listed with given relation link
@@ -65,15 +76,15 @@ public interface OntologyType {
    */
   public boolean isRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException ;
 
-  /**
-   * gets the type description
-   */
-  public String getDescription();
-
-  /**
-   * get type creator
-   */
-   public String getCreator();
+//  /**
+//   * gets the type description
+//   */
+//  public String getDescription();
+//
+//  /**
+//   * get type creator
+//   */
+//   public String getCreator();
 
   /**
    * get name of this type

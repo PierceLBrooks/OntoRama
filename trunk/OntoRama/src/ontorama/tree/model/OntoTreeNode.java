@@ -2,6 +2,7 @@ package ontorama.tree.model;
 
 import ontorama.model.*;
 import ontorama.util.Debug;
+import ontorama.OntoramaConfig;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -207,11 +208,21 @@ public class OntoTreeNode implements TreeNode {
      * @return  children Enumeration
      */
     public Enumeration children() {
-        Enumeration outboundEdgesEnum = (Enumeration) OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
-        return outboundEdgesEnum;
+        List outboundEdges = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
+        Iterator outIterator = outboundEdges.iterator();
+        Vector result = new Vector();
+        while (outIterator.hasNext()) {
+            Edge curEdge = (Edge) outIterator.next();
+            Node curNode = curEdge.getToNode();
+            OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(curNode);
+            result.add(treeNode);
+        }
+        return result.elements();
     }
 
+
     ///////////////End of TreeNode interface implementation/////////////////
+
 
     /**
      * Get Node that is a part of this OntoTreeNode

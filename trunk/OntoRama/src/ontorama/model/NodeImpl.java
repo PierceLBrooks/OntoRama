@@ -14,7 +14,7 @@ import java.util.*;
  * <br>
  * Company:     DSTC
  */
-public class NodeImpl implements Cloneable {
+public class NodeImpl implements Cloneable, Node {
 
     /**
      * Store the name/label of NodeImpl.
@@ -144,7 +144,7 @@ public class NodeImpl implements Cloneable {
      *
      * @param  clone  NodeImpl that is clone for this NodeImpl
      */
-    private void addClone(NodeImpl clone) {
+    private void addClone(Node clone) {
         clones.add(clone);
     }
 

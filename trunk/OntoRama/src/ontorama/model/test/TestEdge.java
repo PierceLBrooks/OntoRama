@@ -3,10 +3,7 @@ package ontorama.model.test;
 import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.model.NodeImpl;
-import ontorama.model.EdgeImpl;
-import ontorama.model.GraphImpl;
-import ontorama.model.Edge;
+import ontorama.model.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -29,7 +26,7 @@ import java.util.*;
 
 public class TestEdge extends TestCase {
 
-    private NodeImpl node1;
+    private Node node1;
     private NodeImpl node2;
     private NodeImpl node3;
     private NodeImpl node4;

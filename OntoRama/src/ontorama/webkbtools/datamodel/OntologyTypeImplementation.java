@@ -3,8 +3,6 @@ package ontorama.webkbtools.datamodel;
 
 
 /**
- * Title:
- * Description:
  * Copyright:    Copyright DSTC (c) 2001
  * Company:
  * @author
@@ -19,7 +17,9 @@ import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
- * Implements interface OntologyType using LinkedList as Iterator
+ * Implements interface OntologyType using LinkedList as Iterator.
+ * Assumptions: OntologyType can't have two types that have the same
+ * names in it's Iterator
  */
 
 public class OntologyTypeImplementation implements OntologyType {
@@ -38,7 +38,7 @@ public class OntologyTypeImplementation implements OntologyType {
   String typeName;
 
   /**
-   * Descriptin for this Ontology Type.
+   * Description for this Ontology Type.
    */
   String typeDescription;
 
@@ -63,8 +63,8 @@ public class OntologyTypeImplementation implements OntologyType {
   }
 
   /**
-   * Returns an iterator for relation links between the types
-   * specified by a defined constance
+   * Returns an iterator on ontology types for relation links between the types
+   * specified by a given relation link constance
    * @param relationLink
    * @return    Iterator of relation links
    * @throws    NoSuchRelationLinkException
@@ -79,20 +79,44 @@ public class OntologyTypeImplementation implements OntologyType {
 
   /**
    * Add given Ontology type with given relation link
+   * @param ontologyType, relationLink
+   * @throws    NoSuchRelationLinkException
    */
   public void addRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException {
     if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
       throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
     }
-    relationshipTypes[relationLink].add(ontologyType);
+    // check if it's already listed, then don't need to add
+    // if it's not listed - add to the iterator
+    if ( ! isRelationType(ontologyType, relationLink) ) {
+      relationshipTypes[relationLink].add(ontologyType);
+    }
   }
 
   /**
-   * Build LinkedList for given relationLink
+   * Check if given type is already listed with given relation link
+   * @param ontologyType, relationLink
+   * @return true if type ontologyType is listed in this type with
+   *          relation link relationLink
+   * @throws    NoSuchRelationLinkException
    */
+  public boolean isRelationType (OntologyType ontologyType, int relationLink)
+                        throws NoSuchRelationLinkException {
+      Iterator it = this.getIterator(relationLink);
+      while (it.hasNext()) {
+        OntologyType ot = (OntologyType) it.next();
+        //if ( (ot.getName()).equals(ontologyType.getName())) {
+        if ( ot.equals(ontologyType) ) {
+          return true;
+        }
+      }
+      return false;
+  }
+
 
   /**
    * Sets the type description
+   * @param description - description String for this type
    */
   public void setDescription(String description) {
     typeDescription = description;
@@ -100,6 +124,8 @@ public class OntologyTypeImplementation implements OntologyType {
 
   /**
    * Gets the type description
+   * @param -
+   * @return  description string for this type
    */
   public String getDescription() {
     return typeDescription;
@@ -107,6 +133,8 @@ public class OntologyTypeImplementation implements OntologyType {
 
   /**
    * get name of this type
+   * @param -
+   * @return  type name string
    */
   public String getName () {
     return typeName;
@@ -122,10 +150,13 @@ public class OntologyTypeImplementation implements OntologyType {
     while(count <= OntoramaConfig.MAXTYPELINK) {
       try {
           Iterator relationOntTypesIterator = this.getIterator(count);
-          str = str + "relation link: " + count + ", types: " + "\n";
+          //str = str + "relation link: " + count + ", types: " + "\n";
           while (relationOntTypesIterator.hasNext()) {
             OntologyType ot = (OntologyTypeImplementation) relationOntTypesIterator.next();
-            str = str + ot.getName() + "\n";
+			//if (ot.getName) {
+				//str = str + "relation link: " + count + ", types: " + "\n";
+            	str = str + "- " + ot.getName() + " ( relation link: " + count + ") " + "\n";
+			//}
           }
       }
       catch (NoSuchRelationLinkException e) {

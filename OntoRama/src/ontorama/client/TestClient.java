@@ -32,7 +32,8 @@ public class TestClient {
   }
 
   public static void main(String[] args)  {
-    String termName = "wn#cat";
+    //String termName = "wn#cat";
+    String termName = "wn#TrueCat";
     System.out.println ("starting TestClient...");
 
     try {
@@ -45,10 +46,10 @@ public class TestClient {
     	TypeQuery query = new TypeQueryImplementation();
         System.out.println ("created object TypeQueryImplementation query: " + query);
         Iterator ontIterator = query.getTypeRelative(termName);
-        System.out.println("-------------Iterator returned---------------");
+        //System.out.println("-------------Iterator returned---------------");
         while (ontIterator.hasNext()) {
             OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-            System.out.println("---ontology type: \n" + ot);
+            //System.out.println("---ontology type: \n" + ot);
         }
     }
     catch (ClassNotFoundException ce) {
@@ -58,7 +59,7 @@ public class TestClient {
     catch (Exception e) {
         System.out.println("Exception: " + e);
     }
-    System.out.println ("end of TestClient...");
+    System.out.println ("end of TestClient...*********");
 
     /*
 

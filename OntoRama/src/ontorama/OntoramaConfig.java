@@ -61,6 +61,15 @@ public class OntoramaConfig {
     public static String parserPackageName;
 
     /**
+     * Specify query string constructor to use for dynamic ontology servers
+     */
+    public static String queryStringConstructorPackageName;
+    /**
+     * boolean that specifies if input ontology source is static (file) or dynamic (cgi)
+     */
+    public static boolean isSourceDynamic;
+
+    /**
      * where to find parser
      */
     private static final String parserPackagePathPrefix = "ontorama.webkbtools.query.parser";
@@ -75,6 +84,16 @@ public class OntoramaConfig {
      */
      private static String parserPackagePathSuffix;
      private static String sourcePackagePathSuffix;
+
+
+    /**
+     * where to find package that builds query string in case of dynamic ontology server
+     */
+    private static final String queryStringConstructorPackagePathPrefix = "ontorama.webkbtools.query.cgi";
+    /**
+     * name of the package itself (supplied by the user in examples config file)
+     */
+    private static String queryStringConstructorPackagePathSuffix;
 
     /**
      *
@@ -343,6 +362,8 @@ public class OntoramaConfig {
       OntoramaConfig.sourceUri = example.getRelativeUri();
       setParserPackageName(example.getParserPackagePathSuffix());
       setSourcePackageName(example.getSourcePackagePathSuffix());
+      OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
+      setQueryStringConstructorPackageName(example.getQueryStringConstructorPackagePathSuffix());
       OntoramaConfig.ontologyRoot = example.getRoot();
       OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
 
@@ -383,6 +404,20 @@ public class OntoramaConfig {
       */
      public static void setSourcePackageName (String sourcePackagePathSuffixStr) {
       sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
+     }
+
+     /**
+      *
+      */
+     public static String getQueryStringCostructorPackageName () {
+      return queryStringConstructorPackageName;
+     }
+
+     /**
+      *
+      */
+     public static void setQueryStringConstructorPackageName (String queryStringConstructorPackagePathSuffix) {
+      queryStringConstructorPackageName = queryStringConstructorPackagePathPrefix + "." + queryStringConstructorPackagePathSuffix;
      }
 
      /**

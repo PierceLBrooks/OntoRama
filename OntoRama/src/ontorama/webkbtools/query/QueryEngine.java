@@ -11,14 +11,15 @@ import java.io.Reader;
 import java.io.IOException;
 
 import ontorama.OntoramaConfig;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
 import ontorama.util.Debug;
 
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.cgi.QueryStringConstructorInterface;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -71,56 +72,39 @@ public class QueryEngine implements QueryEngineInterface {
 
     /**
      * Execute a query to OntologyServer and get a query result
-     * @todo: think what to do with exception
+     * @todo: think what to do with exceptions
+     * @todo: see todo in the constructor
      */
     public QueryEngine(Query query) throws ParserException, IOException,
                       ClassNotFoundException, InstantiationException,
                       IllegalAccessException, Exception {
         this.query = query;
 
-//        try {
+        String queryUrl = OntoramaConfig.sourceUri;
+        String queryOutputFormat = OntoramaConfig.queryOutputFormat;
 
-          String queryUrl = OntoramaConfig.sourceUri;
-          String queryOutputFormat = OntoramaConfig.queryOutputFormat;
-          Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
-          if (OntoramaConfig.DEBUG) {
-              System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-              System.out.println("OntoramaConfig.queryOutputFormat = " + OntoramaConfig.queryOutputFormat);
-              System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.getParserPackageName());
-          }
+        if (OntoramaConfig.isSourceDynamic) {
+          QueryStringConstructorInterface queryStrConstr =
+            (QueryStringConstructorInterface) (Class.forName(OntoramaConfig.getQueryStringCostructorPackageName())).newInstance();
+          queryUrl = queryUrl + queryStrConstr.getQueryString(query, queryOutputFormat);
+        }
 
-          Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-          //System.out.println("\ngetTypeRelative: OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri + ", source = " + source);
-          Reader r = source.getReader(queryUrl);
+        Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
+        if (OntoramaConfig.DEBUG) {
+            System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
+            System.out.println("OntoramaConfig.queryOutputFormat = " + OntoramaConfig.queryOutputFormat);
+            System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.getParserPackageName());
+        }
 
-          this.typeRelativesIterator = parser.getOntologyTypeIterator(r);
-          r.close();
-//        }
-//        catch (ParserException pe ) {
-//            //System.err.println("ParserException: " + pe.getMessage());
-//            //pe.printStackTrace();
-//            //System.exit(1);
-//            throw new Exception(pe.getMessage());
-//        }
-//        catch (IOException io) {
-//            //System.err.println("IOException: " + io);
-//            //System.exit(1);
-//            throw new Exception(io.getMessage());
-//        }
+        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+        Reader r = source.getReader(queryUrl);
 
-//            // query WebKB
-//            TypeQuery typeQuery = new TypeQueryImplementation ();
-//            //this.typeRelativesIterator = typeQuery.getTypeRelative(query.getQueryTypeName());
-//            this.typeRelativesIterator = typeQuery.getTypeRelative(query.getQueryTypeName());
-//        }
-//        catch (ClassNotFoundException ce) {
-//          System.out.println("class QueryEngine, got exception: " + ce);
-//          throw ce;
-//        }
-//        catch (Exception e) {
-//          System.out.println("class QueryEngine, got exception: " + e);
-//          throw e;
-//        }
+        // todo: if source is not static - check if the result is ok. in webkb case -
+        // if it returns rdf file. if not - there is an error. Possibly reiterate through all
+        // possible combinations for different capitalizations of query term here
+
+        this.typeRelativesIterator = parser.getOntologyTypeIterator(r);
+        r.close();
     }
 
     /**

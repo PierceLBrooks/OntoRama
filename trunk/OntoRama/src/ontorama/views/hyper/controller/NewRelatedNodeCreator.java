@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.2 2002-11-26 00:06:08 pbecker Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.3 2002-11-29 04:47:35 nataliya Exp $
  */
 package ontorama.views.hyper.controller;
 
@@ -43,38 +43,39 @@ public class NewRelatedNodeCreator {
     }
 
     public ontorama.model.graph.Node createNewRelatedNode() {
-        dialog.show();
-
-        ontorama.model.graph.Node newNode = new ontorama.model.graph.NodeImpl(textField.getText());
-        List newEdges = new ArrayList();
-        try {
-            newEdges.add(new ontorama.model.graph.EdgeImpl(graphNode, newNode, edgeType));
-            List clones = graphNode.getClones();
-            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
-                ontorama.model.graph.Node node = (ontorama.model.graph.Node) iterator.next();
-                newEdges.add(new ontorama.model.graph.EdgeImpl(node, newNode.makeClone(), edgeType));
-            }
-        } catch (NoSuchRelationLinkException e) {
-            /// @todo what to do here? Do we get this?
-            e.printStackTrace();
-            return null;
-        }
-
-        ontorama.model.graph.Graph graph = view.getGraph();
-        try {
-            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
-                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) iterator.next();
-                graph.addEdge(edge);
-            }
-        } catch (GraphModificationException e) {
-            /// @todo what to do here? Do we get this?
-            e.printStackTrace();
-            return null;
-        } catch (NoSuchRelationLinkException e) {
-            /// @todo what to do here? Do we get this?
-            e.printStackTrace();
-            return null;
-        }
-        return newNode;
+//        dialog.show();
+//
+//        ontorama.model.graph.Node newNode = new ontorama.model.graph.NodeImpl(textField.getText());
+//        List newEdges = new ArrayList();
+//        try {
+//            newEdges.add(new ontorama.model.graph.EdgeImpl(graphNode, newNode, edgeType));
+//            List clones = graphNode.getClones();
+//            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
+//                ontorama.model.graph.Node node = (ontorama.model.graph.Node) iterator.next();
+//                newEdges.add(new ontorama.model.graph.EdgeImpl(node, newNode.makeClone(), edgeType));
+//            }
+//        } catch (NoSuchRelationLinkException e) {
+//            /// @todo what to do here? Do we get this?
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//        ontorama.model.graph.Graph graph = view.getGraph();
+//        try {
+//            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
+//                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) iterator.next();
+//                graph.addEdge(edge);
+//            }
+//        } catch (GraphModificationException e) {
+//            /// @todo what to do here? Do we get this?
+//            e.printStackTrace();
+//            return null;
+//        } catch (NoSuchRelationLinkException e) {
+//            /// @todo what to do here? Do we get this?
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return newNode;
+return null;
     }
 }

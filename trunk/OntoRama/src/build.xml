@@ -106,7 +106,7 @@
   </target>
 
   <target name="jar" depends="compile">
-    <jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF"/>
+    <jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF" excludes="ontorama/backends/**"/>
   </target>
 
 

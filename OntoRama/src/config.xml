@@ -35,12 +35,12 @@
 		</relation>
 		<relation id="2">
 			<relationType name="synonym"/>
-			<display color="#0000ff"/>
+			<display color="#FF99FF"/>
 		</relation>
 		<relation id="4">
 			<relationType name="part" mappingSymbol="p"/>
 			<relationType name="partOf" mappingSymbol="P"/>
-			<display color="#0000ff"/>
+			<display color="#FFFF99"/>
 		</relation>
 		<relation id="5">
 			<relationType name="member" mappingSymbol="m"/>

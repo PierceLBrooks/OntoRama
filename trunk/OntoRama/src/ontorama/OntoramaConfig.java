@@ -8,11 +8,9 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -90,7 +88,6 @@ public class OntoramaConfig {
 
     private static Properties properties = new Properties();
 
-    private static List backends = new LinkedList();
     private static boolean loadBlankOnStartUp = false;
 
     private static Hashtable nodesConfig = new Hashtable();
@@ -102,8 +99,9 @@ public class OntoramaConfig {
     
     public static String examplesConfigLocation = "examplesConfig.xml";
     
-    public static String defaultBackend;
+    public static String defaultBackend = "ontorama.backends.examplesmanager.ExamplesBackend";
 
+	private static String backendName;
 	/// @todo not sure if this should be static - need to check
 	private static Backend _activeBackend;
 	
@@ -185,24 +183,7 @@ public class OntoramaConfig {
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
-        /// @todo the way backends are handled is a bit of a hack for now.
-        Enumeration e = properties.propertyNames();
-        while (e.hasMoreElements()) {
-            String str = (String) e.nextElement();
-            if (str.startsWith("backend")) {
-                backends.add(properties.getProperty(str));
-            }
-            if (str.startsWith("backendDefault")) {
-            	defaultBackend = properties.getProperty(str);
-            }
-        }
-        if (defaultBackend == null) {
-        	String message = "Default backend is not specified in ontorama.properties (key: backendDefault)";
-        	System.err.println(message);
-        	new ErrorPopupMessage(message, null);
-        	System.exit(1);
-        }
-
+        backendName = properties.getProperty("backend");
     }
 
     private static void loadConfiguration(String configFileLocation)
@@ -269,8 +250,8 @@ public class OntoramaConfig {
         return OntoramaConfig.classLoader;
     }
 
-    public static List getBackends () {
-        return backends;
+    public static String getBackendPackageName () {
+        return backendName;
     }
 
     public static boolean loadBlank () {

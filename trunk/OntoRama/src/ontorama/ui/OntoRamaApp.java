@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -273,7 +272,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             Object.class);
 
         _timer = new Timer(TIMER_INTERVAL, this);
-        initBackends();
+        initBackend();
         _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         _splitPane.setResizeWeight(_leftSplitPanelWidthPercent / 100.0);
         buildMenuBar();
@@ -381,15 +380,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         new OntoRamaApp();
     }
     
-    private void initBackends() {
-        List backendsList = OntoramaConfig.getBackends();
-    	String backendName = null;
-        if (backendsList.size() != 0) {
-        	backendName = (String) backendsList.get(0);
-        }
-        else {
+    private void initBackend() {
+    	String backendName = OntoramaConfig.getBackendPackageName();
+        if (backendName == null) {
         	new ErrorPopupMessage("No backends specified in ontorama.properties", this);
-        	return;
+        	System.exit(1);
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
 		OntoramaConfig.activateBackend(backend);

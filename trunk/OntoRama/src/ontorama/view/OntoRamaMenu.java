@@ -15,9 +15,14 @@ import java.awt.Toolkit;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BoxLayout;
 
 
 import ontorama.OntoramaConfig;
@@ -43,6 +48,8 @@ public class OntoRamaMenu {
   private JMenu historyMenu;
 
   private OntoRamaApp mainApp;
+
+  private JToolBar toolBar;
 
   /**
    * list of OntoramaExamples
@@ -88,8 +95,6 @@ public class OntoRamaMenu {
    */
   private JMenuItem historyBackMenuItem;
   private JMenuItem historyForwardMenuItem;
-  private boolean backButtonIsEnabled = false;
-  private boolean forwardButtonIsEnabled = false;
 
 
   /**
@@ -100,6 +105,13 @@ public class OntoRamaMenu {
 
   /**
    *
+   */
+  private Action backAction;
+  private Action forwardAction;
+
+  /**
+   * @todo  toolbar should live in a different class. (use Action for actions).
+   * @todo  think better about handling actions.
    */
   public OntoRamaMenu (OntoRamaApp mainApp, ViewEventListener viewEventListener) {
     this.mainApp = mainApp;
@@ -121,6 +133,17 @@ public class OntoRamaMenu {
     this.examplesMenu.setMnemonic(KeyEvent.VK_E);
     buildExamplesMenuItems();
 
+    backAction = new AbstractAction("Back") {
+      public void actionPerformed (ActionEvent e) {
+        historyBackAction();
+      }
+    };
+    forwardAction = new AbstractAction("Forward") {
+      public void actionPerformed (ActionEvent e) {
+        historyForwardAction();
+      }
+    };
+
     this.historyMenu = new JMenu("History");
     this.historyMenu.setMnemonic(KeyEvent.VK_H);
     buildHistoryMenu();
@@ -128,6 +151,29 @@ public class OntoRamaMenu {
     this.menuBar.add(this.fileMenu);
     this.menuBar.add(this.examplesMenu);
     this.menuBar.add(this.historyMenu);
+
+    toolBar = new JToolBar();
+    //toolBar.setFloatable(false);
+
+//    JButton backButton = new JButton("Back");
+//    toolBar.add(backButton);
+//
+//    JButton forwardButton = new JButton("Forward");
+//    toolBar.add(forwardButton);
+
+      JButton backButton = toolBar.add(backAction);
+      toolBar.addSeparator();
+
+      JButton forwardButton = toolBar.add(forwardAction);
+      toolBar.addSeparator();
+
+  }
+
+  /**
+   *
+   */
+  public JToolBar getToolBar () {
+    return this.toolBar;
   }
 
   /**
@@ -159,31 +205,34 @@ public class OntoRamaMenu {
   private void buildHistoryMenu () {
 
     // create back and forward buttons
-    this.historyBackMenuItem = new JMenuItem("Back");
-    this.historyForwardMenuItem = new JMenuItem("Forward");
+    //this.historyBackMenuItem = new JMenuItem("Back");
+    //this.historyForwardMenuItem = new JMenuItem("Forward");
+
+    this.historyBackMenuItem = historyMenu.add(backAction);
+    this.historyForwardMenuItem = historyMenu.add(forwardAction);
 
     // set shortcut keys
     this.historyBackMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK));
     this.historyForwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.ALT_MASK));
 
     // add listeners
-    this.historyBackMenuItem.addActionListener(new ActionListener () {
-      public void actionPerformed(ActionEvent e) {
-        historyBackAction();
-      }
-    });
-    this.historyForwardMenuItem.addActionListener(new ActionListener () {
-      public void actionPerformed(ActionEvent e) {
-        historyForwardAction();
-      }
-    });
+//    this.historyBackMenuItem.addActionListener(new ActionListener () {
+//      public void actionPerformed(ActionEvent e) {
+//        historyBackAction();
+//      }
+//    });
+//    this.historyForwardMenuItem.addActionListener(new ActionListener () {
+//      public void actionPerformed(ActionEvent e) {
+//        historyForwardAction();
+//      }
+//    });
 
     // set enabled/disabled
     enableBackForwardButtons();
 
     // add  back and forward buttons to the history menu
-    this.historyMenu.add(this.historyBackMenuItem);
-    this.historyMenu.add(this.historyForwardMenuItem);
+//    this.historyMenu.add(this.historyBackMenuItem);
+//    this.historyMenu.add(this.historyForwardMenuItem);
     this.historyMenu.addSeparator();
 
     appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
@@ -315,6 +364,7 @@ public class OntoRamaMenu {
       }
     });
     this.historyMenu.add(historyItem);
+    enableBackForwardButtons();
 
   }
 
@@ -406,16 +456,20 @@ public class OntoRamaMenu {
     int maxHistoryItem = this.menuItemHistoryMapping.size() - 1;
     System.out.println("***enableBackForwardButtons, curSelectedHistoryIndex = " + curSelectedHistoryIndex + ", maxHistoryItem = " + maxHistoryItem);
     if (curSelectedHistoryIndex <= 0) {
-      this.historyBackMenuItem.setEnabled(false);
+      //this.historyBackMenuItem.setEnabled(false);
+      this.backAction.setEnabled(false);
     }
     else {
-      this.historyBackMenuItem.setEnabled(true);
+      //this.historyBackMenuItem.setEnabled(true);
+      this.backAction.setEnabled(true);
     }
     if (curSelectedHistoryIndex >= (this.menuItemHistoryMapping.size()-1)) {
-      this.historyForwardMenuItem.setEnabled(false);
+      //this.historyForwardMenuItem.setEnabled(false);
+      this.forwardAction.setEnabled(false);
     }
     else {
-      this.historyForwardMenuItem.setEnabled(true);
+      //this.historyForwardMenuItem.setEnabled(true);
+      this.forwardAction.setEnabled(true);
     }
   }
 

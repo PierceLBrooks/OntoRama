@@ -6,7 +6,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import ontorama.util.IteratorUtil;
 
 /**
  * <p>Title: </p>
@@ -25,7 +24,6 @@ public class TestQuery extends TestCase {
     private Query query1;
     private Query query2;
 
-    private List expectedRelLinksList1 = new LinkedList();
     private List expectedRelLinksList2 = new LinkedList();
 
 
@@ -51,7 +49,6 @@ public class TestQuery extends TestCase {
         query2 = new Query(termName, testRelationLinksList);
         query2.setDepth(4);
 
-        expectedRelLinksList1 = new LinkedList();
         expectedRelLinksList2 = new LinkedList();
         expectedRelLinksList2.add(new Integer(0));
         expectedRelLinksList2.add(new Integer(2));
@@ -73,7 +70,7 @@ public class TestQuery extends TestCase {
         assertEquals("relaton links collection for query1 should be empty", 0,
                 query1.getRelationLinksCollection().size());
 
-        Collection expectedCollection2 = (Collection) expectedRelLinksList2;
+        Collection expectedCollection2 = expectedRelLinksList2;
         assertEquals("relation links collection for query2", expectedCollection2,
                 query2.getRelationLinksCollection());
     }
@@ -82,16 +79,10 @@ public class TestQuery extends TestCase {
      * test method getRelationLinksIterator
      */
     public void testGetRelationLinksIterator() {
-        assertEquals("relation links iterator for query1 should be empty", 0,
-                IteratorUtil.getIteratorSize(query1.getRelationLinksIterator()));
-
-        assertEquals("size of relation links iterator for query2",
-                IteratorUtil.getIteratorSize(expectedRelLinksList2.iterator()),
-                IteratorUtil.getIteratorSize(query2.getRelationLinksIterator()));
-        assertEquals("relation links iterator for query2 should contain integer 2",
-                true, IteratorUtil.objectIsInIterator(new Integer(2), query2.getRelationLinksIterator()));
-        assertEquals("relation links iterator for query2 should not contain integer 3",
-                false, IteratorUtil.objectIsInIterator(new Integer(3), query2.getRelationLinksIterator()));
+        assertEquals("relation links iterator for query1 should be empty", 0, query1.getRelationLinksList().size());
+        assertEquals("size of relation links iterator for query2", expectedRelLinksList2.size(), query2.getRelationLinksList().size());
+        assertEquals("relation links iterator for query2 should contain integer 2",true, query2.getRelationLinksList().contains(new Integer(2)));
+        assertEquals("relation links iterator for query2 should not contain integer 3", false, query2.getRelationLinksList().contains(new Integer(3)));
     }
 
     /**
@@ -141,4 +132,5 @@ public class TestQuery extends TestCase {
         query1.setDepth(8);
         assertEquals("set depth for query1", 8, query1.getDepth());
     }
+
 }

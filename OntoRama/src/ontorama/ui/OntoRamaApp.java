@@ -242,31 +242,31 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         new QueryNodeEventHandler(_viewsEventBroker);
 
         _modelEventBroker.subscribe(
-            new QueryStartEventHandler(),
-            QueryStartEvent.class,
-            Object.class);
+				            new QueryStartEventHandler(),
+				            QueryStartEvent.class,
+				            Object.class);
         _viewsEventBroker.subscribe(
-            new QueryStartEventHandler(),
-            QueryStartEvent.class,
-            Object.class);
+				            new QueryStartEventHandler(),
+				            QueryStartEvent.class,
+				            Object.class);
 
         _modelEventBroker.subscribe(
-            new QueryEndEventHandler(),
-            QueryEndEvent.class,
-            Object.class);
+				            new QueryEndEventHandler(),
+				            QueryEndEvent.class,
+				            Object.class);
         _viewsEventBroker.subscribe(
-            new QueryEndEventHandler(),
-            QueryEndEvent.class,
-            Object.class);
+				            new QueryEndEventHandler(),
+				            QueryEndEvent.class,
+				            Object.class);
 
         _modelEventBroker.subscribe(
-            new QueryCancelledEventHandler(),
-            QueryCancelledEvent.class,
-            Object.class);
+				            new QueryCancelledEventHandler(),
+				            QueryCancelledEvent.class,
+				            Object.class);
         _viewsEventBroker.subscribe(
-            new QueryCancelledEventHandler(),
-            QueryCancelledEvent.class,
-            Object.class);
+				            new QueryCancelledEventHandler(),
+				            QueryCancelledEvent.class,
+				            Object.class);
 
         _timer = new Timer(TIMER_INTERVAL, this);
         initBackend();
@@ -282,23 +282,32 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         setStatusLabel("status bar is here");
 
         new LoggingEventListener(
-            _modelEventBroker,
-            GeneralQueryEvent.class,
-            Object.class,
-            System.out);
+				            _modelEventBroker,
+				            GeneralQueryEvent.class,
+				            Object.class,
+				            System.out);
 
         new LoggingEventListener(
-            _modelEventBroker,
-            QueryCancelledEvent.class,
-            Object.class,
-            System.out);
+				            _modelEventBroker,
+				            QueryCancelledEvent.class,
+				            Object.class,
+				            System.out);
 
         _descriptionViewPanel = new DescriptionView(_viewsEventBroker);
         _queryPanel = new QueryPanel(_viewsEventBroker);
         _treeView = new OntoTreeView(_viewsEventBroker);
         _hyperView = new SimpleHyperView(_viewsEventBroker, projection);
 
-        addComponentsToScrollPanel(_hyperView, _treeView);
+		JSplitPane leftSideSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    	leftSideSplitPane.add(_treeView);
+		JPanel backendPanel = OntoramaConfig.getBackend().getPanel();
+		if (backendPanel != null) {
+			leftSideSplitPane.setResizeWeight(0.7);
+			leftSideSplitPane.setOneTouchExpandable(true);
+			leftSideSplitPane.add( backendPanel);
+		}
+
+        addComponentsToScrollPanel(_hyperView, leftSideSplitPane);
         JPanel mainContentPanel = new JPanel(new BorderLayout());
 
         mainContentPanel.add(_queryPanel, BorderLayout.NORTH);
@@ -399,9 +408,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      * Add the scroll panes to a split pane
      */
-    private void addComponentsToScrollPanel(
-        JComponent leftComp,
-        JComponent rightComp) {
+    private void addComponentsToScrollPanel(JComponent leftComp, JComponent rightComp) {
         _splitPane.setLeftComponent(leftComp);
         _splitPane.setRightComponent(rightComp);
         _splitPane.setOneTouchExpandable(true);

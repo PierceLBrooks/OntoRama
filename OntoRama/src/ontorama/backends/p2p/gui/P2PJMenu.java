@@ -72,19 +72,7 @@ public class P2PJMenu extends JMenu {
         _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel", _p2pBackend);
         add(_resetChangePanelAction);
         addSeparator();
-        
-        _fileChooser = new JFileChooser();
-        _fileChooser.addChoosableFileFilter(new P2PFileFilter(p2pBackend.getFileExtension()));
-    	Action openAction = new AbstractAction("Load from file") {
-    		public void actionPerformed(ActionEvent e) {
-    			int returnValue = _fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
-    			if (returnValue == JFileChooser.APPROVE_OPTION) {
-    				_p2pBackend.loadFile(_fileChooser.getSelectedFile());
-    			}
-    		}
-    	};
-    	add(openAction);
-    	
+           	
     	setActionsEnabled(false);
         
     }
@@ -96,7 +84,6 @@ public class P2PJMenu extends JMenu {
 
         public void actionPerformed(ActionEvent e) {
             //_p2pBackend.activate();
-            _p2pBackend.showPanels(true);
             setActionsEnabled(true);
         }
 

@@ -1,10 +1,10 @@
 package ontorama.backends.p2p.p2pmodule;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.ChangePanel;
+import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -42,9 +42,9 @@ public class P2PReciever implements P2PRecieverInterface{
     public P2PReciever(P2PBackend backend){
         this.backend = backend;
         //Get the panel used to status of peers
-        List panels = backend.getPanels();
-        activePeers = (PeersPanel) panels.get(0);
-        changes = (ChangePanel) panels.get(1);
+    	P2PMainPanel panel = (P2PMainPanel) backend.getPanel();
+    	activePeers = panel.getPeerPanel();
+    	changes = panel.getChangePanel();
     }
 
     public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){

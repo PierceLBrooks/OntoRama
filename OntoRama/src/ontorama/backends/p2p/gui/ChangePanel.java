@@ -27,7 +27,7 @@ public class ChangePanel extends JPanel {
 
         _myModel = new MyTableModel();
         _table = new JTable(_myModel);
-        _table.setPreferredScrollableViewportSize(new Dimension(200, 300));
+        //_table.setPreferredScrollableViewportSize(new Dimension(200, 300));
 
         //Create the scroll pane and add the _table to it.
         JScrollPane scrollPane = new JScrollPane(_table);

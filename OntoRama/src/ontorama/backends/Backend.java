@@ -1,9 +1,9 @@
 package ontorama.backends;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.JMenu;
+import javax.swing.JPanel;
 
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
@@ -30,7 +30,7 @@ Graph search(Query)
 		 */
 public interface Backend {
 	
-	public List getPanels();
+	public JPanel getPanel();
 	public JMenu getMenu();
 	
 	public void setEventBroker(EventBroker eventBroker);

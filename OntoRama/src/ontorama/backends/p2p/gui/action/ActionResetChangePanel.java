@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.gui.ChangePanel;
+import ontorama.backends.p2p.gui.P2PMainPanel;
 
 /*
  * Created by IntelliJ IDEA.
@@ -23,9 +23,8 @@ public class ActionResetChangePanel extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-       ChangePanel changePanel = (ChangePanel) _p2pBackend.getPanels().get(1);
-       changePanel.empty();
-       
+    	P2PMainPanel panel = (P2PMainPanel) _p2pBackend.getPanel();
+        panel.getChangePanel().empty();
     }
 
 

@@ -7,7 +7,7 @@
 	</example>
 
 	<example name="KB cgi" root="net.sourceforge.toscanaj.gui" loadOnStart="yes" >
-		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/test/query-1.pl" 
+		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/test/query.pl" 
 					sourcePackagePathSuffix="cgkb.CgKbSource"
 					isSourceDynamic="true" />
 		<queryOutputFormat>CSV</queryOutputFormat>

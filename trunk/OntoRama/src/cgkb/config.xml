@@ -48,22 +48,27 @@ non-transitive:
 		</relation>
 		<relation id="6">
 			<relationType name="name" mappingSymbol="n"/>
+			<relationType name="-name" mappingSymbol="n"/>
 			<display color="#FF3366" symbol="n"/>
 		</relation>
 		<relation id="7">
 			<relationType name="scope" mappingSymbol="s"/>
+			<relationType name="-scope" mappingSymbol="s"/>
 			<display color="#008080" symbol="s"/>
 		</relation>
 		<relation id="8">
 			<relationType name="has-param" mappingSymbol="p"/>
+			<relationType name="-has-param" mappingSymbol="p"/>
 			<display color="#FFFFCC" symbol="p"/>
 		</relation>
 		<relation id="9">
 			<relationType name="implements" mappingSymbol="i"/>
+			<relationType name="-implements" mappingSymbol="i"/>
 			<display color="#FA8072" symbol="i"/>
 		</relation>
 		<relation id="10">
 			<relationType name="throws" mappingSymbol="t"/>
+			<relationType name="-throws" mappingSymbol="t"/>
 			<display color="#708090" symbol="t"/>
 		</relation>
 	</ontology>

@@ -129,6 +129,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
      *
      */
     public OntoramaExample getMainExample() {
+      //System.out.println("returning example = " + this.mainExample);
       return this.mainExample;
     }
 

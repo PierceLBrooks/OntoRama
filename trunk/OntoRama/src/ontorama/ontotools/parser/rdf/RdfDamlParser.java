@@ -12,7 +12,6 @@ import java.util.StringTokenizer;
 import ontorama.OntoramaConfig;
 import ontorama.conf.RdfMapping;
 import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -391,8 +390,8 @@ public class RdfDamlParser implements Parser {
 //        String toNodeName = stripUri(toNode);
 //        Node fromNode = getGraphNodeByName(fromNodeName, fromNode.toString());
 //        Node toNode = getGraphNodeByName(toNodeName, toNode.toString());
-
-        Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+		
+        Edge newEdge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
         //System.out.println("creating edge: " + fromNode + ", " + toNode + ", edgeType = " + edgeType);
         _edgesList.add(newEdge);
     }

@@ -11,7 +11,6 @@ import java.util.List;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
-import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.conf.RdfMapping;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -394,13 +393,13 @@ public class RdfP2pParser implements Parser {
         if (!edgeTypeExt.getIsReverse()) {
             edge = findEdgeInEdgesList(subjectStr, objectStr, edgeType);
             if (edge == null) {
-                edge = new P2PEdgeImpl(node1, node2, edgeType);
+                edge = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node2, edgeType);
             }
         }
         else {
             edge = findEdgeInEdgesList(objectStr, subjectStr, edgeType);
             if (edge == null ) {
-                edge = new P2PEdgeImpl(node2, node1, edgeType);
+                edge = (P2PEdge) OntoramaConfig.getBackend().createEdge(node2, node1, edgeType);
             }
         }
         return edge;

@@ -1,8 +1,8 @@
 package ontorama.backends.p2p.controller;
 
+import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PEdge;
-import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphModificationException;
@@ -34,7 +34,7 @@ public class EdgeRemovedEventHandler implements EventBrokerListener {
         Edge edge = edgeRemovedEvent.getEdge();
     	System.out.println("p2p EdgeRemovedEventHandler for edge " + edge);        
         try {
-            P2PEdge p2pEdge = new P2PEdgeImpl(edge.getFromNode(), edge.getToNode(), edge.getEdgeType());
+            P2PEdge p2pEdge = (P2PEdge) OntoramaConfig.getBackend().createEdge(edge.getFromNode(), edge.getToNode(), edge.getEdgeType());
             _p2pBackend.rejectEdge(p2pEdge, edge.getCreatorUri());
         }
         catch (NoSuchRelationLinkException exc ) {

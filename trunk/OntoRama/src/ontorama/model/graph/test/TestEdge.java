@@ -11,7 +11,6 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -96,13 +95,13 @@ public class TestEdge extends TestCase {
         node6 = _backend.createNode("node6", "node6");
 
         try {
-            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
-            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
-            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
-            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
+            edge1 = _backend.createEdge(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+            edge2 = _backend.createEdge(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+            edge3 = _backend.createEdge(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
+            edge4 = _backend.createEdge(node1, node5, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
+            edge5 = _backend.createEdge(node2, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+            edge6 = _backend.createEdge(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
+            edge7 = _backend.createEdge(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
 
             // create relation links set
             relLinksSet = createSet(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar), OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));

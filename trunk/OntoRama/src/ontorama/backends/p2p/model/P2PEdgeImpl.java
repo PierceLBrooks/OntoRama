@@ -37,23 +37,6 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
 	}
 
     /**
-     * Create a new P2PEdgeImpl with given name and asserter or rejecter
-     */
-	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType,URI asserter, URI rejecter) throws NoSuchRelationLinkException {
-		super(fromNode,toNode,edgeType);
-
-		this.assertions = new HashSet();
-		this.rejections = new HashSet();
-		if (asserter != null) {
-			this.assertions.add(asserter);
-		}
-		if (rejecter != null) {
-			this.rejections.add(rejecter);		
-		}
-	}
-
-
-    /**
      * Add an asserter for this edge. If the asserter is registered as a 
      * rejecter as well that is removed
      */

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import org.tockit.events.EventBroker;
 
+import ontorama.OntoramaConfig;
 import ontorama.model.graph.*;
 import ontorama.model.tree.events.TreeNodeAddedEvent;
 import ontorama.model.tree.events.TreeNodeRemovedEvent;
@@ -43,7 +44,7 @@ public class TreeImpl implements Tree {
 		Node graphNode = ((TreeNodeImpl) newNode).getGraphNode();
 		addTreeNode(newNode);
 		try {
-			Edge graphEdge = new EdgeImpl(((TreeNodeImpl) parentTreeNode).getGraphNode(),
+			Edge graphEdge = OntoramaConfig.getBackend().createEdge(((TreeNodeImpl) parentTreeNode).getGraphNode(),
 										((TreeNodeImpl) newNode).getGraphNode(),
 										edgeType);
 			_graph.addNode(graphNode);

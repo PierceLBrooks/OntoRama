@@ -98,9 +98,9 @@ public class CgKbCsvParser implements Parser {
             while (edgeTypesIterator.hasNext()) {
                 ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) edgeTypesIterator.next();
                 if (rel.equals(edgeType.getName())) {
-                    edge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
+                    edge = _backend.createEdge(fromNode, toNode, edgeType);
                 } else if (rel.equals(edgeType.getReverseEdgeName())) {
-                    edge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
+                    edge = _backend.createEdge(fromNode, toNode, edgeType);
                 }
             }
             if (edge == null) {

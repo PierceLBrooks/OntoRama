@@ -123,16 +123,19 @@ public class HistoryMenu extends JMenu {
     //int historyItemsCount = this.menuItemHistoryMapping.size();
     Enumeration historyItemsEnum =  _menuItemHistoryMapping.keys();
 
-    //String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
     String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
-    historyItemLabelName = historyItemLabelName + ", depth = " + query.getDepth();
-    historyItemLabelName = historyItemLabelName + ", rel links = " + query.getRelationLinksList();
+
+    String historyItemToolTipText = historyItemLabelName;
+    if (query.getDepth() > -1) {
+    	historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
+    }
+    historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
     
 
     if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
       // need to remove first item
       JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) _historyItems.getFirst();
-      System.out.println("first menu item = " + firstMenuItem.getText());
+      //System.out.println("first menu item = " + firstMenuItem.getText());
       _historyItems.removeFirst();
       _menuItemHistoryMapping.remove(firstMenuItem);
       remove(firstMenuItem);
@@ -142,6 +145,7 @@ public class HistoryMenu extends JMenu {
     HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, example);
 
     JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
+    historyItem.setToolTipText(historyItemToolTipText);
     setSelectedMenuItem( historyItem);
     _menuItemHistoryMapping.put(historyItem , historyElement);
     _historyItems.add(historyItem);

@@ -220,22 +220,25 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         }
     }
 
+    /**
+     *
+     */
     public void doQuery () {
       Query newQuery = ontoRamaApp.buildNewQuery();
       ontoRamaApp.executeQuery(newQuery);
     }
 
-	//////////////////////////ViewEventObserver interface implementation////////////////
+    //////////////////////////ViewEventObserver interface implementation////////////////
 
-	/**
-	 *
-	 */
-	public void focus ( GraphNode node) {
-		System.out.println();
-		System.out.println("******* queryPanel got focus for node " + node.getName());
-		this.queryField.setText(node.getName());
-		System.out.println();
-	}
+    /**
+     *
+     */
+    public void focus ( GraphNode node) {
+            System.out.println();
+            System.out.println("******* queryPanel got focus for node " + node.getName());
+            this.queryField.setText(node.getName());
+            System.out.println();
+    }
 
     /**
      *

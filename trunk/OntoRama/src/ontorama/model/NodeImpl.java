@@ -122,11 +122,17 @@ public class NodeImpl implements Cloneable, Node {
      * @param  clone  NodeImpl that is clone for this NodeImpl
      */
     public void addClone(Node clone) {
-        clones.add(clone);
+        if (! clones.contains(clone)) {
+            clones.add(clone);
+        }
     }
 
     public void addClones(List clones) {
-        clones.addAll(clones);
+        Iterator it = clones.iterator();
+        while (it.hasNext()) {
+            Node cloneNode = (Node) it.next();
+            addClone(cloneNode);
+        }
     }
 
 
@@ -171,15 +177,13 @@ public class NodeImpl implements Cloneable, Node {
         Iterator it = clones.iterator();
         while (it.hasNext()) {
             Node cur = (Node) it.next();
-            //if (!clones.contains(cloneNode)) {
             cur.addClone(cloneNode);
-            //}
         }
 
         // add all clones of this Node to the new node (clone node)
         cloneNode.addClones(this.clones);
         // add the clone to the list of clones of this Node
-        this.clones.add(cloneNode);
+        this.addClone(cloneNode);
         // add this Node to the list of clones for clonedNode
         cloneNode.addClone(this);
 
@@ -188,12 +192,12 @@ public class NodeImpl implements Cloneable, Node {
 
 
 
-    /**
-     * toString method
-     */
-    public String toString() {
-        String str = "Node: " + name;
-        return str;
-
-    }
+//    /**
+//     * toString method
+//     */
+//    public String toString() {
+//        String str = "Node: " + name;
+//        return str;
+//
+//    }
 }

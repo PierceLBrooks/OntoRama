@@ -26,7 +26,7 @@
 		<relation id="1">
 			<relationType name="subtype" mappingSymbol="&lt;"/>
 			<relationType name="supertype" mappingSymbol="&gt;"/>
-			<display color="#0000ff"/>
+			<display color="#CCFFFF"/>
 		</relation>
 		<relation id="3">
 			<relationType name="instance" mappingSymbol=":" />

@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 
 import java.awt.event.ActionListener;
 import java.awt.event.*;
@@ -155,6 +156,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
 //        queryFieldPanel.add(newButton);
 
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEtchedBorder());
 
         buildRelationLinksQueryPanel();
         add(_relationLinksPanel,BorderLayout.NORTH);

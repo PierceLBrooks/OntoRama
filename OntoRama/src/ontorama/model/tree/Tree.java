@@ -2,6 +2,8 @@ package ontorama.model.tree;
 
 import ontorama.model.graph.Node;
 
+import java.util.List;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
@@ -13,6 +15,10 @@ public interface Tree {
     /**
      * Returns root node of the tree.
      */
-    public Node getRootNode();
+    public TreeNode getRootNode();
+
+    public List getNodesList();
+
+    public List getEdgesList();
 
 }

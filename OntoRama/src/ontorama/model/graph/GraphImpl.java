@@ -133,7 +133,7 @@ public class GraphImpl implements Graph {
         List nodesList = queryResult.getNodesList();
         List edgesList = queryResult.getEdgesList();
 
-        try {
+        //try {
             buildGraph( nodesList, edgesList);
             if (termName == null) {
                 root = findRootNode();
@@ -148,10 +148,10 @@ public class GraphImpl implements Graph {
             }
             System.out.println("root = " + root);
             System.out.println("calling trasformGraphIntoTree from GraphImpl");
-            transformGraphIntoTree();
-        } catch (NoSuchRelationLinkException e) {
-            throw e;
-        }
+            //transformGraphIntoTree();
+        //} catch (NoSuchRelationLinkException e) {
+        //    throw e;
+        //}
         debug.message(
                 "******************* GraphBuilder constructor end *******************");
     }

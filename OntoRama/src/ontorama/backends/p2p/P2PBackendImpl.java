@@ -13,7 +13,6 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.P2PBackend;
 import ontorama.backends.BackendSearch;
 import ontorama.backends.p2p.controller.EdgeAddedEventHandler;
 import ontorama.backends.p2p.controller.EdgeRemovedEventHandler;

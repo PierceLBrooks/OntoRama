@@ -3,6 +3,7 @@ package ontorama.backends;
 import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.p2p.*;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.model.graph.GraphModificationException;

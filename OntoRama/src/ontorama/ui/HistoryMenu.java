@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.*;
@@ -138,7 +139,17 @@ public class HistoryMenu extends JMenu {
      *
      */
     public void appendHistory(Query query) {
-    	System.out.println("HistoryMenu:: query = " + query);
+    	System.out.println("\nHistoryMenu:: appendHistory() for query = " + query + ", term = " + query.getQueryTypeName());
+    	Iterator it = _historyItems.iterator();
+		while (it.hasNext()) {
+			JCheckBoxMenuItem element = (JCheckBoxMenuItem) it.next();
+			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(element);
+			Query historyQuery = historyElement.getQuery();
+			System.out.println("--- " + historyQuery + ", term = " + historyQuery.getQueryTypeName());
+			if (query.equals(historyQuery)) {
+				System.out.println("don't need to append - rather jump to that history item");
+			}
+		}
 
         String historyItemLabelName = query.getQueryTypeName();
 

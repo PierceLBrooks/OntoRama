@@ -128,15 +128,6 @@ public class Query {
 
 
 
-    /**
-     *
-     */
-    public String toString() {
-        String str = "Query: ";
-        str = str + "termName = " + _typeName + ", depth = " + _depth;
-        str = str + ", relation links: " + _relationLinks;
-        return str;
-    }
 
 	/**
 	 * Returns the _parserPackage.
@@ -161,5 +152,15 @@ public class Query {
 	public String getSourceUri() {
 		return _sourceUri;
 	}
+
+//	/**
+//	 *
+//	 */
+//	public String toString() {
+//		String str = "Query: ";
+//		str = str + "termName = " + _typeName + ", depth = " + _depth;
+//		str = str + ", relation links: " + _relationLinks;
+//		return str;
+//	}
 
 }

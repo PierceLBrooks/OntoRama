@@ -23,6 +23,8 @@ public class TestTreeNode  extends TestCase{
     Node _graphNode;
     TreeNode _treeNode;
     TreeNode _cloneNode;
+    TreeNode _childNode1;
+    TreeNode _childNode2;
     TreeEdge _childEdge1;
     TreeEdge _childEdge2;
 
@@ -40,8 +42,8 @@ public class TestTreeNode  extends TestCase{
 
         Node childGraphNode1 = new NodeImpl("child1");
         Node childGraphNode2 = new NodeImpl("child2");
-        TreeNode childNode1 = new TreeNodeImpl(childGraphNode1);
-        TreeNode childNode2 = new TreeNodeImpl(childGraphNode2);
+        _childNode1 = new TreeNodeImpl(childGraphNode1);
+        _childNode2 = new TreeNodeImpl(childGraphNode2);
         List edgeTypes = OntoramaConfig.getEdgeTypesList();
         if (edgeTypes.size() < 2) {
             System.err.println("expecting at least 2 edge types to be configured");
@@ -50,10 +52,10 @@ public class TestTreeNode  extends TestCase{
         EdgeType et1 = (EdgeType) edgeTypes.get(0);
         EdgeType et2 = (EdgeType) edgeTypes.get(1);
         Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
-        _childEdge1 = new TreeEdgeImpl(edge1, childNode1);
+        _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
         _treeNode.addChild(_childEdge1);
         Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
-        _childEdge2 = new TreeEdgeImpl(edge2, childNode2);
+        _childEdge2 = new TreeEdgeImpl(edge2, _childNode2);
         _treeNode.addChild(_childEdge2);
     }
 
@@ -82,4 +84,5 @@ public class TestTreeNode  extends TestCase{
         assertEquals("expecting to find edge in children list ", true, children.contains(_childEdge1));
         assertEquals("expecting ro find edge in children list ", true, children.contains(_childEdge2));
     }
+    
 }

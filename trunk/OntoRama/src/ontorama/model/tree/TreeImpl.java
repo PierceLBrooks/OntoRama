@@ -46,27 +46,11 @@ public class TreeImpl implements Tree {
         return _edges;
     }
 
-//    private void buildTree (Node graphRootNode) {
-//        _root = addTreeNode(graphRootNode);
-//        // get outbound edges, create tree node/edge for each graph node/edge component
-//        List queue = new LinkedList();
-//        queue.add(graphRootNode);
-//        while (!queue.isEmpty()) {
-//            Node curGraphNode = (Node) queue.remove(0);
-//            Iterator outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(curGraphNode).iterator();
-//            while (outboundEdges.hasNext()) {
-//                Edge curGraphEdge = (Edge) outboundEdges.next();
-//                TreeEdge curEdge = addTreeEdge (curGraphEdge);
-//
-//                queue.add(curGraphEdge.getToNode());
-//            }
-//        }
-//    }
 
     private void buildTree (Node topGraphNode) {
-//        System.out.println("buildTree for graph node " + topGraphNode);
         _root = addTreeNode(topGraphNode);
         traverseBuild(topGraphNode, _root);
+        calculateDepths(_root, 0);
     }
 
     private void traverseBuild (Node topGraphNode, TreeNode topTreeNode ) {
@@ -74,8 +58,7 @@ public class TreeImpl implements Tree {
         while (outboundEdges.hasNext()) {
             Edge curGraphEdge = (Edge) outboundEdges.next();
             TreeNode toNode = addTreeNode (curGraphEdge.getToNode());
-            TreeEdge curEdge = addTreeEdge (curGraphEdge, toNode);
-            topTreeNode.addChild(curEdge);
+            TreeEdge curEdge = addTreeEdge (curGraphEdge, topTreeNode, toNode);
             traverseBuild(curGraphEdge.getToNode(), toNode);
         }
     }
@@ -97,17 +80,26 @@ public class TreeImpl implements Tree {
         return treeNode;
     }
 
-    private TreeEdge addTreeEdge (Edge graphEdge, TreeNode toNode) {
-        //TreeNode toNode = addTreeNode (graphEdge.getToNode());
-        if (toNode.getParent() != null) {
-            /// @todo handle error with an exception
-            System.err.println("tree node " + toNode + " already has a parent!");
-            System.exit(-1);
-        }
+    private TreeEdge addTreeEdge (Edge graphEdge, TreeNode fromNode, TreeNode toNode) {
         TreeEdge treeEdge = new TreeEdgeImpl(graphEdge, toNode);
         _edges.add(treeEdge);
+    	fromNode.addChild(treeEdge);
         return treeEdge;
     }
+
+	/**
+	 * Calculate the depths of all children in respect to this node.
+	 */
+	public void calculateDepths(TreeNode top, int depth) {
+		top.setDepth(depth);
+		Iterator it = top.getChildren().iterator();
+		while (it.hasNext()) {
+			TreeEdge childEdge = (TreeEdge) it.next();
+			TreeNode childNode = childEdge.getToNode();
+			childNode.setDepth(depth + 1);
+			calculateDepths(childNode, depth + 1);
+		}
+	}
 
 
 }

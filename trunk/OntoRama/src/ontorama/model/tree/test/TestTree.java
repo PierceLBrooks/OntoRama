@@ -137,6 +137,7 @@ public class TestTree extends TestCase{
 
     public void testCloneWithChildren () {
         TreeNode treeNode = getNodeByName("node6");
+    	assertEquals("tree should contain node6 ", true, (treeNode != null));
         List clones = treeNode.getClones();
         assertEquals("number of clones for node6 ", 1, clones.size());
         TreeNode clone = (TreeNode) clones.get(0);
@@ -150,6 +151,7 @@ public class TestTree extends TestCase{
     public void testClone () {
         TreeNode treeNode = getNodeByName("node7");
         List clones = treeNode.getClones();
+        assertEquals("tree should contain node7 ", true, (treeNode != null));
         assertEquals("number of clones for node7 ", 2, clones.size());
 
         Iterator it = clones.iterator();
@@ -182,6 +184,12 @@ public class TestTree extends TestCase{
         }
         assertEquals("branchDepth of the tree should be ", 4, treeDepth);
     }
+    
+    public void testDepth () {
+    	TreeNode node1 = getNodeByName("node1");
+    	assertEquals("tree should contain node1 ", true, (node1 != null));
+    	assertEquals("depth for root node node1 ", 0, node1.getDepth());
+    }
 
     private int calcBranchDepth (int depth, TreeNode top) {
         Iterator children = top.getChildren().iterator();
@@ -202,9 +210,6 @@ public class TestTree extends TestCase{
         Iterator it = _tree.getNodesList().iterator();
         while (it.hasNext()) {
             TreeNode treeNode = (TreeNode) it.next();
-            if (treeNode.getClones().isEmpty()) {
-                continue;
-            }
             if (treeNode.getGraphNode().getName().equals(nodeName)) {
                 return treeNode;
             }

@@ -36,15 +36,17 @@ public interface TreeNode {
     public void addChild (TreeEdge childEdge);
     public boolean removeChild(TreeEdge childEdge);
 
-    /**
-     * set this node's parent
-     * @param parentEdge - inbound edge
-     */
-    public void setParent (TreeEdge parentEdge);
+    
+	/**
+	 * Returns the distance to the root node.
+	 * @return node depth
+	 */
+	public int getDepth();
 
-    /**
-     * get node's parent
-     * @return inbound edge
-     */
-    public TreeEdge getParent ();
+	/**
+	 * set distance to the root node
+	 * @param depth
+	 */
+	public void setDepth(int depth);
+    
 }

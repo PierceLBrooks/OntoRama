@@ -1,6 +1,7 @@
 package ontorama.model.tree;
 
 import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,4 +15,6 @@ public interface TreeEdge {
     public Edge getGraphEdge ();
 
     public TreeNode getToNode ();
+       
+    public EdgeType getEdgeType ();
 }

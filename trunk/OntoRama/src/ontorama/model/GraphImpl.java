@@ -534,7 +534,12 @@ public class GraphImpl implements Graph {
                 throw new EdgeAlreadyExistsException(edge);
             }
         }
+        Node fromNode = edge.getFromNode();
+        Node toNode = edge.getToNode();
+        /*
         addNodesForNewEdge(edge);
+        */
+        addNodesForNewEdge(fromNode, toNode);
         _graphEdges.add(edge);
         _eventBroker.processEvent(new EdgeAddedEvent(this,edge));
     }
@@ -552,22 +557,27 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param edge
+     * @param node1 node2
      * @throws GraphModificationException
      * @todo stupid method - only for one purpose - not to throw and exception where we don't want it.
      * need to rethink exceptions structure.
      */
-    private void addNodesForNewEdge (Edge edge) throws GraphModificationException {
+    private void addNodesForNewEdge (Node node1, Node node2) throws GraphModificationException {
+        /**
         Node fromNode = edge.getFromNode();
         Node toNode = edge.getToNode();
         Node tempNode;
+         */
         try  {
+            /*
             tempNode = existSameName(fromNode);
             if (tempNode != null) {
                 ((EdgeImpl) edge).setFromNode(tempNode);
             } else {
                 addNode(fromNode);
             }
+            */
+            addNode(node1);
         }
         catch (GraphModificationException e) {
             if (e instanceof NodeAlreadyExistsException) {
@@ -579,12 +589,15 @@ public class GraphImpl implements Graph {
         }
 
         try  {
+            /**
             tempNode = existSameName(toNode);
             if (tempNode != null) {
                 ((EdgeImpl) edge).setToNode(tempNode);
             } else {
                 addNode(toNode);
             }
+             */
+            addNode (node2);
         }
         catch (GraphModificationException e) {
             if (e instanceof NodeAlreadyExistsException) {

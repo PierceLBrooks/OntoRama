@@ -310,7 +310,6 @@ public class OntoramaConfig {
     }
 
 	public static void activateBackend (Backend backend) {
-		System.out.println("OntoramaConfig::activateBackend: " + backend);
 		/// @todo should have some more functionality: closing off previously active backend, 
 		/// perhaps saving data, etc.
 		OntoramaConfig._activeBackend = backend;
@@ -323,7 +322,6 @@ public class OntoramaConfig {
 	public static Backend instantiateBackend(String backendName, Frame parentFrame) {
 		try {
 			Backend backend = (Backend) Class.forName(backendName).newInstance();
-			System.out.println("OntoramaConfig::instantiateBackend: " + backend);
 			return backend;
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();

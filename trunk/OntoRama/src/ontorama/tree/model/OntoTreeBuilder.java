@@ -3,6 +3,7 @@ package ontorama.tree.model;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
 import java.util.Hashtable;
@@ -60,7 +61,7 @@ public class OntoTreeBuilder {
 
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
-            graphNodeToOntoTreeNode(topGraphNode, edge.getType());
+            graphNodeToOntoTreeNode(topGraphNode, edge.getEdgeType());
         }
 
     }
@@ -68,16 +69,16 @@ public class OntoTreeBuilder {
     /**
      * Convert each GraphNode to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode(GraphNode top, int relLink) {
+    private void graphNodeToOntoTreeNode(GraphNode top, RelationLinkDetails relLinkType) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
-        ontoTreeNode.setRelLink(relLink);
+        ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);
 
         Iterator outboundEdges = Edge.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
             GraphNode toGraphNode = (GraphNode) edge.getToNode();
-            graphNodeToOntoTreeNode(toGraphNode, edge.getType());
+            graphNodeToOntoTreeNode(toGraphNode, edge.getEdgeType());
         }
     }
 

@@ -5,6 +5,8 @@ import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.RelationLinkDetails;
 
 import java.util.*;
 
@@ -70,7 +72,7 @@ public class TestEdge extends TestCase {
      *
      */
     protected void setUp() {
-        Edge.clearEdgesList();
+        Edge.removeAllEdges();
 
         node1 = new GraphNode("node1");
         node2 = new GraphNode("node2");
@@ -80,16 +82,16 @@ public class TestEdge extends TestCase {
         node6 = new GraphNode("node6");
 
         try {
-            edge1 = new Edge(node1, node2, 1);
-            edge2 = new Edge(node1, node3, 1);
-            edge3 = new Edge(node1, node4, 2);
-            edge4 = new Edge(node1, node5, 3);
-            edge5 = new Edge(node2, node6, 1);
-            edge6 = new Edge(node3, node6, 2);
-            edge7 = new Edge(node4, node6, 3);
+            edge1 = new Edge(node1, node2, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge2 = new Edge(node1, node3, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge3 = new Edge(node1, node4, OntoramaConfig.getRelationLinkDetails()[2]);
+            edge4 = new Edge(node1, node5, OntoramaConfig.getRelationLinkDetails()[3]);
+            edge5 = new Edge(node2, node6, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge6 = new Edge(node3, node6, OntoramaConfig.getRelationLinkDetails()[2]);
+            edge7 = new Edge(node4, node6, OntoramaConfig.getRelationLinkDetails()[3]);
 
             // create relation links set
-            relLinksSet = createSet(2, 3);
+            relLinksSet = createSet(OntoramaConfig.getRelationLinkDetails()[2], OntoramaConfig.getRelationLinkDetails()[3]);
 
             // populate linked lists
             outboundEdgesListForNode1.add(edge1);
@@ -202,16 +204,16 @@ public class TestEdge extends TestCase {
     }
 
     /**
-     * test method getType
+     * test method getEdgeType
      */
     public void testGetType() {
-        assertEquals(1, edge1.getType());
-        assertEquals(1, edge2.getType());
-        assertEquals(2, edge3.getType());
-        assertEquals(3, edge4.getType());
-        assertEquals(1, edge5.getType());
-        assertEquals(2, edge6.getType());
-        assertEquals(3, edge7.getType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge1.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge2.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[2], edge3.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[3], edge4.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge5.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[2], edge6.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails()[3], edge7.getEdgeType());
     }
 
     /**
@@ -234,16 +236,16 @@ public class TestEdge extends TestCase {
      * test method getOutboundEdges (node, type)
      */
     public void testOutboundEdgesForRelationType() {
-        assertEquals(outboundEdgesListForNode1Relation1.size(), getIteratorSize(Edge.getOutboundEdges(node1, 1)));
-        compareListToIterator(outboundEdgesListForNode1Relation1, Edge.getOutboundEdges(node1, 1));
+        assertEquals(outboundEdgesListForNode1Relation1.size(), getIteratorSize(Edge.getOutboundEdges(node1, OntoramaConfig.getRelationLinkDetails()[1])));
+        compareListToIterator(outboundEdgesListForNode1Relation1, Edge.getOutboundEdges(node1, OntoramaConfig.getRelationLinkDetails()[1]));
     }
 
     /**
      * test method getInboundEdges (node, type)
      */
     public void testInboundEdgesForRelationType() {
-        assertEquals(inboundEdgesListForNode6Relation1.size(), getIteratorSize(Edge.getInboundEdges(node6, 1)));
-        compareListToIterator(inboundEdgesListForNode6Relation1, Edge.getInboundEdges(node6, 1));
+        assertEquals(inboundEdgesListForNode6Relation1.size(), getIteratorSize(Edge.getInboundEdges(node6, OntoramaConfig.getRelationLinkDetails()[1])));
+        compareListToIterator(inboundEdgesListForNode6Relation1, Edge.getInboundEdges(node6, OntoramaConfig.getRelationLinkDetails()[1]));
     }
 
     /**
@@ -272,10 +274,10 @@ public class TestEdge extends TestCase {
      * test method getOutboundEdgeNodes (GraphNode node, int relationType)
      */
     public void testGetOutboundEdgeNodesForRelationType() {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, OntoramaConfig.getRelationLinkDetails()[1]);
         assertEquals(outboundNodesListForNode1Relation1.size(), getIteratorSize(outboundNodes));
 
-        outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
+        outboundNodes = Edge.getOutboundEdgeNodes(node1, OntoramaConfig.getRelationLinkDetails()[1]);
         compareListToIterator(outboundNodesListForNode1Relation1, outboundNodes);
     }
 
@@ -283,10 +285,10 @@ public class TestEdge extends TestCase {
      * test method getInboundEdgeNodes (GraphNode node, int relationType)
      */
     public void testGetInboundEdgeNodesForRelationType() {
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, OntoramaConfig.getRelationLinkDetails()[2]);
         assertEquals(inboundNodesListForNode6Relation2.size(), getIteratorSize(inboundNodes));
 
-        inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
+        inboundNodes = Edge.getInboundEdgeNodes(node6, OntoramaConfig.getRelationLinkDetails()[2]);
         compareListToIterator(inboundNodesListForNode6Relation2, inboundNodes);
     }
 
@@ -364,10 +366,10 @@ public class TestEdge extends TestCase {
     /**
      * create a set of int's
      */
-    private Set createSet(int int1, int int2) {
+    private Set createSet(RelationLinkDetails det1, RelationLinkDetails det2) {
         Set set = new HashSet();
-        set.add(new Integer(int1));
-        set.add(new Integer(int2));
+        set.add(det1);
+        set.add(det2);
         return set;
     }
 }

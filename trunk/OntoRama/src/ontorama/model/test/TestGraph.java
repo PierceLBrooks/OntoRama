@@ -8,6 +8,7 @@ import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.*;
+import ontorama.OntoramaConfig;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -67,8 +68,8 @@ public class TestGraph extends TestCase {
         GraphNode tmpNode1 = new GraphNode("tmpNode1");
         GraphNode tmpNode2 = new GraphNode("tmpNode2");
         GraphNode tmpNode3 = new GraphNode("tmpNode3");
-        Edge tmpEdge1 = new Edge(tmpNode1, tmpNode2, 1);
-        Edge tmpEdge2 = new Edge(tmpNode1, tmpNode3, 1);
+        Edge tmpEdge1 = new Edge(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge tmpEdge2 = new Edge(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
 
 
         // create queryResult
@@ -176,11 +177,11 @@ public class TestGraph extends TestCase {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
                 // should be edge to node1.1 with type 1
-                assertEquals(1, cur.getType());
+                assertEquals(OntoramaConfig.getRelationLinkDetails()[1], cur.getEdgeType());
             }
             if ((cur.getToNode().getName()).equals("node1.2")) {
                 // should be edge to node1.2 with type2
-                assertEquals(2, cur.getType());
+                assertEquals(OntoramaConfig.getRelationLinkDetails()[2], cur.getEdgeType());
             }
         }
     }
@@ -196,7 +197,7 @@ public class TestGraph extends TestCase {
             Edge inEdge = (Edge) inboundEdges.next();
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
-            assertEquals(1, inEdge.getType());
+            assertEquals(OntoramaConfig.getRelationLinkDetails()[1], inEdge.getEdgeType());
         }
     }
 

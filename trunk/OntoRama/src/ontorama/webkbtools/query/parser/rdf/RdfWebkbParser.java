@@ -189,7 +189,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         // rewrite rel.links
-        Set relLinksList = OntoramaConfig.getRelationLinksSet();
+        Set relLinksList = OntoramaConfig.getTempRelationLinksSet();
         Iterator relLinksIterator = relLinksList.iterator();
         while (relLinksIterator.hasNext()) {
             Integer relLink = (Integer) relLinksIterator.next();

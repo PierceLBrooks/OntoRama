@@ -1,6 +1,7 @@
 package ontorama.webkbtools.query;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -63,7 +64,8 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      * debug
      */
-    Debug debug = new Debug(OntoramaConfig.DEBUG);
+    //Debug debug = new Debug(OntoramaConfig.DEBUG);
+    Debug debug = new Debug(true);
 
 
     /**
@@ -195,7 +197,7 @@ public class QueryEngine implements QueryEngineInterface {
         LinkedList allLinksCopy = new LinkedList();
         Iterator allLinksIterator = allLinks.iterator();
         while (allLinksIterator.hasNext()) {
-            Integer nextRelLink = (Integer) allLinksIterator.next();
+            RelationLinkDetails nextRelLink = (RelationLinkDetails) allLinksIterator.next();
             allLinksCopy.add(nextRelLink);
         }
 

@@ -8,6 +8,7 @@ import ontorama.hyper.controller.*;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.ontologyConfig.RelationLinkDetails;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.*;
@@ -908,7 +909,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             Iterator outboundEdges = Edge.getOutboundEdges(curGraphNode);
             while (outboundEdges.hasNext()) {
                 Edge edge = (Edge) outboundEdges.next();
-                int edgeType = edge.getType();
+                RelationLinkDetails edgeType = edge.getEdgeType();
                 GraphNode outboundGraphNode = edge.getToNode();
                 HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
                 //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);

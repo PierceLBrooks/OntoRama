@@ -9,6 +9,7 @@ package ontorama.webkbtools.datamodel;
  */
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
@@ -29,6 +30,7 @@ public class OntologyTypeImplementation implements OntologyType {
      * List superType = relationshipTypes[SUPERTYPE]
      */
     private LinkedList[] relationshipTypes = new LinkedList[OntoramaConfig.MAXTYPELINK + 1];
+
 
     /**
      * keys - string, property name
@@ -91,15 +93,15 @@ public class OntologyTypeImplementation implements OntologyType {
     /**
      * Returns an iterator on ontology types for relation links between the types
      * specified by a given relation link constance
-     * @param relationLink
+     * @param relationLinkType
      * @return    Iterator of relation links
      * @throws    NoSuchRelationLinkException
      */
-    public Iterator getIterator(int relationLink) throws NoSuchRelationLinkException {
-        if (relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
-            throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
+    public Iterator getIterator(int relationLinkType) throws NoSuchRelationLinkException {
+        if (relationLinkType < 0 || relationLinkType > OntoramaConfig.MAXTYPELINK) {
+            throw new NoSuchRelationLinkException(relationLinkType, OntoramaConfig.MAXTYPELINK);
         }
-        return relationshipTypes[relationLink].iterator();
+        return relationshipTypes[relationLinkType].iterator();
     }
 
 
@@ -241,7 +243,7 @@ public class OntologyTypeImplementation implements OntologyType {
                     str = str + ", ";
                 }
             }
-            Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
+            Iterator relLinks = OntoramaConfig.getTempRelationLinksSet().iterator();
             str = str + "; RELATIONS: ";
             while (relLinks.hasNext()) {
                 Integer relLink = (Integer) relLinks.next();

@@ -46,7 +46,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * map relation link to image
      * store an image for each link.
-     * keys - rel link int
+     * keys - rel link type
      * values - corresponding images
      */
     private static Hashtable _relLinksImages = new Hashtable();
@@ -83,9 +83,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                 hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-
-        int relLinkInt = treeNode.getRelLink();
-        RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
+        RelationLinkDetails relLinkDetails = treeNode.getRelLink();
 
         /// @todo shouldn't have to check for null here
         if (relLinkDetails != null) {
@@ -95,9 +93,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(_nodeImageIcon);
         } else if (treeNode.getGraphNode().hasClones()) {
-            setIcon(getIcon(relLinkInt, true));
+            setIcon(getIcon(relLinkDetails, true));
         } else {
-            setIcon(getIcon(relLinkInt, false));
+            setIcon(getIcon(relLinkDetails, false));
         }
 
         return this;
@@ -107,13 +105,13 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(int relLinkInt, boolean isClone) {
+    protected Icon getIcon(RelationLinkDetails relLinkType, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
-            nodeImage = makeImageForRelLink(relLinkInt, true);
+            nodeImage = makeImageForRelLink(relLinkType, true);
         } else {
-            nodeImage = (Image) _relLinksImages.get(new Integer(relLinkInt));
+            nodeImage = (Image) _relLinksImages.get(relLinkType);
         }
 
         Icon icon = new ImageIcon(nodeImage);
@@ -141,8 +139,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         HashSet relLinksSet = OntoramaConfig.getRelationLinksSet();
         Iterator it = relLinksSet.iterator();
         while (it.hasNext()) {
-            Integer cur = (Integer) it.next();
-            Image nodeImage = makeImageForRelLink(cur.intValue(), false);
+            RelationLinkDetails cur = (RelationLinkDetails) it.next();
+            Image nodeImage = makeImageForRelLink(cur, false);
             _relLinksImages.put(cur, nodeImage);
         }
     }
@@ -150,9 +148,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      *
      */
-    private Image makeImageForRelLink(int relLinkInt, boolean isClone) {
-        RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
-        Image relImage = relLinkDetails.getDisplayImage();
+    private Image makeImageForRelLink(RelationLinkDetails relLinkType, boolean isClone) {
+        Image relImage = relLinkType.getDisplayImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage);
         return nodeImage;
     }

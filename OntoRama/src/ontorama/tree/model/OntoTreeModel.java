@@ -59,6 +59,7 @@ public class OntoTreeModel implements TreeModel {
 
         // debug
         /*
+
         List graphNodes = graph.getNodesList();
         Iterator it = graphNodes.iterator();
         while (it.hasNext()) {
@@ -72,8 +73,19 @@ public class OntoTreeModel implements TreeModel {
 
         }
         */
+
         // end of debug
     }
+
+    /**
+     *
+     */
+     /*
+    public int getTreeSize () {
+      return this.ontoTreeBuilder.getSize();
+    }
+    */
+
 
     /**
      * Returns Iterator of OntoTreeNodes
@@ -93,11 +105,9 @@ public class OntoTreeModel implements TreeModel {
       * @return the root of the tree
       */
     public Object getRoot() {
-        //GraphNode rootGraphNode = this.graph.getRootNode();
-        //GraphNode rootGraphNode = this.graph.getEdgeRootNode();
         GraphNode rootGraphNode = this.graph.getRootNode();
+        //System.out.println("OntoTreeModel, getRoot(), rootGraphNode = " + rootGraphNode);
         debug.message("OntoTreeModel","getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
-        //System.out.println("OntoTreeModel, getRoot(), root graphNode = " + rootGraphNode);
         //System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         return this.ontoTreeBuilder.getTreeNode(rootGraphNode);
     }
@@ -139,7 +149,8 @@ public class OntoTreeModel implements TreeModel {
        */
        public boolean isLeaf(Object node) {
             //System.out.println("ontoTreeModel isLeaf, object = " + node);
-            TreeNode treeNode = (OntoTreeNode) node;
+            //TreeNode treeNode = (OntoTreeNode) node;
+            OntoTreeNode treeNode = (OntoTreeNode) node;
             //System.out.println("ontoTreeModel isLeaf for node = " + treeNode);
             return treeNode.isLeaf();
        }

@@ -13,7 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.Peer2PeerBackend;
+import ontorama.backends.P2PBackend;
 import ontorama.backends.BackendSearch;
 import ontorama.backends.p2p.controller.EdgeAddedEventHandler;
 import ontorama.backends.p2p.controller.EdgeRemovedEventHandler;
@@ -72,7 +72,7 @@ import org.tockit.events.LoggingEventListener;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class P2PBackendImpl implements Peer2PeerBackend {
+public class P2PBackendImpl implements P2PBackend {
 	
     private P2PGraph graph = null;
     private P2PSender sender = null;

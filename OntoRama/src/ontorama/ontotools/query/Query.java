@@ -45,7 +45,6 @@ public class Query {
      */
     public Query(String typeName) {
         _typeName = typeName;
-        System.out.println("created new query: " + this.toString());
     }
 
     /**
@@ -55,7 +54,6 @@ public class Query {
     public Query(String typeName, List relationLinks) {
         _typeName = typeName;
         _relationLinks = relationLinks;
-        System.out.println("created new query: " + this.toString());
     }
 
     /**

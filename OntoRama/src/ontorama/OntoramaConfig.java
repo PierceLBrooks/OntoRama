@@ -18,6 +18,9 @@ import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.conf.XmlConfigParser;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.NodeType;
+import ontorama.model.graph.NodeTypeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
@@ -253,26 +256,10 @@ public class OntoramaConfig {
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
     }
 
-//    /**
-//     * @todo we are assuming that allRelationsArray got all relations id's in order
-//     * from 1 to n. If this is not a case -> what we are doing here could be wrong
-//     */
-//    public static List getEdgeTypesList() {
-//        LinkedList allRelations = new LinkedList();
-//
-//        Enumeration e = edgesConfig.keys();
-//        while (e.hasMoreElements()) {
-//            EdgeType edgeType = (EdgeType) e.nextElement();
-//            allRelations.add(edgeType);
-//        }
-//        return allRelations;
-//    }
-
-    public static EdgeTypeDisplayInfo getEdgeDisplayInfo (ontorama.model.graph.EdgeType edgeType) {
+    public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
         EdgeTypeDisplayInfo displayInfo = (EdgeTypeDisplayInfo) edgesConfig.get(edgeType);
         return displayInfo;
     }
-
 
 
     /**
@@ -286,11 +273,11 @@ public class OntoramaConfig {
     /**
      *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
      */
-    public static ontorama.model.graph.EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
-        ontorama.model.graph.EdgeType result = null;
+    public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
+        EdgeType result = null;
         Iterator it = edgesConfig.keySet().iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) it.next();
+            EdgeType edgeType = (EdgeType) it.next();
             if (edgeType.getName().equals(edgeName)) {
                 result = edgeType;
             }
@@ -403,11 +390,11 @@ public class OntoramaConfig {
 
     private static List buildNodeTypesList () {
         List nodeTypes = new LinkedList();
-        ontorama.model.graph.NodeType typeConcept = new ontorama.model.graph.NodeTypeImpl("concept");
+        NodeType typeConcept = new NodeTypeImpl("concept");
         nodeTypes.add(typeConcept);
-        ontorama.model.graph.NodeType typeRelation = new ontorama.model.graph.NodeTypeImpl("relation");
+        NodeType typeRelation = new NodeTypeImpl("relation");
         nodeTypes.add(typeRelation);
-        ontorama.model.graph.NodeType typeUnknown = new ontorama.model.graph.NodeTypeImpl("unknown");
+        NodeType typeUnknown = new NodeTypeImpl("unknown");
         nodeTypes.add(typeUnknown);
 
         return nodeTypes;
@@ -423,7 +410,7 @@ public class OntoramaConfig {
         Hashtable result = new Hashtable();
         Iterator it = nodeTypesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.NodeType curNodeType = (ontorama.model.graph.NodeType) it.next();
+            NodeType curNodeType = (NodeType) it.next();
             NodeTypeDisplayInfo displayInfo = new NodeTypeDisplayInfo();
             if (curNodeType.getNodeType().equals("concept")) {
                 displayInfo.setColor(Color.blue);
@@ -444,7 +431,7 @@ public class OntoramaConfig {
         return nodeTypesList;
     }
 
-    public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (ontorama.model.graph.NodeType nodeType) {
+    public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
         return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
     }
 

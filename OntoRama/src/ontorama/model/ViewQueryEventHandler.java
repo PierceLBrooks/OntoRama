@@ -14,8 +14,6 @@ import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
-import java.util.List;
-
 public class ViewQueryEventHandler implements EventBrokerListener {
     private ViewQuery queryView;
     private EventBroker eventBroker;

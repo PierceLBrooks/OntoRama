@@ -34,12 +34,14 @@ public class TestQueryEngine extends TestCase {
     private Query query1;
     private QueryEngine queryEngine1;
     private QueryResult queryResult1;
-    private List queryResultList1;
+    private List queryResultNodesList1;
+	private List queryResultEdgesList1;
 
     private Query query2;
     private QueryEngine queryEngine2;
     private QueryResult queryResult2;
-    private List queryResultList2;
+    private List queryResultEdgesList2;
+	private List queryResultNodesList2;
 
     private Node testNode_chair;
 
@@ -96,19 +98,22 @@ public class TestQueryEngine extends TestCase {
         queryEngine1 = new QueryEngine(query1);
         queryResult1 = queryEngine1.getQueryResult();
         //System.out.println("queryResult1 = " + queryResult1);
-        queryResultList1 = queryResult1.getNodesList();
+        queryResultNodesList1 = queryResult1.getNodesList();
+        queryResultEdgesList1 = queryResult1.getEdgesList();
 
         query2 = new Query(queryTerm, relationLinksList);
         queryEngine2 = new QueryEngine(query2);
         queryResult2 = queryEngine2.getQueryResult();
-        queryResultList2 = queryResult2.getNodesList();
+        queryResultNodesList2 = queryResult2.getNodesList();
+    	queryResultEdgesList2 = queryResult2.getEdgesList();
     }
 
     /**
      *
      */
     public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException {
-        assertEquals("size of query result iterator for query1", 34, queryResultList1.size());
+        assertEquals("size of query result nodes list for query1", 35, queryResultNodesList1.size());
+    	assertEquals("size of query result edges list for query1", 37, queryResultEdgesList1.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult1.getNodesList());
         checkOutboundEdge(queryResult1, testNode_chair, edgeType1 ,1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType2, 1);
@@ -125,10 +130,12 @@ public class TestQueryEngine extends TestCase {
     }
 
     /**
-     *
+     * although we only have 3 connected nodes - we return all nodes because we
+     * support unconnected graphs. The real test here - is number of edges.
      */
     public void testGetQueryResultForQuery2() throws NoSuchRelationLinkException {
-        assertEquals("size of query result iterator for query2", 3, queryResultList2.size());
+        assertEquals("size of query result nodes list for query2", 35, queryResultNodesList2.size());
+    	assertEquals("size of query result edges list for query2", 2, queryResultEdgesList2.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult2.getNodesList());
         checkOutboundEdge(queryResult2, testNode_chair, edgeType3, 0);
         checkOutboundEdge(queryResult2, testNode_chair, edgeType6, 0);

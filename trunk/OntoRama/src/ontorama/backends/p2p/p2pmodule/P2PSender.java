@@ -6,8 +6,8 @@ import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
-import ontorama.backends.P2PBackend;
 import ontorama.backends.p2p.GroupItemReference;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;

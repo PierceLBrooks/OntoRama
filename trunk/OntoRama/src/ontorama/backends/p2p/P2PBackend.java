@@ -1,9 +1,10 @@
-package ontorama.backends;
+package ontorama.backends.p2p;
 
 import java.net.URI;
 
 import org.tockit.events.EventBroker;
 
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PNode;

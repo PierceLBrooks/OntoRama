@@ -78,7 +78,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 		int iconW = ImageMaker.getWidth();
 		int iconH = ImageMaker.getHeight();
 		_nodeImageIcon = makeNodeIcon(iconW/2, iconH, _nodeColor);
-		//_cloneNodeImageIcon = makeNodeIcon(iconW/2, iconH, _cloneNodeColor);
+		_cloneNodeImageIcon = makeNodeIcon(iconW/2, iconH, _cloneNodeColor);
+
 		_lineIcon = makeLineIcon(iconW/2, iconH);
 
 		initRelationLinkImages();	
@@ -108,14 +109,20 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 		//setBackgroundNonSelectionColor(isChild(relLinkDetails));
 		//setBackgroundSelectionColor(isChild(relLinkDetails));
 
+		setToolTipText(getToolTipText(value,relLinkDetails));
+		
+
 		if (treeNode.getGraphNode().getDepth() == 0) {
 			setIcon (_nodeImageIcon);
 		}
+		else if (treeNode.getGraphNode().hasClones()) {
+			System.out.println("clone: " + treeNode);
+			setIcon(getIcon(relLinkInt, true));
+		}
 		else {
-			setIcon(getIcon(relLinkInt));
+			setIcon(getIcon(relLinkInt, false));
 		}
 
-		setToolTipText(getToolTipText(value,relLinkDetails));
 		return this;
 	}
 	
@@ -123,9 +130,17 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 	/**
 	 * get icon for the given relation link
 	 */
-	protected Icon getIcon (int relLinkInt) {
-		Image nodeImage = (Image) _relLinksImages.get(new Integer(relLinkInt));				
+	protected Icon getIcon (int relLinkInt, boolean isClone) {
+		Image nodeImage = null;
+		if (isClone) {
+			nodeImage = makeImageForRelLink(relLinkInt, true);
+		}
+		else {
+			nodeImage = (Image) _relLinksImages.get(new Integer(relLinkInt));				
+		}
+
 		Icon icon = new ImageIcon(nodeImage);
+		
 		//Icon icon = _nodeImageIcon;
 
 		return icon;
@@ -154,19 +169,27 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 		Iterator it = relLinksSet.iterator();
 		while (it.hasNext()) {
 			Integer cur = (Integer) it.next();
-			RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(cur.intValue());
-			//System.out.println("cur = " + cur + ", relLinkDetails = " + relLinkDetails);
-			Image relImage = relLinkDetails.getDisplayImage();
-			Image nodeImage = makeCombinedIcon(Color.blue, relImage);
+			Image nodeImage = makeImageForRelLink(cur.intValue(), false);
 			_relLinksImages.put(cur, nodeImage);
 		}		
+	}
+	
+	/**
+	 * 
+	 */
+	private Image makeImageForRelLink (int relLinkInt, boolean isClone) {
+		RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
+		//System.out.println("relLinkInt = " + relLinkInt + ", relLinkDetails = " + relLinkDetails);
+		Image relImage = relLinkDetails.getDisplayImage();
+		Image nodeImage = makeCombinedIcon(isClone, relImage);
+		return nodeImage;
 	}
 	
 	/**
 	 * combine relation link image and node image connected
 	 * by image drawing connecting line.
 	 */
-    private Image makeCombinedIcon (Color color, Image relImage) {
+    private Image makeCombinedIcon (boolean isClone, Image relImage) {
 
 		ImageIcon relImageIcon = new ImageIcon(relImage);
 		ImageObserver relImageObserver = relImageIcon.getImageObserver();
@@ -189,9 +212,16 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 		g2.drawImage(_lineIcon.getImage(), relImageWidth, 0, _lineIcon.getIconWidth(), totalHeight, 
 												_lineIcon.getImageObserver());	
 		int w = relImageWidth + _lineIcon.getIconWidth();	
-		g2.drawImage(_nodeImageIcon.getImage(), w, 0, _nodeImageIcon.getIconWidth(), totalHeight, 
-												_nodeImageIcon.getImageObserver());
-		
+		if (isClone) {
+			g2.drawImage(_cloneNodeImageIcon.getImage(), w, 0, 
+									_cloneNodeImageIcon.getIconWidth(), totalHeight, 
+									_cloneNodeImageIcon.getImageObserver());
+		}
+		else {
+			g2.drawImage(_nodeImageIcon.getImage(), w, 0, 
+									_nodeImageIcon.getIconWidth(), totalHeight, 
+									_nodeImageIcon.getImageObserver());
+		}
         return image;
     }
     

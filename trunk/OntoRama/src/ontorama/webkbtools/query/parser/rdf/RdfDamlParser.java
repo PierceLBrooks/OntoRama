@@ -15,6 +15,7 @@ import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.*;
 import com.hp.hpl.jena.daml.*;
+import com.hp.hpl.jena.daml.common.DAMLModelImpl;
 import com.hp.hpl.jena.daml.common.*;
 
 
@@ -65,12 +66,13 @@ public class RdfDamlParser implements Parser {
 
 		System.out.println("RDFDamlParser, method getOntologyTypeIterator");
         try {
-            DAMLModelImpl model;
+            //DAMLModelImpl model;
 
             System.out.println("...will try to create rdf model DAMLModelImpl");
             // create an empty model
             //Model model = new ModelMem();
-            model = new DAMLModelImpl();
+            //model = new DAMLModelImpl();
+            Model model = new ModelMem();
             System.out.println("...created rdf model, will call reader now");
             model.read(reader, "");
             System.out.println("...called reader, will try to get iterator of subjects");
@@ -94,7 +96,7 @@ public class RdfDamlParser implements Parser {
         }
 		catch (AccessControlException secExc) {
 			throw secExc;
-		}		
+		}
         catch (RDFException e) {
             throw new ParserException("Error in parsing RDF: " + e.getMessage());
         }

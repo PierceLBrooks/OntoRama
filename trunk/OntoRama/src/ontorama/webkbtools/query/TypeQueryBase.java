@@ -42,8 +42,8 @@ abstract public class TypeQueryBase implements TypeQuery {
     if (OntoramaConfig.DEBUG) {
         System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
         System.out.println("OntoramaConfig.queryOutputFormat = " + OntoramaConfig.queryOutputFormat);
-        System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.parserPackageName);
+        System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.getParserPackageName());
     }
-    parser = (Parser) (Class.forName(OntoramaConfig.parserPackageName).newInstance());
+    parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
   }
 }

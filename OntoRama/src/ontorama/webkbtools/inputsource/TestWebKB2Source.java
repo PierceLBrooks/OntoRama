@@ -2,6 +2,9 @@ package ontorama.webkbtools.inputsource;
 
 import junit.framework.TestCase;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
 
@@ -16,6 +19,11 @@ import ontorama.webkbtools.query.Query;
 
 public class TestWebKB2Source extends TestCase {
 
+  /**
+   * Execute queries to webkb, one with term name 'cat',
+   * another with term name 'wn#cat'. Check both results for
+   * ambiguity, number of terms returned, etc.
+   */
   public TestWebKB2Source(String name) {
     super (name);
   }
@@ -32,6 +40,11 @@ public class TestWebKB2Source extends TestCase {
 
     WebKB2Source webkbSource = new WebKB2Source();
     webkbSource.getReader(sourceUri, new Query("cat"));
+    boolean queryIsAmbiguous_cat = webkbSource.resultIsAmbiguous();
+    int numOfChoices_cat = webkbSource.getNumOfChoices();
+    List choicesList_cat = webkbSource.getChoicesList();
+
+
   }
 
   /**

@@ -164,7 +164,7 @@ public class OntoramaConfig {
             System.exit(-1);
         }
 
-        buildNodeTypes();
+        buildDefaultNodeTypes();
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
     	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.TestingBackend", null);
     	OntoramaConfig.activateBackend(_defaultBackend);
@@ -359,8 +359,8 @@ public class OntoramaConfig {
         return loadBlankOnStartUp;
     }
 
-    private static void buildNodeTypes() {
-    	/// @todo check why we do only half the width here
+    private static void buildDefaultNodeTypes() {
+    	///@todo no need to create default shapes if we don't use them
     	int width = 30;
     	int height = 30;
 

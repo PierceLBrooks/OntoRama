@@ -95,6 +95,16 @@ public class OntologyTypeImplementation implements OntologyType {
   }
 
   /**
+   *
+   */
+    public void removeRelation (int relationLink) throws NoSuchRelationLinkException {
+        if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
+            throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
+        }
+        relationshipTypes[relationLink] = new LinkedList();
+    }
+
+  /**
    * Check if given type is already listed with given relation link
    * @param ontologyType, relationLink
    * @return true if type ontologyType is listed in this type with
@@ -155,6 +165,7 @@ public class OntologyTypeImplementation implements OntologyType {
           while (relationOntTypesIterator.hasNext()) {
             OntologyType ot = (OntologyTypeImplementation) relationOntTypesIterator.next();
 			//if (ot.getName) {
+                //str = str + "\t- " + ot.getName();
 				//str = str + "relation link: " + count + ", types: " + "\n";
             	str = str + "- " + ot.getName() + " ( relation link: " + count + ") " + "\n";
 			//}

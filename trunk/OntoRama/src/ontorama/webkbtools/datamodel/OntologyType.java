@@ -42,6 +42,11 @@ public interface OntologyType {
   void addRelationType (OntologyType ontologyType, int relationLink)throws NoSuchRelationLinkException;
 
   /**
+   *
+   */
+   public void removeRelation (int relationLink) throws NoSuchRelationLinkException ;
+
+  /**
    * Sets the type description
    */
   public void setDescription(String description);

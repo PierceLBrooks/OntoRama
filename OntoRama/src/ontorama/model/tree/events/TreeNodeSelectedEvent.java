@@ -13,7 +13,7 @@ import org.tockit.events.EventBroker;
 public class TreeNodeSelectedEvent extends TreeNodeEvent {
     public TreeNodeSelectedEvent(TreeNode subject, EventBroker eventBroker) {
         super(subject, eventBroker);
-        //eventBroker.processEvent(new NodeSelectedEvent(subject.getGraphNode()));
+        eventBroker.processEvent(new NodeClonesRequestEvent(subject));
     }
 
 }

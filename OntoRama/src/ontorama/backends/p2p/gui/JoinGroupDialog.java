@@ -81,7 +81,6 @@ public class JoinGroupDialog extends JDialog {
         
         Action joinGroup = new AbstractAction("OK") {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("\njoinGroupAction, action command = " + e.getActionCommand() + ", source = " + e.getSource());
         		if (verifyInputCorrect() ) {
         			_cancelled = false;
         			if (joinGroup(_value)) {
@@ -148,8 +147,6 @@ public class JoinGroupDialog extends JDialog {
             if (groupToJoin == null) {
                 return false;
             }
-            //String input = groupToJoin.getName();
-            //System.out.println("input = " + input);
             _selectedOption = JoinGroupDialog.OPTION_EXISTING_GROUP;
             _value = groupToJoin;
             return true;
@@ -157,10 +154,8 @@ public class JoinGroupDialog extends JDialog {
         if (_tabbedPanel.getSelectedComponent().equals(_newGroupPanel)) {
             String input = _newGroupNameField.getText();
             if (DialogUtil.textInputIsValid(this, input, "name")) {
-                System.out.println("input = " + input);
                 _selectedOption = JoinGroupDialog.OPTION_NEW_GROUP;
                 try {
-                    System.out.println("attempting to create new group with name " + input + " and description: " + _newGroupDescrField.getText());
                     _p2pBackend.getSender().sendCreateGroup(input,_newGroupDescrField.getText());
                     Vector resVector = _p2pBackend.getSender().sendSearchGroup("Name",input);
                     /// @todo probably should handle whole vector, not just one element.
@@ -183,8 +178,6 @@ public class JoinGroupDialog extends JDialog {
 
     private boolean joinGroup (GroupReferenceElement group) {
         try {
-//            String groupId = group.getID().toString();
-//            System.out.println("trying to join group id " + groupId);
 			_p2pBackend.getSender().sendJoinGroup(group.getID());
         } catch (GroupExceptionNotAllowed e) {
         	ErrorDialog.showError(this, e, "Error", e.getMessage());

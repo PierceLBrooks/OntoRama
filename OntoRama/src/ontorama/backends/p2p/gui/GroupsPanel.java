@@ -224,7 +224,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	 * @see ontorama.backends.p2p.gui.GroupView#addGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
 	 */
 	public void addGroup(GroupReferenceElement groupReferenceElement) {
-		System.out.println("GroupsPanel::addGroup, group = " + groupReferenceElement.getName());
+		System.out.println("GroupsPanel::addGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
 		if (! groupsListContainsGroup(_joinedGroupsListModel, groupReferenceElement)) {
 			_joinedGroupsListModel.addElement(groupReferenceElement);
 			_allGroupsListModel.removeElement(groupReferenceElement);

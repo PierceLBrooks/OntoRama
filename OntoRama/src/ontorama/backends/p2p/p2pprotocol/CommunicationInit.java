@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.AdvertisementFactory;
@@ -9,6 +10,8 @@ import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupFactory;
 import net.jxta.pipe.PipeService;
+import net.jxta.pipe.OutputPipe;
+import net.jxta.pipe.InputPipe;
 import net.jxta.protocol.PipeAdvertisement;
 import net.jxta.protocol.ModuleImplAdvertisement;
 
@@ -26,7 +29,8 @@ import net.jxta.protocol.ModuleImplAdvertisement;
  */
 public class CommunicationInit extends Communication {
 	private CommunicationProtocolJxta commProt = null;
-	
+
+    private Hashtable inputPipes = null;
     /** The constructor
     * 
     * @param obj the object that is going to use this object.
@@ -38,6 +42,7 @@ public class CommunicationInit extends Communication {
     
 	public CommunicationInit(CommunicationProtocolJxta obj) {
 		commProt = obj;
+        this.inputPipes = new Hashtable();
 	}
 	/** This method intiatiates all the communication by setting up the global p2p group, 
      * which every peer have to belong too.
@@ -72,12 +77,14 @@ public class CommunicationInit extends Communication {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*
-	*/  
+	*/
+
 	protected PipeAdvertisement startPropagatePipeEndpoint(PeerGroup pg) throws GroupExceptionInit {
-		PipeService pipeService = pg.getPipeService();
+        PipeService pipeService = pg.getPipeService();
 		PipeAdvertisement pipeAdvert = null;
 		InputPipeListener pipeMessageListener = null;
-				
+        OutputPipe outputPipe = null;
+		DiscoveryService discServ = pg.getDiscoveryService();
 		//Create a advertisement to represent the PROPAGATE pipe
 		pipeAdvert = (PipeAdvertisement) AdvertisementFactory.newAdvertisement(
 									PipeAdvertisement.getAdvertisementType());
@@ -97,14 +104,18 @@ public class CommunicationInit extends Communication {
 														commProt.getRecieverObject());
 
 			//Create a new inputPipe from adverisement and pipeMessageListerner
-			pipeService.createInputPipe(pipeAdvert,pipeMessageListener);	
-		
+			this.inputPipes.put(pg.getPeerGroupID(),pipeService.createInputPipe(pipeAdvert,pipeMessageListener));
+
+            //Create an output pipe and save it in the hashtable
+            outputPipe = pipeService.createOutputPipe(pipeAdvert,1000);
+System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputPipe);
+
 			//Publish the pipes advertisement both localy and global
-			//discServ.publish(pipeAdvert,DiscoveryService.ADV); 
-			//discServ.remotePublish(pipeAdvert,DiscoveryService.ADV); 	
+			discServ.publish(pipeAdvert,DiscoveryService.ADV);
+			discServ.remotePublish(pipeAdvert,DiscoveryService.ADV);
 					
 			//SEts the PipeAdvertisement
-			this.setPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
+			this.setOutputPipe(pg.getPeerGroupID(),outputPipe);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();

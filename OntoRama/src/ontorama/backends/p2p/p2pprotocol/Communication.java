@@ -11,6 +11,7 @@ import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
+import net.jxta.pipe.OutputPipe;
 
 /**
  * This base class handles the common P2P functionality.
@@ -169,8 +170,34 @@ public class Communication {
 	protected PipeAdvertisement getPipeAdvertisement(PeerGroupID groupID)  {
 		return (PipeAdvertisement) this.pipeAdvertisement.get(groupID);
 	}
-	
 
+
+    /**
+    * Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+    * from other peers.
+    *
+    * @param obj the pipe advertisement to set
+    *
+    * @version P2P-OntoRama 1.0.0
+    *
+    */
+    protected void setOutputPipe(PeerGroupID groupID,OutputPipe obj)  {
+        this.pipeAdvertisement.put(groupID,obj);
+    }
+
+
+    /**
+    * Gets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+    * from other peers.
+    *
+    * @return the pipe advertisement
+    *
+    * @version P2P-OntoRama 1.0.0
+    *
+    */
+    protected OutputPipe getOutputPipe(PeerGroupID groupID)  {
+        return (OutputPipe) this.pipeAdvertisement.get(groupID);
+    }
 
 	/**
 	* Gets the global PeerGroup. The global PeerGroup is the group every peer belongs to.

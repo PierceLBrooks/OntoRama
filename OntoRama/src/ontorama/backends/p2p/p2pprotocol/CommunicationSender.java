@@ -68,7 +68,8 @@ public class CommunicationSender extends Communication {
 		
 		if (recieverPipeAdvID == null) {
 			System.err.println("CommunicationSender::sendMessage sendToAll() " + message);
-			sendMessageThread.sendToAllPointToPoint(propType,
+			//Changed
+            sendMessageThread.sendToAllPropagate(propType,
 										  ownPeerID, 
 										  ownGroupID, 
 										  tag, 

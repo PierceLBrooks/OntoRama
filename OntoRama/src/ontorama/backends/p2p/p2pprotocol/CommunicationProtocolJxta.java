@@ -45,7 +45,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			communicationInit.initJxtaTopGroup();
 
-			communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
+            //TODO this should be uncoimment on Friday
+			//communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
 
 		} catch (GroupExceptionInit e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -182,7 +183,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			pg = this.communicationGroup.joinGroup(groupIDasString);
 			if (pg != null) {
-				communicationInit.startInputPipeEndpoint(pg);
+				//Changed
+                //communicationInit.startInputPipeEndpoint(pg);
+                communicationInit.startPropagatePipeEndpoint(pg);
                 return pg.getPeerGroupName();
 			}
 		} catch (GroupExceptionNotAllowed e) {

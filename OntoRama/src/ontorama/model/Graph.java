@@ -30,15 +30,15 @@ import java.util.*;
  */
 public class Graph implements GraphInterface {
 
-    /**
-     * Graph
-     */
-    private Graph graph = null;
+//    /**
+//     * Graph
+//     */
+//    private Graph graph = null;
 
-    /**
-     * Hold a set of available relation links
-     */
-    private Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
+//    /**
+//     * Hold a set of available relation links
+//     */
+//    private Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
 
     /**
      * Hold a list of processed ontology types (ontology types that have
@@ -124,28 +124,8 @@ public class Graph implements GraphInterface {
         try {
             buildGraph(termName, ontIterator);
 
-
-            List unconnectedEdges = listUnconnectedEdgesAndNodes();
+            listUnconnectedEdgesAndNodes();
             System.out.println("\n\nunconnectedNodes = " + _unconnectedNodes);
-
-//			//System.out.println("\n\nunconnected edges = " + unconnectedEdges);
-//			if (unconnectedEdges.size() != 0) {
-//				GraphNode node = new GraphNode("tempNode");
-//				Iterator it = unconnectedEdges.iterator();
-//				while (it.hasNext()) {
-//					Edge curEdge = (Edge) it.next();
-//					System.out.println("unconnectedEdge = " + curEdge.fromNode + " -> " + curEdge.toNode);
-////					GraphNode edgeFromNode = curEdge.getFromNode();
-////					if ( (edgeFromNode.getName().endsWith("Class")) ||
-////						( edgeFromNode.getName().endsWith("Property")) ){
-////						Edge.removeEdge(curEdge);
-////						continue;
-////					}
-////					Edge newEdge = new Edge(node, edgeFromNode, 1);
-//				}
-////				Edge edgeConnectToRoot = new Edge(node, root,1);
-////				root = node;
-//			}
 
             // clean up
             //removeUnconnectedEdges();
@@ -223,7 +203,8 @@ public class Graph implements GraphInterface {
     /**
      * Process given OntologyType, create Node for it and all corresponding Edges.
      *
-     * @param   ontologyType, rootName
+     * @param   ot  - ontoogy type to process
+     * @param   rootName - name of the root node
      */
     private void processOntologyType(OntologyType ot, String rootName)
             throws NoSuchRelationLinkException, NoSuchPropertyException {
@@ -556,10 +537,6 @@ public class Graph implements GraphInterface {
                             " node "
                             + curNode.getName()
                             + " has multiple inbound edges");
-                    Iterator it = Edge.getInboundEdges(curNode);
-                    while (it.hasNext()) {
-                        Edge edge = (Edge) it.next();
-                    }
                     isTree = false;
                 }
             }
@@ -570,13 +547,13 @@ public class Graph implements GraphInterface {
     /**
      * Convert Graph into Tree by cloning nodes with duplicate parents (inbound edges)
      *
-     * @param   GraphNode root
-     * @throws  NoSuchRelationLinkException, NoSuchPropertyException
+     * @param   root - root node for the graph
+     * @throws  NoSuchRelationLinkException
+     * @throws  NoSuchPropertyException
      */
     private void convertIntoTree(GraphNode root)
             throws NoSuchRelationLinkException, NoSuchPropertyException {
         LinkedList queue = new LinkedList();
-        boolean isTree = true;
 
         queue.add(root);
 
@@ -625,11 +602,10 @@ public class Graph implements GraphInterface {
                     Iterator it = Edge.getInboundEdges(curNode);
                     if (it.hasNext()) {
                         Edge firstEdge = (Edge) it.next();
-                        Edge newEdge =
-                                new Edge(
-                                        firstEdge.getFromNode(),
-                                        cloneNode,
-                                        firstEdge.getType());
+                        new Edge(
+                                firstEdge.getFromNode(),
+                                cloneNode,
+                                firstEdge.getType());
                         Edge.removeEdge(firstEdge);
                     }
 
@@ -648,7 +624,8 @@ public class Graph implements GraphInterface {
      *
      * @param   node    original node
      * @param   cloneNode   copy node that needs all outbound edges filled in
-     * @throws   NoSuchRelationLinkException, NoSuchPropertyException
+     * @throws  NoSuchRelationLinkException
+     * @throws  NoSuchPropertyException
      */
     private void deepCopy(GraphNode node, GraphNode cloneNode)
             throws NoSuchRelationLinkException, NoSuchPropertyException {
@@ -659,27 +636,9 @@ public class Graph implements GraphInterface {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
             GraphNode toNode = curEdge.getToNode();
             GraphNode cloneToNode = toNode.makeClone();
-            Edge newEdge = new Edge(cloneNode, cloneToNode, curEdge.getType());
+            new Edge(cloneNode, cloneToNode, curEdge.getType());
             deepCopy(toNode, cloneToNode);
         }
-    }
-
-    /**
-     *
-     */
-    private int[] getTypeCount(Iterator it) {
-        int[] typeCount =
-                new int[ontorama.OntoramaConfig.getRelationLinksSet().size()];
-        for (int i = 0; i < typeCount.length; i++) {
-            typeCount[i] = 0;
-        }
-
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            int type = curEdge.getType();
-            typeCount[type]++;
-        }
-        return typeCount;
     }
 
     /**

@@ -1,6 +1,7 @@
-package ontorama.backends.filemanager;
+package ontorama.backends.filemanager.gui;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.filemanager.FileBackend;
 import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;

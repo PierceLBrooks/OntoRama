@@ -3,8 +3,10 @@ package ontorama.webkbtools.query.parser.rdf;
 import com.hp.hpl.jena.rdf.query.QueryResults;
 import com.hp.hpl.jena.rdf.query.ResultBinding;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
+import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.*;
@@ -20,6 +22,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.AccessControlException;
 import java.util.*;
+
+import edu.stanford.db.rdf.model.i.RDFNodeImpl;
 
 /*
  * Created by IntelliJ IDEA.
@@ -46,8 +50,13 @@ public class RdfP2pParser implements Parser {
     private Property _assertedProp;
     private Property _rejectedProp;
     private Property _rdfValueProp;
+    private Property _rdfTypeProp;
+    private Property _rdfSubjectProp;
+    private Property _rdfPredicateProp;
+    private Property _rdfObjectProp;
+    private RDFNode _rdfStatementObject;
 
-    private List _processedAnonymousNodes;
+    private List _statementsList;
 
     /**
      * Constructor
@@ -55,13 +64,19 @@ public class RdfP2pParser implements Parser {
     public RdfP2pParser() {
         _nodesHash = new Hashtable();
         _edgesList = new LinkedList();
-        _processedAnonymousNodes = new LinkedList();
+        _statementsList = new LinkedList();
     }
 
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
         try {
             Model model = new ModelMem();
             model.read(reader, "");
+
+            StmtIterator stIt= model.listStatements();
+            while (stIt.hasNext()) {
+                Statement next = stIt.next();
+                _statementsList.add(next);
+            }
 
             NsIterator nsIterator = model.listNameSpaces();
             while (nsIterator.hasNext()) {
@@ -74,52 +89,22 @@ public class RdfP2pParser implements Parser {
                 if (namespace.endsWith(_namespace_rdf_suffix)) {
                     String namespace_rdf = namespace;
                     _rdfValueProp = new PropertyImpl((namespace_rdf + "value"));
+                    _rdfTypeProp = new PropertyImpl((namespace_rdf + "type"));
+                    _rdfSubjectProp = new PropertyImpl(namespace_rdf + "subject");
+                    _rdfPredicateProp = new PropertyImpl(namespace_rdf + "predicate");
+                    _rdfObjectProp = new PropertyImpl(namespace_rdf + "object");
+                    _rdfStatementObject = new ResourceImpl(namespace_rdf + "Statement");
                 }
             }
 
-            System.out.println("--------------testing 1---------------------");
-            StmtIterator testIt = model.listReifiedStatements();
-            while (testIt.hasNext()) {
-                Statement next = testIt.next();
-                System.out.println("reified statement: " + next);
-            }
+            processAllAnonymousSubjectStatements(model);
+            System.out.println("after processing all anonymous statements list size = " + _statementsList.size());
+            System.out.println("\n\nPROCESS REIFICATION STATEMENT\n\n");
+            processAllReificationStatements(model);
+            System.out.println("after processing all verbose reification statements list size = " + _statementsList.size());
+            processRemainingStatements(model);
+            System.out.println("statements list size = " + _statementsList.size());
 
-            System.out.println("--------------testing 2---------------------");
-            testIt = model.listStatements();
-            while (testIt.hasNext()) {
-                Statement next = testIt.next();
-                System.out.println("statement is reified: " + next.isReified());
-            }
-
-            ResIterator subjectsIt = model.listSubjects();
-            while (subjectsIt.hasNext()) {
-                System.out.println("-----------------------------------------------");
-                Resource resource = subjectsIt.next();
-                System.out.println("subject: " + resource + ", isAnon = " + resource.isAnon());
-                StmtIterator it = resource.listProperties();
-                while (it.hasNext()) {
-                    Statement st = it.next();
-                    System.out.println("---" + st);
-                    System.out.println("statement is reified = " + st.isReified());
-                    if (st.getPredicate().toString().endsWith("rdf-syntax-ns#type")) {
-                        /// @todo hack: should find a better way to deal with this.
-                        continue;
-                    }
-                    if (resource.isAnon()) {
-                        System.out.println("SUBJECT IS ANONYMOUS");
-                        if (_processedAnonymousNodes.contains(resource)) {
-                            System.out.println("this resource is already processed");
-                            continue;
-                        }
-                        processAnonymousSubject(st, model);
-                        _processedAnonymousNodes.add(resource);
-                    }
-                    else {
-                        System.out.println("RESOURCE IS NOT ANONYMOUS");
-                        processStatement(st);
-                    }
-                }
-            }
         } catch (AccessControlException secExc) {
             throw secExc;
         } catch (RDFException e) {
@@ -141,21 +126,124 @@ public class RdfP2pParser implements Parser {
         return result;
     }
 
+    /**
+     * first process all anonymous subjects and cross corresponding
+     * statements off the list.
+     *
+     * @param model
+     * @throws RDFException
+     * @throws NoSuchRelationLinkException
+     * @throws URISyntaxException
+     */
+    private void processAllAnonymousSubjectStatements(Model model) throws RDFException, NoSuchRelationLinkException, URISyntaxException {
+        ResIterator subjectsIt = model.listSubjects();
+        while (subjectsIt.hasNext()) {
+            System.out.println("-----------------------------------------------");
+            Resource resource = subjectsIt.next();
+            StmtIterator it = resource.listProperties();
+            while (it.hasNext()) {
+                Statement st = it.next();
+                System.out.println("---" + st);
+                if (!_statementsList.contains(st)) {
+                    /// we are checking because statement may already have been processed
+                    /// via processAnonymousSubject method.
+                    //System.out.println("this statement is already processed");
+                    System.out.println("...skipping, already processed");
+                    continue;
+                }
+                if (resource.isAnon()) {
+                    System.out.println("...processing anon");
+                    processAnonymousSubject(st, model);
+                }
+            }
+        }
+    }
+
+    private void processAllReificationStatements(Model model) throws RDFException,
+                                    NoSuchRelationLinkException, URISyntaxException {
+        ResIterator subjectsIt = model.listSubjectsWithProperty(_rdfTypeProp);
+        while (subjectsIt.hasNext()) {
+            System.out.println("-----------------------------------------------");
+            Resource resource = subjectsIt.next();
+            System.out.println("processing resource " + resource);
+            SimpleTriple triple = null;
+            boolean resourceIsReified = false;
+            StmtIterator it = resource.listProperties();
+            while (it.hasNext()) {
+                Statement st = it.next();
+                System.out.println("---" + st);
+                if (!_statementsList.contains(st)) {
+                    System.out.println("...skipping, already processed");
+                    continue;
+                }
+                if (st.getObject().toString().endsWith("Class"))  {
+                    /// @todo hack: should find a better way to deal with this.
+                    System.out.println("...skipping");
+                    _statementsList.remove(st);
+                    continue;
+                }
+                if (st.getObject().equals(_rdfStatementObject)) {
+                    triple = new SimpleTriple();
+                    resourceIsReified = true;
+                    _statementsList.remove(st);
+                }
+                if (! resourceIsReified) {
+                    System.out.println("...skipping, resource is not reified");
+                    continue;
+                    //break;
+                }
+                if (st.getPredicate().equals(_rdfSubjectProp)) {
+                    triple.setSubject(st.getObject());
+                }
+                if (st.getPredicate().equals(_rdfPredicateProp)) {
+                    triple.setPredicate(st.getObject());
+                }
+                if (st.getPredicate().equals(_rdfObjectProp)) {
+                    triple.setObject(st.getObject());
+                }
+                if (st.getPredicate().equals(_assertedProp)) {
+                    triple.addAssertion(new URI(st.getObject().toString()));
+                }
+                if (st.getPredicate().equals(_rejectedProp)) {
+                    triple.addRejection(new URI(st.getObject().toString()));
+                }
+                _statementsList.remove(st);
+            }
+            if (resourceIsReified) {
+                mapSimpleTripleIntoModel(triple);
+            }
+        }
+    }
+
+
+
+    private void processRemainingStatements(Model model) throws RDFException, NoSuchRelationLinkException, URISyntaxException {
+        ResIterator subjectsIt = model.listSubjects();
+        while (subjectsIt.hasNext()) {
+            System.out.println("-----------------------------------------------");
+            Resource resource = subjectsIt.next();
+            StmtIterator it = resource.listProperties();
+            while (it.hasNext()) {
+                Statement st = it.next();
+                System.out.println("---" + st);
+                if (!_statementsList.contains(st)) {
+                    System.out.println("...skipping, already processed");
+                    continue;
+                }
+                System.out.println("...processing normal resourc");
+                processStatement(st);
+            }
+        }
+    }
+
     protected void processStatement (Statement st) throws NoSuchRelationLinkException, URISyntaxException {
         Resource subject = st.getSubject();
         Property predicate = st.getPredicate();
         RDFNode object = st.getObject();
 
-        /// assumption is that we already processed this statement if it contains
-        // anonymous object - it would have been processed in processAnonymousSubject()
-        // method because we query for this anonymous node there.
-        /// @todo looks like a hack ;) perhaps better to 'cross off' statements off a list once they are processed.
-        if (_processedAnonymousNodes.contains(object)) {
-            System.out.println("this object is already processed as anonymous");
-            return;
-        }
-
         String predicateStr = predicate.toString();
+
+        _statementsList.remove(st);
 
         if (predicateStr.endsWith(_rdf_tag_asserted)) {
             P2PNode subjectNode = getNodeForName(subject.toString());
@@ -170,11 +258,30 @@ public class RdfP2pParser implements Parser {
 
         P2PEdge edge = mapEdgeIntoModel(subject.toString(), predicate.toString(), object.toString());
         addEdgeToEdgesList(edge);
+
+    }
+
+    private void mapSimpleTripleIntoModel(SimpleTriple triple) throws NoSuchRelationLinkException {
+        P2PNode fromNode = getNodeForName(triple.getSubject().toString());
+        P2PNode toNode = getNodeForName(triple.getObject().toString());
+        P2PEdge edge = mapEdgeIntoModel(triple.getSubject().toString(), triple.getPredicate().toString(), triple.getObject().toString());
+        Iterator assertions = triple.getAssertions().iterator();
+        while (assertions.hasNext()) {
+            URI next = (URI) assertions.next();
+            edge.addAssertion(next);
+        }
+        Iterator rejections = triple.getRejections().iterator();
+        while (rejections.hasNext()) {
+            URI next = (URI) rejections.next();
+            edge.addRejection(next);
+        }
+        addEdgeToEdgesList(edge);
     }
 
     private void processAnonymousSubject(Statement st, Model model) throws NoSuchRelationLinkException,
                                             URISyntaxException {
         RDFNode object = st.getObject();
+        Resource anonymousResource = st.getSubject();
 
         // var 'x' is our anonymous node
 
@@ -184,15 +291,13 @@ public class RdfP2pParser implements Parser {
         List resBindList;
         Iterator resBindIterator;
 
-        System.out.println("anonymous node is mapped to " + mainNodeName);
-
-        String subject1VariableName = "subject1";
-        String predicate1VariableName = "predicate1";
-        String predicate2VariableName = "predicate2";
-        String object2VariableName = "object2";
+        String s1 = "subject1";
+        String p1 = "predicate1";
+        String p2 = "predicate2";
+        String o3 = "object2";
         String queryStr3 = "SELECT ?x  WHERE \n";
-        queryStr3 = queryStr3 + "(? " + subject1VariableName + ", ?" + predicate1VariableName + ", ?x), \n";
-        queryStr3 = queryStr3 + "(?x, ?" + predicate2VariableName + ", ?" + object2VariableName + "), \n";
+        queryStr3 = queryStr3 + "(? " + s1 + ", ?" + p1 + ", ?x), \n";
+        queryStr3 = queryStr3 + "(?x, ?" + p2 + ", ?" + o3 + "), \n";
         if (object instanceof Resource) {
             queryStr3 = queryStr3 +  "(?x, ?y, <" + object + ">) ";
         }
@@ -203,16 +308,23 @@ public class RdfP2pParser implements Parser {
         result = query.exec(queryStr3, model);
         resBindList = result.getAll();
         resBindIterator = resBindList.iterator();
-        System.out.println("***");
         while (resBindIterator.hasNext()) {
             ResultBinding cur = (ResultBinding) resBindIterator.next();
-            String subject1 = cur.getValue(subject1VariableName).toString();
-            String predicate1 = cur.getValue(predicate1VariableName).toString();
-            String predicate2 = cur.getValue(predicate2VariableName).toString();
-            String object2 = cur.getValue(object2VariableName).toString();
+            String subject1 = cur.getValue(s1).toString();
+            String predicate1 = cur.getValue(p1).toString();
+            String predicate2 = cur.getValue(p2).toString();
+            String object2 = cur.getValue(o3).toString();
             mapReifiedStatementIntoModel(subject1, predicate1, mainNodeName, predicate2, object2);
+            Statement st1 = getStatementFromStatementsList(subject1, predicate1, anonymousResource.toString());
+            if (st1 != null) {
+                _statementsList.remove(st1);
+            }
+            Statement st2 = getStatementFromStatementsList(anonymousResource.toString(), predicate2, object2);
+            if (st2 != null) {
+                _statementsList.remove(st2);
+            }
         }
-        System.out.println("***");
+        _statementsList.remove(st);
     }
 
     private String findNameForAnonymousSubject(RDFNode object, Model model) {
@@ -249,8 +361,8 @@ public class RdfP2pParser implements Parser {
     private void mapReifiedStatementIntoModel(String subject1, String predicate1, String object1,
                                             String predicate2, String object2)
                                             throws NoSuchRelationLinkException, URISyntaxException {
-        System.out.println(subject1 + ", -> " + predicate1 + " -> " + object1);
-        System.out.println(object1 + ", -> " + predicate2 + " -> " + object2);
+        //System.out.println(subject1 + ", -> " + predicate1 + " -> " + object1);
+        //System.out.println(object1 + ", -> " + predicate2 + " -> " + object2);
 
         P2PEdge edge = mapEdgeIntoModel(subject1, predicate1, object1);
 
@@ -265,6 +377,21 @@ public class RdfP2pParser implements Parser {
             edge.addRejection(new URI(object2));
         }
         addEdgeToEdgesList(edge);
+    }
+
+    private Statement getStatementFromStatementsList (String subject, String predicate, String object) {
+        Iterator it = _statementsList.iterator();
+        while (it.hasNext()) {
+            Statement curStatement = (Statement) it.next();
+            if (curStatement.getSubject().toString().equals(subject)) {
+                if (curStatement.getPredicate().toString().equals(predicate)) {
+                    if (curStatement.getObject().toString().equals(object)) {
+                        return curStatement;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private P2PEdge mapEdgeIntoModel(String subjectStr, String predicateStr, String objectStr) throws NoSuchRelationLinkException {
@@ -367,6 +494,59 @@ public class RdfP2pParser implements Parser {
 
         public boolean getIsReverse() {
             return this.isReverse;
+        }
+    }
+
+    private class SimpleTriple {
+        private RDFNode subject;
+        private RDFNode predicate;
+        private RDFNode object;
+        private List assertions;
+        private List rejections;
+
+        public SimpleTriple () {
+            assertions = new LinkedList();
+            rejections = new LinkedList();
+        }
+
+        public RDFNode getSubject() {
+            return subject;
+        }
+
+        public void setSubject(RDFNode subject) {
+            this.subject = subject;
+        }
+
+        public RDFNode getPredicate() {
+            return predicate;
+        }
+
+        public void setPredicate(RDFNode predicate) {
+            this.predicate = predicate;
+        }
+
+        public RDFNode getObject() {
+            return object;
+        }
+
+        public void setObject(RDFNode object) {
+            this.object = object;
+        }
+
+        public void addAssertion (URI uri) {
+            this.assertions.add(uri);
+        }
+
+        public void addRejection (URI uri) {
+            this.rejections.add(uri);
+        }
+
+        public List getAssertions() {
+            return assertions;
+        }
+
+        public List getRejections() {
+            return rejections;
         }
     }
 

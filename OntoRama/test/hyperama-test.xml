@@ -41,7 +41,7 @@
       <child name="node3.2.2" />
       <child name="node3.2.3" />
    </node>
-   
+
    <node name="nodeOrama4.6">
       <child name="node4.6.1" />
       <child name="node4.6.2" />

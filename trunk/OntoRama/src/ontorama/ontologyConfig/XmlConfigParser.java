@@ -25,7 +25,7 @@ import ontorama.util.Debug;
  * @version 1.0
  */
 
-public class XmlConfigParser {
+public class XmlConfigParser extends XmlParserAbstract {
 
     /**
      *
@@ -82,7 +82,7 @@ public class XmlConfigParser {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
-		System.out.println("XmlConfigParser");
+        System.out.println("XmlConfigParser");
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
@@ -273,6 +273,7 @@ public class XmlConfigParser {
     /**
      *
      */
+     /*
     private void checkCompulsoryAttr (Attribute attr, String attrName, String elementName)
                                     throws ConfigParserException {
         if ( attr == null) {
@@ -282,6 +283,7 @@ public class XmlConfigParser {
             throw new ConfigParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
         }
     }
+    */
 
     /**
      *

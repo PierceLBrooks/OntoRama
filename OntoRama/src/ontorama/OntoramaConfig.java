@@ -95,6 +95,7 @@ public class OntoramaConfig {
      */
     private static List relationRdfMapping;
 
+
     /**
      * Max value for realtionLinks.
      */
@@ -109,6 +110,9 @@ public class OntoramaConfig {
     /**
      * Values of vars that are set here should be read from
      * java properties file.
+     * @todo    check if we should read conceptPropeties details from xml config file????...
+     * if answer is 'yes', then OntologyType and GraphNode should be changed as they have
+     * description and creator hardcoded.
      */
      static {
 

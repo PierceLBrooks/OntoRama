@@ -78,7 +78,7 @@ inclusive: 	purple:9999FF
 		<relationLinks>
 			<map id="1" type="supertype" tag="subClassOf"/>
 			<map id="2" type="synonym" tag="label"/>
-			<map id="4" type="PartOf" tag="part"/>
+			<map id="4" type="part" tag="part"/>
 			<map id="7" type="inclusive" tag="jointWith"/>
 		</relationLinks>
 		<conceptProperties>

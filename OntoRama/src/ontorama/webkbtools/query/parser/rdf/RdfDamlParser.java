@@ -107,6 +107,7 @@ public class RdfDamlParser implements Parser {
         while ( ontologyRelationRdfMappingIterator.hasNext() ) {
             RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
             String mappingTag = rdfMapping.getRdfTag();
+            //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
             if (predicate.getLocalName().endsWith(mappingTag)) {
                 int mappingId = rdfMapping.getId();
                 //System.out.println("MATCHED mappingTag = " + mappingTag);
@@ -140,6 +141,17 @@ public class RdfDamlParser implements Parser {
                     System.exit(-1);
                 }
             }
+            if (predicate.getLocalName().endsWith("comment")) {
+                subjectType.setDescription(object.toString());
+            }
+            else if (predicate.getLocalName().endsWith("Creator")) {
+                subjectType.setCreator(object.toString());
+            }
+//            else {
+//                // ERROR
+//                // throw exception here
+//                System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+//            }
         }
     }
 

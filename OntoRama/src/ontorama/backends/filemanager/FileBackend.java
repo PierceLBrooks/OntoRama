@@ -27,7 +27,7 @@ import ontorama.ontotools.writer.ModelWriterException;
 import ontorama.ontotools.writer.rdf.RdfModelWriter;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
 
 /**
@@ -45,7 +45,7 @@ public class FileBackend implements Backend{
     private EventBroker eventBroker;
     private String filename;
 
-    private class GraphLoadedEventHandler implements EventListener {
+    private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
         public GraphLoadedEventHandler(EventBroker eventBroker)  {
             this.eventBroker = eventBroker;

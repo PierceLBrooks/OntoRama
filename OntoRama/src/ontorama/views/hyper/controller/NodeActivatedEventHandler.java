@@ -14,12 +14,12 @@ import ontorama.views.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
 /**
  *
  */
-public class NodeActivatedEventHandler implements EventListener {
+public class NodeActivatedEventHandler implements EventBrokerListener {
     private SimpleHyperView simpleHyperView;
     private EventBroker eventBroker;
 

@@ -13,9 +13,9 @@ import ontorama.views.hyper.view.HyperNodeView;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
-public class NodeSelectedEventTransformer implements EventListener {
+public class NodeSelectedEventTransformer implements EventBrokerListener {
     private EventBroker eventBroker;
 
     public NodeSelectedEventTransformer(EventBroker eventBroker) {

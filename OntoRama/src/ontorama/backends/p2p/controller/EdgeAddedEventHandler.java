@@ -9,7 +9,7 @@ import ontorama.model.graph.events.EdgeAddedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
 /*
  * Created by IntelliJ IDEA.
@@ -18,7 +18,7 @@ import org.tockit.events.EventListener;
  * Time: 10:48:59 AM
  * To change this template use Options | File Templates.
  */
-public class EdgeAddedEventHandler implements EventListener {
+public class EdgeAddedEventHandler implements EventBrokerListener {
     private EventBroker _eventBroker;
     private P2PBackend _p2pBackend;
 

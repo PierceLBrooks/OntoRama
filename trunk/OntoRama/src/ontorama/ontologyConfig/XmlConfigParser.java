@@ -89,28 +89,10 @@ public class XmlConfigParser {
 
         try {
             SAXBuilder builder = new SAXBuilder();
-            System.out.println("moo");
-
-//            BufferedReader inReader = new BufferedReader (new InputStreamReader(in));
-//            if (inReader == null) {
-//              System.out.println("ohoh - inReader is null :(");
-//            }
-//            String s;
-//            while ( ( s = inReader.readLine()) != null ) {
-//              System.out.println(s);
-//            }
-//            if (in == null) {
-//              System.out.println("ohoh - in stream is null :(");
-//            }
-
-            System.out.println("moooooooo");
-
 
             Document doc = builder.build(in);
-            System.out.println("moo");
 
             Element rootEl = doc.getRootElement();
-            System.out.println("rootEl name = " + rootEl.getName());
 
             Element ontologyEl = rootEl.getChild("ontology");
             Element rdfMappingEl = rootEl.getChild("rdfMapping");

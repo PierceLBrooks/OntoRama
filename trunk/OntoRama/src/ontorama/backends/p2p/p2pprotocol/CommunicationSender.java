@@ -186,7 +186,7 @@ public class CommunicationSender extends Communication {
                     PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement();
                     System.out.println("Trying to send to peer " + tmpAdv.getPipeID());                    
                    //Create a OutputPipe  
-                   OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 5*1000);
+                   OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 1*1000);
                                                 
                    //Send message through new pipe and close pipe
                    tmpOutputPipe.send(queryTobeSent);

@@ -133,7 +133,7 @@ public class SendMessageThread extends Thread{
 	             try {  
 	                   tmpAdv = (PipeAdvertisement) adverts.nextElement();
 	                   //Create a OutputPipe  
-	                   tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 5*1000);
+	                   tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 1*1000);
 	                   //Send message through new pipe and close pipe
 						msgToSendCopy = (Message) msgToSend.clone(); 
 	                   tmpOutputPipe.send(msgToSendCopy);

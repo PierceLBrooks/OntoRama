@@ -14,6 +14,7 @@ import org.jdom.*;
 import org.jdom.input.*;
 //import org.jdom.output.*;
 
+import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.XmlParserAbstract;
@@ -44,7 +45,9 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
 
 
     public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
-	System.out.println("XmlExamplesConfigParser");
+        if (OntoramaConfig.VERBOSE) {
+	  System.out.println("XmlExamplesConfigParser");
+        }
         this.examplesList = new LinkedList();
 
         try {

@@ -48,48 +48,48 @@ inclusive: 	purple:9999FF
 			<display color="#33CCFF" symbol="-"/>
 		</relation>
 		<relation id="4">
-			<relationType name="partOf" mappingSymbol="P"/>
 			<relationType name="part" mappingSymbol="p"/>
+			<relationType name="partOf" mappingSymbol="P"/>
 			<display color="#00FFCC" symbol="p"/>
 		</relation>
 		<relation id="5">
-			<relationType name="substanceOf" mappingSymbol="S"/>
 			<relationType name="substance" mappingSymbol="s"/>
+			<relationType name="substanceOf" mappingSymbol="S"/>
 			<display color="#FF99CC" symbol="s"/>
 		</relation>
 		<relation id="6">
-			<relationType name="instanceOf" mappingSymbol="^"/>
 			<relationType name="instance" mappingSymbol=":"/>
+			<relationType name="instanceOf" mappingSymbol="^"/>
 			<display color="#FF99CC" symbol="^"/>
 		</relation>
 		<relation id="7">
-			<relationType name="exclusion" mappingSymbol="!"/>
 			<relationType name="complement" mappingSymbol="/"/>
+			<relationType name="exclusion" mappingSymbol="!"/>
 			<display color="#FF99CC" symbol="/"/>
 		</relation>
 		<relation id="8">
-			<relationType name="locationOf" mappingSymbol="L"/>
 			<relationType name="location" mappingSymbol="l"/>
+			<relationType name="locationOf" mappingSymbol="L"/>
 			<display color="#FF99CC" symbol="l"/>
 		</relation>
 		<relation id="9">
-			<relationType name="memberOf" mappingSymbol="M"/>
 			<relationType name="member" mappingSymbol="m"/>
+			<relationType name="memberOf" mappingSymbol="M"/>
 			<display color="#FFFFCC" symbol="m"/>
 		</relation>
 		<relation id="10">
-			<relationType name="objectOf" mappingSymbol="0"/>
 			<relationType name="object" mappingSymbol="o"/>
+			<relationType name="objectOf" mappingSymbol="0"/>
 			<display color="#C0C0C0" symbol="0"/>
 		</relation>
 		<relation id="11">
-			<relationType name="urlOf" mappingSymbol="U"/>
 			<relationType name="url" mappingSymbol="u"/>
+			<relationType name="urlOf" mappingSymbol="U"/>
 			<display color="#C0C0C0" symbol="u"/>
 		</relation>
 		<relation id="12">
-			<relationType name="nounTypeOf" mappingSymbol="N"/>
 			<relationType name="nounType" mappingSymbol="n"/>
+			<relationType name="nounTypeOf" mappingSymbol="N"/>
 			<display color="#C0C0C0" symbol="N"/>
 		</relation>
 		<conceptProperty id="Description"/>
@@ -107,7 +107,7 @@ inclusive: 	purple:9999FF
 			<map id="8" type="location" tag="location"/>
 			<map id="9" type="member" tag="wnMember"/>
 			<map id="10" type="object" tag="wnObject"/>
-			<map id="2" type="url" tag="url"/>
+			<map id="11" type="url" tag="url"/>
 		</relationLinks>
 		<conceptProperties>
 			<map id="Description" tag="comment"/>

@@ -140,6 +140,12 @@ public class OntoramaConfig {
     public static boolean DEBUG;
 
     /**
+     * verbose flag
+     */
+    public static boolean VERBOSE;
+
+
+    /**
      *
      */
     private static Properties properties = new Properties();
@@ -212,7 +218,9 @@ public class OntoramaConfig {
     private static void loadExamples (String examplesConfigLocation)
                             throws IOException, ConfigParserException {
         // loading examples
-        System.out.println("loading examples");
+        if (VERBOSE) {
+          System.out.println("loading examples");
+        }
         //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
         InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
         XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
@@ -233,6 +241,7 @@ public class OntoramaConfig {
         InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
         DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
+        VERBOSE = (new Boolean ( properties.getProperty("VERBOSE"))).booleanValue();
     }
 
     /**
@@ -410,11 +419,13 @@ public class OntoramaConfig {
                                                throws IOException {
 
           InputStream resultStream = null;
-          System.out.println("resourceName = " + resourceName);
-          //System.out.println("OntoramaConfig.classLoader = " + OntoramaConfig.classLoader);
+          if (VERBOSE) {
+            System.out.println("resourceName = " + resourceName);
+          }
           URL url = OntoramaConfig.classLoader.getResource(resourceName);
-          //URL url = classLoader.getResource(resourceName);
-          System.out.println("url = " + url);
+          if (VERBOSE) {
+            System.out.println("url = " + url);
+          }
 
           if (url.getProtocol().equalsIgnoreCase("jar")) {
             //System.out.println("found JAR");

@@ -5,13 +5,12 @@
 		<queryOutputFormat>XML</queryOutputFormat>
 		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
 	</example>
-	<example name="Ontorama RDF Test" root="chair" >
+	<example name="testCase" root="PR-rdf-schema-19990303#Class">
 		<source relativeUri="examples/test/data/testCase.rdf" 
-				sourcePackagePathSuffix="JarSource"/>
+					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-
 	<!--
 	<example name="Ontorama Xml Test (via URL)" root="root">
 		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml" 

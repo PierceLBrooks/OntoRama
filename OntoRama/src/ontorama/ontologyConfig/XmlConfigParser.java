@@ -14,6 +14,7 @@ import org.jdom.*;
 import org.jdom.input.*;
 //import org.jdom.output.*;
 
+import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
 
 /**
@@ -82,7 +83,9 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
-        System.out.println("XmlConfigParser");
+        if (OntoramaConfig.VERBOSE) {
+          System.out.println("XmlConfigParser");
+        }
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();

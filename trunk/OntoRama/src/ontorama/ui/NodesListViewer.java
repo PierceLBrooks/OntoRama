@@ -20,7 +20,6 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 import ontorama.ontotools.query.Query;
@@ -71,7 +70,6 @@ public class NodesListViewer extends JComboBox {
                     return;
                 }
                 Node selectedNode = (ontorama.model.graph.Node) selectedObject;
-                System.out.println("\n\nsending new QueryNodeEvent");
                 Query newQuery = new Query(selectedNode.getName());
                 _eventBroker.processEvent(new GeneralQueryEvent(newQuery));
             }
@@ -180,12 +178,8 @@ public class NodesListViewer extends JComboBox {
                 Node node = (Node) value;
                 NodeType nodeType = node.getNodeType();
                 setText(node.getName());
-                // @todo hack: should consider adding the method into interface
-                if (_graph instanceof GraphImpl) {
-                    GraphImpl graphImpl = (GraphImpl) _graph;
-                    int numOfDescendants = graphImpl.getNumOfDescendants(node);
-                    setText(node.getName() + " (" + numOfDescendants + ")");
-                }
+                int numOfDescendants = _graph.getNumOfDescendants(node);
+                setText(node.getName() + " (" + numOfDescendants + ")");
                 if (nodeType != null) {
                 	NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(nodeType);
                     setIcon(new ImageIcon(displayInfo.getImage()));

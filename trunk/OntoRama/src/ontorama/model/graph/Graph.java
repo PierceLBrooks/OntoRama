@@ -56,4 +56,6 @@ public interface Graph {
 
     public void removeNode (Node node);
 
+	public int getNumOfDescendants (Node node);
+
 }

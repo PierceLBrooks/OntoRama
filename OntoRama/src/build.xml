@@ -58,6 +58,7 @@
     <copy   todir="${classes.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
       <fileset dir="${src.home}" includes="**/config.xml"/>
+      <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
       <fileset dir="${src.home}" includes="MANIFEST.MF"/>
 	  </copy>
   </target>

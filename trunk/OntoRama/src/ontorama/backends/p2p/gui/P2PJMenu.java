@@ -41,7 +41,7 @@ public class P2PJMenu extends JMenu {
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
 
-        _enableP2PAction = new ActionEnableP2P("Start P2P");
+        _enableP2PAction = new ActionEnableP2P("Show P2P updates window");
         add(_enableP2PAction);
         addSeparator();
 
@@ -51,7 +51,7 @@ public class P2PJMenu extends JMenu {
 
         _joinGroupAction = new ActionJoinGroup("Join Group", _p2pSender);
         add(_joinGroupAction);
-        _leaveGroupAction = new ActionLeaveGroup("Leave Group");
+        _leaveGroupAction = new ActionLeaveGroup("Leave Group", _p2pSender);
         add(_leaveGroupAction);
         addSeparator();
 

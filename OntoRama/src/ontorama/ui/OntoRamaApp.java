@@ -173,7 +173,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     
     private class HistoryQueryStartEventHandler implements EventBrokerListener {
     	public void processEvent (Event event) {
-    		HistoryElement historyElement = (HistoryElement) event.getSubject();
+    		ExamplesHistoryElement historyElement = (ExamplesHistoryElement) event.getSubject();
             _lastQuery = _query;
             _query = historyElement.getQuery();
     		Backend backend = OntoramaConfig.getBackend();
@@ -261,7 +261,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _modelEventBroker.subscribe(
 				            new HistoryQueryStartEventHandler(),
 				            HistoryQueryStartEvent.class,
-				            HistoryElement.class);
+				            ExamplesHistoryElement.class);
 
 
         _modelEventBroker.subscribe(

@@ -76,7 +76,7 @@ public class HistoryMenu extends JMenu {
         public void processEvent (Event event) {
             JMenuItem menuItem = (JMenuItem) event.getSubject();
         	JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
-            HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+            ExamplesHistoryElement historyElement = (ExamplesHistoryElement) _menuItemHistoryMapping.get(historyItem);
             // get graph for this query and load it into app
             //_eventBroker.processEvent(new HistoryQueryStartEvent(historyElement));
             historyElement.displayElement();
@@ -172,7 +172,7 @@ public class HistoryMenu extends JMenu {
 		    remove(firstMenuItem);
 		}
 		
-		HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, _backend.getQueryEngine(), _eventBroker);
+		ExamplesHistoryElement historyElement = new ExamplesHistoryElement(historyItemLabelName, query, _backend.getQueryEngine(), _eventBroker);
 		
 		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyItemLabelName);
 		_buttonGroup.add(historyItem);
@@ -193,7 +193,7 @@ public class HistoryMenu extends JMenu {
 		Iterator it = _historyItems.iterator();
 		while (it.hasNext()) {
 			JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) it.next();
-			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+			ExamplesHistoryElement historyElement = (ExamplesHistoryElement) _menuItemHistoryMapping.get(historyItem);
 			Query historyQuery = historyElement.getQuery();
 			if (query.equals(historyQuery)) {
 				return historyItem;

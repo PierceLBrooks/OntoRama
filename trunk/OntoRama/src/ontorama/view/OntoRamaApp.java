@@ -131,17 +131,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 */
 	//private QueryEngineTask _worker;
 	private QueryEngineThread _worker;
-	
+
 	/**
 	 * holds current query 
 	 */
 	private Query _query;
-	
+
 	/**
 	 * 
 	 */
 	private Query _lastQuery = null;
-	
 
 	/**
 	 * left side of split panel holds hyper view.
@@ -171,7 +170,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 * what part of a screen this app window should take (percentage)
 	 */
-	private int _appWindowPercent = 85;
+	private int _appWindowPercent = 95;
 
 	/**
 	 * view listener
@@ -214,10 +213,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_queryPanel = new QueryPanel(_viewListener, this);
 		if (OntoramaConfig.isSourceDynamic) {
 			_queryPanel.enableDepth();
-		}
-		else {
+		} else {
 			_queryPanel.disableDepth();
-		}		
+		}
 
 		_treeView = new OntoTreeView(_viewListener);
 		_hyperView = new SimpleHyperView(_viewListener);
@@ -252,7 +250,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		});
 
 		//Query query = new Query(OntoramaConfig.ontologyRoot);
-		_query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getRelationLinksList() );
+		_query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getRelationLinksList());
 		executeQuery(_query);
 	}
 
@@ -284,18 +282,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 		double scale = (double) curAppWidth / (double) this._appWidth;
 
-		double scaledDividerLocation =
-			((double) this._dividerBarLocation * scale);
-		int newLeftPanelPercent =
-			(currentDividerBarLocation * 100) / this._appWidth;
-		double scaledDividerPercent =
-			(scaledDividerLocation * 100) / curAppWidth;
-		if (((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)
-			- scaledDividerLocation)
-			> 25)
-			|| ((scaledDividerLocation
-				- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent))
-				> 25)) {
+		double scaledDividerLocation = ((double) this._dividerBarLocation * scale);
+		int newLeftPanelPercent = (currentDividerBarLocation * 100) / this._appWidth;
+		double scaledDividerPercent = (scaledDividerLocation * 100) / curAppWidth;
+		if (((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent) - scaledDividerLocation) > 25)
+			|| ((scaledDividerLocation - calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
 			if (((newLeftPanelPercent - scaledDividerPercent) > 10)
 				|| ((scaledDividerPercent - newLeftPanelPercent) > 10)) {
 				_leftSplitPanelWidthPercent = newLeftPanelPercent;
@@ -329,28 +320,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 * Set sizes of left and right component in the split panel
 	 */
-	private void setSplitPanelSizes(
-		int applicationWidth,
-		int applicationHeigth) {
+	private void setSplitPanelSizes(int applicationWidth, int applicationHeigth) {
 
 		int _splitPaneWidth = applicationWidth;
 		int _splitPaneHeight = (applicationHeigth * 70) / 100;
 
 		int dividerBarWidth = _splitPane.getDividerSize();
 
-		int leftPanelWidth =
-			calculateLeftPanelWidth(
-				applicationWidth,
-				this._leftSplitPanelWidthPercent);
+		int leftPanelWidth = calculateLeftPanelWidth(applicationWidth, this._leftSplitPanelWidthPercent);
 		int rigthPanelWidth = applicationWidth - leftPanelWidth;
 
-		_hyperView.setPreferredSize(
-			new Dimension(leftPanelWidth - dividerBarWidth, _splitPaneHeight));
-		_treeView.setPreferredSize(
-			new Dimension(rigthPanelWidth - dividerBarWidth, _splitPaneHeight));
+		_hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, _splitPaneHeight));
+		_treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, _splitPaneHeight));
 
-		_splitPane.setPreferredSize(
-			new Dimension(_splitPaneWidth, _splitPaneHeight));
+		_splitPane.setPreferredSize(new Dimension(_splitPaneWidth, _splitPaneHeight));
 
 		_dividerBarLocation = leftPanelWidth;
 
@@ -369,9 +352,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 * Add the scroll panes to a split pane
 	 */
-	private void addComponentsToScrollPanel(
-		JComponent leftComp,
-		JComponent rightComp) {
+	private void addComponentsToScrollPanel(JComponent leftComp, JComponent rightComp) {
 		setSplitPanelSizes(_appWidth, _appHeight);
 		_splitPane.setLeftComponent(leftComp);
 		_splitPane.setRightComponent(rightComp);
@@ -445,13 +426,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	public boolean executeQuery(Query query) {
 		_lastQuery = _query;
 		_query = query;
-		_debug.message(
-			".............. EXECUTE QUERY for new graph ...................");
+		_debug.message(".............. EXECUTE QUERY for new graph ...................");
 
-		System.out.println(
-			"\n\n\n---------------------------------------------------------------");
+		System.out.println("\n\n\n---------------------------------------------------------------");
 		System.out.println("          method executeQuery(query)\n\n\n");
-		
+
 		//_worker = new QueryEngineTask(query);
 		//_worker.go();
 		_worker = new QueryEngineThread(_query);
@@ -462,8 +441,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_stopQueryAction.setEnabled(true);
 
 		System.out.println("END of executeQuery method");
-		System.out.println(
-			"---------------------------------------------------------------\n\n\n");
+		System.out.println("---------------------------------------------------------------\n\n\n");
 		return true;
 	}
 
@@ -487,8 +465,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		if (OntoramaConfig.isSourceDynamic) {
 			_queryPanel.enableDepth();
-		}
-		else {
+		} else {
 			_queryPanel.disableDepth();
 		}
 
@@ -511,16 +488,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	public void appendHistoryMenu(Query query) {
-//		_historyMenu.appendHistory(query.getQueryTypeName(),
-//			OntoramaConfig.getCurrentExample());
+		//		_historyMenu.appendHistory(query.getQueryTypeName(),
+		//			OntoramaConfig.getCurrentExample());
 		_historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
 	}
 
 	/**
 	 *
 	 */
-	protected void appendHistoryForGivenExample(String termName,OntoramaExample example) {
-	//protected void appendHistoryForGivenExample(Query query,OntoramaExample example) {
+	protected void appendHistoryForGivenExample(String termName, OntoramaExample example) {
+		//protected void appendHistoryForGivenExample(Query query,OntoramaExample example) {
 		_historyMenu.appendHistory(termName, example);
 	}
 
@@ -541,7 +518,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 *
 	 */
-	protected boolean executeQueryForGivenExample(String termName,OntoramaExample example) {
+	protected boolean executeQueryForGivenExample(String termName, OntoramaExample example) {
 
 		// reset details in OntoramaConfig
 		OntoramaConfig.setCurrentExample(example);
@@ -555,7 +532,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 		return false;
 	}
-
 
 	/**
 	 * @todo	do we need two methods: executeQueryForGivenExample and executeQueryForHistoryElement
@@ -573,14 +549,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		return false;
 	}
 
-
 	/**
 	 *
 	 */
 	public static void showErrorDialog(String message) {
 		Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-		ErrorPopupMessage errorPopup =
-			new ErrorPopupMessage(message, frames[0]);
+		ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, frames[0]);
 	}
 
 	/**

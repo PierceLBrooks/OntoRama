@@ -142,8 +142,15 @@ public class CanvasManager extends JComponent
      * draw canvas items.
      *
      * @todo ConcurrentModificationException need to be addressed.
+     * @todo  HACK: added check 'if (canvasItems == null)' because
+     * otherwise we get NullPonterException when trying to load interface
+     * while graph is getting build (no canvas items created yet at this
+     * stage). Should be a better way to fix this  (nataliya)
      */
     protected void drawNodes( Graphics2D g2d ) {
+        if (canvasItems == null) {
+          return;
+        }
         if(lengthOfAnimation > 0) {
             animate();
         }

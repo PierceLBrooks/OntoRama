@@ -61,7 +61,7 @@ import ontorama.textDescription.view.DescriptionView;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.Debug;
 
-public class OntoRamaApp extends JFrame {
+public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      * holds hyper view
      */
@@ -112,7 +112,6 @@ public class OntoRamaApp extends JFrame {
      */
     private DescriptionView descriptionViewPanel;
 
-
     /**
      *
      */
@@ -125,6 +124,7 @@ public class OntoRamaApp extends JFrame {
     private JLabel _statusLabel;
     private JProgressBar _progressBar;
     private Timer _timer;
+    private QueryEngineTask _worker;
 
     /**
      * left side of split panel holds hyper view.
@@ -176,6 +176,16 @@ public class OntoRamaApp extends JFrame {
     public Action _aboutAction;
 
     /**
+     *
+     */
+    private Graph _graph;
+
+    /**
+     *
+     */
+    private static final int TIMER_INTERVAL = 100;
+
+    /**
      * @todo: introduce error dialogs for exception
      */
     public OntoRamaApp() {
@@ -183,50 +193,23 @@ public class OntoRamaApp extends JFrame {
 
         initActions();
 
+        _timer = new Timer(TIMER_INTERVAL, this);
+
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-
-        /**
-         * find preferred sizes for application window.
-         */
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.screenWidth = (int) screenSize.getWidth();
-        this.screenHeight = (int) screenSize.getHeight();
-        this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
-        this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
+        calculateAppPreferredSize();
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
 
-        /**
-         * create Menu Bar
-         */
         buildMenuBar();
         this.setJMenuBar(_menuBar);
 
-        /**
-         * create tool bar
-         */
-         buildBackForwardToolBar();
+        buildBackForwardToolBar();
 
-        /**
-         * status bar
-         */
         buildStatusBar();
         setStatusLabel("status bar is here");
-//        _timer = new Timer(ONE_SECOND, new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//                _progressBar.setValue(task.getCurrent());
-//                taskOutput.append(task.getMessage() + newline);
-//                taskOutput.setCaretPosition(
-//                        taskOutput.getDocument().getLength());
-//                if (task.done()) {
-//                    Toolkit.getDefaultToolkit().beep();
-//                    _timer.stop();
-//                    startButton.setEnabled(true);
-//                    progressBar.setValue(progressBar.getMinimum());
-//                }
-//            }
-//        });
+
+        queryPanel = new QueryPanel(viewListener, this);
 
         /**
          * Create OntoTreeView
@@ -238,38 +221,19 @@ public class OntoRamaApp extends JFrame {
          */
         hyperView = new SimpleHyperView(viewListener);
 
-        /**
-         * create a query panel
-         */
-        queryPanel = new QueryPanel(hyperView, viewListener, this);
-        mainContentPanel.add(queryPanel, BorderLayout.NORTH);
-//        combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
-
         /** create description panel
          *  NOTE: description panel can't be created before hyper view and tree view
          *  because then a view that is created after description panel doesn't
          *  display clones for the first time a user clicks on a clone in one of the views
          */
-        descriptionViewPanel = new DescriptionView(graph, viewListener);
-        //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
-                               //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                               //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
+        descriptionViewPanel = new DescriptionView(viewListener);
 
         //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(hyperView, treeView);
 
-        //Add the split pane to this frame.
-        //getContentPane().add(queryPanel,BorderLayout.NORTH);
-
+        mainContentPanel.add(queryPanel, BorderLayout.NORTH);
         mainContentPanel.add(splitPane, BorderLayout.CENTER);
-        mainContentPanel.add(descriptionViewScrollPanel,BorderLayout.SOUTH);
-
-//        getContentPane().add(combinedToolBarQueryPanel, BorderLayout.NORTH);
-//        getContentPane().add(splitPane, BorderLayout.CENTER);
-//
-//        // Add description panel to this frame
-//        getContentPane().add(descriptionViewScrollPanel,BorderLayout.SOUTH);
+        mainContentPanel.add(descriptionViewPanel,BorderLayout.SOUTH);
 
         getContentPane().add(_backForwardToolBar, BorderLayout.NORTH);
         getContentPane().add(mainContentPanel, BorderLayout.CENTER);
@@ -280,21 +244,16 @@ public class OntoRamaApp extends JFrame {
         setLocation(centerAppWin());
         setVisible(true);
 
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
               System.exit(0);
             }
         });
+
         termName = OntoramaConfig.ontologyRoot;
         Query query = new Query (termName);
-        graph = getGraphFromQuery(query);
-        treeView.setGraph(graph);
-        hyperView.setGraph(graph);
-        queryPanel.setQueryField(termName);
-        descriptionViewPanel.setFocus(graph.getRootNode());
-        setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
-        setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
-        repaint();
+        executeQuery(query);
     }
 
     /**
@@ -337,6 +296,18 @@ public class OntoRamaApp extends JFrame {
         this.appWidth = curAppWidth;
         this.appHeight = curAppHeight;
         super.repaint();
+    }
+
+    /**
+     * find preferred sizes for application window.
+     */
+    private void calculateAppPreferredSize () {
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.screenWidth = (int) screenSize.getWidth();
+        this.screenHeight = (int) screenSize.getHeight();
+        this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
+        this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
     }
 
     /**
@@ -425,91 +396,73 @@ public class OntoRamaApp extends JFrame {
     }
 
     /**
-     *
+     * actionPerformed for the timer action.
+     * This method will wait untill worker thread is finished and
+     * subsequently graph is build and then display it. While
+     * waiting - update progress bar.
      */
-    public Graph getGraphFromQuery (Query query) {
-
-      Graph graph = null;
-      try {
-          QueryEngine queryEngine = new QueryEngine (query);
-          QueryResult queryResult = queryEngine.getQueryResult();
-          graph = new Graph(queryResult);
-          //System.out.println(graph.printXml());
-      }
-      catch (NoTypeFoundInResultSetException noTypeExc) {
-          System.err.println(noTypeExc);
-          showErrorDialog(noTypeExc.getMessage());
-      }
-      catch (NoSuchRelationLinkException noRelExc) {
-          System.err.println(noRelExc);
-          showErrorDialog(noRelExc.getMessage());
-      }
-      catch (IOException ioExc) {
-        System.out.println(ioExc);
-        ioExc.printStackTrace();
-        showErrorDialog(ioExc.getMessage());
-      }
-      catch (ParserException parserExc) {
-        System.out.println(parserExc);
-        parserExc.printStackTrace();
-        showErrorDialog(parserExc.getMessage());
-      }
-      catch (ClassNotFoundException classExc) {
-        System.out.println(classExc);
-        classExc.printStackTrace();
-        showErrorDialog("Sorry, couldn't find one of the classes you specified in config.xml");
-      }
-      catch (IllegalAccessException iae) {
-        System.out.println(iae);
-        iae.printStackTrace();
-        showErrorDialog(iae.getMessage());
-      }
-      catch (InstantiationException instExc) {
-        System.out.println(instExc);
-        instExc.printStackTrace();
-        showErrorDialog(instExc.getMessage());
-      }
-      catch (Exception e) {
-          System.err.println();
-          e.printStackTrace();
-          showErrorDialog("Unable to build graph: " + e.getMessage());
-      }
-      return graph;
+    public void actionPerformed(ActionEvent evt) {
+        _progressBar.setValue(_worker.getCurrent());
+        setStatusLabel(_worker.getMessage());
+        if (_worker.done() ) {
+            _graph = _worker.getGraph();
+            System.out.println(".....returned graph = " + _graph);
+            _timer.stop();
+            _progressBar.setValue(_progressBar.getMinimum());
+            setStatusLabel("");
+            if (_graph == null) {
+              return;
+            }
+            updateViews();
+        }
     }
-
-//    /**
-//     *
-//     */
-//    public Query buildNewQuery () {
-//        Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
-//        return query;
-//    }
-
 
     /**
      *
      */
     public boolean executeQuery (Query query) {
         debug.message(".............. EXECUTE QUERY for new graph ...................");
+        _graph = null;
 
-        graph = getGraphFromQuery(query);
-        if (graph == null) {
-          return false;
-        }
+        System.out.println("\n\n\n---------------------------------------------------------------");
+        System.out.println("          method executeQuery(query)\n\n\n");
 
-        hyperView.setGraph(graph);
-        treeView.setGraph(graph);
-        queryPanel.setQueryField(graph.getRootNode().getName());
+
+        _worker = new QueryEngineTask(query);
+        _timer.start();
+        _worker.go();
+
+//        System.out.println("returned from worker thread");
+//
+//        if (_graph == null) {
+//          return false;
+//        }
+//
+//        setStatusLabel("Query for " + query.getQueryTypeName());
+        System.out.println("END of executeQuery method");
+        return true;
+    }
+
+    /**
+     *
+     */
+    private void updateViews () {
+        hyperView.setGraph(_graph);
+        treeView.setGraph(_graph);
+        queryPanel.setQueryField(_graph.getRootNode().getName());
         descriptionViewPanel.clear();
-        descriptionViewPanel.setFocus(graph.getRootNode());
-        //menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
+        descriptionViewPanel.setFocus(_graph.getRootNode());
 
-        addComponentsToScrollPanel(hyperView, treeView);
+        //addComponentsToScrollPanel(hyperView, treeView);
+        //addComponentsToScrollPanel(hyperViewPanel, treeViewPanel);
 
         hyperView.repaint();
         treeView.repaint();
         splitPane.repaint();
-        return true;
+
+        setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
+        setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
+        repaint();
     }
 
     /**
@@ -561,8 +514,9 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    private void showErrorDialog (String message) {
-      ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, this);
+    protected static void showErrorDialog (String message) {
+      Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
+      ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, frames[0]);
     }
 
     /**
@@ -572,7 +526,7 @@ public class OntoRamaApp extends JFrame {
       _statusBar = new JPanel(new BorderLayout());
 
       _statusLabel = new JLabel();
-      _progressBar = new JProgressBar();
+      _progressBar = new JProgressBar(0, 100);
 
       _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
       _statusBar.add(_statusLabel, BorderLayout.WEST);

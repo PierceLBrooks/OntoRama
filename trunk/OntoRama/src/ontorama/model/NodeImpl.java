@@ -153,26 +153,6 @@ public class NodeImpl implements Cloneable, Node {
         clones.addAll(clones);
     }
 
-//    /**
-//     * Calculate the depths of all children in respect to this node.
-//     */
-//    public void calculateDepths() {
-//        this.setDepth(0);
-//    }
-
-//    /**
-//     * Sets the depth of the node in the tree.
-//     *
-//     * @param depth
-//     */
-//    protected void setDepth(int depth) {
-//        this.depth = depth;
-//        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
-//        while (it.hasNext()) {
-//            NodeImpl outboundNode = (NodeImpl) it.next();
-//            outboundNode.setDepth(depth + 1);
-//        }
-//    }
 
     /**
      * Returns the distance to the root node.
@@ -181,6 +161,10 @@ public class NodeImpl implements Cloneable, Node {
      */
     public int getDepth() {
         return this.depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     /**

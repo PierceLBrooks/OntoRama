@@ -117,20 +117,15 @@ public class GraphImpl implements Graph {
 
             _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
             listItemsToRemove(_topLevelUnconnectedNodes);
-            System.out.println("items to remove num = " + _topLevelUnconnectedNodes.size() + ", nodes num = " + _graphNodes);
 
 
             // clean up
             removeUnconnectedEdges();
-            System.out.println("1");
             removeUnconnectedNodesFromGraph();
-            System.out.println("1");
-
 
             //System.out.println( printXml());
             convertIntoTree(root);
-            //root.calculateDepths();
-            System.out.println("1");
+            calculateDepths(root, 0);
 
 
         } catch (NoSuchRelationLinkException e) {
@@ -155,7 +150,6 @@ public class GraphImpl implements Graph {
         while (edgesIt.hasNext()) {
             Edge edge = (Edge) edgesIt.next();
             EdgeType edgeType = edge.getEdgeType();
-            System.out.println("edge = " + edge + ", displayInGraph = " + OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph());
             if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                 _graphEdges.add(edge);
             }
@@ -403,7 +397,6 @@ public class GraphImpl implements Graph {
 
         while (!queue.isEmpty()) {
             Node nextQueueNode = (Node) queue.remove(0);
-            System.out.println("--- processing node " + nextQueueNode.getName());
 
             debug.message(
                     "Graph",
@@ -416,14 +409,12 @@ public class GraphImpl implements Graph {
             while (allOutboundNodes.hasNext()) {
                 Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
-                System.out.println("adding node to queue " + curNode);
 
                 Iterator inboundEdges = getInboundEdges(curNode).iterator();
                 int count = 0;
                 while (inboundEdges.hasNext()) {
                     count++;
                     inboundEdges.next();
-                    System.out.println("inbound edges count = " + count);
                 }
                 while (count > 1) {
                     // indicate that we processed one edge
@@ -449,7 +440,6 @@ public class GraphImpl implements Graph {
                     Iterator it = getInboundEdges(curNode).iterator();
                     if (it.hasNext()) {
                         Edge firstEdge = (Edge) it.next();
-                        System.out.println("cloning edge " + firstEdge);
                         Edge newEdge = new EdgeImpl(
                                 firstEdge.getFromNode(),
                                 cloneNode,
@@ -858,13 +848,17 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     *
+     * Calculate the depths of all children in respect to this node.
      */
-    public void printAllEdges() {
-        Iterator it = _graphEdges.iterator();
+    public void calculateDepths(Node top, int depth) {
+//        setDepth(this.root, 0);
+        System.out.println("node = " + top + ", depth = " + depth);
+        top.setDepth(depth);
+        Iterator it = getOutboundEdgeNodes(top).iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
-            System.out.println(edge);
+            Node outboundNode = (Node) it.next();
+            outboundNode.setDepth(depth + 1);
+            calculateDepths(outboundNode, depth + 1);
         }
     }
 

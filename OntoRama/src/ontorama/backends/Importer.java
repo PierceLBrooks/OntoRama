@@ -1,4 +1,4 @@
-package ontorama.importer;
+package ontorama.backends;
 
 /**
  * @author nataliya

@@ -1,4 +1,4 @@
-package ontorama.importer;
+package ontorama.backends.filemanager;
 
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -6,8 +6,7 @@ import javax.swing.JFileChooser;
 import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.filemanager.ParserNotSpecifiedException;
-import ontorama.backends.filemanager.Util;
+import ontorama.backends.Importer;
 import ontorama.backends.filemanager.gui.FileBackendFileFilter;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;

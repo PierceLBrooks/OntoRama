@@ -47,11 +47,7 @@ public class ExamplesMenu extends JMenu {
      */
     private Hashtable _submenusMapping;
 
-    /**
-     * event broker capable of processing query events.
-     */
-    private EventBroker _eventBroker;
-    
+   
     private ExamplesBackend _backend;
 
 
@@ -67,11 +63,7 @@ public class ExamplesMenu extends JMenu {
         setMnemonic(KeyEvent.VK_E);
         buildExamplesMenuItems();
     }
-    
-    public void setEventBroker(EventBroker eb) {
-    	_eventBroker = eb;
-    }
-    
+       
     /**
      *
      */
@@ -80,15 +72,8 @@ public class ExamplesMenu extends JMenu {
 
         // get corresponding example
         OntoramaExample example = (OntoramaExample) _menuItemExampleMapping.get(menuItem);
-
-        // reset details in OntoramaConfig       
-        _backend.setCurrentExample(example);
-
-        // create a new query
-        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList(), _backend.getSourcePackageName(), _backend.getParser(), _backend.getSourceUri());
-
-        // get graph for this query and load it into app
-        _eventBroker.processEvent(new QueryStartEvent(query));
+        
+        _backend.processQueryFromExampleMenu(example);
 
         // select corresponding example menu item
         setSelectedExampleMenuItem(example);
@@ -97,7 +82,7 @@ public class ExamplesMenu extends JMenu {
     /**
      *
      */
-    protected void setSelectedExampleMenuItem(OntoramaExample example) {
+    public void setSelectedExampleMenuItem(OntoramaExample example) {
         Enumeration enum = _menuItemExampleMapping.keys();
         while (enum.hasMoreElements()) {
             JCheckBoxMenuItem exampleMenuItem = (JCheckBoxMenuItem) enum.nextElement();

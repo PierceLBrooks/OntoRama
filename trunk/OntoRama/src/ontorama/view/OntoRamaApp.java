@@ -21,6 +21,15 @@ import java.awt.event.*;
 
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.LinkedList;
+
+import ontorama.OntoramaConfig;
+
+import ontorama.webkbtools.query.QueryEngine;
+import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.query.QueryResult;
+import ontorama.webkbtools.datamodel.OntologyType;
+import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
@@ -50,9 +59,24 @@ public class OntoRamaApp extends JFrame {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        termName = "root";
-        graphBuilder = new GraphBuilder(termName);
-        graph = graphBuilder.getGraph();
+        //termName = "root";
+        termName = "comms#CommsObject";
+        LinkedList wantedLinks = new LinkedList();
+        wantedLinks.add(new Integer (OntoramaConfig.SUBTYPE));
+        Query query = new Query (termName, wantedLinks);
+
+        try {
+            QueryEngine queryEngine = new QueryEngine (query);
+            QueryResult queryResult = queryEngine.getQueryResult();
+
+            graphBuilder = new GraphBuilder(queryResult);
+            graph = graphBuilder.getGraph();
+        }
+        catch (Exception e) {
+            System.err.println("Unable to build graph: " + e);
+            e.printStackTrace();
+            System.exit(-1);
+        }
 
 		// create a query panel
         queryPanel = new QueryPanel();

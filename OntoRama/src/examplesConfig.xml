@@ -22,7 +22,7 @@
 
     </example>
 
-    <example name="Wordnet: cat" root="wn#Cat">
+    <example name="Wordnet: cat" root="wn#Cat" loadOnStart="yes">
 
         <source uri="examples/wn_cat.rdf"
 

@@ -133,6 +133,11 @@
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
   </target>
+
+  <target name="runPeerTest">
+  	<java fork="yes" classname="ontorama.backends.p2p.PeerConnectionTest" classpathref="project.class.path"/>
+  </target>
+
   
   <target name="webstartDeploy" depends="jar">
   	<delete dir="${deploy.webstart}"/>

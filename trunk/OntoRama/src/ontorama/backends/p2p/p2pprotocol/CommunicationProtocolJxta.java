@@ -345,4 +345,14 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		return this.reciever;
 	}
 
+ /**
+    * Returns all the groups the peer belongs to.   
+    * 
+    * @return a vector of group IDs
+    *
+    * @version P2P-OntoRama 1.0.0
+    */
+    public Vector getMemberOfGroups(){
+        return this.communicationGroup.getMemberOfGroups();
+    }
 }

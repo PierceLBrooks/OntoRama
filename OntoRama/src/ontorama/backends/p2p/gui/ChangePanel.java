@@ -39,11 +39,12 @@ public class ChangePanel extends JPanel {
     }
 
     public void empty() {
-        _myModel.clearTable();
+         _myModel.clearTable();
+         repaint();
     }
 
     class MyTableModel extends AbstractTableModel {
-        private final static int rowsNum = 4;
+        private final static int rowsNum = 10;
         private final static int columnsNum = 2;
 
         String[] columnNames = {"Change", "Peer"};
@@ -59,6 +60,9 @@ public class ChangePanel extends JPanel {
 
         public void clearTable () {
             changesList = new LinkedList();
+            for (int i = 0; i < rowsNum; i++) {
+                changesList.add(null);
+            }
         }
 
         public void addRow (Change change) {

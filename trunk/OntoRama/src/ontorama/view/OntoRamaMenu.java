@@ -155,17 +155,11 @@ public class OntoRamaMenu {
     toolBar = new JToolBar();
     //toolBar.setFloatable(false);
 
-//    JButton backButton = new JButton("Back");
-//    toolBar.add(backButton);
-//
-//    JButton forwardButton = new JButton("Forward");
-//    toolBar.add(forwardButton);
+    JButton backButton = toolBar.add(backAction);
+    toolBar.addSeparator();
 
-      JButton backButton = toolBar.add(backAction);
-      toolBar.addSeparator();
-
-      JButton forwardButton = toolBar.add(forwardAction);
-      toolBar.addSeparator();
+    JButton forwardButton = toolBar.add(forwardAction);
+    toolBar.addSeparator();
 
   }
 
@@ -205,9 +199,6 @@ public class OntoRamaMenu {
   private void buildHistoryMenu () {
 
     // create back and forward buttons
-    //this.historyBackMenuItem = new JMenuItem("Back");
-    //this.historyForwardMenuItem = new JMenuItem("Forward");
-
     this.historyBackMenuItem = historyMenu.add(backAction);
     this.historyForwardMenuItem = historyMenu.add(forwardAction);
 
@@ -215,24 +206,9 @@ public class OntoRamaMenu {
     this.historyBackMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK));
     this.historyForwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.ALT_MASK));
 
-    // add listeners
-//    this.historyBackMenuItem.addActionListener(new ActionListener () {
-//      public void actionPerformed(ActionEvent e) {
-//        historyBackAction();
-//      }
-//    });
-//    this.historyForwardMenuItem.addActionListener(new ActionListener () {
-//      public void actionPerformed(ActionEvent e) {
-//        historyForwardAction();
-//      }
-//    });
-
     // set enabled/disabled
     enableBackForwardButtons();
 
-    // add  back and forward buttons to the history menu
-//    this.historyMenu.add(this.historyBackMenuItem);
-//    this.historyMenu.add(this.historyForwardMenuItem);
     this.historyMenu.addSeparator();
 
     appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
@@ -321,33 +297,19 @@ public class OntoRamaMenu {
   /**
    *
    */
-  private JCheckBoxMenuItem findFirstHistoryItem () {
-
-    Enumeration historyItemsEnum =  this.menuItemHistoryMapping.keys();
-    if (historyItemsEnum.hasMoreElements()) {
-      return ((JCheckBoxMenuItem) historyItemsEnum.nextElement());
-    }
-    return null;
-  }
-
-
-
-  /**
-   *
-   */
   public void appendHistory (String termName, OntoramaExample example) {
 
-    int historyItemsCount = this.menuItemHistoryMapping.size();
+    //int historyItemsCount = this.menuItemHistoryMapping.size();
     Enumeration historyItemsEnum =  this.menuItemHistoryMapping.keys();
 
     String historyItemLabelName = termName + " (" + example.getName() + ") ";
 
-    if ((historyItemsCount > 0) && (historyItemsCount > maxHistoryItems)) {
+    if ((this.historyItems.size() > 0) && (this.historyItems.size() > maxHistoryItems)) {
       // need to remove first item
-      JCheckBoxMenuItem firstMenuItem = findFirstHistoryItem();
+      JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) historyItems.getFirst();
       System.out.println("first menu item = " + firstMenuItem.getText());
-      this.menuItemHistoryMapping.remove(firstMenuItem);
       this.historyItems.removeFirst();
+      this.menuItemHistoryMapping.remove(firstMenuItem);
       historyMenu.remove(firstMenuItem);
     }
 
@@ -389,11 +351,16 @@ public class OntoRamaMenu {
    *
    */
   public void displayHistoryItem (JCheckBoxMenuItem historyItem) {
-    //System.out.println("displayHistoryItem for " + historyItem);
+
+    System.out.println("historyItems list = " + historyItems);
+
+    System.out.println("displayHistoryItem for " + historyItem.getText());
     HistoryElement historyElement = (HistoryElement) this.menuItemHistoryMapping.get(historyItem);
+    System.out.println ("history element = " + historyElement);
 
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
+    System.out.println("corresponding example " + example);
 
     // find corresponding example and select it
     Enumeration enum = this.menuItemExampleMapping.keys();
@@ -487,7 +454,7 @@ public class OntoRamaMenu {
     */
     int backInd = indexOfCur - 1;
     JCheckBoxMenuItem backItem = (JCheckBoxMenuItem) historyItems.get(backInd);
-    System.out.println("historyBackAction, displaying item at ind = " + backInd + ", item : " + backItem.getText());
+    //System.out.println("\n\nhistoryBackAction, displaying item at ind = " + backInd + ", item : " + backItem.getText());
     displayHistoryItem(backItem);
   }
 
@@ -503,7 +470,9 @@ public class OntoRamaMenu {
       return;
     }
     */
-    JCheckBoxMenuItem forwardItem = (JCheckBoxMenuItem) historyItems.get(indexOfCur + 1);
+    int forwardInd = indexOfCur + 1;
+    JCheckBoxMenuItem forwardItem = (JCheckBoxMenuItem) historyItems.get(forwardInd);
+    //System.out.println("\n\nhistoryForwardAction, displaying item at ind = " + forwardInd + ", item : " + forwardItem.getText());
     displayHistoryItem(forwardItem);
   }
 

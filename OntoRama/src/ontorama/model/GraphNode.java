@@ -258,10 +258,29 @@ public class GraphNode implements Cloneable, NodeObservable {
         return retVal;
     }
 
+    /**
+     * Make a clone for this GraphNode (make a new GraphNode with the same
+     * name and add new node (clone) to appropriate lists of clones)
+     * @return cloneNode
+     */
+    public GraphNode makeClone ()   {
+        // clone curNode to cloneNode
+        GraphNode cloneNode = new GraphNode(name);
+        // add all clones of this GraphNode to the new node (clone node)
+        cloneNode.clones.addAll(this.clones);
+        // add the clone to the list of clones of this GraphNode
+        this.clones.add(cloneNode);
+        // add this GraphNode to the list of clones for clonedNode
+        cloneNode.clones.add(this);
+
+        return cloneNode;
+    }
+
 
     /**
      * toString method
      */
+     /*
     public String toString() {
         String p = "", c = "";
         Iterator it = parents.iterator();
@@ -278,5 +297,6 @@ public class GraphNode implements Cloneable, NodeObservable {
                 " Parents: " + p +
                 " Children: " + c;
     }
+    */
 
 }

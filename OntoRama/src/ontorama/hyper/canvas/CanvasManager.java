@@ -37,13 +37,6 @@ public class CanvasManager extends JComponent
     protected double canvasScale;
 
     /**
-     * Hold the current root node for the tree.
-     *
-     * ///TODO Mouse events should not be handled here. root is required here for mouse moves.
-     */
-    //protected GraphNode root = null;
-
-    /**
      * Hold the mapping of HyperNode to GraphNodes
      */
     protected Hashtable hypernodes;

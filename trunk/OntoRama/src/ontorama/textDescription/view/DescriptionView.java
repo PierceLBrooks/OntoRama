@@ -103,7 +103,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 *
 	 */
 	private ViewEventListener _viewListener;
-
+	
 	/**
 	 *
 	 */
@@ -124,7 +124,8 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 
 		setLayout(new GridLayout(1,2));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-				
+		
+	
 		JPanel leftSubPanel = new JPanel();
 		leftSubPanel.setLayout(new BoxLayout(leftSubPanel, BoxLayout.Y_AXIS));
 		leftSubPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -141,13 +142,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 			leftSubPanel.add(propPanel);
 		}
 		
-		rightSubPanel.add(_clonesPanel);
+		rightSubPanel.add(_clonesPanel);		
+		rightSubPanel.add(_parentsPanel);		
 		rightSubPanel.add(_fullUrlPanel);
-		rightSubPanel.add(_parentsPanel);
 		
 		add(leftSubPanel);
 		add(rightSubPanel);
 	}
+	
 
 	/**
 	 *
@@ -285,12 +287,27 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		fullUrlPropList.add(node.getFullName());
 		_fullUrlPanel.update(fullUrlPropList);
 
-        Iterator it = Edge.getInboundEdgeNodes(node,_firstRelationLink);
-        while (it.hasNext()) {
-          GraphNode parent = (GraphNode) it.next();
-          System.out.println("  parent: " + parent.getName());
-        }
-		_parentsPanel.update(Edge.getInboundEdgeNodes(node,1));
+//        Iterator it = Edge.getInboundEdgeNodes(node,_firstRelationLink);
+//        while (it.hasNext()) {
+//          GraphNode parent = (GraphNode) it.next();
+//          System.out.println("  parent: " + parent.getName());
+//        }
+
+		_parentsPanel.update(Edge.getInboundEdgeNodes(node,_firstRelationLink));
+	}
+	
+	/**
+	 * 
+	 */
+	public void enableDynamicFields () {
+		_parentsPanel.setVisible(true);
+	}
+	
+	/**
+	 * 
+	 */
+	public void disableDynamicFields () {
+		_parentsPanel.setVisible(false);
 	}
 
 	//////////////////////////ViewEventObserver interface implementation////////////////

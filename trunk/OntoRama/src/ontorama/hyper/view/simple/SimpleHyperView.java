@@ -17,6 +17,20 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.LinkedList;
 
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.Writer;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.DOMImplementation;
+
+
 
 public class SimpleHyperView  extends CanvasManager {
 
@@ -35,12 +49,17 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * Stiffness factor for spring alogrithm
      */
-    private static final double STIFFNESS = .001;
+    private double STIFFNESS = .01;
 
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private static final double ELECTRIC_CHARGE = 500;
+    private double ELECTRIC_CHARGE = 500;
+
+    /**
+     * Path for test output files.
+     */
+    private String testFileOutputPath = "benchmark_out/";
 
     public SimpleHyperView() {
         this.addMouseListener( this );
@@ -86,6 +105,68 @@ public class SimpleHyperView  extends CanvasManager {
         while( it.hasNext() ) {
             HyperNodeView hnv = (HyperNodeView)it.next();
             canvasItems.add( new LabelView( hnv ) );
+        }
+        repaint();
+    }
+
+    /**
+     * Method to save the current hyper view to a svg file.
+     */
+    public void saveCanvasToFile( String filename ) {
+        // Get a DOMImplementation
+        DOMImplementation domImpl =
+            GenericDOMImplementation.getDOMImplementation();
+        // Create an instance of org.w3c.dom.Document
+        Document document = domImpl.createDocument(null, "svg", null);
+        // Create an instance of the SVG Generator
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        paintComponent(svgGenerator);
+        boolean useCSS = true; // we want to use CSS style attribute
+        try {
+            OutputStream file = new FileOutputStream(testFileOutputPath+filename+".svg");
+            Writer out = new OutputStreamWriter(file, "UTF-8");
+            svgGenerator.stream(out, useCSS);
+            out.close();
+        }
+        catch(SVGGraphics2DIOException svge) {}
+        catch(IOException ioe) {}
+    }
+    /**
+     * Temperary method to test spring and force algorthms
+     */
+    public void testSpringAndForceAlgorthms( double springLength, double stiffness, double electric_charge ) {
+        this.springLength = springLength;
+        this.STIFFNESS = stiffness;
+        this.ELECTRIC_CHARGE = electric_charge;
+        int iteration = 250;
+        // 6.283 is the number of radians in a circle
+        basicLayout(root, 6.283, 0);
+        System.out.println("Start spring and force algorthm: " + iteration + " iterations");
+        long start = System.currentTimeMillis();
+        int numOfItorations = layoutNodes( iteration );
+        long end = System.currentTimeMillis();
+        System.out.println("finished spring and force algorthm: " + numOfItorations + " iterations");
+        long timeTaken = ( end - start )/1000;
+        System.out.println("Time taken: " + timeTaken + "s");
+        try {
+            Writer out = new FileWriter(testFileOutputPath+"HyperTestLayouting.txt", true);
+            BufferedWriter bufferedOut = new BufferedWriter( out );
+            bufferedOut.write( root.getName() );
+            bufferedOut.write("\t");
+            bufferedOut.write(String.valueOf(springLength));
+            bufferedOut.write("\t");
+            bufferedOut.write(String.valueOf(stiffness));
+            bufferedOut.write("\t");
+            bufferedOut.write(String.valueOf(electric_charge));
+            bufferedOut.write("\t");
+            bufferedOut.write(String.valueOf(timeTaken));
+            bufferedOut.write("\t");
+            bufferedOut.write(numOfItorations + " of " + iteration);
+            bufferedOut.newLine();
+            bufferedOut.close();
+        }
+        catch( IOException ioe ) {
+            System.out.println("IOException: " + ioe.getMessage());
         }
         repaint();
     }
@@ -168,11 +249,8 @@ public class SimpleHyperView  extends CanvasManager {
    /**
      * Use a spring algorithm to layout nodes.
      */
-    private void layoutNodes( int iteration) {
+    public int layoutNodes( int iteration) {
         List queue = new LinkedList();
-
-        System.out.println("Start spring and force algorthm: " + iteration + " iterations");
-        long start = System.currentTimeMillis();
         int numOfItorations = 0;
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             Iterator it = Edge.getOutboundEdgeNodes(root);
@@ -190,10 +268,8 @@ public class SimpleHyperView  extends CanvasManager {
                 }
             }
             numOfItorations++;
-        }while( numOfItorations < iteration && minNodeMove > .009 );
-        long end = System.currentTimeMillis();
-        System.out.println("finished spring and force algorthm: " + numOfItorations + " iterations");
-        System.out.println("Time taken: " + ( end - start )/1000 + "s");
+        }while( numOfItorations < iteration && minNodeMove > .005 );
+        return numOfItorations;
     }
 
     /**
@@ -284,11 +360,10 @@ public class SimpleHyperView  extends CanvasManager {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = ( Graphics2D )g;
-        //java.awt.Paint oldPaint = g2d.getPaint();
         g2d.setColor(new Color( 222, 222, 222 ));
         g2d.fillRect(0, 0, getWidth(), getHeight() );
         int width = this.getSize().width;
-        int height = getSize().height;
+        int height = this.getSize().height;
         g2d.translate( width/2, height/2 );
         double sphereRadius = HyperNodeView.getSphereRadius();
         double sphereSize = 2 * sphereRadius;
@@ -298,13 +373,11 @@ public class SimpleHyperView  extends CanvasManager {
             canvasScale = height/sphereSize;
         }
         // set the current scalling factor
-        g2d.scale( canvasScale, canvasScale );
+        if( canvasScale != 0) {
+            g2d.scale( canvasScale, canvasScale );
+        }
         g2d.setColor(new Color( 244, 244, 244 ));
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
-        long start = System.currentTimeMillis();
         drawNodes( g2d );
-        long laps = ( System.currentTimeMillis() - start);
-//        System.out.println("laps time = " + laps + " ms");
-        //g2d.setPaint(oldPaint);
     }
 }

@@ -6,4 +6,5 @@ classes
 doc
 *.tws
 *~
+*.*~
 .dfPackage

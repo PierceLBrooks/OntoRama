@@ -20,6 +20,7 @@ import ontorama.model.*;
 import java.util.*;
 import java.io.*;
 import java.security.AccessControlException;
+import java.net.URI;
 
 public class CgKbCsvParser implements Parser {
 
@@ -105,12 +106,12 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
-    private Node getNodeForName (String shortName, String fullName) {
+    private Node getNodeForName (String shortName, String nodeIdentifier) {
         Node node = (Node) _nodes.get(shortName);
         if (node == null) {
             node = new NodeImpl(shortName);
             _nodes.put(shortName, node);
-            node.setFullName(fullName);
+            node.setIdentifier(nodeIdentifier);
         }
         return node;
     }

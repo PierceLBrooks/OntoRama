@@ -6,6 +6,8 @@ import ontorama.model.*;
 import ontorama.OntoramaConfig;
 
 import java.util.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Title:
@@ -60,6 +62,9 @@ public class TestEdge extends TestCase {
     private LinkedList outboundNodesListForNode1 = new LinkedList();
     private LinkedList inboundNodesListForNode6 = new LinkedList();
 
+    private URI creatorUri1;
+    private URI creatorUri2;
+
 
     /**
      *
@@ -72,7 +77,10 @@ public class TestEdge extends TestCase {
     /**
      *
      */
-    protected void setUp() {
+    protected void setUp() throws URISyntaxException {
+        creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
+        creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
+
 
         node1 = new NodeImpl("node1");
         node2 = new NodeImpl("node2");
@@ -127,6 +135,9 @@ public class TestEdge extends TestCase {
             inboundNodesListForNode6.add(node2);
             inboundNodesListForNode6.add(node3);
             inboundNodesListForNode6.add(node4);
+
+            edge1.setCreatorUri(creatorUri1);
+            edge2.setCreatorUri(creatorUri2);
         } catch (NoSuchRelationLinkException e) {
             System.err.println("NoSuchRelationLinkException: " + e.getMessage());
             System.exit(-1);
@@ -172,6 +183,17 @@ public class TestEdge extends TestCase {
         assertEquals(OntoramaConfig.getEdgeType(edgeName_subtype), edge5.getEdgeType());
         assertEquals(OntoramaConfig.getEdgeType(edgeName_similar), edge6.getEdgeType());
         assertEquals(OntoramaConfig.getEdgeType(edgeName_reverse), edge7.getEdgeType());
+    }
+
+    public void testGetCreator() {
+        assertEquals("creatorUri for edge1", creatorUri1, edge1.getCreatorUri());
+        assertEquals("creatorUri for edge2", creatorUri2, edge2.getCreatorUri());
+    }
+
+    public void testSetCreator() throws URISyntaxException {
+        URI creatorUri = new URI("http://onotrama.org/user/");
+        edge3.setCreatorUri(creatorUri);
+        assertEquals("creatorUri for edge3", creatorUri, edge3.getCreatorUri());
     }
 
     //////////////******* Helper methods ********////////////////////

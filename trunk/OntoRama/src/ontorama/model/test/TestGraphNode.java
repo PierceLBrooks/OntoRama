@@ -6,8 +6,8 @@ import ontorama.model.Node;
 import ontorama.model.NodeImpl;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * <p>Title: </p>
@@ -29,10 +29,13 @@ public class TestGraphNode extends TestCase {
     private Node node2;
     private Node node3;
 
-    private String fullNameNode1 = "this is node1 full name";
+    private String nodeIdentifier1 = "some.node.identifier";
 
     private Node cloneNode2;
     private Node cloneNode3;
+
+    private URI creatorUri1;
+    private URI creatorUri2;
 
     /**
      *
@@ -44,8 +47,10 @@ public class TestGraphNode extends TestCase {
     /**
      *
      */
-    protected void setUp() {
-        node1 = new NodeImpl("node1", fullNameNode1);
+    protected void setUp() throws URISyntaxException {
+        creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
+        creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
+        node1 = new NodeImpl("node1", nodeIdentifier1);
         node2 = new NodeImpl("node2");
         node3 = new NodeImpl("node3");
 
@@ -54,6 +59,9 @@ public class TestGraphNode extends TestCase {
 
         node1.setFoldState(true);
         node3.setFoldState(false);
+
+        node1.setCreatorUri(creatorUri1);
+        node2.setCreatorUri(creatorUri2);
     }
 
     /**
@@ -68,21 +76,21 @@ public class TestGraphNode extends TestCase {
      *
      */
     public void testGetFullName() {
-        assertEquals("node1 full name", fullNameNode1, node1.getFullName());
-        assertEquals("node2 full name", "node2", node2.getFullName());
+        assertEquals("node1 full name", nodeIdentifier1, node1.getIdentifier());
+        assertEquals("node2 full name", "node2", node2.getIdentifier());
     }
 
     /**
      *
      */
-    public void testSetFullName() {
-        String testFullName1 = "another full name";
-        String testFullName2 = "yet another full name";
-        node1.setFullName(testFullName1);
-        node2.setFullName(testFullName2);
+    public void testSetFullName() throws URISyntaxException {
+        String testIdentifier1 = "htpp://somewhere.com/ontorama/node1";
+        String testIdentifier2 = "http://somewhere.com/ontorama/node2";
+        node1.setIdentifier(testIdentifier1);
+        node2.setIdentifier(testIdentifier2);
 
-        assertEquals("testing setFullName() for node1", testFullName1, node1.getFullName());
-        assertEquals("testing setFullName() for node2", testFullName2, node2.getFullName());
+        assertEquals("testing setIdentifier() for node1", testIdentifier1, node1.getIdentifier());
+        assertEquals("testing setIdentifier() for node2", testIdentifier2, node2.getIdentifier());
     }
 
 
@@ -149,6 +157,17 @@ public class TestGraphNode extends TestCase {
     public void testGetFoldedState() {
         assertEquals("node1 is folded, folded state should be true", true, node1.getFoldedState());
         assertEquals("node3 is unfolded, folded state should be false", false, node3.getFoldedState());
+    }
+
+    public void testGetCreator() {
+        assertEquals("creatorUri for node1", creatorUri1, node1.getCreatorUri());
+        assertEquals("creatorUri for node2", creatorUri2, node2.getCreatorUri());
+    }
+
+    public void testSetCreator() throws URISyntaxException {
+        URI creatorUri = new URI("mailto:someone@ontorama.org");
+        node3.setCreatorUri(creatorUri);
+        assertEquals("creatorUri for node3", creatorUri, node3.getCreatorUri());
     }
 
     ///////////////////****** Helper methods ***********///////////////////

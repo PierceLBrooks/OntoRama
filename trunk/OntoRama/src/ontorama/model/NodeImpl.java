@@ -2,6 +2,7 @@ package ontorama.model;
 
 
 import java.util.*;
+import java.net.URI;
 
 /**
  * Basic NodeImpl for ontology viewers.
@@ -24,6 +25,11 @@ public class NodeImpl implements Cloneable, Node {
      * (used in RDF inputs)
      */
     private String fullName;
+
+    /**
+     * store creatorURI
+     */
+    private URI creatorUri;
 
     /**
      * Stores the depth of the node in the graph (distance to the root element).
@@ -80,15 +86,15 @@ public class NodeImpl implements Cloneable, Node {
     /**
      *
      */
-    public String getFullName() {
+    public String getIdentifier() {
         return fullName;
     }
 
     /**
      *
      */
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setIdentifier(String identifier) {
+        this.fullName = identifier;
     }
 
     /**
@@ -97,17 +103,6 @@ public class NodeImpl implements Cloneable, Node {
     public boolean hasClones() {
         return !this.clones.isEmpty();
     }
-
-    /**
-     *
-     */
-    /*
-   public void hasFocus () {
-//        System.out.println("NodeImpl method hasFocus() for graphNode " + this.getName());
-       System.out.println("\t\tclones: " + this.clones);
-
-   }
-   */
 
     /**
      * Return an iterator of all clones.
@@ -190,7 +185,13 @@ public class NodeImpl implements Cloneable, Node {
         return cloneNode;
     }
 
+    public URI getCreatorUri() {
+        return this.creatorUri;
+    }
 
+    public void setCreatorUri(URI creatorUri) {
+        this.creatorUri = creatorUri;
+    }
 
     /**
      * toString method

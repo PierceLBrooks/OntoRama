@@ -89,8 +89,8 @@ public class RdfWebkbParser extends RdfDamlParser {
 
             EdgeType edgeType = curEdge.getEdgeType();
             if (edgeType.getName().equals(urlLinkName)) {
-                toNode.setName(toNode.getFullName());
-                namesMapping.put(toNode, toNode.getFullName());
+                toNode.setName(toNode.getIdentifier());
+                namesMapping.put(toNode, toNode.getIdentifier());
             }
             else {
                 mapNewName(toNode);

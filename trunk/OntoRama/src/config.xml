@@ -105,8 +105,8 @@ http://www.gotomy.com/color.html
         <relation id="5">
             <displayInGraphView>
                 <createIcon color="#C0C0C0">
-                    <relationType name="substance" mappingSymbol="s"/>
                     <relationType name="substanceOf" mappingSymbol="S"/>
+                    <relationType name="substance" mappingSymbol="s"/>
                 </createIcon>
             </displayInGraphView>
         </relation>
@@ -203,7 +203,7 @@ http://www.gotomy.com/color.html
         <map id="2" type="similar" tag="sameClassAs"/>
         <map id="2" type="similar" tag="samePropertyAs"/>
         <map id="4" type="part" tag="part"/>
-        <map id="5" type="substance" tag="substance"/>
+        <map id="5" type="substanceOf" tag="substance"/>
         <map id="6" type="instanceOf" tag="type"/>
         <map id="7" type="complement" tag="complementOf"/>
         <map id="8" type="location" tag="location"/>

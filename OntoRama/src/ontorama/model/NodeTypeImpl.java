@@ -8,11 +8,11 @@
  */
 package ontorama.model;
 
-import ontorama.model.NodeTypeInterface;
+import ontorama.model.NodeType;
 
 import java.awt.*;
 
-public class NodeTypeImpl implements NodeTypeInterface {
+public class NodeTypeImpl implements NodeType {
     private String _nodeTypeName;
 
     public NodeTypeImpl (String typeName) {

@@ -16,7 +16,7 @@ import javax.swing.tree.TreePath;
 import ontorama.model.GraphNode;
 import ontorama.model.NodeObserver;
 
-import ontorama.tree.util.Debug;
+import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode
@@ -141,7 +141,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      * Set focus on this node
      */
     public void setFocus() {
-        System.out.println("OntoTreeNode setFocus()");
+        //System.out.println("OntoTreeNode setFocus()");
         this.graphNode.hasFocus();
     }
 

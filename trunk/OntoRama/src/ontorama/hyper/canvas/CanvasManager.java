@@ -49,6 +49,11 @@ public class CanvasManager extends JComponent
     protected Hashtable hypernodes;
 
     /**
+     * Holds the mapping of HyperNodeView to HyperNode
+     */
+     protected Hashtable hypernodeviews;
+
+    /**
      * Store the hyper view canvas items.
      */
     protected List canvasItems = new LinkedList();

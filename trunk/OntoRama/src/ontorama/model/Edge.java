@@ -296,24 +296,53 @@ public class Edge {
       * @return iterator of Nodes
       */
       private static Iterator getEdgeNodes(GraphNode node, boolean flag) {
-        //System.out.println("\t getEdgeNodes method");
+        //System.out.println("\tgetEdgeNodes method node = " + node.getName());
+        //System.out.println("\t getEdgeNodes method, node = " + node + ", flag = " + flag);
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node,flag);
         while (nodeEdgesIt.hasNext()) {
             Edge cur = (Edge) nodeEdgesIt.next();
+            //System.out.println("\t\tedge = " + cur);
             //System.out.println("\t\t" + cur.getEdgeNode(!flag).getName());
             result.add(cur.getEdgeNode(!flag));
         }
         return result.iterator();
       }
 
+    /**
+     * Convenience method that returns iterator size
+     * @param   iterator it
+     * @return  int size
+     */
+    public static int getIteratorSize (Iterator it) {
+        int count = 0;
+        while (it.hasNext()) {
+            it.next();
+            count = count + 1;
+        }
+        return count;
+    }
+
 
     /**
      *
      */
      public String toString() {
-        String str = "Edge from '" + this.fromNode.getName() + "' to '" + this.toNode.getName() + "', type = " + type;
+        //String str = "Edge from '" + this.fromNode.getName() + "' to '" + this.toNode.getName() + "', type = " + type;
+        String str = "Edge from '" + this.fromNode.getName() + "' = " + this.fromNode +  "to '" + this.toNode.getName() + "' = " + this.toNode + ", type = " + type;
         return str;
      }
+
+     /**
+      *
+      */
+      public static void printAllEdges () {
+        Iterator it = edges.iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            System.out.println(edge);
+        }
+      }
+
 
 }

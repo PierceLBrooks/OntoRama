@@ -64,8 +64,8 @@ public class OntoRamaApp extends JFrame {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        //termName = "root";
-        termName = "comms#CommsObject";
+        termName = "root";
+        //termName = "comms#CommsObject";
         //termName = "comms_CommsObject";
 
         //LinkedList wantedLinks = new LinkedList();

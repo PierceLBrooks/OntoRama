@@ -20,7 +20,7 @@ import javax.swing.event.TreeSelectionListener;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
-import ontorama.tree.util.Debug;
+import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeModel takes graph of GraphNodes and

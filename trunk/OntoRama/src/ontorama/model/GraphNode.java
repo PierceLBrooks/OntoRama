@@ -104,7 +104,12 @@ public class GraphNode implements Cloneable, NodeObservable {
      *
      */
     public void hasFocus () {
-        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
+        //System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
+
+        //Edge.printAllEdges();
+        //System.out.println();
+        //System.out.println("node name = " + this.getName() + ", " + this);
+        //System.out.println();
         notifyChange();
     }
 
@@ -210,11 +215,18 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     protected void setDepth(int depth) {
         this.depth = depth;
+        Iterator it = Edge.getOutboundEdgeNodes(this);
+        while (it.hasNext()) {
+            GraphNode outboundNode = (GraphNode) it.next();
+            outboundNode.setDepth(depth + 1);
+        }
+        /*
         Iterator it = children.iterator();
         while(it.hasNext()) {
             GraphNode child = (GraphNode) it.next();
             child.setDepth(depth+1);
         }
+        */
         //this.nodeColor = new Color(0,0,depth*80);
     }
 
@@ -280,7 +292,7 @@ public class GraphNode implements Cloneable, NodeObservable {
     /**
      * toString method
      */
-     /*
+
     public String toString() {
         String p = "", c = "";
         Iterator it = parents.iterator();
@@ -297,6 +309,29 @@ public class GraphNode implements Cloneable, NodeObservable {
                 " Parents: " + p +
                 " Children: " + c;
     }
-    */
+
+
+    /**
+     * toString method
+     */
+     /*
+     public String toString() {
+        String str = "";
+        str = str + "GraphNode: " + this.getName() + "\n";
+        str = str + "\t" + "inbound nodes: " + "\n";
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(this);
+        while (inboundNodes.hasNext()) {
+            GraphNode node = (GraphNode) inboundNodes.next();
+            str = str + "\t\t" + node.getName();
+        }
+        str = str + "\t" + "outbound nodes: " + "\n";
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(this);
+        while (outboundNodes.hasNext()) {
+            GraphNode node = (GraphNode) outboundNodes.next();
+            str = str + "\t\t" + node.getName();
+        }
+        return str;
+     }
+     */
 
 }

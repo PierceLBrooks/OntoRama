@@ -51,7 +51,9 @@ public class SphereView  extends CanvasItem {
         return _sphere.contains(point);
     }
 
-
+    public boolean hasAutoRaise() {
+            return false;
+        }
 
 
 }

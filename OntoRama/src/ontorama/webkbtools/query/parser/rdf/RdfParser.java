@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Hashtable;
 import java.util.Collection;
+import java.util.List;
 
 import com.megginson.sax.rdf.RDFReader;
 import com.megginson.sax.rdf.RDFHandler;
@@ -35,6 +36,8 @@ import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.RdfMapping;
+import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
@@ -96,6 +99,11 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
     private static final String subClassOfDef = "subClassOf";
     private static final String creatorDef = "dublin_core#Creator";
 
+    /**
+     *
+     */
+    private List ontologyRelationRdfMapping;
+
 
     /**
      * Take a reader and call RDF filter on it.
@@ -145,6 +153,7 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      *          taking reader as argument and method parseRDF.)
      */
     public Iterator getOntologyTypeIterator (Reader reader) throws ParserException {
+        ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
 
         parseRdf(reader);
 
@@ -178,16 +187,63 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      *
      * @todo    check if we should make use of subject type property
      * @todo    if triple's predicate is not recognized by us - throw an exception
+     * @todo    deal with exceptions properly
      */
     private void populateOntologyType (String rdfSubject,
                                   String rdfPredicate, String rdfObject)
-                                  {
+                                   {
       if (OntoramaConfig.DEBUG) {
         System.out.println("{ " + rdfSubject + ", " + rdfPredicate + ", " + rdfObject + " }");
       }
+      System.out.println("{ " + rdfSubject + ", " + rdfPredicate + ", " + rdfObject + " }");
 
       OntologyType subjectType = getOntTypeByName(rdfSubject);
-      OntologyType objectType;
+      OntologyType objectType = getOntTypeByName(rdfObject);
+      //System.out.println("subjectType = " + subjectType);
+      //System.out.println("objectType = " + objectType);
+
+      Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
+
+      while ( ontologyRelationRdfMappingIterator.hasNext() ) {
+        RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
+        String mappingTag = rdfMapping.getRdfTag();
+
+        //System.out.println("mappingTag = " + mappingTag);
+
+        if (rdfPredicate.endsWith(mappingTag)) {
+            //System.out.println("MATCH");
+            int mappingId = rdfMapping.getId();
+            String mappingType = rdfMapping.getType();
+            RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+
+            try {
+
+                if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
+                    //System.out.println("case 1");
+                    objectType.addRelationType(subjectType, mappingId);
+                    System.out.println(objectType + " -> " + subjectType + ", rel = " + mappingId);
+                }
+                else if ( mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
+                    // reverse
+                    //System.out.println("case 2");
+                    subjectType.addRelationType(objectType,mappingId);
+                    System.out.println(subjectType + " -> " + objectType + ", rel = " + mappingId);
+                }
+                else {
+                    // ERROR
+                    // throw exception here
+                    //System.out.println("case 3");
+
+                }
+            }
+            catch (NoSuchRelationLinkException e) {
+                System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+                System.exit(-1);
+            }
+        }
+      }
+
+      /*
 
       if (rdfPredicate.endsWith(descriptionDef)) {
         if (subjectType.getDescription() == null) {
@@ -201,9 +257,6 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         // also add rdfSubject as a parent for rdfObject
         objectType = getOntTypeByName(rdfObject);
         try {
-            if ( !subjectType.isRelationType(objectType, OntoramaConfig.SUPERTYPE)) {
-              subjectType.addRelationType(objectType, OntoramaConfig.SUPERTYPE);
-            }
             if ( !objectType.isRelationType(subjectType, OntoramaConfig.SUBTYPE)) {
               objectType.addRelationType(subjectType, OntoramaConfig.SUBTYPE);
             }
@@ -235,6 +288,7 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
             System.err.println("NoSuchRelationLinkException: " + e.getMessage());
         }
       }
+      */
 
     }
 

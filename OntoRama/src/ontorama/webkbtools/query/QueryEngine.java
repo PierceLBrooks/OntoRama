@@ -94,7 +94,7 @@ public class QueryEngine {
         }
 
         // get a set of all available relation links
-        HashSet allLinks = OntoramaConfig.getRelationLinksSet();
+        Set allLinks = OntoramaConfig.getRelationLinksSet();
 
         // remove all wanted relations from the allLinks set so
         // we end up with a list of unwanted relations

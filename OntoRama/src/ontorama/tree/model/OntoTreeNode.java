@@ -48,7 +48,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      * debug
      */
     private boolean debugOn = false;
-    Debug debug;
+    Debug debug = new Debug (this.debugOn);
 
     /**
      *  Constructor
@@ -57,7 +57,6 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
     public OntoTreeNode ( GraphNode graphNode ) {
         this.graphNode = graphNode;
         this.graphNode.addObserver(this);
-        debug = new Debug (this.debugOn);
     }
 
     /**

@@ -65,8 +65,8 @@ public class TestGraph extends TestCase {
             NoTypeFoundInResultSetException {
         // set up some _graphEdges and nodes, so we can see if they are cleared properly
         Node tmpNode1 = new NodeImpl("tmpNode1");
-        NodeImpl tmpNode2 = new NodeImpl("tmpNode2");
-        NodeImpl tmpNode3 = new NodeImpl("tmpNode3");
+        Node tmpNode2 = new NodeImpl("tmpNode2");
+        Node tmpNode3 = new NodeImpl("tmpNode3");
         Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
         Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
 
@@ -74,16 +74,16 @@ public class TestGraph extends TestCase {
         // create queryResult
         Query query = new Query("root");
         Node gn = new NodeImpl("root");
-        NodeImpl gn1 = new NodeImpl("node1");
-        NodeImpl gn2 = new NodeImpl("node2");
-        NodeImpl gn3 = new NodeImpl("node3");
+        Node gn1 = new NodeImpl("node1");
+        Node gn2 = new NodeImpl("node2");
+        Node gn3 = new NodeImpl("node3");
         Node gn4 = new NodeImpl("node1.1");
-        NodeImpl gn5 = new NodeImpl("node1.2");
+        Node gn5 = new NodeImpl("node1.2");
         // create ont types not traceble to root, so we can test
         // if GraphBuilder will ignore them or not. We will not include
         // these into ontTypesList as at the moment we are ignoring them.
         Node gn6 = new NodeImpl("node4");
-        NodeImpl gn7 = new NodeImpl("node5");
+        Node gn7 = new NodeImpl("node5");
 
         List prop1 = new LinkedList();
         prop1.add(rootNodeDescr);

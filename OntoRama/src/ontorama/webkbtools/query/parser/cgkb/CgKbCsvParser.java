@@ -16,9 +16,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.inputsource.*;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.OntoramaConfig;
-import ontorama.model.GraphNode;
-import ontorama.model.EdgeImpl;
-import ontorama.model.Edge;
+import ontorama.model.*;
 
 import java.util.*;
 import java.io.*;
@@ -84,8 +82,8 @@ public class CgKbCsvParser implements Parser {
 
         try {
             RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
-            GraphNode fromNode = getNodeForName(shortNameObj1,  obj1);
-            GraphNode toNode = getNodeForName(shortNameObj2, obj2);
+            Node fromNode = getNodeForName(shortNameObj1,  obj1);
+            Node toNode = getNodeForName(shortNameObj2, obj2);
             Edge edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
@@ -111,10 +109,10 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
-    private GraphNode getNodeForName (String shortName, String fullName) {
-        GraphNode node = (GraphNode) _nodes.get(shortName);
+    private Node getNodeForName (String shortName, String fullName) {
+        Node node = (Node) _nodes.get(shortName);
         if (node == null) {
-            node = new GraphNode(shortName);
+            node = new NodeImpl(shortName);
             _nodes.put(shortName, node);
             node.setFullName(fullName);
         }

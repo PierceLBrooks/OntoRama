@@ -11,9 +11,10 @@ package ontorama.webkbtools.query.parser.xml;
 
 
 import ontorama.OntoramaConfig;
-import ontorama.model.GraphNode;
 import ontorama.model.EdgeImpl;
 import ontorama.model.Edge;
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
@@ -93,10 +94,10 @@ public class XmlParserFull implements Parser {
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", "conceptType");
 
-            GraphNode node = (GraphNode) _nodes.get(nameAttr.getValue());
+            Node node = (Node) _nodes.get(nameAttr.getValue());
 
             if (node == null) {
-                node = new GraphNode(nameAttr.getValue());
+                node = new NodeImpl(nameAttr.getValue());
                 // add child to hashtable
                 _nodes.put(nameAttr.getValue(), node);
             }
@@ -141,7 +142,7 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(nameAttr, "name", "relationLink");
             Attribute fromAttr = relLinkEl.getAttribute("from");
             checkCompulsoryAttr(fromAttr, "from", "relationLink");
-            GraphNode fromNode = (GraphNode) _nodes.get(fromAttr.getValue());
+            Node fromNode = (Node) _nodes.get(fromAttr.getValue());
             if (fromNode == null) {
                 // Won't throw exception for now. consider example:
                 // wn#Cat with children generated from webkb rdf output.
@@ -155,7 +156,7 @@ public class XmlParserFull implements Parser {
 
             Attribute toAttr = relLinkEl.getAttribute("to");
             checkCompulsoryAttr(toAttr, "to", "relationLink");
-            GraphNode toNode = (GraphNode) _nodes.get(toAttr.getValue());
+            Node toNode = (Node) _nodes.get(toAttr.getValue());
             if (toNode == null) {
                 throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
             }

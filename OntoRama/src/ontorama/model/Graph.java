@@ -16,7 +16,7 @@ public interface Graph {
      * Returns root node of the tree.
      * The tree is modified from acyclic graph
      */
-    public NodeImpl getRootNode();
+    public Node getRootNode();
 
 
     /**

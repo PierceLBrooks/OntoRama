@@ -6,9 +6,7 @@ import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import ontorama.OntoramaConfig;
-import ontorama.model.EdgeImpl;
-import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.*;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.ConceptPropertiesMapping;
 import ontorama.ontologyConfig.RdfMapping;
@@ -229,8 +227,8 @@ public class RdfDamlParser implements Parser {
             throws NoSuchRelationLinkException {
         String fromNodeName = stripUri(fromNodeResource);
         String toNodeName = stripUri(toNodeResource);
-        GraphNode fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
-        GraphNode toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
+        Node fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
+        Node toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
 
         Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
         _edgesList.add(newEdge);
@@ -245,7 +243,7 @@ public class RdfDamlParser implements Parser {
 
         String resourceName = stripUri(ontNodeResource);
         String propValueName = propValueResource.toString();
-        GraphNode node = getGraphNodeByName(resourceName, ontNodeResource.toString());
+        Node node = getGraphNodeByName(resourceName, ontNodeResource.toString());
         List nodePropertiesList = node.getProperty(propName);
         nodePropertiesList.add(stripCarriageReturn(propValueName));
         node.setProperty(propName, nodePropertiesList);
@@ -322,14 +320,14 @@ public class RdfDamlParser implements Parser {
      * @param fullNodeName
      * @return
      */
-    public GraphNode getGraphNodeByName(String nodeName,
+    public Node getGraphNodeByName(String nodeName,
                                         String fullNodeName) {
-        GraphNode node;
+        Node node;
         if (_nodesHash.containsKey(nodeName)) {
-            node = (GraphNode) _nodesHash.get(nodeName);
+            node = (Node) _nodesHash.get(nodeName);
             return node;
         } else {
-            node = new GraphNode(nodeName, fullNodeName);
+            node = new NodeImpl(nodeName, fullNodeName);
             _nodesHash.put(nodeName, node);
             return node;
         }

@@ -1,8 +1,8 @@
 package ontorama.webkbtools.query;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.model.Node;
 import ontorama.util.Debug;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
@@ -140,7 +140,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator it = nodesList.iterator();
         String newTermName = termName;
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            Node cur = (Node) it.next();
             String termIdentifierSuffix = "#" + termName;
             //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
             //System.out.println("fullName = " + cur.getFullName());
@@ -196,8 +196,8 @@ public class QueryEngine implements QueryEngineInterface {
             Edge curEdge = (Edge) edgesIt.next();
             if (wantedLinks.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
-                GraphNode fromNode = curEdge.getFromNode();
-                GraphNode toNode = curEdge.getToNode();
+                Node fromNode = curEdge.getFromNode();
+                Node toNode = curEdge.getToNode();
                 if (!_resultNodesList.contains(fromNode)) {
                      _resultNodesList.add(fromNode);
                     nodes.remove(fromNode);
@@ -211,7 +211,7 @@ public class QueryEngine implements QueryEngineInterface {
 
         Iterator nodesIt = nodes.iterator();
         while (nodesIt.hasNext()) {
-            GraphNode curNode = (GraphNode) nodesIt.next();
+            Node curNode = (Node) nodesIt.next();
             System.out.println("left over node = " + curNode);
             _resultNodesList.add(curNode);
         }

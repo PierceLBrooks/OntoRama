@@ -3,10 +3,7 @@ package ontorama.textDescription.view;
 import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
-import ontorama.model.EdgeImpl;
-import ontorama.model.Graph;
-import ontorama.model.GraphNode;
-import ontorama.model.GraphImpl;
+import ontorama.model.*;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import org.tockit.events.EventBroker;
@@ -256,7 +253,7 @@ public class DescriptionView extends JPanel implements GraphView {
     /**
      *
      */
-    public void focus(GraphNode node) {
+    public void focus(Node node) {
         //System.out.println("description view: focus()");
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
@@ -273,7 +270,7 @@ public class DescriptionView extends JPanel implements GraphView {
             }
         }
         // deal with clones
-        _clonesPanel.update(node.getClones());
+        _clonesPanel.update(node.getClones().iterator());
 
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getFullName());

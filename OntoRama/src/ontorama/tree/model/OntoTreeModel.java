@@ -1,7 +1,7 @@
 package ontorama.tree.model;
 
 import ontorama.model.Graph;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import ontorama.util.Debug;
 
 import javax.swing.event.TreeModelListener;
@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 /**
  * Description: OntoTreeModel takes graph of GraphNodes and
- * converts each GraphNode into OntoTreeNode, effectively
+ * converts each NodeImpl into OntoTreeNode, effectively
  * building a TreeModel of TreeNodes
  *
  * Copyright:    Copyright (c) 2001
@@ -52,11 +52,11 @@ public class OntoTreeModel implements TreeModel {
         List graphNodes = graph.getNodesList();
         Iterator it = graphNodes.iterator();
         while (it.hasNext()) {
-          GraphNode cur = (GraphNode) it.next();
+          NodeImpl cur = (NodeImpl) it.next();
           System.out.println("..... OntoTreeModel cur = " + cur.getName());
           Iterator outbound = EdgeImpl.getOutboundEdgeNodes(cur);
           while (outbound.hasNext()) {
-            GraphNode outNode = (GraphNode) outbound.next();
+            NodeImpl outNode = (NodeImpl) outbound.next();
             System.out.println("\t.... - " + outNode.getName());
           }
 
@@ -92,7 +92,7 @@ public class OntoTreeModel implements TreeModel {
      * @return the root of the tree
      */
     public Object getRoot() {
-        GraphNode rootGraphNode = this.graph.getRootNode();
+        Node rootGraphNode = this.graph.getRootNode();
         //System.out.println("OntoTreeModel, getRoot(), rootGraphNode = " + rootGraphNode);
         debug.message("OntoTreeModel", "getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         //System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));

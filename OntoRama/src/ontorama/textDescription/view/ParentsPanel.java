@@ -1,7 +1,7 @@
 package ontorama.textDescription.view;
 
 import ontorama.controller.QueryEvent;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -23,9 +23,9 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
     }
 
     /**
-     * @see ontorama.textDescription.view.AbstractMultiValuesPanel#createPropertyComponent(GraphNode)
+     * @see ontorama.textDescription.view.AbstractMultiValuesPanel#createPropertyComponent(ontorama.model.Node)
      */
-    protected JComponent createPropertyComponent(final GraphNode node) {
+    protected JComponent createPropertyComponent(final Node node) {
         String labelText = "<html><font color=blue><u>" + node.getName() + "</u></font></html>";
         JLabel label = new JLabel(labelText);
         label.setToolTipText("Click to browse to this term");

@@ -1,10 +1,10 @@
 package ontorama.model.test;
 
 import junit.framework.TestCase;
-import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.model.NodeImpl;
 import ontorama.model.Node;
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,14 +26,14 @@ import java.util.List;
 
 public class TestGraphNode extends TestCase {
 
-    private NodeImpl node1;
-    private NodeImpl node2;
-    private NodeImpl node3;
+    private Node node1;
+    private Node node2;
+    private Node node3;
 
     private String fullNameNode1 = "this is node1 full name";
 
-    private NodeImpl cloneNode2;
-    private NodeImpl cloneNode3;
+    private Node cloneNode2;
+    private Node cloneNode3;
 
     private String propName = "Description";
     private List propValue = new LinkedList();
@@ -126,16 +126,14 @@ public class TestGraphNode extends TestCase {
     public void testGetClones() {
 
         // test nodes with clones
-        assertEquals("number of clones for node2", 2, IteratorUtil.getIteratorSize(node2.getClones()));
-        assertEquals("number of clones for cloneNode2", 2, IteratorUtil.getIteratorSize(cloneNode2.getClones()));
+        assertEquals("number of clones for node2", 2, node2.getClones().size());
+        assertEquals("number of clones for cloneNode2", 2, cloneNode2.getClones().size());
 
-        assertEquals("clones for node2 contain cloneNode2", true,
-                IteratorUtil.objectIsInIterator(cloneNode2, node2.getClones()));
-        assertEquals("clones for cloneNode3 contain node2", true,
-                IteratorUtil.objectIsInIterator(node2, cloneNode3.getClones()));
+        assertEquals("clones for node2 contain cloneNode2", true, node2.getClones().contains(cloneNode2));
+        assertEquals("clones for cloneNode3 contain node2", true, cloneNode3.getClones().contains(node2));
 
         // test nodes without clones
-        assertEquals("number of clones for node1", 0, IteratorUtil.getIteratorSize(node1.getClones()));
+        assertEquals("number of clones for node1", 0, node1.getClones().size());
     }
 
     /**
@@ -149,26 +147,15 @@ public class TestGraphNode extends TestCase {
 
         Node testCloneNode = node2.makeClone();
 
-        assertEquals("number of clones for node2 and cloneNode2 should be the same",
-                IteratorUtil.getIteratorSize(node2.getClones()),
-                IteratorUtil.getIteratorSize(cloneNode2.getClones()));
-        assertEquals("number of clones for node2 and testCloneNode should be the same",
-                IteratorUtil.getIteratorSize(node2.getClones()),
-                IteratorUtil.getIteratorSize(testCloneNode.getClones()));
+        assertEquals("number of clones for node2 and cloneNode2 should be the same", node2.getClones().size(), cloneNode2.getClones().size());
+        assertEquals("number of clones for node2 and testCloneNode should be the same", node2.getClones().size(), testCloneNode.getClones().size());
 
-        assertEquals("testCloneNode is within node2 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, node2.getClones()));
-        assertEquals("testCloneNode is within cloneNode2 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, cloneNode2.getClones()));
-        assertEquals("testCloneNode is within cloneNode3 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, cloneNode3.getClones()));
-        assertEquals("node2 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(node2, testCloneNode.getClones()));
-        assertEquals("cloneNode2 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(cloneNode2, testCloneNode.getClones()));
-        assertEquals("cloneNode3 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(cloneNode3, testCloneNode.getClones()));
-
+        assertEquals("testCloneNode is within node2 clones", true, node2.getClones().contains(testCloneNode));
+        assertEquals("testCloneNode is within cloneNode2 clones", true, cloneNode2.getClones().contains(testCloneNode));
+        assertEquals("testCloneNode is within cloneNode3 clones", true, cloneNode3.getClones().contains(testCloneNode));
+        assertEquals("node2 is within testCloneNode clones", true, testCloneNode.getClones().contains(node2));
+        assertEquals("cloneNode2 is within testCloneNode clones", true, testCloneNode.getClones().contains(cloneNode2));
+        assertEquals("cloneNode3 is within testCloneNode clones", true, testCloneNode.getClones().contains(cloneNode3));
     }
 
     /**

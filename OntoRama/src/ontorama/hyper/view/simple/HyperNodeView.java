@@ -6,8 +6,9 @@ package ontorama.hyper.view.simple;
 
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChangedObserver;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import ontorama.model.EdgeImpl;
+import ontorama.model.Node;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;
@@ -276,9 +277,9 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Returns GraphNode.
+     * Returns Node.
      */
-    public GraphNode getGraphNode() {
+    public Node getGraphNode() {
         return this.model.getGraphNode();
     }
 
@@ -351,9 +352,9 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
         this.showClone(g2d);
         // draw lines to, and show clones
-        Iterator it = this.getGraphNode().getClones();
+        Iterator it = this.getGraphNode().getClones().iterator();
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            Node cur = (Node) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView == null) {
                 //System.out.println("HyperNodeView not found for " + cur.getName());

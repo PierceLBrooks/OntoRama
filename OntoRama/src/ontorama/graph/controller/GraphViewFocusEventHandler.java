@@ -10,8 +10,9 @@ package ontorama.graph.controller;
 
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.view.GraphView;
-import ontorama.model.GraphNode;
+import ontorama.model.NodeImpl;
 import ontorama.model.Graph;
+import ontorama.model.Node;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
@@ -23,11 +24,11 @@ public class GraphViewFocusEventHandler implements EventListener {
     public GraphViewFocusEventHandler(EventBroker eventBroker, GraphView graphView) {
         this.graphView = graphView;
         this.eventBroker = eventBroker;
-        eventBroker.subscribe(this, NodeSelectedEvent.class, GraphNode.class);
+        eventBroker.subscribe(this, NodeSelectedEvent.class, NodeImpl.class);
     }
 
     public void processEvent(Event e) {
-        GraphNode node = (GraphNode) e.getSubject();
+        Node node = (Node) e.getSubject();
 //        System.out.println("graphview = " + graphView);
         this.graphView.focus(node);
     }

@@ -11,7 +11,7 @@ package ontorama.graph.view;
 import ontorama.model.*;
 
 public interface GraphView  {
-    public void focus(GraphNode node);
+    public void focus(Node node);
     public void setGraph(Graph graph);
     public void repaint();
 }

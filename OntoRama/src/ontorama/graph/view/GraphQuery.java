@@ -8,8 +8,8 @@
  */
 package ontorama.graph.view;
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 
 public interface GraphQuery {
-    public void query(GraphNode node);
+    public void query(Node node);
 }

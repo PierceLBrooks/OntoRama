@@ -1,7 +1,7 @@
 package ontorama.textDescription.view;
 
 import ontorama.controller.NodeSelectedEvent;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
         super(propName, eventBroker);
     }
 
-    protected JComponent createPropertyComponent(final GraphNode graphNode) {
+    protected JComponent createPropertyComponent(final Node graphNode) {
         JButton button = new JButton();
         button.setText(graphNode.getName());
         button.addActionListener(new ActionListener() {

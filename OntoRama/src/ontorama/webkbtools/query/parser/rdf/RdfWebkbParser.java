@@ -1,7 +1,7 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
@@ -43,11 +43,11 @@ public class RdfWebkbParser extends RdfDamlParser {
 
     /**
      * Rewrite Iterator returned by the super class to a new
-     * Iterator with GraphNode names in the different format
+     * Iterator with NodeImpl names in the different format
      * (Get rid of RDF capitalization).
      *
      * First, we will build a mapping of old names to new names.
-     * Then, process every GraphNode and create a new one with a new
+     * Then, process every NodeImpl and create a new one with a new
      * name and change all relation links so they include new
      * named graph nodes. (this is the reason for the first step - name
      * conversion is better achieved if there is already a mapping for names).
@@ -76,7 +76,7 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator nodesIterator = nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            GraphNode cur = (GraphNode) nodesIterator.next();
+            Node cur = (Node) nodesIterator.next();
             mapNewName(cur);
         }
 
@@ -84,8 +84,8 @@ public class RdfWebkbParser extends RdfDamlParser {
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
-            GraphNode fromNode = curEdge.getFromNode();
-            GraphNode toNode = curEdge.getToNode();
+            Node fromNode = curEdge.getFromNode();
+            Node toNode = curEdge.getToNode();
             //System.out.println("cur edge = " + curEdge);
             mapNewName(fromNode);
 
@@ -107,7 +107,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * First, check if this name is already in the hashtable, if not - then
      * get a new name and put it into the hashtable.
      */
-    protected void mapNewName(GraphNode origNode) {
+    protected void mapNewName(Node origNode) {
         String newTypeName = (String) namesMapping.get(origNode.getName());
         if (newTypeName == null) {
             newTypeName = createNewNameForType(origNode);
@@ -130,12 +130,12 @@ public class RdfWebkbParser extends RdfDamlParser {
             Edge curEdge = (Edge) edgesIterator.next();
             //System.out.println("cur edge = " + curEdge);
 
-            GraphNode fromNode = curEdge.getFromNode();
+            Node fromNode = curEdge.getFromNode();
             if (!nodeNameIsAlreadyChanged(fromNode.getName())) {
                 String fromNodeNewName = (String) namesMapping.get(fromNode.getName());
                 fromNode.setName(fromNodeNewName);
             }
-            GraphNode toNode = curEdge.getToNode();
+            Node toNode = curEdge.getToNode();
             if (!nodeNameIsAlreadyChanged(toNode.getName())) {
                 String toNodeNewName = (String) namesMapping.get(toNode.getName());
                 toNode.setName(toNodeNewName);
@@ -146,7 +146,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         // this is just in case we had some nodes not attached to _graphEdges.
         Iterator nodesIterator = _nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            GraphNode curNode = (GraphNode) nodesIterator.next();
+            Node curNode = (Node) nodesIterator.next();
             if (!nodeNameIsAlreadyChanged(curNode.getName())) {
                 String newNodeName = (String) namesMapping.get(curNode.getName());
                 curNode.setName(newNodeName);
@@ -169,7 +169,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
      * just return it.
      */
-    protected String createNewNameForType(GraphNode node) {
+    protected String createNewNameForType(Node node) {
 
         String typeName = node.getName();
 

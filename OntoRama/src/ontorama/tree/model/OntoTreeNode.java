@@ -1,6 +1,7 @@
 package ontorama.tree.model;
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
+import ontorama.model.Node;
 import ontorama.util.Debug;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -10,7 +11,7 @@ import java.util.*;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode
- * and contains GraphNode as a part of OntoTreeNode.
+ * and contains Node as a part of OntoTreeNode.
  *
  * Copyright:    Copyright (c) 2001
  * Company:     DSTC
@@ -25,9 +26,9 @@ public class OntoTreeNode implements TreeNode {
     private boolean allowChildren = true;
 
     /**
-     * GraphNode that is a base for this OntoTreeNode
+     * Node that is a base for this OntoTreeNode
      */
-    private GraphNode graphNode;
+    private Node graphNode;
 
     /**
      * Observers list
@@ -49,7 +50,7 @@ public class OntoTreeNode implements TreeNode {
      *  Constructor
      *  @param graphNode
      */
-    public OntoTreeNode(GraphNode graphNode) {
+    public OntoTreeNode(Node graphNode) {
         this.graphNode = graphNode;
     }
 
@@ -156,12 +157,12 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getChildAt(int childIndex) {
         List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
-        GraphNode outboundGraphNode = (GraphNode) outboundNodes.get(childIndex);
+        Node outboundGraphNode = (Node) outboundNodes.get(childIndex);
         TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundGraphNode);
 
         /*
         List childrenList = this.graphNode.getChildrenList();
-        GraphNode childGraphNode = (GraphNode) childrenList.get(childIndex);
+        Node childGraphNode = (Node) childrenList.get(childIndex);
         TreeNode childNode = OntoTreeBuilder.getTreeNode(childGraphNode);
         */
         //debug.message("OntoTreeNode","getChildAt", "node = " + this.graphNode.getName() + " returning " + childNode + " for index " + childIndex);
@@ -194,14 +195,14 @@ public class OntoTreeNode implements TreeNode {
 
         Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode);
         if (inboundNodes.hasNext()) {
-            GraphNode inboundGraphNode = (GraphNode) inboundNodes.next();
+            Node inboundGraphNode = (Node) inboundNodes.next();
             return (OntoTreeBuilder.getTreeNode(inboundGraphNode));
         }
 
         /*
         Iterator parentsIterator = this.graphNode.getParents();
         if (parentsIterator.hasNext()) {
-            GraphNode parentGraphNode = (GraphNode) parentsIterator.next();
+            Node parentGraphNode = (Node) parentsIterator.next();
             //debug.message("OntoTreeNode","getParent","node = " + this.graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
             return ( (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
         }
@@ -271,10 +272,10 @@ public class OntoTreeNode implements TreeNode {
     ///////////////End of TreeNode interface implementation/////////////////
 
     /**
-     * Get GraphNode that is a part of this OntoTreeNode
+     * Get Node that is a part of this OntoTreeNode
      * @return  graphNode
      */
-    public GraphNode getGraphNode() {
+    public Node getGraphNode() {
         return this.graphNode;
     }
 

@@ -10,7 +10,7 @@ package ontorama.webkbtools.inputsource;
  */
 
 import ontorama.OntoramaConfig;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.query.Query;
@@ -242,7 +242,7 @@ public class WebKB2Source implements Source {
         getRootTypesFromStreams();
 
         Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-        String selectedType = ((GraphNode) typesList.get(0)).getName();
+        String selectedType = ((Node) typesList.get(0)).getName();
         if (frames.length > 0) {
             AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
             selectedType = dialog.getSelected();
@@ -277,7 +277,7 @@ public class WebKB2Source implements Source {
             StringReader curReader = new StringReader(nextDocStr);
             List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
             for (int i = 0; i < curTypesList.size(); i++) {
-                GraphNode node = (GraphNode) curTypesList.get(i);
+                Node node = (Node) curTypesList.get(i);
                 if (!typesList.contains(node)) {
                     typesList.add(node);
                 }
@@ -316,7 +316,7 @@ public class WebKB2Source implements Source {
         List nodesList = parser.getResult(reader).getNodesList();
         Iterator typesIt = nodesList.iterator();
         while (typesIt.hasNext()) {
-            GraphNode curNode = (GraphNode) typesIt.next();
+            Node curNode = (Node) typesIt.next();
             try {
                 List synonyms = curNode.getProperty(synPropName);
                 if (synonyms.contains(termName)) {

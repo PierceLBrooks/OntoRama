@@ -167,6 +167,8 @@ public class HistoryMenu extends JMenu {
    *
    */
   public static void displayHistoryItem (JCheckBoxMenuItem historyItem) {
+  	
+  	//System.out.println("displayHistoryItem for historyItem = " + historyItem.getText());
 
     HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
 
@@ -251,6 +253,9 @@ public class HistoryMenu extends JMenu {
    * will only work for menu items that are JCheckBoxMenuItem's
    */
   protected static void setSelectedMenuItem ( JCheckBoxMenuItem selectItem) {
+  	
+  	//System.out.println("setSelectedMenuItem for item = " + selectItem.getText());
+  	
     // first deselect previously selected item
     Enumeration enum = _menuItemHistoryMapping.keys();
     while (enum.hasMoreElements()) {
@@ -262,19 +267,25 @@ public class HistoryMenu extends JMenu {
     selectItem.setSelected(true);
   }
 
-  /**
-   *
-   */
-   protected void setSelectedHistoryMenuItem (OntoramaExample example) {
-    Enumeration enum = _menuItemHistoryMapping.keys();
-    while (enum.hasMoreElements()) {
-      JCheckBoxMenuItem historyMenuItem = (JCheckBoxMenuItem) enum.nextElement();
-      HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyMenuItem);
-      OntoramaExample curExample = historyElement.getExample();
-      if (curExample.equals(example)) {
-        setSelectedMenuItem(historyMenuItem);
-        return;
-      }
-    }
-   }
+
+// this method appears to cause a bug: history menu items are selected 
+// incorrectly when user browses to some nodes (not root node). first history
+// item corresponding to the given example is selected. this is not always what
+// we want. should compare by example and query details
+// 
+//  /**
+//   *
+//   */
+//   protected void setSelectedHistoryMenuItem (OntoramaExample example) {
+//    Enumeration enum = _menuItemHistoryMapping.keys();
+//    while (enum.hasMoreElements()) {
+//      JCheckBoxMenuItem historyMenuItem = (JCheckBoxMenuItem) enum.nextElement();
+//      HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyMenuItem);
+//      OntoramaExample curExample = historyElement.getExample();
+//      if (curExample.equals(example)) {
+//        setSelectedMenuItem(historyMenuItem);
+//        return;
+//      }
+//    }
+//   }
 }

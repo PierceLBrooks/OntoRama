@@ -210,12 +210,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		buildStatusBar();
 		setStatusLabel("status bar is here");
 
-		_queryPanel = new QueryPanel(_viewListener, this);
-		if (OntoramaConfig.isSourceDynamic) {
-			_queryPanel.enableDepth();
-		} else {
-			_queryPanel.disableDepth();
-		}
+		_queryPanel = new QueryPanel(_viewListener, this);		
 
 		_treeView = new OntoTreeView(_viewListener);
 		_hyperView = new SimpleHyperView(_viewListener);
@@ -242,6 +237,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		setSize(_appWidth, _appHeight);
 		setLocation(centerAppWin());
 		setVisible(true);
+
+		enableDisableDynamicFields();
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -461,15 +458,26 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_splitPane.repaint();
 
 		setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
-		setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
+		// don't following method, remove later.
+		//setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
 
-		if (OntoramaConfig.isSourceDynamic) {
-			_queryPanel.enableDepth();
-		} else {
-			_queryPanel.disableDepth();
-		}
+		enableDisableDynamicFields();
 
 		repaint();
+	}
+	
+	/**
+	 * enable/disable components that should be only shown
+	 * for dynamically loaded ontologies 
+	 */
+	private void enableDisableDynamicFields () {
+		if (OntoramaConfig.isSourceDynamic) {
+			_queryPanel.enableDepth();
+			_descriptionViewPanel.enableDynamicFields();
+		} else {
+			_queryPanel.disableDepth();
+			_descriptionViewPanel.disableDynamicFields();
+		}
 	}
 
 	/**
@@ -501,12 +509,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_historyMenu.appendHistory(termName, example);
 	}
 
-	/**
-	 *
-	 */
-	protected void setSelectedHistoryMenuItem(OntoramaExample example) {
-		_historyMenu.setSelectedHistoryMenuItem(example);
-	}
+//	/**
+//	 *
+//	 */
+//	protected void setSelectedHistoryMenuItem(OntoramaExample example) {
+//		_historyMenu.setSelectedHistoryMenuItem(example);
+//	}
 
 	/**
 	 *

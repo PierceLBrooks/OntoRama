@@ -13,15 +13,15 @@ import junit.framework.TestSuite;
  * @version 1.0
  */
 
-public class TestModelPackage extends TestCase {
+public class TestGraphPackage extends TestCase {
 
-    public TestModelPackage(String name) {
+    public TestGraphPackage(String name) {
         super(name);
     }
 
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("ontorama.model");
+        TestSuite suite = new TestSuite("ontorama.model.graph");
         suite.addTest(new TestSuite(TestEdge.class));
         suite.addTest(new TestSuite(TestNode.class));
         suite.addTest(new TestSuite(TestGraph.class));

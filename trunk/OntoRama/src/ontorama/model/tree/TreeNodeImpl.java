@@ -87,4 +87,9 @@ public class TreeNodeImpl implements TreeNode {
     public TreeEdge getParent() {
         return _parentEdge;
     }
+
+    public String toString () {
+        String res = "TreeNode: " + this.getGraphNode().getName();
+        return res;
+    }
 }

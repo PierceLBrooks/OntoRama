@@ -85,7 +85,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      * Communication from GraphNode to OntoTreeNode.
      * @param   obj
      */
-    public void update( Object obj ) {
+    public void update( Object observer, Object observable ) {
         debug.message("OntoTreeNode","update", this.graphNode.getName());
         notifyTreeChange();
     }

@@ -82,7 +82,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Update method called from obserable (GraphNode)
      */
-    public void update( Object obj ) {
+    public void update( Object observer, Object observable ) {
         Iterator it = focusListener.iterator();
         while( it.hasNext() ) {
             FocusChangedObserver fo = (FocusChangedObserver)it.next();

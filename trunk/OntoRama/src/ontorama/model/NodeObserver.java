@@ -12,6 +12,6 @@ public interface NodeObserver {
 	/**
 	 * Method called to update observer.
 	 */
-	public void update( Object obj );
+	public void update( Object observer, Object observable );
 
 }

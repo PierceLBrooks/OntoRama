@@ -12,7 +12,10 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.QueryStartEvent;
+import ontorama.ontotools.query.Query;
 import ontorama.conf.examplesConfig.OntoramaExample;
+import org.tockit.events.EventBroker;
 
 /**
  * <p>Title: </p>
@@ -43,28 +46,21 @@ public class ExamplesMenu extends JMenu {
     private Hashtable _submenusMapping;
 
     /**
-     * currently selected item.
+     * event broker capable of processing query events.
      */
-    private JCheckBoxMenuItem curSelectedExampleMenuItem;
+    private EventBroker _eventBroker;
 
-    /**
-     * @todo  shouldn't have this reference in this class
-     */
-    private OntoRamaApp _mainApp;
 
     /**
      *
-     * @todo  shouldn't have to get reference to mainApp
      */
-    public ExamplesMenu(OntoRamaApp mainApp) {
+    public ExamplesMenu(EventBroker eventBroker) {
         super("Examples");
-        _mainApp = mainApp;
+        _eventBroker = eventBroker;
         _examplesList = OntoramaConfig.getExamplesList();
         _menuItemExampleMapping = new Hashtable();
         _submenusMapping = new Hashtable();
-
         setMnemonic(KeyEvent.VK_E);
-
         buildExamplesMenuItems();
     }
 
@@ -77,10 +73,14 @@ public class ExamplesMenu extends JMenu {
         // get corresponding example
         OntoramaExample example = (OntoramaExample) _menuItemExampleMapping.get(menuItem);
 
-        //boolean querySuccessfull = _ontoramaMenu.executeQuery(example.getRoot(), example, menuItem);
-        _mainApp.executeQueryForGivenExample(example.getRoot(), example);
-        // append history
-        _mainApp.appendHistoryForGivenExample(example.getRoot(), example);
+        // reset details in OntoramaConfig
+        OntoramaConfig.setCurrentExample(example);
+
+        // create a new query
+        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList());
+
+        // get graph for this query and load it into app
+        _eventBroker.processEvent(new QueryStartEvent(query));
 
         // select corresponding example menu item
         setSelectedExampleMenuItem(example);
@@ -103,31 +103,26 @@ public class ExamplesMenu extends JMenu {
 
     /**
      *
-     * @todo  fixed commented out
      */
     private void buildExamplesMenuItems() {
 
         Iterator examplesIterator = _examplesList.iterator();
         while (examplesIterator.hasNext()) {
             OntoramaExample curExample = (OntoramaExample) examplesIterator.next();
-            //System.out.println("curExample = " + curExample.getName());
             JCheckBoxMenuItem curItem = new JCheckBoxMenuItem(curExample.getName(), false);
             _menuItemExampleMapping.put(curItem, curExample);
 
             curItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     JCheckBoxMenuItem sourceItem = (JCheckBoxMenuItem) e.getSource();
-                    //System.out.println("action: " + sourceItem.getLabel());
                     displayExample(sourceItem);
                 }
             });
 
             String subfolderName = curExample.getMenuSubfolderName();
-            //System.out.println("subfolderName = " + subfolderName);
 
             if (subfolderName != null) {
                 JMenu subMenu = findExamplesSubMenu(subfolderName);
-                //System.out.println("adding item " + curItem.getName() + " to submenu " + subMenu.getName());
                 subMenu.add(curItem);
             } else {
                 add(curItem);
@@ -161,23 +156,5 @@ public class ExamplesMenu extends JMenu {
         _submenusMapping.put(submenuName, newSubmenu);
 
         return newSubmenu;
-    }
-
-
-    /**
-     *
-     */
-    private JCheckBoxMenuItem findExampleMenuItem(OntoramaExample example) {
-        Enumeration enum = _menuItemExampleMapping.keys();
-        JCheckBoxMenuItem correspondingExampleMenuItem = null;
-        while (enum.hasMoreElements()) {
-            JCheckBoxMenuItem curItem = (JCheckBoxMenuItem) enum.nextElement();
-            OntoramaExample curExample = (OntoramaExample) _menuItemExampleMapping.get(curItem);
-            if (curExample.equals(example)) {
-                correspondingExampleMenuItem = curItem;
-                break;
-            }
-        }
-        return correspondingExampleMenuItem;
     }
 }

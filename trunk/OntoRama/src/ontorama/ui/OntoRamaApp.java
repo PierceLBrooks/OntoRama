@@ -206,7 +206,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
-            System.out.println("QueryStartEventHandler processEvent()");
             Query query = (Query) event.getSubject();
             _lastQuery = _query;
             _query = query;
@@ -235,7 +234,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	_tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
         	_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
         	_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
-        	updateViews();       	
+        	updateViews();
+            appendHistoryMenu(_query);
         }
     }
 
@@ -520,7 +520,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_fileMenu.setMnemonic(KeyEvent.VK_F);
 		_fileMenu.add(_exitAction);
 
-		_examplesMenu = new ExamplesMenu(this);
+		_examplesMenu = new ExamplesMenu(_modelEventBroker);
 
 		_historyMenu = new HistoryMenu(this);
 
@@ -579,31 +579,15 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * waiting - update progress bar.
 	 */
 	public void actionPerformed(ActionEvent evt) {
-		System.out.println("\n\nactionPerformed()");
 		Graph graph = null;
 		setStatusLabel(_worker.getMessage());
 		if ((_worker.done()) || (_worker.isStopped())) {
-			System.out.println("stopped");
 			if (_worker.done()) {
 				graph = _worker.getGraph();
 				_modelEventBroker.processEvent(new QueryEndEvent(graph));
 			}
-//			_timer.stop();
-//			_progressBar.setIndeterminate(false);
-//			setStatusLabel("");
-//			_stopQueryAction.setEnabled(false);
-//			_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
-//			if (graph == null) {
-//				return;
-//			}
-//			_graph = graph;
-//            _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
-//            _tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
-//			_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
-//			_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
-//			updateViews();
+			_timer.stop();
 		}
-        appendHistoryMenu(_query);
 	}
 
 	/**
@@ -660,35 +644,25 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	public void appendHistoryMenu(Query query) {
+        System.out.println("append history for given query " + query);
 		_historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
 	}
-	/**
-	 *
-	 */
-	protected void appendHistoryForGivenExample(
-		String termName,
-		OntoramaExample example) {
-		_historyMenu.appendHistory(termName, example);
-	}
+
+//	/**
+//	 *
+//	 */
+//	protected void appendHistoryForGivenExample( String termName, OntoramaExample example) {
+//        System.out.println("append history for given example and term " + termName);
+//		_historyMenu.appendHistory(termName, example);
+//	}
+
 	/**
 	 *
 	 */
 	protected void setSelectedExampleMenuItem(OntoramaExample example) {
 		_examplesMenu.setSelectedExampleMenuItem(example);
 	}
-	/**
-	 *
-	 */
-	protected void executeQueryForGivenExample(
-		String termName,
-		OntoramaExample example) {
-		// reset details in OntoramaConfig
-		OntoramaConfig.setCurrentExample(example);
-		// create a new query
-		Query query = new Query(termName, OntoramaConfig.getEdgeTypesList());
-		// get graph for this query and load it into app
-        _modelEventBroker.processEvent(new QueryStartEvent(query));
-	}
+
 	/**
 	 * @todo	do we need two methods: executeQueryForGivenExample and executeQueryForHistoryElement
 	 * probably not - think of a better way to handle this.

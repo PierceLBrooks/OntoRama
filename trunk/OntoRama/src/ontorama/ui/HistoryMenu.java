@@ -88,10 +88,6 @@ public class HistoryMenu extends JMenu {
         enableBackForwardButtons();
 
         addSeparator();
-
-
-        System.out.println("\n\n\nappend history, example = " + OntoramaConfig.getCurrentExample());
-        appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
     }
 
     /**
@@ -101,7 +97,6 @@ public class HistoryMenu extends JMenu {
      * a query with ALL relation links.
      */
     public void appendHistory(String termName, OntoramaExample example) {
-//        Query query = new Query(termName, OntoramaConfig.getRelationLinkDetailsList());
         Query query = new Query(termName, OntoramaConfig.getEdgeTypesList());
         appendHistory(query, example);
     }
@@ -113,9 +108,6 @@ public class HistoryMenu extends JMenu {
      */
     public void appendHistory(Query query, OntoramaExample example) {
 
-        //int historyItemsCount = this.menuItemHistoryMapping.size();
-        Enumeration historyItemsEnum = _menuItemHistoryMapping.keys();
-
         String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
 
         String historyItemToolTipText = historyItemLabelName;
@@ -126,15 +118,12 @@ public class HistoryMenu extends JMenu {
 
 
         if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
-            // need to remove first item
             JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) _historyItems.getFirst();
-            //System.out.println("first menu item = " + firstMenuItem.getText());
             _historyItems.removeFirst();
             _menuItemHistoryMapping.remove(firstMenuItem);
             remove(firstMenuItem);
         }
 
-        //System.out.println("example = " + example);
         HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, example);
 
         JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
@@ -214,8 +203,6 @@ public class HistoryMenu extends JMenu {
      */
     protected static void enableBackForwardButtons() {
         int curSelectedHistoryIndex = getIndexOfSelectedHistoryMenuItem();
-        int maxHistoryItem = _menuItemHistoryMapping.size() - 1;
-        System.out.println("***enableBackForwardButtons, curSelectedHistoryIndex = " + curSelectedHistoryIndex + ", maxHistoryItem = " + maxHistoryItem);
         if (curSelectedHistoryIndex <= 0) {
             //this.historyBackMenuItem.setEnabled(false);
             _mainApp._backAction.setEnabled(false);

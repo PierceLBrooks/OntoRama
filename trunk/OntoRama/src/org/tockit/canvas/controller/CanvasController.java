@@ -3,16 +3,13 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasController.java,v 1.5 2002-08-02 09:30:18 pbecker Exp $
+ * $Id: CanvasController.java,v 1.6 2002-08-09 06:17:39 nataliya Exp $
  */
 package org.tockit.canvas.controller;
 
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
-import org.tockit.canvas.events.CanvasItemActivatedEvent;
-import org.tockit.canvas.events.CanvasItemClickedEvent;
-import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
-import org.tockit.canvas.events.CanvasItemDraggedEvent;
+import org.tockit.canvas.events.*;
 import org.tockit.events.EventBroker;
 
 import java.awt.*;
@@ -160,6 +157,20 @@ public class CanvasController implements MouseListener, MouseMotionListener {
     }
 
     public void mouseMoved(MouseEvent e) {
+        if (dragMode) {
+            return;
+        }
+        Point2D mousePos = e.getPoint();
+        Point2D canvasPos = canvas.getCanvasCoordinates(mousePos);
+        CanvasItem pointedItem = canvas.getCanvasItemAt(canvasPos);
+        if (pointedItem == null) {
+            return;
+        }
+        this.eventBroker.processEvent(new CanvasItemPointedEvent(
+                                            pointedItem,
+                                            e.getModifiers(),
+                                            canvasPos,
+                                            mousePos));
     }
 
     /**

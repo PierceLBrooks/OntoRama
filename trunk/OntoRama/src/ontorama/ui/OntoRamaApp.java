@@ -33,6 +33,7 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.backends.Peer2PeerBackend;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
@@ -131,6 +132,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private static Graph _graph;
 
     private static Tree _tree;
+    
+    /// @todo not sure if this should be static - need to check
+    private static Backend _activeBackend;
 
     /**
      * left side of split panel holds hyper ui.
@@ -381,6 +385,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
         new OntoRamaApp();
     }
+    
+    public static void activateBackend (Backend backend) {
+    	/// @todo should have some more functionality: closing off previously active backend, 
+    	/// perhaps saving data, etc.
+    	_activeBackend = backend;
+    }
+    
+    public static Backend getBackend () {
+    	return _activeBackend;
+    }
 
     private void initBackends() {
         _backends = new Vector();
@@ -389,8 +403,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         while (it.hasNext()) {
             String backendName = (String) it.next();
             try {
-                Backend curBackend =
-                    (Backend) Class.forName(backendName).newInstance();
+                Peer2PeerBackend curBackend =
+                    (Peer2PeerBackend) Class.forName(backendName).newInstance();
                 curBackend.setEventBroker(_modelEventBroker);
                 _backends.add(curBackend);
             } catch (ClassNotFoundException e) {
@@ -463,8 +477,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             backendsMenu.setMnemonic(KeyEvent.VK_B);
             Enumeration backendsEnum = _backends.elements();
             while (backendsEnum.hasMoreElements()) {
-                Backend backend = (Backend) backendsEnum.nextElement();
-                JMenu backendMenu = backend.getJMenu();
+                Peer2PeerBackend backend = (Peer2PeerBackend) backendsEnum.nextElement();
+                JMenu backendMenu = backend.getMenu();
                 backendsMenu.add(backendMenu);
             }
             _menuBar.add(backendsMenu);

@@ -129,7 +129,7 @@ public class OntoramaConfig {
 	 * flag to enable editing mode.
 	 */
 	public static boolean EDIT_ENABLED;
-
+	
     private static JarSource streamReader = new JarSource();;
 
     private static Properties properties = new Properties();

@@ -210,6 +210,8 @@ public class CommunicationGroup extends Communication {
 			
 			//remove the inputpipe by flushing it from local cache
 			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
+			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
+									+ pipeAdv);
 			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
 							
 		} catch (PeerGroupException e) {

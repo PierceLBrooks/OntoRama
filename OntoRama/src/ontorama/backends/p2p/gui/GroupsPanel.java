@@ -27,7 +27,7 @@ import ontorama.ui.ErrorDialog;
 /**
  * @author nataliya
  */
-public class GroupsPanel extends JPanel {
+public class GroupsPanel extends JPanel implements GroupView {
 
 	JPanel _newGroupPanel;
 	JPanel _allGroupsPanel;
@@ -219,5 +219,17 @@ public class GroupsPanel extends JPanel {
 //		 } //end while
 //	 }
 	
+
+	/* (non-Javadoc)
+	 * @see ontorama.backends.p2p.gui.GroupView#addGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
+	 */
+	public void addGroup(GroupReferenceElement groupReferenceElement) {
+		System.out.println("GroupsPanel::addGroup, group = " + groupReferenceElement.getName());
+		if (! groupsListContainsGroup(_joinedGroupsListModel, groupReferenceElement)) {
+			_joinedGroupsListModel.addElement(groupReferenceElement);
+			_allGroupsListModel.removeElement(groupReferenceElement);
+		}
+		_allGroupsPanel.repaint();
+	}
 
 }

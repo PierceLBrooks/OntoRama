@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import ontorama.controller.QueryEvent;
+import ontorama.model.graph.controller.QueryEvent;
 import ontorama.model.graph.Node;
 import org.tockit.events.EventBroker;
 

@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph.controller;
 
-import ontorama.controller.QueryEvent;
 import ontorama.model.graph.view.GraphQuery;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;

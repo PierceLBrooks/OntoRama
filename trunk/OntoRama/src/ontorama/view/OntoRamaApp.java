@@ -207,7 +207,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         });
 
-        //Query query = new Query(OntoramaConfig.ontologyRoot);
         _query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getRelationLinksList());
         executeQuery(_query);
     }
@@ -388,9 +387,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _query = query;
         _debug.message(".............. EXECUTE QUERY for new graph ...................");
 
-        System.out.println("\n\n\n---------------------------------------------------------------");
-        System.out.println("          method executeQuery(query)\n\n\n");
-
         _worker = new QueryEngineThread(_query);
         _worker.start();
 
@@ -398,8 +394,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _progressBar.setIndeterminate(true);
         _stopQueryAction.setEnabled(true);
 
-        System.out.println("END of executeQuery method");
-        System.out.println("---------------------------------------------------------------\n\n\n");
         return true;
     }
 
@@ -454,9 +448,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     public void stopQuery() {
-        System.out.println("\n\n\nSTOP QUERY");
-        //_worker.stop();
-        //_worker.interrupt();
         _worker.stopProcess();
         _query = _lastQuery;
         _queryPanel.setQuery(_query);
@@ -466,8 +457,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     public void appendHistoryMenu(Query query) {
-        //		_historyMenu.appendHistory(query.getQueryTypeName(),
-        //			OntoramaConfig.getCurrentExample());
         _historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
     }
 
@@ -475,16 +464,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     protected void appendHistoryForGivenExample(String termName, OntoramaExample example) {
-        //protected void appendHistoryForGivenExample(Query query,OntoramaExample example) {
         _historyMenu.appendHistory(termName, example);
     }
-
-//	/**
-//	 *
-//	 */
-//	protected void setSelectedHistoryMenuItem(OntoramaExample example) {
-//		_historyMenu.setSelectedHistoryMenuItem(example);
-//	}
 
     /**
      *
@@ -497,7 +478,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     protected boolean executeQueryForGivenExample(String termName, OntoramaExample example) {
-
         // reset details in OntoramaConfig
         OntoramaConfig.setCurrentExample(example);
 
@@ -533,7 +513,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private void showUnconnectedNodes() {
         List unconnectedNodes = _graph.getUnconnectedNodesList();
         if (unconnectedNodes.size() != 0) {
-            //_listViewer.setNodesList( unconnectedNodes);
             closeUnconnectedNodesView();
             _listViewer = new NodesListViewer(this, unconnectedNodes);
             _listViewer.showList(true);
@@ -574,7 +553,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _statusBar = new JPanel(new BorderLayout());
 
         _statusLabel = new JLabel();
-        //_progressBar = new JProgressBar(0, 100);
         _progressBar = new JProgressBar();
         _progressBar.setIndeterminate(true);
 

@@ -1,9 +1,6 @@
 package ontorama.model.graph;
 
-
-
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,12 +62,6 @@ public class GraphImpl implements Graph {
     EventBroker _eventBroker;
 
     private String termName;
-
-    /**
-     * map node to num of descendants.
-     * @todo this doesn't belong here
-     */
-    private Hashtable originalNodeDescendantsMapping = new Hashtable();
 
     /**
      * Constructor for GraphImpl
@@ -148,12 +139,6 @@ public class GraphImpl implements Graph {
         
         checkForCycles(edgesList);
 
-        Iterator it = _graphNodes.iterator();
-        while (it.hasNext()) {
-            Node curNode = (Node) it.next();
-            int descendantsNum = calculateNodeDescendants(curNode);
-            originalNodeDescendantsMapping.put(curNode, new Integer(descendantsNum));
-        }
     	_topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
     }
 
@@ -430,14 +415,15 @@ public class GraphImpl implements Graph {
      */
     public void removeAllEdges() {
         _graphEdges.clear();
-        /// @todo do we want to sent one event each time? Or maybe a specific one?
         _eventBroker.processEvent(new GraphReducedEvent(this));
     }
 
     /**
-     * @todo This does not remove subtrees, only the node and its connecting edges are removed, which might lead to more
-     *       graph components. Should probably behave differently on a Tree structure, but we can't really do anthing
-     *       useful on a generic Graph.
+     * @todo This does not remove subtrees, only the node and its 
+     * 		connecting edges are removed, which might lead to more
+     *      graph components. Should probably behave differently on a 
+     * 		Tree structure, but we can't really do anything
+     *      useful on a generic Graph.
      */
     public void removeNode (Node node) {
     	System.out.println("GraphImpl::removeNode " + node.getName());
@@ -614,8 +600,7 @@ public class GraphImpl implements Graph {
     }
 
     public int getNumOfDescendants (Node node) {
-        Integer num = (Integer) originalNodeDescendantsMapping.get(node);
-        return num.intValue();
+    	return calculateNodeDescendants(node);
     }
 
 

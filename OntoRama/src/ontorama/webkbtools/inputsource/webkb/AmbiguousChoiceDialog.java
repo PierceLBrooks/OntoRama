@@ -1,6 +1,5 @@
 package ontorama.webkbtools.inputsource.webkb;
 
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.model.Node;
 
 import javax.swing.*;

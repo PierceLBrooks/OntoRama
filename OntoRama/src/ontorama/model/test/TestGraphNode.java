@@ -1,7 +1,6 @@
 package ontorama.model.test;
 
 import junit.framework.TestCase;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.model.Node;
 import ontorama.model.Node;
 import ontorama.model.NodeImpl;
@@ -45,7 +44,7 @@ public class TestGraphNode extends TestCase {
     /**
      *
      */
-    protected void setUp() throws NoSuchPropertyException {
+    protected void setUp() {
         node1 = new NodeImpl("node1", fullNameNode1);
         node2 = new NodeImpl("node2");
         node3 = new NodeImpl("node3");
@@ -110,7 +109,7 @@ public class TestGraphNode extends TestCase {
      * all clones of node2 as well. Vice Versa, testCloneNode should
      * have node2 and all it's clones in the clones list
      */
-    public void testMakeClone() throws NoSuchPropertyException {
+    public void testMakeClone() {
 
         Node testCloneNode = node2.makeClone();
 

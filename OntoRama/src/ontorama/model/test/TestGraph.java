@@ -3,7 +3,6 @@ package ontorama.model.test;
 import junit.framework.TestCase;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.model.*;
@@ -55,7 +54,6 @@ public class TestGraph extends TestCase {
      * and _graphEdges created as expected and if they have correct settings.   *
      */
     protected void setUp() throws NoSuchRelationLinkException,
-            NoSuchPropertyException,
             NoTypeFoundInResultSetException {
 
         // create queryResult
@@ -107,7 +105,7 @@ public class TestGraph extends TestCase {
     /**
      * test graph root
      */
-    public void testGraphRoot() throws NoSuchPropertyException {
+    public void testGraphRoot() {
         Node rootNode = graph.getRootNode();
         assertEquals("root", rootNode.getName());
     }
@@ -124,7 +122,7 @@ public class TestGraph extends TestCase {
     /**
      * test properties, clones and depth for node1
      */
-    public void testNode1() throws NoSuchPropertyException {
+    public void testNode1() {
         assertEquals("depth of node1", 1, node1.getDepth());
         assertEquals("does node1 have clones", false, node1.hasClones());
     }

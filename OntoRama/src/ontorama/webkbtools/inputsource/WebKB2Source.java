@@ -18,7 +18,6 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.SourceException;
 

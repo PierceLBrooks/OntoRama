@@ -3,12 +3,10 @@
  * User: nataliya
  * Date: Sep 16, 2002
  * Time: 12:08:52 PM
- * To change template for new interface use 
+ * To change template for new interface use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
 package ontorama.model;
-
-import ontorama.webkbtools.util.NoSuchPropertyException;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public interface Node {
 
     public void addClone (Node node);
 
-    public Node makeClone() throws NoSuchPropertyException;
+    public Node makeClone();
 
     public void addClones (List clones);
 

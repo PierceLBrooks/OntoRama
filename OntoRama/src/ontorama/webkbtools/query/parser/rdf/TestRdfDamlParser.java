@@ -208,7 +208,7 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    public void testNodePropertyDescr_chair() throws NoSuchPropertyException {
+    public void testNodePropertyDescr_chair() {
         //System.out.println("\n\n\n testing property description");
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("test term 'chair'");
@@ -217,7 +217,7 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    public void testNodePropertyCreator_chair() throws NoSuchPropertyException {
+    public void testNodePropertyCreator_chair() {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("nataliya@dstc.edu.au");
     }
@@ -225,7 +225,7 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    public void testNodePropertySyn_chair() throws NoSuchPropertyException {
+    public void testNodePropertySyn_chair() {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("chair");
         expectedValueList.add("sit");

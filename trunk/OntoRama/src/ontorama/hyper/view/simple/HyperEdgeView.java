@@ -67,15 +67,13 @@ public class HyperEdgeView extends CanvasItem {
         } else {
             g2d.setColor(Color.lightGray);
         }
-        /// @todo figure out how to transform lines properly, move this into the transformation function object extracted from the node view class
+        /// @todo remove FOUNTAINS option, move the proper code into the transformation function object extracted from the node view class
         if (OntoramaConfig.FOUNTAINS) {
-            double firstControlPos = 29 / 30.0;
-            double secondControlPos = 1 / 30.0;
             float[] points = new float[]{
-                (float) (from.getProjectedX() * firstControlPos + to.getProjectedX() * (1-firstControlPos)) * 1.2F,
-                (float) (from.getProjectedY() * firstControlPos + to.getProjectedY() * (1-firstControlPos)) * 1.2F,
-                (float) (from.getProjectedX() * secondControlPos + to.getProjectedX() * (1-secondControlPos)) * 1.2F,
-                (float) (from.getProjectedY() * secondControlPos + to.getProjectedY() * (1-secondControlPos)) * 1.2F,
+                (float) (from.getProjectedX() * 1.5),
+                (float) (from.getProjectedY() * 1.5),
+                (float) (to.getProjectedX() * 0.5),
+                (float) (to.getProjectedY() * 0.5),
                 (float) to.getProjectedX(),
                 (float) to.getProjectedY()
             };
@@ -84,10 +82,36 @@ public class HyperEdgeView extends CanvasItem {
             pathShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
             g2d.draw(pathShape);
         } else {
-            g2d.draw(new Line2D.Double(from.getProjectedX(),from.getProjectedY(),to.getProjectedX(),to.getProjectedY()));
+            double bendingStrength = 0.7;
+            Point2D firstControlPoint = transform(
+                    from.getModel().getX() * bendingStrength + to.getModel().getX() * (1-bendingStrength),
+                    from.getModel().getY() * bendingStrength + to.getModel().getY() * (1-bendingStrength)
+            );
+            Point2D secondControlPoint = transform(
+                    to.getModel().getX() * bendingStrength + from.getModel().getX() * (1-bendingStrength),
+                    to.getModel().getY() * bendingStrength + from.getModel().getY() * (1-bendingStrength)
+            );
+            float[] points = new float[]{
+                (float) firstControlPoint.getX(),
+                (float) firstControlPoint.getY(),
+                (float) secondControlPoint.getX(),
+                (float) secondControlPoint.getY(),
+                (float) to.getProjectedX(),
+                (float) to.getProjectedY()
+            };
+            GeneralPath pathShape = new GeneralPath();
+            pathShape.moveTo((float) from.getProjectedX(), (float) from.getProjectedY());
+            pathShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
+            g2d.draw(pathShape);
         }
 
         g2d.drawImage(iconImg.getImage(), (int) imgX, (int) imgY, (int) imgW, (int) imgH, iconImg.getImageObserver());
+    }
+
+    private Point2D transform(double x, double y) {
+        double length = Math.sqrt(x * x + y * y + HyperNodeView.getFocalDepth() * HyperNodeView.getFocalDepth());
+        double scale = HyperNodeView.getSphereRadius() / length;
+        return new Point2D.Double(scale * x, scale * y);
     }
 
     public boolean containsPoint(Point2D point) {

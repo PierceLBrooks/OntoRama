@@ -152,8 +152,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
 	 *
 	 */
     public void focus(GraphNode graphNode) {
+        System.out.println("Hyper View FOCUS: node = " + graphNode.getName());
         System.out.println();
-//        focusChanged(node);
+        //focusChanged(node);
         focusNode = (HyperNode) this.hypernodes.get(graphNode);
         // set focused node label to selected
         testIfVisibleOrFolded((HyperNodeView) this.hypernodeviews.get(graphNode));
@@ -161,11 +162,15 @@ public class SimpleHyperView extends Canvas implements GraphView {
         //place the label last in the list so that it gets drawn last.
         // calculate the length of the animation as a function of the distance
         // in the euclidian space (before hyperbolic projection)
-        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
-                focusNode.getY() * focusNode.getY());
-        lengthOfAnimation = (long) (distance * 1.5);
-        animationTime = System.currentTimeMillis();
+//        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
+//                focusNode.getY() * focusNode.getY());
+//        lengthOfAnimation = (long) (distance * 1.5);
+//        animationTime = System.currentTimeMillis();
+//        animate();
+
+        moveCanvasItems(focusNode.getX(), focusNode.getY());
         repaint();
+
 
         System.out.println();
     }
@@ -885,19 +890,25 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
     /**
-     *
+     * @todo not sure how this animation used to work before refactoring -
+     * seems that we move nodes distance = some coordinates multiplied by time...
+     * debugging shows that elapsedTime in our case is always 0 which means that
+     * no animatio would be done....
      */
     protected void animate() {
-        long newTime = System.currentTimeMillis();
-        long elapsedTime = newTime - animationTime;
-        double animDist = elapsedTime / (double) lengthOfAnimation;
-        lengthOfAnimation -= elapsedTime;
-        animationTime = newTime;
-        if (animDist > 1) {
-            animDist = 1;
-        }
-        moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
-        repaint();
+//
+//        long newTime = System.currentTimeMillis();
+//        long elapsedTime = newTime - animationTime;
+//        double animDist = elapsedTime / (double) lengthOfAnimation;
+//        lengthOfAnimation -= elapsedTime;
+//        animationTime = newTime;
+//        if (animDist > 1) {
+//            animDist = 1;
+//        }
+//
+//        moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
+//
+//        repaint();
     }
 
     /**
@@ -1038,7 +1049,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             if (hyperNodeView == null) {
                 continue;
             }
-            System.out.println("adding hyperNodeView to canvas: " + hyperNodeView  );
+            //System.out.println("adding hyperNodeView to canvas: " + hyperNodeView  );
             addCanvasItem(hyperNodeView);
         }
     }

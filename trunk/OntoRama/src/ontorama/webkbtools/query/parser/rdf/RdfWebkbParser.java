@@ -1,14 +1,9 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import com.hp.hpl.mesa.rdf.jena.model.RDFNode;
-import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.query.parser.ParserResult;
 
@@ -21,6 +16,7 @@ import java.util.*;
  * <p>Description:
  * WebkbRdfParser - should behave the same way as RdfDamlParser except for
  * the treatment of relation link 'uri'.
+ * Also, nodes are renamed to follow WebKB schema (instead of 'wn#OntoRama' use 'wn#onto_rama').
  * </p>
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
@@ -31,16 +27,13 @@ import java.util.*;
 public class RdfWebkbParser extends RdfDamlParser {
 
     /**
-     * keys - original ontology type name,
+     * keys - original node name,
      * values  - new name
      */
     private Hashtable namesMapping = new Hashtable();
 
-    /**
-     * keys - name of newly created ontology type
-     * values - new ontology type itself
-     */
-    private Hashtable newTypesMapping = new Hashtable();
+    private List _nodesList;
+    private List _edgesList;
 
     /**
      * name of url relation link (special case)
@@ -50,216 +43,122 @@ public class RdfWebkbParser extends RdfDamlParser {
 
     /**
      * Rewrite Iterator returned by the super class to a new
-     * Iterator with Ontology Type names in the different format
+     * Iterator with GraphNode names in the different format
      * (Get rid of RDF capitalization).
      *
      * First, we will build a mapping of old names to new names.
-     * Then, process every OntologyType and create a new one with a new
+     * Then, process every GraphNode and create a new one with a new
      * name and change all relation links so they include new
-     * named ontology types. (this is the reason for the first step - name
+     * named graph nodes. (this is the reason for the first step - name
      * conversion is better achieved if there is already a mapping for names).
      *
-     * @todo  think what to do with NoSuchPropertyException and NoSuchRelationLinkException
      */
-//    public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
-//        namesMapping = new Hashtable();
-//        newTypesMapping = new Hashtable();
-//
-//        ParserResult pr = super.getResult(reader);
-//        List nodesList = pr.getNodesList();
-//
-//        mapNewNames(nodesList);
-//
-//        try {
-//            List resultList = rewriteNodeNames(nodesList);
-//            return resultList;
-//        } catch (NoSuchPropertyException e1) {
-//            System.out.println("NoSuchPropertyException: " + e1);
-//            System.exit(-1);
-//        } catch (NoSuchRelationLinkException e2) {
-//            System.out.println("NoSuchRelationLinkException: " + e2);
-//            System.exit(-1);
-//        }
-//        return null;
-//    }
-
     public ParserResult getResult (Reader reader) throws ParserException, AccessControlException {
         namesMapping = new Hashtable();
-        newTypesMapping = new Hashtable();
 
         ParserResult pr = super.getResult(reader);
-        List nodesList = pr.getNodesList();
 
-        mapNewNames(nodesList);
+        _nodesList = pr.getNodesList();
+        _edgesList = pr.getEdgesList();
 
-        try {
-            List resultNodesList = rewriteNodeNames(nodesList);
-            List resultEdgesList = pr.getEdgesList();
-            ParserResult result = new ParserResult(resultNodesList, resultEdgesList);
-            return result;
-        } catch (NoSuchPropertyException e1) {
-            System.out.println("NoSuchPropertyException: " + e1);
-            System.exit(-1);
-        } catch (NoSuchRelationLinkException e2) {
-            System.out.println("NoSuchRelationLinkException: " + e2);
-            System.exit(-1);
-        }
-        return null;
+        mapNewNames(pr.getNodesList(), pr.getEdgesList());
 
-    }
-
-    /**
-     * add relation link to type corresponding to given resource
-     * In WebKB case we need to be aware of relation link 'url' -
-     * it doesn't need uri to be stripped
-     *
-     * Assumptions: in case of 'url' relation link we are assuming that
-     * one of the types is created already!
-     * @todo  check if the assumption is safe!
-     */
-    protected void addEdge (RDFNode fromNodeResource, RelationLinkDetails edgeType, RDFNode toNodeResource)
-                                                            throws NoSuchRelationLinkException {
-        String fromNodeName = stripUri(fromNodeResource);
-        String toNodeName = stripUri(toNodeResource);
-
-        GraphNode fromNode = null;
-        GraphNode toNode = null;
-
-        if (edgeType.getLinkName().equals(urlLinkName)) {
-            if (_nodesHash.containsKey(fromNodeName)) {
-                toNode = getGraphNodeByName(toNodeResource.toString(), toNodeResource.toString());
-                fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
-            }
-            else {
-                fromNode = getGraphNodeByName(fromNodeResource.toString(), fromNodeResource.toString());
-                toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
-            }
-        }
-        else {
-            fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
-            toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
-        }
-
-        Edge newEdge = new Edge(fromNode, toNode, edgeType);
-        _edgesList.add(newEdge);
-
+        rewriteNodeNames();
+        return pr;
     }
 
     /**
      * write out hashtable mapping old names to new
+     * In WebKB case we need to be aware of relation link 'url' -
+     * it doesn't need uri to be stripped
      */
-    protected void mapNewNames(List list) {
-        Iterator it = list.iterator();
-        while (it.hasNext()) {
-            OntologyType cur = (OntologyType) it.next();
-            //System.out.println("cur type = " + cur);
+    protected void mapNewNames(List nodesList, List edgesList) {
+
+        Iterator nodesIterator = nodesList.iterator();
+        while (nodesIterator.hasNext()) {
+            GraphNode cur = (GraphNode) nodesIterator.next();
             mapNewName(cur);
         }
+
+
+        Iterator it = edgesList.iterator();
+        while (it.hasNext()) {
+            Edge curEdge = (Edge) it.next();
+            GraphNode fromNode = curEdge.getFromNode();
+            GraphNode toNode = curEdge.getToNode();
+            //System.out.println("cur edge = " + curEdge);
+            mapNewName(fromNode);
+
+            RelationLinkDetails edgeType = curEdge.getEdgeType();
+            if (edgeType.getLinkName().equals(urlLinkName)) {
+                toNode.setName(toNode.getFullName());
+                namesMapping.put(toNode, toNode.getFullName());
+            }
+            else {
+                mapNewName(toNode);
+            }
+
+        }
+
     }
 
     /**
-     * find a new name for the given ontology type.
+     * find a new name for the given graph node.
      * First, check if this name is already in the hashtable, if not - then
      * get a new name and put it into the hashtable.
      */
-    protected void mapNewName(OntologyType origType) {
-        String newTypeName = (String) namesMapping.get(origType.getName());
+    protected void mapNewName(GraphNode origNode) {
+        String newTypeName = (String) namesMapping.get(origNode.getName());
         if (newTypeName == null) {
-            newTypeName = createNewNameForType(origType);
+            newTypeName = createNewNameForType(origNode);
             //System.out.println("new name for " + origType.getName() + " is " + newTypeName);
-            namesMapping.put(origType.getName(), newTypeName);
+            namesMapping.put(origNode.getName(), newTypeName);
         }
     }
 
     /**
-     * rewrite ontology types
+     * rewrite graph node
+     * Go through all graph nodes and for each:
+    * Create new graph node that mirrors given graph node, the
+    * only difference is type naming - all names in the new graph node
+    * are in the new format.
      */
-    protected List rewriteNodeNames(List list)
-            throws NoSuchPropertyException, NoSuchRelationLinkException {
-        LinkedList resultList = new LinkedList();
+    protected void rewriteNodeNames() {
 
-        Iterator it = list.iterator();
-        while (it.hasNext()) {
-            OntologyType cur = (OntologyType) it.next();
-            OntologyType newType = rewriteOntologyType(cur);
-            resultList.add(newType);
+        Iterator edgesIterator = _edgesList.iterator();
+        while (edgesIterator.hasNext()) {
+            Edge curEdge = (Edge) edgesIterator.next();
+            //System.out.println("cur edge = " + curEdge);
+
+            GraphNode fromNode = curEdge.getFromNode();
+            if (!nodeNameIsAlreadyChanged(fromNode.getName())) {
+                String fromNodeNewName = (String) namesMapping.get(fromNode.getName());
+                fromNode.setName(fromNodeNewName);
+            }
+            GraphNode toNode = curEdge.getToNode();
+            if (!nodeNameIsAlreadyChanged(toNode.getName())) {
+                String toNodeNewName = (String) namesMapping.get(toNode.getName());
+                toNode.setName(toNodeNewName);
+            }
+            //System.out.println("updated edge = " + curEdge);
         }
-        //System.out.println("result list size = " + resultList.size());
-        return resultList;
-    }
 
-    /**
-     * Create new ontology type that mirrors given ontology type, the
-     * only difference is type naming - all names in the new ontology type
-     * are in the new format.
-     * This involves not only recreating ontology type itself, but mirroring
-     * all relation links with destination types having new naming format as well.
-     *
-     * @todo  bug: types related by url rel link should not be decapitalized!!!
-     *        for example: http://www.webkb.org/OntoRama is turned into
-     *        http://www.webkb.org/_onto_rama. These types should have their
-     *        original names intact!
-     */
-    protected OntologyType rewriteOntologyType(OntologyType origType)
-            throws NoSuchPropertyException, NoSuchRelationLinkException {
-
-        OntologyType newType = getNewTypeForOldByName(origType);
-
-        // rewrite concept properties
-        Enumeration propNamesEnum = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (propNamesEnum.hasMoreElements()) {
-            String propName = (String) propNamesEnum.nextElement();
-            List propValuesList = origType.getTypeProperty(propName);
-            Iterator propValuesIterator = propValuesList.iterator();
-            while (propValuesIterator.hasNext()) {
-                String propValue = (String) propValuesIterator.next();
-                newType.addTypeProperty(propName, propValue);
+        // this is just in case we had some nodes not attached to edges.
+        Iterator nodesIterator = _nodesList.iterator();
+        while (nodesIterator.hasNext()) {
+            GraphNode curNode = (GraphNode) nodesIterator.next();
+            if (!nodeNameIsAlreadyChanged(curNode.getName())) {
+                String newNodeName = (String) namesMapping.get(curNode.getName());
+                curNode.setName(newNodeName);
             }
         }
-
-        // rewrite rel.links
-        Set relLinksList = OntoramaConfig.getTempRelationLinksSet();
-        Iterator relLinksIterator = relLinksList.iterator();
-        while (relLinksIterator.hasNext()) {
-            Integer relLink = (Integer) relLinksIterator.next();
-            RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLink.intValue());
-            Iterator relations = origType.getIterator(relLink.intValue());
-            while (relations.hasNext()) {
-                OntologyType relatedOrigType = (OntologyType) relations.next();
-                OntologyType relatedNewType = null;
-                /*
-                if (relLinkDetails.getLinkName().equals(urlLinkName)) {
-                  // if relation link is of type 'url' relation link, then we shouldn't do
-                  // any case capitalization changes.
-                  relatedNewType = new OntologyTypeImplementation(relatedOrigType.getName());
-                }
-                else {
-                  relatedNewType = getNewTypeForOldByName(relatedOrigType);
-                }
-                */
-                relatedNewType = getNewTypeForOldByName(relatedOrigType);
-                //System.out.println("adding link " + newType.getName() + " -> " + relatedNewType.getName() + ", rel: + " + relLinkDetails.getLinkName());
-                newType.addRelationType(relatedNewType, relLink.intValue());
-            }
-        }
-        return newType;
     }
 
-    /**
-     * get new Ontology Type for given Ontology Type from namesMapping and
-     * newTypesMapping hashtables.
-     */
-    protected OntologyType getNewTypeForOldByName(OntologyType origType) {
-        String newTypeName = (String) namesMapping.get(origType.getName());
-        if (newTypeName == null) {
-            System.out.println("newTypeName = null, this shouldn't happen. Program has a logical error somewhere :(");
-            System.exit(-1);
+    private boolean nodeNameIsAlreadyChanged (String nodeName) {
+        if (namesMapping.containsValue(nodeName)) {
+            return true;
         }
-        OntologyType newType = (OntologyType) newTypesMapping.get(newTypeName);
-        if (newType == null) {
-            newType = new OntologyTypeImplementation(newTypeName, origType.getFullName());
-        }
-        return newType;
+        return false;
     }
 
     /**
@@ -269,12 +168,10 @@ public class RdfWebkbParser extends RdfDamlParser {
      * that this string doesn't need to be processed and just return it
      * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
      * just return it.
-     *
-     * @todo think what to do with NoSuchPropertyException
      */
-    protected String createNewNameForType(OntologyType type) {
+    protected String createNewNameForType(GraphNode node) {
 
-        String typeName = type.getName();
+        String typeName = node.getName();
 
         if (typeName.equals("rdf-schema#Class")) {
             return typeName;
@@ -285,7 +182,6 @@ public class RdfWebkbParser extends RdfDamlParser {
         String typeNamePreffix = null;
         String typeNameSuffix = null;
         int hashIndex = typeName.indexOf("#");
-        //System.out.println("typeName = " + typeName + ", hashIndex = " + hashIndex);
         if (hashIndex == -1) {
             typeNamePreffix = null;
             typeNameSuffix = typeName;
@@ -293,11 +189,9 @@ public class RdfWebkbParser extends RdfDamlParser {
             typeNamePreffix = typeName.substring(0, hashIndex);
             typeNameSuffix = typeName.substring(hashIndex + 1, typeName.length());
         }
-        //System.out.println("typeNamePreffix = " + typeNamePreffix + ", typeNameSuffix = " + typeNameSuffix);
 
         try {
-            synonyms = type.getTypeProperty("Synonym");
-            //System.out.println("synonyms list = " + synonyms);
+            synonyms = node.getProperty("Synonym");
         } catch (NoSuchPropertyException e) {
             System.out.println("property 'Synonyms' doesn't exist. Check config.xml file ");
             System.out.println("NoSuchPropertyException: " + e);
@@ -313,7 +207,6 @@ public class RdfWebkbParser extends RdfDamlParser {
         if (typeNamePreffix == null) {
             res = typeNameSuffix;
         }
-        //System.out.println("__________returning " + res);
         return res;
     }
 
@@ -338,7 +231,6 @@ public class RdfWebkbParser extends RdfDamlParser {
         for (int i = 0; i < in.length(); i++) {
             char ch = in.charAt(i);
             Character chObj = new Character(ch);
-            //System.out.println("i = " + i + ", char = " + ch);
             if (chObj.isUpperCase(ch)) {
                 if (i == 0) {
                     // need this so we don't end up with something like

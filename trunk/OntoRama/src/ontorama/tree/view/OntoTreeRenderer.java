@@ -2,6 +2,8 @@ package ontorama.tree.view;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.model.NodeType;
 import ontorama.ontologyConfig.ImageMaker;
 import ontorama.tree.model.OntoTreeNode;
 
@@ -121,13 +123,22 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     protected String getToolTipText(Object value, EdgeType edgeType) {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        if (edgeType == null) {
-            result = result + "Node: " + treeNode.getGraphNode().getName();
+        Node node = treeNode.getGraphNode();
+        NodeType nodeType = node.getNodeType();
+        if (nodeType == null) {
+            result = "???";
         }
         else {
-            String edgeTypeName = edgeType.getName();
-            result = result + "Relation Type: " + edgeTypeName;
+            result = result + "type: " + nodeType.getNodeType();
         }
+
+//        if (edgeType == null) {
+//            result = result + "Node: " + treeNode.getGraphNode().getName();
+//        }
+//        else {
+//            String edgeTypeName = edgeType.getName();
+//            result = result + "Relation Type: " + edgeTypeName;
+//        }
         return result;
     }
 

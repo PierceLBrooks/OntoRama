@@ -2,6 +2,7 @@ package ontorama.view;
 
 import ontorama.controller.QueryEvent;
 import ontorama.model.Node;
+import ontorama.graph.controller.GraphViewQueryEventHandler;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -121,6 +122,7 @@ public class NodesListViewer extends JComboBox {
                 selectedNode = node;
             }
         }
+        System.out.println("\n\nsending new QueryEvent");
         _eventBroker.processEvent(new QueryEvent(selectedNode));
     }
 

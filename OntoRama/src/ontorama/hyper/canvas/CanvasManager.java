@@ -128,7 +128,7 @@ public class CanvasManager extends JComponent
     /**
      * A timer to distinguish between single and double clicks.
      */
-    private Timer doubleClickTimer = null;
+    private Timer doubleClickTimer = new Timer();;
 
     /**
      * draw canvas items.
@@ -253,11 +253,30 @@ public class CanvasManager extends JComponent
             if( e.getClickCount() == 1) {
                 this.doubleClickTimer = new Timer();
                 this.doubleClickTimer.schedule( new CanvasItemSingleClicked( hyperNodeView ),  300 );
-                hyperNodeView = null;
             } else if( e.getClickCount() == 2 ){
                 this.doubleClickTimer.cancel();
+                boolean foldedState = hyperNodeView.getFolded();
+                hyperNodeView.setFolded( !foldedState);
+                setFolded( foldedState,  hyperNodeView.getGraphNode() );
             }
             repaint();
+        }
+    }
+
+    /**
+     * Method to fold and unfold HyperNodeViews.
+     */
+    private void setFolded( boolean foldedState, GraphNode node ) {
+        Iterator it = Edge.getOutboundEdgeNodes( node );
+        while( it.hasNext() ) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
+            if( hyperNodeView != null ) {
+                hyperNodeView.setVisible( foldedState );
+                if( !hyperNodeView.getFolded() ) {
+                    this.setFolded( foldedState, cur );
+                }
+            }
         }
     }
 

@@ -42,6 +42,9 @@ public class HyperEdgeView extends CanvasItem{
     }
 
     public void draw ( Graphics2D  g2d ) {
+        if( !this.to.getVisible() ) {
+            return;
+        }
         RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
         ImageIcon iconImg = relLinkDetails.getDisplayIcon();
         double x1 = from.getProjectedX();
@@ -60,7 +63,7 @@ public class HyperEdgeView extends CanvasItem{
         double imgX = x2 - ( xDiff * scale) - imgW/2;
         double imgY = y2 - ( yDiff * scale) - imgH/2;
         if( this.to.getHighlightEdge() == true ) {
-            g2d.setColor( Color.black );
+            g2d.setColor( Color.black);
             this.to.setHighlightEdge( false );
         } else {
             g2d.setColor( Color.lightGray );

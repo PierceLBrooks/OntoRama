@@ -73,6 +73,16 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      */
     private boolean highlightEdge = false;
 
+    /**
+     * Stores if this view is folded.
+     */
+    private boolean isFolded = false;
+
+    /**
+     * Stores if this view is visible.
+     */
+    private boolean isVisible = true;
+
     private Ellipse2D nodeShape = new Ellipse2D.Double( 0,0,0,0 );
 
     /**
@@ -96,6 +106,34 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         } else {
           nodeColor = Color.blue;
         }
+    }
+
+    /**
+     * Set if view is folded.
+     */
+    public void setFolded( boolean state ) {
+        this.isFolded = state;
+    }
+
+    /**
+     * Get if view is folded.
+     */
+    public boolean getFolded( ) {
+        return this.isFolded;
+    }
+
+    /**
+     * Set if view is visible.
+     */
+    public void setVisible( boolean state ) {
+        this.isVisible = state;
+    }
+
+    /**
+     * Get if view is visible.
+     */
+    public boolean getVisible( ) {
+        return this.isVisible;
     }
 
     /**
@@ -236,6 +274,9 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         if(model.getPosition().distance(0,0) > 10000) {
             return;
         }
+        if( !this.isVisible ) {
+            return;
+        }
         double x = model.getX();
         double y = model.getY();
         double dist = Math.sqrt( x*x + y*y ) + 1;
@@ -251,6 +292,13 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         double blue = nodeColor.getBlue() + ( ( 255 -  nodeColor.getBlue() ) * colorScale );
         fadeColor = new Color( (int)red, (int)green, (int)blue );
         g2d.setColor( fadeColor );
+        if( this.isFolded ) {
+            g2d.fillRect(   (int)(projectedX - viewRadius),
+                             (int)(projectedY - viewRadius),
+                             (int)(viewRadius * 2),
+                             (int)(viewRadius * 2));
+            return;
+        }
         nodeShape.setFrame( projectedX - viewRadius,
                             projectedY - viewRadius,
                             viewRadius * 2, viewRadius * 2 );

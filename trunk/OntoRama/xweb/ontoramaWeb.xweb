@@ -20,6 +20,14 @@
 			<file sourceFile="img/query-engine-message-passing.png" targetFile="img/query-engine-message-passing.png" type="copy"/>
 
 		</section>
+		<directory sourceDir="doc" targetDir="doc">
+			<entry name="print Introduction" sourceFile="intro.xhtml" targetFile="intro_print.html" type="Printable"/>
+			<entry name="print Configuration" sourceFile="config.xhtml" targetFile="config_print.html" type="Printable"/>
+			<entry name="print Future Plans" sourceFile="plans.xhtml" targetFile="plans_print.html" type="Printable"/>
+			<entry name="printMenus" sourceFile="menus.xhtml" targetFile="menus_print.html" type="Printable"/>
+			<entry name="printAddOntServer" sourceFile="add_ont_server.xhtml" targetFile="add_ont_server_print.html" type="Printable"/>
+			<entry name="printWebkbNotes" sourceFile="webkbNotes.xhtml" targetFile="webkbNotes_print.html" type="Printable"/>
+		</directory>
 		<section name="Demo" title="Demo" sourceDir="demo" targetDir="demo" type="demo">
 			<entry name="Demo" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 		</section>
@@ -34,7 +42,7 @@
 
 		<file sourceFile="ontoramaStyle.css" targetFile="ontoramaStyle.css" type="copy" id="style"/>
 			<file sourceFile="img/OntoramaLogo-smaller.jpg" targetFile="img/OntoramaLogo-smaller.jpg" type="copy" id="firstLogo"/>
-			<file sourceFile="img/ontoramaBanner.png" targetFile="img/ontoramaBanner.png" type="copy" id="ontoramaBanner"/>
+			<file sourceFile="img/ontoramaBanner.png" targetFile="img/ontoramaBanner.png" type="copy" id="siteBanner"/>
 			<file sourceFile="img/dl-javawebstart3.jpe" targetFile="img/dl-javawebstart3.jpe" type="copy"/>
 			<file sourceFile="img/dstcLogo.png" targetFile="img/dstcLogo.png" type="copy" id="dstcLogo"/>
 			<file sourceFile="img/kvo-logo.gif" targetFile="img/kvo-logo.gif" type="copy" id="kvoLogo"/>
@@ -85,6 +93,18 @@
 			<imageGroup name="pageButtons"/>
 			<!--<image type="banner"/>-->
 		</documentStyle>
+		<documentStyle type="Printable">
+			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
+				<parameter name="nav.on" value="false"/>
+				<parameter name="style.markup.firstLetter" value="on"/>
+				<parameter name="style.markup.linkTypes" value="on"/>
+				<parameter name="feature.include.footer" value="footer.xml"/>
+				<parameter name="feature.internalLink.token" value="!"/>
+			</xsl>
+			<imageGroup name="pageButtons"/>
+			<!--<image type="banner"/>-->
+		</documentStyle>
+
 		<!--
 		<documentStyle type="XMLCurrentProjects">
 			<xsl stylesheet="layout/generic.xsl" navigationElement="html">

@@ -21,7 +21,9 @@ public class TypeQueryImplementation extends TypeQueryBase {
    }
 
    /**
-    * Get Iterator of All iterators of types related to given type
+    * Get Iterator of All iterators of ontology types related to the type
+    * corresponding to given termName
+    *
     * @todo    think what should happen with ParserException
     * @todo   formulate and execute query to webkb and return Reader
     */

@@ -12,10 +12,10 @@ import org.tockit.events.Event;
 import ontorama.model.GeneralNode;
 
 
-public class QueryEvent implements Event  {
+public class QueryNodeEvent implements Event  {
     protected GeneralNode subject;
 
-    public QueryEvent(GeneralNode subject) {
+    public QueryNodeEvent(GeneralNode subject) {
         this.subject = subject;
     }
 

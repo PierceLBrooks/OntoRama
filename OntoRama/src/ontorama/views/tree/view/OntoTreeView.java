@@ -23,7 +23,7 @@ import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
 import ontorama.model.tree.view.TreeView;
-import ontorama.ui.events.QueryEvent;
+import ontorama.ui.events.QueryNodeEvent;
 import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;
@@ -156,7 +156,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         //                | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
         if ( e.getModifiersEx() == onmask) {
             System.out.println("query for modelNode = " + modelNode);
-            _eventBroker.processEvent(new QueryEvent(modelNode));
+            _eventBroker.processEvent(new QueryNodeEvent(modelNode));
             return;
         }
     }

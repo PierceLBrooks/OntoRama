@@ -191,7 +191,7 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getParent() {
 
-        Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode);
+        Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode).iterator();
         if (inboundNodes.hasNext()) {
             Node inboundGraphNode = (Node) inboundNodes.next();
             return (OntoTreeBuilder.getTreeNode(inboundGraphNode));

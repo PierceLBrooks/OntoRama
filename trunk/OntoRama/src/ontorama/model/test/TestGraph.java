@@ -180,7 +180,7 @@ public class TestGraph extends TestCase {
     public void testOutboundEdgesForNode1()  throws NoSuchRelationLinkException {
         assertEquals("outbound _graphEdges for node1 ", 1, graph.getOutboundEdgeNodesList(node1).size());
 
-        Iterator outboundEdges = graph.getOutboundEdges(node1);
+        Iterator outboundEdges = graph.getOutboundEdges(node1).iterator();
         while (outboundEdges.hasNext()) {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
@@ -198,7 +198,7 @@ public class TestGraph extends TestCase {
      * check inbound _graphEdges for node1
      */
     public void testInboundEdgesForNode1() throws NoSuchRelationLinkException {
-        Iterator inboundEdges = graph.getInboundEdges(node1);
+        Iterator inboundEdges = graph.getInboundEdges(node1).iterator();
         assertEquals("inbound _graphEdges for node1", 1, graph.getInboundEdgeNodesList(node1).size());
 
         if (inboundEdges.hasNext()) {

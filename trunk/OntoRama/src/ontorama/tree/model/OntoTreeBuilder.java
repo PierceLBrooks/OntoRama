@@ -41,7 +41,7 @@ public class OntoTreeBuilder {
      *
      */
     private void processNode (Node topGraphNode) {
-        Iterator outboundEdges = graph.getOutboundEdges(topGraphNode);
+        Iterator outboundEdges = graph.getOutboundEdges(topGraphNode).iterator();
 
         // take care of a case when we only have one node and no _graphEdges
         if (!outboundEdges.hasNext()) {
@@ -64,7 +64,7 @@ public class OntoTreeBuilder {
         ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);
 
-        Iterator outboundEdges = graph.getOutboundEdges(top);
+        Iterator outboundEdges = graph.getOutboundEdges(top).iterator();
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
             Node toGraphNode = edge.getToNode();

@@ -47,19 +47,19 @@ public interface Graph {
     public List getEdgesList ();
 
 
-    public Iterator getOutboundEdges(Node node);
+    public List getOutboundEdges(Node node);
 
-    public Iterator getInboundEdges (Node node);
+    public List getInboundEdges (Node node);
 
     public List getOutboundEdgeNodesList(Node node);
 
     public List getInboundEdgeNodesList(Node node);
 
-    public Iterator getOutboundEdgeNodes(Node node);
+    public List getOutboundEdgeNodes(Node node);
 
-    public Iterator getInboundEdgeNodes (Node node);
+    public List getInboundEdgeNodes (Node node);
 
-    public Iterator getInboundEdgeNodes (Node node, EdgeType relLink);
+    public List getInboundEdgeNodes (Node node, EdgeType relLink);
 
 
 

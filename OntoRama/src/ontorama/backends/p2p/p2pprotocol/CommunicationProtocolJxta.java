@@ -10,6 +10,7 @@ import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.InputPipe;
 import net.jxta.pipe.OutputPipe;
 import net.jxta.protocol.PipeAdvertisement;
+import ontorama.backends.p2p.P2PGlobals;
 import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 /**
@@ -45,18 +46,6 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	//The pipe
 	private Hashtable inputPipeAdvertisement;
 
-	//Used by sendSearchGroup
-	public final static String SEARCHGROUPNAME = "Name";
-	public final static String SEARCHGROUPDESCR = "Desc";
-
-	//Used by sendMessage
-	public final static int TAGSEARCH = 1;
-	public final static int TAGLOGOUT = 2;
-	public final static int TAGPROPAGATE = 3;
-	public final static int TAGSEARCHRESPONSE = 4;
-	public final static int TAGFLUSHPEER = 5;
-	
-	
 	/**
 	 * The constructor for the class.
 	 * 
@@ -96,7 +85,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											null,
 											getPeerID().toString(),
 											null,
-											CommunicationProtocolJxta.TAGLOGOUT,
+											P2PGlobals.TAGLOGOUT,
 											"");
 			//Takes care of the cache problem at remote peers
 			//otherwise other peers still thinks this peer is online
@@ -144,7 +133,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		   									recieverPipeAdvID, 
 		   									null, 
 		   									null, 
-		   									CommunicationProtocolJxta.TAGSEARCHRESPONSE, 
+		   									P2PGlobals.TAGSEARCHRESPONSE, 
 		   									body);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();	
@@ -168,7 +157,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											recieverID,
 											getPeerID().toString(),
 											null,
-											CommunicationProtocolJxta.TAGPROPAGATE, 
+											P2PGlobals.TAGPROPAGATE, 
 											internalModel);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();		
@@ -336,7 +325,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											null,
 											peerIDasString,
 											groupIDasString,
-											CommunicationProtocolJxta.TAGFLUSHPEER,
+											P2PGlobals.TAGFLUSHPEER,
 											"");
 		} catch (GroupExceptionFlush e) {
 			throw (GroupExceptionFlush) e.fillInStackTrace();	

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import ontorama.backends.p2p.P2PGlobals;
+
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.MimeMediaType;
 import net.jxta.endpoint.Message;
@@ -117,7 +119,7 @@ public class CommunicationSender  {
          queryTobeSent.newMessageElement(
                             "TAG", 
                             mimeType, 
-                            new Integer(CommunicationProtocolJxta.TAGSEARCH).toString().getBytes()));
+                            new Integer(P2PGlobals.TAGSEARCH).toString().getBytes()));
                         
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(

@@ -3,6 +3,7 @@ package ontorama.backends.p2p.p2pprotocol;
 import net.jxta.endpoint.Message;
 import net.jxta.pipe.PipeMsgEvent;
 import net.jxta.pipe.PipeMsgListener;
+import ontorama.backends.p2p.P2PGlobals;
 import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 /**
@@ -47,12 +48,12 @@ public class InputPipeListener implements PipeMsgListener {
     public void pipeMsgEvent(PipeMsgEvent event) {
 		Message message = event.getMessage();
 		
-		String var = message.getString("TAG");
-        String senderPeerIDStr = message.getString("SenderPeerID");
+		String var = message.getString(P2PGlobals.STR_TAG);
+        String senderPeerIDStr = message.getString(P2PGlobals.STR_SenderPeerID);
 
         //check to see if the message is sent for us
         if ((senderPeerIDStr != null) && var != null) {
-            System.err.println("We have recieved a message with TAG, senderPeerName = " + message.getString("SenderPeerName") + ", senderPeerID:" + var + "," + senderPeerIDStr + " Body:" + message.getString("Body"));
+            System.err.println("We have recieved a message with TAG, senderPeerName = " + message.getString("SenderPeerName") + ", senderPeerID:" + var + "," + senderPeerIDStr + " Body:" + message.getString(P2PGlobals.STR_Body));
 
             //Only process messages that this peer has not sent
             if (!(senderPeerIDStr.equals(
@@ -60,30 +61,33 @@ public class InputPipeListener implements PipeMsgListener {
 
 
                 switch(new Integer(var).intValue()) {
-                    case CommunicationProtocolJxta.TAGPROPAGATE :
+                    case P2PGlobals.TAGPROPAGATE :
                         PeerItemReference senderPeer = new PeerItemReference(
-                        							message.getString("SenderPeerID"),
-													message.getString("SenderPeerName"));
+                    							message.getString(P2PGlobals.STR_SenderPeerID),
+												message.getString(P2PGlobals.STR_SenderPeerName));
                         this.getP2PReciever().recievePropagateCommand(
-                                                        new Integer(message.getString("propType")).intValue(),
-                                                        senderPeer,
-                                                        message.getString("GroupID"),
-                                                        message.getString("Body"));
+                                                new Integer(message.getString(P2PGlobals.STR_propType)).intValue(),
+                                                senderPeer,
+                                                message.getString(P2PGlobals.STR_GroupID),
+                                                message.getString(P2PGlobals.STR_Body));
                         break;
-                    case CommunicationProtocolJxta.TAGLOGOUT :
-                        this.getP2PReciever().recieveLogoutCommand(message.getString("SenderPeerID"));
+                    case P2PGlobals.TAGLOGOUT :
+                        this.getP2PReciever().recieveLogoutCommand(
+                        						message.getString(P2PGlobals.STR_SenderPeerID));
                         break;
-                    case CommunicationProtocolJxta.TAGSEARCH :
+                    case P2PGlobals.TAGSEARCH :
 
-                        this.getP2PReciever().recieveSearchRequest(message.getString("SenderPipeID"),
-                                                                   message.getString("Body"));
+                        this.getP2PReciever().recieveSearchRequest(
+                        						message.getString(P2PGlobals.STR_SenderPipeID),
+                                                message.getString(P2PGlobals.STR_Body));
                         break;
-                    case CommunicationProtocolJxta.TAGSEARCHRESPONSE :
+                    case P2PGlobals.TAGSEARCHRESPONSE :
                         this.recieveSearchResponse(message);
                         break;
-                    case CommunicationProtocolJxta.TAGFLUSHPEER :
-                        this.recieveFlushPeerAdvertisement(message.getString("GroupID"),
-                                                            message.getString("PeerID"));
+                    case P2PGlobals.TAGFLUSHPEER :
+                        this.recieveFlushPeerAdvertisement(
+                        						message.getString(P2PGlobals.STR_GroupID),
+                                                message.getString(P2PGlobals.STR_PeerID));
                         break;
                         }
             }
@@ -104,9 +108,10 @@ public class InputPipeListener implements PipeMsgListener {
         String responseText = null;  
         String responsePeerID = null;
                     
-        responsePeerID = response.getString("SenderPeerID");
-        responseText = response.getString("Body");            
-        this.commProt.getSearchResult().add(new SearchResultElement(responsePeerID, responseText)); 
+        responsePeerID = response.getString(P2PGlobals.STR_SenderPeerID);
+        responseText = response.getString(P2PGlobals.STR_Body);            
+        this.commProt.getSearchResult().add(new SearchResultElement(
+        								responsePeerID, responseText)); 
     }
 
 
@@ -122,8 +127,10 @@ public class InputPipeListener implements PipeMsgListener {
 	    try {
 			this.commProt.recieveFlushPeerAdvertisement(groupID,peerID);
 		} catch (GroupExceptionThread e) {
+			e.printStackTrace();
 			//TODO throw something
 		} catch (GroupExceptionFlush e) {
+			e.printStackTrace();
 			//TODO throw something
 		}
 

@@ -12,6 +12,6 @@ public interface OntoNodeObserver {
 	/**
 	 * Method called to update observer.
 	 */
-	public void update( Object obj );
+	public void updateOnto( Object obj );
 
 }

@@ -20,7 +20,7 @@ import javax.swing.event.TreeSelectionListener;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
-public class OntoTreeModel implements TreeModel, TreeSelectionListener {
+public class OntoTreeModel implements TreeModel {
 
     private Graph graph;
     private OntoTreeBuilder ontoTreeBuilder;
@@ -30,31 +30,15 @@ public class OntoTreeModel implements TreeModel, TreeSelectionListener {
      */
     public OntoTreeModel (Graph graph) {
         this.graph = graph;
-        //System.out.println("*************************************");
-        //System.out.println("OntoTreeModel, graph size = " + graph.getSize());
-        Iterator it = graph.iterator();
-        while (it.hasNext()) {
-            GraphNode node = (GraphNode) it.next();
-            //System.out.println(node);
-        }
-        //System.out.println("*************************************");
-
         this.ontoTreeBuilder = new OntoTreeBuilder (graph);
-
-        //this.addTreeSelectionListener(this);
-
-
     }
 
-    public void valueChanged(TreeSelectionEvent e) {
+    /**
+     *
+     */
+    public Iterator getOntoTreeIterator () {
+        return this.ontoTreeBuilder.getIterator();
     }
-
-    public void treeSelect (TreeSelectionEvent e) {
-        //System.out.println("TreeSelectionListener detected " + e);
-    }
-
-
-
 
 
     ///////////////////Implementation of methods for TreeModel////////////////

@@ -6,12 +6,26 @@
 			<creator>OntoRama</creator>
 		</conceptType>
 		<conceptType name="node1"/>
+			<description>Node1</description>
+			<creator>OntoRama</creator>
 		<conceptType name="node2"/>
+			<description>Node2</description>
+			<creator>OntoRama</creator>
 		<conceptType name="node3"/>
+			<description>Node3</description>
+			<creator>OntoRama</creator>
 		<conceptType name="node4"/>
+			<description>Node4</description>
+			<creator>OntoRama</creator>
 		<conceptType name="node5"/>
+			<description>Node5</description>
+			<creator>OntoRama</creator>
 		<conceptType name="node6"/>
+			<description>Node6</description>
+			<creator>OntoRama</creator>
 		<conceptType name="syn1"/>
+			<description>Syn1 - synonym for node1</description>
+			<creator>OntoRama</creator>
 		<conceptType name="part1"/>
 		<conceptType name="node1.1"/>
 		<conceptType name="node1.2"/>

@@ -21,11 +21,12 @@ non-transitive:
 -->
 <ontConfig>
 	<ontology>
-		<relation id="1">
-			<relationType name="in" mappingSymbol="in"/>
-			<relationType name="-in" mappingSymbol="in"/>
-			<display color="#33CCFF" symbol="in"/>
-		</relation>
+        <relation id="1">
+            <relationType name="contains" mappingSymbol="c"/>
+            <relationType name="-contains" mappingSymbol="c"/>
+            <display color="#33CCFF" symbol="c"/>
+        </relation>
+
 		<relation id="2">
 			<relationType name="is-a" mappingSymbol="is"/>
 			<relationType name="-is-a" mappingSymbol="is"/>

@@ -44,6 +44,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 	private final static Color _nodeColor = Color.blue;
 	private final static Color _cloneNodeColor = Color.red;
 	private final static Color _lineColor = Color.gray;
+	private static Color _bgColor;
 
 	/**
 	 * icon for a tree node
@@ -74,6 +75,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 	 */
 	public OntoTreeRenderer() {
 		//tutorialIcon = new ImageIcon("images/middle.gif");
+		_bgColor = this.backgroundNonSelectionColor;
+		System.out.println("OntoTreeRenderer: backgroundNonSelectionColor = " + this.backgroundNonSelectionColor + ", backgroundSelectionColor = " + this.backgroundSelectionColor);
 		
 		int iconW = ImageMaker.getWidth();
 		int iconH = ImageMaker.getHeight();

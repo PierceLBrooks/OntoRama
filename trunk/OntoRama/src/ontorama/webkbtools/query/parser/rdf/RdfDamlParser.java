@@ -99,11 +99,10 @@ public class RdfDamlParser implements Parser {
         RDFNode object = st.getObject();
         String objectName = stripUri(object);
 
-        //System.out.println("predicate = " + predicate + ", resource = " + resourceName + ", object = " + objectName);
+        //System.out.println("predicate = '" + predicate + "', resource = '" + resourceName + "', object = '" + object + "'");
 
         OntologyType subjectType = getOntTypeByName(resourceName);
         //System.out.println("created subjectType = " + subjectType.getName());
-
 
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
@@ -168,7 +167,7 @@ public class RdfDamlParser implements Parser {
                     if (conceptPropertiesDetails != null) {
                         // add this info as a property of ontology type
                         subjectType.addTypeProperty(mappingId,stripCarriageReturn(object.toString()));
-                        //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = " + object.toString());
+                        //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = '" + stripCarriageReturn(object.toString()) + "'");
                     }
                     else {
                        // ERROR
@@ -250,7 +249,11 @@ public class RdfDamlParser implements Parser {
         while (spacesTok.hasMoreTokens()) {
           String tok = spacesTok.nextToken();
           //System.out.println ("--- " + tok);
-          resultString = resultString + " " + tok.trim();
+          //resultString = resultString + " " + tok.trim();
+          resultString = resultString + tok.trim();
+          if (spacesTok.hasMoreTokens()) {
+              resultString = resultString + " ";
+          }
         }
         //resultString = resultString + " " + nextTok.trim();
       }

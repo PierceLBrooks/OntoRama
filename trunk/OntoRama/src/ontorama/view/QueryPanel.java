@@ -24,10 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
-import ontorama.graph.controller.GraphViewFocusEventHandler;
-import ontorama.graph.controller.GraphViewQueryEventHandler;
-import ontorama.graph.view.GraphQuery;
-import ontorama.graph.view.GraphView;
+import ontorama.model.graph.controller.GraphViewFocusEventHandler;
+import ontorama.model.graph.controller.GraphViewQueryEventHandler;
+import ontorama.model.graph.view.GraphQuery;
+import ontorama.model.graph.view.GraphView;
 import ontorama.model.EdgeType;
 import ontorama.model.Graph;
 import ontorama.model.Node;

@@ -1,24 +1,15 @@
 <ontoramaExamples>
-	<example name="KB test file" root="net.sourceforge.toscanaj" loadOnStart="yes" >
-		<source uri="examples/cgkb/test1.csv" 
-					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
+	<example name="KB test file" root="net.sourceforge.toscanaj" dataFormatMapping="CGKB" loadOnStart="yes" >
+		<source uri="examples/cgkb/test1.csv" sourcePackagePathSuffix="JarSource"/>
 	</example>
 
-	<example name="KB cgi" root="net.sf.tj" loadOnStart="yes" >
+	<example name="KB cgi" root="net.sf.tj" dataFormatMapping="CGKB" loadOnStart="yes" >
 		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/KB/cgi_query_wrapper.pl"
-					sourcePackagePathSuffix="cgkb.CgKbSource"
-					isSourceDynamic="true" />
-		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
+					sourcePackagePathSuffix="cgkb.CgKbSource"/>
 	</example>
 
-    	<example name="KB url" root="net.sourceforge.toscanaj.gui" >
+    	<example name="KB url" root="net.sourceforge.toscanaj.gui" dataFormatMapping="CGKB">
 		<source uri="http://meganesia.int.gu.edu.au/~nataliya/testCgKb.txt"
-					sourcePackagePathSuffix="UrlSource"
-					isSourceDynamic="true" />
-		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
+					sourcePackagePathSuffix="UrlSource" />
 	</example>
 </ontoramaExamples>

@@ -1,5 +1,7 @@
 package ontorama.conf.examplesConfig;
 
+import ontorama.conf.DataFormatMapping;
+
 /**
  * Description:  Hold all details of an example (such as name, ontology root,
  *              uri where to find it, parser details, etc).
@@ -28,28 +30,11 @@ public class OntoramaExample {
      */
     private String relativeUri;
 
-    /**
-     * query output format
-     * For example, can be RDF or XML
-     */
-    private String queryOutputFormat;
-
-    /**
-     * package suffix, package that can parse this ontology.
-     * For example, rdf.RdfParser.
-     * Suffix is appended to prefix that lives in OntoramaConfig
-     */
-    private String parserPackagePathSuffix;
 
     /**
      *
      */
     private String sourcePackagePathSuffix;
-
-    /**
-     *
-     */
-    private boolean isSourceDynamic = false;
 
     /**
      * if need to group examples - can use subfolders in Menu
@@ -61,18 +46,18 @@ public class OntoramaExample {
      */
     private boolean loadFirst = false;
 
+	private DataFormatMapping dataFormatMapping;    
+
     /**
      *
      */
     public OntoramaExample(String name, String root, String relativeUri,
-                           String queryOutputFormat, String parserPackagePathSuffix,
-                           String sourcePackagePathSuffix) {
+                           String sourcePackagePathSuffix, DataFormatMapping dataFormatMapping) {
         this.name = name;
         this.root = root;
         this.relativeUri = relativeUri;
-        this.queryOutputFormat = queryOutputFormat;
-        this.parserPackagePathSuffix = parserPackagePathSuffix;
         this.sourcePackagePathSuffix = sourcePackagePathSuffix;
+        this.dataFormatMapping = dataFormatMapping;
     }
 
     /**
@@ -94,20 +79,6 @@ public class OntoramaExample {
      */
     public String getRelativeUri() {
         return this.relativeUri;
-    }
-
-    /**
-     *
-     */
-    public String getQueryOutputFormat() {
-        return this.queryOutputFormat;
-    }
-
-    /**
-     *
-     */
-    public String getParserPackagePathSuffix() {
-        return this.parserPackagePathSuffix;
     }
 
     /**
@@ -145,20 +116,6 @@ public class OntoramaExample {
         return this.loadFirst;
     }
 
-    /**
-     *
-     */
-    public void setIsSourceDynamic(boolean isSourceDynamic) {
-        this.isSourceDynamic = isSourceDynamic;
-    }
-
-    /**
-     *
-     */
-    public boolean getIsSourceDynamic() {
-        return this.isSourceDynamic;
-    }
-
     public void setRoot(String root) {
         this.root = root;
     }
@@ -166,6 +123,8 @@ public class OntoramaExample {
     public void setRelativeUri(String relativeUri) {
         this.relativeUri = relativeUri;
     }
+    
+    
 
 
     /**
@@ -176,10 +135,15 @@ public class OntoramaExample {
         str = str + "name=" + this.name;
         str = str + ", root=" + this.root;
         str = str + ", relativeUri=" + this.relativeUri;
-        str = str + ", queryOutpurFormat=" + this.queryOutputFormat;
-        str = str + ", parserPackagePathSuffix=" + this.parserPackagePathSuffix;
         str = str + ", sourcePackagePathSuffix=" + this.sourcePackagePathSuffix;
-        str = str + ", isSourceDynamic=" + this.isSourceDynamic;
         return str;
     }
+	/**
+	 * Returns the dataFormatMapping.
+	 * @return DataFormatMapping
+	 */
+	public DataFormatMapping getDataFormatMapping() {
+		return this.dataFormatMapping;
+	}
+
 }

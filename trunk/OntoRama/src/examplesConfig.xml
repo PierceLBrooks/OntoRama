@@ -1,87 +1,54 @@
 <ontoramaExamples>
-    <example name="WebKB2 Interface" root="comms#comms_object">
+    <example name="WebKB2 Interface" root="comms#comms_object" dataFormatMapping="WEBKB-RDF">
         <!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
         <!--<source uri="http://www.webkb.org/bin/termSearch.cgi"-->
         <!--<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"-->
 	  <source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi"
-            isSourceDynamic="true"
-            sourcePackagePathSuffix="WebKB2Source"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+            				sourcePackagePathSuffix="WebKB2Source"/>
     </example>
 
 
-    <example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes">
-        <source uri="examples/comms_comms_object-children.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Comms Ontology" root="comms#CommsObject" dataFormatMapping="RDF" loadOnStart="yes">
+        <source uri="examples/comms_comms_object-children.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Wordnet: cat" root="wn#Cat" loadOnStart="yes">
-        <source uri="examples/wn_cat.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: cat" root="wn#Cat" dataFormatMapping="RDF" loadOnStart="yes">
+        <source uri="examples/wn_cat.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Wordnet: feline" root="wn#Feline">
-        <source uri="examples/wn_feline.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: feline" root="wn#Feline" dataFormatMapping="RDF">
+        <source uri="examples/wn_feline.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Wordnet: tail" root="wn#Tail">
-        <source uri="examples/wn_tail.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: tail" root="wn#Tail" dataFormatMapping="RDF">
+        <source uri="examples/wn_tail.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Wordnet: carnivore" root="wn#Carnivore">
-        <source uri="examples/wn_carnivore.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: carnivore" root="wn#Carnivore" dataFormatMapping="RDF">
+        <source uri="examples/wn_carnivore.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Wordnet: celestial body" root="wn#CelestialBody">
-        <source uri="examples/wn_celestial_body.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: celestial body" root="wn#CelestialBody" dataFormatMapping="RDF">
+        <source uri="examples/wn_celestial_body.rdf" sourcePackagePathSuffix="JarSource"/>
     </example>
 
-    <example name="Metanet" root="rdf-schema#Resource">
-        <source uri="examples/web-examples/metanet-2.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Metanet" root="rdf-schema#Resource" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/metanet-2.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-    <example name="Wordnet: LexicalConcept" root="LexicalConcept">
-        <source uri="examples/web-examples/wordnet-20000620.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Wordnet: LexicalConcept" root="LexicalConcept" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/wordnet-20000620.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-    <example name="Core Communication" root="#Message">
-        <source uri="examples/web-examples/CoreCommunication.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Core Communication" root="#Message" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/CoreCommunication.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-    <example name="Schemas" root="dctype#Text">
-        <source uri="examples/web-examples/Schemas.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Schemas" root="dctype#Text" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/Schemas.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
@@ -89,34 +56,23 @@
     <example name="Technology Requirement" root="#TechnologyRequirement">
         <source uri="examples/web-examples/technical.rdf"
             sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
         <displayMenu subfolder="Web Examples"/>
     </example>
 	-->
 
-    <example name="Research Organisation" root="#ROOT_CLASS">
-        <source uri="examples/web-examples/ResearchOrganizations.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Research Organisation" root="#ROOT_CLASS" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/ResearchOrganizations.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-    <example name="Schema for Research Information System " root="Contact">
-        <source uri="examples/web-examples/cerif.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="Schema for Research Information System " root="Contact" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/cerif.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
 
-    <example name="International Movies Database" root="#IMdb">
-        <source uri="examples/web-examples/imdb.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="International Movies Database" root="#IMdb" dataFormatMapping="RDF">
+        <source uri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
@@ -124,8 +80,6 @@
     <example name="BibLink" root="SubjectScheme">
         <source uri="examples/web-examples/BibLink.rdf"
             sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
         <displayMenu subfolder="Web Examples"/>
     </example>
     -->
@@ -134,38 +88,21 @@
     <example name="Elephants (export from Oiled)" root="animal">
         <source uri="examples/web-examples/elephants-export.rdfs"
                 sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
         <displayMenu subfolder="Web Examples"/>
     </example>
 	-->
 
 
-    <example name="Ontorama Xml Test" root="root">
-        <source uri="examples/ontorama-test.xml"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>XML</queryOutputFormat>
-        <parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
+    <example name="Ontorama Xml Test" root="root" dataFormatMapping="XML">
+        <source uri="examples/ontorama-test.xml" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Test Cases"/>
     </example>
 
-    <example name="testCase" root="test#Chair">
-        <source uri="examples/test/data/testCase.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    <example name="testCase" root="test#Chair" dataFormatMapping="RDF">
+        <source uri="examples/test/data/testCase.rdf" sourcePackagePathSuffix="JarSource"/>
         <displayMenu subfolder="Test Cases"/>
     </example>
 
-	<!--
-    <example name="testCase3" root="Publication">
-        <source uri="examples/web-examples/slinks.rdf"
-            sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
-        <displayMenu subfolder="Test Cases"/>
-    </example>
-	-->
 
 </ontoramaExamples>
 

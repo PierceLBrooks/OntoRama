@@ -81,7 +81,6 @@ public class QueryEngine implements QueryEngineInterface {
         Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
         if (OntoramaConfig.DEBUG) {
             System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-            System.out.println("OntoramaConfig.queryOutputFormat = " + OntoramaConfig.queryOutputFormat);
             System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.getParserPackageName());
         }
 

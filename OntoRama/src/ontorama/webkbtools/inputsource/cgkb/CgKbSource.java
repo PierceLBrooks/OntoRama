@@ -52,9 +52,8 @@ public class CgKbSource implements Source {
             String fullUrl = uri + queryString;
             URL url = null;
             try {
-                url = new URL(fullUrl);
-                URLConnection connection = url.openConnection();
-                Reader reader = new InputStreamReader(connection.getInputStream());
+                //Reader reader = doCgiFormGet(fullUrl);
+                Reader reader = doCgiFormPost(uri, paramTable);
                 BufferedReader br = new BufferedReader(reader);
                 String line;
                 while ((line=br.readLine()) != null) {
@@ -72,5 +71,34 @@ public class CgKbSource implements Source {
         }
         StringReader strReader = new StringReader(allReadersString);
         return new SourceResult(true, strReader, query);
+    }
+
+
+    private Reader doCgiFormPost (String urlLoc, Hashtable parameters) throws IOException {
+        URL url = new URL(urlLoc);
+        URLConnection connection = url.openConnection();
+        connection.setDoOutput(true);
+
+        PrintWriter out = new PrintWriter(connection.getOutputStream());
+        Enumeration e = parameters.keys();
+        String paramString = "";
+        while (e.hasMoreElements()) {
+            String paramName = (String) e.nextElement();
+            String paramValue = (String) parameters.get(paramName);
+            paramString =  paramString + paramName + "=" + paramValue + "&";
+        }
+        out.print(paramString);
+        System.out.println("POST param: " + paramString);
+        out.close();
+
+       InputStreamReader in = new InputStreamReader(connection.getInputStream());
+        return in;
+    }
+
+    private Reader doCgiFormGet (String urlLoc)  throws MalformedURLException, IOException {
+        URL  url = new URL(urlLoc);
+        URLConnection connection = url.openConnection();
+        Reader reader = new InputStreamReader(connection.getInputStream());
+        return reader;
     }
 }

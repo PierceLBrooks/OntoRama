@@ -62,7 +62,7 @@ public class LabelView extends CanvasItem {
 
         g2d.setFont(getFontToDisplay(hyperNodeView.getScale()));
         FontMetrics fm = g2d.getFontMetrics();
-        String label = this.hyperNodeView.getName();
+        String label = getContentString();
         double x = hyperNodeView.getProjectedX();
         double y = hyperNodeView.getProjectedY();
         double labelWidth = fm.stringWidth(label);
@@ -74,6 +74,48 @@ public class LabelView extends CanvasItem {
         Rectangle2D retVal = new Rectangle2D.Double(xPos, yPos, labelWidth, labelHeight);
 
         return retVal;
+    }
+
+    private String getContentString() {
+        String fullName = hyperNodeView.getName();
+        String result = "";
+
+        String suffix = null;
+        String prefix = null;
+        int ind1 = fullName.indexOf("<");
+        int ind2 = fullName.indexOf("(");
+        if (ind1 != -1) {
+            suffix = fullName.substring(ind1, fullName.length());
+            prefix = fullName.substring(0, ind1);
+        }
+        else if (ind2 != -1) {
+            suffix = fullName.substring(ind2, fullName.length());
+            prefix = fullName.substring(0, ind2);
+        }
+        else {
+            prefix = fullName;
+        }
+        //System.out.println("prefix = " + prefix + ", suffix = " + suffix);
+
+        if (suffix != null) {
+            if (prefix.endsWith(".")) {
+                prefix = prefix.substring(0,prefix.length()-1);
+                suffix = "." + suffix;
+            }
+        }
+
+        int ind = prefix.lastIndexOf(".");
+        if (ind == -1) {
+            return fullName;
+        }
+        result = prefix.substring(ind+1, prefix.length());
+
+        if (suffix != null) {
+            result = result + suffix;
+        }
+        //System.out.println("result = " + result);
+        //System.out.println("fullName = " + fullName + ", shortName = " + result);
+        return result;
     }
 
     /**
@@ -114,6 +156,6 @@ public class LabelView extends CanvasItem {
         g2d.setColor(hyperNodeView.getNodeFadeColor());
         g2d.draw(roundRect);
         g2d.setColor(Color.black);
-        g2d.drawString(this.hyperNodeView.getName(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
+        g2d.drawString(getContentString(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
     }
 }

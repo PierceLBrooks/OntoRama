@@ -30,8 +30,8 @@ public class UrlQueryStringConstructor {
             while (en.hasMoreElements()) {
                 String paramName = (String) en.nextElement();
                 String paramValue = (String) queryParamTable.get(paramName);
-                //System.out.println("UrlQueryStringConstructor: paramName = " + paramName + ", paramValue = " + paramValue);
                 queryString = queryString + paramName + "=" + URLEncoder.encode(paramValue, encoding);
+                //System.out.println("UrlQueryStringConstructor: paramName = " + paramName + ", paramValue = " + paramValue + " encoded paramValue = " + URLEncoder.encode(paramValue, encoding));
                 if (en.hasMoreElements()) {
                     queryString = queryString + "&";
                 }

@@ -87,6 +87,9 @@ public class PeerConnectionTest implements DiscoveryListener {
 			 discovery.getRemoteAdvertisements(null, DiscoveryService.PEER,
 			 									null, null, 5, null);
 			
+			discovery.getRemoteAdvertisements(null, DiscoveryService.GROUP,
+											   null, null, 5, null);
+											   
 			 // wait a bit before sending next discovery message
 			 try {
 				 Thread.sleep(10 * 1000);
@@ -134,18 +137,22 @@ public class PeerConnectionTest implements DiscoveryListener {
 		Enumeration enum = res.getResponses();
 		
 		String str=null;
-		PeerAdvertisement newAdv=null;
 		
 		while (enum.hasMoreElements()) {
 			try {
 				str = (String) enum.nextElement();
 				// create an advertisement object from each element
-				newAdv =(PeerAdvertisement)
-				AdvertisementFactory.newAdvertisement
-				(new MimeMediaType ("text/xml"),
-				new ByteArrayInputStream(str.getBytes()));
-				
-				System.out.println(" Peer name = " + newAdv.getName() + ", and group id = " + newAdv.getPeerGroupID());
+				Object obj = AdvertisementFactory.newAdvertisement(
+											new MimeMediaType ("text/xml"),
+											new ByteArrayInputStream(str.getBytes()));
+				if (obj instanceof PeerAdvertisement) {
+					PeerAdvertisement peerAdv =(PeerAdvertisement)	obj;
+					System.out.println(" Peer name = " + peerAdv.getName() + ", and group id = " + peerAdv.getPeerGroupID());
+				}
+				else {
+					PeerGroupAdvertisement groupAdv = (PeerGroupAdvertisement) obj;
+					System.out.println(" Group name = " + groupAdv.getName() + ", and group id = " + groupAdv.getPeerGroupID());
+				}
 			}
 			catch (java.io.IOException e) {
 				// got a bad response. continue to the next response

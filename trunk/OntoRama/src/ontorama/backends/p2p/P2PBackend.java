@@ -32,6 +32,7 @@ import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.model.*;
 import ontorama.backends.p2p.p2pmodule.P2PReciever;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
@@ -71,7 +72,7 @@ public class P2PBackend implements Peer2PeerBackend{
     private P2PGraph graph = null;
     private P2PSender sender = null;
     
-    private CommunicationProtocolJxta _communicationProtocol = null;
+    private CommunicationProtocol _communicationProtocol = null;
 
     private EventBroker _eventBroker;
 

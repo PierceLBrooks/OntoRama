@@ -26,6 +26,7 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Company:</b>			DSTC<br>
  */
 public class CommunicationSender extends Communication {
+//public class CommunicationSender  {
 
 	private CommunicationProtocolJxta commProt = null;
 

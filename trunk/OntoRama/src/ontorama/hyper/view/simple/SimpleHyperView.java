@@ -21,9 +21,26 @@ import java.util.LinkedList;
 public class SimpleHyperView  extends CanvasManager {
 
     /**
+     * Hold the top concept (root node) for current query.
+     */
+    private GraphNode root = null;
+
+
+
+    /**
      * The spring length is the desired length between the nodes..
      */
     private static double springLength = 150;
+
+    /**
+     * Stiffness factor for spring alogrithm
+     */
+    private static final double STIFFNESS = .001;
+
+    /**
+     * Determines strength of repulsion betweeen two nodes
+     */
+    private static final double ELECTRIC_CHARGE = 500;
 
     public SimpleHyperView() {
         this.addMouseListener( this );
@@ -42,7 +59,7 @@ public class SimpleHyperView  extends CanvasManager {
         hypernodeviews = new Hashtable();
         canvasItems.clear();
         //GraphNode root = graph.getRootNode();
-        GraphNode root = graph.getEdgeRootNode();
+        root = graph.getEdgeRootNode();
         System.out.println("root = " + root);
         if( root == null ) {
             System.out.println("Root = null");
@@ -53,7 +70,7 @@ public class SimpleHyperView  extends CanvasManager {
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-
+        layoutNodes( 250 );
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -142,6 +159,121 @@ public class SimpleHyperView  extends CanvasManager {
             hn.setLocation( x, y);
             //System.out.println("hyper node = " + hn.getName() + ", x = " + x + ", y = " + y);
             basicLayout( node, angle, ang );
+        }
+    }
+
+    private double minNodeMove = 1000;
+
+   /**
+     * Use a spring algorithm to layout nodes.
+     */
+    private void layoutNodes( int iteration) {
+        List queue = new LinkedList();
+
+        System.out.println("Start spring and force algorthm: " + iteration + " iterations");
+        long start = System.currentTimeMillis();
+        int numOfItorations = 0;
+        do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
+            Iterator it = Edge.getOutboundEdgeNodes(root);
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                queue.add( node );
+            }
+            while( !queue.isEmpty() ) {
+                GraphNode cur = (GraphNode)queue.remove( 0 );
+                adjustPosition( cur );
+                it = Edge.getOutboundEdgeNodes(cur);
+                while( it.hasNext() ) {
+                    GraphNode node = (GraphNode)it.next();
+                    queue.add( node );
+                }
+            }
+            numOfItorations++;
+        }while( numOfItorations < iteration && minNodeMove > .009 );
+        long end = System.currentTimeMillis();
+        System.out.println("finished spring and force algorthm: " + numOfItorations + " iterations");
+        System.out.println("Time taken: " + ( end - start )/1000 + "s");
+    }
+
+    /**
+     * Adjust the position of the node using spring algorithm.
+     */
+    public void adjustPosition( GraphNode cur ) {
+        // calculate spring forces for edges to parents
+        //Iterator it = cur.getParents();
+        double sumOfMoves = 0;
+        int count = 0;
+        double xMove = 0;
+        double yMove = 0;
+        double curX = 0;
+        double curY = 0;
+        Iterator it = Edge.getInboundEdgeNodes(cur);
+        while( it.hasNext() ) {
+            GraphNode parent = (GraphNode)it.next();
+            HyperNode curHyperNodeParent = (HyperNode)hypernodes.get( parent );
+            HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
+            double vectorLength = curHyperNode.distance( curHyperNodeParent );
+            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
+                double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
+                double force = STIFFNESS * ( springlength - vectorLength ) / vectorLength;
+                curX = curHyperNode.getX();
+                curY = curHyperNode.getY();
+                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
+                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
+                curHyperNode.setLocation( xMove, yMove);
+//                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
+//                count++;
+            }
+            else {
+                curHyperNode.setLocation( curHyperNode.getX() + (Math.random() - 0.5),
+                                          curHyperNode.getY() + (Math.random() - 0.5) );
+            }
+        }
+        // calculate the electrical (repulsory) forces
+        List queue = new LinkedList();
+        queue.add( root );
+        mainWhile: while(!queue.isEmpty()) {
+            GraphNode other = (GraphNode) queue.remove(0);
+            //it = other.getChildrenIterator();
+            it = Edge.getOutboundEdgeNodes( other );
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                queue.add( node );
+            }
+            if(other == cur) {
+                continue;
+            }
+            //it = cur.getParents();
+            it = Edge.getInboundEdgeNodes(cur);
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                if(node == other) {
+                    continue mainWhile;
+                }
+            }
+            HyperNode curHyperNodeOther = (HyperNode)hypernodes.get( other );
+            HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
+            double vectorLength = curHyperNode.distance( curHyperNodeOther );
+            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
+                int levelDiff = Math.abs( cur.getDepth() - other.getDepth() + 1 );
+                double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+                curX = curHyperNode.getX();
+                curY = curHyperNode.getY();
+                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());
+                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeOther.getY());
+                curHyperNode.setLocation( xMove, yMove );
+                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
+                count++;
+            }
+            else {
+                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
+                                curHyperNode.getY() + (Math.random() - 0.5) );
+            }
+        }
+        double averageMove = sumOfMoves / count;
+//        System.out.println("averageMove: " + averageMove + " minNodeMove: " + minNodeMove);
+        if( averageMove < minNodeMove ) {
+            minNodeMove = averageMove;
         }
     }
 

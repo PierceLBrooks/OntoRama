@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 Main-Class: ontorama.view.OntoRamaApp
-Class-Path: ./lib/jdom.jar ./lib/jenaOntorama.jar ./lib/rdf-api-2001-01-19.jar ./lib/sax2beta.jar ./lib/xerces.jar 
+Class-Path: ./lib/jdom.jar ./lib/jenaOntorama.jar ./lib/rdf-api-2001-01-19.jar ./lib/sax2beta.jar ./lib/xerces.jar ./lib/junit.jar ./lib/aelfred.jar ./lib/batik-awt-util.jar ./lib/batik-dom.jar ./lib/batik-svggen.jar ./lib/batik-util.jar ./lib/batik-xml.jar

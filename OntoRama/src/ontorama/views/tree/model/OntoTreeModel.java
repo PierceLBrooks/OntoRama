@@ -1,12 +1,12 @@
 package ontorama.views.tree.model;
 
-import java.util.Iterator;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import ontorama.model.tree.Tree;
 import ontorama.util.Debug;
 
 /**
@@ -19,10 +19,12 @@ import ontorama.util.Debug;
  */
 public class OntoTreeModel implements TreeModel {
 
+    
     /**
-     * Graph that is a base for this OntoTreeModel
+     * Tree base for this OntoTreeModel
      */
-    protected static ontorama.model.graph.Graph graph;
+    protected Tree _tree;
+    
 
     /**
      * OntoTreeBuilder object that will hold references
@@ -39,20 +41,11 @@ public class OntoTreeModel implements TreeModel {
     /**
      * Constructor
      */
-    public OntoTreeModel(ontorama.model.graph.Graph graph) {
-        OntoTreeModel.graph = graph;
-        this.ontoTreeBuilder = new OntoTreeBuilder(graph);
+    public OntoTreeModel(Tree tree) {
+    	_tree = tree;
+        this.ontoTreeBuilder = new OntoTreeBuilder(_tree);
     }
-
-
-    /**
-     * Returns Iterator of OntoTreeNodes
-     * @return  Iterator of OntoTreeNodes
-     */
-    public Iterator getOntoTreeIterator() {
-        return this.ontoTreeBuilder.getIterator();
-    }
-
+    
 
     ///////////////////Implementation of methods for TreeModel////////////////
 
@@ -61,9 +54,8 @@ public class OntoTreeModel implements TreeModel {
      * @return the root of the tree
      */
     public Object getRoot() {
-        ontorama.model.graph.Node rootGraphNode = OntoTreeModel.graph.getRootNode();
-        debug.message("OntoTreeModel", "getRoot()", "returning " + OntoTreeBuilder.getTreeNode(rootGraphNode));
-        return OntoTreeBuilder.getTreeNode(rootGraphNode);
+    	ontorama.model.tree.TreeNode rootModelNode = _tree.getRootNode(); 
+        return OntoTreeBuilder.getTreeNode(rootModelNode);
     }
 
     /**

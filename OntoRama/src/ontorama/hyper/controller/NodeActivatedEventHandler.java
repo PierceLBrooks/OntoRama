@@ -12,21 +12,26 @@ import org.tockit.events.*;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.hyper.view.simple.HyperNodeView;
+import ontorama.graph.controller.GraphViewFocusEventHandler;
+import ontorama.controller.NodeSelectedEvent;
 
 /**
  *
  */
 public class NodeActivatedEventHandler implements EventListener {
     private SimpleHyperView simpleHyperView;
+    private EventBroker eventBroker;
 
     public NodeActivatedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
         this.simpleHyperView = simpleHyperView;
+        this.eventBroker = eventBroker;
         eventBroker.subscribe(this, CanvasItemActivatedEvent.class, HyperNodeView.class);
     }
 
     public void processEvent(Event e) {
         HyperNodeView nodeView = (HyperNodeView) e.getSubject();
         //System.out.println("processEvent: NodeActivated: " + nodeView);
+        eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
         simpleHyperView.toggleFold(nodeView.getGraphNode());
     }
 }

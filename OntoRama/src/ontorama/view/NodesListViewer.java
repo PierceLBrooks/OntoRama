@@ -154,29 +154,4 @@ public class NodesListViewer extends JComboBox {
         }
         return nodeNamesList;
     }
-
-    /**
-     * Cell Renderer for nodes list view
-     */
-    class NodeListCellRenderer extends DefaultListCellRenderer {
-
-        public Component getListCellRendererComponent(
-                JList list,
-                Object value,
-                int index,
-                boolean isSelected,
-                boolean cellHasFocus) {
-
-            super.getListCellRendererComponent(list, value, index,
-                    isSelected, cellHasFocus);
-
-            GraphNode node = (GraphNode) value;
-            String s = node.getName();
-//            s = s + "   (" + node.getBranchNodesNum() + ")";
-            setText(s);
-            setToolTipText("number of all children: ???? not implemented yet..");
-            return this;
-        }
-    }
-
 }

@@ -124,6 +124,11 @@ public class OntoRamaApp extends JFrame {
     ViewEventListener viewListener = new ViewEventListener();
 
     /**
+     *
+     */
+    private OntoRamaMenu menu;
+
+    /**
      * @todo: introduce error dialogs for exception
      */
     public OntoRamaApp() {
@@ -155,8 +160,9 @@ public class OntoRamaApp extends JFrame {
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
         // create Menu Bar
-        OntoRamaMenu menu = new OntoRamaMenu(this);
-        setMenuBar(menu.getMenuBar());
+        menu = new OntoRamaMenu(this);
+        this.setJMenuBar(menu.getMenuBar());
+        //setMenuBar(menu.getMenuBar());
 
         // Create OntoTreeView
         treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
@@ -193,6 +199,20 @@ public class OntoRamaApp extends JFrame {
         setSize(appWidth,appHeight);
         setLocation(centerAppWin());
         setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+              closeMainApp();
+            }
+        });
+
+    }
+
+    /**
+     *
+     */
+    public void closeMainApp () {
+      System.exit(0);
     }
 
     /**
@@ -331,7 +351,6 @@ public class OntoRamaApp extends JFrame {
         System.out.println("building graph with root = " + queryPanel.getQueryField());
 
         Query query = new Query (queryPanel.getQueryField(), wantedLinks);
-        //executeQuery(query);
 
         return query;
     }
@@ -342,8 +361,7 @@ public class OntoRamaApp extends JFrame {
     public void executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
 
-        // remove all edges before building new graph
-        //Edge.printAllEdges();
+        this.menu.appendHistory(query.getQueryTypeName(),OntoramaConfig.getCurrentExample());
 
         graph = getGraphFromQuery(query);
 
@@ -366,7 +384,7 @@ public class OntoRamaApp extends JFrame {
      */
     public void showErrorDialog (String message) {
       JOptionPane optionPane = new JOptionPane(message,JOptionPane.ERROR_MESSAGE);
-      optionPane.showMessageDialog(this,message);
+      optionPane.showMessageDialog(this,"Sorry, " + message);
     }
 
     /**
@@ -374,12 +392,6 @@ public class OntoRamaApp extends JFrame {
      */
     public static void main(String[] args) {
         JFrame frame = new OntoRamaApp();
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
     }
 }
 

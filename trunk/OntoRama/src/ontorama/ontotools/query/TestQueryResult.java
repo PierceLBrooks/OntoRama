@@ -33,7 +33,7 @@ public class TestQueryResult extends TestCase {
      *
      */
     protected void setUp() {
-        query = new Query("testQueryType");
+        query = new Query("testQueryType", "", "", "");
 
         expectedNodesList = new LinkedList();
         expectedNodesList.add("obj1");

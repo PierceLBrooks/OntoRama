@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
@@ -68,37 +66,10 @@ public class QueryEngine implements QueryEngineInterface {
     //Debug debug = new Debug(OntoramaConfig.DEBUG);
     Debug debug = new Debug(true);
 
-
     /**
-     * Execute a query to OntologyServer and get a query result
+     * Execute a query to OntologyServer and get a query resul
      */
-    public QueryEngine(Query query) throws ParserException, IOException,
-            ClassNotFoundException, InstantiationException,
-            IllegalAccessException, SourceException, NoSuchTypeInQueryResult, CancelledQueryException {
-        this.query = query;
-        Backend backend = OntoramaConfig.getBackend();
-        String queryUrl = backend.getSourceUri();
-        Parser parser = (Parser) (Class.forName(backend.getParser()).newInstance());
-        if (OntoramaConfig.DEBUG) {
-            System.out.println("OntoramaConfig.sourceUri = " + backend.getSourceUri());
-            System.out.println("OntoramaConfig.parserPackageName = " + backend.getParser());
-        }
-        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-
-        this.queryResult = executeQuery(source, parser, queryUrl, query);
-    }
-
-    /**
-     * alternative constructor allowing to bypass config manager's settings and specify where to find
-     * all needed packages.
-     * @todo probably don't need this, just added this in order to refactor p2p backend. consider removing later (
-     * probably need better backends schema allowing to set config for each backend).
-     * @param sourcePackageName
-     * @param parserPackageName
-     * @param ontologySourceUri
-     * @param query
-     */
-    public QueryEngine (String sourcePackageName, String parserPackageName, String ontologySourceUri, Query query)
+    public QueryEngine (Query query, String sourcePackageName, String parserPackageName, String ontologySourceUri)
                                                     throws ParserException, IOException,
                                                     ClassNotFoundException, InstantiationException,
                                                     IllegalAccessException, SourceException,
@@ -131,7 +102,8 @@ public class QueryEngine implements QueryEngineInterface {
             if (query.getQueryTypeName()!= null) {
                 String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
                 if (!newTermName.equals(query.getQueryTypeName())) {
-                    query = new Query(newTermName, query.getRelationLinksList());
+                    //query = new Query(newTermName, query.getRelationLinksList());
+                    query.setQueryTypeName(newTermName);
                 }
             }
             filterUnwantedEdges();

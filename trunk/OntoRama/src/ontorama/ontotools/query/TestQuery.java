@@ -45,8 +45,8 @@ public class TestQuery extends TestCase {
         testRelationLinksList.add(new Integer(2));
         testRelationLinksList.add(new Integer(5));
 
-        query1 = new Query(termName);
-        query2 = new Query(termName, testRelationLinksList);
+        query1 = new Query(termName, "", "", "");
+        query2 = new Query(termName, testRelationLinksList, "", "", "");
         query2.setDepth(4);
 
         expectedRelLinksList2 = new LinkedList();

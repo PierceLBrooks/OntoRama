@@ -8,6 +8,8 @@
  */
 package ontorama.ui.controller;
 
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.model.GeneralNode;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.events.QueryNodeEvent;
@@ -26,7 +28,8 @@ public class QueryNodeEventHandler implements EventBrokerListener {
 
     public void processEvent(Event e) {
         GeneralNode node = (GeneralNode) e.getSubject();
-        Query query = new Query(node.getName());
+        Backend backend = OntoramaConfig.getBackend();
+        Query query = new Query(node.getName(), backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
         //System.out.println("\n\nGraphViewQueryEventHandler for queryView = " + this.queryView);
         this.eventBroker.processEvent(new QueryStartEvent(query));
     }

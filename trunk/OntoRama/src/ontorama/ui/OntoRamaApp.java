@@ -194,6 +194,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
                 TreeChangedEvent.class,
                 Object.class);
             _graph = graph;
+            System.out.println("OntoRamaApp::loaded graph: " + _graph);
             _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
             _tree =
                 new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);

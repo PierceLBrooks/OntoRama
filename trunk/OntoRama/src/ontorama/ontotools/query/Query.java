@@ -31,29 +31,42 @@ public class Query {
      * depth of recursive query
      */
     private int _depth = -1;
+    
+    private String _sourcePackage;
+    private String _parserPackage;
+    private String _sourceUri;
 
     /**
      * @todo not sure if this is a good idea - default constructor for reading files in when root couldn't be specified
      * before hand.
      */
-    public Query () {
+    public Query (String sourcePackage, String parserPackage, String sourceUri) {
         _typeName = null;
+        _sourcePackage = sourcePackage;
+        _parserPackage = parserPackage;
+        _sourceUri = sourceUri;
     }
 
     /**
      * Constructor. Initialise query type name
      */
-    public Query(String typeName) {
+    public Query(String typeName, String sourcePackage, String parserPackage, String sourceUri) {
         _typeName = typeName;
+    	_sourcePackage = sourcePackage;
+    	_parserPackage = parserPackage;
+    	_sourceUri = sourceUri;
     }
 
     /**
      * Convinience Constructor.
      * Initialise query type name and relation links
      */
-    public Query(String typeName, List relationLinks) {
+    public Query(String typeName, List relationLinks, String sourcePackage, String parserPackage, String sourceUri) {
         _typeName = typeName;
         _relationLinks = relationLinks;
+    	_sourcePackage = sourcePackage;
+    	_parserPackage = parserPackage;
+    	_sourceUri = sourceUri;
     }
 
     /**
@@ -62,6 +75,10 @@ public class Query {
      */
     public String getQueryTypeName() {
         return _typeName;
+    }
+    
+    public void setQueryTypeName (String newName) {
+    	_typeName = newName;
     }
 
     /**
@@ -109,6 +126,8 @@ public class Query {
         return _depth;
     }
 
+
+
     /**
      *
      */
@@ -118,5 +137,29 @@ public class Query {
         str = str + ", relation links: " + _relationLinks;
         return str;
     }
+
+	/**
+	 * Returns the _parserPackage.
+	 * @return String
+	 */
+	public String getParserPackage() {
+		return _parserPackage;
+	}
+
+	/**
+	 * Returns the _sourcePackage.
+	 * @return String
+	 */
+	public String getSourcePackage() {
+		return _sourcePackage;
+	}
+
+	/**
+	 * Returns the _sourceUri.
+	 * @return String
+	 */
+	public String getSourceUri() {
+		return _sourceUri;
+	}
 
 }

@@ -52,6 +52,8 @@ public class TestWebKB2Source extends TestCase {
     private boolean queryIsAmbiguous_nonExistentTerm;
     private int numOfChoices_nonExistentTerm;
     private List choicesList_nonExistentTerm;
+    
+	ExamplesBackend backend;
 
     /**
      * Execute queries to webkb, one with term name 'cat',
@@ -68,7 +70,7 @@ public class TestWebKB2Source extends TestCase {
     protected void setUp() throws Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	OntoramaConfig.activateBackend(backend);
     	           
         backend.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
@@ -81,7 +83,7 @@ public class TestWebKB2Source extends TestCase {
      */
     public void testForUnexistingTerm() throws CancelledQueryException {
         try {
-            query_nonExistentTerm = new Query("fjldsjf");
+            query_nonExistentTerm = new Query("fjldsjf", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
             sourceResult_nonExistentTerm = webkbSource.getSourceResult(sourceUri, query_nonExistentTerm);
             fail("Failed to catch expected SourceException (WebkbError)");
         } catch (SourceException e) {
@@ -92,7 +94,7 @@ public class TestWebKB2Source extends TestCase {
      *
      */
     public void testAmbiguousQuery() throws SourceException, CancelledQueryException {
-        query_cat = new Query("cat");
+        query_cat = new Query("cat", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
         sourceResult_cat = webkbSource.getSourceResult(sourceUri, query_cat);
         queryIsAmbiguous_cat = webkbSource.resultIsAmbiguous();
         numOfChoices_cat = webkbSource.getNumOfChoices();
@@ -119,7 +121,7 @@ public class TestWebKB2Source extends TestCase {
      *
      */
     public void testQueryForAName() throws SourceException, CancelledQueryException {
-        query_woodMouse = new Query("wood_mouse");
+        query_woodMouse = new Query("wood_mouse", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
         sourceResult_woodMouse = webkbSource.getSourceResult(sourceUri, query_woodMouse);
         queryIsAmbiguous_woodMouse = webkbSource.resultIsAmbiguous();
         numOfChoices_woodMouse = webkbSource.getNumOfChoices();
@@ -140,7 +142,7 @@ public class TestWebKB2Source extends TestCase {
      */
     public void testForARPException() throws CancelledQueryException {
         try {
-            query_dog = new Query("dog");
+            query_dog = new Query("dog", backend.getSourcePackageName(), backend.getSourcePackageName(), backend.getSourceUri());
             sourceResult_dog = webkbSource.getSourceResult(sourceUri, query_dog);
 
             fail("Failed to throw expected exception");

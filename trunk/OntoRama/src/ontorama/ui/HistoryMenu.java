@@ -14,6 +14,7 @@ import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.ui.events.QueryStartEvent;
+import ontorama.backends.Backend;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
@@ -130,7 +131,8 @@ public class HistoryMenu extends JMenu {
      * a query with ALL relation links.
      */
     public void appendHistory(String termName, OntoramaExample example) {
-        Query query = new Query(termName, OntoramaConfig.getEdgeTypesList());
+    	Backend backend = OntoramaConfig.getBackend();
+        Query query = new Query(termName, OntoramaConfig.getEdgeTypesList(), backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
         appendHistory(query, example);
     }
 

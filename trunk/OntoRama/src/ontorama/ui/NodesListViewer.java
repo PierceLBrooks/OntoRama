@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.Graph;
@@ -72,7 +73,9 @@ public class NodesListViewer extends JComboBox {
                 }
                 ontorama.model.graph.Node selectedNode = (ontorama.model.graph.Node) selectedObject;
                 System.out.println("\n\nsending new QueryNodeEvent");
-                _eventBroker.processEvent(new GeneralQueryEvent(new Query(selectedNode.getName())));
+                Backend backend = OntoramaConfig.getBackend();
+                Query newQuery = new Query(selectedNode.getName(),backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
+                _eventBroker.processEvent(new GeneralQueryEvent(newQuery));
             }
         });
         setListSizeDependantProperties();

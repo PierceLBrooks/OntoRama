@@ -98,16 +98,16 @@ public class TestQueryEngine extends TestCase {
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance));
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member));
 
-        query1 = new Query(queryTerm);
-        queryEngine1 = new QueryEngine(query1);
+        query1 = new Query(queryTerm, backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
+        queryEngine1 = new QueryEngine(query1, backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
 //    	queryEngine1 = new QueryEngine(TestPackage.testSourcePackageName, TestPackage.testParserPackageName, TestPackage.testSourceUri, query1);
         queryResult1 = queryEngine1.getQueryResult();
         //System.out.println("queryResult1 = " + queryResult1);
         queryResultNodesList1 = queryResult1.getNodesList();
         queryResultEdgesList1 = queryResult1.getEdgesList();
 
-        query2 = new Query(queryTerm, relationLinksList);
-        queryEngine2 = new QueryEngine(query2);
+        query2 = new Query(queryTerm, relationLinksList, backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
+        queryEngine2 = new QueryEngine(query2, backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
 //    	queryEngine2 = new QueryEngine(TestPackage.testSourcePackageName, TestPackage.testParserPackageName, TestPackage.testSourceUri, query2);
         queryResult2 = queryEngine2.getQueryResult();
         queryResultNodesList2 = queryResult2.getNodesList();

@@ -1,6 +1,5 @@
 package ontorama.backends.p2p.gui;
 
-import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 

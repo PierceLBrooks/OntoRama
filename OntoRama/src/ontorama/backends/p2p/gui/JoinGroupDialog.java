@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -76,18 +78,32 @@ public class JoinGroupDialog extends JDialog {
                 setVisible(false);
             }
         });
+        
+        Action joinGroup = new AbstractAction("OK") {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("\njoinGroupAction, action command = " + e.getActionCommand() + ", source = " + e.getSource());
+        		if (verifyInputCorrect() ) {
+        			_cancelled = false;
+        			if (joinGroup(_value)) {
+        				setVisible(false);
+        			}
+        			setVisible(false);
+        		}
+        	}
+        };
+        okButton.setAction(joinGroup);
 
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (verifyInputCorrect() ) {
-                    _cancelled = false;
-                    if (joinGroup(_value)) {
-                        setVisible(false);
-                    }
-                    setVisible(false);
-                }
-            }
-        });
+//        okButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                if (verifyInputCorrect() ) {
+//                    _cancelled = false;
+//                    if (joinGroup(_value)) {
+//                        setVisible(false);
+//                    }
+//                    setVisible(false);
+//                }
+//            }
+//        });
         getRootPane().setDefaultButton(okButton);
 
         JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);

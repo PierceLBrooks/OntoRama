@@ -125,7 +125,6 @@ public class FileBackend implements Backend {
        
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        _eventBroker.processEvent(queryEvent);
-       OntoramaConfig.activateBackend(this);
     }
 
     public void saveFile(String filename){

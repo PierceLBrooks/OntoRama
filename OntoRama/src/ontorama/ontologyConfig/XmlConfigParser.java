@@ -1,4 +1,4 @@
-package ontorama.ontologyConfig;
+package ontorama.conf;
 
 
 import java.awt.Color;

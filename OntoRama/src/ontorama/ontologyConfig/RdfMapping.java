@@ -1,4 +1,4 @@
-package ontorama.ontologyConfig;
+package ontorama.conf;
 
 import java.util.LinkedList;
 import java.util.List;

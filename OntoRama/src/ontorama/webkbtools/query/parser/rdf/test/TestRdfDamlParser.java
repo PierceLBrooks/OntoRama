@@ -13,7 +13,7 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.webkbtools.inputsource.Source;

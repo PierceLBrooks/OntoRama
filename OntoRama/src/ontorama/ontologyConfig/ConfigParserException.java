@@ -1,4 +1,4 @@
-package ontorama.ontologyConfig;
+package ontorama.conf;
 
 /**
  * Title:

@@ -94,12 +94,6 @@ public class TestGraph extends TestCase {
         ontType2.addRelationType(ontType5, 1);
         ontType6.addRelationType(ontType7, 1);
 
-//    LinkedList rootDescrPropValue = new LinkedList();
-//    rootDescrPropValue.add(rootNodeDescr);
-//
-//    LinkedList node1DescrPropValue = new LinkedList();
-//    node1DescrPropValue.add(node1DescrPropValue);
-//
         ontType.addTypeProperty(typePropertyName, rootNodeDescr);
         ontType1.addTypeProperty(typePropertyName, node1Descr);
 
@@ -162,7 +156,7 @@ public class TestGraph extends TestCase {
      *
      */
     public void testEdgesSize() {
-        List edgesList = Edge.edges;
+        List edgesList = GraphImpl.edges;
         assertEquals("6 edges in the graph", 6, edgesList.size());
     }
 
@@ -170,9 +164,9 @@ public class TestGraph extends TestCase {
      * check if outbound edges for node1 are what they should be
      */
     public void testOutboundEdgesForNode1() {
-        assertEquals("outbound edges for node1 ", 2, Edge.getOutboundEdgeNodesList(node1).size());
+        assertEquals("outbound edges for node1 ", 2, GraphImpl.getOutboundEdgeNodesList(node1).size());
 
-        Iterator outboundEdges = Edge.getOutboundEdges(node1);
+        Iterator outboundEdges = GraphImpl.getOutboundEdges(node1);
         while (outboundEdges.hasNext()) {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
@@ -190,8 +184,8 @@ public class TestGraph extends TestCase {
      * check inbound edges for node1
      */
     public void testInboundEdgesForNode1() {
-        Iterator inboundEdges = Edge.getInboundEdges(node1);
-        assertEquals("inbound edges for node1", 1, Edge.getInboundEdgeNodesList(node1).size());
+        Iterator inboundEdges = GraphImpl.getInboundEdges(node1);
+        assertEquals("inbound edges for node1", 1, GraphImpl.getInboundEdgeNodesList(node1).size());
 
         if (inboundEdges.hasNext()) {
             Edge inEdge = (Edge) inboundEdges.next();
@@ -201,13 +195,15 @@ public class TestGraph extends TestCase {
         }
     }
 
+
+
     ///////////////////***** Helper methods *****///////////////////////
 
     /**
      *
      */
     private GraphNode getNodeChildByName(GraphNode parent, String name) {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(parent);
+        Iterator outboundNodes = GraphImpl.getOutboundEdgeNodes(parent);
         GraphNode resultNode = null;
         while (outboundNodes.hasNext()) {
             GraphNode cur = (GraphNode) outboundNodes.next();

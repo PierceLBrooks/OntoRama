@@ -6,6 +6,7 @@ import ontorama.graph.view.GraphView;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.GraphImpl;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import org.tockit.events.EventBroker;
@@ -277,7 +278,7 @@ public class DescriptionView extends JPanel implements GraphView {
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getFullName());
         _fullUrlPanel.update(fullUrlPropList);
-        _parentsPanel.update(Edge.getInboundEdgeNodes(node, _firstRelationLink));
+        _parentsPanel.update(GraphImpl.getInboundEdgeNodes(node, _firstRelationLink));
     }
 
 

@@ -5,6 +5,7 @@ import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.model.GraphImpl;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -72,7 +73,7 @@ public class TestEdge extends TestCase {
      *
      */
     protected void setUp() {
-        Edge.removeAllEdges();
+        GraphImpl.removeAllEdges();
 
         node1 = new GraphNode("node1");
         node2 = new GraphNode("node2");
@@ -133,49 +134,7 @@ public class TestEdge extends TestCase {
         }
     }
 
-    /**
-     * test number of edges in the list
-     */
-    public void testEdgeListSize() {
-        assertEquals(7, Edge.edges.size());
-    }
 
-    /**
-     *
-     */
-    public void testEdgeList() {
-        List edgesList = Edge.edges;
-        for (int i = 0; i <= edgesList.size(); i++) {
-            if (i == 0) {
-                assertEquals(edge1, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 1) {
-                assertEquals(edge2, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 2) {
-                assertEquals(edge3, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 3) {
-                assertEquals(edge4, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 4) {
-                assertEquals(edge5, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 5) {
-                assertEquals(edge6, Edge.edges.get(i));
-                continue;
-            }
-            if (i == 6) {
-                assertEquals(edge7, Edge.edges.get(i));
-                continue;
-            }
-        }
-    }
 
     /**
      * test method getFromNode
@@ -216,152 +175,8 @@ public class TestEdge extends TestCase {
         assertEquals(OntoramaConfig.getRelationLinkDetails()[3], edge7.getEdgeType());
     }
 
-    /**
-     * test method getOutboundEdges
-     */
-    public void testGetOutboundEdges() {
-        assertEquals(outboundEdgesListForNode1.size(), getIteratorSize(Edge.getOutboundEdges(node1)));
-        compareListToIterator(outboundEdgesListForNode1, Edge.getOutboundEdges(node1));
-    }
-
-    /**
-     * test method getInboundEdges
-     */
-    public void testGetInboundEdges() {
-        assertEquals(inboundEdgesListForNode6.size(), getIteratorSize(Edge.getInboundEdges(node6)));
-        compareListToIterator(inboundEdgesListForNode6, Edge.getInboundEdges(node6));
-    }
-
-    /**
-     * test method getOutboundEdges (node, type)
-     */
-    public void testOutboundEdgesForRelationType() {
-        assertEquals(outboundEdgesListForNode1Relation1.size(), getIteratorSize(Edge.getOutboundEdges(node1, OntoramaConfig.getRelationLinkDetails()[1])));
-        compareListToIterator(outboundEdgesListForNode1Relation1, Edge.getOutboundEdges(node1, OntoramaConfig.getRelationLinkDetails()[1]));
-    }
-
-    /**
-     * test method getInboundEdges (node, type)
-     */
-    public void testInboundEdgesForRelationType() {
-        assertEquals(inboundEdgesListForNode6Relation1.size(), getIteratorSize(Edge.getInboundEdges(node6, OntoramaConfig.getRelationLinkDetails()[1])));
-        compareListToIterator(inboundEdgesListForNode6Relation1, Edge.getInboundEdges(node6, OntoramaConfig.getRelationLinkDetails()[1]));
-    }
-
-    /**
-     * test method getOutboundEdgeNodes(GraphNode node, Set relationLinks)
-     */
-    public void testGetOutboundEdgeNodesForRelationLinksSet() {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, relLinksSet);
-        assertEquals(outboundNodesListForNode1RelLinkSet.size(), getIteratorSize(outboundNodes));
-
-        outboundNodes = Edge.getOutboundEdgeNodes(node1, relLinksSet);
-        compareListToIterator(outboundNodesListForNode1RelLinkSet, outboundNodes);
-    }
-
-    /**
-     * test method getInboundEdgeNodes(GraphNode node, Set relationLinks)
-     */
-    public void testGetInboundEdgeNodesForRelationLinksSet() {
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
-        assertEquals(inboundNodesListForNode6RelLinkSet.size(), getIteratorSize(inboundNodes));
-
-        inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
-        compareListToIterator(inboundNodesListForNode6RelLinkSet, inboundNodes);
-    }
-
-    /**
-     * test method getOutboundEdgeNodes (GraphNode node, int relationType)
-     */
-    public void testGetOutboundEdgeNodesForRelationType() {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, OntoramaConfig.getRelationLinkDetails()[1]);
-        assertEquals(outboundNodesListForNode1Relation1.size(), getIteratorSize(outboundNodes));
-
-        outboundNodes = Edge.getOutboundEdgeNodes(node1, OntoramaConfig.getRelationLinkDetails()[1]);
-        compareListToIterator(outboundNodesListForNode1Relation1, outboundNodes);
-    }
-
-    /**
-     * test method getInboundEdgeNodes (GraphNode node, int relationType)
-     */
-    public void testGetInboundEdgeNodesForRelationType() {
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, OntoramaConfig.getRelationLinkDetails()[2]);
-        assertEquals(inboundNodesListForNode6Relation2.size(), getIteratorSize(inboundNodes));
-
-        inboundNodes = Edge.getInboundEdgeNodes(node6, OntoramaConfig.getRelationLinkDetails()[2]);
-        compareListToIterator(inboundNodesListForNode6Relation2, inboundNodes);
-    }
-
-    /**
-     * test method getOutboundEdgeNodes
-     */
-    public void testGetOutboundEdgeNodes() {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
-        assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes));
-
-        outboundNodes = Edge.getOutboundEdgeNodes(node1);
-        compareListToIterator(outboundNodesListForNode1, outboundNodes);
-    }
-
-    /**
-     * test method getInboundEdgeNodes
-     */
-    public void testGetInboundEdgeNodes() {
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
-        assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
-
-        inboundNodes = Edge.getInboundEdgeNodes(node6);
-        compareListToIterator(inboundNodesListForNode6, inboundNodes);
-    }
-
-    /**
-     * test method getOutboundEdgeNodesList
-     */
-    public void testGetOutboundEdgeNodesList() {
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
-        assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes));
-
-        outboundNodes = Edge.getOutboundEdgeNodes(node1);
-        compareListToIterator(outboundNodesListForNode1, outboundNodes);
-    }
-
-    /**
-     * test method getInboundEdgeNodesList
-     */
-    public void testGetInboundEdgeNodesList() {
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
-        assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
-
-        inboundNodes = Edge.getInboundEdgeNodes(node6);
-        compareListToIterator(inboundNodesListForNode6, inboundNodes);
-    }
-
-
     //////////////******* Helper methods ********////////////////////
 
-    /**
-     *
-     */
-    private int getIteratorSize(Iterator it) {
-        return IteratorUtil.getIteratorSize(it);
-    }
-
-    /**
-     * compare contents of given iterator and given list
-     *
-     * The idea is: if method we want to check returns an iterator,
-     * we build list of expected objects and then go through iterator
-     * and check if objects in corresponding places are equal
-     */
-    private void compareListToIterator(List list, Iterator iterator) {
-        int count = 0;
-        while (iterator.hasNext()) {
-            Object cur = iterator.next();
-            //System.out.println("list item = " + list.get(count) + ", iterator item = " + cur);
-            assertEquals(list.get(count), cur);
-            count++;
-        }
-    }
 
     /**
      * create a set of int's

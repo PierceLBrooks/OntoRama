@@ -65,7 +65,7 @@ public class WebKB2Source implements Source {
     /**
      * Patterns to look  for if webkb query was unsuccessfull
      */
-    private String webkbErorrStartPattern = "<br><b>";
+    private String webkbErrorStartPattern = "<br><b>";
     private String webkbErrorEndPattern = "</b><br>";
 
     /**
@@ -185,48 +185,81 @@ public class WebKB2Source implements Source {
      * catch it.
      */
     private String checkForWebkbErrors(String doc) {
+    	System.out.println("\n\ndoc string = \n" + doc + "\n\n");
         String extractedErrorStr = doc;
-        int startPatternInd = doc.indexOf(webkbErorrStartPattern);
-        int endPatternInd = doc.indexOf(webkbErrorEndPattern);
-
-        if (endPatternInd != -1) {
-            extractedErrorStr = extractedErrorStr.substring(0, endPatternInd);
-        }
-
-        if (startPatternInd != -1) {
-            extractedErrorStr = extractedErrorStr.substring(webkbErorrStartPattern.length());
-        }
         
+        extractedErrorStr = extractedErrorStr.replaceFirst(webkbErrorStartPattern, "");
+        extractedErrorStr = extractedErrorStr.replaceAll(webkbErrorEndPattern, "");
+        
+        extractedErrorStr = extractedErrorStr.replaceFirst("<\\?xml version=\".*\"\\?>","");
+        
+        // taking into account 'internal error' error when webkb returns half of
+        // rdf document interrupted by strings with comments in c style: '//'
+        // and corresponding explanations. This error at this moment (17.02.03) 
+        // occurs when searching for 'dog'
+        // this particular reges is looking for DOCTYPE declaration. 
+        String regex = "<!DOCTYPE\\s+rdf:RDF\\s+\\[\\s+(<!ENTITY\\s+.*\\s+\".*\"\\s?>\\s?\n?)*\\]>";
+        extractedErrorStr = extractedErrorStr.replaceFirst(regex,"");
+        
+        regex = "<rdf:RDF\\s+\n?(xmlns:\\w+=\"&\\w+;(\\w+#)?\"(\\s+)?\\n?)*>";
+    	extractedErrorStr = extractedErrorStr.replaceFirst(regex,"");
+        
+                
         // doing this because webkb returns error in html and there seems to be no
         // carriage returns which causes error message to be too wide on the screen.
-        extractedErrorStr.replaceAll("<html>","");
-        extractedErrorStr.replaceAll("</html>","");
-        extractedErrorStr.replaceAll("<body>","");
-        extractedErrorStr.replaceAll("</body>","");
-    	extractedErrorStr.replaceAll("<pre>","");
-    	extractedErrorStr.replaceAll("</pre>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("<html>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("</html>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("<body>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("</body>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("<pre>","");
+    	extractedErrorStr = extractedErrorStr.replaceAll("</pre>","");
+    	
+    	regex = ">//";
+    	String replacement = ">\n//";
+    	extractedErrorStr = extractedErrorStr.replaceAll(regex, replacement);
 
-		String res = "";    	
-    	int desiredStringLenght = 50;
-    	StringTokenizer strTok = new StringTokenizer(extractedErrorStr);
-    	String line = "";
-    	while (strTok.hasMoreElements()) {
-    		String tok = strTok.nextToken();
-    		System.out.println("tok = " + tok);
-    		line = line + tok + " ";
-    		if (line.length() >= desiredStringLenght) {
-    			res = res + line + "\n";
-    			line = "";
+    	regex = "\\.//";
+    	replacement = ".\n//";
+    	extractedErrorStr = extractedErrorStr.replaceAll(regex, replacement);
+    	
+    	String splitRes = "";
+    	String[] tok = extractedErrorStr.split("<");
+    	for (int i = 0; i < tok.length; i++) {
+    		if (i == 0) {
+    			splitRes = tok[i];
     		}
-    		if (! strTok.hasMoreElements()) {
-    			res = res + line;
+    		else {
+    			splitRes = splitRes + "\n<" + tok[i];
     		}
     	}
+		
+		
+		//String res = breakLongLine(extractedErrorStr, desiredStringLenght);
+		
+		
     	System.out.println("res = res");
     	
-        extractedErrorStr = res;
+        extractedErrorStr = splitRes;
         return extractedErrorStr;
     }
+
+	private String breakLongLine(String string,int desiredStringLenght) {
+		String res = "";    	
+		StringTokenizer strTok = new StringTokenizer(string);
+		String line = "";
+		while (strTok.hasMoreElements()) {
+			String tok = strTok.nextToken();
+			line = line + tok + " ";
+			if (line.length() >= desiredStringLenght) {
+				res = res + line + "\n";
+				line = "";
+			}
+			if (! strTok.hasMoreElements()) {
+				res = res + line;
+			}
+		}
+		return res;
+	}
 
     /**
      * Read RDF documents into list and build a string that
@@ -308,8 +341,16 @@ public class WebKB2Source implements Source {
             List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
             for (int i = 0; i < curTypesList.size(); i++) {
                 Node node = (Node) curTypesList.get(i);
-                if (!typesList.contains(node)) {
-                    typesList.add(node);
+                Iterator typesListIt = typesList.iterator();
+                boolean foundNode = false;
+                while (typesListIt.hasNext()) {
+                	Node curNode = (Node) typesListIt.next();
+                	if (curNode.getName().equals(node.getName())) {
+                		foundNode = true;
+                	}
+                }
+                if (!foundNode) {
+                	typesList.add(node);
                 }
             }
         }
@@ -364,7 +405,9 @@ public class WebKB2Source implements Source {
             if (edge.getFromNode().equals(node)) {
                 if (edge.getEdgeType().getName().equals(synPropName)) {
                     Node synonymNode = edge.getToNode();
-                    result.add(synonymNode.getName());
+                    if (! result.contains(synonymNode.getName())) {
+                    	result.add(synonymNode.getName());
+                    }
                 }
             }
         }

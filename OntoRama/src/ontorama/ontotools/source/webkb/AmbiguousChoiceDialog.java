@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import ontorama.model.graph.Node;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -74,7 +76,6 @@ public class AmbiguousChoiceDialog extends JDialog {
         this.choiceList = typesList;
         this.numChoices = choiceList.size();
 
-        //System.out.println ("choice list = " + choiceList);
         JRootPane rootPane = getRootPane();
         Container contentPanel = rootPane.getContentPane();
 
@@ -82,14 +83,6 @@ public class AmbiguousChoiceDialog extends JDialog {
 
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(choicesPanel, BorderLayout.NORTH);
-
-//    JButton okButton = new JButton("OK");
-//    okButton.addActionListener(new ActionListener () {
-//      public void actionPerformed (ActionEvent ae) {
-//        closeDialog();
-//      }
-//    });
-//    contentPanel.add(okButton, BorderLayout.SOUTH);
 
         setModal(true);
         setLocationRelativeTo(frame);
@@ -111,7 +104,7 @@ public class AmbiguousChoiceDialog extends JDialog {
         group = new ButtonGroup();
 
         for (int i = 0; i < numChoices; i++) {
-            ontorama.model.graph.Node node= (ontorama.model.graph.Node) choiceList.get(i);
+            Node node= (Node) choiceList.get(i);
             JButton curButton = new JButton(node.getName());
             buttons[i] = curButton;
             if (i == 0) {
@@ -145,10 +138,6 @@ public class AmbiguousChoiceDialog extends JDialog {
      * node name)
      */
     public String getSelected() {
-        //Object[] selectedObjects = group.getSelection().getSelectedObjects();
-        //System.out.println("\n\n\nselectedObjects  = " + selectedObjects);
-        //JRadioButton selectedButton = (JRadioButton) selectedObjects[0];
-        System.out.println("\n\n\nselectedButton = " + selectedButton.getText());
         return selectedButton.getText();
     }
 

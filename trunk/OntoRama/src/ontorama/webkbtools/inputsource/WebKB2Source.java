@@ -24,15 +24,24 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Enumeration;
 
-import javax.swing.JOptionPane;
+import java.awt.Frame;
+
+//import javax.swing.JOptionPane;
 
 import java.security.AccessControlException;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
 import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.inputsource.webkb.AmbuguousChoiceDialog;
+import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
+import ontorama.webkbtools.datamodel.OntologyType;
+import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
@@ -56,29 +65,67 @@ public class WebKB2Source implements Source {
     private List docs = new LinkedList();
 
     /**
+     * map type name to corresponding reader
+     * keys - string, term name
+     * values - corresponding string holding the document
+     */
+    private Hashtable typeToReaderMap = new Hashtable();
+
+    /**
+     * list of types extracted from the multiple readers
+     */
+    private List typesList = new LinkedList();
+
+    /**
      *  Get a Reader from given uri.
-     *  @param  uri  this object specified resource file
+     *  @param  uri - base uri for the WebKB cgi script
+     *  @param  query - object Query holding details of a query we are executing
      *  @return reader
      *  @throws Exception
+     *
+     *
+     * @todo not using type to reader mapping - get rid of all occurences!
      */
     public Reader getReader (String uri, Query query) throws Exception {
         this.query = query;
 
-        String fullUri = uri + constructQueryString();
+        String fullUri = uri + constructQueryString(query);
+        //String fullUri = uri;
         Reader reader = executeWebkbQuery(fullUri);
 
         BufferedReader br = new BufferedReader( reader );
-        System.out.println("Marker surported = " + br.markSupported());
         checkForMultiRdfDocuments(br);
         if( docs.size() > 1 ) {
             System.out.println("> > > > > multi documents found...");
-            List typesList = getRootTypeFromRdfDocuments();
-            //popupAmbuguousChoiceDialog(typesList);
-            AmbuguousChoiceDialog dialog = new AmbuguousChoiceDialog(typesList);
+            getRootTypesFromStreams();
+
+            Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
+            //String selectedType = (String) typesList.get(0);
+            String selectedType = ( (OntologyType) typesList.get(0)).getName();
+            if (frames.length > 0) {
+              AmbuguousChoiceDialog dialog = new AmbuguousChoiceDialog(typesList, frames[0]);
+              selectedType = dialog.getSelected();
+            }
+            else {
+              AmbuguousChoiceDialog dialog = new AmbuguousChoiceDialog(typesList, null);
+              selectedType = dialog.getSelected();
+            }
+            System.out.println("\n\n\nselectedType = " + selectedType);
+
+            String newTermName = RdfWebkbParser.stripUri(selectedType);
+
+            Query newQuery = new Query(newTermName, query.getRelationLinksList());
+
+            // execute new query to webkb and return new reader
+            fullUri = uri + constructQueryString(newQuery);
+            Reader selectedReader = executeWebkbQuery(fullUri);
+
+            //String selectedDocument = (String) this.typeToReaderMap.get(selectedType);
+            //StringReader selectedReader = new StringReader(selectedDocument);
+            return selectedReader;
         }
         reader.close();
-
-        return getInputStreamReader(uri);
+        return getInputStreamReader(fullUri);
     }
 
     /**
@@ -93,8 +140,9 @@ public class WebKB2Source implements Source {
     /**
      *
      */
-    private String constructQueryString () {
-      return "";
+    private String constructQueryString (Query query) {
+      WebkbQueryStringConstructor queryConstructor = new WebkbQueryStringConstructor();
+      return queryConstructor.getQueryString(query, OntoramaConfig.queryOutputFormat);
     }
 
     /**
@@ -141,14 +189,15 @@ public class WebKB2Source implements Source {
 
 
     /**
+     * Build list of top/root types extracted from the multiple documents,
+     * and build a mapping between types and documents themselfs;
      *
      * @todo  think what to do with exceptions: throw them? then we need
      * to change the Source interface... OR introduce our own SourceException
      * that can take care of all this.
      *
      */
-    private List getRootTypeFromRdfDocuments() {
-      List typesList = new LinkedList();
+    private void getRootTypesFromStreams() {
       try {
 
         System.out.println("Number of documents found = " + docs.size());
@@ -160,16 +209,29 @@ public class WebKB2Source implements Source {
           String nextDocStr = (String) it.next();
           StringReader curReader  = new StringReader(nextDocStr);
           System.out.println("query term name = " + query.getQueryTypeName());
-          typesList.addAll((Collection) getTypesListFromRdfStream(curReader, query.getQueryTypeName()));
+          List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
+          for (int i = 0; i < curTypesList.size(); i++) {
+            OntologyType type = (OntologyType) curTypesList.get(i);
+//            String typeName = (String) curTypesList.get(i);
+//            if ( ! typesList.contains(typeName)) {
+//              typesList.add(typeName);
+//            }
+//            typeToReaderMap.put(typeName, nextDocStr);
+//          }
+            if ( ! typesList.contains(type)) {
+              //System.out.println ("adding type " + type.getName() + " to the big list");
+              typesList.add(type);
+            }
+            typeToReaderMap.put(type, nextDocStr);
+          }
+
         }
       }
       catch (ParserException parserExc) {
         System.out.println("ParserException: " + parserExc);
         parserExc.printStackTrace();
         System.exit(-1);
-
       }
-      return typesList;
     }
 
 
@@ -178,55 +240,61 @@ public class WebKB2Source implements Source {
      */
     private List getTypesListFromRdfStream (Reader reader, String termName)
                         throws ParserException, AccessControlException {
+
         List typeNamesList = new LinkedList();
-        try {
-            Model model = new ModelMem();
-            model.read(reader, "");
 
-            Property testProperty = new PropertyImpl("http://www.w3.org/TR/1999/PR-rdf-schema-19990303#label");
-            ResIterator resIt = model.listSubjectsWithProperty(testProperty);
-
-            while (resIt.hasNext()) {
-                Resource r = resIt.next();
-                //System.out.println("\nresource = " + r);
-                StmtIterator stIt = r.listProperties(testProperty);
-                while (stIt.hasNext()) {
-                    Statement s = stIt.next();
-                    //System.out.println("\nstatement = " + s);
-                    RDFNode object = s.getObject();
-                    //System.out.println("\nobject = " + object.toString());
-                    if (object.toString().equals(termName)) {
-                      System.out.println("FOUND: " + r);
-                      typeNamesList.add(r.toString());
-                    }
-                }
+        RdfWebkbParser parser = new RdfWebkbParser();
+        Collection colOfTypes = parser.getOntologyTypeCollection(reader);
+        Iterator typesIt = colOfTypes.iterator();
+        while (typesIt.hasNext()) {
+          OntologyType curType = (OntologyType) typesIt.next();
+          String synPropName = "Synonym";
+          try {
+            List synonyms = curType.getTypeProperty(synPropName);
+            if (synonyms.contains(termName)) {
+              System.out.println("***FOUND: " + curType.getName());
+              typeNamesList.add(curType);
             }
-        }
-        catch (AccessControlException secExc) {
-                throw secExc;
-        }
-        catch (RDFException e) {
+          }
+          catch (NoSuchPropertyException e) {
+            System.out.println("NoSuchPropertyException for property " + synPropName);
             e.printStackTrace();
-            throw new ParserException("Error in parsing RDF: " + e.getMessage());
+            System.exit(-1);
+          }
         }
+//        try {
+//            Model model = new ModelMem();
+//            model.read(reader, "");
+//
+//            Property testProperty = new PropertyImpl("http://www.w3.org/TR/1999/PR-rdf-schema-19990303#label");
+//            ResIterator resIt = model.listSubjectsWithProperty(testProperty);
+//
+//            while (resIt.hasNext()) {
+//                Resource r = resIt.next();
+//                //System.out.println("\nresource = " + r);
+//                StmtIterator stIt = r.listProperties(testProperty);
+//                while (stIt.hasNext()) {
+//                    Statement s = stIt.next();
+//                    //System.out.println("\nstatement = " + s);
+//                    RDFNode object = s.getObject();
+//                    //System.out.println("\nobject = " + object.toString());
+//                    if (object.toString().equals(termName)) {
+//                      System.out.println("FOUND: " + r);
+//                      typeNamesList.add(r.toString());
+//                    }
+//                }
+//            }
+//        }
+//        catch (AccessControlException secExc) {
+//                throw secExc;
+//        }
+//        catch (RDFException e) {
+//            e.printStackTrace();
+//            throw new ParserException("Error in parsing RDF: " + e.getMessage());
+//        }
         return typeNamesList;
     }
 
-    /**
-     *
-     */
-//    private void popupAmbuguousChoiceDialog (List listOfChoices) {
-//      String message = "Search term is ambuguous...Please choose one of the following ";
-//      System.out.println("listOfChoices = " + listOfChoices);
-//
-//      Object [] choices = listOfChoices.toArray();
-//      System.out.println("choices = " + choices);
-//
-//      JOptionPane optionPane = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE);
-//      optionPane.showOptionDialog(null,message, "title here",
-//                          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-//                          null, choices, choices[0]);
-//    }
 
 
 }

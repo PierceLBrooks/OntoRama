@@ -15,10 +15,9 @@ public interface Tree {
      * Returns root node of the tree.
      */
     public TreeNode getRootNode();
-    
-   
-    // @todo need to decouple from graph nodes and edges.
+
 	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType) throws TreeModificationException;
-    public void removeNode(TreeNode nodeToRemove);
+
+    public void removeNode(TreeNode nodeToRemove)  throws TreeModificationException ;
 
 }

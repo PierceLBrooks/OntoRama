@@ -6,6 +6,9 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -22,14 +25,14 @@ import junit.framework.TestCase;
 
 public class TestNode extends TestCase {
 
-    private ontorama.model.graph.Node node1;
-    private ontorama.model.graph.Node node2;
-    private ontorama.model.graph.Node node3;
+    private Node node1;
+    private Node node2;
+    private Node node3;
 
     private String nodeIdentifier1 = "some.node.identifier";
 
-    private ontorama.model.graph.Node cloneNode2;
-    private ontorama.model.graph.Node cloneNode3;
+    private Node cloneNode2;
+    private Node cloneNode3;
 
     private URI creatorUri1;
     private URI creatorUri2;
@@ -47,9 +50,9 @@ public class TestNode extends TestCase {
     protected void setUp() throws URISyntaxException {
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
-        node1 = new ontorama.model.graph.NodeImpl("node1", nodeIdentifier1);
-        node2 = new ontorama.model.graph.NodeImpl("node2");
-        node3 = new ontorama.model.graph.NodeImpl("node3");
+        node1 = new NodeImpl("node1", nodeIdentifier1);
+        node2 = new NodeImpl("node2");
+        node3 = new NodeImpl("node3");
 
         cloneNode2 = node2.makeClone();
         cloneNode3 = node2.makeClone();
@@ -116,7 +119,7 @@ public class TestNode extends TestCase {
      */
     public void testMakeClone() {
 
-        ontorama.model.graph.Node testCloneNode = node2.makeClone();
+        Node testCloneNode = node2.makeClone();
 
         assertEquals("number of clones for node2 and cloneNode2 should be the same", node2.getClones().size(), cloneNode2.getClones().size());
         assertEquals("number of clones for node2 and testCloneNode should be the same", node2.getClones().size(), testCloneNode.getClones().size());
@@ -174,7 +177,7 @@ public class TestNode extends TestCase {
      */
     public static boolean graphNodeNameIsInIterator(String name, Iterator it) {
         while (it.hasNext()) {
-            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
+            Node cur = (Node) it.next();
             if (name.equals(cur.getName())) {
                 return true;
             }

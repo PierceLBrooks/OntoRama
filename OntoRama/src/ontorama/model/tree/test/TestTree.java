@@ -199,21 +199,69 @@ public class TestTree extends TestCase{
     	assertEquals("tree should contain node1 ", true, (node1 != null));
     	assertEquals("depth for root node node1 ", 0, node1.getDepth());
     }
-    
-	public void testAddNode ()  throws TreeModificationException,GraphModificationException, NoSuchRelationLinkException{
+
+    public void testAddNode () throws TreeModificationException {
+        int originalNodeCount = countNumOfNodes();
+
+        Node newNode = new NodeImpl("newNode");
+        TreeNode newTreeNode = new TreeNodeImpl(newNode);
+        TreeNode node9 = getNodeByName("node9");
+        _tree.addNode(newTreeNode, node9, _edgeType1);
+
+        assertEquals("number of nodes after add ", originalNodeCount + 1, countNumOfNodes());
+    }
+
+	public void testAddNodeToClone ()  throws TreeModificationException {
 		int originalNodeCount = countNumOfNodes();
 		
 		Node newNode = new NodeImpl("newNode");
-		Edge newEdge = new EdgeImpl(_node7, newNode, _edgeType1);
 		TreeNode newTreeNode = new TreeNodeImpl(newNode);
-		
 		TreeNode node7 = getNodeByName("node7");
-		
 		_tree.addNode(newTreeNode, node7, _edgeType1);
-		
+
 		assertEquals("number of nodes after add ", originalNodeCount + 3, countNumOfNodes());
+
+        List node7clones = node7.getClones();
+        Iterator it = node7clones.iterator();
+        while (it.hasNext()) {
+            TreeNode cur = (TreeNode) it.next();
+            Iterator children = cur.getChildren().iterator();
+            boolean found = false;
+            while (children.hasNext()) {
+                TreeNode child = (TreeNode) children.next();
+                if (child.isClone(newTreeNode)) {
+                    found = true;
+                }
+            }
+            assertEquals("each clone for node7 should contain clone for new node as one of children", true, found);
+        }
 	}
-    
+
+    public void testRemoveNode () throws TreeModificationException {
+        int originalNodeCount = countNumOfNodes();
+
+        TreeNode node9 = getNodeByName("node9");
+        _tree.removeNode(node9);
+        assertEquals("number of nodes after remove ", originalNodeCount - 1, countNumOfNodes());
+
+    }
+
+    public void testRemoveClonedNode  () throws TreeModificationException {
+        int originalNodeCount = countNumOfNodes();
+        TreeNode node7 = getNodeByName("node7");
+        _tree.removeNode(node7);
+        assertEquals("number of nodes after remove ", originalNodeCount - 3, countNumOfNodes());
+    }
+
+    public void testRemoveNodeWithChildren () {
+        TreeNode node10 = getNodeByName("node10");
+        try {
+            _tree.removeNode(node10);
+            fail("should raise  a TreeModificationException");
+        }
+        catch (TreeModificationException e) {}
+    }
+
 
     private int calcBranchDepth (int depth, TreeNode top) {
         Iterator children = top.getChildren().iterator();

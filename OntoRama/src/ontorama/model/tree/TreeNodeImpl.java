@@ -32,12 +32,12 @@ public class TreeNodeImpl implements TreeNode {
      * a pair: node and edge
      */
     private List _children;
-    
+
     /**
      * parent tree node
      */
     private TreeNode _parent;
-   
+
     /**
      * distance to the root node
      */
@@ -51,27 +51,27 @@ public class TreeNodeImpl implements TreeNode {
         _graphNode = graphNode;
         init();
     }
-    
+
     public TreeNodeImpl (String nodeName, NodeType nodeType) {
     	_graphNode = new NodeImpl(nodeName);
     	_graphNode.setNodeType(nodeType);
     	init();
     }
-    
+
     private void init () {
     	_clones = new LinkedList();
     	_children = new LinkedList();
     }
-    
 
-	protected Node getGraphNode() {
+
+	public Node getGraphNode() {
 		return _graphNode;
 	}
 
 	public String getName() {
 		return _graphNode.getName();
 	}
-	
+
 	public NodeType getNodeType() {
 		return _graphNode.getNodeType();
 	}
@@ -81,7 +81,7 @@ public class TreeNodeImpl implements TreeNode {
             _clones.add(cloneNode);
         }
     }
-    
+
 	public boolean isClone (TreeNode node) {
 		TreeNodeImpl treeNode = (TreeNodeImpl) node;
 		if (treeNode.getGraphNode().equals(_graphNode)) {
@@ -89,7 +89,7 @@ public class TreeNodeImpl implements TreeNode {
 		}
 		return false;
 	}
-    
+
 
     public List getClones() {
         return _clones;
@@ -104,7 +104,7 @@ public class TreeNodeImpl implements TreeNode {
     	}
         return childNodesList;
     }
-    
+
     public TreeEdge getEdge (TreeNode childNode) {
     	TreeEdge result = null;
     	Iterator it = _children.iterator();
@@ -133,20 +133,20 @@ public class TreeNodeImpl implements TreeNode {
         		refToRemove = cur;
         	}
         }
-        
+
         _children.remove(refToRemove);
     }
 
 	public void setParent(TreeNode parent) {
 		_parent = parent;
 	}
-    
-    
+
+
     public TreeNode getParent() {
     	return _parent;
     }
 
-    
+
 	public int getDepth() {
 		return _depth;
 	}
@@ -154,20 +154,20 @@ public class TreeNodeImpl implements TreeNode {
 	public void setDepth(int depth) {
 		_depth = depth;
 	}
-    
+
 
     public String toString () {
         String res = "TreeNode: " + this.getName();
         return res;
     }
-    
+
     class ChildNodeReference {
     	public TreeNode node;
     	public TreeEdge edge;
-    	
+
     	public ChildNodeReference (TreeNode node, TreeEdge edge) {
     		this.node = node;
-    		this.edge = edge;	
+    		this.edge = edge;
     	}
     }
 }

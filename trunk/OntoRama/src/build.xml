@@ -181,7 +181,7 @@
               <pathelement location="${env.XWEBHOME}/libs/JimiProClasses.zip"/>
               <pathelement location="${env.XWEBHOME}/libs/batik-transcoder.jar"/>
               <pathelement location="${env.XWEBHOME}/libs/batik-dom.jar"/>
-              <pathelement location="${env.XWEBHOMEe}/libs/batik-bridge.jar"/>
+              <pathelement location="${env.XWEBHOME}/libs/batik-bridge.jar"/>
               <pathelement location="${env.XWEBHOME}/libs/batik-svg-dom.jar"/>
               <pathelement location="${env.XWEBHOME}/libs/batik-css.jar"/>
               <pathelement location="${env.XWEBHOME}/libs/batik-gvt.jar"/>

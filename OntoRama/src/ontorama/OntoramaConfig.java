@@ -20,6 +20,8 @@ import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
+import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
+import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 
 /**
@@ -84,6 +86,12 @@ public class OntoramaConfig {
     /**
      *
      */
+     private static String parserPackagePathSuffix;
+     private static String sourcePackagePathSuffix;
+
+    /**
+     *
+     */
     //private static final String configsDirLocation = "./classes";
     private static final String configsDirLocation = "./";
 
@@ -137,6 +145,10 @@ public class OntoramaConfig {
     private static URL propertiesFileLocation;
     private static URL xmlConfigFileLocation;
 
+    private static List examplesList;
+    private static OntoramaExample mainExample;
+
+
     /**
      * debug
      */
@@ -163,7 +175,7 @@ public class OntoramaConfig {
 
         Properties properties = new Properties();
 
-		//propertiesFileLocation = classLoader.getResource("ontorama.properties");
+        //propertiesFileLocation = classLoader.getResource("ontorama.properties");
     	//xmlConfigFileLocation = classLoader.getResource("config.xml");
 
         //Properties properties = new Properties(System.getProperties());
@@ -178,14 +190,14 @@ public class OntoramaConfig {
           sourceUri = properties.getProperty("sourceUri");
           ontologyRoot = properties.getProperty("ontologyRoot");
           queryOutputFormat = properties.getProperty("queryOutputFormat");
-          String parserPackagePathSuffix = properties.getProperty ("parserPackagePathSuffix");
-          String sourcePackagePathSuffix = properties.getProperty ("sourcePackagePathSuffix");
+          parserPackagePathSuffix = properties.getProperty ("parserPackagePathSuffix");
+          sourcePackagePathSuffix = properties.getProperty ("sourcePackagePathSuffix");
           DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
 
-          parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
-          sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
+          //parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
+          //sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
 
-		  System.out.println("sourceUri = " + sourceUri);
+          System.out.println("sourceUri = " + sourceUri);
 
 
         }
@@ -213,6 +225,20 @@ public class OntoramaConfig {
             conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
             conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
             //xmlConfig.printConceptPropertiesRdfMapping();
+
+            // loading examples
+            System.out.println("loading examples");
+            InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
+            XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
+            examplesList = examplesConfig.getExamplesList();
+            mainExample = examplesConfig.getMainExample();
+
+            // overwrite sourceUri, ontologyRoot, etc
+            ///@todo  fix this later!!!
+            sourceUri = mainExample.getRelativeUri();
+            ontologyRoot = mainExample.getRoot();
+            queryOutputFormat = mainExample.getQueryOutputFormat();
+            parserPackagePathSuffix = mainExample.getParserPackagePathSuffix();
         }
         catch (IOException ioe) {
           System.err.println("Unable to read xml configuration file");
@@ -228,12 +254,16 @@ public class OntoramaConfig {
             System.err.println("ArrayIndexOutOfBoundsException: " + arrayExc);
             System.exit(-1);
         }
+        //parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
+        setParserPackageName(parserPackagePathSuffix);
+        sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
+
         System.out.println("---------config--------------");
         System.out.println("sourceUri = " + sourceUri);
         System.out.println("ontologyRoot = " + ontologyRoot);
         System.out.println("queryOutputFormat = " + queryOutputFormat);
         System.out.println("DEBUG = " + DEBUG);
-        System.out.println("parserPackageName = " + parserPackageName);
+        System.out.println("parserPackageName = " + getParserPackageName());
         System.out.println("sourcePackageName = " + sourcePackageName);
         /*
         for (int i = 0; i < allRelationsArray.length; i++ ) {
@@ -309,6 +339,39 @@ public class OntoramaConfig {
         return conceptPropertiesRdfMapping;
      }
 
+     /**
+      *
+      */
+     public static List getExamplesList () {
+        return examplesList;
+     }
+
+     /**
+      * @todo should all OntoramaConfig variables be public? or should they
+      *   have setters and getters? (sourceUri, ontologyRoot, queryOutputFormat)
+      */
+     public static void setNewExampleDetails (OntoramaExample example) {
+      OntoramaConfig.sourceUri = example.getRelativeUri();
+      setParserPackageName(example.getParserPackagePathSuffix());
+      OntoramaConfig.ontologyRoot = example.getRoot();
+      OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
+     }
+
+     /**
+      *
+      */
+     public static String getParserPackageName () {
+      return parserPackageName;
+     }
+
+     /**
+      *
+      */
+     public static void setParserPackageName (String parserPackagePathSuffixStr) {
+      parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
+     }
+
+
     /**
     *
     * @todo	need an exception for an unknown protocol
@@ -319,6 +382,7 @@ public class OntoramaConfig {
 
           InputStream resultStream = null;
           URL url = classLoader.getResource(resourceName);
+          System.out.println("url = " + url);
 
           if (url.getProtocol().equalsIgnoreCase("jar")) {
             //System.out.println("found JAR");

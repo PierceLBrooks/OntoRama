@@ -44,6 +44,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     private int _depth = -1;
 
+	private JLabel _queryLabel = new JLabel("Search for: ");
     private JTextField _queryField;
     private JButton _querySubmitButton;
     private JButton _queryStopButton;
@@ -76,10 +77,13 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     private EventBroker _eventBroker;
 
     public StopQueryAction _stopQueryAction;
+    private QueryAction _queryAction;
 
     public QueryPanel(EventBroker eventBroker) {
         _eventBroker = eventBroker;
         _stopQueryAction = new StopQueryAction(_eventBroker);
+        _queryAction = new QueryAction(_eventBroker, this);
+        
         new GraphViewFocusEventHandler(_eventBroker, this);
 
         JPanel queryFieldPanel = new JPanel();
@@ -113,10 +117,10 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
             }
         });
 
-        _querySubmitButton = new JButton(new QueryAction(_eventBroker, this));
+        _querySubmitButton = new JButton(_queryAction);
         _queryStopButton = new JButton(_stopQueryAction);
 
-        queryFieldPanel.add(new JLabel("Search for: "));
+        queryFieldPanel.add(_queryLabel);
         queryFieldPanel.add(_queryField);
 
         queryFieldPanel.add(_depthLabel);
@@ -132,6 +136,9 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         add(_relationLinksPanel, BorderLayout.NORTH);
 
         add(queryFieldPanel, BorderLayout.CENTER);
+
+		enableStopQueryAction(false);        
+        enableQueryActions(false);
     }
 
     public Action getStopQueryAction () {
@@ -140,6 +147,14 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     public void enableStopQueryAction (boolean isEnabled) {
         _stopQueryAction.setEnabled(isEnabled);
+    }
+    
+    public void enableQueryActions (boolean isEnabled) {
+    	_queryAction.setEnabled(isEnabled);
+    	_queryLabel.setEnabled(isEnabled);
+    	_queryField.setEnabled(isEnabled);
+    	_depthField.setEnabled(isEnabled);
+    	_depthLabel.setEnabled(isEnabled);
     }
 
     /**

@@ -189,6 +189,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             _progressBar.setIndeterminate(false);
             setStatusLabel("");
             _queryPanel.enableStopQueryAction(false);
+            _queryPanel.enableQueryActions(true);
             _modelEventBroker.subscribe(
                 _viewsEventBroker,
                 TreeChangedEvent.class,

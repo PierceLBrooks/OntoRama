@@ -33,14 +33,15 @@ public class PeerConnectionTest implements DiscoveryListener {
 		try {
 			
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
-			PeerGroupFactory.setStdPeerGroupClass(Class.forName("ontorama.backends.p2p.OntoRamaNetGroupID"));
+			PeerGroupFactory.setStdPeerGroupClass(Class.forName("ontorama.backends.p2p.OntoRamaPeerGroup"));
 
 			PeerGroup worldPeerGroup = PeerGroupFactory.newPlatform();
 			
 			System.out.println("world group name: " + worldPeerGroup.getPeerGroupName());
 			System.out.println("world group id: " + worldPeerGroup.getPeerGroupID());
 			
-			netPeerGroup = PeerGroupFactory.newNetPeerGroup(worldPeerGroup);
+			//netPeerGroup = PeerGroupFactory.newNetPeerGroup(worldPeerGroup);
+			netPeerGroup = PeerGroupFactory.newPeerGroup();
 			
 			//netPeerGroup = PeerGroupFactory.newNetPeerGroup();
 			System.out.println("peer group name: " + netPeerGroup.getPeerGroupName());
@@ -48,10 +49,10 @@ public class PeerConnectionTest implements DiscoveryListener {
 			System.out.println("peer name: " + netPeerGroup.getPeerName());
 			System.out.println("peer id: " + netPeerGroup.getPeerID());
 		}
-		catch (PeerGroupException e)  {
-			e.printStackTrace();
-			System.exit(1);
-		}
+//		catch (PeerGroupException e)  {
+//			e.printStackTrace();
+//			System.exit(1);
+//		}
 		catch (ClassNotFoundException e ) {
 			e.printStackTrace();
 			System.exit(1);

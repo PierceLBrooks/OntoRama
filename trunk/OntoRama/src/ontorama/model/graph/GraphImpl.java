@@ -140,8 +140,6 @@ public class GraphImpl implements Graph {
                 throw new NoTypeFoundInResultSetException(termName);
             }
         }
-        System.out.println("root = " + root);
-        System.out.println("calling trasformGraphIntoTree from GraphImpl");
         debug.message(
                 "******************* GraphBuilder constructor end *******************");
     }

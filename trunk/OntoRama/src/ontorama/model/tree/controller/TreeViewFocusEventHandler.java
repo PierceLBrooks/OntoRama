@@ -3,6 +3,8 @@ package ontorama.model.tree.controller;
 import ontorama.model.tree.view.TreeView;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.TreeNodeImpl;
+import ontorama.model.graph.events.NodeSelectedEvent;
 import org.tockit.events.EventBroker;
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
@@ -16,16 +18,22 @@ import org.tockit.events.EventBrokerListener;
  */
 public class TreeViewFocusEventHandler implements EventBrokerListener {
     private TreeView _treeView;
+    private EventBroker _eventBroker;
 
     public TreeViewFocusEventHandler (EventBroker eventBroker, TreeView treeView) {
         _treeView = treeView;
+        _eventBroker = eventBroker;
         eventBroker.subscribe(this, TreeNodeSelectedEvent.class, TreeNode.class);
     }
 
     public void processEvent(Event e) {
         TreeNode node = (TreeNode) e.getSubject();
-        //System.out.println("treeView  = " + _treeView);
-        //System.out.println("focus on " + node.getGraphNode().getName());
         _treeView.focus(node);
+
+        /// @todo this approach avoids close coupling of tree and graph nodes, however it is not extensible enough
+        if (node instanceof TreeNodeImpl) {
+            TreeNodeImpl tn = (TreeNodeImpl) node;
+            _eventBroker.processEvent(new NodeSelectedEvent(tn.getGraphNode()));
+        }
     }
 }

@@ -86,8 +86,6 @@ public class QueryEngine implements QueryEngineInterface {
         Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
 
         this.queryResult = executeQuery(source, parser, queryUrl, query);
-
-        System.out.println("QueryEngine: got query result from executeQuery method");
     }
 
     /**
@@ -99,10 +97,8 @@ public class QueryEngine implements QueryEngineInterface {
         QueryResult queryResult = null;
         Reader r = null;
         Query newQuery = null;
-        System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
 
         SourceResult sourceResult = source.getSourceResult(queryUrl, query);
-        System.out.println(sourceResult.toString());
         if (!sourceResult.queryWasSuccess()) {
             newQuery = sourceResult.getNewQuery();
             queryResult = executeQuery(source, parser, queryUrl, newQuery);
@@ -147,10 +143,7 @@ public class QueryEngine implements QueryEngineInterface {
         while (it.hasNext()) {
             ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             String termIdentifierSuffix = "#" + termName;
-            //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
-            //System.out.println("fullName = " + cur.getIdentifier());
             if (cur.getIdentifier().equals(termName)) {
-                //System.out.println("MATCH");
                 found = true;
                 newTermName = cur.getName();
             }
@@ -184,13 +177,10 @@ public class QueryEngine implements QueryEngineInterface {
 
         // wanted links iterator is empty
         if (!queryRelationLinks.hasNext()) {
-            System.out.println("query relation links iterator is empty, so no need to work on iterator");
             _resultNodesList = _parserResult.getNodesList();
             _resultEdgesList = _parserResult.getEdgesList();
             return;
         }
-
-        System.out.println("wantedLinks: " + wantedLinks);
 
         _resultNodesList = new LinkedList();
         _resultEdgesList = new LinkedList();
@@ -217,7 +207,6 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator nodesIt = nodes.iterator();
         while (nodesIt.hasNext()) {
             ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIt.next();
-            //System.out.println("left over node = " + curNode);
             _resultNodesList.add(curNode);
         }
     }

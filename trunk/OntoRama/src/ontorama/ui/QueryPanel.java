@@ -25,9 +25,11 @@ import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.graph.controller.GraphViewQueryEventHandler;
-import ontorama.model.graph.view.GraphQuery;
+import ontorama.model.ViewQueryEventHandler;
+import ontorama.model.ViewQuery;
 import ontorama.model.graph.view.GraphView;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.Graph;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -36,7 +38,7 @@ import org.tockit.events.EventBroker;
  * will be used to query Ontology Server (using GraphBuilder)
  *
  */
-public class QueryPanel extends JPanel implements ActionListener, GraphQuery, GraphView {
+public class QueryPanel extends JPanel implements ActionListener, ViewQuery, GraphView {
 
     private int _depth = -1;
 
@@ -85,8 +87,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
 
         _eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
-        new GraphViewQueryEventHandler(eventBroker, this);
-
+        new ViewQueryEventHandler(eventBroker, this);
 
         _ontoRamaApp = ontoRamaApp;
 
@@ -355,18 +356,18 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
     /**
      *
      */
-    public void focus(ontorama.model.graph.Node node) {
+    public void focus(Node node) {
         _queryField.setText(node.getName());
     }
 
     /**
      */
-    public void query(ontorama.model.graph.Node node) {
-        _queryField.setText(node.getName());
+    public void query(String nodeName) {
+//        _queryField.setText(nodeName);
         doQuery();
     }
 
-    public void setGraph (ontorama.model.graph.Graph graph) {
+    public void setGraph (Graph graph) {
     }
 
     public void repaint () {

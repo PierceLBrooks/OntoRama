@@ -46,9 +46,6 @@ public class GraphImpl implements Graph {
      */
     public List _graphEdges = new LinkedList();
 
-//    private List _edgesToDisplayInGraph = new LinkedList();
-//    private List _edgesToDisplayInDescription = new LinkedList();
-
     private List _nodesToRemove = new LinkedList();
     private List _edgesToRemove = new LinkedList();
 
@@ -137,22 +134,10 @@ public class GraphImpl implements Graph {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
 
-        Iterator edgesIt = edgesList.iterator();
-        while (edgesIt.hasNext()) {
-            Edge edge = (Edge) edgesIt.next();
-            EdgeType edgeType = edge.getEdgeType();
-//            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-//                _edgesToDisplayInGraph.add(edge);
-//            }
-//            else {
-//                _edgesToDisplayInDescription.add(edge);
-//            }
-        }
-
 //        Iterator it = edgesList.iterator();
 //        while (it.hasNext()) {
 //            EdgeImpl curEdge = (EdgeImpl) it.next();
-//            //registerEdge(curEdge);
+//            //addEdge(curEdge);
 //            checkForCycle(curEdge);
 //        }
     }
@@ -276,7 +261,7 @@ public class GraphImpl implements Graph {
                 continue;
             }
             _edgesToRemove.add(curEdge);
-            if (getInboundEdgeNodesList(toNode).size() > 1 ) {
+            if (getInboundEdges(toNode).size() > 1 ) {
                 if ( ! nodeIsInGivenBranch(root, toNode)) {
                     listItemsToRemove(toNode);
                 }
@@ -312,9 +297,10 @@ public class GraphImpl implements Graph {
                 return true;
             }
 
-            Iterator it = getOutboundEdgeNodes(curNode).iterator();
+            Iterator it = getOutboundEdges(curNode).iterator();
             while (it.hasNext()) {
-                Node nextNode = (Node) it.next();
+                Edge curEdge = (Edge) it.next();
+                Node nextNode = curEdge.getToNode();
                 q.add(nextNode);
             }
         }
@@ -350,11 +336,11 @@ public class GraphImpl implements Graph {
 
         while (!queue.isEmpty()) {
             Node nextQueueNode = (Node) queue.remove(0);
-            Iterator allOutboundNodes =
-                    getOutboundEdgeNodes(nextQueueNode).iterator();
+            Iterator allOuboundEdges = getOutboundEdges(nextQueueNode).iterator();
+            while (allOuboundEdges.hasNext()) {
+                Edge curEdge = (Edge) allOuboundEdges.next();
+                Node curNode = curEdge.getToNode();
 
-            while (allOutboundNodes.hasNext()) {
-                Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
                 Iterator inboundEdges = getInboundEdges(curNode).iterator();
@@ -397,11 +383,11 @@ public class GraphImpl implements Graph {
                     "convertIntoTree",
                     "--- processing node " + nextQueueNode.getName() + " -----");
 
-            Iterator allOutboundNodes =
-                    getOutboundEdgeNodes(nextQueueNode).iterator();
+            Iterator allOutboundEdges = getOutboundEdges(nextQueueNode).iterator();
+            while (allOutboundEdges.hasNext()) {
+                Edge curEdge = (Edge) allOutboundEdges.next();
+                Node curNode = curEdge.getToNode();
 
-            while (allOutboundNodes.hasNext()) {
-                Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
                 List inboundEdgesList = getInboundEdgesDisplayedInGraph(curNode);
@@ -418,8 +404,8 @@ public class GraphImpl implements Graph {
 
                 List edgesToCloneQueue = new LinkedList();
                 while (inboundEdges.hasNext()) {
-                    Edge curEdge = (Edge) inboundEdges.next();
-                    EdgeType edgeType = curEdge.getEdgeType();
+                    Edge edge = (Edge) inboundEdges.next();
+                    EdgeType edgeType = edge.getEdgeType();
                     if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                         edgesToCloneQueue.add(curEdge);
                     }
@@ -439,7 +425,7 @@ public class GraphImpl implements Graph {
                             edgeToClone.getFromNode(),
                             cloneNode,
                             edgeToClone.getEdgeType());
-                    registerEdge(newEdge);
+                    addEdge(newEdge);
                     removeEdge(edgeToClone);
                     // copy/clone all structure below
                     deepCopy(curNode, cloneNode);
@@ -467,7 +453,7 @@ public class GraphImpl implements Graph {
             Node toNode = curEdge.getToNode();
             Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
-            registerEdge(newEdge);
+            addEdge(newEdge);
             EdgeType edgeType = curEdge.getEdgeType();
             if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                 continue;
@@ -477,10 +463,7 @@ public class GraphImpl implements Graph {
     }
 
 
-    /**
-     * @todo    think where this method should leave....
-     */
-    public void registerEdge(Edge edge) {
+    public void addEdge(Edge edge) {
         boolean isInList = false;
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
@@ -489,7 +472,6 @@ public class GraphImpl implements Graph {
                     (edge.getToNode().equals(cur.getToNode())) &&
                     (edge.getEdgeType() == cur.getEdgeType())) {
                 // this edge is already registered
-                //System.out.println("edge is already registered: " + edge);
                 isInList = true;
             }
         }
@@ -521,10 +503,8 @@ public class GraphImpl implements Graph {
      */
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType) {
         Iterator it = getOutboundEdges(fromNode, edgeType);
-        //Iterator it = EdgeImpl.getOutboundEdgeNodes(fromNode, relLink);
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
-            //Node curNode = (Node) it.next();
             Node curNode = curEdge.getToNode();
             if (curNode.equals(toNode)) {
                 return curEdge;
@@ -603,22 +583,6 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @return iterator of Nodes
-     */
-    public Iterator getOutboundEdgeNodes(Node node, Set relationLinks) {
-        return getEdgeNodes(node, relationLinks, true);
-    }
-
-    /**
-     *
-     * @return iterator of Nodes
-     */
-    public Iterator getInboundEdgeNodes(Node node, Set relationLinks) {
-        return getEdgeNodes(node, relationLinks, false);
-    }
-
-    /**
-     *
      * @param  node Node
      *         Set relationLinks
      *         boolean flag - true if we want to get list of outbound nodes,
@@ -637,12 +601,6 @@ public class GraphImpl implements Graph {
                     result.add(cur.getEdgeNode(!flag));
                 }
             }
-//            while (it.hasNext()) {
-//                Integer curRel = (Integer) it.next();
-//                if (cur.getEdgeType() == curRel.intValue()) {
-//                    result.add(cur.getEdgeNode(!flag));
-//                }
-//            }
         }
         return result.iterator();
     }
@@ -709,20 +667,6 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     */
-    public List getOutboundEdgeNodesList(Node node) {
-        return getEdgeNodesList(node, true);
-    }
-
-    /**
-     *
-     */
-    public List getInboundEdgeNodesList(Node node) {
-        return getEdgeNodesList(node, false);
-    }
-
-    /**
-     *
      * @param  node Node
      *         int relationType
      *         boolean flag - true if we want to get list of outbound nodes,
@@ -744,9 +688,10 @@ public class GraphImpl implements Graph {
      */
     public void calculateDepths(Node top, int depth) {
         top.setDepth(depth);
-        Iterator it = getOutboundEdgeNodes(top).iterator();
+        Iterator it = getOutboundEdges(top).iterator();
         while (it.hasNext()) {
-            Node outboundNode = (Node) it.next();
+            Edge outboundEdge = (Edge) it.next();
+            Node outboundNode = outboundEdge.getToNode();
             outboundNode.setDepth(depth + 1);
             calculateDepths(outboundNode, depth + 1);
         }

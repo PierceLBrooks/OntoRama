@@ -49,6 +49,7 @@ public class TestWebkbtoolsPackage extends TestCase {
 
         suite.addTest(ontorama.webkbtools.inputsource.TestSourcePackage.suite());
         suite.addTest(ontorama.webkbtools.query.TestQueryPackage.suite());
+        suite.addTest(ontorama.webkbtools.writer.test.TestWriterPackage.suite());
 
         return suite;
     }

@@ -59,38 +59,7 @@ public class RdfModelWriter implements ModelWriter {
 
         try {
             Model rdfModel = toRDFModel();
-//            PrettyWriter prettyWriter = new PrettyWriter();
-//            prettyWriter.write(rdfModel, out, null);
-
-//            rdfModel.write(out);
-            StringWriter stringWriter = new StringWriter();
-            rdfModel.write(stringWriter);
-            String string = stringWriter.toString();
-            Pattern p = Pattern.compile("rdf:Description");
-
-            StringTokenizer tok = new StringTokenizer(string);
-            while (tok.hasMoreElements()) {
-                String token = (String) tok.nextElement();
-                Matcher m = p.matcher(token);
-                boolean found = m.find();
-                System.out.println(token);
-                if (found) {
-                    System.out.println("match: rdf:Description");
-                }
-
-
-            }
-            System.out.println("\nstring = " + string);
-
-            System.out.println("match: " + string.matches("rdf:Description"));
-
-            string.replaceAll("rdf:Description","rdfs:Class");
-            System.out.println("\nstring = " + string);
-
-            out.write(string);
-
-
-
+            writeModel(rdfModel, out);
         } catch (RDFException rdfExc) {
             rdfExc.printStackTrace();
             throw new ModelWriterException("Couldn't create RDF model " + rdfExc.getMessage());
@@ -102,7 +71,19 @@ public class RdfModelWriter implements ModelWriter {
             ioe.printStackTrace();
             throw new ModelWriterException("couldn't write output stream: " + ioe.getMessage());
         }
+    }
 
+    protected Writer writeModel (Model rdfModel, Writer out) throws RDFException, IOException {
+        StringWriter stringWriter = new StringWriter();
+        rdfModel.write(stringWriter);
+        String string = stringWriter.toString();
+        Pattern p = Pattern.compile("rdf:Description");
+        String replacementString = "rdfs:Class";
+
+        Matcher matcher = p.matcher(string);
+        String result = matcher.replaceAll(replacementString);
+        out.write(result);
+        return out;
     }
 
 
@@ -115,7 +96,32 @@ public class RdfModelWriter implements ModelWriter {
         List edgesList = _graph.getEdgesList();
 
         Hashtable edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
+        writeEdges(edgesList, edgeTypesToRdfMapping, rdfModel);
+        //writeNodes(nodesList, rdfModel);
 
+        return rdfModel;
+    }
+
+    private void writeNodes(List nodesList, Model rdfModel) throws RDFException {
+        /// @todo need to be able to handle unconnected nodes.
+        // stubs are in the commented out below.
+        Iterator nodesIterator = nodesList.iterator();
+        while (nodesIterator.hasNext()) {
+            Node curNode = (Node) nodesIterator.next();
+            Resource curResource = getResource(curNode);
+            boolean needToAddToModel = false;
+            if (! _processedNodes.contains(curNode)) {
+                needToAddToModel = true;
+            }
+            if (needToAddToModel) {
+                rdfModel.createResource(curResource);
+                //DAMLClass damlClass = new DAMLClassImpl(curResource, rdfModel, )
+                _processedNodes.add(curNode);
+            }
+        }
+    }
+
+    private void writeEdges(List edgesList, Hashtable edgeTypesToRdfMapping, Model rdfModel) throws RDFException {
         Iterator edgesIterator = edgesList.iterator();
         while (edgesIterator.hasNext()) {
             Edge curEdge = (Edge) edgesIterator.next();
@@ -145,25 +151,6 @@ public class RdfModelWriter implements ModelWriter {
                 _processedNodes.add(curEdge.getToNode());
             }
         }
-
-        /// @todo need to be able to handle unconnected nodes.
-        // stubs are in the commented out below.
-
-//        Iterator nodesIterator = nodesList.iterator();
-//        while (nodesIterator.hasNext()) {
-//            Node curNode = (Node) nodesIterator.next();
-//            Resource curResource = getResource(curNode);
-//            boolean needToAddToModel = false;
-//            if (! _processedNodes.contains(curNode)) {
-//                needToAddToModel = true;
-//            }
-//            if (needToAddToModel) {
-//                rdfModel.createResource(curResource);
-//                //DAMLClass damlClass = new DAMLClassImpl(curResource, rdfModel, )
-//                _processedNodes.add(curNode);
-//            }
-//        }
-        return rdfModel;
     }
 
     private Hashtable mapEdgeTypesToRdfTags() throws NoSuchRelationLinkException {

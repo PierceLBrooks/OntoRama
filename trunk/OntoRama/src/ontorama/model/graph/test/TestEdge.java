@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -51,20 +52,20 @@ public class TestEdge extends TestCase {
 
     private Set relLinksSet;
 
-    private LinkedList outboundEdgesListForNode1 = new LinkedList();
-    private LinkedList inboundEdgesListForNode6 = new LinkedList();
+    private List outboundEdgesListForNode1 = new LinkedList();
+    private List inboundEdgesListForNode6 = new LinkedList();
 
-    private LinkedList outboundEdgesListForNode1Relation1 = new LinkedList();
-    private LinkedList inboundEdgesListForNode6Relation1 = new LinkedList();
+    private List outboundEdgesListForNode1Relation1 = new LinkedList();
+    private List inboundEdgesListForNode6Relation1 = new LinkedList();
 
-    private LinkedList outboundNodesListForNode1RelLinkSet = new LinkedList();
-    private LinkedList inboundNodesListForNode6RelLinkSet = new LinkedList();
+    private List outboundNodesListForNode1RelLinkSet = new LinkedList();
+    private List inboundNodesListForNode6RelLinkSet = new LinkedList();
 
-    private LinkedList outboundNodesListForNode1Relation1 = new LinkedList();
-    private LinkedList inboundNodesListForNode6Relation2 = new LinkedList();
+    private List outboundNodesListForNode1Relation1 = new LinkedList();
+    private List inboundNodesListForNode6Relation2 = new LinkedList();
 
-    private LinkedList outboundNodesListForNode1 = new LinkedList();
-    private LinkedList inboundNodesListForNode6 = new LinkedList();
+    private List outboundNodesListForNode1 = new LinkedList();
+    private List inboundNodesListForNode6 = new LinkedList();
 
     private URI creatorUri1;
     private URI creatorUri2;

@@ -62,13 +62,11 @@ public class RdfDamlParser implements Parser {
     private String _correctedRdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
     private String _damlNamespace = null;
-    private String _pmNamespace = null;
 
     /// @todo this definition doesnt work due to the schema namespace WebKB is using
     //private static final String _rdfsNamespaceSuffix = "rdf-schema#";
     private static final String _rdfsNamespaceSuffix = "rdf-schema";
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
-    private static final String _pmNamespaceSuffix = "pm#";
 
     /**
      * hold RDF resources that are potentials to be concept node types
@@ -213,8 +211,6 @@ public class RdfDamlParser implements Parser {
 
         Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
         Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
-
-        Property damlComplementOfProperty = new PropertyImpl(_damlNamespace, "complementOf");
 
         resourceConceptNodeTypesList = runSelector(model, typeProperty, classResource);
         resourceRelationNodeTypesList = runSelector(model, typeProperty, propertyResource);

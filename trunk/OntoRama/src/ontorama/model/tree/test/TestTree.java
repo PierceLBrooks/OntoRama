@@ -6,7 +6,6 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
-import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -42,7 +41,7 @@ public class TestTree extends TestCase{
     }
 
     public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
-    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();
@@ -249,7 +248,8 @@ public class TestTree extends TestCase{
             _tree.removeNode(node10);
             fail("should raise  a TreeModificationException");
         }
-        catch (TreeModificationException e) {}
+        catch (TreeModificationException e) {
+        }
     }
 
 

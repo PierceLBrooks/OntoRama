@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
@@ -35,7 +36,7 @@ import net.jxta.protocol.PipeAdvertisement;
 
 public class InputpipeDiscoveryListener implements DiscoveryListener{
   private Message messageToBeSent = null;
-  private HashMap peersAlreadySentTo = null;
+  private Map peersAlreadySentTo = null;
   private CommunicationSender comm = null;
   private PeerGroup pg = null;
   
@@ -112,8 +113,10 @@ public class InputpipeDiscoveryListener implements DiscoveryListener{
         		    }
              } catch (IOException e) {
 				  //TODO handle the error new PeerNotFoundException("Found an advertisement without any peer conencted");
+				  e.printStackTrace();
              } catch (NullPointerException e) {
 				//TODO handle the error throw (NullPointerException) e.fillInStackTrace();
+				e.printStackTrace();
 			}	
 						
  		}

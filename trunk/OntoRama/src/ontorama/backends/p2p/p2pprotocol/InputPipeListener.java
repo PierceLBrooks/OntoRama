@@ -4,7 +4,6 @@ import net.jxta.endpoint.Message;
 import net.jxta.pipe.PipeMsgEvent;
 import net.jxta.pipe.PipeMsgListener;
 import ontorama.backends.p2p.*;
-import ontorama.backends.p2p.P2PGlobals;
 import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 /**

@@ -13,7 +13,7 @@ import net.jxta.id.ID;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-public class SearchGroupResultElement {
+public class GroupReferenceElement {
 
 	private ID id = null;
 	private String name = null;
@@ -29,7 +29,7 @@ public class SearchGroupResultElement {
 	 * 
 	 * @version P2P-OntoRama 1.0.0
 	 */	
-	public SearchGroupResultElement(ID id, String name, String descr) {
+	public GroupReferenceElement(ID id, String name, String descr) {
 		this.id = id;
 		this.name = name;
 		this.descr = descr;		

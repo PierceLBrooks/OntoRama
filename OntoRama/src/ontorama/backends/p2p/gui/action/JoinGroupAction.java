@@ -16,7 +16,7 @@ public class JoinGroupAction extends AbstractAction {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-//		groupToJoin = (SearchGroupResultElement) _existingGroupPanel.getValue();
+//		groupToJoin = (GroupReferenceElement) _existingGroupPanel.getValue();
 //		
 //		String groupId = group.getID().toString();
 //		System.out.println("trying to join group id " + groupId);

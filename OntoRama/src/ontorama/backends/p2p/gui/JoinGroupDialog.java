@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
 
 /*
@@ -49,7 +49,7 @@ public class JoinGroupDialog extends JDialog {
 
     private boolean _cancelled = false;
     private int _selectedOption;
-    private SearchGroupResultElement _value = null;
+    private GroupReferenceElement _value = null;
 
     public JoinGroupDialog(Frame parent, P2PBackend p2pBackend)  {
         super(parent, _title, true);
@@ -142,9 +142,9 @@ public class JoinGroupDialog extends JDialog {
      * @todo quite a mess, think how to refactor.
      */
     private boolean verifyInputCorrect () {
-        SearchGroupResultElement groupToJoin;
+        GroupReferenceElement groupToJoin;
         if (_tabbedPanel.getSelectedComponent().equals(_existingGroupPanel) ) {
-            groupToJoin = (SearchGroupResultElement) _existingGroupPanel.getValue();
+            groupToJoin = (GroupReferenceElement) _existingGroupPanel.getValue();
             if (groupToJoin == null) {
                 return false;
             }
@@ -167,7 +167,7 @@ public class JoinGroupDialog extends JDialog {
                     if ( resVector.isEmpty()) {
                         return false;
                     }
-                    _value = (SearchGroupResultElement) resVector.firstElement();
+                    _value = (GroupReferenceElement) resVector.firstElement();
                 } catch (GroupException e) {
                     System.out.println("ERROR:");
                     e.printStackTrace();
@@ -181,7 +181,7 @@ public class JoinGroupDialog extends JDialog {
         return false;
     }
 
-    private boolean joinGroup (SearchGroupResultElement group) {
+    private boolean joinGroup (GroupReferenceElement group) {
         try {
             String groupId = group.getID().toString();
             System.out.println("trying to join group id " + groupId);
@@ -209,7 +209,7 @@ public class JoinGroupDialog extends JDialog {
         return _selectedOption;
     }
 
-    public SearchGroupResultElement getGroupName () {
+    public GroupReferenceElement getGroupName () {
         return _value;
     }
 

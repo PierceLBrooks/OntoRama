@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.DialogUtil;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
 
 /**
@@ -49,7 +49,7 @@ public class NewGroupAction extends AbstractAction {
 				ErrorDialog.showError(_parent, _errMessageTitle, "Failed to create new group");
 				return;
 			}
-			SearchGroupResultElement newGroup = (SearchGroupResultElement) resVector.firstElement();
+			GroupReferenceElement newGroup = (GroupReferenceElement) resVector.firstElement();
 			String groupId = newGroup.getID().toString();
 			System.out.println("trying to join group id " + groupId);
 			_p2pBackend.getSender().sendJoinGroup(groupId);

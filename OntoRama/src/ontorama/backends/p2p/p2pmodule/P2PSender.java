@@ -14,7 +14,7 @@ import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 /**
  * @author henrika
  *
@@ -90,7 +90,7 @@ public class P2PSender{
      * @param searchAttrib null/SEARCHGROUPNAME/SEARCHGROUPDESCR
      * @param searchString null/string and or wildcards (e.g. ?,*)
      *
-     * @return a vector of SearchGroupResultElement
+     * @return a vector of GroupReferenceElement
      * @exception
      *
      * @version P2P-OntoRama 1.0.0
@@ -200,14 +200,14 @@ public class P2PSender{
               Vector searchGroupResult = this.comm.sendSearchGroup("Name",groupName);
               Enumeration tmpEnumernation = searchGroupResult.elements();
               if (tmpEnumernation.hasMoreElements()) {
-                  SearchGroupResultElement searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
+                  GroupReferenceElement searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
                   String tmpGroupID = searchGroupResultElement.getID().toString();
                   this.peersPanel.addGroup(tmpGroupID, groupName);
 
                   Vector result = this.comm.peerDiscovery(tmpGroupID);
                   Enumeration enum = result.elements();
                   while (enum.hasMoreElements()){
-                          SearchGroupResultElement element = (SearchGroupResultElement)enum.nextElement();
+                          GroupReferenceElement element = (GroupReferenceElement)enum.nextElement();
                           this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
                   }
                } else {
@@ -245,7 +245,7 @@ public class P2PSender{
  		Enumeration e = joinedGroups().elements();
  		while (e.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) e.nextElement();
-			SearchGroupResultElement element = new SearchGroupResultElement(pg.getPeerGroupID(), 
+			GroupReferenceElement element = new GroupReferenceElement(pg.getPeerGroupID(), 
 											pg.getPeerGroupName(), 
 											pg.getPeerGroupAdvertisement().getDescription());
 			res.add(element);
@@ -259,11 +259,11 @@ public class P2PSender{
 
 
    private static void printSearchGroupResult(String tag, Vector obj) {
-        SearchGroupResultElement searchGroupResultElement = null;
+        GroupReferenceElement searchGroupResultElement = null;
         System.out.println("Found following matching " + tag + "s");
         Enumeration tmpEnumernation = obj.elements();
             while (tmpEnumernation.hasMoreElements()) {
-            searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
+            searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
             System.out.println(tag + ":" +
                 searchGroupResultElement.getName()
                 + " (ID:" + searchGroupResultElement.getID() + ")");

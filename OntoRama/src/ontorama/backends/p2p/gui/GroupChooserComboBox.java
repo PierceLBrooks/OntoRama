@@ -3,7 +3,7 @@ package ontorama.backends.p2p.gui;
 import java.util.Vector;
 import javax.swing.JComboBox;
 
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
 /**
  * @author nataliya
@@ -21,8 +21,8 @@ public class GroupChooserComboBox extends JComboBox implements GroupChooser {
 	/**
 	 * @see ontorama.backends.p2p.gui.GroupChooser#getSelectedGroup()
 	 */
-	public SearchGroupResultElement getSelectedGroup() {
-		return (SearchGroupResultElement) getSelectedItem();
+	public GroupReferenceElement getSelectedGroup() {
+		return (GroupReferenceElement) getSelectedItem();
 	}
 
 }

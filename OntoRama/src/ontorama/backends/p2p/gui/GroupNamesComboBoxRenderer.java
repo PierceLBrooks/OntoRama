@@ -7,7 +7,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import net.jxta.peergroup.PeerGroup;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
 /*
  * Created by IntelliJ IDEA.
@@ -41,8 +41,8 @@ public class GroupNamesComboBoxRenderer extends JLabel  implements ListCellRende
             return this;
         }
         /// @todo this if seems as a hack!
-        if (value instanceof  SearchGroupResultElement) {
-            SearchGroupResultElement element = (SearchGroupResultElement) value;
+        if (value instanceof  GroupReferenceElement) {
+            GroupReferenceElement element = (GroupReferenceElement) value;
             setText(element.getName());
             setToolTipText(element.getDescription());
         }

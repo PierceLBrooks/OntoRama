@@ -227,7 +227,7 @@ public class CommunicationGroup extends Communication {
 	 * @param searchAttrib: null/SEARCHGROUPNAME/SEARCHGROUPDESCR
 	 * @param searchString: null/string and or wildcards (e.g. ?,*)
 	 * 
-	 * @return vector of SearchGroupResultElement
+	 * @return vector of GroupReferenceElement
 	 * @exception 
 	 *
 	 * @version P2P-OntoRama 1.0.0
@@ -274,7 +274,7 @@ public class CommunicationGroup extends Communication {
 			//found at least one adv
 			//populate SearchGroupResult from incoming advertisments
 			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
-			SearchGroupResultElement groupRes = new SearchGroupResultElement (
+			GroupReferenceElement groupRes = new GroupReferenceElement (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
 			System.out.println("search groups returned: " + groupRes + ", group name = " + groupRes.getName());
@@ -289,7 +289,7 @@ public class CommunicationGroup extends Communication {
 	* then waits for a certain amount of time for responses from other peers.
 	* 
 	* @param query a string containing the query 
-	* @return a vector of SearchGroupResultElement
+	* @return a vector of GroupReferenceElement
 	* @exception 
 	*
 	* @version P2P-OntoRama 1.0.0
@@ -332,7 +332,7 @@ public class CommunicationGroup extends Communication {
 		while (enum.hasMoreElements()) {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum.nextElement();
-			searchGroupResult.add(new SearchGroupResultElement(peerAdv.getPeerID(),
+			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerID(),
 								  									peerAdv.getName(),
 								  									peerAdv.getDescription()));
 		}

@@ -63,7 +63,7 @@ public interface CommunicationProtocol {
 	 * @param searchAttrib null/SEARCHGROUPNAME/SEARCHGROUPDESCR
 	 * @param searchString null/string and or wildcards (e.g. ?,*)
 	 * 
-	 * @return a vector of SearchGroupResultElement
+	 * @return a vector of GroupReferenceElement
 	 * @exception 
 	 *
 	 * @version P2P-OntoRama 1.0.0
@@ -128,7 +128,7 @@ public interface CommunicationProtocol {
 	* then waits for 20 seconds to get responses
 	* 
 	* @param groupIDasString a string with the peer group id for the group to send a peer discovery in
-	* @return a vector of SearchGroupResultElement
+	* @return a vector of GroupReferenceElement
 	* @exception 
 	*
 	* @version P2P-OntoRama 1.0.0

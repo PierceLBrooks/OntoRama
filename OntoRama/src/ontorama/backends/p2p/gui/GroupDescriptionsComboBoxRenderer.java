@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
 /*
  * Created by IntelliJ IDEA.
@@ -39,7 +39,7 @@ public class GroupDescriptionsComboBoxRenderer extends JLabel  implements ListCe
         if (value == null) {
             return this;
         }
-        SearchGroupResultElement element = (SearchGroupResultElement) value;
+        GroupReferenceElement element = (GroupReferenceElement) value;
         setText(element.getDescription());
         setToolTipText(element.getName());
         return this;

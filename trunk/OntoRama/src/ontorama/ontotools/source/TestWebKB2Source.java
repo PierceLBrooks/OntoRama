@@ -7,11 +7,12 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.examplesmanager.ExamplesBackend;
+import ontorama.backends.examplesmanager.OntoramaExample;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
-import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>
@@ -65,7 +66,7 @@ public class TestWebKB2Source extends TestCase {
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
     	backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	           
-        backend.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
+        backend.setCurrentExample(getExampleByName("test webkb: cat"));
         sourceUri = backend.getSourceUri();
         webkbSource = new WebKB2Source();
     }
@@ -192,5 +193,28 @@ public class TestWebKB2Source extends TestCase {
         String message = "testing source result, if newQuery is null for term " + query.getQueryTypeName();
         assertEquals(message, newQueryIsNull, (sourceResultToTest.getNewQuery() == null));
     }
+
+	/**
+	 *
+	 */
+	private OntoramaExample getExampleByName(String exampleName) {
+		Backend backend = OntoramaConfig.getBackend();
+		ExamplesBackend examplesBackend = (ExamplesBackend) backend;
+	    List examplesList = examplesBackend.getExamplesList();
+	    OntoramaExample result = null;
+	    for (int i = 0; i < examplesList.size(); i++) {
+	        OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
+	        //System.out.println("cur example = " + curExample.getName());
+	        if (curExample.getName().equals(exampleName)) {
+	            result = curExample;
+	            //System.out.println("FOUND");
+	        }
+	    }
+	    if (result == null) {
+	        System.err.println("couldn't find example for exampleName = '" + exampleName + "' in the corresponding examples config file");
+	        System.exit(-1);
+	    }
+	    return result;
+	}
 
 }

@@ -1,5 +1,6 @@
 package ontorama.backends.p2p.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,10 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import ontorama.backends.p2p.model.Change;
 import ontorama.backends.p2p.model.EdgeChange;
@@ -35,6 +39,14 @@ public class ChangePanel extends JPanel {
 
         _myModel = new MyTableModel();
         _table = new JTable(_myModel);
+        	
+		TableCellRenderer renderer_0 = _table.getDefaultRenderer(_table.getColumnClass(0));
+		if (renderer_0 instanceof DefaultTableCellRenderer) {
+			((DefaultTableCellRenderer) renderer_0).setToolTipText("Click to Select/Deselect");
+	    }
+        
+		_table.setDefaultRenderer(_table.getColumnClass(1), new NodeEdgeColumnTableRenderer());
+		_table.setDefaultRenderer(_table.getColumnClass(2), new AssertColumnTableRenderer());
         
               
         Dimension d = new Dimension(250, 400);
@@ -124,6 +136,12 @@ public class ChangePanel extends JPanel {
 				case 0 :
 					result = Boolean.class;
 					break;
+				case 1 :
+					result = Change.class;
+					break;
+				case 2 :
+					result = Change.class;
+					break;
 				default :
 					result = String.class;
 					break;
@@ -158,15 +176,16 @@ public class ChangePanel extends JPanel {
 			_change = change;
 			
 			row[0] = new Boolean(false);
-			row[2] = change.getAction();
+			row[1] = change;
+			row[2] = change;
 			
 			if (change instanceof NodeChange ) {
-				row[1] = "node";
+				//row[1] = "node";
 				NodeChange nodeChange = (NodeChange) change;
 				row[3] = nodeChange.getNodeName();
 			}
 			else {
-				row[1] = "edge";
+				//row[1] = "edge";
 				EdgeChange edgeChange = (EdgeChange) change;
 				row[3] = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
 			}
@@ -190,4 +209,42 @@ public class ChangePanel extends JPanel {
 			return res;
 		}
     }
+    
+    private class NodeEdgeColumnTableRenderer extends JLabel implements TableCellRenderer  {
+
+		public Component getTableCellRendererComponent(JTable table, Object value, 
+													boolean isSelected, boolean hasFocus, 
+													int row, int col) {
+
+			if (value instanceof NodeChange) {
+				setText("node");
+				setToolTipText("Node");
+			}
+			else {
+				setText("edge");
+				setToolTipText("Edge");
+			}
+			return this;
+		}
+    	
+    }
+	private class AssertColumnTableRenderer extends JLabel implements TableCellRenderer  {
+
+		public Component getTableCellRendererComponent(JTable table, Object value, 
+													boolean isSelected, boolean hasFocus, 
+													int row, int col) {
+
+			String action = ((Change) value).getAction();
+			if (action.equalsIgnoreCase(Change.ASSERT)) {
+				setText("+");
+				setToolTipText("Asserted");
+			}
+			else {
+				setText("-");
+				setToolTipText("Rejected");
+			}
+			return this;
+		}
+    	
+	}
 }

@@ -106,20 +106,20 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         buildRelationLinksQueryPanel();
         this.add(relationLinksPanel,BorderLayout.NORTH);
 
-        JButton makeSVG = new JButton("Run Spring and force test");
-        makeSVG.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent a) {
-                testSpringAndForceAlgorthms();
-            }});
-        queryFieldPanel.add(makeSVG);
-
-        queryFieldPanel.add( this.imgNameField );
-        JButton snapshot = new JButton("Take snap shot");
-        snapshot.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent a) {
-                takeSnapshot();
-            }});
-        queryFieldPanel.add(snapshot);
+//        JButton makeSVG = new JButton("Run Spring and force test");
+//        makeSVG.addActionListener( new ActionListener() {
+//            public void actionPerformed(ActionEvent a) {
+//                testSpringAndForceAlgorthms();
+//            }});
+//        queryFieldPanel.add(makeSVG);
+//
+//        queryFieldPanel.add( this.imgNameField );
+//        JButton snapshot = new JButton("Take snap shot");
+//        snapshot.addActionListener( new ActionListener() {
+//            public void actionPerformed(ActionEvent a) {
+//                takeSnapshot();
+//            }});
+//        queryFieldPanel.add(snapshot);
 
 
         this.add(queryFieldPanel, BorderLayout.CENTER);

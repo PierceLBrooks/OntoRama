@@ -353,13 +353,14 @@ public class OntoRamaApp extends JFrame {
      */
     public boolean executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
+        //viewListener = new ViewEventListener();
 
         graph = getGraphFromQuery(query);
         if (graph == null) {
           return false;
         }
 
-        hyperView = new SimpleHyperView(viewListener);
+        //hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
 
         treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();

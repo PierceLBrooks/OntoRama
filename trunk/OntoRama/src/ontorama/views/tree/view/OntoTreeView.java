@@ -12,7 +12,6 @@ import java.util.Enumeration;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
@@ -53,13 +52,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         _eventBroker = eventBroker;
         new TreeViewFocusEventHandler(_eventBroker, this);
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName() );
-        } catch (Exception e) {
-            // case if this lookAndFeel doesn't exist
-        }
     }
 
     public void setTree(Tree tree) {

@@ -24,11 +24,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 
 public class CanvasManager extends JComponent
         implements MouseListener, MouseMotionListener, FocusChangedObserver {
+
+    /**
+     * Inner class to handle canvasItem single click
+     */
+    private class CanvasItemSingleClicked  extends TimerTask{
+        private HyperNodeView hyperNodeView;
+        public CanvasItemSingleClicked( HyperNodeView hyperNodeView ) {
+            this.hyperNodeView = hyperNodeView;
+        }
+
+        public void run() {
+            hyperNodeView.hasFocus();
+        }
+    }
+
 
     /**
      * Store the last point.
@@ -109,18 +126,27 @@ public class CanvasManager extends JComponent
     private int hyperViewMode = TRANSLATION;
 
     /**
-     * draw nodes and lines.
+     * A timer to distinguish between single and double clicks.
+     */
+    private Timer doubleClickTimer = null;
+
+    /**
+     * draw canvas items.
+     *
+     * @todo ConcurrentModificationException need to be addressed.
      */
     protected void drawNodes( Graphics2D g2d ) {
         if(lengthOfAnimation > 0) {
             animate();
-            //noLabels = true;
         }
-        Iterator it = canvasItems.iterator();
-        while( it.hasNext() ) {
-            CanvasItem cur = (CanvasItem)it.next();
-            cur.draw(g2d);
+        try {
+            Iterator it = canvasItems.iterator();
+            while( it.hasNext() ) {
+                CanvasItem cur = (CanvasItem)it.next();
+                cur.draw(g2d);
+            }
         }
+        catch(java.util.ConcurrentModificationException e){drawNodes( g2d );}
     }
 
     protected void animate() {
@@ -148,6 +174,12 @@ public class CanvasManager extends JComponent
     }
 
     public void mouseClicked( MouseEvent e ) {
+    }
+
+    /**
+     * Find HyperNodeView that has been clicked on.
+     */
+    private HyperNodeView getClickedItem( MouseEvent e ) {
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
@@ -158,11 +190,11 @@ public class CanvasManager extends JComponent
                 curY = curY  * (1 / canvasScale);
                 boolean found = cur.isClicked( curX, curY);
                 if(  found == true ) {
-                    ((HyperNodeView)cur).hasFocus();
-                    break;
+                    return (HyperNodeView)cur;
                 }
             }
         }
+        return null;
     }
 
     /**
@@ -209,8 +241,24 @@ public class CanvasManager extends JComponent
     }
 
     public void mouseReleased(MouseEvent e) {
-        dragmode = false;
-        repaint();
+        if( dragmode == true ) {
+            dragmode = false;
+            repaint();
+        }
+        else {
+            HyperNodeView hyperNodeView = getClickedItem( e );
+            if( hyperNodeView == null ) {
+                return;
+            }
+            if( e.getClickCount() == 1) {
+                this.doubleClickTimer = new Timer();
+                this.doubleClickTimer.schedule( new CanvasItemSingleClicked( hyperNodeView ),  300 );
+                hyperNodeView = null;
+            } else if( e.getClickCount() == 2 ){
+                this.doubleClickTimer.cancel();
+            }
+            repaint();
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -285,6 +333,9 @@ public class CanvasManager extends JComponent
     }
 
     public void mouseMoved(MouseEvent e) {
+        if( dragmode ) {
+            return;
+        }
         Iterator it = canvasItems.iterator();
         double minDist = this.getWidth();
         double dist = 0;

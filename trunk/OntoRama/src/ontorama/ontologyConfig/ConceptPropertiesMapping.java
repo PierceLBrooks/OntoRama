@@ -24,7 +24,7 @@ public class ConceptPropertiesMapping {
     /**
      *
      */
-    public ConceptPropertiesMapping (String id, String rdfTag) {
+    public ConceptPropertiesMapping(String id, String rdfTag) {
         this.id = id;
         this.rdfTag = rdfTag;
     }
@@ -32,14 +32,14 @@ public class ConceptPropertiesMapping {
     /**
      *
      */
-     public String getId () {
+    public String getId() {
         return this.id;
-     }
+    }
 
-     /**
-      *
-      */
-      public String getRdfTag () {
+    /**
+     *
+     */
+    public String getRdfTag() {
         return this.rdfTag;
-      }
+    }
 }

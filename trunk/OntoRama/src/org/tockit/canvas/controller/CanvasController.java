@@ -3,17 +3,22 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasController.java,v 1.2 2002-08-01 08:54:00 johang Exp $
+ * $Id: CanvasController.java,v 1.3 2002-08-01 09:00:05 johang Exp $
  */
 package org.tockit.canvas.controller;
 
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
-import org.tockit.canvas.events.*;
+import org.tockit.canvas.events.CanvasItemActivatedEvent;
+import org.tockit.canvas.events.CanvasItemClickedEvent;
+import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
+import org.tockit.canvas.events.CanvasItemDraggedEvent;
 import org.tockit.events.EventBroker;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.Timer;
 
@@ -104,7 +109,7 @@ public class CanvasController implements MouseListener, MouseMotionListener {
             Point2D modelPos = null;
             modelPos = canvas.getCanvasCoordinates(screenPos);
             this.eventBroker.processEvent(
-                    new CanvasItemClickedEvent(this.selectedCanvasItem,modelPos,screenPos));
+                    new CanvasItemClickedEvent(this.selectedCanvasItem, modelPos, screenPos));
             if (e.getClickCount() == 1) {
                 this.doubleClickTimer = new Timer();
                 this.doubleClickTimer.schedule(

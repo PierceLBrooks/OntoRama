@@ -1,11 +1,8 @@
 package ontorama.webkbtools.inputsource;
 
-import java.io.Reader;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import ontorama.webkbtools.query.Query;
+
+import java.io.Reader;
 
 /**
  * <p>Description: Holds result returned from Ontology Server or
@@ -23,61 +20,61 @@ import ontorama.webkbtools.query.Query;
 
 public class SourceResult {
 
-  /**
-   *
-   */
-  private boolean queryIsSuccess = false;
+    /**
+     *
+     */
+    private boolean queryIsSuccess = false;
 
-  /**
-   *
-   */
-  private Reader reader = null;
+    /**
+     *
+     */
+    private Reader reader = null;
 
-  /**
-   *
-   */
-  private Query query = null;
+    /**
+     *
+     */
+    private Query query = null;
 
-  /**
-   *
-   */
-  public SourceResult(boolean queryIsSuccess, Reader reader, Query query) {
-    this.reader = reader;
-    this.queryIsSuccess = queryIsSuccess;
-    this.query = query;
-  }
+    /**
+     *
+     */
+    public SourceResult(boolean queryIsSuccess, Reader reader, Query query) {
+        this.reader = reader;
+        this.queryIsSuccess = queryIsSuccess;
+        this.query = query;
+    }
 
-  /**
-   *
-   */
-  public boolean queryWasSuccess () {
-    return this.queryIsSuccess;
-  }
+    /**
+     *
+     */
+    public boolean queryWasSuccess() {
+        return this.queryIsSuccess;
+    }
 
-  /**
-   *
-   */
-  public Reader getReader () {
-    return this.reader;
-  }
+    /**
+     *
+     */
+    public Reader getReader() {
+        return this.reader;
+    }
 
-  /**
-   *
-   */
-  public Query getNewQuery () {
-    return this.query;
-  }
+    /**
+     *
+     */
+    public Query getNewQuery() {
+        return this.query;
+    }
 
-  /**
-   *
-   */
-  public String toString() {
-    String str = "Source Result";
+    /**
+     *
+     */
+    public String toString() {
+        String str = "Source Result";
 
-    str = str + ": queryIsSuccess = " + queryIsSuccess;
-    str = str + ", reader = " + reader;
-    str = str + ", query = " + query;
+        str = str + ": queryIsSuccess = " + queryIsSuccess;
+        str = str + ", reader = " + reader;
+        str = str + ", query = " + query;
 
-    return str;
-  }
+        return str;
+    }
 }

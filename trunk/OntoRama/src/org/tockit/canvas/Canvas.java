@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: Canvas.java,v 1.2 2002-08-01 08:53:58 johang Exp $
+ * $Id: Canvas.java,v 1.3 2002-08-01 09:00:02 johang Exp $
  */
 package org.tockit.canvas;
 
@@ -12,11 +12,15 @@ import org.tockit.events.EventBroker;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A generic drawing canvas with z-order and controller structure.

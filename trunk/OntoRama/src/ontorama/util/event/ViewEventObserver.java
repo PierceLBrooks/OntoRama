@@ -1,8 +1,7 @@
-
 package ontorama.util.event;
 
-import ontorama.model.GraphNode;
 import ontorama.graph.view.GraphView;
+import ontorama.model.GraphNode;
 
 /**
  * ViewEventObserver
@@ -10,8 +9,8 @@ import ontorama.graph.view.GraphView;
 
 
 public interface ViewEventObserver extends GraphView {
-	/**
-	 *
-	 */
-	public void query ( GraphNode node);
+    /**
+     *
+     */
+    public void query(GraphNode node);
 }

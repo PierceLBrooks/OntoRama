@@ -1,7 +1,6 @@
 package ontorama.webkbtools.util;
 
 
-
 /**
 
  * Title:
@@ -18,29 +17,25 @@ package ontorama.webkbtools.util;
 
  */
 
-import java.lang.Exception;
+
+public class NoSuchRelationLinkException extends Exception {
+
+    private String errorMsg = null;
+
+    /**
+     * @todo  dont' need parameter maxValue, need to remove it.
+     */
+    public NoSuchRelationLinkException(int relationLink, int maxValue) {
+
+        errorMsg = "RelationLink " + relationLink + " does not exist. Enter a value between 0 and " + maxValue;
+
+    }
 
 
+    public String getMessage() {
 
-public class NoSuchRelationLinkException extends Exception{
+        return errorMsg;
 
-  private String errorMsg = null;
-
-  /**
-   * @todo  dont' need parameter maxValue, need to remove it.
-   */
-  public NoSuchRelationLinkException(int relationLink, int maxValue) {
-
-    errorMsg = "RelationLink " + relationLink + " does not exist. Enter a value between 0 and " + maxValue;
-
-  }
-
-
-
-  public String getMessage() {
-
-    return errorMsg;
-
-  }
+    }
 
 }

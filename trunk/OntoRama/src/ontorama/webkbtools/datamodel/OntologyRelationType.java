@@ -11,9 +11,9 @@ package ontorama.webkbtools.datamodel;
 
 public class OntologyRelationType extends OntologyTypeImplementation {
 
-  RelationSignature relationSignature;
+    RelationSignature relationSignature;
 
-  public OntologyRelationType(String typeName) {
-    super(typeName);
-  }
+    public OntologyRelationType(String typeName) {
+        super(typeName);
+    }
 }

@@ -1,31 +1,20 @@
 package ontorama.webkbtools.query;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collection;
-
-import java.io.Reader;
-import java.io.IOException;
-
 import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
-
-import ontorama.webkbtools.query.parser.Parser;
-
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.inputsource.SourceResult;
-
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
+import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.inputsource.SourceResult;
+import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.util.*;
 
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.util.SourceException;
-import ontorama.webkbtools.util.NoSuchTypeInQueryResult;
-import ontorama.webkbtools.util.CancelledQueryException;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -74,15 +63,15 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      * debug
      */
-    Debug debug = new Debug (OntoramaConfig.DEBUG);
+    Debug debug = new Debug(OntoramaConfig.DEBUG);
 
 
     /**
      * Execute a query to OntologyServer and get a query result
      */
     public QueryEngine(Query query) throws ParserException, IOException,
-                      ClassNotFoundException, InstantiationException,
-                      IllegalAccessException, SourceException, NoSuchTypeInQueryResult, CancelledQueryException {
+            ClassNotFoundException, InstantiationException,
+            IllegalAccessException, SourceException, NoSuchTypeInQueryResult, CancelledQueryException {
         this.query = query;
 
         String queryUrl = OntoramaConfig.sourceUri;
@@ -108,32 +97,31 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      *
      */
-    private QueryResult executeQuery (Source source, Parser parser, String queryUrl, Query query)
-                                      throws NoSuchTypeInQueryResult, SourceException,
-                                      ParserException, IOException, CancelledQueryException {
-      QueryResult queryResult = null;
-      Reader r = null;
-      Query newQuery = null;
-      System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
+    private QueryResult executeQuery(Source source, Parser parser, String queryUrl, Query query)
+            throws NoSuchTypeInQueryResult, SourceException,
+            ParserException, IOException, CancelledQueryException {
+        QueryResult queryResult = null;
+        Reader r = null;
+        Query newQuery = null;
+        System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
 
-      SourceResult sourceResult = source.getSourceResult(queryUrl, query);
-      System.out.println(sourceResult.toString());
-      if (! sourceResult.queryWasSuccess()) {
-        newQuery = sourceResult.getNewQuery();
-        queryResult = executeQuery(source, parser, queryUrl, newQuery);
-      }
-      else {
-        r = sourceResult.getReader();
-        this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
-        r.close();
-        String newTermName = checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
-        if (! newTermName.equals(query.getQueryTypeName())) {
-          query = new Query(newTermName, query.getRelationLinksList());
+        SourceResult sourceResult = source.getSourceResult(queryUrl, query);
+        System.out.println(sourceResult.toString());
+        if (!sourceResult.queryWasSuccess()) {
+            newQuery = sourceResult.getNewQuery();
+            queryResult = executeQuery(source, parser, queryUrl, newQuery);
+        } else {
+            r = sourceResult.getReader();
+            this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+            r.close();
+            String newTermName = checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+            if (!newTermName.equals(query.getQueryTypeName())) {
+                query = new Query(newTermName, query.getRelationLinksList());
+            }
+            queryResult = new QueryResult(query, getQueryTypesList().iterator());
+
         }
-        queryResult = new QueryResult(query, getQueryTypesList().iterator());
-
-      }
-      return queryResult;
+        return queryResult;
     }
 
     /**
@@ -152,27 +140,27 @@ public class QueryEngine implements QueryEngineInterface {
      * @todo  may not be a good idea to do this here, since identifiers with hashes
      * may be specific to WebKB. Maybe should do some checking in WebKB2Source.
      */
-    private String checkResultSetContainsSearchTerm (Collection resultSet, String termName)
-                            throws NoSuchTypeInQueryResult {
-      boolean found = false;
-      Iterator it = resultSet.iterator();
-      String newTermName = termName;
-      while (it.hasNext()) {
-        OntologyType cur = (OntologyType) it.next();
-        String termIdentifierSuffix = "#" + termName;
-        //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
-        if (cur.getName().equals(termName)) {
-          found = true;
+    private String checkResultSetContainsSearchTerm(Collection resultSet, String termName)
+            throws NoSuchTypeInQueryResult {
+        boolean found = false;
+        Iterator it = resultSet.iterator();
+        String newTermName = termName;
+        while (it.hasNext()) {
+            OntologyType cur = (OntologyType) it.next();
+            String termIdentifierSuffix = "#" + termName;
+            //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
+            if (cur.getName().equals(termName)) {
+                found = true;
+            }
+            if (cur.getName().endsWith(termIdentifierSuffix)) {
+                found = true;
+                newTermName = cur.getName();
+            }
         }
-        if (cur.getName().endsWith(termIdentifierSuffix)) {
-          found = true;
-          newTermName = cur.getName();
+        if (!found) {
+            throw new NoSuchTypeInQueryResult(termName);
         }
-      }
-      if (!found) {
-        throw new NoSuchTypeInQueryResult(termName);
-      }
-      return newTermName;
+        return newTermName;
     }
 
 
@@ -188,7 +176,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator queryRelationLinks = this.query.getRelationLinksIterator();
 
         // wanted links iterator is empty
-        if ( ! queryRelationLinks.hasNext()) {
+        if (!queryRelationLinks.hasNext()) {
             System.out.println("query relation links iterator is empty, so no need to work on iterator");
             return this.typeRelativesCollection;
         }
@@ -201,16 +189,16 @@ public class QueryEngine implements QueryEngineInterface {
         LinkedList allLinksCopy = new LinkedList();
         Iterator allLinksIterator = allLinks.iterator();
         while (allLinksIterator.hasNext()) {
-          Integer nextRelLink = (Integer) allLinksIterator.next();
-          allLinksCopy.add(nextRelLink);
+            Integer nextRelLink = (Integer) allLinksIterator.next();
+            allLinksCopy.add(nextRelLink);
         }
 
         // remove all wanted relations from the allLinks set so
         // we end up with a list of unwanted relations
         //allLinks.removeAll(query.getRelationLinksCollection());
         allLinksCopy.removeAll(query.getRelationLinksCollection());
-        debug.message("QueryEngine","getQueryTypesIterator()","allLinks = " + OntoramaConfig.getRelationLinksSet());
-        debug.message("QueryEngine","getQueryTypesIterator()","unwantedLinksList = " + allLinksCopy);
+        debug.message("QueryEngine", "getQueryTypesIterator()", "allLinks = " + OntoramaConfig.getRelationLinksSet());
+        debug.message("QueryEngine", "getQueryTypesIterator()", "unwantedLinksList = " + allLinksCopy);
         Iterator unwantedLinks = allLinksCopy.iterator();
 
 
@@ -226,8 +214,7 @@ public class QueryEngine implements QueryEngineInterface {
                 Integer relationLink = (Integer) unwantedLinks.next();
                 try {
                     ontType.removeRelation(relationLink.intValue());
-                }
-                catch (NoSuchRelationLinkException e ) {
+                } catch (NoSuchRelationLinkException e) {
                     // ignore it since we are removing this relation anyway
                 }
             }
@@ -244,8 +231,8 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      *
      */
-     public QueryResult getQueryResult () {
-        return ( this.queryResult);
-     }
+    public QueryResult getQueryResult() {
+        return (this.queryResult);
+    }
 
 }

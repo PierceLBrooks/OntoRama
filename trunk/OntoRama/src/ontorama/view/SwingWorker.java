@@ -1,6 +1,6 @@
 package ontorama.view;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * This is the 3rd version of SwingWorker (also known as
@@ -24,9 +24,18 @@ public abstract class SwingWorker {
      */
     private static class ThreadVar {
         private Thread thread;
-        ThreadVar(Thread t) { thread = t; }
-        synchronized Thread get() { return thread; }
-        synchronized void clear() { thread = null; }
+
+        ThreadVar(Thread t) {
+            thread = t;
+        }
+
+        synchronized Thread get() {
+            return thread;
+        }
+
+        synchronized void clear() {
+            thread = null;
+        }
     }
 
     private ThreadVar threadVar;
@@ -85,8 +94,7 @@ public abstract class SwingWorker {
             }
             try {
                 t.join();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // propagate
                 return null;
             }
@@ -100,15 +108,16 @@ public abstract class SwingWorker {
      */
     public SwingWorker() {
         final Runnable doFinished = new Runnable() {
-           public void run() { finished(); }
+            public void run() {
+                finished();
+            }
         };
 
         Runnable doConstruct = new Runnable() {
             public void run() {
                 try {
                     setValue(construct());
-                }
-                finally {
+                } finally {
                     threadVar.clear();
                 }
 

@@ -3,12 +3,14 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: GraphicFormatRegistry.java,v 1.1 2002-08-01 04:53:43 johang Exp $
+ * $Id: GraphicFormatRegistry.java,v 1.2 2002-08-01 09:00:07 johang Exp $
  */
 package org.tockit.canvas.imagewriter;
 
 import java.io.File;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Handles the available graphic formats.

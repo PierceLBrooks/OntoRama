@@ -1,11 +1,10 @@
 package ontorama.webkbtools.inputsource.webkb;
 
-import java.util.Iterator;
+import ontorama.webkbtools.query.Query;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
-import ontorama.webkbtools.query.Query;
+import java.util.Iterator;
 
 /**
  * Description:   Implementation of QueryStringConstructorInterface that can
@@ -15,44 +14,44 @@ import ontorama.webkbtools.query.Query;
  * Company: DSTC
  * @version 1.0
  */
-public class WebkbQueryStringConstructor  {
+public class WebkbQueryStringConstructor {
 
-  /**
-   * Get query string for given query
-   * @param query
-   * @return  WebKB-2 query string ready to append to the cgi script uri.
-   * 
-   * @todo 	we are ignoring UnsupportedEncodingException  because we assume
-   * that at the time of writing this method we would have debugged this,
-   * thus insuring that this encoding is correct. check if this assumption
-   * is acceptable
-   */
-  public String getQueryString (Query query, String queryOutputFormat) {
-    String termName = query.getQueryTypeName();
-    Iterator iterator = null;
-    
-    String encoding = "UTF-8";
+    /**
+     * Get query string for given query
+     * @param query
+     * @return  WebKB-2 query string ready to append to the cgi script uri.
+     *
+     * @todo 	we are ignoring UnsupportedEncodingException  because we assume
+     * that at the time of writing this method we would have debugged this,
+     * thus insuring that this encoding is correct. check if this assumption
+     * is acceptable
+     */
+    public String getQueryString(Query query, String queryOutputFormat) {
+        String termName = query.getQueryTypeName();
+        Iterator iterator = null;
 
-    //queryParamTerm = termName;
-    //queryParamRecursLink = ">";
+        String encoding = "UTF-8";
 
-    String queryString = "?";
-    try {
-		queryString = queryString + "term=" + URLEncoder.encode(termName, encoding);
-	    //queryString = queryString + "term=" + URLEncoder.encode("wn#cat");
-	    queryString = queryString + "&recursLink=" + URLEncoder.encode(">", encoding);;
-	    queryString = queryString + "&format=" + URLEncoder.encode(queryOutputFormat, encoding);
-	    int queryDepth = query.getDepth();
-	    if (queryDepth > 0) {
-	    	queryString = queryString + "&depth=" + URLEncoder.encode(String.valueOf(queryDepth), encoding);
-	    }
-	    queryString = queryString + "&noHTML";
-	} 
-	catch (UnsupportedEncodingException e) {
-		e.printStackTrace();
-	}
+        //queryParamTerm = termName;
+        //queryParamRecursLink = ">";
 
-    System.out.println("\nqueryString = " + queryString + "\n");
-    return queryString;
-  }
+        String queryString = "?";
+        try {
+            queryString = queryString + "term=" + URLEncoder.encode(termName, encoding);
+            //queryString = queryString + "term=" + URLEncoder.encode("wn#cat");
+            queryString = queryString + "&recursLink=" + URLEncoder.encode(">", encoding);
+            ;
+            queryString = queryString + "&format=" + URLEncoder.encode(queryOutputFormat, encoding);
+            int queryDepth = query.getDepth();
+            if (queryDepth > 0) {
+                queryString = queryString + "&depth=" + URLEncoder.encode(String.valueOf(queryDepth), encoding);
+            }
+            queryString = queryString + "&noHTML";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\nqueryString = " + queryString + "\n");
+        return queryString;
+    }
 }

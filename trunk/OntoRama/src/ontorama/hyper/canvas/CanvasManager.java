@@ -10,39 +10,37 @@ import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.hyper.view.simple.LabelView;
 import ontorama.model.Edge;
 import ontorama.model.GraphNode;
-
 import ontorama.util.event.ViewEventListener;
+import org.tockit.canvas.CanvasItem;
+import org.tockit.canvas.events.CanvasItemActivatedEvent;
+import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.events.EventBroker;
 
-import javax.swing.JComponent;
-
-import java.awt.Graphics2D;
-import java.awt.Event;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.*;
-
-import org.tockit.canvas.CanvasItem;
-import org.tockit.canvas.events.CanvasItemSelectedEvent;
-import org.tockit.canvas.events.CanvasItemActivatedEvent;
-import org.tockit.events.EventBroker;
-
+import java.util.List;
+import java.util.Timer;
 
 
 public class CanvasManager extends JComponent
         implements MouseListener, MouseMotionListener {
 
-	protected ViewEventListener viewListener;
+    protected ViewEventListener viewListener;
 
     private EventBroker eventBroker;
 
     /**
      * Inner class to handle canvasItem single click
      */
-    private class CanvasItemSingleClicked  extends TimerTask{
+    private class CanvasItemSingleClicked extends TimerTask {
         private HyperNodeView hyperNodeView;
-        public CanvasItemSingleClicked( HyperNodeView hyperNodeView ) {
+
+        public CanvasItemSingleClicked(HyperNodeView hyperNodeView) {
             this.hyperNodeView = hyperNodeView;
         }
 
@@ -50,8 +48,8 @@ public class CanvasManager extends JComponent
             eventBroker.processEvent(
                     new CanvasItemSelectedEvent(
                             hyperNodeView,
-                            new Point2D.Double(0.0,0.0),
-                            new Point2D.Double(0.0,0.0))
+                            new Point2D.Double(0.0, 0.0),
+                            new Point2D.Double(0.0, 0.0))
             );
         }
     }
@@ -60,7 +58,7 @@ public class CanvasManager extends JComponent
     /**
      * Store the last point.
      */
-    protected Point2D lastPoint = new Point2D.Double( 0, 0 );
+    protected Point2D lastPoint = new Point2D.Double(0, 0);
 
     /**
      * Holds the current canvas scale.
@@ -126,13 +124,13 @@ public class CanvasManager extends JComponent
     private Timer singleClickTimer = new Timer();
 
     public CanvasManager(ViewEventListener viewListener, EventBroker eventBroker) {
-		this.viewListener = viewListener;
+        this.viewListener = viewListener;
         this.eventBroker = eventBroker;
-		this.viewListener.addObserver(this);
-        this.addMouseListener( this );
-        this.addMouseMotionListener( this );
-        this.setDoubleBuffered( true );
-        this.setOpaque( true );
+        this.viewListener.addObserver(this);
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
+        this.setDoubleBuffered(true);
+        this.setOpaque(true);
     }
 
     /**
@@ -140,21 +138,21 @@ public class CanvasManager extends JComponent
      *
      * @todo fix ConcurrentModificationException (seems as it happens when folding/unfolding nodes).
      */
-    protected void drawNodes( Graphics2D g2d ) {
-        if(lengthOfAnimation > 0) {
+    protected void drawNodes(Graphics2D g2d) {
+        if (lengthOfAnimation > 0) {
             animate();
         }
         Iterator it = canvasItems.iterator();
-        while( it.hasNext() ) {
-            CanvasItem cur = (CanvasItem)it.next();
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
             cur.draw(g2d);
         }
-        if( this.focusNode == null ) {
+        if (this.focusNode == null) {
             return;
         }
-        if( lengthOfAnimation <= 0 && this.focusNode.hasClones() ) {
-            HyperNodeView focusHyperNode = (HyperNodeView)this.hypernodeviews.get( this.focusNode.getGraphNode() );
-            focusHyperNode.showClones( g2d, hypernodeviews );
+        if (lengthOfAnimation <= 0 && this.focusNode.hasClones()) {
+            HyperNodeView focusHyperNode = (HyperNodeView) this.hypernodeviews.get(this.focusNode.getGraphNode());
+            focusHyperNode.showClones(g2d, hypernodeviews);
         }
     }
 
@@ -168,42 +166,42 @@ public class CanvasManager extends JComponent
         double animDist = elapsedTime / (double) lengthOfAnimation;
         lengthOfAnimation -= elapsedTime;
         animationTime = newTime;
-        if(animDist > 1) {
+        if (animDist > 1) {
             animDist = 1;
         }
-        moveCanvasItems( focusNode.getX() * animDist, focusNode.getY() * animDist );
+        moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
         repaint();
     }
 
     /**
      * Rotate node about the center (0, 0) by angle passed.
      */
-    protected void rotateNodes( double angle ) {
+    protected void rotateNodes(double angle) {
         Iterator it = this.hypernodes.values().iterator();
-        while( it.hasNext() ) {
-            HyperNode hn = (HyperNode)it.next();
-            hn.rotate( angle );
+        while (it.hasNext()) {
+            HyperNode hn = (HyperNode) it.next();
+            hn.rotate(angle);
         }
     }
 
-    public void mouseClicked( MouseEvent e ) {
+    public void mouseClicked(MouseEvent e) {
     }
 
     /**
      * Find HyperNodeView that has been clicked on.
      */
-    private HyperNodeView getClickedItem( MouseEvent e ) {
+    private HyperNodeView getClickedItem(MouseEvent e) {
         Iterator it = canvasItems.iterator();
-        while( it.hasNext() ) {
-            CanvasItem cur = (CanvasItem)it.next();
-            if( cur instanceof HyperNodeView ) {
-                double curX = e.getX() - getSize().width/2;
-                double curY = e.getY() - getSize().height/2;
-                curX = curX * ( 1 / canvasScale);
-                curY = curY  * (1 / canvasScale);
-                boolean found = cur.containsPoint(new Point2D.Double( curX, curY));
-                if(  found == true ) {
-                    return (HyperNodeView)cur;
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
+            if (cur instanceof HyperNodeView) {
+                double curX = e.getX() - getSize().width / 2;
+                double curY = e.getY() - getSize().height / 2;
+                curX = curX * (1 / canvasScale);
+                curY = curY * (1 / canvasScale);
+                boolean found = cur.containsPoint(new Point2D.Double(curX, curY));
+                if (found == true) {
+                    return (HyperNodeView) cur;
                 }
             }
         }
@@ -222,50 +220,49 @@ public class CanvasManager extends JComponent
      * canvasItems list ( so as to be drawn last), and is told
      * that it has focus.
      */
-    protected void setLabelSelected( HyperNodeView selectedNodeView ) {
+    protected void setLabelSelected(HyperNodeView selectedNodeView) {
 //        if( selectedNodeView == null ) {
 //            return;
 //        }
         // find the LabelView for this HyperNodeView.
         ListIterator it = this.canvasItems.listIterator(this.canvasItems.size());
-        while( it.hasPrevious() ) {
-            CanvasItem canvasItem = (CanvasItem)it.previous();
-            if( canvasItem instanceof LabelView ) {
-                if( ((LabelView)canvasItem).hasHyperNodeView(selectedNodeView) == true) {
-                    this.labelView = (LabelView)canvasItem;
+        while (it.hasPrevious()) {
+            CanvasItem canvasItem = (CanvasItem) it.previous();
+            if (canvasItem instanceof LabelView) {
+                if (((LabelView) canvasItem).hasHyperNodeView(selectedNodeView) == true) {
+                    this.labelView = (LabelView) canvasItem;
                     break;
                 }
             }
         }
-        if( labelView != null ) {
+        if (labelView != null) {
             canvasItems.remove(this.labelView);
             canvasItems.add(this.labelView);
         }
     }
 
-    public void mousePressed( MouseEvent e ) {
-        lastPoint.setLocation( e.getPoint() );
+    public void mousePressed(MouseEvent e) {
+        lastPoint.setLocation(e.getPoint());
     }
 
     public void mouseReleased(MouseEvent e) {
-        if( dragmode == true ) {
+        if (dragmode == true) {
             dragmode = false;
             repaint();
-        }
-        else {
-            HyperNodeView focusedHyperNodeView = getClickedItem( e );
-            if( focusedHyperNodeView == null ) {
+        } else {
+            HyperNodeView focusedHyperNodeView = getClickedItem(e);
+            if (focusedHyperNodeView == null) {
                 return;
             }
-            if( e.getClickCount() == 1) {
+            if (e.getClickCount() == 1) {
                 this.singleClickTimer = new Timer();
-                this.singleClickTimer.schedule( new CanvasItemSingleClicked( focusedHyperNodeView ),  300 );
-            } else if( e.getClickCount() == 2 ){
+                this.singleClickTimer.schedule(new CanvasItemSingleClicked(focusedHyperNodeView), 300);
+            } else if (e.getClickCount() == 2) {
 //                this.singleClickTimer.cancel();
-                    System.out.println();
-                    System.out.println("CanvasManager is sending DoubleClick");
-                    System.out.println();
-                    System.out.println();
+                System.out.println();
+                System.out.println("CanvasManager is sending DoubleClick");
+                System.out.println();
+                System.out.println();
 
 //                this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
                 eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, null, null));
@@ -289,70 +286,70 @@ public class CanvasManager extends JComponent
         double y = e.getY();
         labelView = null;
         this.focusNode = null;
-        if(dragmode == false) {
-            double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
-            if( dragedAmount > DRAG ) {
+        if (dragmode == false) {
+            double dragedAmount = Math.sqrt((lpx - x) * (lpx - x) + (lpy - y) * (lpy - y));
+            if (dragedAmount > DRAG) {
                 dragmode = true;
             } else {
                 return;
             }
         }
         currentHighlightedView = null;
-        if( (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == 0 ) {
+        if ((e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == 0) {
             double xDif = (lpx - x);
             double yDif = (lpy - y);
-            moveCanvasItems( xDif, yDif );
+            moveCanvasItems(xDif, yDif);
         } else {
             // get x's and y's in cartesian coordinates
-            double curX = x - getSize().width/2;
-            double curY = y - getSize().height/2;
-            double lastX = lpx - getSize().width/2;
-            double lastY = lpy - getSize().height/2;
+            double curX = x - getSize().width / 2;
+            double curY = y - getSize().height / 2;
+            double lastX = lpx - getSize().width / 2;
+            double lastY = lpy - getSize().height / 2;
             // calculate angle of rotation
-            double angle =  Math.atan2( lastX, lastY ) - Math.atan2( curX, curY );
-            this.rotateNodes( angle );
+            double angle = Math.atan2(lastX, lastY) - Math.atan2(curX, curY);
+            this.rotateNodes(angle);
         }
-        lastPoint.setLocation( x, y );
+        lastPoint.setLocation(x, y);
         repaint();
     }
 
     /**
      * Move all the nodes by an offset x and y.
      */
-    private void moveCanvasItems( double x, double y ) {
+    private void moveCanvasItems(double x, double y) {
         Iterator it = this.hypernodes.values().iterator();
-        while( it.hasNext() ) {
-            HyperNode hn = (HyperNode)it.next();
-            hn.move( x, y );
+        while (it.hasNext()) {
+            HyperNode hn = (HyperNode) it.next();
+            hn.move(x, y);
         }
     }
 
     public void mouseMoved(MouseEvent e) {
-        if( dragmode ) {
+        if (dragmode) {
             return;
         }
         Iterator it = canvasItems.iterator();
         double minDist = this.getWidth();
         double dist = 0;
         HyperNodeView closestNode = null;
-        while( it.hasNext() ) {
-            CanvasItem cur = (CanvasItem)it.next();
-            if( cur instanceof HyperNodeView ) {
-                double curX = e.getX() - getSize().width/2;
-                double curY = e.getY() - getSize().height/2;
-                curX = curX * ( 1 / canvasScale);
-                curY = curY  * (1 / canvasScale);
-                dist = ((HyperNodeView)cur).distance(curX, curY);
-                if(  dist < minDist ) {
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
+            if (cur instanceof HyperNodeView) {
+                double curX = e.getX() - getSize().width / 2;
+                double curY = e.getY() - getSize().height / 2;
+                curX = curX * (1 / canvasScale);
+                curY = curY * (1 / canvasScale);
+                dist = ((HyperNodeView) cur).distance(curX, curY);
+                if (dist < minDist) {
                     minDist = dist;
-                    closestNode = (HyperNodeView)cur;
+                    closestNode = (HyperNodeView) cur;
                 }
             }
         }
-        if(  closestNode != null && !closestNode.equals( currentHighlightedView )) {
+        if (closestNode != null && !closestNode.equals(currentHighlightedView)) {
             currentHighlightedView = closestNode;
-            closestNode.setHighlightEdge( true );
-            this.highlightEdge( closestNode.getGraphNode() );
+            closestNode.setHighlightEdge(true);
+            this.highlightEdge(closestNode.getGraphNode());
             repaint();
         }
     }
@@ -360,14 +357,14 @@ public class CanvasManager extends JComponent
     /**
      * Method called to highlight edges back to the root node.
      */
-    private void highlightEdge( GraphNode node ) {
-        Iterator it = Edge.getInboundEdgeNodes( node );
-        while( it.hasNext() ) {
-            GraphNode cur = (GraphNode)it.next();
-            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
-            if( hyperNodeView != null ) {
-                hyperNodeView.setHighlightEdge( true );
-                this.highlightEdge( cur );
+    private void highlightEdge(GraphNode node) {
+        Iterator it = Edge.getInboundEdgeNodes(node);
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
+            if (hyperNodeView != null) {
+                hyperNodeView.setHighlightEdge(true);
+                this.highlightEdge(cur);
             }
         }
     }
@@ -387,4 +384,4 @@ public class CanvasManager extends JComponent
         this.currentHighlightedView = null;
         this.labelView = null;
     }
- }
+}

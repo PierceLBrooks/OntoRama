@@ -26,7 +26,7 @@ public class ConceptPropertiesDetails {
     /**
      *
      */
-    public String getName () {
+    public String getName() {
         return this.name;
     }
 

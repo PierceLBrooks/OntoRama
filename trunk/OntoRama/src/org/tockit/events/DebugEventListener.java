@@ -3,7 +3,7 @@
  * User: johang
  * Date: 1/08/2002
  * Time: 15:35:40
- * To change template for new class use 
+ * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
 package org.tockit.events;

@@ -1,7 +1,7 @@
 package ontorama.view.action;
 
-import java.awt.event.ActionEvent;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * <p>Title: </p>
@@ -15,30 +15,30 @@ import javax.swing.*;
 public class ExitAction extends AbstractAction {
 
 
-  private static final String ACTION_COMMAND_KEY_COPY = "exit-command";
-  private static final String NAME_COPY = "Exit";
-  private static final String SHORT_DESCRIPTION_COPY = "Exit OntoRama Application";
-  private static final String LONG_DESCRIPTION_COPY = "Exit OntoRama Application";
-  private static final int MNEMONIC_KEY_COPY = 'x';
+    private static final String ACTION_COMMAND_KEY_COPY = "exit-command";
+    private static final String NAME_COPY = "Exit";
+    private static final String SHORT_DESCRIPTION_COPY = "Exit OntoRama Application";
+    private static final String LONG_DESCRIPTION_COPY = "Exit OntoRama Application";
+    private static final int MNEMONIC_KEY_COPY = 'x';
 
 
-  /**
-   *
-   */
-  public ExitAction() {
-    super("Exit");
-    putValue(Action.NAME, NAME_COPY);
-    putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
-    putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-    putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_COPY));
-    putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
-  }
+    /**
+     *
+     */
+    public ExitAction() {
+        super("Exit");
+        putValue(Action.NAME, NAME_COPY);
+        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
+        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
+        putValue(Action.MNEMONIC_KEY, new Integer(MNEMONIC_KEY_COPY));
+        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
+    }
 
-  /**
-   *
-   */
-  public void actionPerformed(ActionEvent ae) {
-    //System.out.println ("Selected: " + getValue (Action.NAME));
-    System.exit(0);
-  }
+    /**
+     *
+     */
+    public void actionPerformed(ActionEvent ae) {
+        //System.out.println ("Selected: " + getValue (Action.NAME));
+        System.exit(0);
+    }
 }

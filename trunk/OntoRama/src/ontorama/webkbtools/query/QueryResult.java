@@ -1,8 +1,6 @@
 package ontorama.webkbtools.query;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Title:
@@ -28,7 +26,7 @@ public class QueryResult {
     /**
      *
      */
-    public QueryResult (Query query, Iterator ontologyTypesIterator) {
+    public QueryResult(Query query, Iterator ontologyTypesIterator) {
         this.ontologyTypesIterator = ontologyTypesIterator;
         this.query = query;
     }
@@ -36,14 +34,14 @@ public class QueryResult {
     /**
      *
      */
-    public Query getQuery () {
+    public Query getQuery() {
         return this.query;
     }
 
     /**
      *
      */
-    public Iterator getOntologyTypesIterator () {
+    public Iterator getOntologyTypesIterator() {
         return this.ontologyTypesIterator;
     }
 
@@ -51,9 +49,9 @@ public class QueryResult {
      *
      */
     public String toString() {
-      String str = "QueryResult";
-      str = " for query term = " + query.getQueryTypeName();
-      return str;
+        String str = "QueryResult";
+        str = " for query term = " + query.getQueryTypeName();
+        return str;
     }
 
 

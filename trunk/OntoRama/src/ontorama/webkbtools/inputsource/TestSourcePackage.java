@@ -1,7 +1,8 @@
 package ontorama.webkbtools.inputsource;
 
-import junit.framework.*;
-
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import ontorama.webkbtools.inputsource.webkb.TestWebkbQueryStringConstructor;
 
 /**
@@ -15,16 +16,16 @@ import ontorama.webkbtools.inputsource.webkb.TestWebkbQueryStringConstructor;
 
 public class TestSourcePackage extends TestCase {
 
-  public TestSourcePackage(String name) {
-    super(name);
-  }
+    public TestSourcePackage(String name) {
+        super(name);
+    }
 
-  public static Test suite() {
-     TestSuite suite = new TestSuite( "ontorama.inputsource" );
+    public static Test suite() {
+        TestSuite suite = new TestSuite("ontorama.inputsource");
 
-     suite.addTest( new TestSuite(TestWebKB2Source.class));
-     suite.addTest( new TestSuite(TestWebkbQueryStringConstructor.class));
+        suite.addTest(new TestSuite(TestWebKB2Source.class));
+        suite.addTest(new TestSuite(TestWebkbQueryStringConstructor.class));
 
-     return suite;
-  }
+        return suite;
+    }
 }

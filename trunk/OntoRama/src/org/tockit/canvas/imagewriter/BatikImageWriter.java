@@ -3,20 +3,23 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: BatikImageWriter.java,v 1.1 2002-08-01 04:53:41 johang Exp $
+ * $Id: BatikImageWriter.java,v 1.2 2002-08-01 09:00:07 johang Exp $
  */
 package org.tockit.canvas.imagewriter;
 
-import org.tockit.canvas.Canvas;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.tockit.canvas.Canvas;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
  * Saves a Canvas as SVG graphic.

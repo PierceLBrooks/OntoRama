@@ -1,16 +1,10 @@
 package ontorama.model;
 
-import junit.framework.*;
-
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.HashSet;
-
+import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
-
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+
+import java.util.*;
 
 /**
  * Title:
@@ -66,7 +60,7 @@ public class TestEdge extends TestCase {
      *
      */
     public TestEdge(String name) {
-      super(name);
+        super(name);
     }
 
 
@@ -74,269 +68,268 @@ public class TestEdge extends TestCase {
      *
      */
     protected void setUp() {
-      Edge.clearEdgesList();
+        Edge.clearEdgesList();
 
-      node1 = new GraphNode("node1");
-      node2 = new GraphNode("node2");
-      node3 = new GraphNode("node3");
-      node4 = new GraphNode("node4");
-      node5 = new GraphNode("node5");
-      node6 = new GraphNode("node6");
+        node1 = new GraphNode("node1");
+        node2 = new GraphNode("node2");
+        node3 = new GraphNode("node3");
+        node4 = new GraphNode("node4");
+        node5 = new GraphNode("node5");
+        node6 = new GraphNode("node6");
 
-      try {
-          edge1 = new Edge(node1,node2,1);
-          edge2 = new Edge(node1,node3,1);
-          edge3 = new Edge(node1,node4,2);
-          edge4 = new Edge(node1,node5,3);
-          edge5 = new Edge(node2,node6,1);
-          edge6 = new Edge(node3,node6,2);
-          edge7 = new Edge(node4, node6, 3);
+        try {
+            edge1 = new Edge(node1, node2, 1);
+            edge2 = new Edge(node1, node3, 1);
+            edge3 = new Edge(node1, node4, 2);
+            edge4 = new Edge(node1, node5, 3);
+            edge5 = new Edge(node2, node6, 1);
+            edge6 = new Edge(node3, node6, 2);
+            edge7 = new Edge(node4, node6, 3);
 
-          // create relation links set
-          relLinksSet = createSet(2, 3);
+            // create relation links set
+            relLinksSet = createSet(2, 3);
 
-          // populate linked lists
-          outboundEdgesListForNode1.add(edge1);
-          outboundEdgesListForNode1.add(edge2);
-          outboundEdgesListForNode1.add(edge3);
-          outboundEdgesListForNode1.add(edge4);
+            // populate linked lists
+            outboundEdgesListForNode1.add(edge1);
+            outboundEdgesListForNode1.add(edge2);
+            outboundEdgesListForNode1.add(edge3);
+            outboundEdgesListForNode1.add(edge4);
 
-          inboundEdgesListForNode6.add(edge5);
-          inboundEdgesListForNode6.add(edge6);
-          inboundEdgesListForNode6.add(edge7);
+            inboundEdgesListForNode6.add(edge5);
+            inboundEdgesListForNode6.add(edge6);
+            inboundEdgesListForNode6.add(edge7);
 
-          outboundEdgesListForNode1Relation1.add(edge1);
-          outboundEdgesListForNode1Relation1.add(edge2);
+            outboundEdgesListForNode1Relation1.add(edge1);
+            outboundEdgesListForNode1Relation1.add(edge2);
 
-          inboundEdgesListForNode6Relation1.add(edge5);
+            inboundEdgesListForNode6Relation1.add(edge5);
 
-          outboundNodesListForNode1RelLinkSet.add(node4);
-          outboundNodesListForNode1RelLinkSet.add(node5);
+            outboundNodesListForNode1RelLinkSet.add(node4);
+            outboundNodesListForNode1RelLinkSet.add(node5);
 
-          inboundNodesListForNode6RelLinkSet.add(node3);
-          inboundNodesListForNode6RelLinkSet.add(node4);
+            inboundNodesListForNode6RelLinkSet.add(node3);
+            inboundNodesListForNode6RelLinkSet.add(node4);
 
-          outboundNodesListForNode1Relation1.add(node2);
-          outboundNodesListForNode1Relation1.add(node3);
+            outboundNodesListForNode1Relation1.add(node2);
+            outboundNodesListForNode1Relation1.add(node3);
 
-          inboundNodesListForNode6Relation2.add(node3);
+            inboundNodesListForNode6Relation2.add(node3);
 
-          outboundNodesListForNode1.add(node2);
-          outboundNodesListForNode1.add(node3);
-          outboundNodesListForNode1.add(node4);
-          outboundNodesListForNode1.add(node5);
+            outboundNodesListForNode1.add(node2);
+            outboundNodesListForNode1.add(node3);
+            outboundNodesListForNode1.add(node4);
+            outboundNodesListForNode1.add(node5);
 
-          inboundNodesListForNode6.add(node2);
-          inboundNodesListForNode6.add(node3);
-          inboundNodesListForNode6.add(node4);
-      }
-      catch (NoSuchRelationLinkException e) {
-          System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-          System.exit(-1);
-      }
+            inboundNodesListForNode6.add(node2);
+            inboundNodesListForNode6.add(node3);
+            inboundNodesListForNode6.add(node4);
+        } catch (NoSuchRelationLinkException e) {
+            System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+            System.exit(-1);
+        }
     }
 
     /**
      * test number of edges in the list
      */
     public void testEdgeListSize() {
-      assertEquals(7, Edge.edges.size());
+        assertEquals(7, Edge.edges.size());
     }
 
     /**
      *
      */
-    public void testEdgeList () {
-      List edgesList = Edge.edges;
-      for (int i=0; i <= edgesList.size(); i++) {
-        if (i == 0) {
-          assertEquals(edge1, (Edge) Edge.edges.get(i));
-          continue;
+    public void testEdgeList() {
+        List edgesList = Edge.edges;
+        for (int i = 0; i <= edgesList.size(); i++) {
+            if (i == 0) {
+                assertEquals(edge1, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 1) {
+                assertEquals(edge2, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 2) {
+                assertEquals(edge3, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 3) {
+                assertEquals(edge4, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 4) {
+                assertEquals(edge5, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 5) {
+                assertEquals(edge6, (Edge) Edge.edges.get(i));
+                continue;
+            }
+            if (i == 6) {
+                assertEquals(edge7, (Edge) Edge.edges.get(i));
+                continue;
+            }
         }
-        if (i == 1) {
-          assertEquals(edge2, (Edge) Edge.edges.get(i));
-          continue;
-        }
-        if (i == 2) {
-          assertEquals(edge3, (Edge) Edge.edges.get(i));
-          continue;
-        }
-        if (i == 3) {
-          assertEquals(edge4, (Edge) Edge.edges.get(i));
-          continue;
-        }
-        if (i == 4) {
-          assertEquals(edge5, (Edge) Edge.edges.get(i));
-          continue;
-        }
-        if (i == 5) {
-          assertEquals(edge6, (Edge) Edge.edges.get(i));
-          continue;
-        }
-        if (i == 6) {
-          assertEquals(edge7, (Edge) Edge.edges.get(i));
-          continue;
-        }
-      }
     }
 
     /**
      * test method getFromNode
      */
-    public void testGetFromNode () {
-      assertEquals (node1, edge1.getFromNode());
-      assertEquals (node1, edge2.getFromNode());
-      assertEquals (node1, edge3.getFromNode());
-      assertEquals (node1, edge4.getFromNode());
-      assertEquals (node2, edge5.getFromNode());
-      assertEquals (node3, edge6.getFromNode());
-      assertEquals (node4, edge7.getFromNode());
+    public void testGetFromNode() {
+        assertEquals(node1, edge1.getFromNode());
+        assertEquals(node1, edge2.getFromNode());
+        assertEquals(node1, edge3.getFromNode());
+        assertEquals(node1, edge4.getFromNode());
+        assertEquals(node2, edge5.getFromNode());
+        assertEquals(node3, edge6.getFromNode());
+        assertEquals(node4, edge7.getFromNode());
     }
 
     /**
      * test method getToNode
      */
-    public void testGetToNode () {
-      assertEquals(node2, edge1.getToNode());
-      assertEquals(node3, edge2.getToNode());
-      assertEquals(node4, edge3.getToNode());
-      assertEquals(node5, edge4.getToNode());
-      assertEquals(node6, edge5.getToNode());
-      assertEquals(node6, edge6.getToNode());
-      assertEquals(node6, edge7.getToNode());
+    public void testGetToNode() {
+        assertEquals(node2, edge1.getToNode());
+        assertEquals(node3, edge2.getToNode());
+        assertEquals(node4, edge3.getToNode());
+        assertEquals(node5, edge4.getToNode());
+        assertEquals(node6, edge5.getToNode());
+        assertEquals(node6, edge6.getToNode());
+        assertEquals(node6, edge7.getToNode());
     }
 
     /**
      * test method getType
      */
-    public void testGetType () {
-      assertEquals( 1, edge1.getType());
-      assertEquals( 1, edge2.getType());
-      assertEquals( 2, edge3.getType());
-      assertEquals( 3, edge4.getType());
-      assertEquals( 1, edge5.getType());
-      assertEquals( 2, edge6.getType());
-      assertEquals( 3, edge7.getType());
+    public void testGetType() {
+        assertEquals(1, edge1.getType());
+        assertEquals(1, edge2.getType());
+        assertEquals(2, edge3.getType());
+        assertEquals(3, edge4.getType());
+        assertEquals(1, edge5.getType());
+        assertEquals(2, edge6.getType());
+        assertEquals(3, edge7.getType());
     }
 
     /**
      * test method getOutboundEdges
      */
-    public void testGetOutboundEdges () {
-      assertEquals(outboundEdgesListForNode1.size(), getIteratorSize(Edge.getOutboundEdges(node1)));
-      compareListToIterator(outboundEdgesListForNode1, Edge.getOutboundEdges(node1));
+    public void testGetOutboundEdges() {
+        assertEquals(outboundEdgesListForNode1.size(), getIteratorSize(Edge.getOutboundEdges(node1)));
+        compareListToIterator(outboundEdgesListForNode1, Edge.getOutboundEdges(node1));
     }
 
     /**
      * test method getInboundEdges
      */
-    public void testGetInboundEdges () {
-      assertEquals(inboundEdgesListForNode6.size(), getIteratorSize(Edge.getInboundEdges(node6)));
-      compareListToIterator(inboundEdgesListForNode6, Edge.getInboundEdges(node6));
+    public void testGetInboundEdges() {
+        assertEquals(inboundEdgesListForNode6.size(), getIteratorSize(Edge.getInboundEdges(node6)));
+        compareListToIterator(inboundEdgesListForNode6, Edge.getInboundEdges(node6));
     }
 
     /**
      * test method getOutboundEdges (node, type)
      */
-    public void testOutboundEdgesForRelationType () {
-      assertEquals(outboundEdgesListForNode1Relation1.size(), getIteratorSize(Edge.getOutboundEdges(node1, 1)));
-      compareListToIterator(outboundEdgesListForNode1Relation1, Edge.getOutboundEdges(node1, 1));
+    public void testOutboundEdgesForRelationType() {
+        assertEquals(outboundEdgesListForNode1Relation1.size(), getIteratorSize(Edge.getOutboundEdges(node1, 1)));
+        compareListToIterator(outboundEdgesListForNode1Relation1, Edge.getOutboundEdges(node1, 1));
     }
 
     /**
      * test method getInboundEdges (node, type)
      */
     public void testInboundEdgesForRelationType() {
-      assertEquals(inboundEdgesListForNode6Relation1.size(), getIteratorSize(Edge.getInboundEdges(node6, 1)) );
-      compareListToIterator(inboundEdgesListForNode6Relation1, Edge.getInboundEdges(node6, 1));
+        assertEquals(inboundEdgesListForNode6Relation1.size(), getIteratorSize(Edge.getInboundEdges(node6, 1)));
+        compareListToIterator(inboundEdgesListForNode6Relation1, Edge.getInboundEdges(node6, 1));
     }
 
     /**
      * test method getOutboundEdgeNodes(GraphNode node, Set relationLinks)
      */
-    public void testGetOutboundEdgeNodesForRelationLinksSet () {
-      Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1,relLinksSet);
-      assertEquals(outboundNodesListForNode1RelLinkSet.size(), getIteratorSize( outboundNodes) );
+    public void testGetOutboundEdgeNodesForRelationLinksSet() {
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, relLinksSet);
+        assertEquals(outboundNodesListForNode1RelLinkSet.size(), getIteratorSize(outboundNodes));
 
-      outboundNodes = Edge.getOutboundEdgeNodes(node1,relLinksSet);
-      compareListToIterator(outboundNodesListForNode1RelLinkSet, outboundNodes);
+        outboundNodes = Edge.getOutboundEdgeNodes(node1, relLinksSet);
+        compareListToIterator(outboundNodesListForNode1RelLinkSet, outboundNodes);
     }
 
     /**
      * test method getInboundEdgeNodes(GraphNode node, Set relationLinks)
      */
-    public void testGetInboundEdgeNodesForRelationLinksSet () {
-      Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
-      assertEquals(inboundNodesListForNode6RelLinkSet.size(), getIteratorSize(inboundNodes));
+    public void testGetInboundEdgeNodesForRelationLinksSet() {
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
+        assertEquals(inboundNodesListForNode6RelLinkSet.size(), getIteratorSize(inboundNodes));
 
-      inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
-      compareListToIterator(inboundNodesListForNode6RelLinkSet, inboundNodes);
+        inboundNodes = Edge.getInboundEdgeNodes(node6, relLinksSet);
+        compareListToIterator(inboundNodesListForNode6RelLinkSet, inboundNodes);
     }
 
     /**
      * test method getOutboundEdgeNodes (GraphNode node, int relationType)
      */
-    public void testGetOutboundEdgeNodesForRelationType () {
-      Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
-      assertEquals(outboundNodesListForNode1Relation1.size(), getIteratorSize(outboundNodes) );
+    public void testGetOutboundEdgeNodesForRelationType() {
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
+        assertEquals(outboundNodesListForNode1Relation1.size(), getIteratorSize(outboundNodes));
 
-      outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
-      compareListToIterator(outboundNodesListForNode1Relation1, outboundNodes);
+        outboundNodes = Edge.getOutboundEdgeNodes(node1, 1);
+        compareListToIterator(outboundNodesListForNode1Relation1, outboundNodes);
     }
 
     /**
      * test method getInboundEdgeNodes (GraphNode node, int relationType)
      */
-    public void testGetInboundEdgeNodesForRelationType () {
-      Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
-      assertEquals(inboundNodesListForNode6Relation2.size(), getIteratorSize(inboundNodes));
+    public void testGetInboundEdgeNodesForRelationType() {
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
+        assertEquals(inboundNodesListForNode6Relation2.size(), getIteratorSize(inboundNodes));
 
-      inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
-      compareListToIterator(inboundNodesListForNode6Relation2, inboundNodes);
+        inboundNodes = Edge.getInboundEdgeNodes(node6, 2);
+        compareListToIterator(inboundNodesListForNode6Relation2, inboundNodes);
     }
 
     /**
      * test method getOutboundEdgeNodes
      */
-    public void testGetOutboundEdgeNodes () {
-      Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
-      assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes));
+    public void testGetOutboundEdgeNodes() {
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
+        assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes));
 
-      outboundNodes = Edge.getOutboundEdgeNodes(node1);
-      compareListToIterator(outboundNodesListForNode1, outboundNodes);
+        outboundNodes = Edge.getOutboundEdgeNodes(node1);
+        compareListToIterator(outboundNodesListForNode1, outboundNodes);
     }
 
     /**
      * test method getInboundEdgeNodes
      */
-    public void testGetInboundEdgeNodes () {
-      Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
-      assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
+    public void testGetInboundEdgeNodes() {
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
+        assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
 
-      inboundNodes = Edge.getInboundEdgeNodes(node6);
-      compareListToIterator(inboundNodesListForNode6, inboundNodes);
+        inboundNodes = Edge.getInboundEdgeNodes(node6);
+        compareListToIterator(inboundNodesListForNode6, inboundNodes);
     }
 
     /**
      * test method getOutboundEdgeNodesList
      */
-    public void testGetOutboundEdgeNodesList () {
-      Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
-      assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes) );
+    public void testGetOutboundEdgeNodesList() {
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node1);
+        assertEquals(outboundNodesListForNode1.size(), getIteratorSize(outboundNodes));
 
-      outboundNodes = Edge.getOutboundEdgeNodes(node1);
-      compareListToIterator(outboundNodesListForNode1, outboundNodes);
+        outboundNodes = Edge.getOutboundEdgeNodes(node1);
+        compareListToIterator(outboundNodesListForNode1, outboundNodes);
     }
 
     /**
      * test method getInboundEdgeNodesList
      */
-    public void testGetInboundEdgeNodesList () {
-      Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
-      assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
+    public void testGetInboundEdgeNodesList() {
+        Iterator inboundNodes = Edge.getInboundEdgeNodes(node6);
+        assertEquals(inboundNodesListForNode6.size(), getIteratorSize(inboundNodes));
 
-      inboundNodes = Edge.getInboundEdgeNodes(node6);
-      compareListToIterator(inboundNodesListForNode6, inboundNodes);
+        inboundNodes = Edge.getInboundEdgeNodes(node6);
+        compareListToIterator(inboundNodesListForNode6, inboundNodes);
     }
 
 
@@ -345,8 +338,8 @@ public class TestEdge extends TestCase {
     /**
      *
      */
-    private int getIteratorSize (Iterator it) {
-      return IteratorUtil.getIteratorSize(it);
+    private int getIteratorSize(Iterator it) {
+        return IteratorUtil.getIteratorSize(it);
     }
 
     /**
@@ -356,23 +349,23 @@ public class TestEdge extends TestCase {
      * we build list of expected objects and then go through iterator
      * and check if objects in corresponding places are equal
      */
-    private void compareListToIterator (List list, Iterator iterator) {
-      int count = 0;
-      while (iterator.hasNext()) {
-        Object cur = iterator.next();
-        //System.out.println("list item = " + list.get(count) + ", iterator item = " + cur);
-        assertEquals(list.get(count), cur);
-        count++;
-      }
+    private void compareListToIterator(List list, Iterator iterator) {
+        int count = 0;
+        while (iterator.hasNext()) {
+            Object cur = iterator.next();
+            //System.out.println("list item = " + list.get(count) + ", iterator item = " + cur);
+            assertEquals(list.get(count), cur);
+            count++;
+        }
     }
 
     /**
      * create a set of int's
      */
-    private Set createSet (int int1, int int2) {
-      Set set = new HashSet();
-      set.add(new Integer(int1));
-      set.add(new Integer(int2));
-      return set;
+    private Set createSet(int int1, int int2) {
+        Set set = new HashSet();
+        set.add(new Integer(int1));
+        set.add(new Integer(int2));
+        return set;
     }
 }

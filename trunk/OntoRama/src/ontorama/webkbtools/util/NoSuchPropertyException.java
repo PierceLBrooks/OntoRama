@@ -1,9 +1,8 @@
 package ontorama.webkbtools.util;
 
-import java.util.Enumeration;
-
-import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
+
+import java.util.Enumeration;
 
 /**
  * Title:

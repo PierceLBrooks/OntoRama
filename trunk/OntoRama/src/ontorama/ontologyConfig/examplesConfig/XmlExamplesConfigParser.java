@@ -1,23 +1,20 @@
 package ontorama.ontologyConfig.examplesConfig;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.*;
-import java.util.List;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-
-import org.jdom.*;
-import org.jdom.input.*;
-//import org.jdom.output.*;
-
 import ontorama.OntoramaConfig;
-import ontorama.util.Debug;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.XmlParserAbstract;
+import ontorama.util.Debug;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Title:
@@ -32,7 +29,7 @@ import ontorama.ontologyConfig.XmlParserAbstract;
  * @version 1.0
  */
 
-public class XmlExamplesConfigParser extends XmlParserAbstract{
+public class XmlExamplesConfigParser extends XmlParserAbstract {
 
     private LinkedList examplesList;
     private OntoramaExample mainExample;
@@ -41,12 +38,12 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
     /**
      *
      */
-     private Debug debug = new Debug(false);
+    private Debug debug = new Debug(false);
 
 
     public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {
-	  System.out.println("XmlExamplesConfigParser");
+            System.out.println("XmlExamplesConfigParser");
         }
         this.examplesList = new LinkedList();
 
@@ -59,13 +56,12 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
             List exampleElementsList = rootEl.getChildren("example");
             Iterator exampleElementsIterator = exampleElementsList.iterator();
             while (exampleElementsIterator.hasNext()) {
-              Element curEl = (Element) exampleElementsIterator.next();
-              //System.out.println("processing example element: " + curEl);
-              processExampleElement(curEl);
+                Element curEl = (Element) exampleElementsIterator.next();
+                //System.out.println("processing example element: " + curEl);
+                processExampleElement(curEl);
             }
 
-        }
-        catch (JDOMException e) {
+        } catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
             System.exit(-1);
         }
@@ -74,76 +70,76 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
     /**
      *
      */
-    private void processExampleElement (Element element) throws ConfigParserException {
-      Attribute nameAttr = element.getAttribute("name");
-      checkCompulsoryAttr(nameAttr, "name", "element");
-      //System.out.println("processing example element with name: " + nameAttr);
-      Attribute rootAttr = element.getAttribute("root");
-      checkCompulsoryAttr(rootAttr, "root", "element");
-      Attribute loadOnStartAttr = element.getAttribute("loadOnStart");
+    private void processExampleElement(Element element) throws ConfigParserException {
+        Attribute nameAttr = element.getAttribute("name");
+        checkCompulsoryAttr(nameAttr, "name", "element");
+        //System.out.println("processing example element with name: " + nameAttr);
+        Attribute rootAttr = element.getAttribute("root");
+        checkCompulsoryAttr(rootAttr, "root", "element");
+        Attribute loadOnStartAttr = element.getAttribute("loadOnStart");
 
-      Element sourceElement = element.getChild("source");
-      if (sourceElement == null) {
-        throw new ConfigParserException("Missing compulsory element 'source' in element 'example'");
-      }
-      Attribute uriAttr = sourceElement.getAttribute("uri");
-      checkCompulsoryAttr(uriAttr,"uri","source");
-
-      Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
-      checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
-
-
-      Element queryOutputFormatElement = element.getChild("queryOutputFormat");
-      if (queryOutputFormatElement == null) {
-        throw new ConfigParserException("Missing compulsory element 'queryOutputFormat' in element 'example'");
-      }
-
-      Element parserPackagePathSuffixElement = element.getChild("parserPackagePathSuffix");
-      if (parserPackagePathSuffixElement == null) {
-        throw new ConfigParserException("Missing compulsory element 'parserPackagePathSuffixElement' in element 'example'");
-      }
-
-
-      OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
-                              uriAttr.getValue(), queryOutputFormatElement.getText(),
-                              parserPackagePathSuffixElement.getText(), sourcePackagePathSuffixAttr.getValue());
-      if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
-        this.mainExample = example;
-        example.setLoadFirst(true);
-      }
-
-      Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
-      //System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
-      if ( ( isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true")) ) {
-        example.setIsSourceDynamic(true);
-      }
-
-      this.examplesList.add(example);
-
-      Element displayMenuElement = element.getChild("displayMenu");
-      //System.out.println("element name = " + nameAttr.getValue() + ", displayMenuElement = " + displayMenuElement);
-      if (displayMenuElement != null) {
-        Attribute subfolderNameAttribute = displayMenuElement.getAttribute("subfolder");
-        if (subfolderNameAttribute != null) {
-          example.setMenuSubfolderName(subfolderNameAttribute.getValue());
+        Element sourceElement = element.getChild("source");
+        if (sourceElement == null) {
+            throw new ConfigParserException("Missing compulsory element 'source' in element 'example'");
         }
-      }
+        Attribute uriAttr = sourceElement.getAttribute("uri");
+        checkCompulsoryAttr(uriAttr, "uri", "source");
+
+        Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
+        checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
+
+
+        Element queryOutputFormatElement = element.getChild("queryOutputFormat");
+        if (queryOutputFormatElement == null) {
+            throw new ConfigParserException("Missing compulsory element 'queryOutputFormat' in element 'example'");
+        }
+
+        Element parserPackagePathSuffixElement = element.getChild("parserPackagePathSuffix");
+        if (parserPackagePathSuffixElement == null) {
+            throw new ConfigParserException("Missing compulsory element 'parserPackagePathSuffixElement' in element 'example'");
+        }
+
+
+        OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
+                uriAttr.getValue(), queryOutputFormatElement.getText(),
+                parserPackagePathSuffixElement.getText(), sourcePackagePathSuffixAttr.getValue());
+        if ((loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes"))) {
+            this.mainExample = example;
+            example.setLoadFirst(true);
+        }
+
+        Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
+        //System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
+        if ((isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true"))) {
+            example.setIsSourceDynamic(true);
+        }
+
+        this.examplesList.add(example);
+
+        Element displayMenuElement = element.getChild("displayMenu");
+        //System.out.println("element name = " + nameAttr.getValue() + ", displayMenuElement = " + displayMenuElement);
+        if (displayMenuElement != null) {
+            Attribute subfolderNameAttribute = displayMenuElement.getAttribute("subfolder");
+            if (subfolderNameAttribute != null) {
+                example.setMenuSubfolderName(subfolderNameAttribute.getValue());
+            }
+        }
 
     }
 
     /**
      *
      */
-    public List getExamplesList () {
-      return this.examplesList;
+    public List getExamplesList() {
+        return this.examplesList;
     }
 
     /**
      *
      */
     public OntoramaExample getMainExample() {
-      //System.out.println("returning example = " + this.mainExample);
-      return this.mainExample;
+        //System.out.println("returning example = " + this.mainExample);
+        return this.mainExample;
     }
 
 }

@@ -7,18 +7,16 @@ package ontorama.hyper.view.simple;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChaingedObserver;
 import ontorama.model.GraphNode;
+import org.tockit.canvas.CanvasItem;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
-import org.tockit.canvas.CanvasItem;
 //import java.awt.geom.Ellipse2D.Double;
 
 public class HyperNodeView extends CanvasItem implements PositionChaingedObserver {
@@ -86,7 +84,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Create 2D object for node representation.
      */
-    private Ellipse2D nodeShape = new Ellipse2D.Double( 0,0,0,0 );
+    private Ellipse2D nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
 
     /**
      * Hold the percentage increase for cloned node rind
@@ -111,14 +109,14 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      */
     private double depth = 0;
 
-    public HyperNodeView( HyperNode model ) {
+    public HyperNodeView(HyperNode model) {
         this.model = model;
-        model.addPositionChaingedObserver( this );
-        project( model.getX(), model.getY() );
-        if( model.hasClones() ) {
+        model.addPositionChaingedObserver(this);
+        project(model.getX(), model.getY());
+        if (model.hasClones()) {
             nodeColor = Color.red;
         } else {
-          nodeColor = Color.blue;
+            nodeColor = Color.blue;
         }
     }
 
@@ -139,7 +137,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Set if view is folded.
      */
-    public void setFolded( boolean state ) {
+    public void setFolded(boolean state) {
 //        System.out.println("HyperNodeView: " + this.getGraphNode().getName() + " folded state is being set to " + state);
         this.getGraphNode().setFoldState(state);
     }
@@ -147,7 +145,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Get if view is folded.
      */
-    public boolean getFolded( ) {
+    public boolean getFolded() {
         return this.getGraphNode().getFoldedState();
         //return this.isFolded;
     }
@@ -155,22 +153,22 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Set if view is visible.
      */
-    public void setVisible( boolean state ) {
+    public void setVisible(boolean state) {
         this.isVisible = state;
     }
 
     /**
      * Get if view is visible.
      */
-    public boolean getVisible( ) {
+    public boolean getVisible() {
         return this.isVisible;
     }
 
     /**
      * Update observer of change in model.
      */
-    public void positionUpdate( double x, double y ) {
-        project( x, y);
+    public void positionUpdate(double x, double y) {
+        project(x, y);
     }
 
     /**
@@ -199,12 +197,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      *
      * x and y are the new coordinates int the euclidean plane.
      */
-    public void project( double x, double y ) {
-        double length = Math.sqrt( x*x + y*y + focalDepth*focalDepth );
+    public void project(double x, double y) {
+        double length = Math.sqrt(x * x + y * y + focalDepth * focalDepth);
         double scale = sphereRadius / length;
         projectedX = scale * x;
         projectedY = scale * y;
-        depth = (1-scale) * focalDepth;
+        depth = (1 - scale) * focalDepth;
 
 //     **************************** new code *****************************
         // start hyperbolic projection using Poincaré disc model
@@ -245,8 +243,8 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Calculated the scale to adjust canvas items projection.
      */
     public double getScale() {
-        double sizePos = (focalDepth - depth)/sphereRadius ;
-        double scale = ( sizePos * sizePos * sizePos );
+        double sizePos = (focalDepth - depth) / sphereRadius;
+        double scale = (sizePos * sizePos * sizePos);
         return scale;
     }
 
@@ -261,7 +259,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Method called to find nearest node view to mouse pointer.
      */
-    public boolean isNearestItem( double scrX, double scrY ) {
+    public boolean isNearestItem(double scrX, double scrY) {
         return false;
     }
 
@@ -273,8 +271,8 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         double scrY = point.getY();
         double x1 = this.projectedX;
         double y1 = this.projectedY;
-        double dist = Math.sqrt( (scrX - x1)*(scrX - x1) + (scrY - y1)*(scrY - y1) );
-        if( dist <= viewRadius) {
+        double dist = Math.sqrt((scrX - x1) * (scrX - x1) + (scrY - y1) * (scrY - y1));
+        if (dist <= viewRadius) {
             return true;
         }
         return false;
@@ -283,10 +281,10 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Returns the distance from the node to a ginen point.
      */
-    public double distance( double scrX, double scrY ) {
+    public double distance(double scrX, double scrY) {
         double x1 = this.projectedX;
         double y1 = this.projectedY;
-        return Math.sqrt( (scrX - x1)*(scrX - x1) + (scrY - y1)*(scrY - y1) );
+        return Math.sqrt((scrX - x1) * (scrX - x1) + (scrY - y1) * (scrY - y1));
     }
 
     /**
@@ -301,7 +299,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      *
      * This method highlights the edge back to root node.
      */
-    public void setHighlightEdge( boolean state) {
+    public void setHighlightEdge(boolean state) {
         this.highlightEdge = state;
     }
 
@@ -322,39 +320,39 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Draw the node in the hyperbolic plane.
      */
-    public void draw( Graphics2D g2d ) {
-        if(model.getPosition().distance(0,0) > 10000) {
+    public void draw(Graphics2D g2d) {
+        if (model.getPosition().distance(0, 0) > 10000) {
             return;
         }
-        if( !this.isVisible ) {
+        if (!this.isVisible) {
             return;
         }
         double x = model.getX();
         double y = model.getY();
-        double dist = Math.sqrt( x*x + y*y ) + 1;
-        dist = dist * Math.pow(1/dist, .1);
-        if( dist > sphereRadius ) {
+        double dist = Math.sqrt(x * x + y * y) + 1;
+        dist = dist * Math.pow(1 / dist, .1);
+        if (dist > sphereRadius) {
             dist = sphereRadius;
         }
         double scale = getScale();
-        double colorScale = (dist/sphereRadius);
+        double colorScale = (dist / sphereRadius);
         viewRadius = model.getNodeRadius() * scale;
-        double red = nodeColor.getRed() + ( ( 255 -  nodeColor.getRed() ) * colorScale );
-        double green = nodeColor.getGreen() + ( ( 255 -  nodeColor.getGreen() ) * colorScale );
-        double blue = nodeColor.getBlue() + ( ( 255 -  nodeColor.getBlue() ) * colorScale );
-        fadeColor = new Color( (int)red, (int)green, (int)blue );
-        g2d.setColor( fadeColor );
-        if( !isLeaf && this.getFolded() ) {
-            g2d.fillRect(   (int)(projectedX - viewRadius),
-                             (int)(projectedY - viewRadius),
-                             (int)(viewRadius * 2),
-                             (int)(viewRadius * 2));
+        double red = nodeColor.getRed() + ((255 - nodeColor.getRed()) * colorScale);
+        double green = nodeColor.getGreen() + ((255 - nodeColor.getGreen()) * colorScale);
+        double blue = nodeColor.getBlue() + ((255 - nodeColor.getBlue()) * colorScale);
+        fadeColor = new Color((int) red, (int) green, (int) blue);
+        g2d.setColor(fadeColor);
+        if (!isLeaf && this.getFolded()) {
+            g2d.fillRect((int) (projectedX - viewRadius),
+                    (int) (projectedY - viewRadius),
+                    (int) (viewRadius * 2),
+                    (int) (viewRadius * 2));
             return;
         }
-        nodeShape.setFrame( projectedX - viewRadius,
-                            projectedY - viewRadius,
-                            viewRadius * 2, viewRadius * 2 );
-        g2d.fill( nodeShape );
+        nodeShape.setFrame(projectedX - viewRadius,
+                projectedY - viewRadius,
+                viewRadius * 2, viewRadius * 2);
+        g2d.fill(nodeShape);
     }
 
     /**
@@ -362,52 +360,52 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      *
      * Draws ring around cloned node and connects the together with a line.
      */
-    public void showClones( Graphics2D g2d, Hashtable hypernodeviews ) {
-        double ringRadius = viewRadius + (viewRadius/RINGPERCENTAGE);
-        this.showClone( g2d );
+    public void showClones(Graphics2D g2d, Hashtable hypernodeviews) {
+        double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
+        this.showClone(g2d);
         // draw lines to, and show clones
         Iterator it = this.getGraphNode().getClones();
-        while( it.hasNext() ) {
-            GraphNode cur = (GraphNode)it.next();
-            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
-            if( hyperNodeView == null ) {
-            	//System.out.println("HyperNodeView not found for " + cur.getName());
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
+            if (hyperNodeView == null) {
+                //System.out.println("HyperNodeView not found for " + cur.getName());
                 continue;
             }
-            hyperNodeView.showClone( g2d );
+            hyperNodeView.showClone(g2d);
             double x1 = this.projectedX;
             double y1 = this.projectedY;
             double x2 = hyperNodeView.getProjectedX();
             double y2 = hyperNodeView.getProjectedY();
             double x = x2 - x1;
             double y = y2 - y1;
-            double angle = Math.atan2( x, y );
-            double dist = Math.sqrt( ( x2 - x1) * ( x2 - x1) +  ( y2 - y1) * ( y2 - y1) );
+            double angle = Math.atan2(x, y);
+            double dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
             double toViewRadius = hyperNodeView.getViewRadius();
-            dist = dist - ( toViewRadius + ( toViewRadius / RINGPERCENTAGE ) );
-            x1 = Math.sin( angle ) * ringRadius;
-            y1 = Math.cos( angle ) * ringRadius;
-            x2 = Math.sin( angle ) * dist;
-            y2 = Math.cos( angle ) * dist;
-            g2d.draw( new Line2D.Double( x1, y1, x2, y2 ) );
+            dist = dist - (toViewRadius + (toViewRadius / RINGPERCENTAGE));
+            x1 = Math.sin(angle) * ringRadius;
+            y1 = Math.cos(angle) * ringRadius;
+            x2 = Math.sin(angle) * dist;
+            y2 = Math.cos(angle) * dist;
+            g2d.draw(new Line2D.Double(x1, y1, x2, y2));
         }
     }
 
     /**
      * Highlight clones for focused clone node.
      */
-    public void showClone( Graphics2D g2d ) {
-        double ringRadius = viewRadius + (viewRadius/RINGPERCENTAGE);
-        nodeShape.setFrame( projectedX - ringRadius,
-                            projectedY - ringRadius,
-                            ringRadius * 2, ringRadius * 2 );
-        g2d.draw( nodeShape );
+    public void showClone(Graphics2D g2d) {
+        double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
+        nodeShape.setFrame(projectedX - ringRadius,
+                projectedY - ringRadius,
+                ringRadius * 2, ringRadius * 2);
+        g2d.draw(nodeShape);
     }
 
     public Rectangle2D getCanvasBounds(Graphics2D g) {
-        return new Rectangle2D.Double( projectedX - viewRadius,
-                            projectedY - viewRadius,
-                            viewRadius * 2, viewRadius * 2);
+        return new Rectangle2D.Double(projectedX - viewRadius,
+                projectedY - viewRadius,
+                viewRadius * 2, viewRadius * 2);
     }
 
     public String toString() {

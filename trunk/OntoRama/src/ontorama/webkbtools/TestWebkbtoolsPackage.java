@@ -1,6 +1,8 @@
 package ontorama.webkbtools;
 
-import junit.framework.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * <p>Title: </p>
@@ -22,18 +24,17 @@ import junit.framework.*;
 
 public class TestWebkbtoolsPackage extends TestCase {
 
-    public TestWebkbtoolsPackage (String name) {
-      super(name);
+    public TestWebkbtoolsPackage(String name) {
+        super(name);
     }
 
-     public static Test suite()
-     {
-         TestSuite suite = new TestSuite( "ontorama.webkbtools" );
+    public static Test suite() {
+        TestSuite suite = new TestSuite("ontorama.webkbtools");
 
-         suite.addTest( ontorama.webkbtools.datamodel.TestDatamodelPackage.suite() );
-         suite.addTest( ontorama.webkbtools.inputsource.TestSourcePackage.suite() );
-         suite.addTest( ontorama.webkbtools.query.TestQueryPackage.suite() );
+        suite.addTest(ontorama.webkbtools.datamodel.TestDatamodelPackage.suite());
+        suite.addTest(ontorama.webkbtools.inputsource.TestSourcePackage.suite());
+        suite.addTest(ontorama.webkbtools.query.TestQueryPackage.suite());
 
-         return suite;
-     }
+        return suite;
+    }
 }

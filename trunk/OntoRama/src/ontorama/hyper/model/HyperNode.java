@@ -7,15 +7,12 @@ package ontorama.hyper.model;
  */
 
 import ontorama.model.GraphNode;
-import ontorama.hyper.model.PositionChaingedObservable;
 
-import java.awt.Color;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ListIterator;
 
-public class HyperNode implements  PositionChaingedObservable {
+public class HyperNode implements PositionChaingedObservable {
 
     /**
      * Store all the Hyper observers
@@ -46,50 +43,50 @@ public class HyperNode implements  PositionChaingedObservable {
     /**
      * Constructor
      */
-    public HyperNode( GraphNode graphNode ) {
-      this.graphNode = graphNode;
-	  /*
-      this.graphNode.addObserver( this );
-	  */
-      this.position = new Position3D();
+    public HyperNode(GraphNode graphNode) {
+        this.graphNode = graphNode;
+        /*
+        this.graphNode.addObserver( this );
+        */
+        this.position = new Position3D();
     }
 
     /**
      * Add focus observers to list.
      */
-    public void addFocusChangedObserver( Object obj ) {
-        focusListener.add( obj );
+    public void addFocusChangedObserver(Object obj) {
+        focusListener.add(obj);
     }
 
     /**
      * Add a Hyper observer.
      */
-    public void addPositionChaingedObserver( Object obj ) {
+    public void addPositionChaingedObserver(Object obj) {
         positionChaingedObserver.add(obj);
     }
 
     /**
      * Tell all Hyper observers of change.
      */
-    public void notifyPositionMoved( double x, double y ) {
+    public void notifyPositionMoved(double x, double y) {
         Iterator it = positionChaingedObserver.iterator();
-        while( it.hasNext() ) {
-            PositionChaingedObserver hno = (PositionChaingedObserver)it.next();
-            hno.positionUpdate( x, y );
+        while (it.hasNext()) {
+            PositionChaingedObserver hno = (PositionChaingedObserver) it.next();
+            hno.positionUpdate(x, y);
         }
     }
     /**
      * Update method called from obserable (GraphNode)
      */
-	 /*
-    public void update( Object observer, Object observable ) {
-        Iterator it = focusListener.iterator();
-        while( it.hasNext() ) {
-            FocusChangedObserver fo = (FocusChangedObserver)it.next();
-            fo.focusChanged( this );
-        }
-    }
-	*/
+    /*
+   public void update( Object observer, Object observable ) {
+       Iterator it = focusListener.iterator();
+       while( it.hasNext() ) {
+           FocusChangedObserver fo = (FocusChangedObserver)it.next();
+           fo.focusChanged( this );
+       }
+   }
+   */
 
     /**
      * Returns GraphNode.
@@ -102,7 +99,7 @@ public class HyperNode implements  PositionChaingedObservable {
      * Return true if GraphNode has clones.
      */
     public boolean hasClones() {
-      return this.graphNode.hasClones();
+        return this.graphNode.hasClones();
     }
 
     /**
@@ -143,29 +140,29 @@ public class HyperNode implements  PositionChaingedObservable {
     /**
      * Notify GraphNode that it has focus.
      */
-	 /*
-    public void hasFocus() {
-        System.out.println("HyperNode hasFocus()");
-        graphNode.hasFocus();
-    }
-	*/
+    /*
+   public void hasFocus() {
+       System.out.println("HyperNode hasFocus()");
+       graphNode.hasFocus();
+   }
+   */
 
     /**
      * Move node position by offset x and y.
      */
-    public void move( double x, double y ) {
-        setLocation(position.getX() - x, position.getY() - y );
+    public void move(double x, double y) {
+        setLocation(position.getX() - x, position.getY() - y);
     }
 
     /**
      * Rotate node about the center (0, 0) by angle passed.
      */
-    public void rotate( double angle ) {
-        double nodeAngle = Math.atan2( this.getX(), this.getY() ) + angle*-1;
-        double r = this.getPosition().distance(0,0);
+    public void rotate(double angle) {
+        double nodeAngle = Math.atan2(this.getX(), this.getY()) + angle * -1;
+        double r = this.getPosition().distance(0, 0);
         double x = r * Math.sin(nodeAngle);
         double y = r * Math.cos(nodeAngle);
-        setLocation( x,  y );
+        setLocation(x, y);
     }
 
     /**
@@ -180,9 +177,9 @@ public class HyperNode implements  PositionChaingedObservable {
      *
      * Notify view of change of position.
      */
-    public void setLocation( double x, double y ) {
-        position.setLocation( x, y );
-        notifyPositionMoved( x, y);
+    public void setLocation(double x, double y) {
+        position.setLocation(x, y);
+        notifyPositionMoved(x, y);
     }
 
     public String toString() {

@@ -11,9 +11,10 @@ package ontorama.webkbtools.datamodel;
 
 public class RelationSignature {
 
-  String signType1;
-  String signType2;
-  public RelationSignature() {
+    String signType1;
+    String signType2;
 
-  }
+    public RelationSignature() {
+
+    }
 }

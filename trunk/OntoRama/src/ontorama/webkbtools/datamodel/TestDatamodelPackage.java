@@ -1,6 +1,8 @@
 package ontorama.webkbtools.datamodel;
 
-import junit.framework.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * <p>Title: </p>
@@ -13,15 +15,14 @@ import junit.framework.*;
 
 public class TestDatamodelPackage extends TestCase {
 
-    public TestDatamodelPackage (String name) {
-      super(name);
+    public TestDatamodelPackage(String name) {
+        super(name);
     }
 
-     public static Test suite()
-     {
-         TestSuite suite = new TestSuite( "ontorama.webkbtools.datamodel" );
-         suite.addTest( new TestSuite( TestOntologyTypeImplementation.class ) );
-         return suite;
-     }
+    public static Test suite() {
+        TestSuite suite = new TestSuite("ontorama.webkbtools.datamodel");
+        suite.addTest(new TestSuite(TestOntologyTypeImplementation.class));
+        return suite;
+    }
 
 }

@@ -1,15 +1,10 @@
 package ontorama.model;
 
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Enumeration;
-import java.util.ListIterator;
-import java.util.Hashtable;
-
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchPropertyException;
+
+import java.util.*;
 
 /**
  * Basic GraphNode for ontology viewers.
@@ -59,8 +54,8 @@ public class GraphNode implements Cloneable {
      *
      * @param name
      */
-    public GraphNode( String name ) {
-        this(name,name);
+    public GraphNode(String name) {
+        this(name, name);
     }
 
     /**
@@ -68,7 +63,7 @@ public class GraphNode implements Cloneable {
      *
      * @param name, fullName
      */
-    public GraphNode( String name, String fullName ) {
+    public GraphNode(String name, String fullName) {
         this.name = name;
         this.fullName = fullName;
         initNodeProperties();
@@ -80,11 +75,11 @@ public class GraphNode implements Cloneable {
      *          this redunancy!
      */
     private void initNodeProperties() {
-      Enumeration propertiesList = OntoramaConfig.getConceptPropertiesTable().keys();
-      while (propertiesList.hasMoreElements()) {
-        String propName = (String) propertiesList.nextElement();
-        nodeDetails.put(propName,new LinkedList());
-      }
+        Enumeration propertiesList = OntoramaConfig.getConceptPropertiesTable().keys();
+        while (propertiesList.hasMoreElements()) {
+            String propName = (String) propertiesList.nextElement();
+            nodeDetails.put(propName, new LinkedList());
+        }
     }
 
 
@@ -95,37 +90,37 @@ public class GraphNode implements Cloneable {
         return name;
     }
 
-  /**
-   *
-   */
-  public String getFullName() {
-    return fullName;
-  }
-
-  /**
-   *
-   */
-  public void setFullName (String fullName) {
-    this.fullName = fullName;
-  }
-
     /**
-     * Return true if GraphNode has clones.
+     *
      */
-    public boolean hasClones(){
-      return !this.clones.isEmpty();
+    public String getFullName() {
+        return fullName;
     }
 
     /**
      *
      */
-	 /*
-    public void hasFocus () {
-//        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
-        System.out.println("\t\tclones: " + this.clones);
-
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
-	*/
+
+    /**
+     * Return true if GraphNode has clones.
+     */
+    public boolean hasClones() {
+        return !this.clones.isEmpty();
+    }
+
+    /**
+     *
+     */
+    /*
+   public void hasFocus () {
+//        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
+       System.out.println("\t\tclones: " + this.clones);
+
+   }
+   */
 
     /**
      * Return an iterator of all clones.
@@ -177,14 +172,14 @@ public class GraphNode implements Cloneable {
     /**
      *
      */
-    public void setFoldState (boolean isFolded) {
+    public void setFoldState(boolean isFolded) {
         this.isFolded = isFolded;
     }
 
     /**
      *
      */
-    public boolean getFoldedState () {
+    public boolean getFoldedState() {
         return this.isFolded;
     }
 
@@ -194,7 +189,7 @@ public class GraphNode implements Cloneable {
      *
      * @return cloneNode
      */
-    public GraphNode makeClone ()  throws NoSuchPropertyException {
+    public GraphNode makeClone() throws NoSuchPropertyException {
         // clone curNode to cloneNode
         GraphNode cloneNode = new GraphNode(name);
 
@@ -211,7 +206,7 @@ public class GraphNode implements Cloneable {
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
             //if (!clones.contains(cloneNode)) {
-                cur.clones.add(cloneNode);
+            cur.clones.add(cloneNode);
             //}
         }
 
@@ -233,8 +228,8 @@ public class GraphNode implements Cloneable {
      * @param   propertyValue - value for this property
      * @trows   NoSuchPropertyException
      */
-    public void setProperty (String propertyName, List propertyValue)
-                          throws NoSuchPropertyException {
+    public void setProperty(String propertyName, List propertyValue)
+            throws NoSuchPropertyException {
         nodeDetails.put(propertyName, propertyValue);
     }
 
@@ -244,33 +239,33 @@ public class GraphNode implements Cloneable {
      * @param   propertyName
      * @throw   NoSuchPropertyException
      */
-    public List getProperty (String propertyName) throws NoSuchPropertyException {
+    public List getProperty(String propertyName) throws NoSuchPropertyException {
         return (List) nodeDetails.get(propertyName);
     }
 
     /**
      *
      */
-    public int getBranchNodesNum () {
-      LinkedList q = new LinkedList();
-      int count = 0;
-      Iterator it = Edge.getOutboundEdgeNodes(this);
-      while (it.hasNext()) {
-        GraphNode child = (GraphNode) it.next();
-        q.add(child);
-      }
-
-      while (q.size() != 0) {
-        GraphNode cur = (GraphNode) q.remove(0);
-
-        count++;
-        Iterator children = Edge.getOutboundEdgeNodes(cur);
-        while (children.hasNext()) {
-          GraphNode next = (GraphNode) children.next();
-          q.add(next);
+    public int getBranchNodesNum() {
+        LinkedList q = new LinkedList();
+        int count = 0;
+        Iterator it = Edge.getOutboundEdgeNodes(this);
+        while (it.hasNext()) {
+            GraphNode child = (GraphNode) it.next();
+            q.add(child);
         }
-      }
-      return count;
+
+        while (q.size() != 0) {
+            GraphNode cur = (GraphNode) q.remove(0);
+
+            count++;
+            Iterator children = Edge.getOutboundEdgeNodes(cur);
+            while (children.hasNext()) {
+                GraphNode next = (GraphNode) children.next();
+                q.add(next);
+            }
+        }
+        return count;
     }
 
 
@@ -285,24 +280,24 @@ public class GraphNode implements Cloneable {
     /**
      * toString method
      */
-     /*
-     public String toString() {
-        String str = "";
-        str = str + "GraphNode: " + this.getName() + "\n";
-        str = str + "\t" + "inbound nodes: " + "\n";
-        Iterator inboundNodes = Edge.getInboundEdgeNodes(this);
-        while (inboundNodes.hasNext()) {
-            GraphNode node = (GraphNode) inboundNodes.next();
-            str = str + "\t\t" + node.getName();
-        }
-        str = str + "\t" + "outbound nodes: " + "\n";
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(this);
-        while (outboundNodes.hasNext()) {
-            GraphNode node = (GraphNode) outboundNodes.next();
-            str = str + "\t\t" + node.getName();
-        }
-        return str;
-     }
-     */
+    /*
+    public String toString() {
+       String str = "";
+       str = str + "GraphNode: " + this.getName() + "\n";
+       str = str + "\t" + "inbound nodes: " + "\n";
+       Iterator inboundNodes = Edge.getInboundEdgeNodes(this);
+       while (inboundNodes.hasNext()) {
+           GraphNode node = (GraphNode) inboundNodes.next();
+           str = str + "\t\t" + node.getName();
+       }
+       str = str + "\t" + "outbound nodes: " + "\n";
+       Iterator outboundNodes = Edge.getOutboundEdgeNodes(this);
+       while (outboundNodes.hasNext()) {
+           GraphNode node = (GraphNode) outboundNodes.next();
+           str = str + "\t\t" + node.getName();
+       }
+       return str;
+    }
+    */
 
 }

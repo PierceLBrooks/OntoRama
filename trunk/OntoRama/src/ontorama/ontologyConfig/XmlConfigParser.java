@@ -1,21 +1,13 @@
 package ontorama.ontologyConfig;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.*;
-import java.util.List;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-
-import org.jdom.*;
-import org.jdom.input.*;
-//import org.jdom.output.*;
-
 import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
+import org.jdom.*;
+import org.jdom.input.SAXBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Title:
@@ -55,7 +47,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-     private Debug debug = new Debug(false);
+    private Debug debug = new Debug(false);
 
 
     /**
@@ -84,7 +76,7 @@ public class XmlConfigParser extends XmlParserAbstract {
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {
-          System.out.println("XmlConfigParser");
+            System.out.println("XmlConfigParser");
         }
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
@@ -104,8 +96,7 @@ public class XmlConfigParser extends XmlParserAbstract {
 
             parseRelationRdfMappingElement(rdfMappingEl);
             parseConceptRdfMappingElement(rdfMappingEl);
-        }
-        catch (JDOMException e) {
+        } catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
             System.exit(-1);
         }
@@ -114,14 +105,14 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    public static RelationLinkDetails[] getRelationLinksArray () {
+    public static RelationLinkDetails[] getRelationLinksArray() {
         return relationLinkConfig;
     }
 
     /**
      *
      */
-    public static Hashtable getConceptPropertiesTable () {
+    public static Hashtable getConceptPropertiesTable() {
         return conceptPropertiesConfig;
     }
 
@@ -129,10 +120,10 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    private void parseOntologyElement (Element ontologyEl)
-                 throws ConfigParserException, ArrayIndexOutOfBoundsException {
+    private void parseOntologyElement(Element ontologyEl)
+            throws ConfigParserException, ArrayIndexOutOfBoundsException {
         List relationElementsList = ontologyEl.getChildren("relation");
-        if ( relationElementsList.size() == 0) {
+        if (relationElementsList.size() == 0) {
             throw new ConfigParserException("Element 'relation' doesn't have any sublements");
         }
         initialiseRelationLinkConfigArray(relationElementsList.size());
@@ -162,13 +153,13 @@ public class XmlConfigParser extends XmlParserAbstract {
                 checkCompulsoryAttr(nameAttr, "name", "relationType");
                 Attribute mappingSymbolAttr = relationTypeElement.getAttribute("mappingSymbol");
                 //checkCompulsoryAttr(mappingSymbolAttr, "mappingSymbol", "relationType");
-                if (i == 0)  {
+                if (i == 0) {
                     relationLinkDetails = new RelationLinkDetails(nameAttr.getValue());
                     if (mappingSymbolAttr != null) {
-                        relationLinkDetails.setLinkSymbol( mappingSymbolAttr.getValue());
+                        relationLinkDetails.setLinkSymbol(mappingSymbolAttr.getValue());
                     }
                 }
-                if (i==1) {
+                if (i == 1) {
                     relationLinkDetails.setReversedLinkName(nameAttr.getValue());
                     if (mappingSymbolAttr != null) {
                         relationLinkDetails.setReversedLinkSymbol(mappingSymbolAttr.getValue());
@@ -188,15 +179,14 @@ public class XmlConfigParser extends XmlParserAbstract {
 
 
             Attribute iconAttr = displayElement.getAttribute("icon");
-            if ( iconAttr != null) {
+            if (iconAttr != null) {
                 relationLinkDetails.setDisplayImage(iconAttr.getValue());
             }
 
             try {
                 relationLinkConfig[idAttr.getIntValue()] = relationLinkDetails;
-            }
-            catch (DataConversionException e) {
-                throw new ConfigParserException ("Invalid number for Attribute 'id', received: " + idAttr.getValue());
+            } catch (DataConversionException e) {
+                throw new ConfigParserException("Invalid number for Attribute 'id', received: " + idAttr.getValue());
             }
 
         }
@@ -208,7 +198,7 @@ public class XmlConfigParser extends XmlParserAbstract {
             Attribute conceptPropertyIdAttr = conceptPropertyEl.getAttribute("id");
             checkCompulsoryAttr(conceptPropertyIdAttr, "id", "conceptProperty");
             ConceptPropertiesDetails conceptPropertyDetails = new ConceptPropertiesDetails(conceptPropertyIdAttr.getValue());
-            conceptPropertiesConfig.put(conceptPropertyIdAttr.getValue(),conceptPropertyDetails);
+            conceptPropertiesConfig.put(conceptPropertyIdAttr.getValue(), conceptPropertyDetails);
         }
 
     }
@@ -216,7 +206,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    private void parseRelationRdfMappingElement (Element rdfMappingEl) throws ConfigParserException, DataConversionException {
+    private void parseRelationRdfMappingElement(Element rdfMappingEl) throws ConfigParserException, DataConversionException {
         Element relationLinksEl = rdfMappingEl.getChild("relationLinks");
         List mapElementsList = relationLinksEl.getChildren("map");
         Iterator mapElementsIterator = mapElementsList.iterator();
@@ -229,12 +219,12 @@ public class XmlConfigParser extends XmlParserAbstract {
             Attribute tagAttr = mapEl.getAttribute("tag");
             checkCompulsoryAttr(tagAttr, "tag", "map");
             //System.out.println("idAttr = " + idAttr + ", typeAttr = " + typeAttr + ", tagAttr = " + tagAttr);
-            RdfMapping rdfMappingObject = new RdfMapping (idAttr.getIntValue(), typeAttr.getValue(), tagAttr.getValue());
+            RdfMapping rdfMappingObject = new RdfMapping(idAttr.getIntValue(), typeAttr.getValue(), tagAttr.getValue());
             Iterator tagElementsIterator = mapEl.getChildren("tag").iterator();
             while (tagElementsIterator.hasNext()) {
-              Element tagEl = (Element) tagElementsIterator.next();
-              //System.out.println("\ttagEl content = " + tagEl.getText());
-              rdfMappingObject.addRdfTag(tagEl.getText());
+                Element tagEl = (Element) tagElementsIterator.next();
+                //System.out.println("\ttagEl content = " + tagEl.getText());
+                rdfMappingObject.addRdfTag(tagEl.getText());
             }
             relationRdfMappingList.add(rdfMappingObject);
         }
@@ -243,21 +233,21 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    public List getRelationRdfMappingList () {
-		return this.relationRdfMappingList;
+    public List getRelationRdfMappingList() {
+        return this.relationRdfMappingList;
     }
 
     /**
      *
      */
-     public Hashtable getConceptPropertiesRdfMappingTable () {
+    public Hashtable getConceptPropertiesRdfMappingTable() {
         return this.conceptPropertiesMapping;
-     }
+    }
 
     /**
      *
      */
-    private void parseConceptRdfMappingElement (Element rdfMappingEl) throws ConfigParserException {
+    private void parseConceptRdfMappingElement(Element rdfMappingEl) throws ConfigParserException {
         Element conceptPropertiesEl = rdfMappingEl.getChild("conceptProperties");
         List mapElementsList = conceptPropertiesEl.getChildren("map");
         Iterator mapElementsIterator = mapElementsList.iterator();
@@ -271,7 +261,7 @@ public class XmlConfigParser extends XmlParserAbstract {
             Enumeration conceptPropertiesConfigEnum = conceptPropertiesConfig.keys();
             while (conceptPropertiesConfigEnum.hasMoreElements()) {
                 String curDetailsName = (String) conceptPropertiesConfigEnum.nextElement();
-                if (idAttr.getValue().equals(curDetailsName) ){
+                if (idAttr.getValue().equals(curDetailsName)) {
                     ConceptPropertiesMapping conceptMapping = new ConceptPropertiesMapping(idAttr.getValue(), tagAttr.getValue());
                     conceptPropertiesMapping.put(idAttr.getValue(), conceptMapping);
                 }
@@ -283,24 +273,24 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-     /*
-    private void checkCompulsoryAttr (Attribute attr, String attrName, String elementName)
-                                    throws ConfigParserException {
-        if ( attr == null) {
-            throw new ConfigParserException("Missing compulsory Attribute '" + attrName + "' in Element '" + elementName + "'");
-        }
-        if ( attr.getValue().trim().equals("")) {
-            throw new ConfigParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
-        }
-    }
-    */
+    /*
+   private void checkCompulsoryAttr (Attribute attr, String attrName, String elementName)
+                                   throws ConfigParserException {
+       if ( attr == null) {
+           throw new ConfigParserException("Missing compulsory Attribute '" + attrName + "' in Element '" + elementName + "'");
+       }
+       if ( attr.getValue().trim().equals("")) {
+           throw new ConfigParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
+       }
+   }
+   */
 
     /**
      *
      */
-    private void initialiseRelationLinkConfigArray (int arraySize) {
-        relationLinkConfig = new RelationLinkDetails[arraySize+1];
-        for (int i=0; i < arraySize; i++ ) {
+    private void initialiseRelationLinkConfigArray(int arraySize) {
+        relationLinkConfig = new RelationLinkDetails[arraySize + 1];
+        for (int i = 0; i < arraySize; i++) {
             relationLinkConfig[i] = null;
         }
     }
@@ -308,7 +298,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      * Print Concept Properties Mapping. Usefull for debugging
      */
-     public void printConceptPropertiesRdfMapping () {
+    public void printConceptPropertiesRdfMapping() {
         Enumeration e = conceptPropertiesMapping.keys();
         System.out.println("conceptProperties size: " + conceptPropertiesMapping.size() + ", conceptPropertiesMapping: ");
         while (e.hasMoreElements()) {
@@ -316,5 +306,5 @@ public class XmlConfigParser extends XmlParserAbstract {
             ConceptPropertiesMapping curValue = (ConceptPropertiesMapping) conceptPropertiesMapping.get(curKey);
             System.out.println("key = " + curKey + ", mapping = " + curValue.getRdfTag());
         }
-     }
+    }
 }

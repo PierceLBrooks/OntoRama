@@ -1,7 +1,6 @@
 package ontorama.ontologyConfig;
 
-import org.jdom.*;
-import org.jdom.input.*;
+import org.jdom.Attribute;
 
 /**
  * <p>Title: </p>
@@ -19,12 +18,12 @@ public class XmlParserAbstract {
     /**
      *
      */
-    public void checkCompulsoryAttr (Attribute attr, String attrName, String elementName)
-                                    throws ConfigParserException {
-        if ( attr == null) {
+    public void checkCompulsoryAttr(Attribute attr, String attrName, String elementName)
+            throws ConfigParserException {
+        if (attr == null) {
             throw new ConfigParserException("Missing compulsory Attribute '" + attrName + "' in Element '" + elementName + "'");
         }
-        if ( attr.getValue().trim().equals("")) {
+        if (attr.getValue().trim().equals("")) {
             throw new ConfigParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
         }
     }

@@ -1,9 +1,9 @@
 package ontorama.webkbtools.query;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Iterator;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Description: Query consist of query term and an iterator of relation links that we
@@ -28,7 +28,7 @@ public class Query {
 
      */
     private List _relationLinks = new LinkedList();
-    
+
     /**
      * depth of recursive query
      */
@@ -37,7 +37,7 @@ public class Query {
     /**
      * Constructor. Initialise query type name
      */
-    public Query (String typeName) {
+    public Query(String typeName) {
         _typeName = typeName;
         System.out.println("created new query: " + this.toString());
     }
@@ -46,7 +46,7 @@ public class Query {
      * Convinience Constructor.
      * Initialise query type name and relation links
      */
-    public Query (String typeName,List relationLinks) {
+    public Query(String typeName, List relationLinks) {
         _typeName = typeName;
         _relationLinks = relationLinks;
         System.out.println("created new query: " + this.toString());
@@ -56,7 +56,7 @@ public class Query {
      * Get query type name
      * @return typeName
      */
-    public String getQueryTypeName () {
+    public String getQueryTypeName() {
         return _typeName;
     }
 
@@ -64,7 +64,7 @@ public class Query {
      * Set Relation types iterator.
      * @param   List relationLinks
      */
-    public void setRelationLinks (List relationLinks) {
+    public void setRelationLinks(List relationLinks) {
         _relationLinks = relationLinks;
     }
 
@@ -72,48 +72,48 @@ public class Query {
      * Get Relation types iterator
      * @return relationLinks Iterator
      */
-    public Iterator getRelationLinksIterator () {
-       return _relationLinks.iterator();
+    public Iterator getRelationLinksIterator() {
+        return _relationLinks.iterator();
     }
 
     /**
      * Get Relation types list
      * @return relationLinks List
      */
-    public List getRelationLinksList () {
+    public List getRelationLinksList() {
         return _relationLinks;
     }
 
     /**
      *
      */
-    public Collection getRelationLinksCollection () {
+    public Collection getRelationLinksCollection() {
         return (Collection) _relationLinks;
     }
-    
+
     /**
      * set depth for recursive query
      */
-    public void setDepth (int depth) {
-    	_depth = depth;
+    public void setDepth(int depth) {
+        _depth = depth;
         System.out.println("created new query: " + this.toString());
     }
-    
+
     /**
      * get depth of recursive query
      */
-    public int getDepth () {
-    	return _depth;
+    public int getDepth() {
+        return _depth;
     }
-    
+
     /**
-     * 
+     *
      */
     public String toString() {
-    	String str = "Query: ";
-    	str = str + "termName = " + _typeName + ", depth = " + _depth;
-    	str = str + ", relation links: " + _relationLinks;
-    	return str;
+        String str = "Query: ";
+        str = str + "termName = " + _typeName + ", depth = " + _depth;
+        str = str + ", relation links: " + _relationLinks;
+        return str;
     }
 
 }

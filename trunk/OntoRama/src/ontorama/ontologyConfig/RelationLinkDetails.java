@@ -1,9 +1,7 @@
 package ontorama.ontologyConfig;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Description: Holds all relavant details for Relation Link (such as:
@@ -60,7 +58,7 @@ public class RelationLinkDetails {
      * Get relation link name
      * @return  linkName
      */
-    public String getLinkName () {
+    public String getLinkName() {
         return this.linkName;
     }
 
@@ -68,7 +66,7 @@ public class RelationLinkDetails {
      * Set relation link symbol
      * @param   linkSymbol
      */
-    public void setLinkSymbol (String linkSymbol) {
+    public void setLinkSymbol(String linkSymbol) {
         this.linkSymbol = linkSymbol;
     }
 
@@ -76,7 +74,7 @@ public class RelationLinkDetails {
      * Get relation link symbol
      * @return  linkSymbol
      */
-    public String getLinkSymbol () {
+    public String getLinkSymbol() {
         return this.linkSymbol;
     }
 
@@ -84,7 +82,7 @@ public class RelationLinkDetails {
      * Get Reversed Link Name
      * @return  reversedLinkName
      */
-    public String getReversedLinkName () {
+    public String getReversedLinkName() {
         return this.reversedLinkName;
     }
 
@@ -100,7 +98,7 @@ public class RelationLinkDetails {
      * Get reversedLinkSymbol
      * @return  reversedLinkSymbol
      */
-    public String getReversedLinkSymbol () {
+    public String getReversedLinkSymbol() {
         return this.reversedLinkSymbol;
     }
 
@@ -108,7 +106,7 @@ public class RelationLinkDetails {
      * Set reversedLinkSymbol
      * @param reversedLinkSymbol
      */
-    public void setReversedLinkSymbol (String reversedLinkSymbol) {
+    public void setReversedLinkSymbol(String reversedLinkSymbol) {
         this.reversedLinkSymbol = reversedLinkSymbol;
     }
 
@@ -117,7 +115,7 @@ public class RelationLinkDetails {
      * @param string colorStr, colorStr should be a valid color that can be decoded using Color.decode
      * @see java.awt.Color
      */
-    public void setDisplayColor (String colorStr) {
+    public void setDisplayColor(String colorStr) {
         this.displayColor = Color.decode(colorStr);
     }
 
@@ -125,7 +123,7 @@ public class RelationLinkDetails {
      * Get display color
      * @return Color displayColor
      */
-    public Color getDisplayColor () {
+    public Color getDisplayColor() {
         return this.displayColor;
     }
 
@@ -133,7 +131,7 @@ public class RelationLinkDetails {
      * Set display symbol and make an image for it
      * @param String displaySymbol
      */
-    public void setDisplaySymbol (String displaySymbol) {
+    public void setDisplaySymbol(String displaySymbol) {
         this.displaySymbol = displaySymbol;
         makeDisplayImage();
     }
@@ -142,7 +140,7 @@ public class RelationLinkDetails {
      * Get displaySymbol
      * @return  displaySymbol string
      */
-    public String getDisplaySymbol () {
+    public String getDisplaySymbol() {
         return this.displaySymbol;
     }
 
@@ -152,31 +150,31 @@ public class RelationLinkDetails {
      * @param   imageStr
      * @todo    look into parameter for getImage - use relative paths
      */
-    public void setDisplayImage (String imageStr) {
+    public void setDisplayImage(String imageStr) {
         this.displayImage = Toolkit.getDefaultToolkit().getImage(imageStr);
     }
 
     /**
      * Make an image from given color and symbol
      */
-    public void makeDisplayImage () {
-        this.displayImage = ImageMaker.getImage(this.displayColor,this.displaySymbol);
+    public void makeDisplayImage() {
+        this.displayImage = ImageMaker.getImage(this.displayColor, this.displaySymbol);
     }
 
     /**
      * Get display image
      * @return  Image displayImage
      */
-     public Image getDisplayImage () {
+    public Image getDisplayImage() {
         return this.displayImage;
-     }
+    }
 
-     /**
-      * Get displayIcon
-      * @return ImageIcon displayIcon
-      */
-     public ImageIcon getDisplayIcon () {
+    /**
+     * Get displayIcon
+     * @return ImageIcon displayIcon
+     */
+    public ImageIcon getDisplayIcon() {
         ImageIcon icon = new ImageIcon(this.displayImage);
         return icon;
-     }
+    }
 }

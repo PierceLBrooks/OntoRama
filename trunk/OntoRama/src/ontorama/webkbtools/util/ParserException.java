@@ -8,18 +8,18 @@ package ontorama.webkbtools.util;
  * @author
  * @version 1.0
  */
-import java.lang.Exception;
 
-public class ParserException extends Exception{
-  private String errorMsg = null;
 
-  public ParserException(String message) {
-    errorMsg = "\nParser failed:\n";
-    errorMsg = errorMsg + message;
-  }
+public class ParserException extends Exception {
+    private String errorMsg = null;
 
-  public String getMessage() {
-    return errorMsg;
-  }
+    public ParserException(String message) {
+        errorMsg = "\nParser failed:\n";
+        errorMsg = errorMsg + message;
+    }
+
+    public String getMessage() {
+        return errorMsg;
+    }
 
 }

@@ -12,6 +12,6 @@ package ontorama.ontologyConfig;
 public class ConfigParserException extends Exception {
 
     public ConfigParserException(String message) {
-        super (message);
+        super(message);
     }
 }

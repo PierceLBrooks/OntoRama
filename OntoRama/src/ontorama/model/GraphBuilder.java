@@ -34,8 +34,8 @@ public class GraphBuilder {
       //String termName = "wn#TrueCat";
       //String termName = "wn#Dog";
       //System.out.println("termName = " + termName);
-      //String termName = "root";
-      String termName = "comms_CommsObject";
+      String termName = "root";
+      //String termName = "comms_CommsObject";
 
       try {
           TypeQuery query = new TypeQueryImplementation();

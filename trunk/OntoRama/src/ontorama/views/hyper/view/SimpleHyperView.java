@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
@@ -751,19 +751,16 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     protected void setLabelSelected(HyperNodeView selectedNodeView) {
         // find the LabelView for this HyperNodeView.
-        ListIterator it = this.canvasItems.listIterator(this.canvasItems.size());
-        while (it.hasPrevious()) {
-            CanvasItem canvasItem = (CanvasItem) it.previous();
+        Collection labelViews = this.getCanvasItemsByType(LabelView.class);
+        Iterator it = labelViews.iterator();
+        while (it.hasNext()) {
+            CanvasItem canvasItem = (CanvasItem) it.next();
             if (canvasItem instanceof LabelView) {
                 if (((LabelView) canvasItem).hasHyperNodeView(selectedNodeView) == true) {
                 	SimpleHyperView.labelView = (LabelView) canvasItem;
-                    break;
+                    this.raiseItem(SimpleHyperView.labelView);
                 }
             }
-        }
-        if (labelView != null) {
-            canvasItems.remove(SimpleHyperView.labelView);
-            canvasItems.add(SimpleHyperView.labelView);
         }
     }
 
@@ -865,25 +862,22 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Highlight all _graphEdges on the path from the _root to a closest node for current mouse event
      */
     public void highlightPathToRoot(CanvasItemMouseMovementEvent pointedEvent) {
-        Iterator it = canvasItems.iterator();
+        Iterator it = this.getCanvasItemsByType(HyperNodeView.class).iterator();
         double minDist = this.getWidth();
         double dist = 0;
         HyperNodeView closestNode = null;
         while (it.hasNext()) {
-            CanvasItem cur = (CanvasItem) it.next();
-            if (cur instanceof HyperNodeView) {
-                HyperNodeView curNodeView = (HyperNodeView) cur;
+            HyperNodeView curNodeView = (HyperNodeView) it.next();
 
-                double curX = pointedEvent.getCanvasPosition().getX() - curNodeView.getProjectedX();
-                double curY = pointedEvent.getCanvasPosition().getY() - curNodeView.getProjectedY();
-                curX = curX * (1 / canvasScale);
-                curY = curY * (1 / canvasScale);
-                dist = Math.sqrt(curX * curX + curY * curY);
+            double curX = pointedEvent.getCanvasPosition().getX() - curNodeView.getProjectedX();
+            double curY = pointedEvent.getCanvasPosition().getY() - curNodeView.getProjectedY();
+            curX = curX * (1 / canvasScale);
+            curY = curY * (1 / canvasScale);
+            dist = Math.sqrt(curX * curX + curY * curY);
 
-                if (dist < minDist) {
-                    minDist = dist;
-                    closestNode = curNodeView;
-                }
+            if (dist < minDist) {
+                minDist = dist;
+                closestNode = curNodeView;
             }
         }
         if (closestNode == null) {

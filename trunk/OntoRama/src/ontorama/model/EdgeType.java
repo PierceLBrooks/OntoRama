@@ -11,6 +11,7 @@ package ontorama.model;
 public class EdgeType implements EdgeTypeInterface {
 
     private String _name;
+    private String _reverseEdgeName;
 
     public EdgeType(String name) {
         _name = name;
@@ -19,6 +20,15 @@ public class EdgeType implements EdgeTypeInterface {
     public String getName() {
         return _name;
     }
+
+    public String getReverseEdgeName() {
+        return _reverseEdgeName;
+    }
+
+    public void setReverseEdgeName(String reverseEdgeName) {
+        _reverseEdgeName = reverseEdgeName;
+    }
+
 
 
 }

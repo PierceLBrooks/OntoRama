@@ -115,7 +115,7 @@ public class TestRdfDamlParser extends TestCase {
    */
   public void testInvalidRDF_extraColumnInElementName () throws java.lang.ClassNotFoundException,
                             java.lang.IllegalAccessException, java.lang.InstantiationException,
-                            SourceException {
+                            SourceException, CancelledQueryException {
 
     OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 1");
     OntoramaConfig.setCurrentExample(testCaseToLoad);
@@ -137,7 +137,7 @@ public class TestRdfDamlParser extends TestCase {
    */
   public void testInvalidRDF_DoubleSlashComments () throws java.lang.ClassNotFoundException,
                             java.lang.IllegalAccessException, java.lang.InstantiationException,
-                            SourceException {
+                            SourceException, CancelledQueryException {
 
     OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 2");
     OntoramaConfig.setCurrentExample(testCaseToLoad);

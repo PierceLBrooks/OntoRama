@@ -1,21 +1,21 @@
 <ontoramaExamples>
 	<!--
 	<example name="Ontorama Xml Test" root="root">
-		<source relativeUri="examples/ontorama-test.xml" 
+		<source uri="examples/ontorama-test.xml" 
 					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>XML</queryOutputFormat>
 		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
 	</example>
 	-->
 	<example name="Test case for wn#wood_mouse" root="wn#WoodMouse" loadOnStart="yes" >
-		<source relativeUri="examples/test/data/wn_wood_mouse.rdf" 
+		<source uri="examples/test/data/wn_wood_mouse.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<!--
 	<example name="Elephants (export from Oiled)" root="animal">
-		<source relativeUri="examples/web-examples/elephants-export.rdfs"
+		<source uri="examples/web-examples/elephants-export.rdfs"
 				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>

@@ -49,6 +49,12 @@ public class OntoramaExample {
   private String sourcePackagePathSuffix;
 
   /**
+   *
+   */
+  private boolean isSourceDynamic = false;
+  private String queryStringCostructorPackagePathSuffix;
+
+  /**
    * if need to group examples - can use subfolders in Menu
    */
   private String menuSubfolder;
@@ -145,6 +151,34 @@ public class OntoramaExample {
   /**
    *
    */
+  public void setIsSourceDynamic (boolean isSourceDynamic) {
+    this.isSourceDynamic = isSourceDynamic;
+  }
+
+  /**
+   *
+   */
+  public boolean getIsSourceDynamic () {
+    return this.isSourceDynamic;
+  }
+
+  /**
+   *
+   */
+  public void setQueryStringConstructorPackagePathSuffix (String queryStringCostructorPackagePathSuffix) {
+    this.queryStringCostructorPackagePathSuffix = queryStringCostructorPackagePathSuffix;
+  }
+
+  /**
+   *
+   */
+  public String getQueryStringConstructorPackagePathSuffix () {
+    return this.queryStringCostructorPackagePathSuffix;
+  }
+
+  /**
+   *
+   */
   public String toString () {
     String str = "Example: ";
     str = str + "name=" + this.name;
@@ -153,6 +187,9 @@ public class OntoramaExample {
     str = str + ", queryOutpurFormat=" + this.queryOutputFormat;
     str = str + ", parserPackagePathSuffix=" + this.parserPackagePathSuffix;
     str = str + ", sourcePackagePathSuffix=" + this.sourcePackagePathSuffix;
+    str = str + ", isSourceDynamic=" + this.isSourceDynamic;
+    str = str + ", queryStringCostructorPackagePathSuffix=" + this.queryStringCostructorPackagePathSuffix;
+
     return str;
   }
 }

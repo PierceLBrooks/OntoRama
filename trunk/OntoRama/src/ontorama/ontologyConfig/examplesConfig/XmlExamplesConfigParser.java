@@ -60,6 +60,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
             Iterator exampleElementsIterator = exampleElementsList.iterator();
             while (exampleElementsIterator.hasNext()) {
               Element curEl = (Element) exampleElementsIterator.next();
+              //System.out.println("processing example element: " + curEl);
               processExampleElement(curEl);
             }
 
@@ -76,6 +77,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
     private void processExampleElement (Element element) throws ConfigParserException {
       Attribute nameAttr = element.getAttribute("name");
       checkCompulsoryAttr(nameAttr, "name", "element");
+      System.out.println("processing example element with name: " + nameAttr);
       Attribute rootAttr = element.getAttribute("root");
       checkCompulsoryAttr(rootAttr, "root", "element");
       Attribute loadOnStartAttr = element.getAttribute("loadOnStart");
@@ -84,11 +86,12 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
       if (sourceElement == null) {
         throw new ConfigParserException("Missing compulsory element 'source' in element 'example'");
       }
-      Attribute relativeUriAttr = sourceElement.getAttribute("relativeUri");
-      checkCompulsoryAttr(relativeUriAttr,"relativeUri","source");
+      Attribute uriAttr = sourceElement.getAttribute("uri");
+      checkCompulsoryAttr(uriAttr,"uri","source");
 
       Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
       checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
+
 
       Element queryOutputFormatElement = element.getChild("queryOutputFormat");
       if (queryOutputFormatElement == null) {
@@ -102,12 +105,23 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
 
 
       OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
-                              relativeUriAttr.getValue(), queryOutputFormatElement.getText(),
+                              uriAttr.getValue(), queryOutputFormatElement.getText(),
                               parserPackagePathSuffixElement.getText(), sourcePackagePathSuffixAttr.getValue());
       if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
         this.mainExample = example;
         example.setLoadFirst(true);
       }
+
+      Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
+      System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
+      if ( ( isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true")) ) {
+        Attribute queryStringConstructorPackagePathSuffixAttr = sourceElement.getAttribute("queryStringConstructorPackagePathSuffix");
+        System.out.println("queryStringConstr attr = " + queryStringConstructorPackagePathSuffixAttr);
+        checkCompulsoryAttr(queryStringConstructorPackagePathSuffixAttr, "queryStringConstructorPackagePathSuffix", "source");
+        example.setIsSourceDynamic(true);
+        example.setQueryStringConstructorPackagePathSuffix(queryStringConstructorPackagePathSuffixAttr.getValue());
+      }
+
       this.examplesList.add(example);
 
       Element displayMenuElement = element.getChild("displayMenu");

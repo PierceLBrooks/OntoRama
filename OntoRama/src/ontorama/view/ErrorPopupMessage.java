@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class ErrorPopupMessage extends JOptionPane {
 
   public ErrorPopupMessage(String message, Component parent) {
-      message = "Sorry, " + message;
+      //message = "Sorry, " + message;
       JOptionPane optionPane = new JOptionPane(message,JOptionPane.ERROR_MESSAGE);
       optionPane.showMessageDialog(parent,message);
 

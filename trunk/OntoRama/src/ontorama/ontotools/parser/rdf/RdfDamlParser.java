@@ -72,10 +72,6 @@ public class RdfDamlParser implements Parser {
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
     private static final String _pmNamespaceSuffix = "pm#";
 
-
-    private static ontorama.model.graph.NodeType nodeTypeConcept;
-    private static ontorama.model.graph.NodeType nodeTypeRelation;
-
     /**
      * hold RDF resources that are potentials to be concept node types
      * or relation node types.
@@ -93,19 +89,6 @@ public class RdfDamlParser implements Parser {
         _edgesList = new LinkedList();
 
         predicatesConnectingPropertyToProperty = new LinkedList();
-
-        /// @todo a bit of a hack to get node types we need - should be more dynamic, and mapped to rdf tags.
-        List nodeTypesList = OntoramaConfig.getNodeTypesList();
-        Iterator it = nodeTypesList.iterator();
-        while (it.hasNext()) {
-            ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
-            if (cur.getDisplayName().equals("concept")) {
-                nodeTypeConcept = cur;
-            }
-            if (cur.getDisplayName().equals("relation")) {
-                nodeTypeRelation = cur;
-            }
-        }
     }
 
 
@@ -339,11 +322,11 @@ public class RdfDamlParser implements Parser {
             }
             if (resourceConceptNodeTypesList.contains(object)) {
                 // set node type to be concept node type
-                node.setNodeType(nodeTypeConcept);
+                node.setNodeType(OntoramaConfig.CONCEPT_TYPE);
             }
             else if (resourceRelationNodeTypesList.contains(object)) {
                 // set node type to be relation node type
-                node.setNodeType(nodeTypeRelation);
+                node.setNodeType(OntoramaConfig.RELATION_TYPE);
             }
             else {
                 System.out.println("resourceConceptNodeTypesList = " + resourceConceptNodeTypesList);

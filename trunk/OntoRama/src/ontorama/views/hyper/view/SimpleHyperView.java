@@ -271,13 +271,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         NodeType nodeType = node.getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
-            Iterator it = OntoramaConfig.getNodeTypesList().iterator();
-            while (it.hasNext()) {
-                NodeType cur = (NodeType) it.next();
-                if (cur.getDisplayName().equals("unknown")) {
-                    nodeType = cur;
-                }
-            }
+            nodeType = OntoramaConfig.UNKNOWN_TYPE;
         }
         hn.addFocusChangedObserver(this);
         HyperNodeView hnv = new HyperNodeView(hn, nodeType, projection);

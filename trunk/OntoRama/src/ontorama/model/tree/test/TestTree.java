@@ -43,12 +43,7 @@ public class TestTree extends TestCase{
     public void setUp () throws GraphModificationException, NoSuchRelationLinkException, NoTypeFoundInResultSetException {
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();
-        List nodeTypesList = OntoramaConfig.getNodeTypesList();
-        if (nodeTypesList.size() < 1) {
-            System.err.println("expecting at least 1 node type defined in the config.xml");
-            System.exit(-1);
-        }
-        _nodeType1 = (NodeType) nodeTypesList.get(0);
+        _nodeType1 = OntoramaConfig.CONCEPT_TYPE;
         Node node1 = new NodeImpl("node1");
         node1.setNodeType(_nodeType1);
         Node node2 = new NodeImpl("node2");

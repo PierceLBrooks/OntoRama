@@ -1,19 +1,11 @@
 package ontorama.ui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,8 +17,12 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
-import ontorama.conf.ImageMaker;
+import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.ui.events.GeneralQueryEvent;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.GraphImpl;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -42,7 +38,7 @@ public class NodesListViewer extends JComboBox {
      */
     private List _nodesList = new LinkedList();
 
-    private ontorama.model.graph.Graph _graph;
+    private Graph _graph;
 
     /**
      * event broker
@@ -87,7 +83,7 @@ public class NodesListViewer extends JComboBox {
     /**
      * set new list of nodes
      */
-    public void setGraph (ontorama.model.graph.Graph graph) {
+    public void setGraph (Graph graph) {
         _graph = graph;
         _nodesList = graph.getUnconnectedNodesList();
         removeAllItems();
@@ -96,7 +92,7 @@ public class NodesListViewer extends JComboBox {
         sortList();
         Iterator it = _nodesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) it.next();
+            Node curNode = (Node) it.next();
             addItem(curNode);
         }
     }
@@ -139,8 +135,8 @@ public class NodesListViewer extends JComboBox {
         while(atLeastOneSwap) {
             atLeastOneSwap = false;
             for(j=0; j < (_nodesList.size()-1); ++j) {
-                ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) _nodesList.get(j);
-                ontorama.model.graph.Node nextNode = (ontorama.model.graph.Node) _nodesList.get(j+1);
+                Node curNode = (Node) _nodesList.get(j);
+                Node nextNode = (Node) _nodesList.get(j+1);
 
                 String curNodeName = curNode.getName();
                 String nextNodeName = nextNode.getName();
@@ -156,29 +152,12 @@ public class NodesListViewer extends JComboBox {
 
     class ListRenderer extends JLabel implements ListCellRenderer {
 
-        private Hashtable _nodeTypeToImageMapping = new Hashtable();
         private ImageIcon _defaultImage;
         private ImageIcon _noImage;
 
         public ListRenderer() {
             setHorizontalAlignment(LEFT);
             setVerticalAlignment(CENTER);
-
-            /// @todo copied this from ontotree renderer. need a unified way to get these
-            // images from all viewers.
-            int iconW = ImageMaker.getWidth();
-            int iconH = ImageMaker.getHeight();
-
-            Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
-            while (nodeTypesIterator.hasNext()) {
-                ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) nodeTypesIterator.next();
-                Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
-                ImageIcon image = makeNodeIcon(iconW/2, iconH, color, Color.black, nodeType);
-                _nodeTypeToImageMapping.put(nodeType, image);
-            }
-            /// @todo hack shouldn't pass null
-            //_defaultImage = makeNodeIcon(iconW/2, iconH, Color.white, Color.black, null);
-            _noImage = makeNodeIcon(iconW/2, iconH, getBackground(), getBackground(), null);
         }
 
 
@@ -198,19 +177,19 @@ public class NodesListViewer extends JComboBox {
                 return this;
             }
             else {
-                ontorama.model.graph.Node node = (ontorama.model.graph.Node) value;
-                ontorama.model.graph.NodeType nodeType = node.getNodeType();
+                Node node = (Node) value;
+                NodeType nodeType = node.getNodeType();
                 setText(node.getName());
                 // @todo hack: should consider adding the method into interface
-                if (_graph instanceof ontorama.model.graph.GraphImpl) {
-                    ontorama.model.graph.GraphImpl graphImpl = (ontorama.model.graph.GraphImpl) _graph;
+                if (_graph instanceof GraphImpl) {
+                    GraphImpl graphImpl = (GraphImpl) _graph;
                     int numOfDescendants = graphImpl.getNumOfDescendants(node);
                     setText(node.getName() + " (" + numOfDescendants + ")");
                 }
                 if (nodeType != null) {
-                    ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
-                    setIcon(image);
-                    setToolTipText(nodeType.getDisplayName());
+                	NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(nodeType);
+                    setIcon(new ImageIcon(displayInfo.getImage()));
+                    setToolTipText(displayInfo.getName());
                 }
                 else {
                     setIcon(_noImage);
@@ -219,54 +198,4 @@ public class NodesListViewer extends JComboBox {
             return this;
         }
     }
-
-    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor, ontorama.model.graph.NodeType nodeType) {
-
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, width, height);
-        g2.drawRect(0, 0, width, height);
-
-        g2.setColor(color);
-
-        Shape displayShape;
-        if(nodeType == null) {
-            /// @todo this check for null is a hack. have to change all following
-            // if's and else's to a meaninfull  flow.
-            int ovalSize = width - (width * 12) / 100;
-            int ovalX = 0;
-            int ovalY = (height - ovalSize) / 2;
-            displayShape = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-        }
-        else {
-            displayShape = nodeType.getDisplayShape();
-        }
-		Rectangle2D bounds = displayShape.getBounds2D();
-
-        double xOffset = -bounds.getX();
-        double yOffset = -bounds.getY();
-		double scale;		
-        if(bounds.getWidth()/width > bounds.getHeight()/height) {
-            scale = width/bounds.getWidth();
-            yOffset += (bounds.getHeight() - scale * height)/2;
-        } else {
-            scale = height/bounds.getHeight();
-            xOffset += (bounds.getWidth() - scale * width)/2;
-        }
-		
-		g2.scale(scale,scale);
-        g2.translate(xOffset, yOffset);
-        g2.fill(displayShape);
-        g2.setColor(outlineColor);
-        g2.draw(displayShape);
-
-        return (new ImageIcon(image));
-    }
-
-
-
 }

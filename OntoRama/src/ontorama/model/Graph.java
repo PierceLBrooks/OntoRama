@@ -19,27 +19,36 @@ import java.util.ConcurrentModificationException;
 
 public class Graph implements GraphInterface {
 
-    private Collection nodes;
+    private List treeNodes = new LinkedList ();
     private GraphNode root;
+
 
     // for debugging purposes only, remove later!!!
     private Hashtable printedGraphNodes;
 
-    public Graph(Collection nodes, GraphNode root) {
-        this.nodes = nodes;
+    public Graph(Collection graphNodes, GraphNode root) {
+        //this.nodes = nodes;
         this.root = root;
 
-        System.out.println("-------------------------------------");
-        System.out.println("--------------tree-----------------------");
-        printXmlTree(root);
-        System.out.println("-------------------------------------");
-        System.out.println("-------------------------------------");
+        System.out.println("-------graph size: " + graphNodes.size() + "------------------------------");
+
+        //System.out.println("-------------------------------------");
+        //System.out.println("--------------tree-----------------------");
+        //printXmlTree(root);
+        //System.out.println("-------------------------------------");
+        //System.out.println("-------------------------------------");
 
         convertIntoTree();
+        makeTreeList(root);
+
+        //LinkedList allNodes = new LinkedList(nodes);
+        //allNodes.addAll(clones);
+
         // calculate the depth of each node
         root.calculateDepths();
 
         System.out.println("-------check if tree returned: " + checkIfTree(root) + "------------------------------");
+        System.out.println("-------tree size: " + getSize() + "------------------------------");
 
     }
 
@@ -54,17 +63,22 @@ public class Graph implements GraphInterface {
      * Returns and iterator of nodes.
      */
     public Iterator iterator() {
-        return nodes.iterator();
+        return treeNodes.iterator();
     }
 
     /**
-     * Test method for printing out all nodes.
+     * Return collection of nodes
      */
-    //public void printGraphNodeNames() {
-    //    if( root != null ) {
-    //        root.printGraphNodeNames();
-    //    }
-    //}
+    public List getList() {
+        return treeNodes;
+    }
+
+    /**
+     * Returns size of the graph (number of nodes)
+     */
+    public int getSize () {
+        return treeNodes.size();
+    }
 
     /**
      * Removes all duplicate parents by cloning the children.
@@ -74,24 +88,45 @@ public class Graph implements GraphInterface {
         queue.add(root);
         while( !queue.isEmpty() ) {
             GraphNode cur = (GraphNode)queue.remove(0);
+            treeNodes.add(cur);
             List childrenList = cur.getChildrenList();
             int count = 0;
             int size = childrenList.size();
             while( count < size ) {
                 GraphNode child = (GraphNode)childrenList.get( count );
                 if(child.getNumberOfParents() > 1) {
-                  //System.out.println("node with multiple parents: " + child);
+                  System.out.println("node with multiple parents: " + child);
                     GraphNode clone = child.deepCopy();
                     cur.removeChild( child );
                     cur.addChild( clone );
                     child.removeParent(cur);
                     clone.setParent(cur);
+
+                    System.out.println("\tafter cloning");
+                    System.out.println("\tchild = " + child);
+                    System.out.println("\tclone = " + clone);
                 }
                 count++;
                 queue.add( child );
             }
         }
     }
+
+    /**
+     * Build a list of nodes including all clones.
+     * At this stage we should have a tree
+     * @param   root
+     * @return  -
+     */
+     public void makeTreeList (GraphNode root) {
+
+        Iterator it = root.getChildrenIterator();
+        treeNodes.add(root);
+        while (it.hasNext()) {
+            GraphNode child = (GraphNode) it.next();
+            makeTreeList(child);
+        }
+     }
 
     /**
      * debug method

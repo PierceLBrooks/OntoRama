@@ -1,9 +1,10 @@
 /*
- * Created by IntelliJ IDEA.
+ * Models a relationship between two nodes. Each edge has a start node and an end node.
+ * Edges can be of different types.
  * User: nataliya
  * Date: Sep 16, 2002
  * Time: 11:50:51 AM
- * To change template for new interface use 
+ * To change template for new interface use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
 package ontorama.model;
@@ -11,12 +12,32 @@ package ontorama.model;
 import java.net.URI;
 
 public interface Edge {
+    /**
+     * get a 'start' node for this edge.
+     * @return fromNode
+     */
     public Node getFromNode();
 
+    /**
+     * get an 'end' node for this edge.
+     * @return toNode
+     */
     public Node getToNode();
 
+    /**
+     * get edge type.
+     * @return edgeType
+     */
     public EdgeType getEdgeType();
 
-    public void setCreatorUri (URI cretorUri);
+    /**
+     * set URI of creator of this edge.
+     * @param creatorUri
+     */
+    public void setCreatorUri (URI creatorUri);
+    /**
+     * get URI of creator of this edge.
+     * @return
+     */
     public URI getCreatorUri ();
 }

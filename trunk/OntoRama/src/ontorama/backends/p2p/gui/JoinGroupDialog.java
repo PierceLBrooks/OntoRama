@@ -40,7 +40,7 @@ public class JoinGroupDialog extends JDialog {
 
     private P2PBackend _p2pBackend;
 
-    private GroupChooser _existingGroupPanel;
+    private GroupChooserPanel _existingGroupPanel;
     private JPanel _newGroupPanel;
     private JTabbedPane _tabbedPanel;
 
@@ -65,7 +65,7 @@ public class JoinGroupDialog extends JDialog {
         }
 
 
-        _existingGroupPanel = new GroupChooser(foundGroups, "Choose group to join");
+        _existingGroupPanel = new GroupChooserPanel(foundGroups, "Choose group to join");
         _newGroupPanel = new JPanel();
         JTabbedPane tabbedPanel = buildTabbedPanel();
 

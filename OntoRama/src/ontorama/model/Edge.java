@@ -96,7 +96,7 @@ public class Edge {
                     ( edge.getToNode().equals(cur.getToNode()) ) &&
                     ( edge.getType() == cur.getType()) ) {
                 // this edge is already registered
-				//System.out.println("edge is already registered: " + edge);
+                //System.out.println("edge is already registered: " + edge);
                 isInList = true;
             }
         }
@@ -106,12 +106,12 @@ public class Edge {
         }
      }
 
-	 /**
-	  *
-	  */
-	 public static void clearEdgesList () {
-		 edges = new LinkedList();
-	 }
+     /**
+      * @todo clearEdgesList and removeAllEdges are redunant?...check!
+      */
+     public static void clearEdgesList () {
+      edges = new LinkedList();
+     }
 
      /**
       *
@@ -175,9 +175,12 @@ public class Edge {
       private static Iterator getEdges(GraphNode node, int relationType, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
+        //System.out.println("\nrelationType = " + relationType + ", node = " + node.getName());
         while (nodeEdgesIt.hasNext()) {
             Edge cur = (Edge) nodeEdgesIt.next();
+            //System.out.println("cur = " + cur);
             if ( cur.getType() == relationType ) {
+                //System.out.println("---adding cur to result");
                 result.add(cur);
             }
         }
@@ -188,14 +191,14 @@ public class Edge {
        *
        */
      public static Iterator getOutboundEdges (GraphNode node, int relationType) {
-        return getEdges(node,true);
+        return getEdges(node, relationType, true);
      }
 
       /**
        *
        */
      public static Iterator getInboundEdges (GraphNode node, int relationType) {
-        return getEdges(node,false);
+        return getEdges(node, relationType, false);
      }
 
 
@@ -301,17 +304,6 @@ public class Edge {
       * @return iterator of Nodes
       */
       private static Iterator getEdgeNodes(GraphNode node, boolean flag) {
-//        //System.out.println("\tgetEdgeNodes method node = " + node.getName());
-//        //System.out.println("\t getEdgeNodes method, node = " + node + ", flag = " + flag);
-//        List result = new LinkedList();
-//        Iterator nodeEdgesIt = getEdges(node,flag);
-//        while (nodeEdgesIt.hasNext()) {
-//            Edge cur = (Edge) nodeEdgesIt.next();
-//            //System.out.println("\t\tedge = " + cur);
-//            //System.out.println("\t\t" + cur.getEdgeNode(!flag).getName());
-//            result.add(cur.getEdgeNode(!flag));
-//        }
-//        return result.iterator();
           return getEdgeNodesList(node, flag).iterator();
       }
 
@@ -352,6 +344,7 @@ public class Edge {
      * Convenience method that returns iterator size
      * @param   iterator it
      * @return  int size
+     * @todo  perhaps this method should 'live' in util package
      */
     public static int getIteratorSize (Iterator it) {
         int count = 0;

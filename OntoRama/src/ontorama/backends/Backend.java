@@ -37,7 +37,6 @@ public interface Backend{
     	throws GraphModificationException;
 
     public List getPanels();
-    public Menu getMenu();
     public JMenu getJMenu();
 
     public void setEventBroker(EventBroker eventBroker);

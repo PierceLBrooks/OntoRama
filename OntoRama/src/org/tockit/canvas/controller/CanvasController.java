@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasController.java,v 1.1 2002-08-01 04:53:36 johang Exp $
+ * $Id: CanvasController.java,v 1.2 2002-08-01 08:54:00 johang Exp $
  */
 package org.tockit.canvas.controller;
 
@@ -25,7 +25,7 @@ public class CanvasController implements MouseListener, MouseMotionListener {
 
     private Canvas canvas;
 
-    private EventBroker eventBroker = new EventBroker();
+    private EventBroker eventBroker;
 
     /**
      * Flag to prevent label from being moved when just clicked on
@@ -59,14 +59,11 @@ public class CanvasController implements MouseListener, MouseMotionListener {
      */
     private CanvasItem selectedCanvasItem = null;
 
-    public CanvasController(Canvas canvas) {
+    public CanvasController(Canvas canvas, EventBroker eventBroker) {
         this.canvas = canvas;
+        this.eventBroker = eventBroker;
         canvas.addMouseListener(this);
         canvas.addMouseMotionListener(this);
-    }
-
-    public EventBroker getEventBroker() {
-        return eventBroker;
     }
 
     /**

@@ -163,16 +163,13 @@ public class OntoRamaApp extends JFrame {
                                //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
+        // Create HyperView
+        hyperView = new SimpleHyperView(viewListener);
+        hyperView.setGraph(graph);
 
         // create a query panel
         queryPanel = new QueryPanel(hyperView, viewListener, this);
         queryPanel.setQueryField(termName);
-
-        // Create HyperView
-        hyperView = new SimpleHyperView(viewListener);
-        hyperView.setGraph(graph);
-        //hyperView.saveCanvasToFile( "hyperView" );
-
 
         //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(hyperView, treeView);

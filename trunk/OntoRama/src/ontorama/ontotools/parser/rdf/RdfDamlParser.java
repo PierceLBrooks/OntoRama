@@ -246,9 +246,7 @@ public class RdfDamlParser implements Parser {
         Property predicate = s.getPredicate();
         if (resourceRelationNodeTypesList.contains(subject)) {
             String predicateLocalName = predicate.getLocalName();
-            System.out.println("statement: " + s.getSubject() + " -> " + s.getPredicate() + " -> " + s.getObject() );
             if (predicatesConnectingPropertyToProperty.contains(predicateLocalName)) {
-            	System.out.println("object IS property");
             	return true;
             }
         }
@@ -314,10 +312,6 @@ public class RdfDamlParser implements Parser {
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
 
-
-    	System.out.println(resource.toString() + " -> " + predicate.getLocalName() + " -> " + object.toString());
-
-
         Node subjectNode = doNodeMapping(resource);
         Node objectNode = doNodeMapping(object);
         
@@ -333,8 +327,8 @@ public class RdfDamlParser implements Parser {
         	resourceConceptNodeTypesList.remove(st.getObject());
         	resourceRelationNodeTypesList.add(st.getObject());
         	
-        	System.out.println("overwriting: set relation: "  + subjectNode.getName());
-			System.out.println("overwriting: set relation: "  + subjectNode.getName());
+//        	System.out.println("overwriting: set relation: "  + subjectNode.getName());
+//			System.out.println("overwriting: set relation: "  + subjectNode.getName());
         }
         
         if  ( (predicate.getLocalName().equals(_predicateName_range)) ||
@@ -349,8 +343,8 @@ public class RdfDamlParser implements Parser {
         	resourceRelationNodeTypesList.remove(st.getObject());
         	resourceConceptNodeTypesList.add(st.getObject());
 
-			System.out.println("overwriting: set relation: "  + subjectNode.getName());
-			System.out.println("overwriting: set concept: "  + objectNode.getName());
+//			System.out.println("overwriting: set relation: "  + subjectNode.getName());
+//			System.out.println("overwriting: set concept: "  + objectNode.getName());
 
         }
         
@@ -380,12 +374,10 @@ public class RdfDamlParser implements Parser {
                 node.setNodeType(OntoramaConfig.RELATION_TYPE);
             }
             else {
-                System.out.println("resourceConceptNodeTypesList = " + resourceConceptNodeTypesList);
                 //throw new ParserException("RDF Resource '" + object + "'is neigher concept of property");
             	System.err.println("RDF Resource '" + object + "'is neigher concept of property");
             	node.setNodeType(OntoramaConfig.UNKNOWN_TYPE);
             }
-            System.out.println("node = " + node.getName());
             _nodesHash.put(nodeName, node);
         }
         return node;
@@ -422,7 +414,7 @@ public class RdfDamlParser implements Parser {
                         } else {
                             // ERROR
                             // throw exception here
-                            System.out.println("Dont' know about RDF Property '" + predicate.getLocalName() + "'");
+                            System.err.println("Dont' know about RDF Property '" + predicate.getLocalName() + "'");
                             System.exit(-1);
                         }
                     } catch (NoSuchRelationLinkException e) {

@@ -152,9 +152,13 @@ public class HistoryMenu extends JMenu {
 	public void appendHistory(Query query) {
 		System.out.println("HistoryMenu::appendHistory for query " + query);
 		
-		String historyItemLabelName = query.getQueryTypeName();
-		
+		String historyItemLabelName = query.getQueryTypeName();	
 		String historyItemToolTipText = historyItemLabelName;
+		if (query.getQueryTypeName().length() <= 0) {
+		}
+		else {
+		}
+	
 		if (query.getDepth() > -1) {
 		    historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
 		}

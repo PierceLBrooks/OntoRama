@@ -1,6 +1,5 @@
 package ontorama.backends.p2p.gui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -45,6 +44,10 @@ public class GroupsPanel extends JPanel {
 		
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(boxLayout);
+		
+		_allGroupsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		_newGroupPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
 		add(_allGroupsPanel);
 		add(Box.createRigidArea(new Dimension(0,5)));
 		add(_newGroupPanel);
@@ -54,8 +57,10 @@ public class GroupsPanel extends JPanel {
 	
 	private void buildNewGroupPanel() {
 		_newGroupPanel = new JPanel();
-		_newGroupPanel.setBackground(Color.white);
 		_newGroupPanel.setLayout(new BoxLayout(_newGroupPanel, BoxLayout.Y_AXIS));
+		
+		JPanel headingPanel = new JPanel();
+		headingPanel.add(new JLabel("Create new group"));
 		
 		JLabel newGroupNameLabel = new JLabel(DialogUtil.newGroupNameLabel);
 		JLabel newGroupDescrLabel = new JLabel(DialogUtil.newGroupDescriptionLabel);
@@ -65,18 +70,21 @@ public class GroupsPanel extends JPanel {
 		
 		newGroupNameField.setMaximumSize(newGroupNameField.getPreferredSize());
 		newGroupDescrField.setMaximumSize(newGroupDescrField.getPreferredSize());
-		
-		newGroupNameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		newGroupNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
-		newGroupDescrLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		newGroupDescrField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		JButton cancelButton = new JButton("Clear");
 		JButton okButton = new JButton("Create group");
 		okButton.setAction(new NewGroupAction(this, newGroupNameField, newGroupDescrField, _p2pBackend));
 		JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
 		
-		_newGroupPanel.add(new JLabel("Create new group"));
+		headingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupNameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupDescrLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupDescrField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		
+		_newGroupPanel.add(headingPanel);
 		_newGroupPanel.add(newGroupNameLabel);
 		_newGroupPanel.add(newGroupNameField);
 		_newGroupPanel.add(newGroupDescrLabel);
@@ -102,8 +110,8 @@ public class GroupsPanel extends JPanel {
 		leftPanel.add(leftListScrollPane); 
 		
 		centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
-		centerPanel.add(new JButton(">>"));
-		centerPanel.add(new JButton("<<"));
+		JButton leaveGroupButton = new JButton(">>"); 
+		JButton joinGroupButton = new JButton("<<");
 		
 		JButton refreshButton = new JButton("Refresh");
 		refreshButton.setToolTipText("Refresh list of available groups");
@@ -112,6 +120,14 @@ public class GroupsPanel extends JPanel {
 				updateGroups();
 			}
 		});
+		
+		leaveGroupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		joinGroupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		refreshButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+		centerPanel.add(leaveGroupButton);
+		centerPanel.add(joinGroupButton);
 		centerPanel.add(refreshButton);
 		
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));

@@ -48,8 +48,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
         
         backend.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
 
-        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair", "", "", "")).getReader();
+        Source source = (Source) Class.forName(sourcePackageName).newInstance();
+        Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair", "", "", "")).getReader();
         //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
 
         RdfDamlParser parser = new RdfWebkbParser();

@@ -1,4 +1,4 @@
-package ontorama.ontotools.query.parser;
+package ontorama.ontotools.parser;
 
 import java.io.Reader;
 import java.security.AccessControlException;

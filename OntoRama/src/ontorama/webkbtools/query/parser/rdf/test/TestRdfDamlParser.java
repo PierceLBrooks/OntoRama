@@ -1,4 +1,4 @@
-package ontorama.ontotools.query.parser.rdf.test;
+package ontorama.ontotools.parser.rdf.test;
 
 import java.io.Reader;
 import java.util.Collection;
@@ -18,9 +18,9 @@ import ontorama.util.TestingUtils;
 import ontorama.ontotools.TestWebkbtoolsPackage;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.parser.Parser;
-import ontorama.ontotools.query.parser.ParserResult;
-import ontorama.ontotools.query.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;

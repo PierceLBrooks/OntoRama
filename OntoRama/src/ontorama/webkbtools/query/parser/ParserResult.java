@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.ontotools.query.parser;
+package ontorama.ontotools.parser;
 
 
 import java.util.List;

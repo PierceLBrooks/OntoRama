@@ -1,4 +1,4 @@
-package ontorama.ontotools.query.parser.rdf;
+package ontorama.ontotools.parser.rdf;
 
 import java.io.Reader;
 import java.net.URI;
@@ -17,8 +17,8 @@ import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.conf.RdfMapping;
-import ontorama.ontotools.query.parser.Parser;
-import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 

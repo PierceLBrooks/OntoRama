@@ -36,6 +36,9 @@ public interface TreeNode {
     public void addChild (TreeEdge childEdge);
     public boolean removeChild(TreeEdge childEdge);
 
+ 
+ 	public void setParent(TreeNode parent);
+ 	public TreeNode getParent();
     
 	/**
 	 * Returns the distance to the root node.

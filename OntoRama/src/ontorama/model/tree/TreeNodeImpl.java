@@ -28,6 +28,11 @@ public class TreeNodeImpl implements TreeNode {
      * list of children - outbound TreeEdges
      */
     private List _childEdges;
+    
+    /**
+     * parent tree node
+     */
+    private TreeNode _parent;
    
     /**
      * distance to the root node
@@ -70,6 +75,15 @@ public class TreeNodeImpl implements TreeNode {
 
     public boolean removeChild(TreeEdge childEdge) {
         return _childEdges.remove(childEdge);
+    }
+
+	public void setParent(TreeNode parent) {
+		_parent = parent;
+	}
+    
+    
+    public TreeNode getParent() {
+    	return _parent;
     }
 
     

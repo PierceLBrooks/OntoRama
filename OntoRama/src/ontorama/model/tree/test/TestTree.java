@@ -165,6 +165,15 @@ public class TestTree extends TestCase{
                                     treeNode.getGraphNode(), curClone.getGraphNode());
         }
     }
+    
+    public void testParent () {
+    	TreeNode node1 = getNodeByName("node1");
+    	assertEquals("tree should contain node1 ", true, (node1 != null));
+    	TreeNode node2 = getNodeByName("node2");
+    	assertEquals("tree should contain node2 ", true, (node2 != null));
+    	assertEquals("parent for node2 ", node1, node2.getParent());
+    	
+    }
 
     public void testTraversal () {
         TreeNode rootNode = _tree.getRootNode();

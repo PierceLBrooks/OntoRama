@@ -89,7 +89,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         ToolTipManager.sharedInstance().registerComponent(this._treeView);
 
-        _treeView.setCellRenderer(new OntoTreeRenderer(this.graph));
+        _treeView.setCellRenderer(new OntoTreeRenderer());
 
 //        Iterator it = ontoTreeModel.getOntoTreeIterator();
 //        while (it.hasNext()) {

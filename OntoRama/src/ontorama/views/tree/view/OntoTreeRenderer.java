@@ -20,6 +20,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.ImageMaker;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.NodeType;
+import ontorama.model.tree.TreeEdge;
 import ontorama.views.tree.model.OntoTreeNode;
 
 /**
@@ -52,8 +55,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      */
     private static Hashtable _nodeTypeToImageMapping = new Hashtable();
 
-    private ontorama.model.graph.Graph graph;
-
     /**
      * Renderer for OntoTree View
      * @todo shouldn't have to pass graph to the renderer. doing this only to be able to display
@@ -61,9 +62,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * - introduce RelationNodes
      * - ?
      */
-    public OntoTreeRenderer(ontorama.model.graph.Graph graph) {
-
-        this.graph = graph;
+    public OntoTreeRenderer() {
 
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
@@ -101,9 +100,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        ontorama.model.graph.EdgeType edge = treeNode.getEdgeType();
+        EdgeType edge = treeNode.getEdgeType();
 
-        ontorama.model.graph.NodeType nodeType = treeNode.getModelTreeNode().getGraphNode().getNodeType();
+        NodeType nodeType = treeNode.getModelTreeNode().getGraphNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
@@ -121,17 +120,17 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         if (nodeType.getNodeType().equals("relation")) {
             String sign1 = null;
             String sign2 = null;
-            Iterator it = this.graph.getOutboundEdges(treeNode.getModelTreeNode().getGraphNode()).iterator();
+            Iterator it = treeNode.getModelTreeNode().getChildren().iterator();
             while (it.hasNext()) {
-                ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
-                ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
+                TreeEdge curEdge = (TreeEdge) it.next();
+                EdgeType edgeType = curEdge.getEdgeType();
                 // @todo again hardcoding relation name - if config.xml file changes - this won't work.
                 // probably need RelationNode to fix this.
                 if (edgeType.getName().equals("relSignature1")) {
-                    sign1 = curEdge.getToNode().getName();
+                    sign1 = curEdge.getToNode().getGraphNode().getName();
                 }
                 if (edgeType.getName().equals("relSignature2")) {
-                    sign2 = curEdge.getToNode().getName();
+                    sign2 = curEdge.getToNode().getGraphNode().getName();
                 }
             }
             nodeTextStr = nodeTextStr + " (";
@@ -164,10 +163,10 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         else {
             image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
         }
-
+        
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(image);
-        } else if (treeNode.getModelTreeNode().getGraphNode().hasClones()) {
+        } else if (treeNode.getModelTreeNode().getClones().size() != 0) {
             Icon icon = getIcon(edge, image, true);
             setIcon(icon);
         } else {
@@ -182,7 +181,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(ontorama.model.graph.EdgeType edgeType, ImageIcon nodeImageIcon, boolean isClone) {
+    protected Icon getIcon(EdgeType edgeType, ImageIcon nodeImageIcon, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
@@ -199,11 +198,11 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get tool tip text for given object and relation link
      */
-    protected String getToolTipText(Object value, ontorama.model.graph.EdgeType edgeType) {
+    protected String getToolTipText(Object value, EdgeType edgeType) {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        ontorama.model.graph.Node node = treeNode.getModelTreeNode().getGraphNode();
-        ontorama.model.graph.NodeType nodeType = node.getNodeType();
+        ontorama.model.tree.TreeNode node = treeNode.getModelTreeNode();
+        NodeType nodeType = node.getGraphNode().getNodeType();
 //        if (nodeType == null) {
 //            result = "???";
 //        }

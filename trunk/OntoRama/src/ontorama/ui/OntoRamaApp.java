@@ -343,11 +343,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle rect = new Rectangle(10, 10, (int)screenSize.getWidth() - 20, (int)screenSize.getHeight() - 20);
-        if (! OntoramaConfig.RUNING_WEBSTART) {
-	        ConfigurationManager.restorePlacement(CONFIGURATION_SECTION_NAME, this, rect);
-	        int divPos = ConfigurationManager.fetchInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", (int) (this.getWidth() * 0.65) );
-	        _splitPane.setDividerLocation(divPos);
-		}
+        ConfigurationManager.restorePlacement(CONFIGURATION_SECTION_NAME, this, rect);
+        int divPos = ConfigurationManager.fetchInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", (int) (this.getWidth() * 0.65) );
+        _splitPane.setDividerLocation(divPos);
 		this.setBounds(rect);
         setVisible(true);
     }
@@ -422,7 +420,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _fileMenu.setMnemonic(KeyEvent.VK_F);
                
                
-		if (!OntoramaConfig.RUNING_WEBSTART) {               
+		if (!OntoramaConfig.SECURITY_RESTRICTED) {               
 	        JMenu importMenu = new JMenu("Import");
 	    	Action fileImportAction = new AbstractAction("from file backend...") {
 	    		public void actionPerformed(ActionEvent e) {
@@ -562,7 +560,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 
     protected void closeWindow() {
-    	if (! OntoramaConfig.RUNING_WEBSTART) {
+    	if (! OntoramaConfig.SECURITY_RESTRICTED) {
 			ConfigurationManager.storePlacement(CONFIGURATION_SECTION_NAME, this);
 			ConfigurationManager.storeInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", _splitPane.getDividerLocation());
 			ConfigurationManager.saveConfiguration();

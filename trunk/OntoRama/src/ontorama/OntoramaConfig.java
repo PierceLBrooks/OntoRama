@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.AccessControlException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -86,13 +87,10 @@ public class OntoramaConfig {
 	public static boolean EDIT_ENABLED;
 	
 	/**
-	 * flag to determine whether or not we are running webstart
-	 * if yes - this means we can't use import from file and
-	 * proxy settings menus.
-	 * @todo find out if there is a way to find out on runtime rather then
-	 * setting in properties file.
+	 * flag to determine whether or not we are running in restricted environment
+	 * (java webstart for example).
 	 */
-	public static boolean RUNING_WEBSTART;
+	public static boolean SECURITY_RESTRICTED = false;
 	
     public static JarSource streamReader = new JarSource();;
 
@@ -140,6 +138,15 @@ public class OntoramaConfig {
         loadAllConfig(examplesConfigLocation, "ontorama.properties", "config.xml");
         
         System.out.println("declaring class: " + curClass.getDeclaringClass());
+        
+    	try {
+    		System.getProperties();
+    	}
+    	catch (AccessControlException e) {
+    		OntoramaConfig.SECURITY_RESTRICTED = true;
+    		System.out.println("\n\nCought secrity restriction");
+    	}
+        
         System.out.println("--------- end of config--------------");
     }
 
@@ -194,7 +201,6 @@ public class OntoramaConfig {
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
-		RUNING_WEBSTART = (new Boolean(properties.getProperty("RUNING_WEBSTART"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
         backendName = properties.getProperty("backend");
     }

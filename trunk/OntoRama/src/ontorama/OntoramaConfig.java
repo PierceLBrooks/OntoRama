@@ -43,6 +43,11 @@ public class OntoramaConfig {
     public static String sourceUri;
 
     /**
+     * default ontology root
+     */
+    public static String ontologyRoot = null;
+
+    /**
      * Source Package Name
      * Specify source implementation to use
      */
@@ -115,6 +120,7 @@ public class OntoramaConfig {
           properties.load(propertiesFileIn);
 
           sourceUri = properties.getProperty("sourceUri");
+          ontologyRoot = properties.getProperty("ontologyRoot");
           queryOutputFormat = properties.getProperty("queryOutputFormat");
           String parserPackagePathSuffix = properties.getProperty ("parserPackagePathSuffix");
           String sourcePackagePathSuffix = properties.getProperty ("sourcePackagePathSuffix");

@@ -93,11 +93,19 @@ public class XmlParserFull implements Parser {
             Element creatorEl = conceptTypeEl.getChild("creator");
 
             OntologyType type = (OntologyTypeImplementation) ontHash.get (nameAttr.getValue());
+
             if( type == null ) {
                 type = new OntologyTypeImplementation(nameAttr.getValue());
                 // add child to hashtable
                 ontHash.put(nameAttr.getValue(), type );
             }
+            if (descriptionEl != null) {
+                type.setDescription(descriptionEl.getText());
+            }
+            if (creatorEl != null ) {
+                type.setCreator(creatorEl.getText());
+            }
+
             debug.message("XmlParserFull", "readConceptTypes", "created type: " + type);
         }
     }

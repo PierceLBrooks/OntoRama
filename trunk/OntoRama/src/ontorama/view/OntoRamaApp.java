@@ -64,7 +64,9 @@ public class OntoRamaApp extends JFrame {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        termName = "root";
+        termName = OntoramaConfig.ontologyRoot;
+
+        //termName = "root";
         //termName = "comms#CommsObject";
         //termName = "comms_CommsObject";
 
@@ -98,6 +100,7 @@ public class OntoRamaApp extends JFrame {
 
 		// create a query panel
         queryPanel = new QueryPanel();
+        queryPanel.setQueryField(termName);
         queryPanel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println ("---actionListener for queryPanel");

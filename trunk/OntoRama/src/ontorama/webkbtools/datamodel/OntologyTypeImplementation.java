@@ -43,6 +43,11 @@ public class OntologyTypeImplementation implements OntologyType {
   String typeDescription;
 
   /**
+   * Creator for this Ontology Type
+   */
+   private String typeCreator;
+
+  /**
    * Create new OntologyTypeImplementation
    * @param typeName
    */
@@ -141,6 +146,23 @@ public class OntologyTypeImplementation implements OntologyType {
   public String getDescription() {
     return typeDescription;
   }
+
+  /**
+   * Set type creator
+   * @param creatorStr
+   */
+   public void setCreator (String creatorStr) {
+    this.typeCreator = creatorStr;
+   }
+
+   /**
+    * Get type creator
+    * @return   creator string
+    */
+    public String getCreator () {
+        return this.typeCreator;
+    }
+
 
   /**
    * get name of this type

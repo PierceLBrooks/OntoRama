@@ -94,7 +94,7 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
      */
     public void updateOntoTree (TreePath path) {
         this.tree.makeVisible(path);
-        System.out.println("---OntoTreeView, method updateOntoTree for path" + path);
+        //System.out.println("---OntoTreeView, method updateOntoTree for path" + path);
         focusedNode = (OntoTreeNode) path.getLastPathComponent();
         this.tree.addSelectionPath(path);
     }

@@ -35,4 +35,8 @@ public class QueryPanel extends JPanel {
         return queryField.getText();
     }
 
+    public void setQueryField (String queryString) {
+        queryField.setText(queryString);
+    }
+
 }

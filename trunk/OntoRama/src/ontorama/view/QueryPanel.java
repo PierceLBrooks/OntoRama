@@ -61,7 +61,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
 
     //temp variable for creating svg image of hyper view
     private TextField _imgNameField = new TextField("", 10);
-    private SimpleHyperView _hyperView;
 
     /**
      *
@@ -79,8 +78,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
      *        (this is done for executing queries). Better way to do this is to follow
      *        Observer Pattern
      */
-    public QueryPanel (SimpleHyperView hyperView, ViewEventListener viewListener, OntoRamaApp ontoRamaApp) {
-        _hyperView = hyperView;
+    public QueryPanel (ViewEventListener viewListener, OntoRamaApp ontoRamaApp) {
 
         _viewListener = viewListener;
         _viewListener.addObserver(this);
@@ -192,31 +190,31 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
 
     }
 
-    /**
-     * Method to test layouting usin spring and force algorthms
-     */
-    private void testSpringAndForceAlgorthms() {
-        for( int i = 0; i < 300; i++) {
-            //generate spring length values between 50 - 250;
-            double springLength = (Math.random() * 200) + 51;
-            //generate stiffness values between 0 - .99999
-            double stiffness = Math.random();
-            //generate electric_charge values between 0 - 1000;
-            double electric_charge = (Math.random() * 1000) + 1;
-            _hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
-            _hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
-        }
-        System.out.println("Test Finished...");
-    }
+//    /**
+//     * Method to test layouting usin spring and force algorthms
+//     */
+//    private void testSpringAndForceAlgorthms() {
+//        for( int i = 0; i < 300; i++) {
+//            //generate spring length values between 50 - 250;
+//            double springLength = (Math.random() * 200) + 51;
+//            //generate stiffness values between 0 - .99999
+//            double stiffness = Math.random();
+//            //generate electric_charge values between 0 - 1000;
+//            double electric_charge = (Math.random() * 1000) + 1;
+//            _hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
+//            _hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
+//        }
+//        System.out.println("Test Finished...");
+//    }
 
-    /**
-     * Temp method to take a snap shot of hyper view
-     */
-    private void takeSnapshot() {
-        if( ! _imgNameField.getText().equals("") ) {
-            _hyperView.saveCanvasToFile( _imgNameField.getText());
-        }
-    }
+//    /**
+//     * Temp method to take a snap shot of hyper view
+//     */
+//    private void takeSnapshot() {
+//        if( ! _imgNameField.getText().equals("") ) {
+//            _hyperView.saveCanvasToFile( _imgNameField.getText());
+//        }
+//    }
 
     /**
      * ItemListener

@@ -267,6 +267,7 @@ public class Graph implements GraphInterface {
           while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
             if (curEdge.getToNode() == root ) {
+              // don't remove parents of root node
               continue;
             }
             Edge.removeEdge(curEdge);

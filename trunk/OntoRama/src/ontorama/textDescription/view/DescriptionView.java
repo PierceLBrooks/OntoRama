@@ -78,7 +78,10 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
   private ViewEventListener viewListener;
 
 
-  public DescriptionView(Graph graph, ViewEventListener viewListener) {
+  /**
+   *
+   */
+  public DescriptionView( ViewEventListener viewListener) {
     this.viewListener = viewListener;
     this.viewListener.addObserver(this);
 
@@ -99,6 +102,13 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
         this.add(propPanel);
     }
     this.add(clonesPanel);
+  }
+
+  /**
+   *
+   */
+  public void setGraph (Graph graph) {
+
   }
 
   /**

@@ -4,6 +4,7 @@
  */
 package ontorama.util;
 
+import java.awt.Shape;
 import java.awt.geom.*;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -24,7 +25,7 @@ import org.jdom.Element;
  * @todo add tests
  */
 public class SVG2Shape {
-	public static GeneralPath importShape(Element svgElement) {
+	public static Shape importShape(Element svgElement) {
         GeneralPath shape = importShapeUncentered(svgElement);
         return centerShape(shape);
 	}
@@ -80,81 +81,23 @@ public class SVG2Shape {
         return shape;
     }
 	
-    private static GeneralPath centerShape(GeneralPath shape) {
-    	GeneralPath retVal = new GeneralPath();
+    private static Shape centerShape(Shape shape) {
     	Rectangle2D bounds = shape.getBounds2D();
-        float xOffset = (float) (-bounds.getX() - bounds.getWidth()/2);
-        float yOffset = (float) (-bounds.getY() - bounds.getHeight()/2);
-        PathIterator path = shape.getPathIterator(null);
-        retVal.setWindingRule(path.getWindingRule());
-        float[] points = new float[6];
-        while(!path.isDone()) {
-            int segType = path.currentSegment(points);
-            switch(segType) {
-                case PathIterator.SEG_LINETO:
-                    retVal.lineTo(points[0] + xOffset, points[1] + yOffset);
-                    break;
-                case PathIterator.SEG_MOVETO:
-                    retVal.moveTo(points[0] + xOffset, points[1] + yOffset);
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    retVal.quadTo(points[0] + xOffset, points[1] + yOffset,
-                                  points[2] + xOffset, points[3] + yOffset);
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    retVal.curveTo(points[0] + xOffset, points[1] + yOffset,
-                                   points[2] + xOffset, points[3] + yOffset,
-                                   points[4] + xOffset, points[5] + yOffset);
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    retVal.closePath();
-                    break;
-            }
-            path.next();
-        }
-        return retVal;
+        double xOffset = bounds.getX() - bounds.getWidth()/2;
+        double yOffset = bounds.getY() - bounds.getHeight()/2;
+        return AffineTransform.getTranslateInstance(xOffset, yOffset).createTransformedShape(shape);
     }
 
-    public static GeneralPath importShape(Element svgElement, double width, double height) {
-    	GeneralPath untransformedShape = importShape(svgElement);
+    public static Shape importShape(Element svgElement, double width, double height) {
+    	Shape untransformedShape = importShape(svgElement);
         float scaleX = (float) (width / untransformedShape.getBounds2D().getWidth());
         float scaleY = (float) (height / untransformedShape.getBounds2D().getHeight());
+        AffineTransform transform;
         if(scaleX > scaleY) {
-        	return scaleShape(untransformedShape, scaleY);
+        	transform = AffineTransform.getScaleInstance(scaleY, scaleY);
         } else {
-            return scaleShape(untransformedShape, scaleX);
+            transform = AffineTransform.getScaleInstance(scaleX, scaleX);
         }
-    }
-    
-    private static GeneralPath scaleShape(GeneralPath shape, float scale) {
-    	GeneralPath retVal = new GeneralPath();
-        PathIterator path = shape.getPathIterator(null);
-        retVal.setWindingRule(path.getWindingRule());
-        float[] points = new float[6];
-        while(!path.isDone()) {
-            int segType = path.currentSegment(points);
-            switch(segType) {
-                case PathIterator.SEG_LINETO:
-                    retVal.lineTo(points[0] * scale, points[1] * scale);
-                    break;
-                case PathIterator.SEG_MOVETO:
-                	retVal.moveTo(points[0] * scale, points[1] * scale);
-                    break;
-                case PathIterator.SEG_QUADTO:
-                	retVal.quadTo(points[0] * scale, points[1] * scale, 
-                	              points[2] * scale, points[3] * scale);
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                	retVal.curveTo(points[0] * scale, points[1] * scale,
-                	               points[2] * scale, points[3] * scale, 
-                	               points[4] * scale, points[5] * scale);
-                    break;
-                case PathIterator.SEG_CLOSE:
-                	retVal.closePath();
-                    break;
-            }
-            path.next();
-        }
-        return retVal;
+        return transform.createTransformedShape(untransformedShape);
     }
 }

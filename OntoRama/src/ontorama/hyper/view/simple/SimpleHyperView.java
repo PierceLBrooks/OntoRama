@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ontorama.OntoramaConfig;
-import ontorama.graph.controller.GraphViewFocusEventHandler;
-import ontorama.graph.view.GraphView;
+import ontorama.model.graph.controller.GraphViewFocusEventHandler;
+import ontorama.model.graph.view.GraphView;
 import ontorama.hyper.controller.DraggedEventHandler;
 import ontorama.hyper.controller.NodeActivatedEventHandler;
 import ontorama.hyper.controller.NodeContextMenuHandler;

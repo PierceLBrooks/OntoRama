@@ -56,10 +56,13 @@ public class CommunicationInit extends Communication {
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			System.out.println("CommunicationInit::intiJxtaTopGroup 2");
 			PeerGroup newPeerGroup = PeerGroupFactory.newPlatform();
+			System.out.println("newPeerGroup: name = " + newPeerGroup.getPeerGroupName() + ", id = " + newPeerGroup.getPeerGroupID());
 			System.out.println("CommunicationInit::intiJxtaTopGroup 2.2");
 			this.setGlobalPlatform(newPeerGroup);
 			System.out.println("CommunicationInit::intiJxtaTopGroup 3");
+			System.out.println("getGlobalPlatform(): name  = " + this.getGlobalPlatform().getPeerGroupName() + ", id = " + this.getGlobalPlatform().getPeerGroupID());
 			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform());
+			System.out.println("pg: name =  " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
 			System.out.println("CommunicationInit::intiJxtaTopGroup 4");
 			this.setGlobalPG(pg);
 			System.out.println("CommunicationInit::intiJxtaTopGroup 5");			

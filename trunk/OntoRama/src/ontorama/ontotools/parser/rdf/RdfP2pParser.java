@@ -72,12 +72,17 @@ public class RdfP2pParser implements Parser {
      * Constructor
      */
     public RdfP2pParser() {
+		init();
+        _statementsList = new LinkedList();
+    }
+    
+    private void init() {
         _nodesHash = new Hashtable();
         _edgesList = new LinkedList();
-        _statementsList = new LinkedList();
     }
 
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+    	init();
         try {
             Model model = new ModelMem();
             model.read(reader, "");

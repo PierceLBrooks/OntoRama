@@ -56,9 +56,12 @@ public class XmlParserFull implements Parser {
      *
      */
     public XmlParserFull() {
+		init();
+    }
+    
+    private void init() {
         _nodes = new Hashtable();
         _edges = new LinkedList();
-
     }
 
     /**
@@ -69,6 +72,7 @@ public class XmlParserFull implements Parser {
      * @throws AccessControlException
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+    	init();
         try {
             SAXBuilder builder = new SAXBuilder();
             // Create the document

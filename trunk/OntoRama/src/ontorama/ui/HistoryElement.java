@@ -1,6 +1,7 @@
 package ontorama.ui;
 
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 
 
 /**
@@ -14,18 +15,17 @@ public class HistoryElement {
 
     private Query _query;
     private String _menuDisplayName;
+    private QueryEngine _queryEngine;
 
     /**
      * Create history element with given _getRelationLinksList, query and _example.
      * @param	menuDisplayName - is a string that appears on the lable on corresponding menu
      * item for this _example. also may be used as an id.
-     * @param	query - query corresponding to this history element
-     * @param	example - corresponding ontorama _example
-     *
      */
-    public HistoryElement(String menuDisplayName, Query query) {
+    public HistoryElement(String menuDisplayName, Query query, QueryEngine queryEngine) {
         _menuDisplayName = menuDisplayName;
         _query = query;
+        _queryEngine = queryEngine;
     }
 
     /**
@@ -47,6 +47,10 @@ public class HistoryElement {
      */
     public Query getQuery() {
         return _query;
+    }
+    
+    public QueryEngine getQueryEngine() {
+    	return _queryEngine;
     }
 
     /**

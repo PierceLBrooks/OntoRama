@@ -5,12 +5,14 @@
   <property name="lib.home"   value="${basedir}/lib"/>
   <property name="classes.home"   value="${basedir}/classes"/>
   <property name="javadoc.home"   value="${basedir}/doc/api"/>
-
+  
   <!-- Set Classpath -->
   <path id="project.class.path">
   	<pathelement location="${classes.home}/"/>
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
+	<pathelement path="${lib.home}/jena.jar/"/>
+	<pathelement path="${lib.home}/junit.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
 	<pathelement path="${lib.home}/rdffilter.jar/"/>
 	<pathelement path="${lib.home}/aelfred.jar/"/>
@@ -18,7 +20,8 @@
   </path>
 
   <!-- Targets and Rules -->
-
+  <target name="all" depends="clean,prepare,compile"/>
+  
   <target name="prepare">
     <mkdir  dir="${classes.home}"/>
     <mkdir  dir="${javadoc.home}"/>
@@ -37,7 +40,8 @@
     </javac>
     <copy   todir="${classes.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
-    </copy>
+      <fileset dir="${src.home}" includes="**/config.xml"/>
+	  </copy>
   </target>
 
 
@@ -48,16 +52,27 @@
 			classpathref="project.class.path"/>
   </target>
 
-  <!--<target name="all" depends="clean,prepare,compile,javadoc"/>-->
-  <target name="all" depends="clean,prepare,compile"/>
-
-  <!--<target name="run" depends="clean,prepare,compile">-->
   <target name="run" depends="compile">
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
-  	<!--<java classname="ontorama.view.OntoRamaApp">
-		<classpath refid="project.class.path"/>
-	</java>-->
   </target>
+  
+  <!--
+    <target name="compiletests" depends="JUNIT,compile">
+        <javac srcdir="${src.home}/ontorama/test" destdir="${classes.home}/ontorama/testcases">
+			<classpath refid="project.class.path"/>
+			<src path="${src.home}"/>
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+	-->
 
+	<target name="runtests" depends="compile">
+        <java fork="yes" classname="junit.textui.TestRunner" 
+            taskname="junit" failonerror="true">
+            <arg value="ontorama.test.TestEdge"/>
+			<classpath refid="project.class.path"/>
+        </java>
+	</target>
+  
 </project>
 

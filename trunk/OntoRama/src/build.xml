@@ -142,7 +142,7 @@
 		<fileset dir="${src.webstart}" includes="**/*"/>
 	</copy>
   	<copy todir="${deploy.webstart}/lib"> 
-		<fileset dir="${lib.home}" includes="**/*.jar"/>
+		<fileset dir="${lib.home}" includes="*.jar"/>
 	</copy>
 	<copy todir="${deploy.webstart}">
 		<fileset dir="${basedir}" includes="OntoRama.jar"/>

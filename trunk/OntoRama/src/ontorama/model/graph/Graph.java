@@ -2,6 +2,8 @@ package ontorama.model.graph;
 
 import java.util.List;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
@@ -20,9 +22,7 @@ public interface Graph {
      */
     public Node getRootNode();
 
-
     /**
-     *
      * @return   list of tree roots in the forest
      */
     public List getBranchRootsList();
@@ -58,4 +58,5 @@ public interface Graph {
 
 	public int getNumOfDescendants (Node node);
 
+	public EventBroker getEventBroker();
 }

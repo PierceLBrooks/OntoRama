@@ -58,8 +58,11 @@ import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;
 import ontorama.ontotools.writer.rdf.RdfP2PWriter;
 import ontorama.ui.HistoryElement;
+import ontorama.ui.events.GraphIsLoadedEvent;
 
+import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
+import org.tockit.events.EventBrokerListener;
 import org.tockit.events.LoggingEventListener;
 
 /**
@@ -91,10 +94,35 @@ public class P2PBackendImpl implements P2PBackend {
     private List _dataFormatMapping = new LinkedList();
     
     private String p2pFileExtension;
+    
+    private class P2PBackendGraphIsLoadedEventHandler implements EventBrokerListener {
+    	private P2PBackendImpl p2pBackend;
+    	public P2PBackendGraphIsLoadedEventHandler (P2PBackendImpl p2pBackend) {
+    		this.p2pBackend = p2pBackend;
+    	}
+		public void processEvent(Event event) {
+			graph = (P2PGraph) event.getSubject();
+			System.out.println("P2P backend event broker for the graph: " + graph.getEventBroker());
+
+			new NodeAddedEventHandler(graph.getEventBroker(), this.p2pBackend);
+			new EdgeAddedEventHandler(graph.getEventBroker(), this.p2pBackend);
+			new NodeRemovedEventHandler(graph.getEventBroker(), this.p2pBackend);
+			new EdgeRemovedEventHandler(graph.getEventBroker(), this.p2pBackend);
+        
+        
+			new LoggingEventListener(
+								graph.getEventBroker(),
+								GraphNodeAddedEvent.class,
+								Object.class,
+								System.out);
+			new LoggingEventListener(
+								graph.getEventBroker(),
+								GraphChangedEvent.class,
+								Object.class,
+								System.out);
+		}
+    }
        
-	/**
-	 * 
-	 */
 	public P2PBackendImpl() {
 		_dataFormatMapping = OntoramaConfig.getDataFormatsMapping();
 		DataFormatMapping mapping = OntoramaConfig.getDataFormatMapping("P2P-RDF");
@@ -168,30 +196,8 @@ public class P2PBackendImpl implements P2PBackend {
 
     public void setEventBroker(EventBroker eventBroker) {
         _eventBroker = eventBroker;
-
-    	/// @todo not sure if we should be creating an empty graph here if we don't have any
-    	/// capabilities to display it. we should either not create an empty graph OR
-    	/// have some way to display this empty graph so user can add edges and nodes to it.
-    	this.graph = new P2PGraphImpl(_eventBroker);
-
-
-        new NodeAddedEventHandler(_eventBroker, this);
-        new EdgeAddedEventHandler(_eventBroker, this);
-		new NodeRemovedEventHandler(_eventBroker, this);
-		new EdgeRemovedEventHandler(_eventBroker, this);
-        
-        
-    	new LoggingEventListener(
-    						_eventBroker,
-    						GraphNodeAddedEvent.class,
-    						Object.class,
-    						System.out);
-    	new LoggingEventListener(
-    						_eventBroker,
-    						GraphChangedEvent.class,
-    						Object.class,
-    						System.out);
-        
+       
+        _eventBroker.subscribe(new P2PBackendGraphIsLoadedEventHandler(this), GraphIsLoadedEvent.class, Graph.class);
         
 		_eventBroker.subscribe(new GroupJoinedEventHandler(this.mainPanel.getPeerPanel()), 
 											GroupJoinedEvent.class, GroupItemReference.class);        
@@ -256,7 +262,7 @@ public class P2PBackendImpl implements P2PBackend {
      * @return resulting p2p graph
      */
     public P2PGraph search(Query query) {
-        P2PGraph retVal = new P2PGraphImpl(_eventBroker);
+        P2PGraph retVal = new P2PGraphImpl();
        //Emtpy the previus graph model and set it to what ontoRama returns
        //TODO this should be used when everything is working
        mainPanel.getChangePanel().empty();
@@ -487,12 +493,10 @@ public class P2PBackendImpl implements P2PBackend {
 		return _dataFormatMapping;
 	}
 	
-	/**
-	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
-	 */
-	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException {
-		Graph res = new P2PGraphImpl(qr, eb); 
+	public Graph createGraph(QueryResult qr) throws InvalidArgumentException {
+		Graph res = new P2PGraphImpl(qr); 
 		System.out.println("\n\n\nCREATE GRAPH\n\n\n");
+
 		return res;
 	}
 

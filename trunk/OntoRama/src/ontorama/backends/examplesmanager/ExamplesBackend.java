@@ -91,46 +91,28 @@ public class ExamplesBackend implements Backend {
 		_menu = new ExamplesMenu(this);
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#getMenu()
-	 */
 	public JMenu getMenu() {
 		return _menu;
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#getPanels()
-	 */
 	public JPanel getPanel() {
 		return null;
 	}
 	
-	/**
-	 * @see ontorama.backends.Backend#setEventBroker(org.tockit.events.EventBroker)
-	 */
 	public void setEventBroker(EventBroker viewsEventBroker) {
 		_eventBroker = viewsEventBroker;
         _eventBroker.subscribe(new QueryCancelledEventHandler(),QueryCancelledEvent.class,Query.class);
         _eventBroker.subscribe(new GraphIsLoadedEventHandler(),GraphIsLoadedEvent.class,Object.class);
 	}
-
-	/**
-	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)
-	 */
+	
 	public Node createNode(String name, String fullName) {
 		return new NodeImpl(name, fullName);
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#createEdge(ontorama.model.graph.Node, ontorama.model.graph.Node, ontorama.model.graph.EdgeType)
-	 */
 	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#getDataFormats()
-	 */
 	public Collection getDataFormats() {
 		return null;
 	}
@@ -176,12 +158,8 @@ public class ExamplesBackend implements Backend {
 		return _curExample.getRoot();
 	}
 	
-	/**
-	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
-	 */
-	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException {
-		Graph res = new GraphImpl(qr, eb);
-		return res;
+	public Graph createGraph(QueryResult qr) throws InvalidArgumentException {
+		return new GraphImpl(qr);
 	}
 	
 	public void processQueryFromExampleMenu (OntoramaExample example) {

@@ -4,7 +4,7 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.P2PJMenu;
+import ontorama.backends.p2p.gui.P2PJMenu;
 import ontorama.backends.OntoRamaBackend;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;

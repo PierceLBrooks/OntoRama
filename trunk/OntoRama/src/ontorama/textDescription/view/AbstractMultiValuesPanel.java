@@ -1,6 +1,6 @@
 package ontorama.textDescription.view;
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -73,7 +73,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
         // button'
         _propValuePanel.updateUI();
         while (propValuesIterator.hasNext()) {
-            GraphNode curNode = (GraphNode) propValuesIterator.next();
+            Node curNode = (Node) propValuesIterator.next();
             JComponent component = createPropertyComponent(curNode);
             _propValuePanel.add(component);
         }
@@ -94,7 +94,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * for given node and implement action listener for this
      * component
      */
-    protected abstract JComponent createPropertyComponent(GraphNode node);
+    protected abstract JComponent createPropertyComponent(Node node);
 
 
 }

@@ -6,7 +6,7 @@ package ontorama.hyper.model;
  * views is via GrapNode hasFocus() method.
  */
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,12 +38,12 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store the graph node for this hyper node.
      */
-    private GraphNode graphNode;
+    private Node graphNode;
 
     /**
      * Constructor
      */
-    public HyperNode(GraphNode graphNode) {
+    public HyperNode(Node graphNode) {
         this.graphNode = graphNode;
         /*
         this.graphNode.addObserver( this );
@@ -76,7 +76,7 @@ public class HyperNode implements PositionChangedObservable {
         }
     }
     /**
-     * Update method called from obserable (GraphNode)
+     * Update method called from obserable (NodeImpl)
      */
     /*
    public void update( Object observer, Object observable ) {
@@ -89,14 +89,14 @@ public class HyperNode implements PositionChangedObservable {
    */
 
     /**
-     * Returns GraphNode.
+     * Returns NodeImpl.
      */
-    public GraphNode getGraphNode() {
+    public Node getGraphNode() {
         return graphNode;
     }
 
     /**
-     * Return true if GraphNode has clones.
+     * Return true if NodeImpl has clones.
      */
     public boolean hasClones() {
         return this.graphNode.hasClones();
@@ -138,7 +138,7 @@ public class HyperNode implements PositionChangedObservable {
     }
 
     /**
-     * Notify GraphNode that it has focus.
+     * Notify NodeImpl that it has focus.
      */
     /*
    public void hasFocus() {

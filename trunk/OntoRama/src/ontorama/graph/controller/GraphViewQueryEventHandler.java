@@ -10,7 +10,8 @@ package ontorama.graph.controller;
 
 import ontorama.controller.QueryEvent;
 import ontorama.graph.view.GraphQuery;
-import ontorama.model.GraphNode;
+import ontorama.model.NodeImpl;
+import ontorama.model.Node;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
@@ -20,11 +21,11 @@ public class GraphViewQueryEventHandler implements EventListener {
 
     public GraphViewQueryEventHandler(EventBroker eventBroker, GraphQuery graphQuery) {
         this.graphQuery = graphQuery;
-        eventBroker.subscribe(this, QueryEvent.class, GraphNode.class);
+        eventBroker.subscribe(this, QueryEvent.class, NodeImpl.class);
     }
 
     public void processEvent(Event e) {
-        GraphNode node = (GraphNode) e.getSubject();
+        Node node = (Node) e.getSubject();
         //System.out.println("GraphViewQueryEventHandler for graphQuery = " + this.graphQuery);
         this.graphQuery.query(node);
     }

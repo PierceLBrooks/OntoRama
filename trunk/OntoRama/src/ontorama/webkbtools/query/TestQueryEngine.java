@@ -3,8 +3,8 @@ package ontorama.webkbtools.query;
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.model.Node;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -38,7 +38,7 @@ public class TestQueryEngine extends TestCase {
     private QueryResult queryResult2;
     private List queryResultList2;
 
-    private GraphNode testNode_chair;
+    private Node testNode_chair;
 
     RelationLinkDetails edgeType1 = OntoramaConfig.getRelationLinkDetails()[1];
     RelationLinkDetails edgeType2 = OntoramaConfig.getRelationLinkDetails()[2];
@@ -121,7 +121,7 @@ public class TestQueryEngine extends TestCase {
     /**
      *
      */
-    private void checkOutboundEdge(QueryResult queryResult, GraphNode fromNode,
+    private void checkOutboundEdge(QueryResult queryResult, Node fromNode,
                                            RelationLinkDetails edgeType, int expectedListSize) {
         String message = "query " + queryResult.getQuery().getQueryTypeName();
         message = message + ", iterator size for ";
@@ -141,10 +141,10 @@ public class TestQueryEngine extends TestCase {
         assertEquals(message, expectedListSize, outboundEdges.size());
     }
 
-    private GraphNode getNodeFromList (String nodeName, List nodesList) {
+    private Node getNodeFromList (String nodeName, List nodesList) {
         Iterator it = nodesList.iterator();
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            Node cur = (Node) it.next();
             if (cur.getName().equals(nodeName)) {
                 return cur;
             }

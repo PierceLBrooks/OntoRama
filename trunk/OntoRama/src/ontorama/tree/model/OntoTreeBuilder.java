@@ -1,8 +1,9 @@
 package ontorama.tree.model;
 
 import ontorama.model.Graph;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import ontorama.model.Edge;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
@@ -15,10 +16,10 @@ import java.util.Iterator;
  * between GraphNodes and OntoTreeNodes.
  * This is used by OntoTreeModel to build the TreeModel and
  * later on is used by OntoTreeNode for reference for getting
- * a TreeNode from given GraphNode.
+ * a TreeNode from given Node.
  *
  * @todo This probably can be done other way - by cycling through all
- * TreeNodes and comparing given GraphNode to OntoTreeNode.getGraphNode
+ * TreeNodes and comparing given Node to OntoTreeNode.getGraphNode
  * untill match is found.
  *
  * Copyright:    Copyright (c) 2001
@@ -43,7 +44,7 @@ public class OntoTreeBuilder {
     /**
      *
      */
-    private void processNode (GraphNode topGraphNode) {
+    private void processNode (Node topGraphNode) {
         Iterator outboundEdges = graph.getOutboundEdges(topGraphNode);
 
         // take care of a case when we only have one node and no _graphEdges
@@ -60,9 +61,9 @@ public class OntoTreeBuilder {
     }
 
     /**
-     * Convert each GraphNode to OntoTreeNode
+     * Convert each Node to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode(GraphNode top, RelationLinkDetails relLinkType) {
+    private void graphNodeToOntoTreeNode(Node top, RelationLinkDetails relLinkType) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
         ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);
@@ -70,17 +71,17 @@ public class OntoTreeBuilder {
         Iterator outboundEdges = graph.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
-            GraphNode toGraphNode = edge.getToNode();
+            Node toGraphNode = edge.getToNode();
             graphNodeToOntoTreeNode(toGraphNode, edge.getEdgeType());
         }
     }
 
     /**
-     * Get TreeNode associated with given GraphNode
+     * Get TreeNode associated with given Node
      * @param	graphNode
      * @return	treeNode
      */
-    public static TreeNode getTreeNode(GraphNode graphNode) {
+    public static TreeNode getTreeNode(Node graphNode) {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
     }

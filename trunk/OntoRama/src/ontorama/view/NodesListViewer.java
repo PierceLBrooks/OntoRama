@@ -1,7 +1,7 @@
 package ontorama.view;
 
 import ontorama.controller.QueryEvent;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -113,10 +113,10 @@ public class NodesListViewer extends JComboBox {
             return;
         }
 
-        GraphNode selectedNode = null;
+        Node selectedNode = null;
         Iterator it = _nodesList.iterator();
         while (it.hasNext()) {
-            GraphNode node = (GraphNode) it.next();
+            Node node = (Node) it.next();
             if (node.getName().equals(selectedNodeName)) {
                 selectedNode = node;
             }
@@ -136,8 +136,8 @@ public class NodesListViewer extends JComboBox {
         while(atLeastOneSwap) {
             atLeastOneSwap = false;
             for(j=0; j < (_nodesList.size()-1); ++j) {
-                GraphNode curNode = (GraphNode) _nodesList.get(j);
-                GraphNode nextNode = (GraphNode) _nodesList.get(j+1);
+                Node curNode = (Node) _nodesList.get(j);
+                Node nextNode = (Node) _nodesList.get(j+1);
 
                 String curNodeName = curNode.getName();
                 String nextNodeName = nextNode.getName();
@@ -152,7 +152,7 @@ public class NodesListViewer extends JComboBox {
 
         Iterator it = _nodesList.iterator();
         while (it.hasNext()) {
-            GraphNode node = (GraphNode) it.next();
+            Node node = (Node) it.next();
             nodeNamesList.add(node.getName());
         }
         return nodeNamesList;

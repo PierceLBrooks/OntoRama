@@ -1,7 +1,7 @@
 package ontorama.webkbtools.inputsource.webkb;
 
 import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -105,7 +105,7 @@ public class AmbiguousChoiceDialog extends JDialog {
         group = new ButtonGroup();
 
         for (int i = 0; i < numChoices; i++) {
-            GraphNode node= (GraphNode) choiceList.get(i);
+            Node node= (Node) choiceList.get(i);
             JButton curButton = new JButton(node.getName());
             try {
                 List descrPropValue = node.getProperty(descrPropName);

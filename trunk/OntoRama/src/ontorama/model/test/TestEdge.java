@@ -27,11 +27,11 @@ import java.util.*;
 public class TestEdge extends TestCase {
 
     private Node node1;
-    private NodeImpl node2;
-    private NodeImpl node3;
-    private NodeImpl node4;
-    private NodeImpl node5;
-    private NodeImpl node6;
+    private Node node2;
+    private Node node3;
+    private Node node4;
+    private Node node5;
+    private Node node6;
 
     private Edge edge1;
     private Edge edge2;

@@ -8,10 +8,10 @@
  */
 package ontorama.controller;
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 
 public class NodeSelectedEvent extends NodeEvent {
-    public NodeSelectedEvent(GraphNode subject) {
+    public NodeSelectedEvent(Node subject) {
         super(subject);
     }
 }

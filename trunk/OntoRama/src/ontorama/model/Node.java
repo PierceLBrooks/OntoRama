@@ -14,22 +14,32 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface Node {
-    String getName();
+    public String getName();
 
-    void setName(String name);
+    public void setName(String name);
 
-    String getFullName();
+    public String getFullName();
 
-    void setFullName(String fullName);
+    public void setFullName(String fullName);
 
-    boolean hasClones();
+    public boolean hasClones();
 
-    Iterator getClones();
+    public List getClones();
 
-    int getDepth();
+    public void addClone (Node node);
 
-    void setProperty(String propertyName, List propertyValue)
+    public Node makeClone() throws NoSuchPropertyException;
+
+    public void addClones (List clones);
+
+    public int getDepth();
+
+    public boolean getFoldedState();
+
+    public void setFoldState(boolean isFolded);
+
+    public void setProperty(String propertyName, List propertyValue)
             throws NoSuchPropertyException;
 
-    List getProperty(String propertyName) throws NoSuchPropertyException;
+    public List getProperty(String propertyName) throws NoSuchPropertyException;
 }

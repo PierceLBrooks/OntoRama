@@ -6,7 +6,7 @@ import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.graph.view.GraphQuery;
 import ontorama.graph.view.GraphView;
 import ontorama.model.Graph;
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -341,13 +341,13 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
     /**
      *
      */
-    public void focus(GraphNode node) {
+    public void focus(Node node) {
         _queryField.setText(node.getName());
     }
 
     /**
      */
-    public void query(GraphNode node) {
+    public void query(Node node) {
         _queryField.setText(node.getName());
         doQuery();
     }

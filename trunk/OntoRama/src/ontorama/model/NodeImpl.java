@@ -16,6 +16,7 @@ import java.util.*;
  */
 public class NodeImpl implements Cloneable, Node {
 
+
     /**
      * Store the name/label of NodeImpl.
      */
@@ -135,8 +136,8 @@ public class NodeImpl implements Cloneable, Node {
     /**
      * Return an iterator of all clones.
      */
-    public Iterator getClones() {
-        return clones.iterator();
+    public List getClones() {
+        return clones;
     }
 
     /**
@@ -144,10 +145,13 @@ public class NodeImpl implements Cloneable, Node {
      *
      * @param  clone  NodeImpl that is clone for this NodeImpl
      */
-    private void addClone(Node clone) {
+    public void addClone(Node clone) {
         clones.add(clone);
     }
 
+    public void addClones(List clones) {
+        clones.addAll(clones);
+    }
 
 //    /**
 //     * Calculate the depths of all children in respect to this node.
@@ -194,14 +198,14 @@ public class NodeImpl implements Cloneable, Node {
     }
 
     /**
-     * Make a clone for this NodeImpl (make a new NodeImpl with the same
+     * Make a clone for this Node (make a new Node with the same
      * name and add new node (clone) to appropriate lists of clones)
      *
      * @return cloneNode
      */
-    public NodeImpl makeClone() throws NoSuchPropertyException {
+    public Node makeClone() throws NoSuchPropertyException {
         // clone curNode to cloneNode
-        NodeImpl cloneNode = new NodeImpl(name);
+        Node cloneNode = new NodeImpl(name);
 
         // make sure all node's properties are copied to clone.
         Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
@@ -214,19 +218,18 @@ public class NodeImpl implements Cloneable, Node {
         // iterate through existing clones and add new clone to all of them
         Iterator it = clones.iterator();
         while (it.hasNext()) {
-            NodeImpl cur = (NodeImpl) it.next();
+            Node cur = (Node) it.next();
             //if (!clones.contains(cloneNode)) {
-            cur.clones.add(cloneNode);
+            cur.addClone(cloneNode);
             //}
         }
 
-        // add all clones of this NodeImpl to the new node (clone node)
-        cloneNode.clones.addAll(this.clones);
-        // add the clone to the list of clones of this NodeImpl
+        // add all clones of this Node to the new node (clone node)
+        cloneNode.addClones(this.clones);
+        // add the clone to the list of clones of this Node
         this.clones.add(cloneNode);
-        // add this NodeImpl to the list of clones for clonedNode
-        cloneNode.clones.add(this);
-
+        // add this Node to the list of clones for clonedNode
+        cloneNode.addClone(this);
 
         return cloneNode;
     }
@@ -261,17 +264,17 @@ public class NodeImpl implements Cloneable, Node {
 //        int count = 0;
 //        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
 //        while (it.hasNext()) {
-//            NodeImpl child = (NodeImpl) it.next();
+//            Node child = (Node) it.next();
 //            q.add(child);
 //        }
 //
 //        while (q.size() != 0) {
-//            NodeImpl cur = (NodeImpl) q.remove(0);
+//            Node cur = (Node) q.remove(0);
 //
 //            count++;
 //            Iterator children = GraphImpl.getOutboundEdgeNodes(cur);
 //            while (children.hasNext()) {
-//                NodeImpl next = (NodeImpl) children.next();
+//                Node next = (Node) children.next();
 //                q.add(next);
 //            }
 //        }
@@ -293,17 +296,17 @@ public class NodeImpl implements Cloneable, Node {
     /*
     public String toString() {
        String str = "";
-       str = str + "NodeImpl: " + this.getName() + "\n";
+       str = str + "Node: " + this.getName() + "\n";
        str = str + "\t" + "inbound nodes: " + "\n";
        Iterator inboundNodes = EdgeImpl.getInboundEdgeNodes(this);
        while (inboundNodes.hasNext()) {
-           NodeImpl node = (NodeImpl) inboundNodes.next();
+           Node node = (Node) inboundNodes.next();
            str = str + "\t\t" + node.getName();
        }
        str = str + "\t" + "outbound nodes: " + "\n";
        Iterator outboundNodes = EdgeImpl.getOutboundEdgeNodes(this);
        while (outboundNodes.hasNext()) {
-           NodeImpl node = (NodeImpl) outboundNodes.next();
+           Node node = (Node) outboundNodes.next();
            str = str + "\t\t" + node.getName();
        }
        return str;

@@ -2,8 +2,8 @@ package ontorama.webkbtools.query.parser.rdf;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
-import ontorama.model.GraphNode;
 import ontorama.model.Edge;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.TestingUtils;
@@ -47,19 +47,19 @@ public class TestRdfDamlParser extends TestCase {
     protected String propName_creator = "Creator";
     protected String propName_synonym = "Synonym";
 
-    protected GraphNode testNode_chair;
-    protected GraphNode testNode_armchair;
-    protected GraphNode testNode_furniture;
-    protected GraphNode testNode_backrest;
-    protected GraphNode testNode_leg;
-    protected GraphNode testNode_myChair;
-    protected GraphNode testNode_someSubstanceNode;
-    protected GraphNode testNode_table;
-    protected GraphNode testNode_someLocation;
-    protected GraphNode testNode_url;
-    protected GraphNode testNode_someObject;
-    protected GraphNode testNode_allChairs;
-    protected GraphNode testNode_ACHRONYM;
+    protected Node testNode_chair;
+    protected Node testNode_armchair;
+    protected Node testNode_furniture;
+    protected Node testNode_backrest;
+    protected Node testNode_leg;
+    protected Node testNode_myChair;
+    protected Node testNode_someSubstanceNode;
+    protected Node testNode_table;
+    protected Node testNode_someLocation;
+    protected Node testNode_url;
+    protected Node testNode_someObject;
+    protected Node testNode_allChairs;
+    protected Node testNode_ACHRONYM;
 
     private Source source;
     private Parser parser;
@@ -179,8 +179,8 @@ public class TestRdfDamlParser extends TestCase {
         Iterator edgesIt = parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
             Edge edge = (Edge) edgesIt.next();
-            GraphNode fromNode = edge.getFromNode();
-            GraphNode toNode = edge.getToNode();
+            Node fromNode = edge.getFromNode();
+            Node toNode = edge.getToNode();
             assertEquals("edge node should never be null", false, (fromNode == null));
             assertEquals("edge node should never be null", false, (toNode == null));
         }
@@ -239,7 +239,7 @@ public class TestRdfDamlParser extends TestCase {
      *
      */
     protected void testingNodeProperty(String propName, List expectedPropValueList,
-                                       GraphNode node) throws NoSuchPropertyException {
+                                       Node node) throws NoSuchPropertyException {
         //
         assertEquals("graph node should never be null here, check setUp() method" +
                 " for node " + node, false, (node == null));
@@ -359,7 +359,7 @@ public class TestRdfDamlParser extends TestCase {
 
 
 
-    protected void testingEdge (RelationLinkDetails edgeType, GraphNode fromNode, String toNodeName,
+    protected void testingEdge (RelationLinkDetails edgeType, Node fromNode, String toNodeName,
                                        int expectedIteratorSize)
             throws NoSuchRelationLinkException {
 
@@ -376,7 +376,7 @@ public class TestRdfDamlParser extends TestCase {
             return;
         }
         Edge firstEdge = (Edge) edges.get(0);
-        GraphNode toNode = firstEdge.getToNode();
+        Node toNode = firstEdge.getToNode();
         String message2 = "related node (edge type: " + edgeType + "):" + toNodeName + ")";
         assertEquals(message2, toNodeName, toNode.getName());
     }
@@ -385,10 +385,10 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    protected GraphNode getGraphNodeFromList (String name, List list) {
+    protected Node getGraphNodeFromList (String name, List list) {
         Iterator it = list.iterator();
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            Node cur = (Node) it.next();
             if (cur.getName().equals(name)) {
                 return cur;
             }
@@ -396,14 +396,14 @@ public class TestRdfDamlParser extends TestCase {
         return null;
     }
 
-    protected List getEdgesFromList (GraphNode fromNode, String toNodeName, RelationLinkDetails edgeType) {
+    protected List getEdgesFromList (Node fromNode, String toNodeName, RelationLinkDetails edgeType) {
         LinkedList result = new LinkedList();
         List allEdges = parserResult.getEdgesList();
         Iterator it = allEdges.iterator();
         while (it.hasNext()) {
             Edge edge = (Edge) it.next();
             if ( (edge.getFromNode().equals(fromNode)) && (edge.getEdgeType().equals(edgeType))  ){
-                GraphNode toNode = edge.getToNode();
+                Node toNode = edge.getToNode();
                 if (toNode.getName().equals(toNodeName)) {
                     result.add(edge);
                 }

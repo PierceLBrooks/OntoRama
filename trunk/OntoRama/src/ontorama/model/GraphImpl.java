@@ -37,7 +37,7 @@ public class GraphImpl implements Graph {
     /**
      * root node
      */
-    private NodeImpl root = null;
+    private Node root = null;
 
     /**
      * list of unconnected nodes or top level nodes
@@ -182,10 +182,10 @@ public class GraphImpl implements Graph {
         }
     }
 
-    private NodeImpl findRootNode (String rootNodeName) {
+    private Node findRootNode (String rootNodeName) {
         Iterator it = _graphNodes.iterator();
         while (it.hasNext()) {
-            NodeImpl node = (NodeImpl) it.next();
+            Node node = (Node) it.next();
             if (node.getName().equals(rootNodeName)) {
                 return node;
             }
@@ -301,9 +301,9 @@ public class GraphImpl implements Graph {
     /**
      * Returns the root node of the graph.
      *
-     * @return NodeImpl root
+     * @return Node root
      */
-    public NodeImpl getRootNode() {
+    public Node getRootNode() {
         return root;
     }
 
@@ -349,7 +349,7 @@ public class GraphImpl implements Graph {
     /**
      * Test if current Graph is a Tree
      *
-     * @param root  - root NodeImpl
+     * @param root  - root Node
      */
     private boolean testIfTree(Node root) {
         LinkedList queue = new LinkedList();
@@ -411,7 +411,7 @@ public class GraphImpl implements Graph {
                     getOutboundEdgeNodes(nextQueueNode);
 
             while (allOutboundNodes.hasNext()) {
-                NodeImpl curNode = (NodeImpl) allOutboundNodes.next();
+                Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
                 Iterator inboundEdges = getInboundEdges(curNode);
@@ -436,7 +436,7 @@ public class GraphImpl implements Graph {
                         continue;
                     }
 
-                    NodeImpl cloneNode = curNode.makeClone();
+                    Node cloneNode = curNode.makeClone();
                     _graphNodes.add(cloneNode);
 
                     // add edge from cloneNode to a NodeParent with this rel edgeType and
@@ -477,8 +477,8 @@ public class GraphImpl implements Graph {
 
         while (outboundEdgesIterator.hasNext()) {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
-            NodeImpl toNode = curEdge.getToNode();
-            NodeImpl cloneToNode = toNode.makeClone();
+            Node toNode = curEdge.getToNode();
+            Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
             registerEdge(newEdge);
             deepCopy(toNode, cloneToNode);
@@ -636,7 +636,7 @@ public class GraphImpl implements Graph {
         //Iterator it = EdgeImpl.getOutboundEdgeNodes(fromNode, relLink);
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
-            //NodeImpl curNode = (NodeImpl) it.next();
+            //Node curNode = (Node) it.next();
             Node curNode = curEdge.getToNode();
             if (curNode.equals(toNode)) {
                 return curEdge;
@@ -661,7 +661,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         flag - true if we want to get list of outbound _graphEdges,
      *         false of we want to get a list of inbound _graphEdges.
      * @return iterator of Edges
@@ -681,7 +681,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         int relationType
      *         boolean flag - true if we want to get list of outbound nodes,
      *         false of we want to get a list of inbound nodes.      *
@@ -731,7 +731,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         Set relationLinks
      *         boolean flag - true if we want to get list of outbound nodes,
      *         false of we want to get a list of inbound nodes.
@@ -775,7 +775,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         int relationType
      *         boolean flag - true if we want to get list of outbound nodes,
      *         false of we want to get a list of inbound nodes.      *
@@ -809,7 +809,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         int relationType
      *         boolean flag - true if we want to get list of outbound nodes,
      *         false of we want to get a list of inbound nodes.      *
@@ -835,7 +835,7 @@ public class GraphImpl implements Graph {
 
     /**
      *
-     * @param  node NodeImpl
+     * @param  node Node
      *         int relationType
      *         boolean flag - true if we want to get list of outbound nodes,
      *         false of we want to get a list of inbound nodes.      *

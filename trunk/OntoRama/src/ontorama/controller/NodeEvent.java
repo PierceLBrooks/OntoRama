@@ -8,13 +8,13 @@
  */
 package ontorama.controller;
 
-import ontorama.model.GraphNode;
+import ontorama.model.Node;
 import org.tockit.events.Event;
 
 public class NodeEvent implements Event {
-    protected GraphNode subject;
+    protected Node subject;
 
-    public NodeEvent(GraphNode subject) {
+    public NodeEvent(Node subject) {
         this.subject = subject;
     }
 

@@ -11,6 +11,9 @@ package ontorama.model.graph.events;
 import org.tockit.events.Event;
 import ontorama.model.graph.Node;
 
+/**
+ * @todo should this be abstract?
+ */
 public class NodeEvent implements Event {
     protected Node subject;
 

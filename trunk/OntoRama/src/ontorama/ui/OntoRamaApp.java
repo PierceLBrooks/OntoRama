@@ -31,7 +31,6 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.filemanager.FileImporter;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
@@ -202,7 +201,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				QueryEngineThreadStartEvent.class,
 				Object.class);
             _graph = graph;
-            _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
             _tree =
                 new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
             _modelEventBroker.processEvent(new TreeLoadedEvent(_tree));

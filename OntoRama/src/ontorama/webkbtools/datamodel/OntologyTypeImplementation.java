@@ -165,6 +165,7 @@ public class OntologyTypeImplementation implements OntologyType {
    * Set type property specified by given property name
    */
    public void addTypeProperty (String propertyName, String propertyValue) throws NoSuchPropertyException {
+       //System.out.println("addTypeProperty, propertyName = '" + propertyName + "', propertyValue = '" + propertyValue + "'");
      if (OntoramaConfig.getConceptPropertiesTable().containsKey(propertyName)) {
        List l = this.getTypeProperty(propertyName);
        if (l.contains(propertyValue)) {

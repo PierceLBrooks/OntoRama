@@ -6,13 +6,19 @@
 		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 
-	<example name="KB cgi" root="net.sourceforge.toscanaj.gui" loadOnStart="yes" >
-		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/test/query.pl" 
+	<example name="KB cgi" root="net.sourceforge.toscanaj" loadOnStart="yes" >
+		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/KB/cgi_query_wrapper.pl"
 					sourcePackagePathSuffix="cgkb.CgKbSource"
 					isSourceDynamic="true" />
 		<queryOutputFormat>CSV</queryOutputFormat>
 		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 
-
+    	<example name="KB url" root="net.sourceforge.toscanaj.gui" >
+		<source uri="http://meganesia.int.gu.edu.au/~nataliya/testCgKb.txt"
+					sourcePackagePathSuffix="UrlSource"
+					isSourceDynamic="true" />
+		<queryOutputFormat>CSV</queryOutputFormat>
+		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+	</example>
 </ontoramaExamples>

@@ -42,7 +42,7 @@ public class CgKbCsvParser implements Parser {
                 int count = 0;
                 char quoteChar = '"';
                 String quoteStr = new Character(quoteChar).toString();
-                //System.out.println("line = " + line);
+                //.out.println("line = " + line);
                 StringTokenizer st = new StringTokenizer(line, quoteStr);
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();
@@ -82,20 +82,14 @@ public class CgKbCsvParser implements Parser {
         String rel = tokens[1];
         String obj2 = tokens[2];
         System.out.println(obj1 + "," + rel + "," + obj2 + ".");
+        String shortNameObj1 = stripFullName(obj1);
+        String shortNameObj2 = stripFullName(obj2);
+        //System.out.println("===" + shortNameObj1 + "," + rel + "," + shortNameObj2 + ".");
 
         try {
             RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
-            OntologyType fromType = (OntologyTypeImplementation) ontHash.get(obj1);
-            if (fromType == null) {
-                fromType = new OntologyTypeImplementation(obj1);
-                ontHash.put(obj1, fromType);
-            }
-            OntologyType toType = (OntologyTypeImplementation) ontHash.get(obj2);
-            if (toType == null) {
-                toType = new OntologyTypeImplementation(obj2);
-                ontHash.put(obj2, toType);
-            }
-
+            OntologyType fromType = getOntologyTypeForName(shortNameObj1, obj1);
+            OntologyType toType = getOntologyTypeForName(shortNameObj2, obj2);
             boolean foundRelationLink = false;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
@@ -122,6 +116,54 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
+    private OntologyType getOntologyTypeForName(String shortName, String fullName) {
+        OntologyType ot = (OntologyTypeImplementation) ontHash.get(shortName);
+        if (ot == null) {
+            ot = new OntologyTypeImplementation(shortName);
+            ontHash.put(shortName, ot);
+            ot.setFullName(fullName);
+        }
+        return ot;
+    }
+
+    private String stripFullName (String fullName) {
+        String result = "";
+
+        String suffix = null;
+        String prefix = null;
+        int ind1 = fullName.indexOf("<");
+        int ind2 = fullName.indexOf("(");
+        if (ind1 != -1) {
+            suffix = fullName.substring(ind1, fullName.length());
+            prefix = fullName.substring(0, ind1 - 1);
+        }
+        else if (ind2 != -1) {
+            suffix = fullName.substring(ind2, fullName.length());
+            prefix = fullName.substring(0, ind2 - 1);
+        }
+        else {
+            prefix = fullName;
+        }
+
+        if (suffix != null) {
+            if (prefix.endsWith(".")) {
+                prefix = prefix.substring(0,prefix.length());
+                suffix = "." + suffix;
+            }
+        }
+
+        int ind = prefix.lastIndexOf(".");
+        if (ind == -1) {
+            return fullName;
+        }
+        result = prefix.substring(ind, prefix.length());
+
+        if (suffix != null) {
+            result = result + suffix;
+        }
+        System.out.println("fullName = " + fullName + ", shortName = " + result);
+        return result;
+    }
 
     public static void main(String[] args) {
         try {

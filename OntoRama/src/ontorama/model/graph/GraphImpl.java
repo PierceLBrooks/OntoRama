@@ -123,6 +123,7 @@ public class GraphImpl implements Graph {
 	        termName = queryResult.getQuery().getQueryTypeName();
 	        List nodesList = queryResult.getNodesList();
 	        List edgesList = queryResult.getEdgesList();
+
 	
 	        buildGraph( nodesList, edgesList);
 	        if (termName == null) {
@@ -147,7 +148,7 @@ public class GraphImpl implements Graph {
     private void buildGraph( List nodesList, List edgesList) throws GraphCyclesDisallowedException {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
-
+        
         checkForCycles(edgesList);
 
         Iterator it = _graphNodes.iterator();
@@ -580,7 +581,6 @@ public class GraphImpl implements Graph {
             if (!OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                  continue;
             }
-            //Node curNode = (Node) q.remove(0);
             Node curNode = curEdge.getToNode();
 
             List children = getOutboundEdges(curNode);

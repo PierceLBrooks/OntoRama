@@ -110,7 +110,7 @@ public class RdfModelWriter implements ModelWriter {
 
     private void writeNodes(List nodesList, Model rdfModel) throws RDFException {
         /// @todo need to be able to handle unconnected nodes.
-        // stubs are in the commented out below.
+        // stubs are  below.
         Iterator nodesIterator = nodesList.iterator();
         while (nodesIterator.hasNext()) {
             Node curNode = (Node) nodesIterator.next();

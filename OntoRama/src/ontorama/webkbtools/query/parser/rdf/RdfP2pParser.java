@@ -96,15 +96,9 @@ public class RdfP2pParser implements Parser {
                     _rdfStatementObject = new ResourceImpl(namespace_rdf + "Statement");
                 }
             }
-
             processAllAnonymousSubjectStatements(model);
-            System.out.println("after processing all anonymous statements list size = " + _statementsList.size());
-            System.out.println("\n\nPROCESS REIFICATION STATEMENT\n\n");
             processAllReificationStatements(model);
-            System.out.println("after processing all verbose reification statements list size = " + _statementsList.size());
             processRemainingStatements(model);
-            System.out.println("statements list size = " + _statementsList.size());
-
         } catch (AccessControlException secExc) {
             throw secExc;
         } catch (RDFException e) {
@@ -138,21 +132,17 @@ public class RdfP2pParser implements Parser {
     private void processAllAnonymousSubjectStatements(Model model) throws RDFException, NoSuchRelationLinkException, URISyntaxException {
         ResIterator subjectsIt = model.listSubjects();
         while (subjectsIt.hasNext()) {
-            System.out.println("-----------------------------------------------");
             Resource resource = subjectsIt.next();
             StmtIterator it = resource.listProperties();
             while (it.hasNext()) {
                 Statement st = it.next();
-                System.out.println("---" + st);
                 if (!_statementsList.contains(st)) {
                     /// we are checking because statement may already have been processed
                     /// via processAnonymousSubject method.
                     //System.out.println("this statement is already processed");
-                    System.out.println("...skipping, already processed");
                     continue;
                 }
                 if (resource.isAnon()) {
-                    System.out.println("...processing anon");
                     processAnonymousSubject(st, model);
                 }
             }
@@ -163,22 +153,17 @@ public class RdfP2pParser implements Parser {
                                     NoSuchRelationLinkException, URISyntaxException {
         ResIterator subjectsIt = model.listSubjectsWithProperty(_rdfTypeProp);
         while (subjectsIt.hasNext()) {
-            System.out.println("-----------------------------------------------");
             Resource resource = subjectsIt.next();
-            System.out.println("processing resource " + resource);
             SimpleTriple triple = null;
             boolean resourceIsReified = false;
             StmtIterator it = resource.listProperties();
             while (it.hasNext()) {
                 Statement st = it.next();
-                System.out.println("---" + st);
                 if (!_statementsList.contains(st)) {
-                    System.out.println("...skipping, already processed");
                     continue;
                 }
                 if (st.getObject().toString().endsWith("Class"))  {
                     /// @todo hack: should find a better way to deal with this.
-                    System.out.println("...skipping");
                     _statementsList.remove(st);
                     continue;
                 }
@@ -188,7 +173,6 @@ public class RdfP2pParser implements Parser {
                     _statementsList.remove(st);
                 }
                 if (! resourceIsReified) {
-                    System.out.println("...skipping, resource is not reified");
                     continue;
                     //break;
                 }
@@ -220,17 +204,13 @@ public class RdfP2pParser implements Parser {
     private void processRemainingStatements(Model model) throws RDFException, NoSuchRelationLinkException, URISyntaxException {
         ResIterator subjectsIt = model.listSubjects();
         while (subjectsIt.hasNext()) {
-            System.out.println("-----------------------------------------------");
             Resource resource = subjectsIt.next();
             StmtIterator it = resource.listProperties();
             while (it.hasNext()) {
                 Statement st = it.next();
-                System.out.println("---" + st);
                 if (!_statementsList.contains(st)) {
-                    System.out.println("...skipping, already processed");
                     continue;
                 }
-                System.out.println("...processing normal resourc");
                 processStatement(st);
             }
         }

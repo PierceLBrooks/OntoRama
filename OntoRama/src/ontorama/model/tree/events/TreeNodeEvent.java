@@ -2,6 +2,7 @@ package ontorama.model.tree.events;
 
 import ontorama.model.tree.TreeNode;
 import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,9 +14,11 @@ import org.tockit.events.Event;
 public class TreeNodeEvent implements Event {
 
     protected TreeNode subject;
+    protected EventBroker eventBroker;
 
-    public TreeNodeEvent(TreeNode subject) {
+    public TreeNodeEvent(TreeNode subject, EventBroker eventBroker) {
         this.subject = subject;
+        this.eventBroker = eventBroker;
     }
 
     public Object getSubject() {

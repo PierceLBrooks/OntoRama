@@ -1,6 +1,8 @@
 package ontorama.model.tree.events;
 
 import ontorama.model.tree.TreeNode;
+import ontorama.model.graph.events.NodeSelectedEvent;
+import org.tockit.events.EventBroker;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,8 +12,9 @@ import ontorama.model.tree.TreeNode;
  * To change this template use Options | File Templates.
  */
 public class TreeNodeSelectedEvent extends TreeNodeEvent {
-    public TreeNodeSelectedEvent(TreeNode subject) {
-        super(subject);
+    public TreeNodeSelectedEvent(TreeNode subject, EventBroker eventBroker) {
+        super(subject, eventBroker);
+        eventBroker.processEvent(new NodeSelectedEvent(subject.getGraphNode()));
     }
 
 }

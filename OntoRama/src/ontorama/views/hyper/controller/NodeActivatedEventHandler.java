@@ -31,7 +31,7 @@ public class NodeActivatedEventHandler implements EventBrokerListener {
 
     public void processEvent(Event e) {
         HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-        eventBroker.processEvent(new TreeNodeSelectedEvent(nodeView.getTreeNode()));
+        eventBroker.processEvent(new TreeNodeSelectedEvent(nodeView.getTreeNode(), this.eventBroker));
         simpleHyperView.toggleFold(nodeView.getTreeNode());
     }
 }

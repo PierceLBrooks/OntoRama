@@ -15,6 +15,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
@@ -28,6 +32,7 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ui.ErrorPopupMessage;
+import ontorama.util.SVG2Shape;
 
 
 /**
@@ -411,6 +416,17 @@ public class OntoramaConfig {
         int xair[] = {-23,-21,-23,-20,-15,-13,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-8,-7,-6,-6,-6,-5,-5,-4,-4,-4,-4,-4,-4,-3,-3,-2,-2,0,0,1,1,1,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,1,1,1,0,3,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,6,6,5,10,14,19,20,21,21,22,22,22,22,22,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,22,22,22,22,21,21,21,19,18,12,10,5,6,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,6,6,6,5,3,0,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,1,1,1,1,0,0,-2,-2,-3,-3,-4,-4,-4,-4,-4,-5,-5,-6,-6,-6,-7,-8,-3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-2,-3,-3,-4,-4,-4,-15,-20,-23,-21,-23};
         int yair[] = {0,0,8,7,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,5,5,6,9,23,23,23,23,23,23,23,23,22,22,22,22,22,22,21,20,19,18,18,18,18,18,18,18,18,17,17,17,17,17,16,16,16,16,16,16,16,16,16,15,15,15,15,15,15,15,15,10,10,11,11,11,11,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,2,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-11,-11,-11,-11,-11,-11,-15,-15,-15,-15,-15,-15,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-17,-17,-17,-17,-17,-17,-17,-18,-18,-18,-18,-18,-18,-18,-18,-19,-20,-21,-21,-22,-22,-22,-22,-22,-23,-23,-23,-23,-23,-23,-23,-10,-6,-5,-4,-4,-4,-4,-3,-3,-3,-3,-3,-3,-3,-3,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-7,-8,0,0};
 		Shape airplaneShape = new Polygon(xair, yair, xair.length);
+		
+		// try finding a special node shape
+        try {
+            SAXBuilder builder = new SAXBuilder(false);
+
+            Document doc = builder.build(streamReader.getInputStreamFromResource("node.svg"));
+            Element svgElem = doc.getRootElement();
+            airplaneShape = SVG2Shape.importShape(svgElem, 35, 35);
+        } catch (Exception e) {
+        	// we just stick with the default
+        }
 		
         List nodeTypes = new LinkedList();
         NodeType typeConcept = new NodeTypeImpl("concept", airplaneShape , false, Color.BLUE);

@@ -165,7 +165,7 @@ public class NodesListViewer extends JComboBox {
                                         boolean cellHasFocus) {
 
 
-            if (value instanceof String ) {
+            if (!(value instanceof Node )) {
                 String valueStr = (String) value;
                 setText(valueStr);
                 setToolTipText(valueStr);

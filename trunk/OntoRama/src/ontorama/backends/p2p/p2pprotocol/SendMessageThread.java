@@ -57,23 +57,24 @@ public class SendMessageThread extends Thread{
 		PipeAdvertisement pipeAdvert = null;
 		PipeService pipeService = null;
 				        
-        //Prepare a message to be sent
-         Message msgToSend = this.createMsg(propType,
-		        						  ownPeerID, 
-		        						  ownGroupID, 
-		        						  tag, 
-		        						  message);
 
 	 	//while travese to send the mesage to all groups this peer is a member of
 		Enumeration enum = this.comm.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
-	       	pipeAdvert = this.comm.getPipeAdvertisement(pg.getPeerGroupID());
-	    	pipeService = pg.getPipeService();
-			try {
-				outputPipe = pipeService.createOutputPipe(pipeAdvert,-1);
-				outputPipe.send(msgToSend);
 
+            //Prepare a message to be sent
+             Message msgToSend = this.createMsg(pg,
+                                              propType,
+                                              ownPeerID,
+                                              ownGroupID,
+                                              tag,
+                                              message);
+
+	       	outputPipe = this.comm.getOutputPipe(pg.getPeerGroupID());
+			try {
+System.out.println("SendMessageThread::SendMessagePropagate, send a message:" + outputPipe);
+				outputPipe.send(msgToSend);
 			} catch (IOException e) {
 				//do nothing
 				this.anyErrors = true;
@@ -94,19 +95,21 @@ public class SendMessageThread extends Thread{
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;				 
 		DiscoveryService discoveryService = null;
 
-        //Prepare a message to be sent
-         Message msgToSend = this.createMsg(propType,
-		        						  ownPeerID, 
-		        						  ownGroupID, 
-		        						  tag, 
-		        						  message);
-
 
 	 	//while travese to send the mesage to all groups this peer is a member of
 		Enumeration enum = this.comm.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
 	        discoveryService = pg.getDiscoveryService();
+
+            //Prepare a message to be sent
+             Message msgToSend = this.createMsg(pg,
+                                              propType,
+                                              ownPeerID,
+                                              ownGroupID,
+                                              tag,
+                                              message);
+
 
             /*
 	 		inputpipeDiscoveryListener = new InputpipeDiscoveryListener(msgToSend,this.comm,pg);
@@ -161,9 +164,7 @@ public class SendMessageThread extends Thread{
 	* Sends a message to a peer in tone of the groups where this peer belongs
 	*
 	* @param propType the type of propagation (if it is a propagataion)
-	* @param recieverID the ID of the peer, which a message will be sent to 
 	* @param ownPeerID this peers id
-	* @param ownGroypID the id of the group
 	* @param tag the tag for the message
 	* @param message the message to send
 	*/
@@ -179,10 +180,11 @@ public class SendMessageThread extends Thread{
 		PeerGroup pg = comm.getGlobalPG();
         System.err.println("SendMessageThread::sendToPeer (one specific)" );
 
-        Message msgToSend = this.createMsg(propType,
-		        						  ownPeerID, 
-                                          ownGroupID, 
-		        						  tag, 
+        Message msgToSend = this.createMsg(pg,
+                                          propType,
+		        						  ownPeerID,
+                                          ownGroupID,
+		        						  tag,
 		        						  message);
 
         discoveryService = this.comm.getGlobalPG().getDiscoveryService();
@@ -236,21 +238,20 @@ public class SendMessageThread extends Thread{
 	 * @return The message to be sent.
 	 * @param propType the type of propagation (if it is a propagataion)
 	 * @param ownPeerID this peers id
-	 * @param ownGroypID the id of the group
 	 * @param tag the tag for the message
 	 * @param message the message to send
 	 *  
 	 * @exception
-	 * @version P2P-OntoRama 1.0.0
-	 */		       					
-   	private Message createMsg(int propType,
+	 */
+   	private Message createMsg(PeerGroup pg,
+                              int propType,
     						  String ownPeerID, 
                               String ownGroupID, 
     						  int tag, 
     						  String message){
     		MimeMediaType mimeType = new MimeMediaType("text/xml");					  	
 			Message tmpMessage = null;
-		 	 tmpMessage = this.comm.getGlobalPG().getPipeService().createMessage();
+		 	 tmpMessage = pg.getPipeService().createMessage();
 	         	tmpMessage.addElement(tmpMessage.newMessageElement(
 	         								"TAG", 
 				                            mimeType, 
@@ -260,7 +261,6 @@ public class SendMessageThread extends Thread{
 	            tmpMessage.newMessageElement("propType",mimeType, new Integer(propType).toString().getBytes()));
 		}
 
-System.out.println("  Send message: SenderPeerID:" + this.comm.getGlobalPG().getPeerID().toString());
 	    tmpMessage.addElement(
             tmpMessage.newMessageElement("SenderPeerID",mimeType,
 			    this.comm.getGlobalPG().getPeerID().toString().getBytes()));

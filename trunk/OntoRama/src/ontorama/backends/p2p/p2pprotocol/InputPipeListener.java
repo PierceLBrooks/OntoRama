@@ -48,8 +48,6 @@ public class InputPipeListener implements PipeMsgListener {
 	* @version P2P-OntoRama 1.0.0
 	*/
     public void pipeMsgEvent(PipeMsgEvent event) {
-
-
         Message message = null;
         
 		message = event.getMessage();

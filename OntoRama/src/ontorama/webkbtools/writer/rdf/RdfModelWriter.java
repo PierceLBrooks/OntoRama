@@ -16,7 +16,6 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
-import ontorama.conf.RdfMapping;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;

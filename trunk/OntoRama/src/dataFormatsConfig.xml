@@ -1,4 +1,6 @@
 <dataFormatMappings>
 	<mapping name="RDF" extension="rdf" parser="ontorama.ontotools.parser.rdf.RdfDamlParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
-	<mapping name="XML" extension="xml" parser="ontorama.ontotools.parser.xml.XmlParserFull" writer="null"/>
+	<mapping name="XML" extension="xml" parser="ontorama.ontotools.parser.xml.XmlParserFull"/>
+	<mapping name="P2P-RDF" extension="p2p-rdf" parser="ontorama.ontotools.parser.xml.RdfP2PParser" writer="ontorama.ontotools.writer.rdf.RdfP2PWriter"/>
+	<mapping name="WEBKB-RDF" extension="webkb-rdf" parser="ontorama.ontotools.parser.xml.RdfWebkbParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
 </dataFormatMappings>

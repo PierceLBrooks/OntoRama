@@ -119,12 +119,17 @@ http://www.gotomy.com/color.html
             </displayInGraphView>
         </relation>
         <relation id="7">
+        	<!--
             <displayInGraphView>
                 <createIcon color="#FF3366">
                     <relationType name="complement" mappingSymbol="/"/>
                     <relationType name="exclusion" mappingSymbol="!"/>
                 </createIcon>
             </displayInGraphView>
+            -->
+            <displayInDescriptionWindow>
+                <relationType name="complement" displayLabel="Complement" queryOn="yes"/>
+            </displayInDescriptionWindow>            
         </relation>
         <relation id="8">
             <displayInGraphView>

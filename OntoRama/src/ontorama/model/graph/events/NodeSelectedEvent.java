@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph.events;
 
-import ontorama.model.graph.events.NodeEvent;
 import ontorama.model.graph.Node;
 
 

@@ -95,8 +95,8 @@ public class DamlParser implements Parser {
     private void processClass (DAMLClass damlClass) throws NoSuchRelationLinkException, 
     										RDFException  {
 		if (damlClass.isAnon()) {
-			System.out.println("\tanonymous!    id = " + damlClass.getId() );
 			AnonId id = damlClass.getId();
+			System.out.println("\tanonymous!    id = " + id );
 			return;
 		}
     	
@@ -149,11 +149,9 @@ public class DamlParser implements Parser {
 							throws RDFException, NoSuchRelationLinkException {
 		Node connectedNode = getNode(resource, OntoramaConfig.CONCEPT_TYPE);
 		if (resource instanceof DAMLClass) {
-			DAMLClass cl = (DAMLClass) resource;
 			getEdge(node, connectedNode, edgeTypeName);
 		}
 		if (resource instanceof DAMLRestriction) {
-			DAMLRestriction restr = (DAMLRestriction) resource;
 			//getEdge(node, connectedNode, restriction);
 			getEdge(connectedNode, node, restriction);
 		}
@@ -162,6 +160,7 @@ public class DamlParser implements Parser {
     private void processInstance (DAMLInstance damlInstance) throws RDFException {
     	String identifier = damlInstance.getNameSpace() + damlInstance.getLocalName();
     	getNode(damlInstance, OntoramaConfig.CONCEPT_TYPE);
+    	System.out.println("instance identifier = " + identifier);
     }
 
 	private Node getNode(DAMLCommon damlCommon, NodeType nodeType) throws RDFException {

@@ -57,9 +57,6 @@ public class GraphImpl implements Graph {
      */
     private List _graphEdges = new LinkedList();
 
-    private List _nodesToRemove = new LinkedList();
-    private List _edgesToRemove = new LinkedList();
-
     /**
      *
      */
@@ -345,11 +342,10 @@ public class GraphImpl implements Graph {
             }
         }
         catch (GraphModificationException e) {
-            if (e instanceof NodeAlreadyExistsException) {
-                // ignore here because we may be adding an edge between two existing nodes
-            }
-            else {
+            if (! (e instanceof NodeAlreadyExistsException)) {
                 throw e;
+				// ignore case where e is instanceof NodeAlreadyExistsException
+				// because we may be adding an edge between two existing nodes
             }
         }
 
@@ -362,11 +358,10 @@ public class GraphImpl implements Graph {
             }
         }
         catch (GraphModificationException e) {
-            if (e instanceof NodeAlreadyExistsException) {
-                // ignore here because we may be adding an edge between two existing nodes
-            }
-            else {
-                throw e;
+            if (! (e instanceof NodeAlreadyExistsException)) {
+            	throw e;
+                // ignore case where e is instaceof NodeAlreadyExistsException here 
+                // because we may be adding an edge between two existing nodes
             }
         }
     }

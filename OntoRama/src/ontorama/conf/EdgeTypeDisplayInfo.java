@@ -23,7 +23,6 @@ public class EdgeTypeDisplayInfo {
 
     private boolean _displayInGraph = false;
     private boolean _displayInDescription = false;
-    private boolean _displayReverseEdgeInGraph = false;
     private boolean _displayReverseEdgeInDescription = false;
 
     /**

@@ -16,7 +16,6 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.EdgeTypeImpl;
 import ontorama.ontotools.source.JarSource;
-import ontorama.util.Debug;
 import ontorama.util.SVG2Shape;
 
 import org.jdom.Attribute;
@@ -46,12 +45,8 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    private static LinkedList relationRdfMappingList;
+    private static List relationRdfMappingList;
 
-    /**
-     *
-     */
-    private Debug debug = new Debug(false);
 
     private static final String ontologyElementName = "ontology";
     private static final String displayInfoElementName = "displayInfo";

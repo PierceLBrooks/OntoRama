@@ -31,9 +31,6 @@ public class TestNode extends TestCase {
 
     private String nodeIdentifier1 = "some.node.identifier";
 
-    private Node cloneNode2;
-    private Node cloneNode3;
-
     private URI creatorUri1;
     private URI creatorUri2;
 

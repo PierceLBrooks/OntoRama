@@ -15,6 +15,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.EdgeType;
+
 import org.tockit.canvas.CanvasItem;
 
 public class HyperEdgeView extends CanvasItem {
@@ -33,12 +35,15 @@ public class HyperEdgeView extends CanvasItem {
     /**
      * Store the relation type for this edge
      */
-    private ontorama.model.graph.EdgeType relLink;
+    private EdgeType relLink;
 
-    public HyperEdgeView(HyperNodeView from, HyperNodeView to, ontorama.model.graph.EdgeType relLink) {
+	private SphericalProjection projection = null;
+
+    public HyperEdgeView(HyperNodeView from, HyperNodeView to, EdgeType relLink, Projection projection) {
         this.from = from;
         this.to = to;
         this.relLink = relLink;
+    	this.projection = (SphericalProjection) projection;
     }
 
     public void draw(Graphics2D g2d) {
@@ -109,8 +114,8 @@ public class HyperEdgeView extends CanvasItem {
     }
 
     private Point2D transform(double x, double y) {
-        double length = Math.sqrt(x * x + y * y + HyperNodeView.getFocalDepth() * HyperNodeView.getFocalDepth());
-        double scale = HyperNodeView.getSphereRadius() / length;
+        double length = Math.sqrt(x * x + y * y + projection.getFocalDepth() * projection.getFocalDepth());
+        double scale = projection.getSphereRadius() / length;
         return new Point2D.Double(scale * x, scale * y);
     }
 

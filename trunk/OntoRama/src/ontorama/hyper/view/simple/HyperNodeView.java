@@ -192,6 +192,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         }
         return false;
     }
+    /**
+     *
+     */
+    public double getViewRadius() {
+        return viewRadius;
+    }
 
     /**
      * Draw the node in the hyperbolic plane.

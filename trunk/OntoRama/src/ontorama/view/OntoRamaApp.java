@@ -128,6 +128,8 @@ public class OntoRamaApp extends JFrame {
         //Add the split pane to this frame.
         getContentPane().add(queryPanel,BorderLayout.NORTH);
         getContentPane().add(splitPane, BorderLayout.CENTER);
+
+        getContentPane().setSize(600,600);
     }
 
     public static void main(String[] args) {

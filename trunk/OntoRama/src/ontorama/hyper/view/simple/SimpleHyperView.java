@@ -29,6 +29,7 @@ public class SimpleHyperView  extends CanvasManager {
         this.addMouseListener( this );
         this.addMouseMotionListener( this );
         this.setDoubleBuffered( true );
+        this.setOpaque( true );
     }
 
     /**
@@ -148,10 +149,10 @@ public class SimpleHyperView  extends CanvasManager {
         g2d.scale( canvasScale, canvasScale );
         g2d.setColor(new Color( 244, 244, 244 ));
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
-        //System.out.println("Start");
-        //System.out.println(System.currentTimeMillis());
+        long start = System.currentTimeMillis();
         drawNodes( g2d );
-        //System.out.println(System.currentTimeMillis());
+        long laps = ( System.currentTimeMillis() - start);
+//        System.out.println("laps time = " + laps + " ms");
         //g2d.setPaint(oldPaint);
     }
 }

@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 
 
- public class CanvasManager extends JComponent
+public class CanvasManager extends JComponent
         implements MouseListener, MouseMotionListener, FocusChangedObserver {
 
     /**
@@ -73,23 +73,47 @@ import java.util.LinkedList;
      */
     private HyperNode focusNode = null;
 
+    /**
+     * Holds the remaining length of the animation.
+     *
+     * If negative animation we don't animate at the moment.
+     */
+    private long lengthOfAnimation = -1;
+
+    /**
+     * The time when we did the last animation step.
+     */
+    private long animationTime = 0;
 
     /**
      * draw nodes and lines.
      */
     protected void drawNodes( Graphics2D g2d ) {
         if(lengthOfAnimation > 0) {
-            System.out.println("anim");
             animate();
+            //noLabels = true;
         }
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
-            if( noLabels && cur instanceof LabelView ) {
-                continue;
-            }
+//            if( noLabels && cur instanceof LabelView ) {
+//                continue;
+//            }
             cur.draw(g2d);
         }
+    }
+
+    protected void animate() {
+        long newTime = System.currentTimeMillis();
+        long elapsedTime = newTime - animationTime;
+        double animDist = elapsedTime / (double) lengthOfAnimation;
+        lengthOfAnimation -= elapsedTime;
+        animationTime = newTime;
+        if(animDist > 1) {
+            animDist = 1;
+        }
+        moveCanvasItems( focusNode.getX() * animDist, focusNode.getY() * animDist );
+        repaint();
     }
 
     public void mouseClicked( MouseEvent e ) {
@@ -103,9 +127,7 @@ import java.util.LinkedList;
                 curY = curY  * (1 / canvasScale);
                 boolean found = cur.isClicked( curX, curY);
                 if(  found == true ) {
-                    System.out.println("mouseClicked");
                     ((HyperNodeView)cur).hasFocus();
-
                 }
             }
         }
@@ -148,8 +170,8 @@ import java.util.LinkedList;
         double yDif = (lpy - y);
         lastPoint.setLocation( x, y );
         moveCanvasItems( xDif, yDif );
-        paint(this.getGraphics());
-        //repaint();
+        //paint(this.getGraphics());
+        repaint();
     }
 
     /**
@@ -174,33 +196,8 @@ import java.util.LinkedList;
         // in the euclidian space (before hyperbolic projection)
         double distance = Math.sqrt( focusNode.getX() * focusNode.getX() +
                                      focusNode.getY() * focusNode.getY() );
-        lengthOfAnimation = (long)(distance);
+        lengthOfAnimation = (long)(distance*1.5);
         animationTime = System.currentTimeMillis();
-        repaint();
-    }
-
-    /**
-     * Holds the remaining length of the animation.
-     *
-     * If negative animation we don't animate at the moment.
-     */
-    private long lengthOfAnimation = -1;
-
-    /**
-     * The time when we did the last animation step.
-     */
-    private long animationTime = 0;
-
-    protected void animate() {
-        long newTime = System.currentTimeMillis();
-        long elapsedTime = newTime - animationTime;
-        double animDist = elapsedTime / (double) lengthOfAnimation;
-        lengthOfAnimation -= elapsedTime;
-        animationTime = newTime;
-        if(animDist > 1) {
-            animDist = 1;
-        }
-        moveCanvasItems( focusNode.getX() * animDist, focusNode.getY() * animDist );
         repaint();
     }
 

@@ -30,6 +30,7 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
@@ -63,8 +64,9 @@ public class OntoRamaApp extends JFrame {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        termName = "root";
-        //termName = "comms#CommsObject";
+        //termName = "root";
+        termName = "comms#CommsObject";
+        //termName = "comms_CommsObject";
 
         //LinkedList wantedLinks = new LinkedList();
         //wantedLinks.add(new Integer (OntoramaConfig.SUBTYPE));
@@ -82,6 +84,10 @@ public class OntoRamaApp extends JFrame {
         }
         catch (NoTypeFoundInResultSetException noTypeExc) {
             System.err.println(noTypeExc);
+            System.exit(-1);
+        }
+        catch (NoSuchRelationLinkException noRelExc) {
+            System.err.println(noRelExc);
             System.exit(-1);
         }
         catch (Exception e) {

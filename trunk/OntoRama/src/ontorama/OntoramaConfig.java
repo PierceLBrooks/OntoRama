@@ -4,11 +4,33 @@ package ontorama;
 
 import java.util.Properties;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Hashtable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.Collection;
+import java.util.List;
 
+import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.ontologyConfig.XmlConfigParser;
+import ontorama.ontologyConfig.ConfigParserException;
+
+/**
+ * @todo    Implement different method to introduce relation links:
+ *      rather then having them hardcoded in this class -
+ *      read from a config file, for example:
+ *      <ontology>
+ *          <relation id="1">
+ *              <>supertype</>
+ *              <>subtype</>
+ *          </relation>
+ *          .....
+ *      </ontology>
+ *      <map>
+ *          <map from="<" to="^" />
+ *      </map>
+ */
 public class OntoramaConfig {
 
     /**
@@ -48,34 +70,31 @@ public class OntoramaConfig {
      */
     private static final String sourcePackagePathPrefix = "ontorama.webkbtools.inputsource";
 
+    /**
+     *
+     */
+    private static final String configsDirLocation = "./classes";
 
     /**
-     * All predefined relationLinks constants
-     * IMPORTANT: If any new relationLinks are added - make sure
-     * MAXTYPELINK is changed
+     *
      */
-    public static final int SUPERTYPE = 0;
-    public static final int SUBTYPE = 1;
-    public static final int PARTOF = 2;
-    public static final int HASAPART = 3;
-    public static final int MEMBEROF = 4;
-    public static final int HASAMEMBER = 5;
-    public static final int SYNONYMTYPE = 6;
-    public static final int INSTANCEOF = 7;
-    public static final int HASAINSTANCE = 8;
-    public static final int SUBSTANCEOF = 9;
-    public static final int HASASUBSTANCE = 10;
-    public static final int INCLUSIVETYPE =11;
-    public static final int EXCLUSIVETYPE = 12;
+    private static RelationLinkDetails[] allRelationsArray;
+
     /**
-     * consider to have a property typeCreator rather then relationLink CREATOR
+     *
      */
-    public static final int CREATOR = 13;
+    private static HashSet relationLinksSet;
+
+    /**
+     *
+     */
+    private static List relationRdfMapping;
 
     /**
      * Max value for realtionLinks.
      */
-    public static final int MAXTYPELINK = 13;
+    public static int MAXTYPELINK;
+
 
     /**
      * debug
@@ -91,7 +110,7 @@ public class OntoramaConfig {
         Properties properties = new Properties();
         //Properties properties = new Properties(System.getProperties());
         try {
-          FileInputStream propertiesFileIn = new FileInputStream ("./classes/ontorama.properties");
+          FileInputStream propertiesFileIn = new FileInputStream (configsDirLocation + "/ontorama.properties");
 
           properties.load(propertiesFileIn);
 
@@ -119,14 +138,77 @@ public class OntoramaConfig {
           System.exit(1);
         }
 
+        try {
+            FileInputStream configInStream = new FileInputStream(configsDirLocation + "/config.xml");
+            XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
+            allRelationsArray = xmlConfig.getRelationLinksArray();
+            for (int i = 0; i < allRelationsArray.length; i++ ) {
+                if ( allRelationsArray[i] != null ) {
+                    System.out.println("i = " + i + ", object = " + allRelationsArray[i].getLinkName());
+                }
+            }
+            MAXTYPELINK = allRelationsArray.length;
+            relationLinksSet = buildRelationLinksSet (allRelationsArray);
+            System.out.println("MAXTYPELINK = " + MAXTYPELINK);
+
+
+            relationRdfMapping = xmlConfig.getRelationRdfMappingList();
+
+
+
+
+            //System.exit(0);
+        }
+        catch (IOException ioe) {
+          System.err.println("Unable to read xml configuration file");
+          System.err.println("IOException: " + ioe);
+          System.exit(1);
+        }
+        catch ( ConfigParserException cpe ) {
+            System.err.println("ConfigParserException: " + cpe.getMessage());
+            System.exit(-1);
+        }
+        catch ( ArrayIndexOutOfBoundsException arrayExc ) {
+            System.err.println("Please make sure relation id's in xml config are ordered from 1 to Max number");
+            System.err.println("ArrayIndexOutOfBoundsException: " + arrayExc);
+            System.exit(-1);
+        }
     }
 
-    public static HashSet getRelationLinksSet () {
+
+    /**
+     * @todo: we are assuming that allRelationsArray got all relations id's in order
+     * from 1 to n. If this is not a case -> what we are doing here could be wrong
+     */
+    public static HashSet buildRelationLinksSet (RelationLinkDetails[] allRelationsArray) {
         LinkedList allRelations = new LinkedList ();
-        for (int i = 0; i < MAXTYPELINK; i++ ) {
-            allRelations.add(new Integer (i));
+        for (int i = 0; i < allRelationsArray.length; i++ ) {
+            if ( allRelationsArray[i] != null ) {
+                allRelations.add(new Integer (i));
+            }
         }
         return new HashSet ((Collection) allRelations);
     }
+
+    /**
+     *
+     */
+    public static HashSet getRelationLinksSet () {
+        return relationLinksSet;
+    }
+
+    /**
+     *
+     */
+    public static RelationLinkDetails getRelationLinkDetails (int i) {
+        return allRelationsArray[i];
+    }
+
+    /**
+     *
+     */
+     public static List getRelationRdfMapping () {
+        return relationRdfMapping;
+     }
 }
 

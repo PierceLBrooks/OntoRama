@@ -68,6 +68,9 @@ public class XmlParser implements Parser {
 
     /**
      * Read elements into hashtable
+     * @todo    replace int 1 in folowing statements:
+     * type.isRelationType(subType, 1) and type.addRelationType(subType, 1)
+     * with something more meaninfull.
      */
     private void parseElements (Element element) throws NoSuchRelationLinkException {
 
@@ -92,17 +95,25 @@ public class XmlParser implements Parser {
             // if not found --> create one
             if( subType == null ) {
                 subType = new OntologyTypeImplementation (subTypeName);
-                // add child to hashtable\
+                // add child to hashtable
                 ontHash.put(subTypeName, subType );
             }
             // add child to outer node
-            if (! type.isRelationType(subType, OntoramaConfig.SUBTYPE)) {
-              type.addRelationType(subType, OntoramaConfig.SUBTYPE);
+            //if (! type.isRelationType(subType, OntoramaConfig.SUBTYPE)) {
+            //  type.addRelationType(subType, OntoramaConfig.SUBTYPE);
+            //}
+            if (! type.isRelationType(subType, 1)) {
+              type.addRelationType(subType, 1);
             }
+
+
+
             //if( !subType.hasParent( type ) ){
+            /*
             if ( ! subType.isRelationType(type, OntoramaConfig.SUPERTYPE) ) {
               subType.addRelationType(type,OntoramaConfig.SUPERTYPE);
             }
+            */
         }
     }
 

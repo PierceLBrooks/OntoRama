@@ -12,7 +12,15 @@ import ontorama.model.GraphNode;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
- * with given GraphNodes
+ * with given GraphNodes. This object is point of reference
+ * between GraphNodes and OntoTreeNodes.
+ * This is used by OntoTreeModel to build the TreeModel and
+ * later on is used by OntoTreeNode for reference for getting
+ * a TreeNode from given GraphNode.
+ *
+ * @todo: This probably can be done other way - by cycling through all
+ * TreeNodes and comparing given GraphNode to OntoTreeNode.getGraphNode
+ * untill match is found.
  *
  * Copyright:    Copyright (c) 2001
  * Company:     DSTC
@@ -40,8 +48,6 @@ public class OntoTreeBuilder {
         while (it.hasNext()) {
             GraphNode curNode = (GraphNode) it.next();
             TreeNode treeNode = new OntoTreeNode (curNode);
-            //System.out.println("graph node = " + curNode);
-            //System.out.println("tree node = " + treeNode);
             ontoHash.put(curNode,treeNode);
         }
     }

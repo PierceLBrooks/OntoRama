@@ -19,6 +19,7 @@ import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoNodeObserver;
 
+
 /**
  * Title:
  * Description:
@@ -28,7 +29,7 @@ import ontorama.tree.model.OntoNodeObserver;
  * @version 1.0
  */
 
-public class OntoTreeView implements OntoNodeObserver {
+public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
 
     private JScrollPane treeView;
     private JTree tree;
@@ -38,6 +39,8 @@ public class OntoTreeView implements OntoNodeObserver {
      * Constructor
      */
     public OntoTreeView(Graph graph) {
+
+        // build OntoTreeModel for this graph
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
         // sort out observers
@@ -48,6 +51,7 @@ public class OntoTreeView implements OntoNodeObserver {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName() );
         }
         catch (Exception e) {
+            // case if this lookAndFeel doesn't exist
         }
 
         //final JTree tree = new JTree(ontoTreeModel);
@@ -55,19 +59,23 @@ public class OntoTreeView implements OntoNodeObserver {
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         //Listen for when the selection changes.
-        this.tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
-                if ( !node.equals(focusedNode)) {
-                    System.out.println("******** node " + node);
-                    node.setFocus();
-                }
-                if (node == null) return;
-            }
-        });
+        this.tree.addTreeSelectionListener(this);
 
         this.treeView = new JScrollPane(tree);
         tree.putClientProperty("JTree.lineStyle", "Angled");
+    }
+
+    /**
+     * Implementation of valueChanged needed for interface
+     * implementation of TreeSelectionListener
+     * @param   TreeSelectionEvent e
+     */
+    public void valueChanged(TreeSelectionEvent e) {
+        OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
+        if ( !node.equals(focusedNode)) {
+            System.out.println("******** node " + node);
+            node.setFocus();
+        }
     }
 
     /**

@@ -57,8 +57,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      */
     private EventBroker _eventBroker;
 
-    private Graph _graph;
-
     /**
      *
      */
@@ -163,7 +161,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     public void setQuery(Query query) {
-        //System.out.println("query panel, setting query: " + query.toString());
         setQueryField(query.getQueryTypeName());
         setWantedRelationLinks(query.getRelationLinksList());
         if (query.getDepth() > 0) {
@@ -215,7 +212,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      */
     private int getDepthField() {
         return _depth;
-        //return (new Integer(_depthField.getText())).intValue();
     }
 
     /**
@@ -229,16 +225,16 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     private List getWantedRelationLinks() {
-        _wantedRelationLinks = new LinkedList();
+        List wantedRelationLinks = new LinkedList();
         Enumeration en = _relationLinksCheckBoxes.keys();
         while (en.hasMoreElements()) {
             JCheckBox key = (JCheckBox) en.nextElement();
             if (key.isSelected()) {
-                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
-                _wantedRelationLinks.add(relLinkType);
+                RelationLinkDetails relLinkType = (RelationLinkDetails) _relationLinksCheckBoxes.get(key);
+                wantedRelationLinks.add(relLinkType);
             }
         }
-        return _wantedRelationLinks;
+        return wantedRelationLinks;
     }
 
     /**
@@ -248,7 +244,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         Enumeration enum = _relationLinksCheckBoxes.keys();
         while (enum.hasMoreElements()) {
             JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
-            Integer correspondingRelLink = (Integer) _relationLinksCheckBoxes.get(curCheckBox);
+            RelationLinkDetails correspondingRelLink = (RelationLinkDetails) _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
             } else {
@@ -273,7 +269,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
                 JLabel displayIconLabel = new JLabel(displayIcon);
                 curCheckBox.setSelected(true);
                 curCheckBox.addItemListener(new CheckBoxListener());
-                _relationLinksCheckBoxes.put(curCheckBox, new Integer(i));
+                _relationLinksCheckBoxes.put(curCheckBox, cur);
                 _relationLinksPanel.add(displayIconLabel);
                 _relationLinksPanel.add(curCheckBox);
             }
@@ -315,8 +311,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
          *
          */
         public void actionPerformed(ActionEvent parm1) {
-            /**@todo: implement this javax.swing.AbstractAction abstract method*/
-            System.out.println("___action: query");
             doQuery();
         }
     }
@@ -326,10 +320,8 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     private Query buildNewQuery() {
-        //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
         Query query = new Query(getQueryField(), getWantedRelationLinks());
         query.setDepth(getDepthField());
-        //System.out.println("building new query: " + query.toString());
         return query;
     }
 
@@ -361,7 +353,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
     }
 
     public void setGraph (Graph graph) {
-        _graph = graph;
     }
 
     public void repaint () {

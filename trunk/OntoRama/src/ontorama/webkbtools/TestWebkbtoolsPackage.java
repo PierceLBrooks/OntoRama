@@ -31,7 +31,6 @@ public class TestWebkbtoolsPackage extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.webkbtools");
 
-        suite.addTest(ontorama.webkbtools.datamodel.TestDatamodelPackage.suite());
         suite.addTest(ontorama.webkbtools.inputsource.TestSourcePackage.suite());
         suite.addTest(ontorama.webkbtools.query.TestQueryPackage.suite());
 

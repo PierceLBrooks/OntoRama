@@ -59,6 +59,11 @@ public class RdfWebkbParser extends RdfDamlParser {
     private Hashtable newTypesMapping = new Hashtable();
 
     /**
+     * name of url relation link (special case)
+     */
+    private String urlLinkName = "url";
+
+    /**
      * add relation link to type corresponding to given resource
      * In WebKB case we need to be aware of relation link 'url' -
      * it doesn't need uri to be stripped
@@ -76,7 +81,7 @@ public class RdfWebkbParser extends RdfDamlParser {
       OntologyType fromType = null;
       OntologyType toType = null;
 
-      if (linkName.equals("url")) {
+      if (linkName.equals(urlLinkName)) {
         if (ontTypeExists(fromTypeName)) {
           toType = getOntTypeByName(toTypeResource.toString());
           fromType = getOntTypeByName(fromTypeName);
@@ -182,6 +187,11 @@ public class RdfWebkbParser extends RdfDamlParser {
      * are in the new format.
      * This involves not only recreating ontology type itself, but mirroring
      * all relation links with destination types having new naming format as well.
+     *
+     * @todo  bug: types related by url rel link should not be decapitalized!!!
+     *        for example: http://www.webkb.org/OntoRama is turned into
+     *        http://www.webkb.org/_onto_rama. These types should have their
+     *        original names intact!
      */
     protected OntologyType rewriteOntologyType ( OntologyType origType)
                   throws NoSuchPropertyException, NoSuchRelationLinkException {
@@ -205,10 +215,23 @@ public class RdfWebkbParser extends RdfDamlParser {
       Iterator relLinksIterator = relLinksList.iterator();
       while (relLinksIterator.hasNext()) {
         Integer relLink = (Integer) relLinksIterator.next();
+        RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLink.intValue());
         Iterator relations = origType.getIterator(relLink.intValue());
         while (relations.hasNext()) {
           OntologyType relatedOrigType = (OntologyType) relations.next();
-          OntologyType relatedNewType = getNewTypeForOldByName(relatedOrigType);
+          OntologyType relatedNewType = null;
+          /*
+          if (relLinkDetails.getLinkName().equals(urlLinkName)) {
+            // if relation link is of type 'url' relation link, then we shouldn't do
+            // any case capitalization changes.
+            relatedNewType = new OntologyTypeImplementation(relatedOrigType.getName());
+          }
+          else {
+            relatedNewType = getNewTypeForOldByName(relatedOrigType);
+          }
+          */
+          relatedNewType = getNewTypeForOldByName(relatedOrigType);
+          //System.out.println("adding link " + newType.getName() + " -> " + relatedNewType.getName() + ", rel: + " + relLinkDetails.getLinkName());
           newType.addRelationType(relatedNewType, relLink.intValue());
         }
       }
@@ -234,14 +257,38 @@ public class RdfWebkbParser extends RdfDamlParser {
 
     /**
      *
+     * Assumptions:
+     * - if there is no hash character in the string, we are assuming
+     * that this string doesn't need to be processed and just return it
+     * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
+     * just return it.
+     *
      * @todo think what to do with NoSuchPropertyException
      */
     protected String createNewNameForType (OntologyType type) {
-      /*
-      commented out because synonyms are just 'names', not identifiers, and we
-      need identifiers to be able to requery on them.
+
+      String typeName = type.getName();
+
+      if (typeName.equals("rdf-schema#Class")) {
+        return typeName;
+      }
 
       List synonyms = null;
+
+      String typeNamePreffix = null;
+      String typeNameSuffix = null;
+      int hashIndex = typeName.indexOf("#");
+      //System.out.println("typeName = " + typeName + ", hashIndex = " + hashIndex);
+      if (hashIndex == -1 ) {
+        typeNamePreffix = null;
+        typeNameSuffix = typeName;
+      }
+      else {
+        typeNamePreffix = typeName.substring( 0, hashIndex);
+        typeNameSuffix = typeName.substring( hashIndex + 1, typeName.length());
+      }
+      //System.out.println("typeNamePreffix = " + typeNamePreffix + ", typeNameSuffix = " + typeNameSuffix);
+
       try {
         synonyms = type.getTypeProperty("Synonym");
         //System.out.println("synonyms list = " + synonyms);
@@ -253,14 +300,17 @@ public class RdfWebkbParser extends RdfDamlParser {
       }
 
       if (! synonyms.isEmpty()) {
-        //System.out.println("__________returning " + (String) synonyms.iterator().next());
-        return ((String) synonyms.iterator().next());
+        typeNameSuffix = (String) synonyms.iterator().next();
       }
       else {
-      */
-        //System.out.println("__________returning " + reformatString(type.getName()));
-        return reformatString(type.getName());
-      //}
+        typeNameSuffix = reformatString(typeNameSuffix);
+      }
+      String res = typeNamePreffix + "#" + typeNameSuffix;
+      if  (typeNamePreffix == null) {
+        res = typeNameSuffix;
+      }
+      //System.out.println("__________returning " + res);
+      return res;
     }
 
 
@@ -269,38 +319,20 @@ public class RdfWebkbParser extends RdfDamlParser {
      * example: typeName, into string of words separated
      * by undescores, for example: type_name
      *
-     * Assumptions:
-     * - if there is no hash character in the string, we are assuming
-     * that this string doesn't need to be processed and just return it
-     * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
-     * just return it.
      */
     protected String reformatString (String in) {
       String res = "";
-
-      if (in.equals("rdf-schema#Class")) {
-        return in;
-      }
 
       if (in.length() == -1) {
           return in;
       }
 
-      int hashIndex = in.indexOf("#");
-      if (hashIndex == -1 ) {
-        return in;
-      }
-      //System.out.println("in = " + in + ", hashIndex = " + hashIndex);
-      String prefix = in.substring( 0, hashIndex);
-      String suffix = in.substring( hashIndex + 1, in.length());
-      //System.out.println("prefix = " + prefix + ", suffix = " + suffix);
-
-      if (checkIfAllCharsAreCapitalized(suffix)) {
+      if (checkIfAllCharsAreCapitalized(in)) {
         return in;
       }
 
-      for (int i = 0; i < suffix.length(); i++) {
-        char ch = suffix.charAt(i);
+      for (int i = 0; i < in.length(); i++) {
+        char ch = in.charAt(i);
         Character chObj = new Character (ch);
         //System.out.println("i = " + i + ", char = " + ch);
         if ( chObj.isUpperCase(ch) ) {
@@ -317,7 +349,6 @@ public class RdfWebkbParser extends RdfDamlParser {
           res = res + chObj.toString();
         }
       }
-      res = prefix + "#" + res;
       return res;
     }
 

@@ -5,9 +5,9 @@ import java.io.StringReader;
 import java.util.Hashtable;
 import java.util.List;
 
-import ontorama.backends.RdfDamlParser;
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.ParserException;
 
 
@@ -94,12 +94,10 @@ public class P2PReciever implements P2PRecieverInterface{
             //Parse the input recieved from the new peer   
             Reader intModel = new StringReader(result);
             RdfDamlParser parser = new RdfDamlParser();
-            parser.parse(intModel,backend.getExtendedGraph(), senderPeerID);
+            ParserResult parserResult = parser.getResult(intModel);
+			backend.getExtendedGraph().add(parserResult.getNodesList(),parserResult.getEdgesList());
 
         } catch (ParserException e) {
-            System.err.println("Error in receiveSearchResponse");
-            e.printStackTrace();
-        } catch (NoSuchPropertyException e) {
             System.err.println("Error in receiveSearchResponse");
             e.printStackTrace();
         }
@@ -115,24 +113,21 @@ public class P2PReciever implements P2PRecieverInterface{
 
 
     //Help classes
-    private void receiveInit(String senderPeerID, String senderPeerName, String internalModel){
-                     try{ 
-                          //Add the new host to the panel showing connected peers
-                           this.idMapping.put(senderPeerID, senderPeerName);
-                           activePeers.addPeer(senderPeerID, senderPeerName, null);
+	private void receiveInit(String senderPeerID, String senderPeerName, String internalModel){
+    	try{ 
+        	//Add the new host to the panel showing connected peers
+            this.idMapping.put(senderPeerID, senderPeerName);
+			activePeers.addPeer(senderPeerID, senderPeerName, null);
 
-                          //Parse the input recieved from the new peer                     
-                          Reader intModel = new StringReader(internalModel);
-                          RdfDamlParser parser = new RdfDamlParser();
-                          parser.parse(intModel,backend.getExtendedGraph(), senderPeerID);
-
-                        } catch (ParserException e) {
-                            System.err.println("An error accured");
-                            e.printStackTrace();
-                        } catch (NoSuchPropertyException e) {
-                            System.err.println("An error accured");
-                            e.printStackTrace();   
-                       }  
-     }
-   
-}
+			//Parse the input recieved from the new peer                     
+			Reader intModel = new StringReader(internalModel);
+			RdfDamlParser parser = new RdfDamlParser();
+			ParserResult parserResult = parser.getResult(intModel);
+			backend.getExtendedGraph().add(parserResult.getNodesList(),parserResult.getEdgesList());
+			
+			} catch (ParserException e) {
+            	System.err.println("An error accured");
+                e.printStackTrace();
+			}  
+		}
+	}

@@ -1,21 +1,16 @@
 package ontorama.backends;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.ConceptPropertiesMapping;
 import ontorama.ontologyConfig.RdfMapping;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.io.StringWriter;
 import java.util.*;
 
-import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.Model;
-import com.hp.hpl.mesa.rdf.jena.model.Property;
 import com.hp.hpl.mesa.rdf.jena.model.RDFException;
 import com.hp.hpl.mesa.rdf.jena.model.RDFWriter;
 import com.hp.hpl.mesa.rdf.jena.model.Resource;
@@ -295,7 +290,7 @@ public class Graph {
      * @throws  NoSuchRelationLinkException, NoSuchPropertyException
      */
     protected void convertIntoTree(GraphNode root)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
+            throws NoSuchRelationLinkException {
         LinkedList queue = new LinkedList();
 
         queue.add(root);
@@ -373,7 +368,7 @@ public class Graph {
      * @throws   NoSuchRelationLinkException, NoSuchPropertyException
      */
     private void deepCopy(GraphNode node, GraphNode cloneNode)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
+            throws NoSuchRelationLinkException {
 
         Iterator outboundEdgesIterator = this.edge.getOutboundEdges(node);
 
@@ -393,24 +388,6 @@ public class Graph {
         }
     }
 
-    /**
-     *
-     */
-    private int[] getTypeCount(Iterator it) {
-        int[] typeCount =
-                new int[ontorama.OntoramaConfig.getRelationLinksSet().size()];
-        for (int i = 0; i < typeCount.length; i++) {
-            typeCount[i] = 0;
-        }
-
-		EdgeObject curEdgeObject;
-        while (it.hasNext()) {
-            curEdgeObject = (EdgeObject) it.next();
-            int type = curEdgeObject.getType();
-            typeCount[type]++;
-        }
-        return typeCount;
-    }
 
 
 	protected String toRDFStringFromModel(Model rdfModel) {
@@ -503,63 +480,65 @@ public class Graph {
 									   Hashtable relNodesToResource, 
 									   Enumeration nodesEnum) {
 
-		GraphNode currGraphNode;
-		Resource resource;
-		Property property;
-		String propValue;
-		String propName;
-		Hashtable conceptProperties = OntoramaConfig.getConceptPropertiesRdfMapping();
-		Hashtable rdfNameFromRelationID = createMappingFromRelationIDtoRDF();
+//TODO MODEL
 
-		try {
-			//save all nodes
-			while (nodesEnum.hasMoreElements()) {
-
-				currGraphNode = (GraphNode) nodesEnum.nextElement();
-				resource = getResource(relNodesToResource,currGraphNode.getFullName());
-	
-				//save all the properties foreach node (excluding them in the Edges)
-				Hashtable conceptPropertiesConfig = 
-									OntoramaConfig.getConceptPropertiesTable();
-	            Enumeration e = conceptPropertiesConfig.keys();
-				Iterator propValueIterator;
-				String propKey;
-				ConceptPropertiesMapping curValue;
-	            while (e.hasMoreElements()) {
-					propKey = (String) e.nextElement();
-					curValue = (ConceptPropertiesMapping) conceptProperties.get(propKey);
-					propName = curValue.getRdfTag();
-					
-					property = new PropertyImpl(currGraphNode.getPropertyNamespace(propKey), propName);
-	                propValueIterator = currGraphNode.getProperty(propKey).iterator();
-	                while (propValueIterator.hasNext()) {
-	                    propValue = (String) propValueIterator.next();
-						rdfModel.add(resource, property, propValue);					
-	                }
-	            }
-	
-				//save all the ingoing edges for each node
-				Iterator inEdgesIt = this.getEdge().getInboundEdges(currGraphNode);
-				while (inEdgesIt.hasNext()) {
-					EdgeObject edgObj = (EdgeObject) inEdgesIt.next();
-					propName  = new Integer(edgObj.getType()).toString();
-
-					propValue = (String) rdfNameFromRelationID.get(propName);
-					propName = propValue;
-					propValue = edgObj.getFromNode().getFullName();
-					//System.err.println("FOUND EDGE " + propName + ":" + propValue);
-					
-					property = new PropertyImpl(edgObj.getNamespace(), propName);
-					rdfModel.add(resource, property, this.getResource(relNodesToResource,propValue));
-				}
-			}		
-		} catch (RDFException e) {
-			//TODO errorhandling
-			System.err.println("ERROR 1");
-		} catch (NoSuchPropertyException e) {
-			//TODO errorhandling
-			System.err.println("ERROR 2");			
-		}
+//		GraphNode currGraphNode;
+//		Resource resource;
+//		Property property;
+//		String propValue;
+//		String propName;
+//		Hashtable conceptProperties = OntoramaConfig.getConceptPropertiesRdfMapping();
+//		Hashtable rdfNameFromRelationID = createMappingFromRelationIDtoRDF();
+//
+//		try {
+//			//save all nodes
+//			while (nodesEnum.hasMoreElements()) {
+//
+//				currGraphNode = (GraphNode) nodesEnum.nextElement();
+//				resource = getResource(relNodesToResource,currGraphNode.getFullName());
+//	
+//				//save all the properties foreach node (excluding them in the Edges)
+//				Hashtable conceptPropertiesConfig = 
+//									OntoramaConfig.getConceptPropertiesTable();
+//	            Enumeration e = conceptPropertiesConfig.keys();
+//				Iterator propValueIterator;
+//				String propKey;
+//				ConceptPropertiesMapping curValue;
+//	            while (e.hasMoreElements()) {
+//					propKey = (String) e.nextElement();
+//					curValue = (ConceptPropertiesMapping) conceptProperties.get(propKey);
+//					propName = curValue.getRdfTag();
+//					
+//					property = new PropertyImpl(currGraphNode.getPropertyNamespace(propKey), propName);
+//	                propValueIterator = currGraphNode.getProperty(propKey).iterator();
+//	                while (propValueIterator.hasNext()) {
+//	                    propValue = (String) propValueIterator.next();
+//						rdfModel.add(resource, property, propValue);					
+//	                }
+//	            }
+//	
+//				//save all the ingoing edges for each node
+//				Iterator inEdgesIt = this.getEdge().getInboundEdges(currGraphNode);
+//				while (inEdgesIt.hasNext()) {
+//					EdgeObject edgObj = (EdgeObject) inEdgesIt.next();
+//					propName  = new Integer(edgObj.getType()).toString();
+//
+//					propValue = (String) rdfNameFromRelationID.get(propName);
+//					propName = propValue;
+//					propValue = edgObj.getFromNode().getFullName();
+//					//System.err.println("FOUND EDGE " + propName + ":" + propValue);
+//					
+//					property = new PropertyImpl(edgObj.getNamespace(), propName);
+//					rdfModel.add(resource, property, this.getResource(relNodesToResource,propValue));
+//				}
+//			}		
+//		} catch (RDFException e) {
+//			//TODO errorhandling
+//			System.err.println("ERROR 1");
+//		} catch (NoSuchRelationLinkException e) {
+//			//TODO errorhandling
+//			System.err.println("ERROR 2");			
+//		}
 		return rdfModel;
 	}
 	
@@ -582,116 +561,7 @@ public class Graph {
 	}
 	
 
-	/**
-     * Print Graph into XML tree
-     */
-    public String printXml() throws NoSuchPropertyException {
-
-		System.err.println("\n\n PrintXml starts");
-		
-        String resultStr = "<ontology top='" + this.getRootNode().getName() + "'>";
-        resultStr = resultStr + "\n";
-        resultStr = resultStr + printXmlConceptTypesEl();
-        resultStr = resultStr + printXmlRelationLinksEl();
-        resultStr = resultStr + "\n";
-        resultStr = resultStr + "</ontology>";
-        resultStr = resultStr + "\n";
-
-		System.err.println("\n\n PrintXml starts, RESULTAT:");
-        return resultStr;
-    }
-
-    /**
-     * Print all nodes into xml sniplet
-     */
-    private String printXmlConceptTypesEl() throws NoSuchPropertyException {
-        String tab = "\t";
-        String resultStr = tab + "<conceptTypes>";
-        resultStr = resultStr + "\n";
-        LinkedList queue = new LinkedList();
-        queue.add(this.getRootNode());
-
-        while (!queue.isEmpty()) {
-            GraphNode nextQueueNode = (GraphNode) queue.remove(0);
-
-            resultStr =
-                    resultStr
-                    + tab
-                    + tab
-                    + "<conceptType name='"
-                    + nextQueueNode.getName()
-                    + "'>";
-            resultStr = resultStr + "\n";
-
-            Hashtable conceptPropertiesConfig =
-                    OntoramaConfig.getConceptPropertiesTable();
-            Enumeration e = conceptPropertiesConfig.keys();
-            while (e.hasMoreElements()) {
-                String propName = (String) e.nextElement();
-                System.out.println(
-                        "nextQueueNode = "
-                        + nextQueueNode.getName()
-                        + ", propName = "
-                        + propName);
-                System.out.println(
-                        "\tpropValue = " + nextQueueNode.getProperty(propName));
-                Iterator propValueIterator =
-                        nextQueueNode.getProperty(propName).iterator();
-                while (propValueIterator.hasNext()) {
-                    String curPropValue = (String) propValueIterator.next();
-                    resultStr =
-                            resultStr + tab + tab + tab + "<" + propName + ">";
-                    resultStr = resultStr + curPropValue;
-                    resultStr = resultStr + "</" + propName + ">";
-                    resultStr = resultStr + "\n";
-                }
-            }
-            resultStr = resultStr + tab + tab + "</conceptType>";
-            resultStr = resultStr + "\n";
-
-            Iterator allOutboundNodes =
-                    this.getEdge().getOutboundEdgeNodes(nextQueueNode);
-
-            while (allOutboundNodes.hasNext()) {
-                GraphNode curNode = (GraphNode) allOutboundNodes.next();
-                queue.add(curNode);
-
-            }
-        }
-        resultStr = resultStr + tab + "</conceptTypes>";
-        resultStr = resultStr + "\n";
-        return resultStr;
-    }
-
-    /**
-     * Print all edges into XML sniplet
-     */
-    private String printXmlRelationLinksEl() {
-        String tab = "\t";
-        String resultStr = tab + "<relationLinks>";
-        resultStr = resultStr + tab + "\n";
-
-        Iterator edgesIterator = this.getEdge().getEdgeIterator();
-        while (edgesIterator.hasNext()) {
-            EdgeObject curEdgeObject = (EdgeObject) edgesIterator.next();
-            GraphNode fromNode = curEdgeObject.getFromNode();
-            GraphNode toNode = curEdgeObject.getToNode();
-            int type = curEdgeObject.getType();
-            RelationLinkDetails relLinkDetails =
-                    OntoramaConfig.getRelationLinkDetails(type);
-            resultStr = resultStr + tab + tab + "<relationLink";
-            resultStr =
-                    resultStr + " name='" + relLinkDetails.getLinkName() + "'";
-            resultStr = resultStr + " from='" + fromNode.getName() + "'";
-            resultStr = resultStr + " to='" + toNode.getName() + "'";
-            resultStr = resultStr + "/>";
-            resultStr = resultStr + "\n";
-        }
-        resultStr = resultStr + tab + "</relationLinks>";
-        resultStr = resultStr + "\n";
-        return resultStr;
-    }
- 	
+	
 	public Edge getEdge() {
 		return this.edge;	
 	}
@@ -735,7 +605,7 @@ public class Graph {
 				//otherwise add it
 				this.processedNodes.put(newNode.getFullName(),newNode);								
 			}
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
 			System.err.println("Error Graph::addNOde");
 			//TODO do something
 		}

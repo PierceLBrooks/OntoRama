@@ -1,7 +1,7 @@
 package ontorama.backends;
 
 import ontorama.OntoramaConfig;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.util.*;
 
@@ -84,11 +84,12 @@ public class GraphNode implements Cloneable {
      *          this redunancy!
      */
     private void initNodeProperties() {
-        Enumeration propertiesList = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (propertiesList.hasMoreElements()) {
-            String propName = (String) propertiesList.nextElement();
-            nodeDetails.put(propName, new LinkedList());
-        }
+//TODO MODEL
+//        Enumeration propertiesList = OntoramaConfig.getConceptPropertiesTable().keys();
+//        while (propertiesList.hasMoreElements()) {
+//            String propName = (String) propertiesList.nextElement();
+//            nodeDetails.put(propName, new LinkedList());
+//        }
     }
 
 
@@ -120,16 +121,6 @@ public class GraphNode implements Cloneable {
         return !this.clones.isEmpty();
     }
 
-    /**
-     *
-     */
-    /*
-   public void hasFocus () {
-//        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
-       System.out.println("\t\tclones: " + this.clones);
-
-   }
-   */
 
     /**
      * Return an iterator of all clones.
@@ -172,49 +163,6 @@ public class GraphNode implements Cloneable {
         return this.isFolded;
     }
 
-    /**
-     * Make a clone for this GraphNode (make a new GraphNode with the same
-     * name and add new node (clone) to appropriate lists of clones)
-     *
-     * @return cloneNode
-     */
-    public GraphNode makeClone() throws NoSuchPropertyException {
-        // clone curNode to cloneNode
-        GraphNode cloneNode = new GraphNode(name);
-        
-        // make sure all node's properties are copied to clone.
-        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (e.hasMoreElements()) {
-            String propName = (String) e.nextElement();
-			if (this.nodeDetails.containsKey(propName)) {
-	            List nodePropValue = this.getProperty(propName);
-    	        String namespace = this.getPropertyNamespace(propName);
-				if (namespace == null) {
-					namespace = "";	
-				}
-        	    cloneNode.setProperty(propName,namespace, nodePropValue);
-			}
-        }
-
-        // iterate through existing clones and add new clone to all of them
-        Iterator it = this.clones.iterator();
-        while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
-            //if (!clones.contains(cloneNode)) {
-            cur.addClone(cloneNode);
-            //}
-        }
-
-        // add all clones of this GraphNode to the new node (clone node)
-        cloneNode.addAllClone(this.clones);
-        // add the clone to the list of clones of this GraphNode
-        this.addClone(cloneNode);
-        // add this GraphNode to the list of clones for clonedNode
-        cloneNode.clones.add(this);
-
-
-        return cloneNode;
-    }
 
     /**
      * Set given property for this node.
@@ -224,7 +172,7 @@ public class GraphNode implements Cloneable {
      * @trows   NoSuchPropertyException
      */
     public void setProperty(String propertyName, String namespace, List propertyValue)
-            throws NoSuchPropertyException {
+            throws NoSuchRelationLinkException {
         nodeDetails.put(propertyName, propertyValue);
         nodeDetailsNamespace.put(propertyName,namespace);
     }
@@ -235,11 +183,11 @@ public class GraphNode implements Cloneable {
      * @param   propertyName
      * @throw   NoSuchPropertyException
      */
-    public List getProperty(String propertyName) throws NoSuchPropertyException {
+    public List getProperty(String propertyName) throws NoSuchRelationLinkException {
 		if (nodeDetails.containsKey(propertyName)) {
 	        return (List) nodeDetails.get(propertyName);
 		} else {
-			throw new NoSuchPropertyException(propertyName, this.nodeDetails.keys());	
+			throw new NoSuchRelationLinkException(propertyName);	
 		}
     }
 
@@ -250,7 +198,7 @@ public class GraphNode implements Cloneable {
      * @param   propertyName
      * @throw   NoSuchPropertyException
      */
-    public String getPropertyNamespace(String propertyName) throws NoSuchPropertyException {
+    public String getPropertyNamespace(String propertyName) throws NoSuchRelationLinkException {
         return (String) nodeDetailsNamespace.get(propertyName);
     }
 
@@ -265,45 +213,49 @@ public class GraphNode implements Cloneable {
 
 
 	public void update(GraphNode newNode) {
-		this.name = newNode.getName();
-		this.fullName = newNode.getFullName();
-        Enumeration enum = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (enum.hasMoreElements()) {
-            String propName = (String) enum.nextElement();
-
-			if (newNode.nodeDetails.containsKey(propName) && 
-				newNode.nodeDetailsNamespace.containsKey(propName)) {
-
-					try {
-						this.setProperty(propName, 
-								newNode.getPropertyNamespace(propName),
-								newNode.getProperty(propName));
-					} catch (NoSuchPropertyException e) {
-						//TODO something
-					}
-			}
-        }
+//TODO MODEL
+//		this.name = newNode.getName();
+//		this.fullName = newNode.getFullName();
+//        Enumeration enum = OntoramaConfig.getConceptPropertiesTable().keys();
+//        while (enum.hasMoreElements()) {
+//            String propName = (String) enum.nextElement();
+//
+//			if (newNode.nodeDetails.containsKey(propName) && 
+//				newNode.nodeDetailsNamespace.containsKey(propName)) {
+//
+//					try {
+//						this.setProperty(propName, 
+//								newNode.getPropertyNamespace(propName),
+//								newNode.getProperty(propName));
+//					} catch (NoSuchRelationLinkException e) {
+//						//TODO something
+//					}
+//			}
+//        }
 	}
 	
-    public GraphNode makeCopy() throws NoSuchPropertyException{
-        // clone curNode to cloneNode
-        GraphNode copyNode = new GraphNode(this.getName(),this.getFullName());
-										
-		copyNode.setFoldState(this.isFolded);
-
-        // make sure all node's properties are copied to clone.
-        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
-        while (e.hasMoreElements()) {
-            String propName = (String) e.nextElement();
-			if (this.nodeDetails.containsKey(propName) && 
-				this.nodeDetailsNamespace.containsKey(propName)) {
-				copyNode.setProperty(propName, 
-									this.getPropertyNamespace(propName),
-									this.getProperty(propName));
-			}
-        }
-
-        return copyNode;
+    public GraphNode makeCopy() throws NoSuchRelationLinkException{
+//TODO MODEL
+//        // clone curNode to cloneNode
+//        GraphNode copyNode = new GraphNode(this.getName(),this.getFullName());
+//										
+//		copyNode.setFoldState(this.isFolded);
+//
+//        // make sure all node's properties are copied to clone.
+//        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
+//        while (e.hasMoreElements()) {
+//            String propName = (String) e.nextElement();
+//			if (this.nodeDetails.containsKey(propName) && 
+//				this.nodeDetailsNamespace.containsKey(propName)) {
+//				copyNode.setProperty(propName, 
+//									this.getPropertyNamespace(propName),
+//									this.getProperty(propName));
+//			}
+//        }
+//
+//        return copyNode;
+//
+	return new GraphNode("dummy");	
     }
 
 	public void setClones(List clones) {
@@ -336,6 +288,51 @@ public class GraphNode implements Cloneable {
     }
     */
     
+    /**
+     * Make a clone for this GraphNode (make a new GraphNode with the same
+     * name and add new node (clone) to appropriate lists of clones)
+     *
+     * @return cloneNode
+     */
+	public GraphNode makeClone() throws NoSuchRelationLinkException {
+        // clone curNode to cloneNode
+        GraphNode cloneNode = new GraphNode(name);
+//TODO MODEL
+//        
+//        // make sure all node's properties are copied to clone.
+//        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
+//        while (e.hasMoreElements()) {
+//            String propName = (String) e.nextElement();
+//			if (this.nodeDetails.containsKey(propName)) {
+//	            List nodePropValue = this.getProperty(propName);
+//    	        String namespace = this.getPropertyNamespace(propName);
+//				if (namespace == null) {
+//					namespace = "";	
+//				}
+//        	    cloneNode.setProperty(propName,namespace, nodePropValue);
+//			}
+//        }
+//
+//        // iterate through existing clones and add new clone to all of them
+//        Iterator it = this.clones.iterator();
+//        while (it.hasNext()) {
+//            GraphNode cur = (GraphNode) it.next();
+//            //if (!clones.contains(cloneNode)) {
+//            cur.addClone(cloneNode);
+//            //}
+//        }
+//
+//        // add all clones of this GraphNode to the new node (clone node)
+//        cloneNode.addAllClone(this.clones);
+//        // add the clone to the list of clones of this GraphNode
+//        this.addClone(cloneNode);
+//        // add this GraphNode to the list of clones for clonedNode
+//        cloneNode.clones.add(this);
+//
+
+        return cloneNode;
+    }
+
      /**
      * Sets the depth of the node in the tree.
      *

@@ -1,7 +1,6 @@
 package ontorama.backends;
 
 import junit.framework.TestCase;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.util.Iterator;
@@ -56,7 +55,7 @@ public class TestGraph extends TestCase {
      * and edges created as expected and if they have correct settings.   *
      */
     protected void setUp() throws NoSuchRelationLinkException,
-            NoSuchPropertyException {
+            NoSuchRelationLinkException {
         // set up some edges and nodes, so we can see if they are cleared properly
         GraphNode tmpNode1 = new GraphNode("tmpNode1");
         GraphNode tmpNode2 = new GraphNode("tmpNode2");
@@ -124,7 +123,7 @@ public class TestGraph extends TestCase {
     /**
      * test graph root
      */
-    public void testGraphRoot() throws NoSuchPropertyException {
+    public void testGraphRoot() throws NoSuchRelationLinkException {
         GraphNode rootNode = graph.getRootNode();
         assertEquals("root", rootNode.getName());
         List propList = rootNode.getProperty(typePropertyName);
@@ -146,7 +145,7 @@ public class TestGraph extends TestCase {
     /**
      * test properties, clones and depth for node1
      */
-    public void testNode1() throws NoSuchPropertyException {
+    public void testNode1() throws NoSuchRelationLinkException {
 		//the model must be represented as a tree
 		this.testConvertIntoTree();
 		
@@ -221,8 +220,6 @@ public class TestGraph extends TestCase {
 
 		} catch (NoSuchRelationLinkException e) {
 			System.err.println("Error no such relationlink exception");
-		} catch (NoSuchPropertyException e) {
-			System.err.println("Error no such property exception");
 		}
 		
     }

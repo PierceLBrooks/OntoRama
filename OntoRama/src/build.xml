@@ -6,6 +6,7 @@
   <property name="classes.home"   value="${basedir}/classes"/>
   <property name="javadoc.home"   value="${basedir}/doc/api"/>
   <property name="jar.file"	value="${basedir}/OntoRama.jar"/>
+  <property name="jenaJar.file"	value="${basedir}/jenaOntorama.jar"/>
   <property name="deploy.webstart"	value="${basedir}/deployWebstart"/>
   <property name="src.webstart"	value="${src.home}/webstart"/>
 
@@ -15,7 +16,8 @@
   	<pathelement location="${classes.home}/"/>
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
-	<pathelement path="${lib.home}/jena.jar/"/>
+	<!--<pathelement path="${lib.home}/jena.jar/"/>-->
+	<pathelement path="${lib.home}/jenaOntorama.jar/"/>
 	<pathelement path="${lib.home}/junit.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
 	<pathelement path="${lib.home}/rdffilter.jar/"/>
@@ -26,6 +28,10 @@
 	<pathelement path="${lib.home}/batik-svggen.jar/"/>
 	<pathelement path="${lib.home}/batik-util.jar/"/>
 	<pathelement path="${lib.home}/batik-xml.jar/"/>
+	<!--
+	<pathelement path="${lib.home}/concurrent-1.3.0.jar/"/>
+	<pathelement path="${lib.home}/db3-3-11.jar/"/>
+	-->
   </path>
 
   <!-- Targets and Rules -->
@@ -43,9 +49,9 @@
 	<!--<delete dir="${javadoc.home}"/>-->
   </target>
 
+  
   <target name="compile" depends="prepare">
-    <javac destdir="${classes.home}"  debug="on" optimize="off"
-	deprecation="off">
+    <javac destdir="${classes.home}"  debug="on" optimize="off"	deprecation="off">
 		<src path="${src.home}"/>
 		<classpath refid="project.class.path"/>
     </javac>
@@ -68,10 +74,12 @@
 			classpathref="project.class.path"/>
   </target>
 
-  <target name="run" depends="jar">
+  <!--<target name="run" depends="jar">-->
+  <target name="run" depends="compile">
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
   </target>
 
+  <!--<target name="runJar" depends="jar">-->
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
   </target>
@@ -100,15 +108,39 @@
             <include name="**/*.java"/>
         </javac>
     </target>
-	-->
-
-	<target name="runtests" depends="compile">
-        <java fork="yes" classname="junit.textui.TestRunner" 
-            taskname="junit" failonerror="true">
-            <arg value="ontorama.test.TestEdge"/>
-			<classpath refid="project.class.path"/>
-        </java>
-	</target>
+  -->
   
+  <target name="runtests" depends="compile">
+  	<java fork="yes" classname="junit.textui.TestRunner" 
+    	taskname="junit" failonerror="true">
+        <arg value="ontorama.test.TestEdge"/>
+		<classpath refid="project.class.path"/>
+    </java>
+  </target>
+  
+  <!-- targets for rebuilding jena library -->
+  <!--
+  <target name="jenaCompile" depends="prepare">
+  	<mkdir  dir="${classes.home}/com"/>
+	<mkdir  dir="${classes.home}/jena"/>
+    <javac destdir="${classes.home}/com"  debug="on" optimize="off"	deprecation="off">
+		<src path="${src.home}/com"/>
+		<classpath refid="project.class.path"/>
+    </javac>
+	<javac destdir="${classes.home}/jena"  debug="on" optimize="off"	deprecation="off">
+		<src path="${src.home}/jena"/>
+		<classpath refid="project.class.path"/>
+    </javac>
+  </target>
+
+  
+  <target name="jenaJar">
+  	
+  	<jar jarfile="${jenaJar.file}" basedir="${classes.home}" 
+		 includes="com/**,jena/**" excludes="ontorama*,package*,config.xml*,MANIFEST*,ontorama.properties"/>
+	
+  </target>
+  -->
+	
 </project>
 

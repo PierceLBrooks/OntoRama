@@ -1,0 +1,4 @@
+<dataFormatMappings>
+	<mapping name="RDF" extension="rdf" parser="ontorama.ontotools.parser.rdf.RdfDamlParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
+	<mapping name="XML" extension="xml" parser="ontorama.ontotools.parser.xml.XmlParserFull" writer="null"/>
+</dataFormatMappings>

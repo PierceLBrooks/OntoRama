@@ -3,6 +3,8 @@ package ontorama.util;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.conf.examplesConfig.OntoramaExample;
 
 /**
@@ -20,7 +22,9 @@ public class TestingUtils {
      *
      */
     public static OntoramaExample getExampleByName(String exampleName) {
-        List examplesList = OntoramaConfig.getExamplesList();
+    	Backend backend = OntoramaConfig.getBackend();
+    	ExamplesBackend examplesBackend = (ExamplesBackend) backend;
+        List examplesList = examplesBackend.getExamplesList();
         OntoramaExample result = null;
         for (int i = 0; i < examplesList.size(); i++) {
             OntoramaExample curExample = (OntoramaExample) examplesList.get(i);

@@ -47,10 +47,13 @@ public class FileBackend implements Backend {
     private Graph _graph = null;
     private List _panels = null;
     private EventBroker _eventBroker;
+    private String _parserName;
     
     private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 
 	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
+	
+	private String _filename;
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
@@ -106,8 +109,8 @@ public class FileBackend implements Backend {
 	}
 
     public void loadFile(File file){
-        String filename = file.getAbsolutePath();
-    	System.out.println("FileBackend::Loading file = " + filename);
+        _filename = file.getAbsolutePath();
+    	System.out.println("FileBackend::Loading file = " + _filename);
         
         String extension = Util.getExtension(file);
         Iterator it = _dataFormatsMapping.iterator();
@@ -118,17 +121,9 @@ public class FileBackend implements Backend {
         	new ErrorPopupMessage("There is no parser specified for this file type ", OntoRamaApp.getMainFrame());
         	return;
         }
-        String parserName = mapping.getParserName();
-
-       /// @todo these values shouldn't be hardcoded here, but set in config file.
-       /// or ontorama config should contain current backend used and then
-       /// get relevant info from this backend.
-       OntoramaConfig.ontologyRoot = null;
-       OntoramaConfig.sourceUri = filename;
-       OntoramaConfig.sourcePackageName = _sourcePackageName;
-       OntoramaConfig.setParserPackageName(parserName);
-       
-    	System.out.println("FileBackend::parserName = " + parserName);
+        _parserName = mapping.getParserName();
+    
+    	System.out.println("FileBackend::parserName = " + _parserName);
        
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        _eventBroker.processEvent(queryEvent);
@@ -179,6 +174,32 @@ public class FileBackend implements Backend {
 			}
 		}
 		return null;
+	}
+	
+	
+
+	/**
+	 * @see ontorama.backends.Backend#getParser()
+	 */
+	public String getParser() {
+		return _parserName;
+	}
+	
+	
+
+	/**
+	 * @see ontorama.backends.Backend#getSourcePackageName()
+	 */
+	public String getSourcePackageName() {
+		return _sourcePackageName;
+	}
+
+
+	/**
+	 * @see ontorama.backends.Backend#getSourceUri()
+	 */
+	public String getSourceUri() {
+		return _filename;
 	}
 
 }

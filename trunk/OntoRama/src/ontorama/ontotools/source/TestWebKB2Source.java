@@ -7,6 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
@@ -67,8 +68,9 @@ public class TestWebKB2Source extends TestCase {
     protected void setUp() throws Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
-        sourceUri = OntoramaConfig.sourceUri;
+    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();                
+        backend.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
+        sourceUri = backend.getSourceUri();
         webkbSource = new WebKB2Source();
     }
 

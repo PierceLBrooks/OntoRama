@@ -4,7 +4,7 @@
         <!--<source uri="http://www.webkb.org/bin/termSearch.cgi"-->
         <!--<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"-->
 	  <source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi"
-            				sourcePackagePathSuffix="WebKB2Source"/>
+            				sourcePackagePathSuffix="ontorama.ontotools.source.WebKB2Source"/>
     </example>
 
 
@@ -13,42 +13,42 @@
     </example>
 
     <example name="Wordnet: cat" root="wn#Cat" dataFormatMapping="RDF" loadOnStart="yes">
-        <source uri="examples/wn_cat.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/wn_cat.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Wordnet: feline" root="wn#Feline" dataFormatMapping="RDF">
-        <source uri="examples/wn_feline.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/wn_feline.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Wordnet: tail" root="wn#Tail" dataFormatMapping="RDF">
-        <source uri="examples/wn_tail.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/wn_tail.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Wordnet: carnivore" root="wn#Carnivore" dataFormatMapping="RDF">
-        <source uri="examples/wn_carnivore.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/wn_carnivore.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Wordnet: celestial body" root="wn#CelestialBody" dataFormatMapping="RDF">
-        <source uri="examples/wn_celestial_body.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/wn_celestial_body.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Metanet" root="rdf-schema#Resource" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/metanet-2.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/metanet-2.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
     <example name="Wordnet: LexicalConcept" root="LexicalConcept" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/wordnet-20000620.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/wordnet-20000620.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
     <example name="Core Communication" root="#Message" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/CoreCommunication.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/CoreCommunication.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
     <example name="Schemas" root="dctype#Text" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/Schemas.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/Schemas.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
@@ -61,18 +61,18 @@
 	-->
 
     <example name="Research Organisation" root="#ROOT_CLASS" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/ResearchOrganizations.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/ResearchOrganizations.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
     <example name="Schema for Research Information System " root="Contact" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/cerif.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/cerif.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
 
     <example name="International Movies Database" root="#IMdb" dataFormatMapping="RDF">
-        <source uri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 
@@ -87,19 +87,19 @@
 	<!--
     <example name="Elephants (export from Oiled)" root="animal">
         <source uri="examples/web-examples/elephants-export.rdfs"
-                sourcePackagePathSuffix="JarSource"/>
+                sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 	-->
 
 
     <example name="Ontorama Xml Test" root="root" dataFormatMapping="XML">
-        <source uri="examples/ontorama-test.xml" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/ontorama-test.xml" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Test Cases"/>
     </example>
 
     <example name="testCase" root="test#Chair" dataFormatMapping="RDF">
-        <source uri="examples/test/data/testCase.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/test/data/testCase.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Test Cases"/>
     </example>
 

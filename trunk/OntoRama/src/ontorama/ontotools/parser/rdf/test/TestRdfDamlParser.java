@@ -9,6 +9,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
@@ -70,6 +71,8 @@ public class TestRdfDamlParser extends TestCase {
 
     private Source source;
     private Parser parser;
+    
+    private ExamplesBackend backend;
 
 
     /**
@@ -85,10 +88,12 @@ public class TestRdfDamlParser extends TestCase {
     protected void setUp() throws Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
+                
+        backend = (ExamplesBackend) OntoramaConfig.getBackend();
+        backend.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
-        source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+        source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
 
         parser = new RdfDamlParser();
         buildResult(parser, r);
@@ -123,10 +128,10 @@ public class TestRdfDamlParser extends TestCase {
             SourceException, CancelledQueryException {
 
         OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 1");
-        OntoramaConfig.setCurrentExample(testCaseToLoad);
+        backend.setCurrentExample(testCaseToLoad);
 
-        source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+        source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);
@@ -143,10 +148,10 @@ public class TestRdfDamlParser extends TestCase {
             SourceException, CancelledQueryException {
 
         OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 2");
-        OntoramaConfig.setCurrentExample(testCaseToLoad);
+        backend.setCurrentExample(testCaseToLoad);
 
-        source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+        source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);

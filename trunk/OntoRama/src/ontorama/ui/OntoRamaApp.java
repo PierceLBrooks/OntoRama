@@ -30,6 +30,7 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.gui.*;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
@@ -320,17 +321,17 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         });
 
         if (!OntoramaConfig.loadBlank()) {
-            _progressBar.setIndeterminate(true);
-            if ((OntoramaConfig.ontologyRoot.equals("null"))
-                || (OntoramaConfig.ontologyRoot.length() == 0)) {
-                _query = new Query();
-            } else {
-                _query =
-                    new Query(
-                        OntoramaConfig.ontologyRoot,
-                        OntoramaConfig.getEdgeTypesList());
-            }
-            _modelEventBroker.processEvent(new QueryStartEvent(_query));
+//            _progressBar.setIndeterminate(true);
+//            if ((OntoramaConfig.ontologyRoot.equals("null"))
+//                || (OntoramaConfig.ontologyRoot.length() == 0)) {
+//                _query = new Query();
+//            } else {
+//                _query =
+//                    new Query(
+//                        OntoramaConfig.ontologyRoot,
+//                        OntoramaConfig.getEdgeTypesList());
+//            }
+//            _modelEventBroker.processEvent(new QueryStartEvent(_query));
         }
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -374,7 +375,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             configFilePath,
             ontoramaPropertiesPath,
             examplesConfigFilePath);
-        OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
+        //OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
         new OntoRamaApp();
     }
     
@@ -417,7 +418,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _fileMenu.setMnemonic(KeyEvent.VK_F);
         _fileMenu.add(_exitAction);
 
-        _examplesMenu = new ExamplesMenu(_modelEventBroker);
+        //_examplesMenu = new ExamplesMenu(_modelEventBroker);
 
         _historyMenu = new HistoryMenu(_modelEventBroker);
 
@@ -425,7 +426,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _helpMenu.add(_aboutAction);
 
         _menuBar.add(_fileMenu);
-        _menuBar.add(_examplesMenu);
+        //_menuBar.add(_examplesMenu);
         _menuBar.add(_historyMenu);
 
         JMenu backendsMenu = new JMenu("Backends");
@@ -500,9 +501,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _hyperView.repaint();
         _treeView.repaint();
         _splitPane.repaint();
-        _examplesMenu.setSelectedExampleMenuItem(
-            OntoramaConfig.getCurrentExample());
-        _historyMenu.appendHistory(_query, OntoramaConfig.getCurrentExample());
+        //_examplesMenu.setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
+        //_historyMenu.appendHistory(_query, OntoramaConfig.getCurrentExample());
         repaint();
     }
 

@@ -70,7 +70,7 @@ public class HistoryMenu extends JMenu {
             HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
             // get corresponding example
             OntoramaExample example = historyElement.getExample();
-            OntoramaConfig.setCurrentExample(example);
+            //OntoramaConfig.setCurrentExample(example);
             // get graph for this query and load it into app
             _eventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
             //setSelectedMenuItem(historyItem);
@@ -140,6 +140,7 @@ public class HistoryMenu extends JMenu {
      *
      */
     public void appendHistory(Query query, OntoramaExample example) {
+    	System.out.println("HistoryMenu:: query = " + query + ", example = " + example);
 
         String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
 

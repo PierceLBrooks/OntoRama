@@ -24,7 +24,6 @@ import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.conf.XmlConfigParser;
 import ontorama.conf.examplesConfig.OntoramaExample;
-import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
 import ontorama.model.graph.NodeTypeImpl;
@@ -37,38 +36,6 @@ import ontorama.ui.ErrorPopupMessage;
 /**
  */
 public class OntoramaConfig {
-
-    /**
-     * URI for Ontology Source. It can be file or URL to CGI script.
-     * If file is used - it is important to formulate correct URI,
-     * for example:
-     * file:/H:/devel/OntoRama/test/wn_cat-children_rdf.html
-     * for file H:/devel/OntoRama/test/wn_cat-children_rdf.html
-     */
-    public static String sourceUri;
-
-    /**
-     * default ontology root
-     */
-    public static String ontologyRoot = null;
-
-    /**
-     * Source Package Name
-     * Specify source implementation to use
-     */
-    public static String sourcePackageName;
-
-    /**
-     * Specify Parser to use with queryOutputFormat.
-     * All parsers should have ontorama.ontotools.parser as root
-     * and implement Parser iterface.
-     */
-    public static String parserPackageName;
-
-    /**
-     * where to find source package
-     */
-    private static final String sourcePackagePathPrefix = "ontorama.ontotools.source";
 
 
     private static Hashtable edgesConfig;
@@ -119,7 +86,7 @@ public class OntoramaConfig {
 	 */
 	public static boolean EDIT_ENABLED;
 	
-    private static JarSource streamReader = new JarSource();;
+    public static JarSource streamReader = new JarSource();;
 
     private static Properties properties = new Properties();
 
@@ -131,6 +98,10 @@ public class OntoramaConfig {
     public static NodeType CONCEPT_TYPE;
     public static NodeType RELATION_TYPE;
     public static NodeType UNKNOWN_TYPE;
+    
+    
+    public static String examplesConfigLocation = "examplesConfig.xml";
+    public static final String examplesBackendPackageName = "ontorama.backends.examplesmanager.ExamplesBackend";
 
 	/// @todo not sure if this should be static - need to check
 	private static Backend _activeBackend;
@@ -160,9 +131,7 @@ public class OntoramaConfig {
 
         buildDefaultNodeTypes();
         
-        loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
-    	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.examplesmanager.ExamplesBackend", null);
-    	OntoramaConfig.activateBackend(_defaultBackend);
+        loadAllConfig(examplesConfigLocation, "ontorama.properties", "config.xml");
         System.out.println("--------- end of config--------------");
     }
 
@@ -181,7 +150,7 @@ public class OntoramaConfig {
             loadPropertiesFile(propertiesFileLocation);
         	loadDataFormatsConfig("dataFormatsConfig.xml");
             loadConfiguration(configFileLocation);
-            loadExamples(examplesConfigLocation);
+            OntoramaConfig.examplesConfigLocation = examplesConfigLocation;
         }
         catch (SourceException sourceExc) {
             sourceExc.printStackTrace();
@@ -205,22 +174,6 @@ public class OntoramaConfig {
 		DataFormatConfigParser config = new DataFormatConfigParser(inStream);
 		_dataFormatsMappingList = config.getDataFormatMappings();
 	}
-
-
-
-    private static void loadExamples(String examplesConfigLocation)
-            throws SourceException, ConfigParserException, IOException {
-        // loading examples
-        if (VERBOSE) {
-            System.out.println("loading examples");
-        }
-        InputStream examplesConfigStream = streamReader.getInputStreamFromResource(examplesConfigLocation);
-        XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
-        examplesList = examplesConfig.getExamplesList();
-        mainExample = examplesConfig.getMainExample();
-
-        setCurrentExample(mainExample);
-    }
 
     /**
      * load properties from ontorama.properties file
@@ -299,53 +252,6 @@ public class OntoramaConfig {
         return relationRdfMapping;
     }
 
-    public static List getExamplesList() {
-        return examplesList;
-    }
-
-    /**
-     * @todo should all OntoramaConfig variables be public? or should they
-     *   have setters and getters? (sourceUri, ontologyRoot, queryOutputFormat)
-     */
-    public static void setCurrentExample(OntoramaExample example) {
-        OntoramaConfig.mainExample = example;
-        OntoramaConfig.sourceUri = example.getRelativeUri();
-        setParserPackageName(example.getDataFormatMapping().getParserName());
-        setSourcePackageName(example.getSourcePackagePathSuffix());
-        OntoramaConfig.ontologyRoot = example.getRoot();
-    }
-
-    /**
-     * @todo this approach is a hack to make distillery work. need to rethink whole process
-     */
-    public static void overrideExampleRootAndUrl (String root, String url) {
-        OntoramaConfig.sourceUri = url;
-        OntoramaConfig.ontologyRoot = root;
-        System.out.println("Overriden sourceUri = " + OntoramaConfig.sourceUri + ", root = " + OntoramaConfig.ontologyRoot);
-        OntoramaConfig.mainExample.setRoot(root);
-        OntoramaConfig.mainExample.setRelativeUri(url);
-    }
-
-    public static String getParserPackageName() {
-        return parserPackageName;
-    }
-
-    public static void setParserPackageName(String parserPackagePath) {
-        parserPackageName = parserPackagePath;
-    }
-
-    public static String getSourcePackageName() {
-        return sourcePackageName;
-    }
-
-
-    public static void setSourcePackageName(String sourcePackagePathSuffixStr) {
-        sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
-    }
-
-    public static OntoramaExample getCurrentExample() {
-        return OntoramaConfig.mainExample;
-    }
 
     public static List getEdgeTypesList() {
         return OntoramaConfig.edgeTypesList;

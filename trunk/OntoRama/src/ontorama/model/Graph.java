@@ -123,12 +123,12 @@ public class Graph implements GraphInterface {
           // clean up
           removeUnconnectedEdges();
 
-          System.out.println("...root = " + root);
+          debug.message("graph , root = " + root);
 
           if (! processedNodes.containsKey(termName)) {
              throw new NoTypeFoundInResultSetException(termName);
           }
-          debug.message("graph builder, num of nodes = " + processedNodes.size());
+          debug.message("graph , num of nodes = " + processedNodes.size());
 
           debug.message("Graph","constructor","before convertIntoTree testIfTree(): " + testIfTree(root));
           debug.message("Graph","constructor","before convertIntoTree number of nodes: " + getNodesList().size());
@@ -234,7 +234,6 @@ public class Graph implements GraphInterface {
       }
       debug.message("number of Edges = " + Edge.edges.size());
       debug.message("root = " + root);
-      System.out.println("...number of Edges = " + Edge.edges.size());
     }
 
     /**

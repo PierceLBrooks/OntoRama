@@ -28,15 +28,11 @@ public class P2PJMenu extends JMenu {
     private P2PBackend _p2pBackend;
     private Frame _parentFrame;
 
-    private static boolean p2pEnabled = false;
-
     private static final String _menuName = "P2P";
 
-    private Action _enableP2PAction;
     private Action _searchAction;
     private Action _joinGroupAction;
     private Action _leaveGroupAction;
-    private Action _updatePanelAction;
     private Action _resetChangePanelAction;
     
     public P2PJMenu (P2PBackend p2pBackend) {
@@ -64,7 +60,7 @@ public class P2PJMenu extends JMenu {
         
     }
    
-    private void setActionsEnabled (boolean isEnabled) {
+    private void setActionsEnabled (boolean actionIsEnabled) {
 //    	_searchAction.setEnabled(isEnabled);
 //    	_joinGroupAction.setEnabled(isEnabled);
 //    	_leaveGroupAction.setEnabled(isEnabled);

@@ -2,11 +2,16 @@ package ontorama.view;
 
 import ontorama.controller.QueryEvent;
 import ontorama.model.Node;
+import ontorama.model.NodeType;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
+import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.ImageMaker;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -50,8 +55,13 @@ public class NodesListViewer extends JComboBox {
         addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
-                String selectedNodeName = (String) cb.getSelectedItem();
-                nodeIsSelectedAction(selectedNodeName);
+                Object selectedObject = cb.getSelectedItem();
+                if (selectedObject instanceof String) {
+                    return;
+                }
+                Node selectedNode = (Node) selectedObject;
+                System.out.println("\n\nsending new QueryEvent");
+                _eventBroker.processEvent(new QueryEvent(selectedNode));
             }
         });
         setListSizeDependantProperties();
@@ -64,16 +74,14 @@ public class NodesListViewer extends JComboBox {
      */
     public void setNodesList (List nodes) {
         _nodesList = nodes;
-
         removeAllItems();
         addItem(_defaultHeadingString);
-
         setListSizeDependantProperties();
-
-        Iterator it = sortList().iterator();
+        sortList();
+        Iterator it = _nodesList.iterator();
         while (it.hasNext()) {
-            String curName = (String) it.next();
-            addItem(curName);
+            Node curNode = (Node) it.next();
+            addItem(curNode);
         }
     }
 
@@ -106,34 +114,11 @@ public class NodesListViewer extends JComboBox {
     }
 
     /**
-     * things we need to do when one of list items is selected.
-     * @param selectedNodeName
-     */
-    private void nodeIsSelectedAction(String selectedNodeName) {
-        if (selectedNodeName == _defaultHeadingString) {
-            return;
-        }
-
-        Node selectedNode = null;
-        Iterator it = _nodesList.iterator();
-        while (it.hasNext()) {
-            Node node = (Node) it.next();
-            if (node.getName().equals(selectedNodeName)) {
-                selectedNode = node;
-            }
-        }
-        System.out.println("\n\nsending new QueryEvent");
-        _eventBroker.processEvent(new QueryEvent(selectedNode));
-    }
-
-    /**
      * sort list of nodes in ascending alphabetic order
      * (algorithm is taken from the website http://www.bus.utexas.edu/~plummer/sorting.ppt )
-     * @return sorted list of nodes
      */
-    private List sortList()  {
+    private void sortList()  {
         int j;
-        List nodeNamesList = new LinkedList();
         boolean atLeastOneSwap=true;
         while(atLeastOneSwap) {
             atLeastOneSwap = false;
@@ -151,21 +136,35 @@ public class NodesListViewer extends JComboBox {
                 }
             }
         }
-
-        Iterator it = _nodesList.iterator();
-        while (it.hasNext()) {
-            Node node = (Node) it.next();
-            nodeNamesList.add(node.getName());
-        }
-        return nodeNamesList;
     }
 
-    class ListRenderer extends JLabel
-                           implements ListCellRenderer {
+    class ListRenderer extends JLabel implements ListCellRenderer {
+
+        private Hashtable _nodeTypeToImageMapping = new Hashtable();
+        private ImageIcon _defaultImage;
+        private ImageIcon _noImage;
+
         public ListRenderer() {
             setHorizontalAlignment(LEFT);
             setVerticalAlignment(CENTER);
+
+            /// @todo copied this from ontotree renderer. need a unified way to get these
+            // images from all viewers.
+            int iconW = ImageMaker.getWidth();
+            int iconH = ImageMaker.getHeight();
+
+            Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
+            while (nodeTypesIterator.hasNext()) {
+                NodeType nodeType = (NodeType) nodeTypesIterator.next();
+                Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
+                ImageIcon image = makeNodeIcon(iconW/2, iconH, color, Color.black);
+                _nodeTypeToImageMapping.put(nodeType, image);
+            }
+            _defaultImage = makeNodeIcon(iconW/2, iconH, Color.white, Color.black);
+            _noImage = makeNodeIcon(iconW/2, iconH, getBackground(), getBackground());
         }
+
+
         public Component getListCellRendererComponent(
                                         JList list,
                                         Object value,
@@ -174,12 +173,55 @@ public class NodesListViewer extends JComboBox {
                                         boolean cellHasFocus) {
 
 
-            String valueStr = (String) value;
-            setText(valueStr);
-            setToolTipText(valueStr);
+            if (value instanceof String ) {
+                String valueStr = (String) value;
+                setText(valueStr);
+                setToolTipText(valueStr);
+                setIcon(_noImage);
+                return this;
+            }
+            else {
+                Node node = (Node) value;
+                setText(node.getName());
+                NodeType nodeType = node.getNodeType();
+                setToolTipText(nodeType.getNodeType());
+                if (nodeType != null) {
+                    ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
+                    setIcon(image);
+                }
+                else {
+                    setIcon(_defaultImage);
+                }
+            }
             return this;
         }
     }
+
+    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor) {
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D g2 = image.createGraphics();
+
+        g2.setColor(getBackground());
+        g2.fillRect(0, 0, width, height);
+        g2.drawRect(0, 0, width, height);
+
+        int ovalSize = width - (width * 12) / 100;
+        int ovalX = 0;
+        int ovalY = (height - ovalSize) / 2;
+        g2.setColor(color);
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+        g2.fill(circle);
+        g2.setColor(outlineColor);
+        g2.draw(circle);
+
+        return (new ImageIcon(image));
+    }
+
 
 
 }

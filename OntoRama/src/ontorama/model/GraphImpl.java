@@ -584,11 +584,13 @@ public class GraphImpl implements Graph {
      * @todo error checking seems a bit stupid ;) maybe don't need this exception at all?...
      */
     public void addNode (Node node) throws GraphModificationException {
+        /*
         List inboundEdges = getInboundEdges(node);
         List outboundEdges = getOutboundEdges(node);
         if ( (inboundEdges.size() == 0) && (outboundEdges.size() == 0) ) {
             throw new AddUnconnectedNodeIsDisallowedException(node);
         }
+        */
         if (_graphNodes.contains(node)) {
             throw new NodeAlreadyExistsException(node);
         }

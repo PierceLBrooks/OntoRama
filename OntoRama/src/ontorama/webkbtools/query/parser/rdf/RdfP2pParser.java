@@ -156,7 +156,6 @@ public class RdfP2pParser implements Parser {
         resBindIterator = resBindList.iterator();
         while (resBindIterator.hasNext()) {
             ResultBinding cur = (ResultBinding) resBindIterator.next();
-//            System.out.println("***");
             System.out.println(cur.getValue(subject1VariableName) + " -> " + cur.getValue(predicate1VariableName) + " -> " + cur.getValue("x"));
             System.out.println(cur.getValue("x") + " -> " + cur.getValue(predicate2VariableName) + " -> " + cur.getValue(object2VariableName));
             mapTripleIntoGraphModel(cur.getValue(subject1VariableName).toString(),cur.getValue(predicate1VariableName).toString(),cur.getValue("x").toString());

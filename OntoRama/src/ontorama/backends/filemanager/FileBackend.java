@@ -12,6 +12,8 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.util.GraphModificationException;
+import ontorama.model.events.GraphChangedEvent;
+import ontorama.model.Graph;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
@@ -20,6 +22,8 @@ import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.writer.ModelWriter;
 import ontorama.webkbtools.writer.ModelWriterException;
 import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
+import ontorama.controller.QueryEvent;
+import ontorama.controller.GeneralQueryEvent;
 
 import javax.swing.*;
 
@@ -108,7 +112,13 @@ public class FileBackend implements Backend{
             RdfDamlParser parser = new RdfDamlParser();
             ParserResult parserResult = parser.getResult(reader);
 			graph.add(parserResult);
-           
+           //new GraphChangedEvent(graph);
+           //eventBroker.processEvent(new QueryEvent(sdsf));
+           GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query("wn#Cat"));
+           System.out.println("querEvent = " + queryEvent);
+           eventBroker.processEvent(queryEvent);
+
+
         } catch (FileNotFoundException e) {
             System.out.println("The file was not found");
             System.err.println("Error the file was not found");

@@ -1,6 +1,7 @@
 package ontorama.backends.filemanager;
 
 import ontorama.OntoramaConfig;
+import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -46,14 +47,14 @@ public class FileJMenu extends JMenu {
     }
 
     private void openFile () {
-        int returnValue = _fileChooser.showOpenDialog(null);
+        int returnValue = _fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             _fileBackend.loadFile(_fileChooser.getSelectedFile().getAbsolutePath());
         }
     }
 
     private void saveFile () {
-        int returnValue = _fileChooser.showSaveDialog(null);
+        int returnValue = _fileChooser.showSaveDialog(OntoRamaApp.getMainFrame());
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             _fileBackend.saveFile(_fileChooser.getSelectedFile().getAbsolutePath());
         }

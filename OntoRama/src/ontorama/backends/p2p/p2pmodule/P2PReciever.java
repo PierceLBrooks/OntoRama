@@ -27,7 +27,6 @@ import ontorama.webkbtools.util.ParserException;
  * <b>Company:</b>          DSTC<br>
  * 
  * TODO handle the exception better
- * TODO change to correct spelling of method names, e.g. reciever
  */
 
 public class P2PReciever implements P2PRecieverInterface{
@@ -57,25 +56,22 @@ public class P2PReciever implements P2PRecieverInterface{
     public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
             switch (TAG){
                     case P2PReciever.TAGPROPAGATEINIT:
-                          this.receiveInit(senderPeerID,senderPeerID, senderGroupID,internalModel);
+                          this.recieveInit(senderPeerID,senderPeerID, senderGroupID,internalModel);
                           break;
 
                     case P2PReciever.TAGPROPAGATEDELETE:
                         //Add the change to the panel showing made changes
-                        //Todo the string tobe shown could include what has been deleted
                         changes.addChange(internalModel, senderPeerName);
                         break;     
                              
                     case P2PReciever.TAGPROPAGATEUPDATE:
                         //Add the change to the panel showing made changes
-                        //Todo the string tobe shown could include what has been deleted
-                        changes.addChange(internalModel, senderPeerName);    
+                        changes.addChange(internalModel, senderPeerName);
                         break;
                                             
                     case P2PReciever.TAGPROPAGATEADD:
                         //Add the change to the panel showing made changes
-                        //Todo the string tobe shown could include what has been deleted
-                        changes.addChange(internalModel, senderPeerName); 
+                        changes.addChange(internalModel, senderPeerName);
                         break;
                 case P2PReciever.TAGPROPAGATELEAVEGROUP:
                     //Remove the peer from the group
@@ -93,7 +89,7 @@ public class P2PReciever implements P2PRecieverInterface{
     }
     
 	public void recieveSearchRequest(String senderPeerID, String query){
-		System.out.println("Received a search request, query:" + query);
+		System.out.println("Recieved a search request, query:" + query);
 		backend.searchRequest(senderPeerID, query);
            
     }
@@ -107,13 +103,13 @@ public class P2PReciever implements P2PRecieverInterface{
 			backend.getP2PGraph().add(parserResult);
 
         } catch (ParserException e) {
-            System.err.println("Error in receiveSearchResponse");
+            System.err.println("Error in recieveSearchResponse");
             e.printStackTrace();
 		} catch (GraphModificationException e) {
-            System.err.println("Error in receiveSearchResponse");
+            System.err.println("Error in recieveSearchResponse");
             e.printStackTrace();
 		} catch (NoSuchRelationLinkException e) {
-            System.err.println("Error in receiveSearchResponse");
+            System.err.println("Error in recieveSearchResponse");
             e.printStackTrace();
         }
     
@@ -126,7 +122,7 @@ public class P2PReciever implements P2PRecieverInterface{
 
 
     //Help classes
-	private void receiveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
+	private void recieveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
     	try{ 
         	//Add the new host to the panel showing connected peers
 			activePeers.addPeer(senderPeerID, senderPeerName, senderGroupID);

@@ -129,6 +129,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
      * Notify GraphNode that it has focus.
      */
     public void hasFocus() {
+        System.out.println("HyperNode hasFocus()");
         graphNode.hasFocus();
     }
 

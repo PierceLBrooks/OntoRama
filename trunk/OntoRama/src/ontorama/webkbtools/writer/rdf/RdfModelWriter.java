@@ -169,6 +169,7 @@ public class RdfModelWriter implements ModelWriter {
     protected Property getPropertyForEdgeType (EdgeType edgeType, Hashtable edgeTypesToRdfMapping) throws RDFException {
         RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
         String rdfTag = (String) rdfMapping.getRdfTags().get(0);
+        System.out.println("edgeType namespace = " + edgeType.getNamespace() + ", rdfTag = " + rdfTag);
         Property predicate = new PropertyImpl(edgeType.getNamespace() + rdfTag);
         return predicate;
     }

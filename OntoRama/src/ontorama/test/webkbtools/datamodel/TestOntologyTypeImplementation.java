@@ -186,7 +186,8 @@ public class TestOntologyTypeImplementation extends TestCase {
    *
    */
   public void testGetFullName() {
-    assertEquals("type full name", typeFullName, ontType.getFullName());
+    assertEquals("full name for ontType", typeFullName, ontType.getFullName());
+    assertEquals("full name for type1", "type1", type1.getFullName());
   }
 
   /**

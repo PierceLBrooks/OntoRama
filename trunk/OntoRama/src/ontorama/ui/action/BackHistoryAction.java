@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenuItem;
 
 import ontorama.ui.HistoryMenu;
 import ontorama.ui.events.DisplayHistoryItemEvent;
@@ -49,7 +49,7 @@ public class BackHistoryAction extends AbstractAction {
     public void actionPerformed(ActionEvent parm1) {
         int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
         int backInd = indexOfCur - 1;
-        JCheckBoxMenuItem backItem = HistoryMenu.getMenuItem(backInd);
+    	JMenuItem backItem = HistoryMenu.getMenuItem(backInd);
         _eventBroker.processEvent(new DisplayHistoryItemEvent(backItem));
     }
 

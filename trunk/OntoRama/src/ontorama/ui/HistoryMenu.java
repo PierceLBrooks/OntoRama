@@ -8,14 +8,17 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 
-import ontorama.OntoramaConfig;
 import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.ui.events.QueryStartEvent;
-import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -63,16 +66,17 @@ public class HistoryMenu extends JMenu {
 
     public Action _backAction;
     public Action _forwardAction;
+    
+    private ButtonGroup _buttonGroup;
 
     private class DisplayHistoryItemEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
             JMenuItem menuItem = (JMenuItem) event.getSubject();
-            JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) menuItem;
+        	JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
             HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
             // get graph for this query and load it into app
             _eventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
-            //setSelectedMenuItem(historyItem);
-            enableBackForwardButtons();
+            //enableBackForwardButtons();
         }
     }
 
@@ -86,6 +90,7 @@ public class HistoryMenu extends JMenu {
         _historyItems = new LinkedList();
         _backAction = new BackHistoryAction(_eventBroker);
         _forwardAction = new ForwardHistoryAction(_eventBroker);
+        _buttonGroup = new ButtonGroup();
 
         _eventBroker.subscribe(new DisplayHistoryItemEventHandler(), DisplayHistoryItemEvent.class, JMenuItem.class);
         new LoggingEventListener(_eventBroker,DisplayHistoryItemEvent.class,Object.class,System.out);
@@ -117,78 +122,82 @@ public class HistoryMenu extends JMenu {
 
         // set enabled/disabled
         enableBackForwardButtons();
-
         addSeparator();
     }
 
     /**
-     * Append history menu with new example
-     *
-     * Assumptions:	we are assuming that each example would correspond to
-     * a query with ALL relation links.
+     * Update history menu: if given query is a query not stored in history
+     * items list - append history list. Otherwise - jump to the history
+     * item correponding to this query.
      */
-    public void appendHistory(String termName) {
-    	Backend backend = OntoramaConfig.getBackend();
-        Query query = new Query(termName, OntoramaConfig.getEdgeTypesList(), backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
-        appendHistory(query);
-    }
-
-
-    /**
-     * Append history menu with new example
-     *
-     */
-    public void appendHistory(Query query) {
-    	System.out.println("\nHistoryMenu:: appendHistory() for query = " + query + ", term = " + query.getQueryTypeName());
-    	Iterator it = _historyItems.iterator();
-		while (it.hasNext()) {
-			JCheckBoxMenuItem element = (JCheckBoxMenuItem) it.next();
-			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(element);
-			Query historyQuery = historyElement.getQuery();
-			System.out.println("--- " + historyQuery + ", term = " + historyQuery.getQueryTypeName());
-			if (query.equals(historyQuery)) {
-				System.out.println("don't need to append - rather jump to that history item");
-			}
+    public void updateHistory(Query query) {
+    	JRadioButtonMenuItem historyItem;
+		if ( (historyItem=findIfQueryAlreadyExists(query)) != null) {
+			//setSelectedMenuItem(historyItem);
+			historyItem.setSelected(true);
 		}
-
-        String historyItemLabelName = query.getQueryTypeName();
-
-        String historyItemToolTipText = historyItemLabelName;
-        if (query.getDepth() > -1) {
-            historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
-        }
-        historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
-
-
-        if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
-            JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) _historyItems.getFirst();
-            _historyItems.removeFirst();
-            _menuItemHistoryMapping.remove(firstMenuItem);
-            remove(firstMenuItem);
-        }
-
-        HistoryElement historyElement = new HistoryElement(historyItemLabelName, query);
-
-        JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
-        historyItem.setToolTipText(historyItemToolTipText);
-        setSelectedMenuItem(historyItem);
-        _menuItemHistoryMapping.put(historyItem, historyElement);
-        _historyItems.add(historyItem);
-        historyItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) e.getSource();
-                _eventBroker.processEvent(new DisplayHistoryItemEvent(historyItem));
-            }
-        });
-        add(historyItem);
+		else {
+			appendHistory(query);			
+		}
         enableBackForwardButtons();
     }
 
+	/**
+	 * Append history with given query
+	 */
+	public void appendHistory(Query query) {
+		System.out.println("HistoryMenu::appendHistory for query " + query);
+		
+		String historyItemLabelName = query.getQueryTypeName();
+		
+		String historyItemToolTipText = historyItemLabelName;
+		if (query.getDepth() > -1) {
+		    historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
+		}
+		historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
+			
+		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
+		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.getFirst();
+		    _historyItems.removeFirst();
+		    _menuItemHistoryMapping.remove(firstMenuItem);
+		    remove(firstMenuItem);
+		}
+		
+		HistoryElement historyElement = new HistoryElement(historyItemLabelName, query);
+		
+		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyItemLabelName);
+		_buttonGroup.add(historyItem);
+		historyItem.setToolTipText(historyItemToolTipText);
+		historyItem.setSelected(true);
+		_menuItemHistoryMapping.put(historyItem, historyElement);
+		_historyItems.add(historyItem);
+		historyItem.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) e.getSource();
+		        _eventBroker.processEvent(new DisplayHistoryItemEvent(historyItem));
+		    }
+		});
+		add(historyItem);
+	}
+
+	public JRadioButtonMenuItem findIfQueryAlreadyExists(Query query) {
+		Iterator it = _historyItems.iterator();
+		while (it.hasNext()) {
+			JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) it.next();
+			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+			Query historyQuery = historyElement.getQuery();
+			if (query.equals(historyQuery)) {
+				return historyItem;
+			}
+		}
+		return null;
+	}
+
     /**
      *
      */
-    public static JCheckBoxMenuItem getMenuItem(int index) {
-        return (JCheckBoxMenuItem) _historyItems.get(index);
+    public static JRadioButtonMenuItem getMenuItem(int index) {
+        return (JRadioButtonMenuItem) _historyItems.get(index);
     }
 
     /**
@@ -199,10 +208,10 @@ public class HistoryMenu extends JMenu {
      *        if there is more then one items selected - return
      *        the first one.
      */
-    private static JCheckBoxMenuItem getSelectedHistoryMenuItem() {
+    private static JRadioButtonMenuItem getSelectedHistoryMenuItem() {
         Enumeration e = _menuItemHistoryMapping.keys();
         while (e.hasMoreElements()) {
-            JCheckBoxMenuItem cur = (JCheckBoxMenuItem) e.nextElement();
+            JRadioButtonMenuItem cur = (JRadioButtonMenuItem) e.nextElement();
             if (cur.isSelected()) {
                 return cur;
             }
@@ -214,7 +223,7 @@ public class HistoryMenu extends JMenu {
      *
      */
     public static int getIndexOfSelectedHistoryMenuItem() {
-        JCheckBoxMenuItem curSelectedItem = getSelectedHistoryMenuItem();
+        JRadioButtonMenuItem curSelectedItem = getSelectedHistoryMenuItem();
         if (curSelectedItem == null) {
             return (-1);
         }
@@ -236,20 +245,5 @@ public class HistoryMenu extends JMenu {
         } else {
             _forwardAction.setEnabled(true);
         }
-    }
-
-    /**
-     * will only work for menu items that are JCheckBoxMenuItem's
-     */
-    protected static void setSelectedMenuItem(JCheckBoxMenuItem selectItem) {
-        // first deselect previously selected item
-        Enumeration enum = _menuItemHistoryMapping.keys();
-        while (enum.hasMoreElements()) {
-            JCheckBoxMenuItem curItem = (JCheckBoxMenuItem) enum.nextElement();
-            curItem.setSelected(false);
-        }
-
-        // select given item
-        selectItem.setSelected(true);
     }
 }

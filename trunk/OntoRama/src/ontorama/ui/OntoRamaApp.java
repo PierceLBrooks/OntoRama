@@ -494,7 +494,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _hyperView.repaint();
         _treeView.repaint();
         _splitPane.repaint();
-        _historyMenu.appendHistory(_query);
+        _historyMenu.updateHistory(_query);
         repaint();
     }
 

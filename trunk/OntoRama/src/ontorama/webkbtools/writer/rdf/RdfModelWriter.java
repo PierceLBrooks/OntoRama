@@ -8,12 +8,15 @@ import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RdfMapping;
 
 import java.io.Writer;
+import java.io.StringWriter;
+import java.io.IOException;
 import java.util.*;
 
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
+import com.hp.hpl.mesa.rdf.jena.common.prettywriter.PrettyWriter;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDF;
 
@@ -50,13 +53,42 @@ public class RdfModelWriter implements ModelWriter {
 
         try {
             Model rdfModel = toRDFModel();
-            rdfModel.write(out);
+//            PrettyWriter prettyWriter = new PrettyWriter();
+//            prettyWriter.write(rdfModel, out, null);
+
+//            rdfModel.write(out);
+            StringWriter stringWriter = new StringWriter();
+            rdfModel.write(stringWriter);
+            String string = stringWriter.toString();
+            StringTokenizer tok = new StringTokenizer(string);
+            while (tok.hasMoreElements()) {
+                String token = (String) tok.nextElement();
+                System.out.println(token);
+                System.out.println("match: " + token.matches("rdf:Description"));
+
+
+            }
+            System.out.println("\nstring = " + string);
+
+            System.out.println("match: " + string.matches("rdf:Description"));
+
+            string.replaceAll("rdf:Description","rdfs:Class");
+            System.out.println("\nstring = " + string);
+
+            out.write(string);
+
+
+
         } catch (RDFException rdfExc) {
             rdfExc.printStackTrace();
             throw new ModelWriterException("Couldn't create RDF model " + rdfExc.getMessage());
         } catch (NoSuchRelationLinkException relExc) {
             relExc.printStackTrace();
             throw new ModelWriterException(relExc.getMessage());
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+            throw new ModelWriterException("couldn't write output stream: " + ioe.getMessage());
         }
 
     }
@@ -75,7 +107,7 @@ public class RdfModelWriter implements ModelWriter {
         while (edgesIterator.hasNext()) {
             Edge curEdge = (Edge) edgesIterator.next();
             Node fromNode = curEdge.getFromNode();
-            Resource subject = getResource(fromNode, rdfModel);
+            Resource subject = getResource(fromNode);
             EdgeType edgeType = curEdge.getEdgeType();
             RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
             String rdfTag = (String) rdfMapping.getRdfTags().get(0);
@@ -89,13 +121,13 @@ public class RdfModelWriter implements ModelWriter {
                     rdfModel.add(subject, predicate, curEdge.getToNode().getName());
                 }
                 else {
-                    Resource object = getResource(curEdge.getToNode(), rdfModel);
+                    Resource object = getResource(curEdge.getToNode());
                     rdfModel.add(subject, predicate, object);
                 }
                 _processedNodes.add(fromNode);
             }
             else if (rdfMapping.getType().equals(edgeType.getReverseEdgeName())) {
-                Resource object = getResource(curEdge.getToNode(), rdfModel);
+                Resource object = getResource(curEdge.getToNode());
                 rdfModel.add(object, predicate, subject);
                 _processedNodes.add(curEdge.getToNode());
             }
@@ -133,15 +165,11 @@ public class RdfModelWriter implements ModelWriter {
         return result;
     }
 
-    private Resource getResource(Node node, Model model) throws RDFException {
+    private Resource getResource(Node node) {
         if (_nodeToResource.containsKey(node)) {
             return (Resource) _nodeToResource.get(node);
         } else {
-            Resource resource = model.createResource();
-            model.add(resource, RDF.type, RDFS.Class);
-//              model.addStatement(res, RDF.type, RDFS.Class);
-
-//            Resource resource = new ResourceImpl(node.getIdentifier());
+            Resource resource = new ResourceImpl(node.getIdentifier());
             _nodeToResource.put(node, resource);
             return resource;
         }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<footer>
+      <hr/>
+      <table align="center" border="0" class="footer">
+         <tr>
+            <td cellspacing="30" cellpadding="30"><a href="http://www.dstc.edu.au">
+                  <div class="dstcLogo"><img src="http://www.webkb.org/ontorama/img/dstcLogo.png" border="0" alt="DSTC Logo"/></div></a></td>
+            <td width="40"> </td>
+            <td cellspacing="30" cellpadding="30"><a href="http://www.int.gu.edu.au/kvo/">
+                  <div class="kvoLogo"><img src="http://www.webkb.org/ontorama/img/kvo-logo.gif" border="0" alt="KVO Logo"/></div></a></td>
+            <td width="40"> </td>
+            <td cellspacing="30" cellpadding="30"><a href="http://xweb.sourceforge.net">
+                  					Made with XWeb
+                  					
+                  					</a></td>
+         </tr>
+      </table>
+</footer>

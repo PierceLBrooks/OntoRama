@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.ImageIcon;
 import javax.swing.AbstractAction;
 import javax.swing.Action;

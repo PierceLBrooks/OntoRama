@@ -198,7 +198,7 @@ public class OntoRamaApp extends JFrame {
         /**
          * Create OntoTreeView
          */
-        treeView = new OntoTreeView(graph, viewListener);
+        treeView = new OntoTreeView(viewListener);
 
         /**
          * Create HyperView

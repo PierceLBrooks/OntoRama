@@ -111,9 +111,9 @@ public class Graph implements GraphInterface {
     /**
      * Returns and iterator of nodes.
      */
-    public Iterator iterator() {
-        return treeNodes.iterator();
-    }
+//    public Iterator iterator() {
+//        return treeNodes.iterator();
+//    }
 
     /**
      * Return collection of nodes

@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import javax.swing.tree.TreeNode;
 
 import ontorama.model.Graph;
+import ontorama.model.Edge;
 import ontorama.model.GraphNode;
 
 /**
@@ -37,19 +38,41 @@ public class OntoTreeBuilder {
      */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
-        graphToOntoTree();
+        Iterator outboundEdges = Edge.getOutboundEdges(graph.getEdgeRootNode());
+        while (outboundEdges.hasNext()) {
+            Edge edge = (Edge) outboundEdges.next();
+            graphToOntoTree(graph.getEdgeRootNode(), edge.getType());
+        }
+        //graphToOntoTree(graph.getEdgeRootNode());
     }
 
     /**
      * Convert each GraphNode to OntoTreeNode
      */
-    private void graphToOntoTree() {
-        Iterator it = this.graph.iterator();
-        while (it.hasNext()) {
-            GraphNode curNode = (GraphNode) it.next();
-            TreeNode treeNode = new OntoTreeNode (curNode);
-            ontoHash.put(curNode,treeNode);
+    private void graphToOntoTree(GraphNode top, int relLink) {
+        OntoTreeNode ontoTreeNode = new OntoTreeNode (top);
+        ontoTreeNode.setRelLink(relLink);
+        ontoHash.put(top,ontoTreeNode);
+
+        Iterator outboundEdges = Edge.getOutboundEdges(top);
+        while (outboundEdges.hasNext()) {
+            Edge edge = (Edge) outboundEdges.next();
+            GraphNode toGraphNode = (GraphNode) edge.getToNode();
+            graphToOntoTree(toGraphNode, edge.getType());
         }
+
+//        Iterator outboundNodes = Edge.getOutboundEdgeNodes(top);
+//        while (outboundNodes.hasNext()) {
+//            GraphNode gn = (GraphNode) outboundNodes.next();
+//            graphToOntoTree(gn);
+//        }
+
+//        Iterator it = this.graph.iterator();
+//        while (it.hasNext()) {
+//            GraphNode curNode = (GraphNode) it.next();
+//            TreeNode treeNode = new OntoTreeNode (curNode);
+//            ontoHash.put(curNode,treeNode);
+//        }
     }
 
     /**
@@ -61,6 +84,7 @@ public class OntoTreeBuilder {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
     }
+
     /**
      * Get Iterator of TreeNodes for this tree
 	 * @param	-
@@ -69,4 +93,9 @@ public class OntoTreeBuilder {
     public Iterator getIterator () {
         return (ontoHash.values()).iterator();
     }
+
+    /**
+     *
+     */
+
 }

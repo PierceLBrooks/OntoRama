@@ -75,8 +75,11 @@ public class OntoTreeModel implements TreeModel {
       * @return the root of the tree
       */
     public Object getRoot() {
-        GraphNode rootGraphNode = this.graph.getRootNode();
+        //GraphNode rootGraphNode = this.graph.getRootNode();
+        GraphNode rootGraphNode = this.graph.getEdgeRootNode();
         debug.message("OntoTreeModel","getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
+        System.out.println("OntoTreeModel, getRoot(), root graphNode = " + rootGraphNode);
+        System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         return this.ontoTreeBuilder.getTreeNode(rootGraphNode);
     }
 
@@ -103,6 +106,7 @@ public class OntoTreeModel implements TreeModel {
       * @return the number of children of the node parent
       */
       public int getChildCount(Object parent) {
+        System.out.println("ontoTreeModel, getChildCount for node " + (TreeNode)parent);
         return ((TreeNode) parent).getChildCount();
       }
 
@@ -116,6 +120,7 @@ public class OntoTreeModel implements TreeModel {
        */
        public boolean isLeaf(Object node) {
             TreeNode treeNode = (OntoTreeNode) node;
+            System.out.println("ontoTreeModel isLeaf for node = " + treeNode);
             return treeNode.isLeaf();
        }
 

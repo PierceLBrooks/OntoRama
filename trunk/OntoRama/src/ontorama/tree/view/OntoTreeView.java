@@ -6,12 +6,17 @@ import java.util.Iterator;
 import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
+import java.awt.Color;
+import java.awt.Component;
+
+import ontorama.ontologyConfig.*;
 
 import ontorama.model.Graph;
 
@@ -61,6 +66,8 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
         //Listen for when the selection changes.
         this.tree.addTreeSelectionListener(this);
 
+        this.tree.setCellRenderer(new MyRenderer());
+
         this.treeView = new JScrollPane(tree);
         tree.putClientProperty("JTree.lineStyle", "Angled");
     }
@@ -109,5 +116,83 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             ontoTreeNode.addOntoObserver(this);
         }
     }
+
+    private class MyRenderer extends DefaultTreeCellRenderer {
+        //ImageIcon tutorialIcon;
+        Color color1 = Color.gray;
+        Color color2 = Color.pink;
+
+        public MyRenderer() {
+            //tutorialIcon = new ImageIcon("images/middle.gif");
+        }
+
+        public Component getTreeCellRendererComponent(
+                            JTree tree,
+                            Object value,
+                            boolean sel,
+                            boolean expanded,
+                            boolean leaf,
+                            int row,
+                            boolean hasFocus) {
+
+            super.getTreeCellRendererComponent(
+                            tree, value, sel,
+                            expanded, leaf, row,
+                            hasFocus);
+            setBackgroundNonSelectionColor(isChild(value));
+            setBackgroundSelectionColor(isChild(value));
+            //if (leaf && isChild(value)) {
+//            if (isChild(value)) {
+//                setBackgroundNonSelectionColor(color1);
+//                setBackgroundSelectionColor(color2);
+//                //setIcon(tutorialIcon);
+//                setToolTipText("This book is in the Tutorial series.");
+//            } else {
+//                setToolTipText(null);
+//            }
+
+            return this;
+        }
+
+        protected Color isChild (Object value) {
+            OntoTreeNode treeNode = (OntoTreeNode) value;
+            int relLink = treeNode.getRelLink();
+            RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
+            Color color = relLinkDetails.getDisplayColor();
+            return color;
+
+//            String treeNodeStr = treeNode.getGraphNode().getName();
+//            System.out.println("......treeNodeStr = " + treeNodeStr);
+//            if (treeNodeStr.startsWith("node")) {
+//                System.out.println("startsWith(node)");
+//                return Color.yellow;
+//            }
+//            else if (treeNodeStr.startsWith("syn")) {
+//                System.out.println("startsWith(syn)");
+//                return Color.red;
+//            }
+//            else if (treeNodeStr.startsWith("part")) {
+//                System.out.println("startsWith(part)");
+//                return Color.blue;
+//            }
+//
+//
+//            return Color.white;
+        }
+
+//        protected boolean isTutorialBook(Object value) {
+//            DefaultMutableTreeNode node =
+//                    (DefaultMutableTreeNode)value;
+//            BookInfo nodeInfo =
+//                    (BookInfo)(node.getUserObject());
+//            String title = nodeInfo.bookName;
+//            if (title.indexOf("Tutorial") >= 0) {
+//                return true;
+//            }
+//
+//            return false;
+//        }
+    }
+
 }
 

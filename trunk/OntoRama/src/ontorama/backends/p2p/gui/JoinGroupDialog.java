@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
@@ -36,7 +36,7 @@ public class JoinGroupDialog extends JDialog {
 
     private static final String _title = "Join P2P Group";
 
-    private P2PSender _p2pSender;
+    private P2PBackend _p2pBackend;
 
     private GroupChooser _existingGroupPanel;
     private JPanel _newGroupPanel;
@@ -49,13 +49,13 @@ public class JoinGroupDialog extends JDialog {
     private int _selectedOption;
     private SearchGroupResultElement _value = null;
 
-    public JoinGroupDialog(Frame parent, P2PSender p2pSender)  {
+    public JoinGroupDialog(Frame parent, P2PBackend p2pBackend)  {
         super(parent, _title, true);
 
-        _p2pSender = p2pSender;
+        _p2pBackend = p2pBackend;
         Vector foundGroups = new Vector();
         try {
-            foundGroups = _p2pSender.sendSearchGroup(null, null);
+            foundGroups = _p2pBackend.getSender().sendSearchGroup(null, null);
         }
         catch (Exception e) {
             /// @todo deal with exceptions propertly
@@ -150,8 +150,8 @@ public class JoinGroupDialog extends JDialog {
                 _selectedOption = JoinGroupDialog.OPTION_NEW_GROUP;
                 try {
                     System.out.println("attempting to create new group with name " + input + " and description: " + _newGroupDescrField.getText());
-                    _p2pSender.sendCreateGroup(input,_newGroupDescrField.getText());
-                    Vector resVector = _p2pSender.sendSearchGroup("Name",input);
+                    _p2pBackend.getSender().sendCreateGroup(input,_newGroupDescrField.getText());
+                    Vector resVector = _p2pBackend.getSender().sendSearchGroup("Name",input);
                     /// @todo probably should handle whole vector, not just one element.
                     if ( resVector.isEmpty()) {
                         return false;
@@ -174,7 +174,7 @@ public class JoinGroupDialog extends JDialog {
         try {
             String groupId = group.getID().toString();
             System.out.println("trying to join group id " + groupId);
-            _p2pSender.sendJoinGroup(groupId);
+            _p2pBackend.getSender().sendJoinGroup(groupId);
         } catch (GroupExceptionNotAllowed e) {
             new ErrorPopupMessage("Error: " + e.getMessage(), this);
             System.out.println("ERROR:");

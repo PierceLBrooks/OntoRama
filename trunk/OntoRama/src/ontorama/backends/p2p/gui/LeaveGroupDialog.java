@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import net.jxta.peergroup.PeerGroup;
-import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.P2PBackend;
 
 
 /*
@@ -27,16 +27,16 @@ public class LeaveGroupDialog extends JDialog {
 
     private static final String _title = "Leave P2P Group";
 
-    private P2PSender _p2pSender;
+    private P2PBackend _p2pBackend;
 
-    public LeaveGroupDialog(Frame parent, P2PSender p2pSender)  {
+    public LeaveGroupDialog(Frame parent, P2PBackend p2pBackend)  {
         super(parent, _title, true);
-        _p2pSender = p2pSender;
+        _p2pBackend = p2pBackend;
 
         Vector foundGroups = new Vector();
         try {
             //foundGroups = _p2pSender.sendSearchGroup(null, null);
-            foundGroups = _p2pSender.joinedGroups();
+            foundGroups = _p2pBackend.getSender().joinedGroups();
             System.out.println("joined groups: ");
             Iterator it = foundGroups.iterator();
             while (it.hasNext()) {
@@ -66,7 +66,7 @@ public class LeaveGroupDialog extends JDialog {
                 System.out.println("trying to leave group: name = " + selectedGroup.getPeerGroupName() + ", id = " + groupId);
                 try {
 
-                    _p2pSender.sendLeaveGroup(groupId);
+                    _p2pBackend.getSender().sendLeaveGroup(groupId);
                 }
                 catch (Exception exc) {
                     /// @todo handle exception properly!

@@ -16,6 +16,7 @@ import javax.swing.JPopupMenu;
 import ontorama.OntoramaConfig;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
+import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.views.hyper.view.HyperNodeView;
@@ -65,13 +66,9 @@ public class NodeContextMenuHandler implements EventBrokerListener {
         menuItem = new JMenuItem("Delete node");
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                Tree tree = _simpleHyperView.getTree();
-//                TreeNode treeNode = nodeView.getTreeNode();
-//                tree.removeNode(treeNode);
-//                for (Iterator iterator = treeNode.getClones().iterator(); iterator.hasNext();) {
-//                    TreeNode clone = (TreeNode) iterator.next();
-//                    tree.removeNode(clone);
-//                }
+                Tree tree = _simpleHyperView.getTree();
+                TreeNode treeNode = nodeView.getTreeNode();
+                tree.removeNode(treeNode);
             }
         });
         menu.add(menuItem);

@@ -125,13 +125,16 @@ public class TreeNodeImpl implements TreeNode {
     }
 
     public void removeChild(TreeNode childNode, TreeEdge childEdge) {
+    	ChildNodeReference refToRemove = null;
         Iterator it = _children.iterator();
         while (it.hasNext()) {
         	ChildNodeReference cur = (ChildNodeReference) it.next();
         	if ( (cur.node.equals(childNode)) && (cur.edge.equals(childEdge)) ) {
-        		_children.remove(cur);
+        		refToRemove = cur;
         	}
         }
+        
+        _children.remove(refToRemove);
     }
 
 	public void setParent(TreeNode parent) {

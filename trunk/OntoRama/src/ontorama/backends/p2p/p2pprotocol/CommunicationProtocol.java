@@ -150,5 +150,5 @@ public interface CommunicationProtocol {
 	 * @todo not sure if this belongs here at all
 	 * @author nataliya
 	 */
-	public void sendSearchAllPeers () throws GroupExceptionThread, IOException;
+	public Vector sendSearchAllPeers () throws GroupExceptionThread, IOException;
 }

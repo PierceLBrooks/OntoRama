@@ -453,14 +453,9 @@ public class CommunicationGroup  {
 											null,null,	10);
 			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
 													null,null);
-			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
 			while (e.hasMoreElements()){
-				Object obj = e.nextElement();
-				System.out.println("obj = " + obj);
-				PeerAdvertisement cur = (PeerAdvertisement) obj;
+				PeerAdvertisement cur = (PeerAdvertisement) e.nextElement();
 				ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
-				System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
-			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
 			  	result.addElement(element);
 			}
 		}

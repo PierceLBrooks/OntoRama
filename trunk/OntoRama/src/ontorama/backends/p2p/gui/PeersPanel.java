@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.gui;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -48,8 +49,8 @@ public class PeersPanel extends JPanel  implements GroupView {
     
     private P2PBackend _p2pBackend;
     
-    private ItemReference _globalGroupReferenceElement;
-    
+    private GroupPanel _globalGroupPanel;
+       
     public PeersPanel(P2PBackend backend) {
         super();
         _p2pBackend = backend;
@@ -87,6 +88,11 @@ public class PeersPanel extends JPanel  implements GroupView {
 
         _cardPanel.setBorder(BorderFactory.createEtchedBorder());
         
+		_globalGroupPanel = new GroupPanel("Global Net Group");
+        JPanel tempGlobalGroupPanel = new JPanel();
+        tempGlobalGroupPanel.add(_globalGroupPanel);
+        tempGlobalGroupPanel.setBorder(BorderFactory.createEtchedBorder());
+        
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
@@ -98,12 +104,14 @@ public class PeersPanel extends JPanel  implements GroupView {
 			}
         	
         });
-
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(new JLabel("Groups "));
         add(_comboBox);
         add(_cardPanel);
+        add(new JLabel("All active peers:"));
+        add(tempGlobalGroupPanel);
         add(refreshButton);
 
     }
@@ -126,6 +134,10 @@ public class PeersPanel extends JPanel  implements GroupView {
         groupPanel.addPeer(peerId, peerName);
         groupPanel.repaint();
         repaint();
+    }
+    
+    public void addPeerInGlobalList (String peerId, String peerName) {
+		_globalGroupPanel.addPeer(peerId, peerName);
     }
 
     public void removePeer(String senderPeerID, String groupID) {
@@ -158,7 +170,6 @@ public class PeersPanel extends JPanel  implements GroupView {
     public void clear() {
         _groupToPanelMapping.clear();
         _groupsComboBoxModel.removeAllElements();
-        addGroup(_globalGroupReferenceElement);
         repaint();
     }
 
@@ -167,22 +178,40 @@ public class PeersPanel extends JPanel  implements GroupView {
         DefaultListModel listModel = new DefaultListModel();
         JList jlist;
         Hashtable _peerIdToPeerNameMapping = new Hashtable();
-        ItemReference group;
+        String groupName;
+		JScrollPane scrollPanel;
+		Dimension scrollPanelSize;
 
         public GroupPanel(ItemReference group) {
-        	this.group =  group;
-            setName(group.getName().toString());
-
-            jlist = new JList(listModel);
-
-            JScrollPane scrollPanel = new JScrollPane(jlist);
-            add(scrollPanel);
+			this(group.getName());
         }
         
+		public GroupPanel(String groupName) {
+			super();
+			this.groupName = groupName;
+        	
+			setName(groupName);
+
+			jlist = new JList(listModel);
+
+			scrollPanel = new JScrollPane(jlist);
+			System.out.println("\njllist size = " + jlist.getSize() + 
+							", pref size = " + jlist.getPreferredSize() + 
+							", min size = " + jlist.getMinimumSize() + 
+							", max size = " + jlist.getMaximumSize());
+			jlist.setSize(jlist.getPreferredSize());
+
+			scrollPanelSize = scrollPanel.getPreferredSize();
+			System.out.println("\nscrollPanel size = " + scrollPanel.getSize() + 
+							", pref size = " + scrollPanel.getPreferredSize() + 
+							", min size = " + scrollPanel.getMinimumSize() + 
+							", max size = " + scrollPanel.getMaximumSize());
+			scrollPanel.setSize(scrollPanel.getPreferredSize());							
+			add(scrollPanel);
+		}
 
         public void addPeer (String peerID, String peerName) {
-        	System.out.println("PeersPanel::GroupPanel::addPeer, panel = " + group.getName() +
-        					", group id = " + group.getID() +  
+        	System.out.println("PeersPanel::GroupPanel::addPeer, panel = " + groupName +
 							"\n\t peerName = " + peerName + ", peerId = " 
 							+ peerID );
             if (!peersList.contains(peerID)) {
@@ -207,6 +236,14 @@ public class PeersPanel extends JPanel  implements GroupView {
                 repaint();
             }
         }
+        
+//        public void repaint() {
+//			super.repaint();
+//        	if (scrollPanel != null) {
+//				scrollPanel.setSize(scrollPanelSize);
+//				System.out.println("\nrepaint(); scrollPanel size " + scrollPanel.getSize() + "\n");							
+//        	}
+//        }
         
     }
 }

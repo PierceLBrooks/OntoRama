@@ -121,6 +121,11 @@
         </java>
     </target>
 
+    <target name="runP2P">
+        <java fork="yes" classname="ontorama.ui.OntoRamaApp" classpathref="project.class.path">
+            <arg line="config.xml ontorama.p2p.properties examplesConfig.xml"/>
+        </java>
+    </target>
 
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>

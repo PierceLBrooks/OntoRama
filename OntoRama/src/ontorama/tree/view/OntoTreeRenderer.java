@@ -116,7 +116,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 			setIcon (_nodeImageIcon);
 		}
 		else if (treeNode.getGraphNode().hasClones()) {
-			System.out.println("clone: " + treeNode);
+			//System.out.println("clone: " + treeNode);
 			setIcon(getIcon(relLinkInt, true));
 		}
 		else {
@@ -132,6 +132,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 	 */
 	protected Icon getIcon (int relLinkInt, boolean isClone) {
 		Image nodeImage = null;
+		
 		if (isClone) {
 			nodeImage = makeImageForRelLink(relLinkInt, true);
 		}
@@ -238,12 +239,22 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         g2.fillRect(0, 0, width, height);
         g2.drawRect(0, 0, width, height);
 		
-    	int ovalSize = width;
+    	int ovalSize = width - (width*12)/100;
     	int ovalX = 0;
-    	int ovalY = (height - width)/2;
-    	System.out.println("\n\novalSize = " + ovalSize + ", height = " + height);
+    	int ovalY = (height - ovalSize)/2;
+    	//System.out.println("\n\novalSize = " + ovalSize + ", height = " + height);
+    	
         g2.setColor(color);
-        g2.fillOval(ovalX, ovalY, ovalSize, ovalSize);      
+        //g2.fillOval(ovalX, ovalY, ovalSize, ovalSize);   
+        
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+        g2.fill(circle);
+
+        //Ellipse2D circleOutline = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);       
+        g2.setColor(Color.black);
+        g2.draw(circle);
 		
         return (new ImageIcon(image));
     }    

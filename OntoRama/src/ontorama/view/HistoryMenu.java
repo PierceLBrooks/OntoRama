@@ -19,6 +19,7 @@ import javax.swing.Action;
 
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+
 import ontorama.view.action.*;
 
 /**
@@ -56,12 +57,6 @@ public class HistoryMenu extends JMenu {
    */
   private static LinkedList _historyItems;
 
-
-  /**
-   *
-   */
-  private static OntoRamaMenu _ontoramaMenu;
-
   /**
    *
    */
@@ -70,9 +65,8 @@ public class HistoryMenu extends JMenu {
   /**
    * @todo  shouldn't pass reference to ontoramaMenu and mainApp
    */
-  public HistoryMenu(OntoRamaMenu ontoramaMenu, OntoRamaApp mainApp) {
+  public HistoryMenu( OntoRamaApp mainApp) {
     super("History");
-    _ontoramaMenu = ontoramaMenu;
     _mainApp = mainApp;
     _menuItemHistoryMapping = new Hashtable();
     _historyItems = new LinkedList();
@@ -141,14 +135,6 @@ public class HistoryMenu extends JMenu {
 
   }
 
-//  /**
-//   *
-//   */
-//  public HistoryElement getHistoryElement (int index) {
-//    JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) _historyItems.get(index);
-//    return (HistoryElement) _menuItemHistoryMapping.get(menuItem);
-//  }
-
   /**
    *
    */
@@ -158,7 +144,7 @@ public class HistoryMenu extends JMenu {
 
 
   /**
-   * @todo fix commented out
+   *
    */
   public static void displayHistoryItem (JCheckBoxMenuItem historyItem) {
 
@@ -169,13 +155,13 @@ public class HistoryMenu extends JMenu {
 
     //JCheckBoxMenuItem correspondingExampleMenuItem = _ontoramaMenu.findExampleMenuItem(example);
 
-    boolean querySuccessfull = _ontoramaMenu.executeQuery(historyElement.getTermName(), example);
+    boolean querySuccessfull = _mainApp.executeQueryForGivenExample(historyElement.getTermName(), example);
     if (!querySuccessfull) {
       return;
     }
 
     // select corresponding example
-    _ontoramaMenu.setSelectedExampleMenuItem(example);
+    _mainApp.setSelectedExampleMenuItem(example);
     setSelectedMenuItem(historyItem);
     enableBackForwardButtons();
   }

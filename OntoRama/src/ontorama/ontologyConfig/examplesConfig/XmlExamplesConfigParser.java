@@ -84,6 +84,9 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
       Attribute relativeUriAttr = sourceElement.getAttribute("relativeUri");
       checkCompulsoryAttr(relativeUriAttr,"relativeUri","source");
 
+      Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
+      checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
+
       Element queryOutputFormatElement = element.getChild("queryOutputFormat");
       if (queryOutputFormatElement == null) {
         throw new ConfigParserException("Missing compulsory element 'queryOutputFormat' in element 'example'");
@@ -94,22 +97,15 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
         throw new ConfigParserException("Missing compulsory element 'parserPackagePathSuffixElement' in element 'example'");
       }
 
+
       OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
                               relativeUriAttr.getValue(), queryOutputFormatElement.getText(),
-                              parserPackagePathSuffixElement.getText());
+                              parserPackagePathSuffixElement.getText(), sourcePackagePathSuffixAttr.getValue());
       if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
         this.mainExample = example;
         example.setLoadFirst(true);
       }
       this.examplesList.add(example);
-
-//      OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
-//                              relativeUriAttr.getValue(), queryOutputFormatElement.getText(),
-//                              parserPackagePathSuffixElement.getText());
-//      this.examplesList.add(example);
-//      if ( (loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes")) ) {
-//        this.mainExample = example;
-//      }
 
       Element displayMenuElement = element.getChild("displayMenu");
       //System.out.println("element name = " + nameAttr.getValue() + ", displayMenuElement = " + displayMenuElement);

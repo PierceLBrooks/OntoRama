@@ -30,6 +30,7 @@ public class TypeQueryImplementation extends TypeQueryBase {
 
         try {
             Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+            //System.out.println("\ngetTypeRelative: OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri + ", source = " + source);
             Reader r = source.getReader(OntoramaConfig.sourceUri);
 
             iterator = parser.getOntologyTypeIterator(r);

@@ -25,19 +25,6 @@ import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 
 /**
- * @todo    Implement different method to introduce relation links:
- *      rather then having them hardcoded in this class -
- *      read from a config file, for example:
- *      <ontology>
- *          <relation id="1">
- *              <>supertype</>
- *              <>subtype</>
- *          </relation>
- *          .....
- *      </ontology>
- *      <map>
- *          <map from="<" to="^" />
- *      </map>
  */
 public class OntoramaConfig {
 
@@ -92,12 +79,6 @@ public class OntoramaConfig {
     /**
      *
      */
-    //private static final String configsDirLocation = "./classes";
-    private static final String configsDirLocation = "./";
-
-    /**
-     *
-     */
     private static RelationLinkDetails[] allRelationsArray;
 
     /**
@@ -127,7 +108,7 @@ public class OntoramaConfig {
      /**
       * Get current classloader
       */
-      private static Class curClass;
+     private static Class curClass;
      private static ClassLoader classLoader;
 
 
@@ -136,18 +117,22 @@ public class OntoramaConfig {
      */
     public static int MAXTYPELINK;
 
-    //private static String propertiesFileLocation = configsDirLocation + "/ontorama.properties";
-    //private static String xmlConfigFileLocation = configsDirLocation + "/config.xml";
-
-
     // things needed for java webstart
     //
     private static URL propertiesFileLocation;
     private static URL xmlConfigFileLocation;
 
+    /**
+     * examples list
+     */
     private static List examplesList;
-    private static OntoramaExample mainExample;
 
+    /**
+     * example that is currently loaded in the app
+     * (first on the startup. later on - this var is set to
+     * a currently running example).
+     */
+    private static OntoramaExample mainExample;
 
     /**
      * debug
@@ -162,6 +147,7 @@ public class OntoramaConfig {
      * description and creator hardcoded.
      */
      static {
+        System.out.println("---------config--------------");
 
         try {
             curClass = Class.forName("ontorama.OntoramaConfig");
@@ -172,74 +158,37 @@ public class OntoramaConfig {
             System.exit(-1);
         }
 
-
         Properties properties = new Properties();
-
-        //propertiesFileLocation = classLoader.getResource("ontorama.properties");
-    	//xmlConfigFileLocation = classLoader.getResource("config.xml");
-
-        //Properties properties = new Properties(System.getProperties());
         try {
-          //FileInputStream propertiesFileIn = new FileInputStream (propertiesFileLocation);
 
-          //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
-          InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
 
+          // loading examples
+          System.out.println("loading examples");
+          //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
+          InputStream examplesConfigStream = getInputStreamFromResource("examplesConfig.xml");
+          XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
+          examplesList = examplesConfig.getExamplesList();
+          mainExample = examplesConfig.getMainExample();
+
+          // overwrite sourceUri, ontologyRoot, etc
+          ///@todo  fix this later!!!
+          setCurrentExample(mainExample);
+
+          //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
+          InputStream propertiesFileIn = getInputStreamFromResource("ontorama.properties");
           properties.load(propertiesFileIn);
-
-          sourceUri = properties.getProperty("sourceUri");
-          ontologyRoot = properties.getProperty("ontologyRoot");
-          queryOutputFormat = properties.getProperty("queryOutputFormat");
-          parserPackagePathSuffix = properties.getProperty ("parserPackagePathSuffix");
-          sourcePackagePathSuffix = properties.getProperty ("sourcePackagePathSuffix");
           DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
+          //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
+          InputStream configInStream = getInputStreamFromResource("config.xml");
 
-          //parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
-          //sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
+          XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
+          allRelationsArray = xmlConfig.getRelationLinksArray();
+          MAXTYPELINK = allRelationsArray.length;
+          relationLinksSet = buildRelationLinksSet (allRelationsArray);
+          relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
-          System.out.println("sourceUri = " + sourceUri);
-
-
-        }
-        catch (Exception e) {
-          System.err.println("Unable to read properties file in");
-          System.err.println("Exception: " + e);
-          System.exit(1);
-        }
-
-        try {
-            //FileInputStream configInStream = new FileInputStream(configsDirLocation + "/config.xml");
-
-            //FileInputStream configInStream = new FileInputStream(xmlConfigFileLocation);
-            //InputStream configInStream = xmlConfigFileLocation.openConnection().getInputStream();
-            //InputStream configInStream = classLoader.getResourceAsStream("config.xml");
-            InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
-            //System.out.println("input stream = " + configInStream.getClass());
-
-            XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
-            allRelationsArray = xmlConfig.getRelationLinksArray();
-            MAXTYPELINK = allRelationsArray.length;
-            relationLinksSet = buildRelationLinksSet (allRelationsArray);
-            relationRdfMapping = xmlConfig.getRelationRdfMappingList();
-
-            conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
-            conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
-            //xmlConfig.printConceptPropertiesRdfMapping();
-
-            // loading examples
-            System.out.println("loading examples");
-            InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
-            XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
-            examplesList = examplesConfig.getExamplesList();
-            mainExample = examplesConfig.getMainExample();
-
-            // overwrite sourceUri, ontologyRoot, etc
-            ///@todo  fix this later!!!
-            setCurrentExample(mainExample);
-            //sourceUri = mainExample.getRelativeUri();
-            //ontologyRoot = mainExample.getRoot();
-            //queryOutputFormat = mainExample.getQueryOutputFormat();
-            //parserPackagePathSuffix = mainExample.getParserPackagePathSuffix();
+          conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
+          conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
         }
         catch (IOException ioe) {
           System.err.println("Unable to read xml configuration file");
@@ -255,24 +204,18 @@ public class OntoramaConfig {
             System.err.println("ArrayIndexOutOfBoundsException: " + arrayExc);
             System.exit(-1);
         }
-        //parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
-        setParserPackageName(parserPackagePathSuffix);
-        sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
-
-        System.out.println("---------config--------------");
-        System.out.println("sourceUri = " + sourceUri);
-        System.out.println("ontologyRoot = " + ontologyRoot);
-        System.out.println("queryOutputFormat = " + queryOutputFormat);
-        System.out.println("DEBUG = " + DEBUG);
-        System.out.println("parserPackageName = " + getParserPackageName());
-        System.out.println("sourcePackageName = " + sourcePackageName);
-        /*
-        for (int i = 0; i < allRelationsArray.length; i++ ) {
-            if ( allRelationsArray[i] != null ) {
-                System.out.println("i = " + i + ", object = " + allRelationsArray[i].getLinkName());
-            }
+        catch (Exception e) {
+          System.err.println("Unable to read properties file in");
+          System.err.println("Exception: " + e);
+          System.exit(1);
         }
-        */
+//        System.out.println("---------config--------------");
+//        System.out.println("sourceUri = " + sourceUri);
+//        System.out.println("ontologyRoot = " + ontologyRoot);
+//        System.out.println("queryOutputFormat = " + queryOutputFormat);
+//        System.out.println("DEBUG = " + DEBUG);
+//        System.out.println("parserPackageName = " + getParserPackageName());
+//        System.out.println("sourcePackageName = " + sourcePackageName);
         System.out.println("--------- end of config--------------");
     }
 
@@ -355,12 +298,18 @@ public class OntoramaConfig {
       OntoramaConfig.mainExample = example;
       OntoramaConfig.sourceUri = example.getRelativeUri();
       setParserPackageName(example.getParserPackagePathSuffix());
+      setSourcePackageName(example.getSourcePackagePathSuffix());
       OntoramaConfig.ontologyRoot = example.getRoot();
       OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
 
+      /*
       System.out.println("setNewExampleDetails:");
       System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
       System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
+      System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
+      System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
+      System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
+      */
      }
 
      /**
@@ -380,12 +329,39 @@ public class OntoramaConfig {
      /**
       *
       */
+     public static String getSourcePackageName () {
+      return sourcePackageName;
+     }
+
+
+     /**
+      *
+      */
+     public static void setSourcePackageName (String sourcePackagePathSuffixStr) {
+      sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
+     }
+
+     /**
+      *
+      */
      public static OntoramaExample getCurrentExample () {
+      /*
       System.out.println("getCurrentExample:");
       System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
       System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
+      System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
+      System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
+      System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
+      */
 
       return OntoramaConfig.mainExample;
+     }
+
+     /**
+      *
+      */
+     public static ClassLoader getClassLoader() {
+      return OntoramaConfig.classLoader;
      }
 
 
@@ -394,11 +370,15 @@ public class OntoramaConfig {
     * @todo	need an exception for an unknown protocol
     * @todo       maybe there is a better way to handle that hack with stripping off protocol and "://" from url
     */
-    private static InputStream getInputStreamFromResource (ClassLoader classLoader,
-                                String resourceName) throws IOException {
+    //public static InputStream getInputStreamFromResource (ClassLoader classLoader,
+    public static InputStream getInputStreamFromResource (String resourceName)
+                                               throws IOException {
 
           InputStream resultStream = null;
-          URL url = classLoader.getResource(resourceName);
+          System.out.println("resourceName = " + resourceName);
+          System.out.println("OntoramaConfig.classLoader = " + OntoramaConfig.classLoader);
+          URL url = OntoramaConfig.classLoader.getResource(resourceName);
+          //URL url = classLoader.getResource(resourceName);
           System.out.println("url = " + url);
 
           if (url.getProtocol().equalsIgnoreCase("jar")) {

@@ -319,9 +319,9 @@ public class OntoRamaApp extends JFrame {
         showErrorDialog(ioExc.getMessage());
       }
       catch (Exception e) {
-          System.err.println("Unable to build graph: " + e);
+          System.err.println();
           e.printStackTrace();
-          showErrorDialog(e.getMessage());
+          showErrorDialog("Unable to build graph: " + e.getMessage());
           //System.exit(-1);
       }
       return graph;
@@ -371,8 +371,9 @@ public class OntoRamaApp extends JFrame {
      *
      */
     public void showErrorDialog (String message) {
+      message = "Sorry, " + message;
       JOptionPane optionPane = new JOptionPane(message,JOptionPane.ERROR_MESSAGE);
-      optionPane.showMessageDialog(this,"Sorry, " + message);
+      optionPane.showMessageDialog(this,message);
     }
 
     /**

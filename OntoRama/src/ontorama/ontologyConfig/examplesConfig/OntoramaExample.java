@@ -44,6 +44,11 @@ public class OntoramaExample {
   private String parserPackagePathSuffix;
 
   /**
+   *
+   */
+  private String sourcePackagePathSuffix;
+
+  /**
    * if need to group examples - can use subfolders in Menu
    */
   private String menuSubfolder;
@@ -57,12 +62,14 @@ public class OntoramaExample {
    *
    */
   public OntoramaExample (String name, String root, String relativeUri,
-                        String queryOutputFormat, String parserPackagePathSuffix) {
+                        String queryOutputFormat, String parserPackagePathSuffix,
+                        String sourcePackagePathSuffix) {
     this.name = name;
     this.root = root;
     this.relativeUri = relativeUri;
     this.queryOutputFormat = queryOutputFormat;
     this.parserPackagePathSuffix = parserPackagePathSuffix;
+    this.sourcePackagePathSuffix = sourcePackagePathSuffix;
   }
 
   /**
@@ -112,6 +119,13 @@ public class OntoramaExample {
    */
   public String getMenuSubfolderName () {
     return this.menuSubfolder;
+  }
+
+  /**
+   *
+   */
+  public String getSourcePackagePathSuffix () {
+    return this.sourcePackagePathSuffix;
   }
 
   /**

@@ -76,6 +76,9 @@ public class OntoTreeView implements KeyListener, MouseListener,
     private MouseEvent curMouseEvent = null;
     private GraphNode curGraphNode = null;
 
+    private boolean cancelExpand = true;
+    private boolean cancelCollapse = true;
+
     /**
      * Constructor
      */
@@ -115,23 +118,25 @@ public class OntoTreeView implements KeyListener, MouseListener,
 
         this.tree.setCellRenderer(new OntoTreeRenderer());
 
+        // fold/unfold all tree nodes depending on GraphNode.getFolded() value
+        Iterator it = ontoTreeModel.getOntoTreeIterator();
+        while (it.hasNext()) {
+          OntoTreeNode node = (OntoTreeNode) it.next();
+          GraphNode curGraphNode = node.getGraphNode();
+          TreePath path = node.getTreePath();
+          if (! curGraphNode.getFoldedState()) {
+            this.tree.expandPath(path);
+            //expandPath(path);
+          }
+        }
+        //cancelCollapse = false;
+        //cancelExpand = false;
+
         this.treeView = new JScrollPane(tree);
         tree.putClientProperty("JTree.lineStyle", "Angled");
+        this.tree.setScrollsOnExpand(true);
 
-//        System.out.println("InputEvent.ALT_GRAPH_MASK = " + InputEvent.ALT_GRAPH_MASK);
-//        System.out.println("InputEvent.ALT_MASK = " + InputEvent.ALT_MASK);
-//        System.out.println("InputEvent.BUTTON1_MASK = " + InputEvent.BUTTON1_MASK);
-//        System.out.println("InputEvent.BUTTON2_MASK = " + InputEvent.BUTTON2_MASK);
-//        System.out.println("InputEvent.BUTTON3_MASK = " + InputEvent.BUTTON3_MASK);
-//        System.out.println("InputEvent.CTRL_MASK = " + InputEvent.CTRL_MASK);
-//        System.out.println("InputEvent.META_MASK = " + InputEvent.META_MASK);
-//        System.out.println("InputEvent.SHIFT_MASK = " + InputEvent.SHIFT_MASK);
-//        System.out.println("MouseEvent.BUTTON1_MASK = " + MouseEvent.BUTTON1_MASK);
-//        System.out.println("MouseEvent.MOUSE_PRESSED = " + MouseEvent.MOUSE_PRESSED);
-//        System.out.println("MouseEvent.MOUSE_CLICKED = " + MouseEvent.MOUSE_CLICKED);
-//        System.out.println("MouseEvent.MOUSE_RELEASED = " + MouseEvent.MOUSE_RELEASED);
-//        System.out.println("AWTEvent.MOUSE_EVENT_MASK = " + AWTEvent.MOUSE_EVENT_MASK);
-//        System.out.println("AWTEvent.MOUSE_MOTION_EVENT_MASK = " + AWTEvent.MOUSE_MOTION_EVENT_MASK);
+        this.tree.repaint();
     }
 
     /**
@@ -168,8 +173,8 @@ public class OntoTreeView implements KeyListener, MouseListener,
      */
     public void treeWillExpand(TreeExpansionEvent e)
                 throws ExpandVetoException {
-      debug.message("Tree-will-expand event detected" + e);
-      System.out.println("Tree-will-expand event detected" + e);
+      debug.message("Tree-will-expand event detected " + e);
+      System.out.println("Tree-will-expand event detected ");
 
       TreePath path = e.getPath();
       if (path == null) {
@@ -177,20 +182,21 @@ public class OntoTreeView implements KeyListener, MouseListener,
         System.out.println("treeWillExpand: path == null");
         return;
       }
+
       OntoTreeNode treeNode = (OntoTreeNode) path.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
+      System.out.println("\n\nthis.tree.isCollapsed(path) = " + this.tree.isCollapsed(path));
+      System.out.println("\n\n treeView is sending toggleEvent to ViewEventListener, node = " + graphNode.getName());
       viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
-      //return;
 
-      boolean cancelExpand = true;
-      if (cancelExpand) {
-          //Cancel expansion.
-          debug.message("Tree expansion cancelled" + e);
-          System.out.println("Tree expansion cancelled" + e);
-          throw new ExpandVetoException(e);
-      }
-      //this.tree.setExpandedState(path,false);
-
+      //boolean cancelExpand = true;
+//      System.out.println("treeWillExpand: cancelExpand = " + cancelExpand);
+//      if (cancelExpand) {
+//          //Cancel expansion.
+//          debug.message("Tree expansion cancelled " + e);
+//          System.out.println("Tree expansion cancelled ");
+//          throw new ExpandVetoException(e);
+//      }
     }
 
     /**
@@ -199,8 +205,8 @@ public class OntoTreeView implements KeyListener, MouseListener,
      */
     public void treeWillCollapse(TreeExpansionEvent e)
                     throws ExpandVetoException {
-      debug.message("Tree-will-collapse event detected" + e);
-      System.out.println("Tree-will-collapse event detected" + e);
+      debug.message("Tree-will-collapse event detected " + e);
+      System.out.println("Tree-will-collapse event detected ");
 
       TreePath path = e.getPath();
       if (path == null) {
@@ -210,17 +216,19 @@ public class OntoTreeView implements KeyListener, MouseListener,
       }
       OntoTreeNode treeNode = (OntoTreeNode) path.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
-
+      System.out.println("\n\nthis.tree.isCollapsed(path) = " + this.tree.isCollapsed(path));
+      System.out.println("\n\n treeView is sending toggleEvent to ViewEventListener, node = " + graphNode.getName());
       viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
       //return;
 
-      boolean cancelCollapse = true;
-      if (cancelCollapse) {
-          //Cancel expansion.
-          debug.message("Tree collapse cancelled" + e);
-          System.out.println("Tree collapse cancelled" + e);
-          throw new ExpandVetoException(e);
-      }
+      //boolean cancelCollapse = true;
+//      System.out.println("treeWillCollapse: cancelCollapse = " + cancelCollapse);
+//      if (cancelCollapse) {
+//          //Cancel expansion.
+//          debug.message("Tree collapse cancelled " + e);
+//          System.out.println("Tree collapse cancelled ");
+//          throw new ExpandVetoException(e);
+//      }
 
     }
 
@@ -283,7 +291,7 @@ public class OntoTreeView implements KeyListener, MouseListener,
       this.MOUSE_IS_PRESSED = true;
       this.pressedMouseButton = e.getModifiers();
 
-      System.out.println("... mouse event = " + e.getModifiers());
+      //System.out.println("... mouse event = " + e.getModifiers());
       /*
       if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
         debug.message("BUTTON1_MASK");
@@ -308,13 +316,13 @@ public class OntoTreeView implements KeyListener, MouseListener,
       */
 
       int selRow = tree.getRowForLocation(e.getX(), e.getY());
-      System.out.println("mousePressed, selRow = " + selRow);
+      //System.out.println("mousePressed, selRow = " + selRow);
       TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
       if (selPath == null) {
         // mouse clicked not on a node, but somewhere else in the tree view
         return;
       }
-      System.out.println("mousePressed, selPath = " + selPath);
+      //System.out.println("mousePressed, selPath = " + selPath);
       OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
       this.curGraphNode = graphNode;
@@ -399,56 +407,71 @@ public class OntoTreeView implements KeyListener, MouseListener,
       }
       TreePath path = treeNode.getTreePath();
       this.tree.setSelectionPath(path);
-
-      //treeNode.setFocus();
-      System.out.println();
+      this.tree.scrollPathToVisible(path);
     }
 
     /**
      *
      */
     public void toggleFold ( GraphNode node) {
-      System.out.println("******* treeView got toggleFold for node " + node.getName());
+      System.out.println("\n\n******* treeView got toggleFold for node " + node.getName());
+      this.tree.repaint();
 
       OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
       if (treeNode == null) {
               return;
       }
       TreePath path = treeNode.getTreePath();
-      int row = this.tree.getRowForPath(path);
-      boolean isExpanded = this.tree.isExpanded(path);
+      System.out.println(".....path = " + path);
+//      int row = this.tree.getRowForPath(path);
+//      boolean isExpanded = this.tree.isExpanded(path);
       boolean isCollapsed = this.tree.isCollapsed(path);
-      System.out.println("this.tree.isExpanded = " + isExpanded);
-      System.out.println("this.tree.isCollapsed = " + isCollapsed);
+//      System.out.println("this.tree.isExpanded = " + isExpanded);
+      System.out.println(".....this.tree.isCollapsed = " + isCollapsed);
 
-//      try {
-        if (!node.getFoldedState()) {
+      boolean isFolded = node.getFoldedState();
+      System.out.println("node.getFoldedState() = " + node.getFoldedState());
+      //if (isCollapsed) {
+      if (isFolded) {
+        expandPath(path);
+      }
+      else {
+        collapsePath(path);
+      }
+      this.tree.scrollPathToVisible(path);
 
-          //if (isExpanded) {
-                  System.out.println("collapsing");
-                  //this.tree.collapseRow(row);
-                  //this.tree.fireTreeWillCollapse(path);
-                  this.tree.fireTreeCollapsed(path);
-          }
-          else {
-                  System.out.println("expanding");
-                  //this.tree.expandRow(row);
-                  //this.tree.fireTreeWillExpand(path);
-                  this.tree.fireTreeExpanded(path);
-          }
-//      }
-//      catch (ExpandVetoException e) {
-//        System.out.println("ExpandVetoException");
-//      }
-     // this.tree.repaint();
-      //this.tree.paintComponents(this.tree.getGraphics());
+        this.tree.repaint();
+    }
+
+    /**
+     *
+     */
+    private void expandPath (TreePath path) {
+      System.out.println(".....expanding");
+      //this.tree.expandPath(path);
+      cancelExpand = false;
+      cancelCollapse = true;
+      this.tree.fireTreeExpanded(path);
+      //this.tree.expandRow(row);
+    }
+
+    /**
+     *
+     */
+    private void collapsePath (TreePath path) {
+        System.out.println(".....collapsing");
+        //this.tree.collapsePath(path);
+        cancelExpand = true;
+        cancelCollapse = false;
+        this.tree.fireTreeCollapsed(path);
+        //this.tree.collapseRow(row);
     }
 
     /**
      *
      */
     public void query ( GraphNode node) {
-      System.out.println("******* treeView got QUERY for node " + node.getName());
+      //System.out.println("******* treeView got QUERY for node " + node.getName());
     }
 
 }

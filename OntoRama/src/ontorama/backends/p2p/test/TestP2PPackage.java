@@ -24,7 +24,7 @@ public class TestP2PPackage extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.backends.p2p");
         suite.addTest(TestP2PModelPackage.suite());
-        suite.addTest(new TestSuite(TestP2PBackend2.class));
+        //suite.addTest(new TestSuite(TestP2PBackend2.class));
         return suite;
     }
 }

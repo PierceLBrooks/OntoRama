@@ -18,12 +18,8 @@ import java.awt.geom.Point2D;
 public class SphereView  extends CanvasItem {
 
     private double _sphereRadius;
-
-    private double _x;
-    private double _y;
-    private double _width;
-    private double _height;
     private Ellipse2D _sphere;
+    private static final Color _color = new Color(244, 244, 244);
 
     public SphereView (double sphereRadius) {
         _sphereRadius = sphereRadius;
@@ -31,15 +27,15 @@ public class SphereView  extends CanvasItem {
     }
 
     private void initSphere () {
-        _x = -_sphereRadius;
-        _y = -_sphereRadius;
-        _width = _sphereRadius*2;
-        _height = _sphereRadius*2;
-        _sphere = new Ellipse2D.Double(_x, _y, _width, _height);
+        double x = -_sphereRadius;
+        double y = -_sphereRadius;
+        double width = _sphereRadius*2;
+        double height = _sphereRadius*2;
+        _sphere = new Ellipse2D.Double(x, y, width, height);
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.setColor(new Color(244, 244, 244));
+        g2d.setColor(_color);
         g2d.fill(_sphere);
     }
 

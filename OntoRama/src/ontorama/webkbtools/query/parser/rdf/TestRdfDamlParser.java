@@ -73,7 +73,8 @@ public class TestRdfDamlParser extends TestCase {
                "ontorama.properties","examples/test/data/testCase-config.xml");
 
     Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-    Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
+    //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
+    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
 
     RdfDamlParser parser = new RdfDamlParser();
     buildResultCollection(parser, r);

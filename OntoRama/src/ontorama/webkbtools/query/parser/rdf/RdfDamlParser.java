@@ -82,6 +82,7 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
+                    System.out.println(s);
                     processStatement(s);
                 }
             }
@@ -90,6 +91,7 @@ public class RdfDamlParser implements Parser {
                 throw secExc;
         }
         catch (RDFException e) {
+            e.printStackTrace();
             throw new ParserException("Error in parsing RDF: " + e.getMessage());
         }
         return ontHash.values();

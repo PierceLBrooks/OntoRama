@@ -23,6 +23,17 @@ import ontorama.webkbtools.util.SourceException;
 
 
 public class JarSource implements Source {
+    /**
+     *  Get a SourceResult from a given location in a jar file.
+     *  This will work for any location relative to Class Loader.
+     *  @param  relativePath  path relative to ClassLoader
+     *  @return SourceResult
+     *  @throws Exception
+     */
+    public SourceResult getSourceResult (String relativePath, Query query) throws SourceException {
+      Reader reader = getReader(relativePath, query);
+      return new SourceResult(true, reader, null);
+    }
 
     /**
      *  Get a Reader from a given location in a jar file.
@@ -30,25 +41,15 @@ public class JarSource implements Source {
      *  @return reader
      *  @throws Exception
      */
-    public Reader getReader (String relativePath, Query query) throws SourceException {
+    private Reader getReader (String relativePath, Query query) throws SourceException {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("relativePath = " + relativePath);
         }
         if (OntoramaConfig.VERBOSE) {
           System.out.println ("class JarSource relativePath = " + relativePath);
         }
-        InputStreamReader reader = null;
-
-//        try {
-          //InputStream stream = OntoramaConfig.getInputStreamFromResource(OntoramaConfig.getClassLoader(),relativePath);
-          //InputStream stream = OntoramaConfig.getInputStreamFromResource(relativePath);
-          InputStream stream = getInputStreamFromResource(relativePath);
-
-          reader = new InputStreamReader(stream);
-//        }
-//        catch (IOException e) {
-//          throw new SourceException("Couldn't read input data source for " + relativePath + ", error: " + e.getMessage());
-//        }
+        InputStream stream = getInputStreamFromResource(relativePath);
+        InputStreamReader reader = new InputStreamReader(stream);
 
         return reader;
     }

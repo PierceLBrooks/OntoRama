@@ -13,6 +13,7 @@ import java.util.Set;
 import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -49,6 +50,14 @@ public class TestQueryEngine extends TestCase {
 
   private OntologyType testType_chair;
 
+
+  private String queryTerm_cat;
+  private List relationLinksList_cat;
+  private Query query_cat;
+  private QueryEngine queryEngine_cat;
+  private QueryResult queryResult_cat;
+  private List queryResultList_cat;
+
 //  private TypeQuery typeQuery;
 //
 //  private List expectedTypesList = new LinkedList();
@@ -79,12 +88,35 @@ public class TestQueryEngine extends TestCase {
     query1 = new Query(queryTerm);
     queryEngine1 = new QueryEngine(query1);
     queryResult1 = queryEngine1.getQueryResult();
+    System.out.println("queryResult1 = " + queryResult1);
     queryResultList1 = IteratorUtil.copyIteratorToList(queryResult1.getOntologyTypesIterator());
 
     query2 = new Query(queryTerm, relationLinksList);
     queryEngine2 = new QueryEngine(query2);
     queryResult2 = queryEngine2.getQueryResult();
     queryResultList2 = IteratorUtil.copyIteratorToList(queryResult2.getOntologyTypesIterator());
+
+    // load ambiguous case
+//    List examplesList = OntoramaConfig.getExamplesList();
+//    for (int i = 0; i < examplesList.size(); i++) {
+//      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
+//      if (curExample.getName().equals("test webkb: cat")) {
+//        System.out.println("GOT cat example");
+//        OntoramaConfig.setCurrentExample(curExample);
+//      }
+//    }
+//    queryTerm_cat = OntoramaConfig.ontologyRoot;
+//    relationLinksList_cat = new LinkedList ();
+//
+//    query_cat = new Query(queryTerm_cat);
+//    queryEngine_cat = new QueryEngine(query_cat);
+//    queryResult_cat = queryEngine_cat.getQueryResult();
+//    System.out.println("queryResult_cat = " + queryResult_cat);
+//    queryResultList_cat = IteratorUtil.copyIteratorToList(queryResult_cat.getOntologyTypesIterator());
+
+
+
+
 
 
 //    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",

@@ -77,43 +77,66 @@ public class WebKB2Source implements Source {
     private List typesList = new LinkedList();
 
     /**
-     *  Get a Reader from given uri. If result is ambiguous - propmpt user
+     * this is hacky
+     */
+    private Query newQuery = null;
+
+    /**
+     *  Get a SourceResult from given uri. First, get a reader and check ir.
+     *  If result is ambiguous - propmpt user
      *  to make a choice and return new formulated query. If result is not
      *  ambiguous - return reader.
      *  @param  uri - base uri for the WebKB cgi script
      *  @param  query - object Query holding details of a query we are executing
-     *  @return reader
+     *  @return sourceResult
      *  @throws SourceException
      *
      * @todo should throuw some specialised exceptions rather then a general exception!
      */
-    public Reader getReader (String uri, Query query) throws SourceException {
+    public SourceResult getSourceResult (String uri, Query query) throws SourceException {
         this.query = query;
         this.uri = uri;
 
+        this.docs = new LinkedList();
+        this.typesList = new LinkedList();
+        this.newQuery = null;
+
         String fullUri = uri + constructQueryString(query);
         Reader resultReader = null;
+        BufferedReader br = null;
 
         try {
           Reader reader = executeWebkbQuery(fullUri);
 
-          BufferedReader br = new BufferedReader( reader );
+          br = new BufferedReader( reader );
           checkForMultiRdfDocuments(br);
           if( resultIsAmbiguous() ) {
-            Query newQuery = processAmbiguousResultSet();
-            SourceResult sourceResult = new SourceResult(false, null, newQuery);
+            System.out.println("\n\nresult is ambiguous");
+            this.newQuery = processAmbiguousResultSet();
+            return ( new SourceResult(false, null, this.newQuery));
           }
           reader.close();
           resultReader = getInputStreamReader(fullUri);
-          SourceResult sourceResult = new SourceResult (true, resultReader, null);
+//          System.out.println("docs size = " + docs.size());
+//          System.out.println("*********************************");
+//          System.out.println((String) docs.get(0));
+//          System.out.println("*********************************");
+//          resultReader = new StringReader((String) docs.get(0));
+
         }
         catch (IOException ioExc) {
           throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
         }
-//        catch (MalformedURLException urlExc) {
-//          throw new SourceException("Url " + fullUri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage());
-//        }
-        return resultReader;
+        //System.out.println("resultReader = " + resultReader.toString());
+       return (new SourceResult (true, resultReader, null));
+       //return (new SourceResult (true, br, null));
+    }
+
+    /**
+     * @todo this is a hack to avoid using SourceResult for now.
+     */
+    public Query getNewQuery () {
+      return this.newQuery;
     }
 
     /**
@@ -308,26 +331,27 @@ public class WebKB2Source implements Source {
     }
 
     /**
-     *
+     * used for tests
      */
-    public boolean resultIsAmbiguous () {
+    protected boolean resultIsAmbiguous () {
        if( docs.size() > 1 ) {
+        System.out.println("docs.size = " + docs.size());
         return true;
        }
        return false;
     }
 
     /**
-     *
+     * used for tests
      */
-    public int getNumOfChoices () {
+    protected int getNumOfChoices () {
       return typesList.size();
     }
 
     /**
-     *
+     * used for tests
      */
-    public List getChoicesList () {
+    protected List getChoicesList () {
       return typesList;
     }
 }

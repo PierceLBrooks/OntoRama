@@ -27,10 +27,6 @@ public class TestQueryPackage extends TestCase {
 
      suite.addTest( new TestSuite(TestRdfDamlParser.class));
 
-     // webkb relevant
-     suite.addTest( new TestSuite(TestRdfWebkbParser.class));
-     //suite.addTest( new TestSuite(TestWebkbQueryStringConstructor.class) );
-
 //    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
 //                            "ontorama.properties","examples/test/data/config.xml");
      //suite.addTest( new TestSuite(TestTypeQueryImplementation.class) );
@@ -38,6 +34,9 @@ public class TestQueryPackage extends TestCase {
      suite.addTest( new TestSuite(TestQuery.class) );
      suite.addTest( new TestSuite(TestQueryEngine.class));
      suite.addTest( new TestSuite(TestQueryResult.class));
+
+     // webkb relevant
+     suite.addTest( new TestSuite(TestRdfWebkbParser.class));
 
      return suite;
   }

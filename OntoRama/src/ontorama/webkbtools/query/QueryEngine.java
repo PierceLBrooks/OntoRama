@@ -15,10 +15,13 @@ import ontorama.util.Debug;
 
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.NoSuchTypeInQueryResult;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -51,7 +54,7 @@ public class QueryEngine implements QueryEngineInterface {
      * Holds Iterator returned from the Ontology Server
      * @see ontorama.webkbtools.datamodel.OntologyType
      */
-    private Iterator typeRelativesIterator;
+    private Collection typeRelativesCollection;
 
     /**
      * Query
@@ -63,6 +66,7 @@ public class QueryEngine implements QueryEngineInterface {
      */
     private QueryResult queryResult;
 
+
     /**
      * debug
      */
@@ -72,15 +76,14 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      * Execute a query to OntologyServer and get a query result
      * @todo: think what to do with exceptions
-     * @todo: see todo in the constructor
      */
     public QueryEngine(Query query) throws ParserException, IOException,
                       ClassNotFoundException, InstantiationException,
-                      IllegalAccessException, Exception {
+                      IllegalAccessException, SourceException, NoSuchTypeInQueryResult {
         this.query = query;
 
         String queryUrl = OntoramaConfig.sourceUri;
-        String queryOutputFormat = OntoramaConfig.queryOutputFormat;
+        //String queryOutputFormat = OntoramaConfig.queryOutputFormat;
 
 //        if (OntoramaConfig.isSourceDynamic) {
 //          QueryStringConstructorInterface queryStrConstr =
@@ -96,30 +99,82 @@ public class QueryEngine implements QueryEngineInterface {
         }
 
         Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getReader(queryUrl, query);
 
-        // todo: if source is not static - check if the result is ok. in webkb case -
-        // if it returns rdf file. if not - there is an error. Possibly reiterate through all
-        // possible combinations for different capitalizations of query term here
-
-        this.typeRelativesIterator = parser.getOntologyTypeIterator(r);
-        r.close();
+        this.queryResult = executeQuery(source, parser, queryUrl, query);
+        //Reader r = source.getReader(queryUrl, query);
+//        Reader r = null;
+//        Query newQuery = null;
+//        SourceResult sourceResult = source.getSourceResult(queryUrl, query);
+//        if (sourceResult.queryWasSuccess()) {
+//          r = sourceResult.getReader();
+//          this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+//          r.close();
+//          queryResult = new QueryResult(query, getQueryTypesList());
+//        }
+//        else {
+//          newQuery = sourceResult.getNewQuery();
+//        }
     }
 
     /**
-     * get result: Iterator of OntologyTypes
-     * @return  iterator of OntologyTypes, each having only relations we are
+     *
+     */
+    private QueryResult executeQuery (Source source, Parser parser, String queryUrl, Query query)
+                                      throws NoSuchTypeInQueryResult, SourceException,
+                                      ParserException, IOException {
+      QueryResult queryResult = null;
+      Reader r = null;
+      Query newQuery = null;
+      System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
+      SourceResult sourceResult = source.getSourceResult(queryUrl, query);
+      if (! sourceResult.queryWasSuccess()) {
+        newQuery = sourceResult.getNewQuery();
+        executeQuery(source, parser, queryUrl, newQuery);
+      }
+      r = sourceResult.getReader();
+      this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+      r.close();
+      checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+      System.out.println("query result list = " + getQueryTypesList().size());
+      queryResult = new QueryResult(query, getQueryTypesList().iterator());
+
+      System.out.println("Returning query result for " + query.getQueryTypeName() );
+      return queryResult;
+    }
+
+    /**
+     *
+     */
+    private void checkResultSetContainsSearchTerm (Collection resultSet, String termName)
+                            throws NoSuchTypeInQueryResult {
+      boolean found = false;
+      Iterator it = resultSet.iterator();
+      while (it.hasNext()) {
+        OntologyType cur = (OntologyType) it.next();
+        if (cur.getName().equals(termName)) {
+          found = true;
+        }
+      }
+      if (!found) {
+        throw new NoSuchTypeInQueryResult(termName);
+      }
+    }
+
+
+    /**
+     * get result: collection of OntologyTypes
+     * @return  collection of OntologyTypes, each having only relations we are
      *  interested in (see this Class Description for more details).
      *  If iterator of wanted links is empty - assumption is that a user
      *  asked for ALL available links.
      */
-    private Iterator getQueryTypesIterator() {
+    private Collection getQueryTypesList() {
         // iterator of wanted links (links we are interested in)
         Iterator queryRelationLinks = this.query.getRelationLinksIterator();
 
         // wanted links iterator is empty
         if ( ! queryRelationLinks.hasNext()) {
-            return this.typeRelativesIterator;
+            return this.typeRelativesCollection;
         }
 
         // get a set of all available relation links
@@ -147,8 +202,9 @@ public class QueryEngine implements QueryEngineInterface {
         LinkedList updatedTypeRelativesList = new LinkedList();
 
         // iterate over each ontology type and remove all unwanted links
-        while (this.typeRelativesIterator.hasNext()) {
-            OntologyType ontType = (OntologyTypeImplementation) this.typeRelativesIterator.next();
+        Iterator typeRelativesIterator = this.typeRelativesCollection.iterator();
+        while (typeRelativesIterator.hasNext()) {
+            OntologyType ontType = (OntologyTypeImplementation) typeRelativesIterator.next();
             //System.out.println("*** ontType before link removed: " + ontType);
             while (unwantedLinks.hasNext()) {
                 Integer relationLink = (Integer) unwantedLinks.next();
@@ -166,14 +222,15 @@ public class QueryEngine implements QueryEngineInterface {
             updatedTypeRelativesList.add(ontType);
         }
         //System.out.println("result = " + updatedTypeRelativesList);
-        return updatedTypeRelativesList.iterator();
+        return updatedTypeRelativesList;
     }
 
     /**
      *
      */
      public QueryResult getQueryResult () {
-        return ( new QueryResult(query, getQueryTypesIterator()));
+
+        return ( this.queryResult);
      }
 
 }

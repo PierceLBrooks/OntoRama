@@ -38,10 +38,12 @@ public class OntoTreeBuilder {
      */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
-        Iterator outboundEdges = Edge.getOutboundEdges(graph.getEdgeRootNode());
+        //Iterator outboundEdges = Edge.getOutboundEdges(graph.getEdgeRootNode());
+        Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
-            graphToOntoTree(graph.getEdgeRootNode(), edge.getType());
+            //graphToOntoTree(graph.getEdgeRootNode(), edge.getType());
+            graphToOntoTree(graph.getRootNode(), edge.getType());
         }
         //graphToOntoTree(graph.getEdgeRootNode());
     }

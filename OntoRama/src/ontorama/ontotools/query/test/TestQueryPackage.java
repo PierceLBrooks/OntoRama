@@ -1,4 +1,4 @@
-package ontorama.ontotools.query;
+package ontorama.ontotools.query.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -30,25 +30,29 @@ public class GraphBuilder {
 
     /**
      *
+     * @todo: should never return null!!! need to introduce exception chain up to the parser??
      */
-    public GraphBuilder(QueryResult queryResult) throws NoSuchRelationLinkException {
+    public GraphBuilder(QueryResult queryResult)
+                throws NoSuchRelationLinkException, NoTypeFoundInResultSetException {
         String termName = queryResult.getQuery().getQueryTypeName();
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
         try {
           while (ontIterator.hasNext()) {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
+              //System.out.println("ot = " + ot);
               parseTypeToNode(ot);
           }
           GraphNode root = (GraphNode) nodes.get(termName);
-          if( root != null ) {
-              Collection collection = nodes.values();
-              Iterator it = collection.iterator();
-              while (it.hasNext()) {
-                GraphNode n = (GraphNode) it.next();
-                //System.out.println(n.getName());
-              }
-              graph = new Graph( collection, root );
+          if (root == null) {
+            throw new NoTypeFoundInResultSetException(termName);
           }
+          Collection collection = nodes.values();
+          Iterator it = collection.iterator();
+          while (it.hasNext()) {
+            GraphNode n = (GraphNode) it.next();
+            System.out.println(n.getName());
+          }
+          graph = new Graph( collection, root );
         }
         catch (NoSuchRelationLinkException e) {
             throw e;

@@ -17,7 +17,7 @@ import ontorama.backends.p2p.gui.PeerObject;
 public class PeersListCellRenderer extends JLabel implements ListCellRenderer {
 	public PeersListCellRenderer() {
 		setOpaque(true);
-		setHorizontalAlignment(CENTER);
+		setHorizontalAlignment(LEFT);
 		setVerticalAlignment(CENTER);
 	}
 	public Component getListCellRendererComponent(
@@ -36,7 +36,7 @@ public class PeersListCellRenderer extends JLabel implements ListCellRenderer {
 		}
 		PeerObject peerObj = (PeerObject) value;
 		setText(peerObj.getPeerName());
-		setToolTipText(peerObj.getPeerName());
+		setToolTipText("Peer name: " + peerObj.getPeerName() + ", peer id: " + peerObj.getPeerId());
 		return this;
 	}
 }

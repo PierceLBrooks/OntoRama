@@ -36,7 +36,7 @@ public class P2PMainPanel extends JPanel {
 	 */
     public P2PMainPanel(P2PBackend p2pBackend) {
         super();
-               
+
     	groupsPanel = new GroupsPanel(p2pBackend);
     	searchPanel = new SearchPanel(p2pBackend.getEventBroker());
     	peerPanel = new PeersPanel(p2pBackend);

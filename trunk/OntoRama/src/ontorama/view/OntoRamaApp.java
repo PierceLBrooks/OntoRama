@@ -228,11 +228,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		buildStatusBar();
 		setStatusLabel("status bar is here");
 
-		_queryPanel = new QueryPanel(_viewListener, this);
-
-		//_listViewer = new NodesListViewer(this);
-
         EventBroker eventBroker = new EventBroker();
+
+		_queryPanel = new QueryPanel(_viewListener, this, eventBroker);
+
+
 		_treeView = new OntoTreeView(_viewListener, eventBroker);
 		_hyperView = new SimpleHyperView(_viewListener, eventBroker);
 

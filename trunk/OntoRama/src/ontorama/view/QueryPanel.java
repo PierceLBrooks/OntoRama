@@ -387,12 +387,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
   }
 
 
-    /**
-     *
-     */
-    //protected void notifyQueryAction () {
-    //  viewListener.notifyChange(ViewEventListener.MOUSE_SINGLECLICK_KEY_CTRL);
-    //}
 
     /**
      *
@@ -422,22 +416,12 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      *
      */
     public void focus ( GraphNode node) {
-      System.out.println();
-      System.out.println("******* queryPanel got focus for node " + node.getName());
       _queryField.setText(node.getName());
-      System.out.println();
-    }
-
-    /**
-     *
-     */
-    public void toggleFold ( GraphNode node) {
     }
 
     /**
      */
     public void query ( GraphNode node) {
-      System.out.println("QUERY action !!!");
       _queryField.setText(node.getName());
       doQuery();
     }

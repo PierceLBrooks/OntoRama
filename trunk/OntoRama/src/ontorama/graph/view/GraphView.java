@@ -12,5 +12,4 @@ import ontorama.model.GraphNode;
 
 public interface GraphView {
     public void focus ( GraphNode node);
-	public void toggleFold ( GraphNode node);
 }

@@ -11,9 +11,7 @@ import ontorama.model.Edge;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
 import ontorama.controller.NodeSelectedEvent;
-import ontorama.controller.NodeToggleFoldEvent;
-import ontorama.tree.controller.GraphViewFocusEventHandler;
-import ontorama.tree.controller.GraphViewToggleFoldEventHandler;
+import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 
 import java.awt.Color;
@@ -57,24 +55,22 @@ public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEv
         }
 
         public void processEvent(Event e) {
-            HyperNodeView view = (HyperNodeView) e.getSubject();
-            eventBroker.processEvent(new NodeSelectedEvent(view.getGraphNode()));
+            HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
         }
     }
 
-    private class NodeActivatedEventTransformer implements EventListener {
-        private EventBroker eventBroker;
-
-        public NodeActivatedEventTransformer(EventBroker eventBroker, Class eventType) {
-            this.eventBroker = eventBroker;
+    private class NodeActivatedEventHandler implements EventListener {
+        public NodeActivatedEventHandler(EventBroker eventBroker, Class eventType) {
             eventBroker.subscribe(this, eventType, HyperNodeView.class);
         }
 
         public void processEvent(Event e) {
-            HyperNodeView view = (HyperNodeView) e.getSubject();
-            eventBroker.processEvent(new NodeToggleFoldEvent(view.getGraphNode()));
+            HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            toggleFold(nodeView.getGraphNode());
         }
     }
+
 
     /**
      * Temp flag to turn off spring and force algorithms.
@@ -111,13 +107,11 @@ public class SimpleHyperView  extends CanvasManager implements GraphView, ViewEv
         super(viewListener, eventBroker);
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
         new GraphViewFocusEventHandler(eventBroker, this);
-        new NodeActivatedEventTransformer(eventBroker, CanvasItemActivatedEvent.class);
-        new GraphViewToggleFoldEventHandler(eventBroker, this);
+        new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
     }
 
     public void focus ( GraphNode node) {
       System.out.println();
-      System.out.println("******* hyperView got focus for node " + node.getName());
       focusChanged(node);
       System.out.println();
     }

@@ -1,24 +1,14 @@
 
-
 package ontorama.tree.model;
 
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Enumeration;
-import java.util.Collection;
-import java.util.Stack;
+import ontorama.model.Edge;
+import ontorama.model.GraphNode;
+import ontorama.util.Debug;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
-import ontorama.model.GraphNode;
-import ontorama.model.Edge;
-
-import ontorama.util.Debug;
-import ontorama.util.event.ViewEventObserver;
-import ontorama.util.event.ViewEventListener;
+import java.util.*;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode
@@ -28,7 +18,7 @@ import ontorama.util.event.ViewEventListener;
  * Company:     DSTC
  */
 
-public class OntoTreeNode implements TreeNode{
+public class OntoTreeNode implements TreeNode {
 
     /**
      * Set to true if this node can have children
@@ -49,43 +39,43 @@ public class OntoTreeNode implements TreeNode{
     /**
      *
      */
-     private int relLink;
+    private int relLink;
 
     /**
      * debug
      */
     private boolean debugOn = false;
-    Debug debug = new Debug (this.debugOn);
+    Debug debug = new Debug(this.debugOn);
 
     /**
      *  Constructor
      *  @param graphNode
      */
-    public OntoTreeNode ( GraphNode graphNode ) {
+    public OntoTreeNode(GraphNode graphNode) {
         this.graphNode = graphNode;
     }
 
     /**
      *
      */
-     public void setRelLink (int relLink) {
+    public void setRelLink(int relLink) {
         this.relLink = relLink;
-     }
+    }
 
-     /**
-      *
-      */
-      public int getRelLink () {
+    /**
+     *
+     */
+    public int getRelLink() {
         return this.relLink;
-      }
+    }
 
     /**
      * Add observer to the list of OntoTree observers.
      * @param observer
      * @return  -
      */
-    public void addOntoObserver( Object observer ) {
-        this.observers.add( observer );
+    public void addOntoObserver(Object observer) {
+        this.observers.add(observer);
     }
 
     /**
@@ -93,30 +83,30 @@ public class OntoTreeNode implements TreeNode{
      * In this case - tell OntoTreeNode observers to update.
      * (OntoTreeView is an observer for each OntoTreeNode).
      */
-	 /*
-    private void notifyTreeChange () {
-        // get TreePath for this node and tell tree to update
-        TreePath path = getTreePath();
+    /*
+   private void notifyTreeChange () {
+       // get TreePath for this node and tell tree to update
+       TreePath path = getTreePath();
 
-        Iterator it = observers.iterator();
-        while(it.hasNext()) {
-            OntoNodeObserver cur = (OntoNodeObserver) it.next();
-            cur.updateOntoTree( path );
-        }
-    }
-	*/
+       Iterator it = observers.iterator();
+       while(it.hasNext()) {
+           OntoNodeObserver cur = (OntoNodeObserver) it.next();
+           cur.updateOntoTree( path );
+       }
+   }
+   */
 
     /**
      * Recursive build of a stack of nodes from given node through to root
      * @param   node, stack
      * @return updatedStack
      */
-    private Stack buildPath (OntoTreeNode node, Stack stack) {
+    private Stack buildPath(OntoTreeNode node, Stack stack) {
 
         stack.push(node);
         OntoTreeNode parent = (OntoTreeNode) node.getParent();
         if (parent != null) {
-            Stack newStack = buildPath(parent,stack);
+            Stack newStack = buildPath(parent, stack);
             return newStack;
         }
         return stack;
@@ -127,14 +117,14 @@ public class OntoTreeNode implements TreeNode{
      * @param   -
      * @return  TreePath path
      */
-    public TreePath getTreePath () {
+    public TreePath getTreePath() {
         OntoTreeNode parent = (OntoTreeNode) this.getParent();
 
         Stack stack = new Stack();
         stack.push(this);
-        if ( this.getParent() != null) {
+        if (this.getParent() != null) {
             // if this node is root - don't need to build stack
-            stack = buildPath(parent,stack);
+            stack = buildPath(parent, stack);
         }
 
         // now reverse stack as it is backwards: starting at
@@ -152,12 +142,12 @@ public class OntoTreeNode implements TreeNode{
     /**
      * Set focus on this node
      */
-	 /*
-    public void setFocus() {
-        //System.out.println("OntoTreeNode setFocus()");
-        this.graphNode.hasFocus();
-    }
-	*/
+    /*
+   public void setFocus() {
+       //System.out.println("OntoTreeNode setFocus()");
+       this.graphNode.hasFocus();
+   }
+   */
 
 
     //////////////Implementation of TreeNode interface methods//////////////
@@ -211,7 +201,7 @@ public class OntoTreeNode implements TreeNode{
         Iterator inboundNodes = Edge.getInboundEdgeNodes(this.graphNode);
         if (inboundNodes.hasNext()) {
             GraphNode inboundGraphNode = (GraphNode) inboundNodes.next();
-            return ( (TreeNode) OntoTreeBuilder.getTreeNode(inboundGraphNode));
+            return ((TreeNode) OntoTreeBuilder.getTreeNode(inboundGraphNode));
         }
 
         /*
@@ -260,16 +250,16 @@ public class OntoTreeNode implements TreeNode{
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-      List outboundNodesList = Edge.getOutboundEdgeNodesList(this.getGraphNode());
-      if (outboundNodesList.size() <= 0 ) {
-        //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
-       // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
-        return true;
-      }
+        List outboundNodesList = Edge.getOutboundEdgeNodesList(this.getGraphNode());
+        if (outboundNodesList.size() <= 0) {
+            //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
+            // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
+            return true;
+        }
         //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning false");
 
-      //debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning false");
-      return false;
+        //debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning false");
+        return false;
     }
 
     /**
@@ -294,18 +284,17 @@ public class OntoTreeNode implements TreeNode{
      * @param   -
      * @return  graphNode
      */
-    public GraphNode getGraphNode () {
+    public GraphNode getGraphNode() {
         return this.graphNode;
     }
 
     /**
      * toString. Pring out name of this node
      */
-    public String toString () {
+    public String toString() {
         //String str = "OntoTreeNode: " + this.graphNode.toString();
         return this.graphNode.getName();
     }
-
 
 
 }

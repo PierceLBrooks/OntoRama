@@ -152,15 +152,17 @@ public class HistoryMenu extends JMenu {
 		
 		String historyItemLabelName = query.getQueryTypeName();	
 		String historyItemToolTipText = historyItemLabelName;
-		if (query.getQueryTypeName().length() <= 0) {
+		if (query.getQueryTypeName() == null) {
+			historyItemLabelName = "item";
+			historyItemToolTipText = "click here to display this item";
 		}
 		else {
+			if (query.getDepth() > -1) {
+				historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
+			}
+			historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
 		}
 	
-		if (query.getDepth() > -1) {
-		    historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
-		}
-		historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
 			
 		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
 		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.getFirst();

@@ -74,7 +74,7 @@ public class OntoramaConfig {
 
 
     private static Hashtable edgesConfig;
-    private static List edgesOrdering;
+    private static List edgeTypesList;
 
     /**
      *
@@ -233,24 +233,24 @@ public class OntoramaConfig {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         edgesConfig = xmlConfig.getDisplayInfo();
-        edgesOrdering = xmlConfig.getEdgesOrdering();
+        edgeTypesList = xmlConfig.getEdgesOrdering();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
     }
 
-    /**
-     * @todo we are assuming that allRelationsArray got all relations id's in order
-     * from 1 to n. If this is not a case -> what we are doing here could be wrong
-     */
-    public static List getEdgeTypesList() {
-        LinkedList allRelations = new LinkedList();
-
-        Enumeration e = edgesConfig.keys();
-        while (e.hasMoreElements()) {
-            EdgeType edgeType = (EdgeType) e.nextElement();
-            allRelations.add(edgeType);
-        }
-        return allRelations;
-    }
+//    /**
+//     * @todo we are assuming that allRelationsArray got all relations id's in order
+//     * from 1 to n. If this is not a case -> what we are doing here could be wrong
+//     */
+//    public static List getEdgeTypesList() {
+//        LinkedList allRelations = new LinkedList();
+//
+//        Enumeration e = edgesConfig.keys();
+//        while (e.hasMoreElements()) {
+//            EdgeType edgeType = (EdgeType) e.nextElement();
+//            allRelations.add(edgeType);
+//        }
+//        return allRelations;
+//    }
 
     public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
         EdgeTypeDisplayInfo displayInfo = (EdgeTypeDisplayInfo) edgesConfig.get(edgeType);
@@ -362,8 +362,8 @@ public class OntoramaConfig {
         return OntoramaConfig.mainExample;
     }
 
-    public static List getEdgesOrdering() {
-        return OntoramaConfig.edgesOrdering;
+    public static List getEdgeTypesList() {
+        return OntoramaConfig.edgeTypesList;
     }
 
 

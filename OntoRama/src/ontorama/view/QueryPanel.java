@@ -255,12 +255,9 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     private void buildRelationLinksQueryPanel() {
-        //RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getEdgeType();
-        Iterator it = OntoramaConfig.getEdgeTypesSet().iterator();
+        Iterator it = OntoramaConfig.getEdgeTypesList().iterator();
 
         while (it.hasNext()) {
-//        for (int i = 0; i < relationLinksDetails.length; i++) {
-//            RelationLinkDetails cur = relationLinksDetails[i];
             EdgeType cur = (EdgeType) it.next();
             JCheckBox curCheckBox = new JCheckBox(cur.getName());
             ImageIcon displayIcon = OntoramaConfig.getEdgeDisplayInfo(cur).getDisplayIcon();

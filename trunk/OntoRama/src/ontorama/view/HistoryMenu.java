@@ -56,11 +56,6 @@ public class HistoryMenu extends JMenu {
    */
   private static LinkedList _historyItems;
 
-  /**
-   *
-   */
-  private static Action _backAction;
-  private static Action _forwardAction;
 
   /**
    *
@@ -68,18 +63,23 @@ public class HistoryMenu extends JMenu {
   private static OntoRamaMenu _ontoramaMenu;
 
   /**
-   * @todo  shouldn't pass reference to ontoramaMenu.
+   *
    */
-  public HistoryMenu(OntoRamaMenu ontoramaMenu) {
+  private static OntoRamaApp _mainApp;
+
+  /**
+   * @todo  shouldn't pass reference to ontoramaMenu and mainApp
+   */
+  public HistoryMenu(OntoRamaMenu ontoramaMenu, OntoRamaApp mainApp) {
     super("History");
     _ontoramaMenu = ontoramaMenu;
+    _mainApp = mainApp;
     _menuItemHistoryMapping = new Hashtable();
     _historyItems = new LinkedList();
 
     setMnemonic(KeyEvent.VK_H);
 
-    _backAction = new BackHistoryAction();
-    _forwardAction = new ForwardHistoryAction();
+
     buildHistoryMenu();
   }
 
@@ -89,15 +89,15 @@ public class HistoryMenu extends JMenu {
   private void buildHistoryMenu () {
 
     // create back and forward buttons
-    _historyBackMenuItem = add(_backAction);
-    _historyForwardMenuItem = add(_forwardAction);
+    _historyBackMenuItem = add(_mainApp._backAction);
+    _historyForwardMenuItem = add(_mainApp._forwardAction);
 
     // set shortcut keys
     _historyBackMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK));
     _historyForwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.ALT_MASK));
 
     // set enabled/disabled
-    //enableBackForwardButtons();
+    enableBackForwardButtons();
 
     addSeparator();
 
@@ -137,7 +137,7 @@ public class HistoryMenu extends JMenu {
       }
     });
     add(historyItem);
-    //enableBackForwardButtons();
+    enableBackForwardButtons();
 
   }
 
@@ -177,7 +177,7 @@ public class HistoryMenu extends JMenu {
     // select corresponding example
     _ontoramaMenu.setSelectedExampleMenuItem(example);
     setSelectedMenuItem(historyItem);
-//    enableBackForwardButtons();
+    enableBackForwardButtons();
   }
 
   /**
@@ -203,7 +203,7 @@ public class HistoryMenu extends JMenu {
   /**
    *
    */
-  private static int getIndexOfSelectedHistoryMenuItem () {
+  public static int getIndexOfSelectedHistoryMenuItem () {
     JCheckBoxMenuItem curSelectedItem = getSelectedHistoryMenuItem();
     //System.out.println(" curSelectedItem = " + curSelectedItem);
     if (curSelectedItem == null) {
@@ -222,19 +222,19 @@ public class HistoryMenu extends JMenu {
     System.out.println("***enableBackForwardButtons, curSelectedHistoryIndex = " + curSelectedHistoryIndex + ", maxHistoryItem = " + maxHistoryItem);
     if (curSelectedHistoryIndex <= 0) {
       //this.historyBackMenuItem.setEnabled(false);
-      _backAction.setEnabled(false);
+      _mainApp._backAction.setEnabled(false);
     }
     else {
       //this.historyBackMenuItem.setEnabled(true);
-      _backAction.setEnabled(true);
+      _mainApp._backAction.setEnabled(true);
     }
     if (curSelectedHistoryIndex >= (_menuItemHistoryMapping.size()-1)) {
       //this.historyForwardMenuItem.setEnabled(false);
-      _forwardAction.setEnabled(false);
+      _mainApp._forwardAction.setEnabled(false);
     }
     else {
       //this.historyForwardMenuItem.setEnabled(true);
-      _forwardAction.setEnabled(true);
+      _mainApp._forwardAction.setEnabled(true);
     }
   }
 

@@ -37,13 +37,13 @@ public class ForwardHistoryAction extends AbstractAction {
 
   /**
    *
+   * @todo remove static reference to HistoryMenu.   *
    */
   public void actionPerformed(ActionEvent parm1) {
-    /**@todo: implement this javax.swing.AbstractAction abstract method*/
-//    int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
-//    int forwardInd = indexOfCur - 1;
-//    JCheckBoxMenuItem forwardItem = HistoryMenu.getMenuItem(forwardInd);
+    int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
+    int forwardInd = indexOfCur - 1;
+    JCheckBoxMenuItem forwardItem = HistoryMenu.getMenuItem(forwardInd);
     System.out.println("___action: forward");
-    //HistoryMenu.displayHistoryItem(forwardItem);
+    HistoryMenu.displayHistoryItem(forwardItem);
   }
 }

@@ -41,11 +41,11 @@ public class BackHistoryAction extends AbstractAction {
    *
    */
   public void actionPerformed(ActionEvent parm1) {
-//    int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
-//    int backInd = indexOfCur - 1;
-//    JCheckBoxMenuItem backItem = HistoryMenu.getMenuItem(backInd);
+    int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
+    int backInd = indexOfCur - 1;
+    JCheckBoxMenuItem backItem = HistoryMenu.getMenuItem(backInd);
     System.out.println("___action: back");
-    //HistoryMenu.displayHistoryItem(backItem);
+    HistoryMenu.displayHistoryItem(backItem);
   }
 
 

@@ -16,6 +16,7 @@ public class QueryNodeEvent implements Event  {
     protected GeneralNode subject;
 
     public QueryNodeEvent(GeneralNode subject) {
+    	System.out.println("QueryNodeEvent for node " + subject.getName());
         this.subject = subject;
     }
 

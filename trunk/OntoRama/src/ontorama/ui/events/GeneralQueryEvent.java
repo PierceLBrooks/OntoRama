@@ -16,6 +16,7 @@ public class GeneralQueryEvent implements Event {
     private Query query;
 
     public GeneralQueryEvent(Query subject) {
+    	System.out.println("GeneralQueryEvent for query " + subject);
         this.query = subject;
     }
 

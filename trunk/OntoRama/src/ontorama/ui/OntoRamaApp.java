@@ -210,15 +210,18 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     class QueryCancelledEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             _worker.stopProcess();
-            _query = _lastQuery;
-            _queryPanel.setQuery(_query);
             _progressBar.setIndeterminate(false);
             setStatusLabel("");
             _queryPanel.enableStopQueryAction(false);
-            _modelEventBroker.subscribe(
-                _viewsEventBroker,
-                TreeChangedEvent.class,
-                Object.class);
+            
+            if (_lastQuery != null) {
+	            _query = _lastQuery;
+	            _queryPanel.setQuery(_query);
+	            _modelEventBroker.subscribe(
+	                _viewsEventBroker,
+	                TreeChangedEvent.class,
+	                Object.class);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.controller;
 
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphModificationException;
@@ -19,9 +19,9 @@ import org.tockit.events.EventBrokerListener;
  */
 public class EdgeAddedEventHandler implements EventBrokerListener {
     private EventBroker _eventBroker;
-    private P2PBackend _p2pBackend;
+    private P2PBackendImpl _p2pBackend;
 
-    public EdgeAddedEventHandler (EventBroker eventBroker, P2PBackend backend) {
+    public EdgeAddedEventHandler (EventBroker eventBroker, P2PBackendImpl backend) {
         _eventBroker = eventBroker;
         _p2pBackend = backend;
         _eventBroker.subscribe(this, GraphEdgeAddedEvent.class, Graph.class);

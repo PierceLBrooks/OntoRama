@@ -17,7 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.filechooser.FileFilter;
 
 import ontorama.backends.filemanager.Util;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.gui.action.ActionGroupSearch;
 import ontorama.backends.p2p.gui.action.ActionShowJoinGroupDialog;
 import ontorama.backends.p2p.gui.action.ActionShowLeaveGroupDialog;
@@ -26,7 +26,7 @@ import ontorama.ui.OntoRamaApp;
 
 public class P2PJMenu extends JMenu {
 
-    private P2PBackend _p2pBackend;
+    private P2PBackendImpl _p2pBackend;
     private Frame _parentFrame;
 
     private static boolean p2pEnabled = false;
@@ -42,7 +42,7 @@ public class P2PJMenu extends JMenu {
     
     private JFileChooser _fileChooser;
 
-    public P2PJMenu (P2PBackend p2pBackend) {
+    public P2PJMenu (P2PBackendImpl p2pBackend) {
         super();
         _p2pBackend = p2pBackend;
     	System.out.println("p2p menu, p2p backend = " + _p2pBackend);

@@ -8,7 +8,7 @@ import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.GroupItemReference;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
@@ -42,7 +42,7 @@ public class P2PSender {
     private PeersPanel peersPanel = null;
 
     //Constructor
-    public P2PSender(CommunicationProtocol commProt, P2PBackend backend) {
+    public P2PSender(CommunicationProtocol commProt, P2PBackendImpl backend) {
         this.commProt = commProt;
         this.backend = backend;
         this.peersPanel = ((P2PMainPanel) backend.getPanel()).getPeerPanel();

@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.P2PBackendImpl;
 
 /*
  * Created by IntelliJ IDEA.
@@ -34,7 +34,7 @@ public class P2PMainPanel extends JPanel {
 	 * operate on groups in GroupsPanel). Better solution would be to handle
 	 * this with event instead.
 	 */
-    public P2PMainPanel(P2PBackend p2pBackend) {
+    public P2PMainPanel(P2PBackendImpl p2pBackend) {
         super();
 
     	groupsPanel = new GroupsPanel(p2pBackend);

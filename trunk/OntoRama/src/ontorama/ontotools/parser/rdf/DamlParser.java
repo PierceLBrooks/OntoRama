@@ -154,7 +154,8 @@ public class DamlParser implements Parser {
 		}
 		if (resource instanceof DAMLRestriction) {
 			DAMLRestriction restr = (DAMLRestriction) resource;
-			getEdge(node, connectedNode, restriction);
+			//getEdge(node, connectedNode, restriction);
+			getEdge(connectedNode, node, restriction);
 		}
 	}
     

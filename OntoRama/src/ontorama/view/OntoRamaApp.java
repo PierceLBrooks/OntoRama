@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.BorderLayout;
 
-import javax.swing.JApplet;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -53,7 +52,7 @@ import ontorama.textDescription.view.DescriptionView;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.Debug;
 
-public class OntoRamaApp extends JApplet {
+public class OntoRamaApp extends JFrame {
     /**
      * holds hyper view
      */
@@ -145,21 +144,8 @@ public class OntoRamaApp extends JApplet {
      * @todo: introduce error dialogs for exception
      */
     public OntoRamaApp() {
-        this(true);
-    }
+        super("OntoRamaApp");
 
-    public OntoRamaApp(boolean isApplet) {
-        //this.inAnApplet = inAnApplet;
-        if (isApplet ){
-            getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
-        }
-    }
-
-    public void init() {
-        this.makeContentPane();
-    }
-
-    private Container makeContentPane() {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         termName = OntoramaConfig.ontologyRoot;
@@ -232,7 +218,18 @@ public class OntoRamaApp extends JApplet {
 
         // Add description panel to this frame
         getContentPane().add(descriptionViewScrollPanel,BorderLayout.SOUTH);
-        return this.getContentPane();
+
+        pack();
+        setSize(appWidth,appHeight);
+        setLocation(centerAppWin());
+        setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+              closeMainApp();
+            }
+        });
+
     }
 
     /**
@@ -420,19 +417,7 @@ public class OntoRamaApp extends JApplet {
      * main
      */
     public static void main(String[] args) {
-        JFrame frm = new JFrame();
-        frm.setTitle("OntoRamaApp");
-        OntoRamaApp applet = new OntoRamaApp();
-        frm.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-              System.exit(0);
-            }
-        });
-        frm.getContentPane().add(applet.makeContentPane());
-        frm.pack();
-        frm.setSize(applet.appWidth,applet.appHeight);
-        frm.setLocation(applet.centerAppWin());
-        frm.setVisible(true);
+        JFrame frame = new OntoRamaApp();
     }
 }
 

@@ -15,7 +15,7 @@
   <pm:part rdf:resource="http://www.webkb.org/ontorama/backrest"/>
   <pm:part rdf:resource="http://www.webkb.org/ontorama/leg"/>
   <pm:similar rdf:resource="http://www.webkb.org/ontorama/otherChairs"/>
-  <pm:instanceOf rdf:resource="http://www.webkb.org/ontorama/myChair"/>
+  <rdf:type rdf:resource="http://www.webkb.org/ontorama/myChair"/>
   <pm:wnMember rdf:resource="http://www.webkb.org/ontorama/allChairs"/>
   <pm:substance rdf:resource="http://www.webkb.org/ontorama/someSubstanceNode"/>
   <daml:complementOf rdf:resource="http://www.webkb.org/ontorama/table"/>

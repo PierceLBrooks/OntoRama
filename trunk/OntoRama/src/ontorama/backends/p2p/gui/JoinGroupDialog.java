@@ -122,18 +122,13 @@ public class JoinGroupDialog extends JDialog {
         _tabbedPanel.addTab("Existing Group", null, _existingGroupPanel, "Join existing group");
         _tabbedPanel.setSelectedComponent(_existingGroupPanel);
 
-        JLabel nameLabel = new JLabel("Name ");
-        _newGroupNameField = new JTextField(20);
-        _newGroupNameField.setToolTipText("Type name of a group you want to create");
-
-        _newGroupDescrField = new JTextField(40);
-        _newGroupDescrField.setToolTipText("Type description for this group");
-        _newGroupDescrField.setText("");
+        _newGroupNameField = DialogUtil.createNewGroupNameTextField();
+        _newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
 
         _newGroupPanel.setLayout(new BoxLayout(_newGroupPanel, BoxLayout.Y_AXIS));
-        _newGroupPanel.add(nameLabel);
+        _newGroupPanel.add(new JLabel(DialogUtil.newGroupNameLabel));
         _newGroupPanel.add(_newGroupNameField);
-        _newGroupPanel.add(new JLabel("Description"));
+        _newGroupPanel.add(new JLabel(DialogUtil.newGroupDescriptionLabel));
         _newGroupPanel.add(_newGroupDescrField);
 
         _tabbedPanel.addTab("New Group", null, _newGroupPanel, "Create new group");

@@ -15,11 +15,11 @@ import ontorama.ui.OntoRamaApp;
  * Time: 12:10:05
  * To change this template use Options | File Templates.
  */
-public class ActionJoinGroup extends AbstractAction{
+public class ActionShowJoinGroupDialog extends AbstractAction{
 
     private P2PBackend _p2pBackend;
 
-        public ActionJoinGroup(String name, P2PBackend p2pBackend) {
+        public ActionShowJoinGroupDialog(String name, P2PBackend p2pBackend) {
             super(name);
             _p2pBackend = p2pBackend;
         }

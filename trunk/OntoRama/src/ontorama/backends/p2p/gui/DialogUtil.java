@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /*
  * Created by IntelliJ IDEA.
@@ -20,6 +21,9 @@ import javax.swing.JPanel;
  * To change this template use Options | File Templates.
  */
 public class DialogUtil{
+	
+	public static final String newGroupNameLabel = "Name";
+	public static final String newGroupDescriptionLabel = "Description";
 
     public static void centerDialog(Frame parent, JDialog dialog) {
         Point parentLocation = parent.getLocation();
@@ -52,6 +56,18 @@ public class DialogUtil{
             return false;
         }
         return true;
+    }
+    
+    public static JTextField createNewGroupNameTextField() {
+    	JTextField field = new JTextField(20);
+    	field.setToolTipText("Type name of a group you want to create");
+    	return field;
+    }
+    
+    public static JTextField createNewGroupDescriptionTextField() {
+    	JTextField field = new JTextField(40);
+    	field.setToolTipText("Type description for this group");
+    	return field;
     }
 
 

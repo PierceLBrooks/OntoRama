@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileFilter;
 import ontorama.backends.filemanager.Util;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.ActionGroupSearch;
-import ontorama.backends.p2p.gui.action.ActionJoinGroup;
+import ontorama.backends.p2p.gui.action.ActionShowJoinGroupDialog;
 import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
 import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
@@ -60,7 +60,7 @@ public class P2PJMenu extends JMenu {
         add(_searchAction);
         addSeparator();
 
-        _joinGroupAction = new ActionJoinGroup("Join Group", p2pBackend);
+        _joinGroupAction = new ActionShowJoinGroupDialog("Join Group", p2pBackend);
         add(_joinGroupAction);
         _leaveGroupAction = new ActionLeaveGroup("Leave Group", _p2pBackend);
         add(_leaveGroupAction);

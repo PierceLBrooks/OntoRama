@@ -114,8 +114,6 @@ public class XmlParserFull implements Parser {
         List relationLinksElementsList = top.getChildren("relationLink");
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
-//        RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getEdgeType();
-        Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
 
         while (relationLinksElementsIterator.hasNext()) {
             Element relLinkEl = (Element) relationLinksElementsIterator.next();
@@ -142,27 +140,48 @@ public class XmlParserFull implements Parser {
                 throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
             }
             debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
-            Edge edge = null;
-//            for (int i = 0; i < relationLinksConfigArray.length; i++) {
-//                if (relationLinksConfigArray[i] == null) {
-//                    continue;
-//                }
-            while (edgeTypesIterator.hasNext()) {
-                EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
-//                RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
-                if ((nameAttr.getValue()).equals(edgeType.getName())) {
-                    edge = new EdgeImpl(fromNode, toNode, edgeType);
-                } else if ((nameAttr.getValue()).equals(edgeType.getReverseEdgeName())) {
-                    edge = new EdgeImpl(toNode, fromNode, edgeType);
-                }
-            }
+            Edge edge = makeEdge(nameAttr, fromNode, toNode);
             if (edge == null) {
                 throw new ParserException("Attribute name '" + nameAttr.getValue() + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
             }
-            if (!_edges.contains(edge)) {
+            if (! edgeAlreadyInList(edge)) {
                  _edges.add(edge);
             }
         }
+    }
+
+    private Edge makeEdge(Attribute nameAttr, Node fromNode, Node toNode) throws NoSuchRelationLinkException {
+        String nameAttrValue = nameAttr.getValue();
+        Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
+        while (edgeTypesIterator.hasNext()) {
+            EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+            if ((edgeType.getName()).equals(nameAttrValue)) {
+                Edge edge = new EdgeImpl(fromNode, toNode, edgeType);
+                return edge;
+            } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(nameAttrValue)) ) {
+                Edge edge = new EdgeImpl(toNode, fromNode, edgeType);
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    private boolean edgeAlreadyInList (Edge edge) {
+        Iterator it = _edges.iterator();
+        while (it.hasNext()) {
+            Edge cur = (Edge) it.next();
+            Node fromNode = cur.getFromNode();
+            Node toNode = cur.getToNode();
+            EdgeType edgeType = cur.getEdgeType();
+            if (edge.getFromNode().getName().equals(fromNode.getName())) {
+                if (edge.getToNode().getName().equals(toNode.getName())) {
+                    if (edge.getEdgeType().getName().equals(edge.getEdgeType().getName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

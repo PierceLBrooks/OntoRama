@@ -132,6 +132,7 @@ public class RdfDamlParser implements Parser {
             throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
         }
         catch (NoSuchRelationLinkException relExc) {
+            relExc.printStackTrace();
             throw new ParserException("Unrecognized EdgeType: " + relExc.getMessage());
         }
         ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
@@ -198,9 +199,8 @@ public class RdfDamlParser implements Parser {
             while (mappingTagsIterator.hasNext()) {
                 String mappingTag = (String) mappingTagsIterator.next();
                 if (predicate.getLocalName().endsWith(mappingTag)) {
-//                    int mappingId = rdfMapping.getId();
                     String mappingType = rdfMapping.getType();
-//                    RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+                    System.out.println("mappingType = " + mappingType);
                     EdgeType edgeType = OntoramaConfig.getRelationLinkDetails(mappingType);
 
                     try {
@@ -235,6 +235,7 @@ public class RdfDamlParser implements Parser {
         Node toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
 
         Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        //System.out.println("creating edge: " + fromNode + ", " + toNode + ", edgeType = " + edgeType);
         _edgesList.add(newEdge);
     }
 

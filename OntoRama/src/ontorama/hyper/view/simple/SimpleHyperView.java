@@ -10,9 +10,7 @@ import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
-import org.tockit.canvas.events.CanvasItemSelectedEvent;
-import org.tockit.canvas.events.CanvasItemActivatedEvent;
-import org.tockit.canvas.events.CanvasItemDraggedEvent;
+import org.tockit.canvas.events.*;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
@@ -41,6 +39,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
+            System.out.println("processEvent: NodeSelected");
         }
     }
 
@@ -71,6 +70,20 @@ public class SimpleHyperView extends Canvas implements GraphView {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
             dragNode(nodeView, draggedEvent);
+        }
+    }
+
+    /**
+     *
+     */
+    private class NodePointedEvent implements EventListener {
+        public NodePointedEvent(EventBroker eventBroker) {
+            eventBroker.subscribe(this, CanvasItemPointedEvent.class, HyperNodeView.class);
+        }
+
+        public void processEvent(Event e) {
+            HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            highlightEdge(nodeView.getGraphNode());
         }
     }
 
@@ -155,6 +168,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new GraphViewFocusEventHandler(eventBroker, this);
         new NodeActivatedEventHandler(eventBroker);
         new NodeDraggedEventHandler(eventBroker);
+        //new NodePointedEvent(eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 

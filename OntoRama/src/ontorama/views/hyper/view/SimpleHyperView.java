@@ -46,11 +46,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     protected Hashtable hypernodeviews = new Hashtable();
 
-    /**
-     * Hold the top concept (_root node) for current query.
-     */
-    private TreeNode _root = null;
-
     private Tree _tree;
 
     /**
@@ -131,20 +126,20 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		// reset canvas variables
 		resetCanvas();
 		_tree = tree;
-		_root = _tree.getRootNode();
+		TreeNode root = _tree.getRootNode();
 
-		makeHyperNodes(_root);
-        calculateDepths((HyperNode) this.hypernodes.get(_root), 0);
+		makeHyperNodes(root);
+        calculateDepths((HyperNode) this.hypernodes.get(root), 0);
 		NodePlacementDetails rootNode = new NodePlacementDetails();
-		rootNode.node = _root;
-		rootNode.numOfLeaves = getLeafNodeTotal(_root);
+		rootNode.node = root;
+		rootNode.numOfLeaves = getLeafNodeTotal(root);
 		weightedRadialLayout(rootNode, 0);
 		long start = System.currentTimeMillis();
 		long end = System.currentTimeMillis();
 		end = System.currentTimeMillis();
 
 		addCanvasItem(SimpleHyperView.sphereView);
-		addLinesToHyperNodeViews(hypernodeviews, _root);
+		addLinesToHyperNodeViews(hypernodeviews, root);
 		addHyperNodeViews();
 		addLabelViews();
 
@@ -526,7 +521,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             count = 0;
             sumOfAverageMoves = 0;
-            Iterator it = _root.getChildren().iterator();
+            Iterator it = _tree.getRootNode().getChildren().iterator();
             while (it.hasNext()) {
                 TreeNode node = (TreeNode) it.next();
                 queue.add(node);
@@ -583,7 +578,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         }
         // calculate the electrical (repulsory) forces
         List queue = new LinkedList();
-        queue.add(_root);
+        queue.add(_tree.getRootNode());
         mainWhile: while (!queue.isEmpty()) {
             TreeNode other = (TreeNode) queue.remove(0);
             Iterator it = other.getChildren().iterator();

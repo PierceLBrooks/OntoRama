@@ -2,6 +2,7 @@ package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import net.jxta.credential.AuthenticationCredential;
@@ -31,11 +32,11 @@ import net.jxta.impl.membership.NullMembershipService.NullAuthenticator;
  */
 public class CommunicationGroup extends Communication {
 	private CommunicationProtocolJxta commProt = null;
-	private Vector createdGroups = null;
+	private Hashtable createdGroups = null;
 
 	public CommunicationGroup(CommunicationProtocolJxta commProt) {
 		this.commProt = commProt;
-		this.createdGroups = new Vector();
+		this.createdGroups = new Hashtable();
 	}
 
 
@@ -61,8 +62,7 @@ public class CommunicationGroup extends Communication {
 			//Create group
 			pg = this.getGlobalPG().newGroup(null,implAdv, name,descr);
 
-			this.createdGroups.add(pg);
-
+			this.createdGroups.put(pg.getPeerGroupID(), pg);
 		} catch (PeerGroupException e) {
 			throw new GroupException(e,"Could not create a group");
 		} catch (Exception e) {
@@ -86,20 +86,18 @@ public class CommunicationGroup extends Communication {
 	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
 		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
-
-
-		PeerGroup tmpPG = null;
 		//Get PeerGroup
-		try {
-			tmpPG = this.getAlreadyCreatedGroup(groupIDasString);
-			if (null == tmpPG) {			
-				pg = this.getGlobalPG().newGroup(groupID);
-			} else {
-				pg = tmpPG;
-			}
-			
-			this.joinGroup(pg);
-
+		System.out.println("groupID = " + groupID);
+        try {
+			if (this.getMemberOfGroups().containsKey(groupID)) {            
+                return null;
+            } else {
+                pg = (PeerGroup) this.createdGroups.get(groupID);
+                if (null == pg) {         
+                  pg = this.getGlobalPG().newGroup(groupID);
+                } 
+                this.joinGroup(pg);
+            }
 		} catch (GroupExceptionNotAllowed e) {
 			throw (GroupExceptionNotAllowed) e.fillInStackTrace();
 		} catch (PeerGroupException e) {
@@ -142,7 +140,7 @@ public class CommunicationGroup extends Communication {
 				member.join(auth);
 
 				//If joined, then update the memberOfGroups
-				this.getMemberOfGroups().addElement(pg);
+				this.getMemberOfGroups().put(pg.getPeerGroupID(), pg);
 	           				
 			} else {
 				throw new GroupExceptionNotAllowed("Was not allowed to join the Peer Group");
@@ -336,20 +334,6 @@ public class CommunicationGroup extends Communication {
 		return searchGroupResult;
 	}
 	
-
-	private PeerGroup getAlreadyCreatedGroup(String groupIDasString) {
-		Enumeration enum = createdGroups.elements();
-		PeerGroup pg = null;
-
-		while (enum.hasMoreElements()) {
-			pg = (PeerGroup) enum.nextElement();
-			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
-				return pg;	
-			} 
-		}
-		return null;		
-	}
-
 
 	private void removeElementFromMembersOfGroup(String groupIDasString) {
 		Enumeration enum = this.getMemberOfGroups().elements();

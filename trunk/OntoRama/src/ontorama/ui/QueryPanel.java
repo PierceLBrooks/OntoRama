@@ -169,29 +169,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      *
      */
-    public void enableDepth() {
-        _depthLabel.setEnabled(true);
-        _depthField.setEnabled(true);
-
-        _depthLabel.setVisible(true);
-        _depthField.setVisible(true);
-    }
-
-    /**
-     *
-     */
-    public void disableDepth() {
-        _depthLabel.setEnabled(false);
-        _depthField.setEnabled(false);
-
-        _depthLabel.setVisible(false);
-        _depthField.setVisible(false);
-    }
-
-
-    /**
-     *
-     */
     public String getQueryField() {
         return _queryField.getText();
     }

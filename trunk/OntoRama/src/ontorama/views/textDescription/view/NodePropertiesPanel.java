@@ -1,5 +1,7 @@
 package ontorama.views.textDescription.view;
 
+import ontorama.model.graph.Node;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,12 +34,9 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
 
     public NodePropertiesPanel(String propName, List propValue) {
         _propName = propName;
-        System.out.println("nodePropertiesPanel, propName = " + propName);
         _propValue = propValue;
         initLabels();
-
         layoutFirstComponent();
-
         // add second label
         add(_propValueLabel);
     }
@@ -67,7 +66,7 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
                 propertyValue = propertyValue + propValueString;
             }
             else {
-                ontorama.model.graph.Node node = (ontorama.model.graph.Node) obj;
+                Node node = (Node) obj;
                 propertyValue =  propertyValue + node.getName() + " ";
             }
         }

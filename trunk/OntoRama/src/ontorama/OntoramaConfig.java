@@ -64,11 +64,6 @@ public class OntoramaConfig {
     public static String parserPackageName;
 
     /**
-     * boolean that specifies if input ontology source is static (file) or dynamic (cgi)
-     */
-    public static boolean isSourceDynamic;
-
-    /**
      * where to find parser
      */
     private static final String parserPackagePathPrefix = "ontorama.ontotools.parser";
@@ -314,7 +309,6 @@ public class OntoramaConfig {
         OntoramaConfig.sourceUri = example.getRelativeUri();
         setParserPackageName(example.getParserPackagePathSuffix());
         setSourcePackageName(example.getSourcePackagePathSuffix());
-        OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
         OntoramaConfig.ontologyRoot = example.getRoot();
         OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
     }

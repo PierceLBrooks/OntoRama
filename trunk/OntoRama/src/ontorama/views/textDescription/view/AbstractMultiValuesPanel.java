@@ -2,12 +2,14 @@ package ontorama.views.textDescription.view;
 
 import java.awt.Component;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.tockit.events.EventBroker;
+import ontorama.model.graph.Node;
 
 /**
  * Title:        OntoRama
@@ -67,14 +69,15 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * recall focus action on the corresponding node
      * when pressed
      */
-    public void update(Iterator propValuesIterator) {
+    public void update(List propValuesList) {
+        Iterator propValuesIterator = propValuesList.iterator();
         clear();
         // need updateUI, otherwise it seems that when a user clicks
         // on a clone button and clone is focused - we don't get a 'clone
         // button'
         _propValuePanel.updateUI();
         while (propValuesIterator.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) propValuesIterator.next();
+            Node curNode = (Node) propValuesIterator.next();
             JComponent component = createPropertyComponent(curNode);
             _propValuePanel.add(component);
         }
@@ -95,7 +98,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * for given node and implement action listener for this
      * component
      */
-    protected abstract JComponent createPropertyComponent(ontorama.model.graph.Node node);
+    protected abstract JComponent createPropertyComponent(Node node);
 
 
 }

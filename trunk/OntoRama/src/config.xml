@@ -76,7 +76,7 @@ http://www.gotomy.com/color.html
                 </createIcon>
             </displayInGraphView>
             <displayInDescriptionWindow>
-                <relationType name="supertype" displayLabel="Parents"/>
+                <relationType name="supertype" displayLabel="Parents" queryOn="yes"/>
             </displayInDescriptionWindow>
         </relation>
         <relation id="2">

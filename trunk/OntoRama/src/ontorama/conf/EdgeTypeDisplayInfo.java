@@ -26,6 +26,13 @@ public class EdgeTypeDisplayInfo {
     private boolean _displayReverseEdgeInGraph = false;
     private boolean _displayReverseEdgeInDescription = false;
 
+    /**
+     * applies only to edge type displayed in the description window.
+     * if _queryOn is true - then this edge type will be clickable and on
+     * click will execute query for the displayed value in the current ontology
+     */
+    private boolean _queryOn = false;
+
 
     public EdgeTypeDisplayInfo () {
     }
@@ -99,6 +106,14 @@ public class EdgeTypeDisplayInfo {
             return null;
         }
         return new ImageIcon(_reverseEdgeImage);
+    }
+
+    public boolean isQueryOn() {
+        return _queryOn;
+    }
+
+    public void setQueryOn(boolean queryOn) {
+        _queryOn = queryOn;
     }
 
     public String toString() {

@@ -1,4 +1,4 @@
-package ontorama.test.model;
+package ontorama.model;
 
 import junit.framework.*;
 /**

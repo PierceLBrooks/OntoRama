@@ -84,8 +84,24 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            CanvasItemPointedEvent pointedEvent = (CanvasItemPointedEvent) e;
             System.out.println("processEvent: NodePointed: " + nodeView);
-            highlightEdge(nodeView.getGraphNode());
+            highlightPathToRoot(pointedEvent);
+        }
+    }
+
+    /**
+     *
+     */
+    private class SpherePointedEventHandler implements EventListener {
+        public SpherePointedEventHandler(EventBroker eventBroker) {
+            eventBroker.subscribe(this, CanvasItemPointedEvent.class, SphereView.class);
+        }
+
+        public void processEvent(Event e) {
+            CanvasItemPointedEvent pointedEvent = (CanvasItemPointedEvent) e;
+            System.out.println("processEvent: SpherePointed ");
+            highlightPathToRoot(pointedEvent);
         }
     }
 
@@ -170,7 +186,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new GraphViewFocusEventHandler(eventBroker, this);
         new NodeActivatedEventHandler(eventBroker);
         new NodeDraggedEventHandler(eventBroker);
-        //new NodePointedEvent(eventBroker);
+        new NodePointedEvent(eventBroker);
+        new SpherePointedEventHandler(eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
@@ -1120,34 +1137,57 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
     }
 
-    public void mouseMoved(MouseEvent e) {
-//        if (dragmode) {
-//            return;
-//        }
-//        Iterator it = canvasItems.iterator();
-//        double minDist = this.getWidth();
-//        double dist = 0;
-//        HyperNodeView closestNode = null;
-//        while (it.hasNext()) {
-//            CanvasItem cur = (CanvasItem) it.next();
-//            if (cur instanceof HyperNodeView) {
+
+    /**
+     *
+     */
+    public void highlightPathToRoot (CanvasItemPointedEvent pointedEvent) {
+        Iterator it = canvasItems.iterator();
+        double minDist = this.getWidth();
+        double dist = 0;
+        HyperNodeView closestNode = null;
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
+            if (cur instanceof HyperNodeView) {
 //                double curX = e.getX() - getSize().width / 2;
 //                double curY = e.getY() - getSize().height / 2;
-//                curX = curX * (1 / canvasScale);
-//                curY = curY * (1 / canvasScale);
+                double curX = pointedEvent.getCanvasPosition().getX() - getSize().width / 2;
+                double curY = pointedEvent.getCanvasPosition().getY() - getSize().height / 2;
+                curX = curX * (1 / canvasScale);
+                curY = curY * (1 / canvasScale);
+
+                dist = Math.sqrt(curX * curX + curY * curY);
+
 //                dist = ((HyperNodeView) cur).distance(curX, curY);
-//                if (dist < minDist) {
-//                    minDist = dist;
-//                    closestNode = (HyperNodeView) cur;
-//                }
-//            }
-//        }
-//        if (closestNode != null && !closestNode.equals(currentHighlightedView)) {
-//            currentHighlightedView = closestNode;
-//            closestNode.setHighlightEdge(true);
-//            this.highlightEdge(closestNode.getGraphNode());
-//            repaint();
-//        }
+
+                /// @todo work out how above commented out line should work...
+                // attempt to make it work is commented out below.
+
+//                HyperNodeView curNodeView = (HyperNodeView) cur;
+//                GraphNode curGraphNode = curNodeView.getGraphNode();
+//                HyperNode curHyperNode = (HyperNode) hypernodes.get(curGraphNode);
+//                dist = curHyperNode.distance(curX, curY);
+
+                System.out.println("dist = " + dist + ", minDist = " + minDist);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestNode = (HyperNodeView) cur;
+                }
+            }
+        }
+        if (closestNode == null ) {
+            return;
+        }
+        highlightNodePathToRoot(closestNode);
+    }
+
+    public void highlightNodePathToRoot (HyperNodeView node) {
+        if (!node.equals(currentHighlightedView)) {
+            currentHighlightedView = node;
+            node.setHighlightEdge(true);
+            this.highlightEdge(node.getGraphNode());
+            repaint();
+        }
     }
 
 }

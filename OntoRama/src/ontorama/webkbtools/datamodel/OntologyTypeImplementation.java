@@ -181,43 +181,6 @@ public class OntologyTypeImplementation implements OntologyType {
 
     }
 
-
-
-
-//  /**
-//   * Sets the type description
-//   * @param description - description String for this type
-//   */
-//  public void setDescription(String description) {
-//    typeDescription = description;
-//  }
-//
-//  /**
-//   * Gets the type description
-//   * @param -
-//   * @return  description string for this type
-//   */
-//  public String getDescription() {
-//    return typeDescription;
-//  }
-//
-//  /**
-//   * Set type creator
-//   * @param creatorStr
-//   */
-//   public void setCreator (String creatorStr) {
-//    this.typeCreator = creatorStr;
-//   }
-//
-//   /**
-//    * Get type creator
-//    * @return   creator string
-//    */
-//    public String getCreator () {
-//        return this.typeCreator;
-//    }
-
-
   /**
    * get name of this type
    * @param -
@@ -232,26 +195,21 @@ public class OntologyTypeImplementation implements OntologyType {
    */
   public String toString () {
     String str = "name: " + typeName + "\n";
-    //str = str + "description: " + typeDescription + "\n";
-    int count = 0;
-    while(count <= OntoramaConfig.MAXTYPELINK) {
-      try {
-          Iterator relationOntTypesIterator = this.getIterator(count);
-          //str = str + "relation link: " + count + ", types: " + "\n";
-          while (relationOntTypesIterator.hasNext()) {
-            OntologyType ot = (OntologyTypeImplementation) relationOntTypesIterator.next();
-			//if (ot.getName) {
-                //str = str + "\t- " + ot.getName();
-				//str = str + "relation link: " + count + ", types: " + "\n";
-            	str = str + "- " + ot.getName() + " ( relation link: " + count + ") " + "\n";
-			//}
+    try {
+      Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
+      while (relLinks.hasNext()) {
+          Integer relLink = (Integer) relLinks.next();
+          //str = str + "relation link: " + relLink.intValue() + "\n";
+          Iterator relatedTypes = this.getIterator(relLink.intValue());
+          while (relatedTypes.hasNext()) {
+              OntologyType relatedType = (OntologyType) relatedTypes.next();
+              str = str + "... " + relatedType.getName() + " ( relation link: " + relLink.intValue() + ") " + "\n";
           }
       }
-      catch (NoSuchRelationLinkException e) {
-        System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-        System.exit(1);
-      }
-      count++;
+    }
+    catch (NoSuchRelationLinkException e) {
+      System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+      System.exit(1);
     }
     return str;
   }

@@ -61,6 +61,9 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
         Iterator propValueIterator = propValueList.iterator();
         while (propValueIterator.hasNext()) {
             Object obj = propValueIterator.next();
+            if (obj == null) {
+            	continue;
+			}
             if (obj.getClass().equals(java.lang.String.class)) {
                 String propValueString = (String) obj;
                 propertyValue = propertyValue + propValueString;

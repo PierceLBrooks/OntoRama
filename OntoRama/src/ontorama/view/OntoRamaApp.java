@@ -431,10 +431,8 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    public void showErrorDialog (String message) {
-      message = "Sorry, " + message;
-      JOptionPane optionPane = new JOptionPane(message,JOptionPane.ERROR_MESSAGE);
-      optionPane.showMessageDialog(this,message);
+    private void showErrorDialog (String message) {
+      ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, this);
     }
 
 

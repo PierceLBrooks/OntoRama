@@ -609,12 +609,26 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     * @todo need to think this through - if removing a node, do we need to remove edges and
-     * subtrees if there are any?
-     * @param node
+     * @todo This does not remove subtrees, only the node and its connecting edges are removed, which might lead to more
+     *       graph components. Should probably behave differently on a Tree structure, but we can't really do anthing
+     *       useful on a generic Graph.
      */
     public void removeNode (Node node) {
         _graphNodes.remove(node);
+        List edgesToRemove = new ArrayList();
+        for (Iterator iterator = _graphEdges.iterator(); iterator.hasNext();) {
+            Edge edge = (Edge) iterator.next();
+            if(edge.getToNode() == node) {
+                edgesToRemove.add(edge);
+            }
+            if(edge.getFromNode() == node) {
+                edgesToRemove.add(edge);
+            }
+        }
+        for (Iterator iterator = edgesToRemove.iterator(); iterator.hasNext();) {
+            Edge edge = (Edge) iterator.next();
+            removeEdge(edge);
+        }
         eventBroker.processEvent(new NodeRemovedEvent(this, node));
     }
 

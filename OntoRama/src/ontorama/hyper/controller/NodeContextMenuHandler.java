@@ -12,6 +12,7 @@ import ontorama.controller.NodeSelectedEvent;
 import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.model.EdgeType;
 import ontorama.model.Node;
+import ontorama.model.Graph;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
@@ -36,7 +37,8 @@ public class NodeContextMenuHandler implements EventListener {
     public void processEvent(Event e) {
         final HyperNodeView nodeView = (HyperNodeView) e.getSubject();
         CanvasItemContextMenuRequestEvent ev = (CanvasItemContextMenuRequestEvent) e;
-        JPopupMenu menu = new JPopupMenu("Add relationship");
+        JPopupMenu menu = new JPopupMenu();
+        JMenu newNodeMenu = new JMenu("Create new node");
         JMenuItem menuItem;
         List edgeTypes = OntoramaConfig.getEdgeTypesList();
         for (Iterator iterator = edgeTypes.iterator(); iterator.hasNext();) {
@@ -52,9 +54,23 @@ public class NodeContextMenuHandler implements EventListener {
                         eventBroker.processEvent(new NodeSelectedEvent(newNode));
                     }
                 });
-                menu.add(menuItem);
+                newNodeMenu.add(menuItem);
             }
         }
+        menu.add(newNodeMenu);
+        menuItem = new JMenuItem("Delete node");
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Graph graph = simpleHyperView.getGraph();
+                Node graphNode = nodeView.getGraphNode();
+                graph.removeNode(graphNode);
+                for (Iterator iterator = graphNode.getClones().iterator(); iterator.hasNext();) {
+                    Node clone = (Node) iterator.next();
+                    graph.removeNode(clone);
+                }
+            }
+        });
+        menu.add(menuItem);
         Point2D awtPos = ev.getAWTPosition();
         menu.show(simpleHyperView, (int) awtPos.getX(), (int) awtPos.getY());
     }

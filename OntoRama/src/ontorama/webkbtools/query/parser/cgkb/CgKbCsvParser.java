@@ -17,7 +17,8 @@ import ontorama.webkbtools.inputsource.*;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
+import ontorama.model.EdgeIterface;
 
 import java.util.*;
 import java.io.*;
@@ -85,16 +86,16 @@ public class CgKbCsvParser implements Parser {
             RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
             GraphNode fromNode = getNodeForName(shortNameObj1,  obj1);
             GraphNode toNode = getNodeForName(shortNameObj2, obj2);
-            Edge edge = null;
+            EdgeIterface edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
                     continue;
                 }
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if (rel.equals(relationLinkDetails.getLinkName())) {
-                    edge = new Edge(fromNode, toNode, relationLinkDetails);
+                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
                 } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
-                    edge = new Edge(fromNode, toNode, relationLinkDetails);
+                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
                 }
             }
             if (edge == null) {

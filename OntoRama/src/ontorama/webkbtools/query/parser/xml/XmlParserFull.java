@@ -12,7 +12,8 @@ package ontorama.webkbtools.query.parser.xml;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
+import ontorama.model.EdgeIterface;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
@@ -159,7 +160,7 @@ public class XmlParserFull implements Parser {
                 throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
             }
             debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
-            Edge edge = null;
+            EdgeIterface edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
                     continue;
@@ -167,10 +168,10 @@ public class XmlParserFull implements Parser {
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if ((nameAttr.getValue()).equals(relationLinkDetails.getLinkName())) {
                     debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    edge = new Edge(fromNode, toNode, relationLinkDetails);
+                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
                 } else if ((nameAttr.getValue()).equals(relationLinkDetails.getReversedLinkName())) {
                     debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    edge = new Edge(toNode, fromNode, relationLinkDetails);
+                    edge = new EdgeImpl(toNode, fromNode, relationLinkDetails);
                 }
             }
             if (edge == null) {

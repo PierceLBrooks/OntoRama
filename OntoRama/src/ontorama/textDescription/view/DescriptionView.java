@@ -3,7 +3,7 @@ package ontorama.textDescription.view;
 import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
-import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.model.GraphImpl;

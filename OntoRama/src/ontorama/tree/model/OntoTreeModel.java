@@ -54,7 +54,7 @@ public class OntoTreeModel implements TreeModel {
         while (it.hasNext()) {
           GraphNode cur = (GraphNode) it.next();
           System.out.println("..... OntoTreeModel cur = " + cur.getName());
-          Iterator outbound = Edge.getOutboundEdgeNodes(cur);
+          Iterator outbound = EdgeImpl.getOutboundEdgeNodes(cur);
           while (outbound.hasNext()) {
             GraphNode outNode = (GraphNode) outbound.next();
             System.out.println("\t.... - " + outNode.getName());

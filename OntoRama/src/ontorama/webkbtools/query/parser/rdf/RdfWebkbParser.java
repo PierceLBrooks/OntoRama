@@ -1,7 +1,7 @@
 package ontorama.webkbtools.query.parser.rdf;
 
 import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.EdgeIterface;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
@@ -83,7 +83,7 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
+            EdgeIterface curEdge = (EdgeIterface) it.next();
             GraphNode fromNode = curEdge.getFromNode();
             GraphNode toNode = curEdge.getToNode();
             //System.out.println("cur edge = " + curEdge);
@@ -127,7 +127,7 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator edgesIterator = _edgesList.iterator();
         while (edgesIterator.hasNext()) {
-            Edge curEdge = (Edge) edgesIterator.next();
+            EdgeIterface curEdge = (EdgeIterface) edgesIterator.next();
             //System.out.println("cur edge = " + curEdge);
 
             GraphNode fromNode = curEdge.getFromNode();

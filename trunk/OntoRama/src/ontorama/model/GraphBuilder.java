@@ -28,10 +28,13 @@ public class GraphBuilder {
 
     private String filename;
 
-    public GraphBuilder(String termName) {
-      try {
-          TypeQuery query = new TypeQueryImplementation();
-          Iterator ontIterator = query.getTypeRelative(termName);
+    /**
+     *
+     */
+    public GraphBuilder(QueryResult queryResult) throws NoSuchRelationLinkException {
+        String termName = queryResult.getQuery().getQueryTypeName();
+        Iterator ontIterator = queryResult.getOntologyTypesIterator();
+        try {
           while (ontIterator.hasNext()) {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
               parseTypeToNode(ot);
@@ -42,19 +45,21 @@ public class GraphBuilder {
               Iterator it = collection.iterator();
               while (it.hasNext()) {
                 GraphNode n = (GraphNode) it.next();
-                System.out.println(n.getName());
+                //System.out.println(n.getName());
               }
               graph = new Graph( collection, root );
           }
-      }
-      catch (ClassNotFoundException ce) {
-          System.out.println("ClassNotFoundException: " + ce);
-          System.exit(1);
-      }
-      catch (Exception e) {
-          System.out.println("Exception: " + e);
-      }
-
+        }
+        catch (NoSuchRelationLinkException e) {
+            throw e;
+        }
+        //catch (ClassNotFoundException ce) {
+        //    System.out.println("ClassNotFoundException: " + ce);
+        //    System.exit(1);
+        //}
+        //catch (Exception e) {
+        //    System.out.println("Exception: " + e);
+        //}
     }
 
     /**

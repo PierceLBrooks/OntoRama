@@ -442,5 +442,199 @@
 			FCG<br />
 			FE,.....,RDF
 		</p>
+		<h3>WebKB RDF Output Format</h3>
+		<p>To start with we used RDF output format produced by WebKB. We are using RDF parser that can process RDF file
+		and produce a set of triples. As a result, we get a set of statements such as: Subject->Predicate->Object.
+		In our case each Subject will correspond to an ontology node/type/term, Object can correspond to 
+		ontology node/type/term as well as to a literal string. Predicates describe relation links between ontology nodes.
+		So, after processing a statement, we may get  an ontology node connected to another ontology node by
+		some relation link. Or we may get ontology node connected to a literal with some relation link.
+		</p>
+		<p>
+		Here is table of  relation links to RDF Properties mapping. 
+		</p>
+		<p>
+		<table border="1">
+			<tr>
+			<th>
+				Link Name
+			</th>
+			<th>
+				WebKB Symbol
+			</th>
+			<th>
+				RDF Mapping
+			</th>
+			</tr>
+			<tr>
+			<td>
+				subtypeOf
+			</td>
+			<td>
+				&gt;				
+			</td>
+
+				<td>
+				rdfs:subClassOf 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					similar
+				</td>
+				<td>
+					~
+				</td>
+				<td>
+				pm:similar
+				</td>
+			</tr>
+			<tr>
+				<td>
+					part
+				</td>
+				<td>
+					p
+				</td>
+				<td>
+				pm:part
+				</td>
+			</tr>
+			<tr>
+				<td>
+					substance
+				</td>
+				<td>
+					s
+				</td>
+				<td>
+					pm:substance
+				</td>
+			</tr>
+			<tr>
+				<td>
+					instanceOf
+				</td>
+				<td>
+					^
+				</td>
+				<td>
+					rdf:type
+				</td>
+			</tr>
+			<tr>
+				<td>
+					complement
+				</td>
+				<td>
+					/
+				</td>
+				<td>
+					daml:complementOf
+				</td>
+			</tr>
+			<tr>
+				<td>
+					location
+				</td>
+				<td>
+					l
+				</td>
+				<td>
+					pm:location
+				</td>
+			</tr>
+			<tr>
+				<td>
+					member
+				</td>
+				<td>
+					m
+				</td>
+				<td>
+					pm:wnMember
+				</td>
+			</tr>
+			<tr>
+				<td>
+					object
+				</td>
+				<td>
+					o
+				</td>
+				<td>
+					pm:wnObject
+				</td>
+			</tr>
+			<tr>
+				<td>
+					url
+				</td>
+				<td>
+					u
+				</td>
+				<td>
+					pm:url
+				</td>
+			</tr>
+			<tr>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					reverse
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					noun
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>				
+			</tr>
+			<tr>
+				<td>
+					Ontology term description
+				</td>
+				<td>
+				</td>
+				<td>
+					rdfs:Comment
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Creator
+				</td>
+				<td>
+				</td>
+				<td>
+					dc:Creator
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Synonym (or other name for this term)
+				</td>
+				<td>
+				</td>
+				<td>
+					rdfs:label 
+				</td>
+			</tr>
+
+		</table>		
+		</p>
 	</body>
 </html>

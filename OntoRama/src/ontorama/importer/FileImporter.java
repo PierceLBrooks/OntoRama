@@ -6,17 +6,15 @@ import javax.swing.JFileChooser;
 import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
 import ontorama.backends.filemanager.ParserNotSpecifiedException;
 import ontorama.backends.filemanager.Util;
 import ontorama.backends.filemanager.gui.FileBackendFileFilter;
-import ontorama.model.graph.Graph;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ui.events.GraphIsLoadedEvent;
+import ontorama.ui.events.LoadGraphEvent;
 
 /**
  * @author nataliya
@@ -70,10 +68,7 @@ public class FileImporter implements Importer {
 		try {
 			QueryEngine qe = new QueryEngine( _sourcePackageName, parserPackageName,file.getAbsolutePath());
 			QueryResult qr = qe.getQueryResult(new Query());
-			Backend backend = OntoramaConfig.getBackend();
-			System.out.println("FileBackend::getResult, backend = " + backend);
-			Graph newGraph = backend.createGraph(qr, _eventBroker);
-			_eventBroker.processEvent(new GraphIsLoadedEvent(newGraph));
+			_eventBroker.processEvent(new LoadGraphEvent(qr));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -30,7 +30,6 @@ public class TreeViewFocusEventHandler implements EventBrokerListener {
         TreeNode node = (TreeNode) e.getSubject();
         _treeView.focus(node);
 
-        /// @todo this approach avoids close coupling of tree and graph nodes, however it is not extensible enough
         if (node instanceof TreeNodeImpl) {
             TreeNodeImpl tn = (TreeNodeImpl) node;
             _eventBroker.processEvent(new NodeSelectedEvent(tn.getGraphNode()));

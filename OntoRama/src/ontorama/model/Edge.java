@@ -79,7 +79,7 @@ public class Edge {
      *
      */
     public String toString() {
-        String str = "Edge from '" + this.fromNode.getName() + "' to '" + this.toNode.getName() + "', edgeType = " + edgeType;
+        String str = "Edge from '" + this.fromNode + "' to '" + this.toNode + "', edgeType = " + edgeType.getLinkName();
         //String str = "Edge from '" + this.fromNode.getName() + "' = " + this.fromNode +  " to '" + this.toNode.getName() + "' = " + this.toNode + ", edgeType = " + edgeType;
         return str;
     }

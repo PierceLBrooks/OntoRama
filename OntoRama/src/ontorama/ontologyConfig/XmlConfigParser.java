@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.Enumeration;
 
 import org.jdom.*;
 import org.jdom.input.*;
@@ -31,15 +32,23 @@ public class XmlConfigParser {
     private static RelationLinkDetails[] relationLinkConfig;
 
     /**
-     *
+     * Holds defined conceptProperties details. This list can be referred to
+     * whenever we need to find out what details are available for each concept
+     * type.
      */
-    private static Hashtable conceptPropertiesConfig;
+    private static LinkedList conceptPropertiesConfig;
+
+    /**
+     * Holds mapping for concept properties. Keys of this hashtable should
+     * correspond to list conceptPropertiesConfig, Values are rdf mappings for
+     * the property.
+     */
+    private static Hashtable conceptPropertiesMapping;
 
     /**
      *
      */
     private static LinkedList relationRdfMappingList;
-
 
     /**
      *
@@ -72,7 +81,8 @@ public class XmlConfigParser {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException {
-        conceptPropertiesConfig = new Hashtable();
+        conceptPropertiesConfig = new LinkedList();
+        conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
 
         try {
@@ -86,6 +96,7 @@ public class XmlConfigParser {
             parseOntologyElement(ontologyEl);
 
             parseRelationRdfMappingElement(rdfMappingEl);
+            parseConceptRdfMappingElement(rdfMappingEl);
         }
         catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
@@ -99,6 +110,14 @@ public class XmlConfigParser {
     public static RelationLinkDetails[] getRelationLinksArray () {
         return relationLinkConfig;
     }
+
+    /**
+     *
+     */
+    public static List getConceptPropertiesList () {
+        return conceptPropertiesConfig;
+    }
+
 
     /**
      *
@@ -171,7 +190,19 @@ public class XmlConfigParser {
             catch (DataConversionException e) {
                 throw new ConfigParserException ("Invalid number for Attribute 'id', received: " + idAttr.getValue());
             }
+
         }
+        // now process element conceptProperty
+        List conceptPropertyElList = ontologyEl.getChildren("conceptProperty");
+        Iterator conceptPropertyElIterator = conceptPropertyElList.iterator();
+        while (conceptPropertyElIterator.hasNext()) {
+            Element conceptPropertyEl = (Element) conceptPropertyElIterator.next();
+            Attribute conceptPropertyIdAttr = conceptPropertyEl.getAttribute("id");
+            checkCompulsoryAttr(conceptPropertyIdAttr, "id", "conceptProperty");
+            ConceptPropertiesDetails conceptPropertyDetails = new ConceptPropertiesDetails(conceptPropertyIdAttr.getValue());
+            conceptPropertiesConfig.add(conceptPropertyDetails);
+        }
+
     }
 
     /**
@@ -204,15 +235,35 @@ public class XmlConfigParser {
     /**
      *
      */
-    private void parseConceptPropertyElements (Element ontologyEl) throws ConfigParserException {
-        List conceptPropElementsList = ontologyEl.getChildren("conceptProperty");
-        Iterator conceptPropElementsIterator = conceptPropElementsList.iterator();
-        while (conceptPropElementsIterator.hasNext()) {
-            Element conceptPropEl = (Element) conceptPropElementsIterator.next();
-            Attribute idAttr = conceptPropEl.getAttribute("id");
-            checkCompulsoryAttr(idAttr, "id", "conceptProperty");
+     public Hashtable getConceptPropertiesRdfMappingTable () {
+        return this.conceptPropertiesMapping;
+     }
+
+    /**
+     *
+     */
+    private void parseConceptRdfMappingElement (Element rdfMappingEl) throws ConfigParserException {
+        Element conceptPropertiesEl = rdfMappingEl.getChild("conceptProperties");
+        List mapElementsList = conceptPropertiesEl.getChildren("map");
+        Iterator mapElementsIterator = mapElementsList.iterator();
+        while (mapElementsIterator.hasNext()) {
+            Element mapEl = (Element) mapElementsIterator.next();
+            Attribute idAttr = mapEl.getAttribute("id");
+            checkCompulsoryAttr(idAttr, "id", "map");
+            Attribute tagAttr = mapEl.getAttribute("tag");
+            checkCompulsoryAttr(tagAttr, "tag", "map");
+
+            Iterator conceptPropertiesConfigIterator = conceptPropertiesConfig.iterator();
+            while (conceptPropertiesConfigIterator.hasNext()) {
+                ConceptPropertiesDetails curDetails = (ConceptPropertiesDetails) conceptPropertiesConfigIterator.next();
+                if (idAttr.getValue().equals(curDetails.getName()) ){
+                    ConceptPropertiesMapping conceptMapping = new ConceptPropertiesMapping(idAttr.getValue(), tagAttr.getValue());
+                    conceptPropertiesMapping.put(idAttr.getValue(), conceptMapping);
+                }
+            }
         }
     }
+
 
     /**
      *
@@ -236,4 +287,17 @@ public class XmlConfigParser {
             relationLinkConfig[i] = null;
         }
     }
+
+    /**
+     * Print Concept Properties Mapping. Usefull for debugging
+     */
+     public void printConceptPropertiesRdfMapping () {
+        Enumeration e = conceptPropertiesMapping.keys();
+        System.out.println("conceptProperties size: " + conceptPropertiesMapping.size() + ", conceptPropertiesMapping: ");
+        while (e.hasMoreElements()) {
+            String curKey = (String) e.nextElement();
+            ConceptPropertiesMapping curValue = (ConceptPropertiesMapping) conceptPropertiesMapping.get(curKey);
+            System.out.println("key = " + curKey + ", mapping = " + curValue.getRdfTag());
+        }
+     }
 }

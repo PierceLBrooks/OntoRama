@@ -87,7 +87,7 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
     public void valueChanged(TreeSelectionEvent e) {
         OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
         if ( !node.equals(focusedNode)) {
-            System.out.println("******** node " + node);
+            //System.out.println("******** node " + node);
             node.setFocus();
         }
     }
@@ -133,10 +133,16 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
         Color color1 = Color.gray;
         Color color2 = Color.pink;
 
+        /**
+         *
+         */
         public MyRenderer() {
             //tutorialIcon = new ImageIcon("images/middle.gif");
         }
 
+        /**
+         *
+         */
         public Component getTreeCellRendererComponent(
                             JTree tree,
                             Object value,
@@ -160,6 +166,9 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             return this;
         }
 
+        /**
+         *
+         */
         private RelationLinkDetails getRelLinkDetails (Object value) {
             OntoTreeNode treeNode = (OntoTreeNode) value;
             int relLink = treeNode.getRelLink();
@@ -167,12 +176,18 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             return relLinkDetails;
         }
 
+        /**
+         *
+         */
         protected Color isChild (RelationLinkDetails relLinkDetails) {
             Color color = relLinkDetails.getDisplayColor();
             return color;
 
         }
 
+        /**
+         *
+         */
         protected Icon getIcon (RelationLinkDetails relLinkDetails) {
             Image image = relLinkDetails.getDisplayImage();
             Icon icon = new ImageIcon(image);
@@ -180,16 +195,18 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             return icon;
         }
 
+        /**
+         *
+         */
         protected String getToolTipText (Object value, RelationLinkDetails relLinkDetails) {
             OntoTreeNode treeNode = (OntoTreeNode) value;
             String relLinkName = relLinkDetails.getLinkName();
-            String result = "node " + treeNode.getGraphNode().getName();
-            result = result + " , relation " + relLinkName;
+            String result = "";
+            //result = "Concept: " + treeNode.getGraphNode().getName();
+            //result = result + "\n";
+            result = result + "Relation Type: " + relLinkName;
             return result;
         }
-
-
-
     }
 
 }

@@ -11,6 +11,23 @@ package ontorama.ontologyConfig;
 
 public class ConceptPropertiesDetails {
 
-    public ConceptPropertiesDetails() {
+    /**
+     * concept properties name
+     */
+    private String name;
+
+    /**
+     *
+     */
+    public ConceptPropertiesDetails(String name) {
+        this.name = name;
     }
+
+    /**
+     *
+     */
+    public String getName () {
+        return this.name;
+    }
+
 }

@@ -23,6 +23,7 @@ import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.ui.ErrorDialog;
+import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
@@ -59,6 +60,8 @@ public class FileBackend implements Backend {
 	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
 	private String _filename;
 	
+	private QuerySettings _querySettings;
+	
 	private QueryEngine _lastQueryEngine;
 	
 	private Hashtable _queryEngineToQueryConfigMapping;
@@ -76,25 +79,6 @@ public class FileBackend implements Backend {
         }
     }
     
-    private class QuerySettings {
-    	
-    	private String parserPackage;
-    	private String sourceUri;
-    	
-    	public QuerySettings(String parserPackage, String sourceUri) {
-    		this.parserPackage = parserPackage;
-    		this.sourceUri = sourceUri;
-    	}
-    	
-    	public String getParserPackageName () {
-    		return this.parserPackage;
-    	}
-    	
-    	public String getSourceUri () {
-    		return this.sourceUri;
-    	}
-    }
-
     public FileBackend(){
     	_queryEngineToQueryConfigMapping = new Hashtable();
     }
@@ -147,6 +131,8 @@ public class FileBackend implements Backend {
         }
 
         _parserName = mapping.getParserName();
+        
+        _querySettings = new QuerySettings(_parserName, _filename);
     
     	System.out.println("FileBackend::parserName = " + _parserName);
        
@@ -185,6 +171,12 @@ public class FileBackend implements Backend {
             System.err.println("ModelWriterException:  " + e.getMessage());
         }
     }
+    
+    protected void processQueryFromHistoryElement(Query query, QuerySettings querySettings) {
+    	_querySettings = querySettings;
+    	GeneralQueryEvent queryEvent = new GeneralQueryEvent(query);
+    	_eventBroker.processEvent(queryEvent);    	
+    }
 
 	
 
@@ -202,29 +194,37 @@ public class FileBackend implements Backend {
 	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
 	 */
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-		_lastQueryEngine = new QueryEngine( _sourcePackageName, _parserName, _filename);
+		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
 		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
 		_queryEngineToQueryConfigMapping.put(_lastQueryEngine, new QuerySettings(_parserName, _filename));
 		return queryResult;
 	}
 	
-	public QueryEngine getQueryEngine() {
-		return _lastQueryEngine;
-	}
+//	public QueryEngine getQueryEngine() {
+//		return _lastQueryEngine;
+//	}
+//
+//	/**
+//	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
+//	 */
+//	public void setQueryEngine(QueryEngine queryEngine) {
+//		_lastQueryEngine = queryEngine;
+//		/// @todo this a hack - trying to revert to old config settings. Need to think 
+//		/// how to fix this.
+//		QuerySettings querySettings = (QuerySettings) _queryEngineToQueryConfigMapping.get(queryEngine);
+//		if (querySettings != null) {
+//			_parserName = querySettings.getParserPackageName();
+//			_filename = querySettings.getSourceUri();
+//		}
+//	}
+	
 
 	/**
-	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
+	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query, org.tockit.events.EventBroker)
 	 */
-	public void setQueryEngine(QueryEngine queryEngine) {
-		_lastQueryEngine = queryEngine;
-		/// @todo this a hack - trying to revert to old config settings. Need to think 
-		/// how to fix this.
-		QuerySettings querySettings = (QuerySettings) _queryEngineToQueryConfigMapping.get(queryEngine);
-		if (querySettings != null) {
-			_parserName = querySettings.getParserPackageName();
-			_filename = querySettings.getSourceUri();
-		}
+	public HistoryElement createHistoryElement(Query query,EventBroker eventBroker) {
+		FileHistoryElement res = new FileHistoryElement(query, eventBroker, this, _querySettings);
+		return res;
 	}
-	
 
 }

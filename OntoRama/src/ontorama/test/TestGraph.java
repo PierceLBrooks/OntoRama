@@ -27,9 +27,16 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
  * @author nataliya
  * @version 1.0
  *
+ * Test Graph created from QueryResult:
+ * - number of nodes and edges are correct
+ * - test a node for properties, clones and depth
+ * - test an edge for inbound and outbound connections
+ *
  * not tested methods:
  * - all private methods
  * - printXml method
+ *
+ * @think how can we check if nodes that are created are what we expect...
  */
 
 public class TestGraph extends TestCase {
@@ -108,7 +115,7 @@ public class TestGraph extends TestCase {
     graph = new Graph (queryResult);
 
     node1 = getNodeChildByName(graph.getRootNode(), "node1");
-    System.out.println("node1 = " + node1);
+    //System.out.println("node1 = " + node1);
     node1_2 = getNodeChildByName(node1, "node1.2");
   }
 
@@ -123,7 +130,7 @@ public class TestGraph extends TestCase {
   }
 
   /**
-   * @think how can we check if nodes that are created are what we expect...
+   * test if nodes list is correct
    */
   public void testGetNodesList () {
     List nodesList = graph.getNodesList();
@@ -131,20 +138,38 @@ public class TestGraph extends TestCase {
     // adding 1 to ontTypesList size to account for cloned node1.2
     assertEquals("number of nodes should equal number of ontTypes + 1",
                 ontTypesList.size() + 1, nodesList.size());
+  }
 
-    // test properties for node1
-    assertEquals("description property for node1",node1Descr, node1.getProperty(typePropertyName));
+  /**
+   * test properties, clones and depth for node1
+   */
+  public void testNode1 () {
+    List propList = node1.getProperty(typePropertyName);
+    assertEquals("description property for node1",node1Descr, propList.get(0));
+    assertEquals("depth of node1", 1, node1.getDepth());
+    assertEquals("does node1 have clones", false, node1.hasClones());
+  }
 
+  /**
+   * test clones and depth for node1_2
+   */
+  public void testNode1_2 () {
+    assertEquals("depth for node1_2", 2, node1_2.getDepth());
+    assertEquals("does node1_2 have clones", true, node1_2.hasClones());
   }
 
   /**
    *
    */
-  public void testEdges () {
+  public void testEdgesSize () {
     List edgesList = Edge.edges;
     assertEquals("6 edges in the graph", 6, edgesList.size());
+  }
 
-    // check if outbound edges for node1 are what they should be
+  /**
+   * check if outbound edges for node1 are what they should be
+   */
+  public void testOutboundEdgesForNode1 () {
     assertEquals("outbound edges for node1 ", 2, Edge.getOutboundEdgeNodesList(node1).size());
 
     Iterator outboundEdges = Edge.getOutboundEdges(node1);
@@ -159,8 +184,12 @@ public class TestGraph extends TestCase {
         assertEquals(2, cur.getType());
       }
     }
+  }
 
-    // check inbound edges for node1
+  /**
+   * check inbound edges for node1
+   */
+  public void testInboundEdgesForNode1 () {
     Iterator inboundEdges = Edge.getInboundEdges(node1);
     assertEquals("inbound edges for node1", 1, Edge.getInboundEdgeNodesList(node1).size());
 
@@ -172,6 +201,8 @@ public class TestGraph extends TestCase {
     }
   }
 
+  ///////////////////***** Helper methods *****///////////////////////
+
   /**
    *
    */
@@ -180,12 +211,12 @@ public class TestGraph extends TestCase {
     GraphNode resultNode = null;
     while (outboundNodes.hasNext()) {
       GraphNode cur = (GraphNode) outboundNodes.next();
-      System.out.println("---------cur name = " + cur.getName());
+      //System.out.println("---------cur name = " + cur.getName());
       if ((cur.getName()).equals(name)) {
         resultNode = cur;
       }
     }
-    System.out.println("resultNode = " + resultNode);
+    //System.out.println("resultNode = " + resultNode);
     return resultNode;
   }
 }

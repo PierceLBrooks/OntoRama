@@ -44,15 +44,12 @@ public class CommunicationSender extends Communication {
 	* is only sent to that peer. This method runs in its' own thread.
 	*
 	* @param propType the type of propagation (if it is a propagataion)
-	* @param recieverPeerID the peer id that will recieve the message (null if all)
+	* @param recieverPipeAdvID the peer id that will recieve the message (null if all)
 	* @param ownPeerID this peers id
-	* @param ownGroypID the id of the group
+	* @param ownGroupID the id of the group
 	* @param tag the tag for the message
 	* @param message the message to send
-	* 
-	* @return returns true if everything went ok otherwise false
-	* @exception
-	* 
+     * @exception GroupExceptionThread
 	* @version P2P-OntoRama 1.0.0
 	*/	
 	protected void sendMessage(int propType,
@@ -101,15 +98,14 @@ public class CommunicationSender extends Communication {
 	* 
 	* @param query a string containing the query 
 	* @return a vector of SearchResultElement
-	* @exception
+	* @exception  GroupExceptionThread
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
     protected Vector sendSearchRequest(String query) throws GroupExceptionThread {
 		DiscoveryService discoveryService = null;
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;
-        //System.out.println("sendMessage::start");
-        
+
   		MimeMediaType mimeType = new MimeMediaType("text/xml");
         Message queryTobeSent = null; 
         this.setSearchResult(new Vector());   
@@ -118,32 +114,33 @@ public class CommunicationSender extends Communication {
          queryTobeSent = this.getGlobalPG().getPipeService().createMessage();
                        
          queryTobeSent.addElement(
-          queryTobeSent.newMessageElement(
+         queryTobeSent.newMessageElement(
                             "TAG", 
                             mimeType, 
                             new Integer(Communication.TAGSEARCH).toString().getBytes()));
                         
          queryTobeSent.addElement(
-          queryTobeSent.newMessageElement(
+         queryTobeSent.newMessageElement(
                             "SenderPeerID", 
                             mimeType, 
                             this.getGlobalPG().getPeerID().toString().getBytes()));
 
 		PipeAdvertisement pipeAdv = this.getInputPipeAdvertisement(
 										this.getGlobalPG().getPeerGroupID());
-        System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
 
          queryTobeSent.addElement(
-          queryTobeSent.newMessageElement(
+         queryTobeSent.newMessageElement(
                             "SenderPipeID", 
                             mimeType, 
                             pipeAdv.getPipeID().toString().getBytes()));
 
         queryTobeSent.addElement(
-         queryTobeSent.newMessageElement(
+        queryTobeSent.newMessageElement(
                         "Body", 
                         mimeType, 
                         query.getBytes()));
+
+        System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
 
 
         Enumeration enum = this.getMemberOfGroups().elements();
@@ -152,7 +149,7 @@ public class CommunicationSender extends Communication {
             discoveryService = pg.getDiscoveryService();
 
             try {
-                OutputPipe pipe = (OutputPipe) this.getOutputPropagatePipe(pg.getPeerGroupID());
+                OutputPipe pipe = this.getOutputPropagatePipe(pg.getPeerGroupID());
                 pipe.send(queryTobeSent);
             }
             catch (IOException e) {
@@ -175,7 +172,8 @@ public class CommunicationSender extends Communication {
 	* This method is called on logout. It calls callFLushPeerAdvertisementFrom()
 	* for every group we are in at the moment.
 	*
-	* @exception
+	* @exception  GroupExceptionFlush
+    * @exception  GroupExceptionThread
 	* 
 	* @version P2P-OntoRama 1.0.0
 	*/	
@@ -204,11 +202,11 @@ public class CommunicationSender extends Communication {
 	* IFF the argument sendRemotely is true. If the peerID is null it will use 
 	* the peer id of this peer.
 	*
-	* @param groupID the id of the peergroup in that the flush should be done
+	* @param groupIDasString the id of the peergroup in that the flush should be done
 	* @param peerID the id of the peeradvertisement to be flushed
-	* @param sendRemotely true if the flush request should be propagated
-	*  
-	* @exception
+	*
+	* @exception   GroupExceptionThread
+    * @exception   GroupExceptionFlush
 	* @version P2P-OntoRama 1.0.0
 	*/	
 	public void flushPeerAdvertisement(String groupIDasString,

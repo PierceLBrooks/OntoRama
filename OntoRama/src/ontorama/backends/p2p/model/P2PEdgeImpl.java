@@ -5,21 +5,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.EdgeImpl;
 
 /**
- * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.
+ * Description: EdgeImpl between nodes. Edges correspond to relation links between concept types.
  * Copyright:    Copyright (c) 2001
  * Company: DSTC
  * @version 1.0
  */
 
-public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdge {
-
+public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
     /**
      * Store the asserters
      */
     private HashSet asserters;
-
 
     /**
      * Store the rejecters
@@ -33,12 +34,11 @@ public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdg
      * @param toNode
      * @param edgeType
      */
-	public P2PEdgeImpl(ontorama.model.graph.Node fromNode, ontorama.model.graph.Node toNode, ontorama.model.graph.EdgeType edgeType) throws NoSuchRelationLinkException {
+	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
 		super(fromNode,toNode,edgeType);
         this.asserters = new HashSet();
         this.rejecters = new HashSet();
 	}
-
 
     /**
      * Create a new P2PEdgeImpl with given name and asserter or rejecter
@@ -49,7 +49,7 @@ public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdg
      * @param asserter
      * @param rejecter
      */
-	public P2PEdgeImpl(ontorama.model.graph.Node fromNode, ontorama.model.graph.Node toNode, ontorama.model.graph.EdgeType edgeType,URI asserter, URI rejecter) throws NoSuchRelationLinkException {
+	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType,URI asserter, URI rejecter) throws NoSuchRelationLinkException {
 		super(fromNode,toNode,edgeType);
 
 		this.asserters = new HashSet();
@@ -96,7 +96,7 @@ public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdg
      * @return a list of the asserter
      */
      public Set getAssertionsList () {
-    	return (Set) this.asserters;
+    	return this.asserters;
     }
     
     /**
@@ -105,6 +105,6 @@ public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdg
      * @return a list of the rejecters
      */
      public Set getRejectionsList () {
-    	return (Set) this.rejecters;    	
+    	return this.rejecters;
     }
 }

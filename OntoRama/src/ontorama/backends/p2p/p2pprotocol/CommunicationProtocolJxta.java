@@ -32,7 +32,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	/**
 	 * The constructor for the class.
 	 * 
-	 * @exception
+	 * @exception GroupExceptionInit
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public CommunicationProtocolJxta (P2PRecieverInterface recieverObject) throws GroupExceptionInit {
@@ -55,7 +55,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* Sends a Logout Command to every Peer in the network that response to 
 	* the PeerDiscovery. 
 	* 
-	* @exception 
+	* @exception  GroupExceptionThread
+    * @exception   GroupExceptionFlush
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
@@ -84,16 +85,14 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* 
 	* @param query the query to send
 	* @return a vector of SearchResultElement
-	* @exception 
-	*
+	* @exception IOException
+    * @exception GroupExceptionThread
 	* @version P2P-OntoRama 1.0.0
 	*/
 	public Vector sendSearch(String query) throws IOException, GroupExceptionThread {
 		Vector searchResult = null;
 		try {
 			searchResult = sendSearchRequest(query);
-		} catch (IOException e) {
-			throw (IOException) e.fillInStackTrace();
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();		}
 		return searchResult;
@@ -103,9 +102,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	/**
 	* Sends a response to a question
 	* 
-	* @param recieverPeerID the peer that made the question
+	* @param recieverPipeAdvID the peer that made the question
 	* @param body what will be sent as a response
-	* @exception 
+	* @exception GroupExceptionThread
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/ 
@@ -129,13 +128,12 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* @param TAG the tag that identify the type of message to be sent
 	* @param recieverID the peer id of the reciever (null if to every peer)
 	* @param internalModel the message to send
-	* @exception 
+	* @exception  GroupExceptionThread
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
 	public void sendPropagate(int TAG, String recieverID, String internalModel) throws GroupExceptionThread {
 		try {
-			System.out.println("CommunicationProtocolJxta sending message, TAG = " + TAG);
 			communicationSender.sendMessage(TAG,
 											recieverID,
 											communicationSender.getPeerIDasString(),
@@ -154,7 +152,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @param descr description of the group
 	 * 
 	 * @return the created PeerGroup
-	 * @exception 
+	 * @exception GroupException
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
@@ -173,7 +171,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @param groupIDasString group to join
 	 * 
 	 * @return name of the group if joined sucessfully
-	 * @exception 
+	 * @exception GroupExceptionNotAllowed
+     * @exception GroupException
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
@@ -203,7 +202,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @param groupIDasString peer group id of the group to leave
 	 * 
 	 * @return true if leaved group sucessfully
-	 * @exception 
+	 * @exception GroupException
+     * @exception IOException
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
@@ -226,7 +226,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @param searchString null/string and or wildcards (e.g. ?,*)
 	 * 
 	 * @return a vector of SearchGroupResultElement
-	 * @exception 
+	 * @exception  IOException
+     * @exception  GroupExceptionThread
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
@@ -250,7 +251,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* 
 	* @param groupIDasString the peer group to perform a peer discovery in
 	* @return a vector of SearchGroupResultElement
-	* @exception 
+	* @exception  IOException
+    * @exception  GroupExceptionThread
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
@@ -272,11 +274,11 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* 
 	* @param query a string containing the query 
 	* @return a vector of SearchResultElement
-	* @exception 
+    * @exception GroupExceptionThread
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-    private Vector sendSearchRequest(String query) throws IOException, GroupExceptionThread{
+    private Vector sendSearchRequest(String query) throws GroupExceptionThread{
 		return communicationSender.sendSearchRequest(query);
     }
 	
@@ -285,7 +287,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* PeerAdvertisements from a given group. 
 	*
 	* @param groupIDasString the id of the peergroup in that the flush should be done
-	* @exception 
+	* @exception GroupExceptionFlush
+    * @exception  GroupExceptionThread
 	* 
 	* @version P2P-OntoRama 1.0.0
 	*
@@ -318,8 +321,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* This method is called on an incoming flush request
 	*
 	* @param groupIDasString the id of the peergroup in that the flush should be done
-	* @param peerID 
-	* @exception 
+	* @param peerIDasString
+	* @exception GroupExceptionFlush
+    * @exception GroupExceptionThread
 	* 
 	* @version P2P-OntoRama 1.0.0
 	*

@@ -1,6 +1,9 @@
 package ontorama.backends.p2p.model;
 
 
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,14 +16,12 @@ import java.util.Set;
  * <br>
  * Company:     DSTC
  */
-public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNode {
-
+public class P2PNodeImpl extends NodeImpl implements P2PNode {
 
     /**
      * Store the asserters
      */
     private HashSet asserters;
-
 
     /**
      * Store the rejecters
@@ -44,7 +45,7 @@ public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNod
          *
          * @param node
          */
-        public P2PNodeImpl(ontorama.model.graph.Node node) {
+        public P2PNodeImpl(Node node) {
             super(node.getName(),node.getIdentifier());
             this.setCreatorUri(node.getCreatorUri());
             this.setNodeType(node.getNodeType());
@@ -132,7 +133,7 @@ public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNod
      * @return a list of the asserter
      */
     public Set getAssertionsList () {
-    	return (Set) this.asserters;
+    	return this.asserters;
     }
     
     /**
@@ -141,6 +142,6 @@ public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNod
      * @return a list of the rejecters
      */
     public Set getRejectionsList () {
-    	return (Set) this.rejecters;    	
+    	return this.rejecters;
     }
 }

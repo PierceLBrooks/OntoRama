@@ -17,6 +17,8 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.GraphModificationException;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.NoTypeFoundInResultSetException;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -53,8 +55,7 @@ public class FileBackend implements Backend{
         }
 
         public void processEvent(Event event) {
-            ontoramaGraph = (ontorama.model.graph.Graph) event.getSubject();
-            //ontoramaGraph = OntoRamaApp.getCurrentGraph();
+            ontoramaGraph = (Graph) event.getSubject();
             System.out.println("\n\nloaded graph = " + ontoramaGraph);
             /// @todo total hack, need to work out workflows
             // totally faked query and query result.
@@ -67,7 +68,7 @@ public class FileBackend implements Backend{
                 /// @todo deal with the exceptions
                 e.printStackTrace();
             }
-            catch (ontorama.model.graph.NoTypeFoundInResultSetException e) {
+            catch (NoTypeFoundInResultSetException e) {
                 /// @todo deal with the exceptions
                 e.printStackTrace();
             }
@@ -87,9 +88,9 @@ public class FileBackend implements Backend{
 
     public P2PGraph search(Query query){
         ///@todo temporarily commented out
-        //return this.graph.search(query);
-        P2PGraph graph = new P2PGraphImpl();
-        return graph;
+        return this.graph.search(query);
+        //P2PGraph graph = new P2PGraphImpl();
+        //return graph;
     }
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
@@ -148,9 +149,7 @@ public class FileBackend implements Backend{
        OntoramaConfig.sourcePackageName = "ontorama.ontotools.source.FileSource";
        OntoramaConfig.parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
-       System.out.println("querEvent = " + queryEvent);
        eventBroker.processEvent(queryEvent);
-
     }
 
     public void saveFile(String filename){

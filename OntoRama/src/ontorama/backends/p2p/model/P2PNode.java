@@ -8,10 +8,12 @@
  */
 package ontorama.backends.p2p.model;
 
+import ontorama.model.graph.Node;
+
 import java.net.URI;
 import java.util.Set;
 
-public interface P2PNode extends ontorama.model.graph.Node {
+public interface P2PNode extends Node {
 
 
     /**

@@ -53,7 +53,6 @@ public class P2PMainPanel extends JFrame {
     public void showP2PPanel (boolean show) {
         pack();
         setLocationOnScreen(this.parent);
-        System.out.println("pwp main panel show: " + show);
         setVisible(show);
     }
 

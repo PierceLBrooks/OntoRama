@@ -45,7 +45,7 @@ public class CommunicationInit extends Communication {
 	/** This method intiatiates all the communication by setting up the global p2p group, 
      * which every peer have to belong too.
     * 
-    * @exception 
+    * @exception GroupExceptionInit
     *
     * @version P2P-OntoRama 1.0.0
     *
@@ -56,7 +56,6 @@ public class CommunicationInit extends Communication {
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			this.setGlobalPlatform(PeerGroupFactory.newPlatform());
 			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform());
-			System.out.println("\ninitJxtaTopGroup() pg = " + pg);
 			this.setGlobalPG(pg);
 			}
 		catch (PeerGroupException e) {
@@ -73,7 +72,7 @@ public class CommunicationInit extends Communication {
 	* This method creates a propagate pipe advertisement
 	* 
 	* @param pg the peer group where the pipe will be started
-	* @exception 
+	* @exception  GroupExceptionInit
 	*
 	* @version P2P-OntoRama 1.0.0
 	*
@@ -108,7 +107,6 @@ public class CommunicationInit extends Communication {
 
             //Create an output pipe and save it in the hashtable
             outputPipe = pipeService.createOutputPipe(pipeAdvert,1000);
-System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputPipe);
 
 			//Publish the pipes advertisement both localy and global
 			discServ.publish(pipeAdvert,DiscoveryService.ADV);
@@ -128,7 +126,7 @@ System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputP
 	* This method creates a input pipe advertisement and publish it
 	* 
 	* @param pg the peer group where the pipe will be started
-	* @exception 
+	* @exception  GroupExceptionInit
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/  

@@ -108,23 +108,7 @@ public class GraphImpl implements Graph {
             if (root == null) {
                 throw new NoTypeFoundInResultSetException(termName);
             }
-
             transformGraphIntoTree();
-
-//            _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
-//            listItemsToRemove(_topLevelUnconnectedNodes);
-//
-//
-//            // clean up
-//            removeUnconnectedEdges();
-//            removeUnconnectedNodesFromGraph();
-//
-//            //System.out.println( printXml());
-//            convertIntoTree(root);
-//            System.out.println("finished convertIntoTree()");
-//            calculateDepths(root, 0);
-//
-
         } catch (NoSuchRelationLinkException e) {
             throw e;
         }
@@ -152,30 +136,13 @@ public class GraphImpl implements Graph {
         _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
         listItemsToRemove(_topLevelUnconnectedNodes);
 
-
         // clean up
         removeUnconnectedEdges();
         removeUnconnectedNodesFromGraph();
 
-        //System.out.println( printXml());
         convertIntoTree(root);
         System.out.println("finished convertIntoTree()");
         calculateDepths(root, 0);
-
-        _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
-        listItemsToRemove(_topLevelUnconnectedNodes);
-
-
-        // clean up
-        removeUnconnectedEdges();
-        removeUnconnectedNodesFromGraph();
-
-        //System.out.println( printXml());
-        convertIntoTree(root);
-        System.out.println("finished convertIntoTree()");
-        calculateDepths(root, 0);
-
-
     }
 
     private void checkForCycle (Edge oneWayEdge) {
@@ -428,14 +395,16 @@ public class GraphImpl implements Graph {
                 if (inboundEdgesList.size() <= 1) {
                     continue;
                 }
-                cloneInboundEdges(inboundEdgesList, curEdge, curNode);
+                cloneInboundEdges(inboundEdgesList, curEdge);
 
             }
         }
     }
 
-    private void cloneInboundEdges(List inboundEdgesList, Edge curEdge, Node curNode) throws NoSuchRelationLinkException {
+    private void cloneInboundEdges(List inboundEdgesList, Edge curEdge) throws NoSuchRelationLinkException {
+        System.out.println("cloneInboundEdges for " + curEdge);
         Iterator inboundEdges = inboundEdgesList.iterator();
+        Node toNode = curEdge.getToNode();
 
         // do not need to clone all edges - only need to clone (edges - 1), otherwise will
         // end up with too many clones.
@@ -454,11 +423,11 @@ public class GraphImpl implements Graph {
 
         while (! edgesToCloneQueue.isEmpty()) {
             // clone the node
-            if (_topLevelUnconnectedNodes.contains(curNode)) {
+            if (_topLevelUnconnectedNodes.contains(toNode)) {
                 continue;
             }
 
-            Node cloneNode = curNode.makeClone();
+            Node cloneNode = toNode.makeClone();
             _graphNodes.add(cloneNode);
 
             Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
@@ -473,7 +442,7 @@ public class GraphImpl implements Graph {
             }
             removeEdge(edgeToClone);
             // copy/clone all structure below
-            deepCopy(curNode, cloneNode);
+            deepCopy(toNode, cloneNode);
         }
     }
 
@@ -510,7 +479,7 @@ public class GraphImpl implements Graph {
     }
 
 
-    public void addEdge(Edge edge) throws GraphModificationException {
+    public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
         boolean isInList = false;
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
@@ -528,6 +497,27 @@ public class GraphImpl implements Graph {
         if (!isInList) {
             _graphEdges.add(edge);
         }
+        Node fromNode = edge.getFromNode();
+        Node toNode = edge.getToNode();
+        addNodesForNewEdge(fromNode, toNode);
+//        EdgeType edgeType = edge.getEdgeType();
+//        if (fromNode.hasClones()) {
+//            Iterator clonesIt = fromNode.getClones().iterator();
+//            while (clonesIt.hasNext()) {
+//                Node clone = (Node) clonesIt.next();
+//                Node toNodeClone = toNode.makeClone();
+//                deepCopy(clone, toNodeClone);
+//                Edge newEdgeForClone = new EdgeImpl(clone, toNodeClone, edgeType);
+//                addEdge(newEdgeForClone);
+//            }
+//        }
+//        // check if toNode has multiple parents after adding new edge
+//        List inboundEdgesForToNode = getInboundEdges(toNode);
+//        if (inboundEdgesForToNode.size() > 1) {
+//            convertIntoTree(root);
+//        }
+//        calculateDepths(fromNode, fromNode.getDepth());
+
     }
 
     /**
@@ -537,24 +527,41 @@ public class GraphImpl implements Graph {
      */
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException {
         Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        System.out.println("adding new edge " + newEdge);
         addEdge(newEdge);
-        addNode(fromNode);
-        addNode(toNode);
-        if (fromNode.hasClones()) {
-            Iterator clonesIt = fromNode.getClones().iterator();
-            while (clonesIt.hasNext()) {
-                Node clone = (Node) clonesIt.next();
-                Node toNodeClone = toNode.makeClone();
-                Edge newEdgeForClone = new EdgeImpl(clone, toNodeClone, edgeType);
-                addEdge(newEdgeForClone);
+    }
+
+    /**
+     *
+     * @param node1
+     * @param node2
+     * @throws GraphModificationException
+     * @todo stupid method - only for one purpose - not to throw and exception where we don't want it.
+     * need to rethink exceptions structure.
+     */
+    private void addNodesForNewEdge (Node node1, Node node2) throws GraphModificationException {
+        try  {
+            addNode(node1);
+        }
+        catch (GraphModificationException e) {
+            if (e instanceof NodeAlreadyExistsException) {
+                // ignore here because we may be adding an edge between two existing nodes
+            }
+            else {
+                throw e;
             }
         }
-        // check if toNode has multiple parents after adding new edge
-        List inboundEdgesForToNode = getInboundEdges(toNode);
-        if (inboundEdgesForToNode.size() > 1) {
-
+        try  {
+            addNode(node2);
         }
-
+        catch (GraphModificationException e) {
+            if (e instanceof NodeAlreadyExistsException) {
+                // ignore here because we may be adding an edge between two existing nodes
+            }
+            else {
+                throw e;
+            }
+        }
     }
 
     /**

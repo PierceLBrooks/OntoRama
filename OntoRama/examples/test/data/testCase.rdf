@@ -19,7 +19,7 @@
   <pm:wnMember rdf:resource="http://www.webkb.org/ontorama/test#AllChairs"/>
   <pm:substance rdf:resource="http://www.webkb.org/ontorama/test#SomeSubstanceNode"/>
   <daml:complementOf rdf:resource="http://www.webkb.org/ontorama/test#Table"/>
-  <pm:url rdf:resource="http://www.webkb.org/ontorama"/>
+  <pm:url rdf:resource="http://www.webkb.org/OntoRama"/>
   <pm:location rdf:resource="http://www.webkb.org/ontorama/test#SomeLocation"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#SomeObject"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#ACHRONYM"/>

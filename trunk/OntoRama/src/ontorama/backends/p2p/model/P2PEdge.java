@@ -11,11 +11,38 @@ package ontorama.backends.p2p.model;
 import ontorama.model.Edge;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
 
 public interface P2PEdge extends Edge {
-    public void addAssertion (URI userIdUri);
-    public void addRejection (URI userIdUri);
-    public List getAssertionsList ();
-    public List getRejectionsList ();
+    /**
+     * Add an asserter for this edge. If the asserter is registered as a 
+     * rejecter as well that is removed
+     * 
+     * @param userIdUri
+     */
+     public void addAssertion (URI userIdUri);
+
+
+   /**
+     * Add an rejecter for this edge. If the rejecter is registered as a 
+     * asserter as well that is removed
+     *
+     * @param userIdUri
+     */
+      public void addRejection (URI userIdUri);
+
+    /**
+     * Returns the asserters
+     *
+     * @return a list of the asserter
+     */
+     public Set getAssertionsList ();
+
+
+    /**
+     * Returns the rejecter
+     *
+     * @return a list of the rejecters
+     */
+     public Set getRejectionsList ();
 }

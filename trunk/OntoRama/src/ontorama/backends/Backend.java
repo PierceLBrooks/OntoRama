@@ -1,7 +1,14 @@
 package ontorama.backends;
 
+import java.net.URI;
 import java.util.List;
+
+import ontorama.backends.p2p.model.P2PEdge;
+import ontorama.backends.p2p.model.P2PGraph;
+import ontorama.backends.p2p.model.P2PNode;
+import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * @author henrika
@@ -12,11 +19,19 @@ import ontorama.webkbtools.query.Query;
  * Window>Preferences>Java>Code Generation.
  */
 public interface Backend{
-    public ExtendedGraph search(Query query);
-    public void assertRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation); 
-    public void assertConcept(GraphNode fromNode, GraphNode node, int edgeType,String nameSpaceForRelation); 
-    public void rejectRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation);
-    public void updateConcept(GraphNode node);
+    public P2PGraph search(Query query);
+    public void assertEdge(P2PEdge edge, URI asserter) 
+    	throws GraphModificationException, NoSuchRelationLinkException; 
+
+    public void assertNode(P2PNode node, URI asserter) 
+    	throws GraphModificationException; 
+
+    public void rejectEdge(P2PEdge edge, URI rejecter) 
+    	throws GraphModificationException, NoSuchRelationLinkException;
+
+    public void rejectNode(P2PNode node, URI rejecter) 
+    	throws GraphModificationException;
+
     public List getPanels();
     public Menu getMenu();
  }

@@ -6,16 +6,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.backends.Backend;
-import ontorama.backends.ExtendedGraph;
-import ontorama.backends.GraphNode;
 import ontorama.backends.Menu;
+import ontorama.backends.p2p.model.P2PEdge;
+import ontorama.backends.p2p.model.P2PGraph;
+import ontorama.backends.p2p.model.P2PGraphImpl;
+import ontorama.backends.p2p.model.P2PNode;
+import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
 
@@ -28,35 +33,54 @@ import ontorama.webkbtools.util.ParserException;
  * Window>Preferences>Java>Code Generation.
  */
 public class FileBackend implements Backend{
-    private ExtendedGraph graph = null;
+    private P2PGraph graph = null;
     private List panels = null;
     
     public FileBackend(){
-            this.graph = new ExtendedGraph(); 
+            this.graph = new P2PGraphImpl(); 
             //We don't have any panels to this backend
             this.panels = new LinkedList();  
     }
        
-    public ExtendedGraph search(Query query){
+    public P2PGraph search(Query query){
             return this.graph.search(query);
     }
     
-    public void assertRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation){
-         this.graph.addEdge(fromNode.getFullName(), toNode.getFullName(), edgeType,nameSpaceForRelation);
+    public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
+         try {
+			this.graph.assertEdge(edge, asserter);
+		} catch (GraphModificationException e) {
+				throw e;
+		} catch (NoSuchRelationLinkException e) {
+				throw e;
+		}
     } 
     
     
-    public void assertConcept(GraphNode fromNode, GraphNode node, int edgeType,String nameSpaceForRelation){
-              this.graph.addNode(node);
-              this.graph.addEdge(fromNode.getFullName(), node.getFullName(), edgeType, nameSpaceForRelation);  
+    public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
+              try {
+				this.graph.assertNode(node,asserter);
+			} catch (GraphModificationException e) {
+				throw e;
+			}
     }
     
-    public void rejectRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation){
-        this.graph.rejectEdge(fromNode.getFullName(), toNode.getFullName(), edgeType,nameSpaceForRelation);
+    public void rejectEdge(P2PEdge edge, URI rejecter) throws GraphModificationException, NoSuchRelationLinkException{
+        try {
+			this.graph.rejectEdge(edge,rejecter);
+		} catch (GraphModificationException e) {
+			throw e;
+		} catch (NoSuchRelationLinkException e) {
+			throw e;
+		}
     }
     
-    public void updateConcept(GraphNode node){
-         this.graph.updateNode(node);
+    public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
+        try {
+			this.graph.rejectNode(node,rejecter);
+		} catch (GraphModificationException e) {
+			throw e;
+		}
     }
     
     public List getPanels(){
@@ -73,12 +97,18 @@ public class FileBackend implements Backend{
             Reader reader = new FileReader(filename);
             RdfDamlParser parser = new RdfDamlParser();
             ParserResult parserResult = parser.getResult(reader);
-            graph.add(parserResult.getNodesList(), parserResult.getEdgesList());
+			graph.add(parserResult);
            
         } catch (FileNotFoundException e) {
             System.out.println("The file was not found");
             System.err.println("Error the file was not found");
         } catch (ParserException e) {
+            System.err.println("Error");
+            e.printStackTrace();
+		} catch (GraphModificationException e) {
+            System.err.println("Error");
+            e.printStackTrace();
+		} catch (NoSuchRelationLinkException e) {
             System.err.println("Error");
             e.printStackTrace();
         }

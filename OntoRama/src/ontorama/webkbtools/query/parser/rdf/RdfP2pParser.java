@@ -77,6 +77,20 @@ public class RdfP2pParser implements Parser {
                 }
             }
 
+            System.out.println("--------------testing 1---------------------");
+            StmtIterator testIt = model.listReifiedStatements();
+            while (testIt.hasNext()) {
+                Statement next = testIt.next();
+                System.out.println("reified statement: " + next);
+            }
+
+            System.out.println("--------------testing 2---------------------");
+            testIt = model.listStatements();
+            while (testIt.hasNext()) {
+                Statement next = testIt.next();
+                System.out.println("statement is reified: " + next.isReified());
+            }
+
             ResIterator subjectsIt = model.listSubjects();
             while (subjectsIt.hasNext()) {
                 System.out.println("-----------------------------------------------");
@@ -86,6 +100,7 @@ public class RdfP2pParser implements Parser {
                 while (it.hasNext()) {
                     Statement st = it.next();
                     System.out.println("---" + st);
+                    System.out.println("statement is reified = " + st.isReified());
                     if (st.getPredicate().toString().endsWith("rdf-syntax-ns#type")) {
                         /// @todo hack: should find a better way to deal with this.
                         continue;

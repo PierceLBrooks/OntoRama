@@ -51,5 +51,7 @@ public class SphereView  extends CanvasItem {
             return false;
         }
 
-
+    public Point2D getPosition() {
+        return new Point2D.Double(0,0);
+    }
 }

@@ -100,6 +100,7 @@ public class TestQueryEngine extends TestCase {
 
         query1 = new Query(queryTerm);
         queryEngine1 = new QueryEngine(query1);
+//    	queryEngine1 = new QueryEngine(TestPackage.testSourcePackageName, TestPackage.testParserPackageName, TestPackage.testSourceUri, query1);
         queryResult1 = queryEngine1.getQueryResult();
         //System.out.println("queryResult1 = " + queryResult1);
         queryResultNodesList1 = queryResult1.getNodesList();
@@ -107,6 +108,7 @@ public class TestQueryEngine extends TestCase {
 
         query2 = new Query(queryTerm, relationLinksList);
         queryEngine2 = new QueryEngine(query2);
+//    	queryEngine2 = new QueryEngine(TestPackage.testSourcePackageName, TestPackage.testParserPackageName, TestPackage.testSourceUri, query2);
         queryResult2 = queryEngine2.getQueryResult();
         queryResultNodesList2 = queryResult2.getNodesList();
     	queryResultEdgesList2 = queryResult2.getEdgesList();

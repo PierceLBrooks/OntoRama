@@ -17,7 +17,7 @@ import ontorama.backends.test.TestBackendsPackage;
  */
 
 public class TestPackage {
-
+	
     public static Test suite() {
 
 //        System.out.println("loading config files for tests");

@@ -7,7 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.examplesmanager.ExamplesBackend;
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.ontotools.parser.Parser;
@@ -15,7 +15,6 @@ import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.parser.rdf.RdfP2pParser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.Source;
-import ontorama.util.TestingUtils;
 
 /*
  * Created by IntelliJ IDEA.
@@ -28,26 +27,23 @@ public class TestRdfP2pParser extends TestCase {
 
     private List _nodesList;
     private List _edgesList;
+    
+    private final String sourcePackageName = "ontorama.ontotools.source.JarSource";
+    private final String sourceUri = "examples/test/p2p/short.rdf";
 
    public TestRdfP2pParser(String name) {
         super(name);
     }
     protected void setUp() throws Exception {
     	
-//    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
-//    	OntoramaConfig.activateBackend(backend);
+    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
+    	OntoramaConfig.activateBackend(backend);
 
         OntoramaConfig.loadAllConfig("examples/test/p2p/examplesConfig.xml",
                 "ontorama.properties", "examples/test/p2p/config.xml");
-    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(backend);
-    	
-        backend.setCurrentExample(TestingUtils.getExampleByName("p2p_test1"));
 
-        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-        
-        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("wn#Tail")).getReader();
-
+        Source source = (Source) (Class.forName(sourcePackageName).newInstance());       
+        Reader r = source.getSourceResult(sourceUri, new Query("wn#Tail")).getReader();
         Parser parser = new RdfP2pParser();
         ParserResult parserResult = parser.getResult(r);
 

@@ -6,6 +6,7 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -41,6 +42,8 @@ public class TestTree extends TestCase{
     }
 
     public void setUp () throws GraphModificationException, NoSuchRelationLinkException, NoTypeFoundInResultSetException {
+    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(backend);
     	
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();

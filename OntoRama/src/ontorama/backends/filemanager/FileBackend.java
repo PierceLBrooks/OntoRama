@@ -114,6 +114,8 @@ public class FileBackend implements Backend {
     public void loadFile(File file){
         DataFormatMapping mapping = Util.getMappingForFile(_dataFormatsMapping, file);
         System.out.println("FileBackend::loadFile, mapping = " + mapping);
+        
+        _filename = file.getAbsolutePath();
 
         if ((mapping == null) || (mapping.getParserName() == null)) {
         	/// @todo need to throw a 'parser not specified exception' here?

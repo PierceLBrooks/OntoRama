@@ -3,6 +3,7 @@ package ontorama.backends.p2p.test;
 import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.model.graph.Edge;
@@ -11,7 +12,6 @@ import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.test.TestGraphPackage;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
@@ -29,6 +29,7 @@ public class TestP2PBackend2 extends TestCase {
 	
 	private Graph _graph;
 	private P2PBackend _p2pBackend;
+	private Backend _backend = OntoramaConfig.getBackend();
 
 	/**
 	 * Constructor for TestP2PBackend2.
@@ -40,14 +41,14 @@ public class TestP2PBackend2 extends TestCase {
 	
 	protected void setUp() throws NoSuchRelationLinkException, GraphModificationException {
 		_graph = new GraphImpl(new EventBroker());
-		Node root = new NodeImpl("root");
-		Node node1 = new NodeImpl("node1");
-		Node node2 = new NodeImpl("node2");
-		Node node1_1 = new NodeImpl("node1.1");
-		Node node1_2 = new NodeImpl("node1.2");
-		Node node1_3 = new NodeImpl("node1.3");
-		Node node2_1 = new NodeImpl("node2.1");
-		Node node2_2 = new NodeImpl("node2.2");
+		Node root = _backend.createNode("root", "root");
+		Node node1 = _backend.createNode("node1", "node1");
+		Node node2 = _backend.createNode("node2", "node2");
+		Node node1_1 = _backend.createNode("node1.1", "node1.1");
+		Node node1_2 = _backend.createNode("node1.2", "node1.2");
+		Node node1_3 = _backend.createNode("node1.3", "node1.3");
+		Node node2_1 = _backend.createNode("node2.1", "node2.1");
+		Node node2_2 = _backend.createNode("node2.2", "node2.2");
 		Edge edge1 = new EdgeImpl(root, node1, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
 		Edge edge2 = new EdgeImpl(root, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
 		Edge edge3 = new EdgeImpl(node1, node1_1, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));

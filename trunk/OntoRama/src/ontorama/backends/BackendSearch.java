@@ -1,11 +1,11 @@
 package ontorama.backends;
 
+import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
-import ontorama.ui.OntoRamaApp;
 
 
 /**
@@ -23,7 +23,7 @@ public class BackendSearch {
 	public static P2PGraph search(Query query){
         P2PGraph retVal = new P2PGraphImpl();
         try {
-            Peer2PeerBackend backend = (Peer2PeerBackend) OntoRamaApp.getBackend();
+            Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
             System.out.println("---searching backend " + backend + " for query " + query);
 
             P2PGraph tempGraph = backend.search(query);
@@ -44,7 +44,7 @@ public class BackendSearch {
     public static P2PGraph searchLocal(Query query) {
         P2PGraph retVal = new P2PGraphImpl();
         try{
-            Peer2PeerBackend backend = (Peer2PeerBackend) OntoRamaApp.getBackend();
+            Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
             System.out.println("--1---searching backend " + backend + " for query " + query);
             P2PGraph tempVal = backend.search(query);
             retVal.add(tempVal);

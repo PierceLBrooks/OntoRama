@@ -6,6 +6,7 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
+import ontorama.backends.Backend;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -25,6 +26,8 @@ import java.util.Iterator;
  * To change this template use Options | File Templates.
  */
 public class TestTree extends TestCase{
+	
+	private Backend _backend = OntoramaConfig.getBackend();
 
     EdgeType _edgeType1;
     EdgeType _edgeType2;
@@ -44,29 +47,29 @@ public class TestTree extends TestCase{
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();
         _nodeType1 = OntoramaConfig.CONCEPT_TYPE;
-        Node node1 = new NodeImpl("node1");
+        Node node1 = _backend.createNode("node1", "node1");
         node1.setNodeType(_nodeType1);
-        Node node2 = new NodeImpl("node2");
+        Node node2 = _backend.createNode("node2", "node2");
         node2.setNodeType(_nodeType1);
-        Node node3 = new NodeImpl("node3");
+        Node node3 = _backend.createNode("node3", "node3");
         node3.setNodeType(_nodeType1);
-        Node node4 = new NodeImpl("node4");
+        Node node4 = _backend.createNode("node4", "node4");
         node4.setNodeType(_nodeType1);
-        Node node5 = new NodeImpl("node5");
+        Node node5 = _backend.createNode("node5", "node5");
         node5.setNodeType(_nodeType1);
-        Node node6 = new NodeImpl("node6");
+        Node node6 = _backend.createNode("node6","node6");
         node6.setNodeType(_nodeType1);
-        _node7 = new NodeImpl("node7");
+        _node7 = _backend.createNode("node7", "node7");
         _node7.setNodeType(_nodeType1);
-        Node node8 = new NodeImpl("node8");
+        Node node8 = _backend.createNode("node8", "node8");
         node8.setNodeType(_nodeType1);
-        Node node9 = new NodeImpl("node9");
+        Node node9 = _backend.createNode("node9", "node9");
         node9.setNodeType(_nodeType1);
-        Node node10 = new NodeImpl("node10");
+        Node node10 = _backend.createNode("node10", "node10");
         node10.setNodeType(_nodeType1);
-        Node node11 = new NodeImpl("node11");
+        Node node11 = _backend.createNode("node11", "node11");
         node11.setNodeType(_nodeType1);
-        Node node12 = new NodeImpl("node12");
+        Node node12 = _backend.createNode("node12", "node12");
         node12.setNodeType(_nodeType1);
         graphNodesList.add(node1);
         graphNodesList.add(node2);
@@ -190,7 +193,7 @@ public class TestTree extends TestCase{
     public void testAddNode () throws TreeModificationException {
         int originalNodeCount = countNumOfNodes();
 
-        Node newNode = new NodeImpl("newNode");
+        Node newNode = _backend.createNode("newNode", "newNode");
         TreeNode newTreeNode = new TreeNodeImpl(newNode);
         TreeNode node9 = getNodeByName("node9");
         _tree.addNode(newTreeNode, node9, _edgeType1);
@@ -201,7 +204,7 @@ public class TestTree extends TestCase{
 	public void testAddNodeToClone ()  throws TreeModificationException {
 		int originalNodeCount = countNumOfNodes();
 		
-		Node newNode = new NodeImpl("newNode");
+		Node newNode = _backend.createNode("newNode", "newNode");
 		TreeNode newTreeNode = new TreeNodeImpl(newNode);
 		TreeNode node7 = getNodeByName("node7");
 		_tree.addNode(newTreeNode, node7, _edgeType1);

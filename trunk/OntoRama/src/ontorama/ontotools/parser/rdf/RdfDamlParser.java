@@ -15,7 +15,6 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
@@ -316,7 +315,7 @@ public class RdfDamlParser implements Parser {
         if (_nodesHash.containsKey(nodeName)) {
             node = (Node) _nodesHash.get(nodeName);
         } else {
-            node = new NodeImpl(nodeName, object.toString());
+            node = OntoramaConfig.getBackend().createNode(nodeName, object.toString());
             if ((resourceRelationNodeTypesList.contains(object)) && (resourceConceptNodeTypesList.contains(object)) ) {
             	System.out.println("node " + node.getName() + " is CLASS and PROPERTY");
             }
@@ -443,7 +442,7 @@ public class RdfDamlParser implements Parser {
             node = (Node) _nodesHash.get(nodeName);
             return node;
         } else {
-            node = new NodeImpl(nodeName, fullNodeName);
+            node = OntoramaConfig.getBackend().createNode(nodeName, fullNodeName);
             _nodesHash.put(nodeName, node);
             return node;
         }

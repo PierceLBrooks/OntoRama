@@ -129,10 +129,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private static Tree _tree;
     
-    /// @todo not sure if this should be static - need to check
-    private static Backend _activeBackend;
-
-    /**
+   /**
      * left side of split panel holds hyper ui.
      * leftSplitPanelWidthPercent allocates percentage of space for
      * the hyper ui. the rest of the split panel will be taken up
@@ -381,16 +378,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         new OntoRamaApp();
     }
     
-    public static void activateBackend (Backend backend) {
-    	/// @todo should have some more functionality: closing off previously active backend, 
-    	/// perhaps saving data, etc.
-    	_activeBackend = backend;
-    }
-    
-    public static Backend getBackend () {
-    	return _activeBackend;
-    }
-
     private void initBackends() {
         List backendsList = OntoramaConfig.getBackends();
     	String backendName = null;
@@ -402,8 +389,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	return;
         }
         try {
-        	_activeBackend = (Backend) Class.forName(backendName).newInstance();
-        	_activeBackend.setEventBroker(_modelEventBroker);
+        	OntoramaConfig.activateBackend((Backend) Class.forName(backendName).newInstance());
+        	OntoramaConfig.getBackend().setEventBroker(_modelEventBroker);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             new ErrorPopupMessage(
@@ -470,7 +457,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         JMenu backendsMenu = new JMenu("Backends");
         backendsMenu.setMnemonic(KeyEvent.VK_B);
-        Backend backend = _activeBackend;
+        Backend backend = OntoramaConfig.getBackend();
         JMenu backendMenu = backend.getMenu();
         backendsMenu.add(backendMenu);
 

@@ -62,7 +62,7 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
      * @param rejecter
      */
 	public P2PNodeImpl(String name, URI asserter, URI rejecter) {
-		super(name);
+		super(name, name);
 		
 		this.asserters = new HashSet();
 		this.rejecters = new HashSet();

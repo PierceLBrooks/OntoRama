@@ -24,7 +24,6 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.NodeType;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
@@ -39,7 +38,7 @@ import org.jdom.input.SAXBuilder;
 
 
 public class XmlParserFull implements Parser {
-
+	
     private Hashtable _nodes;
     private List _edges;
 
@@ -142,7 +141,7 @@ public class XmlParserFull implements Parser {
         Node node = (Node) _nodes.get(nodeName);
 
         if (node == null) {
-            node = new NodeImpl(nodeName);
+        	node = OntoramaConfig.getBackend().createNode(nodeName, nodeName);
             node.setNodeType(nodeType);
             _nodes.put(nodeName, node);
         }

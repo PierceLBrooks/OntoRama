@@ -59,6 +59,19 @@ public class GraphImpl implements Graph {
     Debug debug = new Debug(false);
 
     /**
+     * Constructor for GraphImpl
+     */
+    public GraphImpl() {
+        debug.message(
+                "******************* GraphBuilder constructor start *******************");
+        _topLevelUnconnectedNodes = new LinkedList();
+        _graphNodes = new LinkedList();
+        debug.message(
+                "******************* GraphBuilder constructor end *******************");
+    }
+
+
+    /**
      * Build Graph from given QueryResult.
      *
      * NOTE: query returns an iterator of ontology types. some of those types may

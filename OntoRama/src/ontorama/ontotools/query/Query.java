@@ -43,12 +43,10 @@ public class Query {
      * before hand.
      */
     public Query (String sourcePackage, String parserPackage, String sourceUri) {
-		//this (null, sourcePackage, parserPackage, sourceUri);
         _typeName = null;
         _sourcePackage = sourcePackage;
         _parserPackage = parserPackage;
         _sourceUri = sourceUri;
-    	System.out.println(this);
     }
 
     /**
@@ -59,7 +57,6 @@ public class Query {
     	_sourcePackage = sourcePackage;
     	_parserPackage = parserPackage;
     	_sourceUri = sourceUri;
-    	System.out.println(this);
     }
 
     /**
@@ -67,13 +64,11 @@ public class Query {
      * Initialise query type name and relation links
      */
     public Query(String typeName, List relationLinks, String sourcePackage, String parserPackage, String sourceUri) {
-//		this (typeName, sourcePackage, parserPackage, sourceUri);
         _typeName = typeName;
         _relationLinks = relationLinks;
     	_sourcePackage = sourcePackage;
     	_parserPackage = parserPackage;
     	_sourceUri = sourceUri;
-    	System.out.println(this);
     }
 
     /**

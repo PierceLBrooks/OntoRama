@@ -21,8 +21,6 @@ import ontorama.ui.events.QueryEngineThreadStartEvent;
 public class FileImporter implements Importer {
 	private EventBroker _eventBroker;
 	
-	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
-	
 	public FileImporter (EventBroker eventBroker) {
 		_eventBroker = eventBroker;
 		System.out.println("FileImporter event broker = " + _eventBroker);
@@ -43,7 +41,7 @@ public class FileImporter implements Importer {
 			try {
 				parserPackageName = Util.getParserForFile(OntoramaConfig.getDataFormatsMapping(),file);
 				System.out.println("\nFileImporter::parserName = " + parserPackageName + "\n");
-				QueryEngine qe = new QueryEngine( _sourcePackageName, parserPackageName,file.getAbsolutePath());
+				QueryEngine qe = new QueryEngine( FileBackend.sourcePackageName , parserPackageName,file.getAbsolutePath());
 				QueryEngineThreadStartEvent event = new QueryEngineThreadStartEvent(qe, new Query());
 				_eventBroker.processEvent(event);
 			}

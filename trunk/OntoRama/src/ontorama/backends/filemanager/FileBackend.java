@@ -24,9 +24,7 @@ import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
-import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
@@ -47,12 +45,13 @@ import org.tockit.events.EventBrokerListener;
  * Window>Preferences>Java>Code Generation.
  */
 public class FileBackend implements Backend {
+	public static final String sourcePackageName = "ontorama.ontotools.source.FileSource";
+
     private Graph _graph = null;
     private EventBroker _eventBroker;
     private String _parserName;
     
     private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
-	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
 	private String _filename;
 	
 	private QuerySettings _querySettings;
@@ -194,7 +193,7 @@ public class FileBackend implements Backend {
 	
 
 	public QueryEngine getQueryEngine() throws QueryFailedException {
-		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
+		_lastQueryEngine = new QueryEngine( sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
 		return _lastQueryEngine;
 	}
 

@@ -7,25 +7,30 @@
 		Notes: Using WebKB
 	</h1>
 	<p>
-		This is a supplementary documentation for WebKB, targeted on programmers wishing to exploit WebKB capabilities.
+		This is a supplementary documentation for WebKB, targeted on programmers 
+		wishing to exploit one of the ontology handling features of WebKB.
 	</p>
 	<h3>
 		What is WebKB
 	</h3>
 	<p>
-		WebKB is a web accessible Knowledge Base that contains a type hierarchy + some knowledge statements.
+		WebKB is a web accessible Knowledge Base that contains a type hierarchy
+		+ the knowledge statements.
 	</p>
 	<p>
 		<img border="0" src="img/kb.gif" width="135" height="111" />
 	</p>
 	<p>
-		We are mainly interested in the taxonomy. Ontology consist of category types interconnected by links. Interconnecting links are called '
+		We are mainly interested in the taxonomy. An Ontology consists of 
+		category types interconnected by links. For purpose of this document we
+		will call them '
 	<b>
 		<a name="relation links">relation links</a>
 	</b>'.
 	</p>
 		<p>
-			<a name="Table of relation links and corresponding symbols:">Table of relation links and corresponding symbols:</a>
+			<a name="Table of relation links and corresponding symbols:">
+			Table of relation links and corresponding symbols:</a>
 		</p>
 		<table border="1">
 			<tr>
@@ -163,24 +168,31 @@
 			  Name
 			</a>
 		</b>
-		<a name="Name" /> - a word describing an entity you	wish to search for, e.g. 'cat', 'dog'. ( Case sensitive )	
+		<a name="Name" /> - a word describing an entity you	wish to search for,
+		e.g. 'cat', 'dog'. ( Case sensitive )	
 		<p>
 		<b>
 			<a name="Identifier">
 				  Identifier
 			</a>
 		</b>
-			- unique name given by WebKB to identify the name you are searching for, e.g. 'wn#cat' is identifier for 'cat'.
+			- unique name given by WebKB to identify the category, e.g. 'wn#cat' is identifier for 'cat'.
 		</p>
 		<p>
 			Identifier Format: 'prefix#word', where:
 		</p>
 		<ul>
 			<li>
-				prefix is a creator name (a.e. 'pm') or domain name (a.e 'wn' for WordNet or 'comms' for telecommunications ontology). In 'wn' case prefix can be omitted.
+				prefix is a creator name (e.g. 'pm') or domain name (e.g. 'wn' for 
+				WordNet or 'comms' for telecommunications ontology). 
+				In 'wn' case prefix can be omitted.
 			</li>
 			<li>
-				word is an english word. Most likely individuals will be using term names in their searches and programms will be using identifiers (according to WebKB documentation). One name can have a more then one meaning and each meaning can have unique identifier. for example: cat can have following meanings: #cat, #true_cat, #big_cat, #Catterpillar, etc
+				word is an english word. Most likely users will be using 
+				term names in their searches, and programs will be using 
+				identifiers. One word can have a more then one meaning and each 
+				meaning has unique	identifier. For example: cat can have following meanings: #cat, 
+				#true_cat, #big_cat, #Catterpillar, etc
 			</li>
 		</ul>
 		<p>
@@ -195,9 +207,11 @@
 			What we can do with WebKB Ontology
 		</h3>
 		<p>
-			In order to avoid to specify full WebKB URL's we will assume that the base URL is known and use relative paths. For instance, currently WebKB is installed	at following location: 
-			<a href="http://meganesia.int.gu.edu.au/~phmartin/WebKB">
-				http://meganesia.int.gu.edu.au/~phmartin/WebKB
+			In order to avoid to specify full WebKB URL's we will assume that 
+			the base URL is known and use relative paths. For instance, 
+			currently WebKB is installed	at following location: 
+			<a href="www.webkb.org">
+				http://www.webkb.org
 			</a>
 		</p>
 		<p>
@@ -384,8 +398,8 @@
 		<p>Capabilities:</p>
 		<ul>
 			<li>modify ontology type/type relations</li>
-			<li>search cg's</li>
-			<li>modify cg's</li>
+			<li>search CGs</li>
+			<li>modify CGs</li>
 		</ul>
 		<p>CGI Parameters</p>
 		<table border="1">

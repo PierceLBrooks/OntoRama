@@ -249,6 +249,32 @@ public class GraphNode implements Cloneable {
     }
 
     /**
+     *
+     */
+    public int getBranchNodesNum () {
+      LinkedList q = new LinkedList();
+      int count = 0;
+      Iterator it = Edge.getOutboundEdgeNodes(this);
+      while (it.hasNext()) {
+        GraphNode child = (GraphNode) it.next();
+        q.add(child);
+      }
+
+      while (q.size() != 0) {
+        GraphNode cur = (GraphNode) q.remove(0);
+
+        count++;
+        Iterator children = Edge.getOutboundEdgeNodes(cur);
+        while (children.hasNext()) {
+          GraphNode next = (GraphNode) children.next();
+          q.add(next);
+        }
+      }
+      return count;
+    }
+
+
+    /**
      * toString method
      */
     public String toString() {

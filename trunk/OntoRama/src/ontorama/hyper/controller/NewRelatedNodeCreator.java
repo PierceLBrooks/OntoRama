@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.2 2002-10-04 05:19:01 pbecker Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.3 2002-10-04 05:44:42 pbecker Exp $
  */
 package ontorama.hyper.controller;
 
@@ -18,18 +18,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class NewRelatedNodeCreator {
-    public NewRelatedNodeCreator(SimpleHyperView view, Node graphNode, EdgeType edgeType) {
-        JLabel label = new JLabel("Please enter a new node identifier: ");
-        JTextField field = new JTextField(50);
-        label.setLabelFor(field);
+    private JDialog dialog;
+    private SimpleHyperView view;
+    private Node graphNode;
+    private EdgeType edgeType;
+    private JTextField textField;
 
-        Object[] panel = {label, field};
+    public NewRelatedNodeCreator(SimpleHyperView view, Node graphNode, EdgeType edgeType) {
+        this.view = view;
+        this.graphNode = graphNode;
+        this.edgeType = edgeType;
+
+        JLabel label = new JLabel("Please enter a new node identifier: ");
+        textField = new JTextField(50);
+        label.setLabelFor(textField);
+
+        Object[] panel = {label, textField};
         JOptionPane pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
 
-        JDialog dialog = pane.createDialog(view, "New Node");
+        dialog = pane.createDialog(view, "New Node");
+    }
+
+    public Node createNewRelatedNode() {
         dialog.show();
 
-        Node newNode = new NodeImpl(field.getText());
+        Node newNode = new NodeImpl(textField.getText());
         List newEdges = new ArrayList();
         try {
             newEdges.add(new EdgeImpl(graphNode, newNode, edgeType));
@@ -41,7 +54,7 @@ public class NewRelatedNodeCreator {
         } catch (NoSuchRelationLinkException e) {
             /// @todo what to do here? Do we get this?
             e.printStackTrace();
-            return;
+            return null;
         }
 
         Graph graph = view.getGraph();
@@ -53,11 +66,12 @@ public class NewRelatedNodeCreator {
         } catch (GraphModificationException e) {
             /// @todo what to do here? Do we get this?
             e.printStackTrace();
-            return;
+            return null;
         } catch (NoSuchRelationLinkException e) {
             /// @todo what to do here? Do we get this?
             e.printStackTrace();
-            return;
+            return null;
         }
+        return newNode;
     }
 }

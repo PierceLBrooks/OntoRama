@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface TreeNode {
 
-    public void setGraphNode (Node graphNode);
+    public Node getGraphNode ();
 
     /**
      * set clones for this tree node
@@ -28,6 +28,12 @@ public interface TreeNode {
     public List getClones ();
 
     /**
+     * add a clone TreeNode
+     * @param cloneNode
+     */
+    public void addClone (TreeNode cloneNode);
+
+    /**
      * set children edges for this node
      * @param childEdges - list of outbound edges
      */
@@ -38,6 +44,9 @@ public interface TreeNode {
      * @return list of outbound edges
      */
     public List getChildren ();
+
+    public void addChild (TreeEdge childEdge);
+    public boolean removeChild(TreeEdge childEdge);
 
     /**
      * set this node's parent

@@ -12,7 +12,6 @@ import ontorama.model.graph.Node;
 public interface Tree {
     /**
      * Returns root node of the tree.
-     * The tree is modified from acyclic graph
      */
     public Node getRootNode();
 

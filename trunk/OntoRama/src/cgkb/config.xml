@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+transitive:
+"extends-t"
+"calls-t"
+"implements-t"
+"in-t"
+
+non-transitive:
+"is-a"
+"in"
+"return"
+"extends"
+"calls"
+"name"
+"scope"
+"has-param"
+"implements"
+"throws"
+-->
+<ontConfig>
+	<ontology>
+		<relation id="1">
+			<relationType name="subtype" mappingSymbol="!is-a"/>
+			<relationType name="is-a" mappingSymbol="is-a"/>
+			<display color="#33CCFF" symbol="&lt;"/>
+		</relation>
+		<relation id="2">
+			<relationType name="in-rel" mappingSymbol="!in"/>
+			<relationType name="in" mappingSymbol="in"/>
+			<display color="#FFFFCC" symbol="m"/>
+		</relation>
+	</ontology>
+</ontConfig>
+

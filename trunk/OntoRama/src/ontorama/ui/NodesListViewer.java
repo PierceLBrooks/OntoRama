@@ -29,7 +29,7 @@ import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.ontologyConfig.ImageMaker;
+import ontorama.conf.ImageMaker;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
 

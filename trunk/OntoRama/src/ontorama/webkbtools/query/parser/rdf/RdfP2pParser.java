@@ -16,7 +16,7 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
-import ontorama.ontologyConfig.RdfMapping;
+import ontorama.conf.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;

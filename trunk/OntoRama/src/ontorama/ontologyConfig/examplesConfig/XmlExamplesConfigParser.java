@@ -1,4 +1,4 @@
-package ontorama.ontologyConfig.examplesConfig;
+package ontorama.conf.examplesConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.ConfigParserException;
-import ontorama.ontologyConfig.XmlParserAbstract;
+import ontorama.conf.ConfigParserException;
+import ontorama.conf.XmlParserAbstract;
 import ontorama.util.Debug;
 import org.jdom.Attribute;
 import org.jdom.Document;

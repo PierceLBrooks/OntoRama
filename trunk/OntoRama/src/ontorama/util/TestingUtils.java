@@ -3,7 +3,7 @@ package ontorama.util;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.conf.examplesConfig.OntoramaExample;
 
 /**
  * <p>Title: </p>

@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.webkbtools.query.Query;
 
 /**

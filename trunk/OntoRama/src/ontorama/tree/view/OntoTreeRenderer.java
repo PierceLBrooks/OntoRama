@@ -24,7 +24,7 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.ontologyConfig.ImageMaker;
+import ontorama.conf.ImageMaker;
 import ontorama.view.tree.model.OntoTreeNode;
 
 /**

@@ -1,6 +1,6 @@
 package ontorama.ui;
 
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.webkbtools.query.Query;
 
 /**

@@ -20,7 +20,7 @@ import ontorama.view.hyper.view.SimpleHyperView;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
-import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
+import ontorama.conf.EdgeTypeDisplayInfo;
 import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

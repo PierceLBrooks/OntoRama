@@ -1,4 +1,4 @@
-package ontorama.ontologyConfig.examplesConfig;
+package ontorama.conf.examplesConfig;
 
 /**
  * Description:  Hold all details of an example (such as name, ontology root,

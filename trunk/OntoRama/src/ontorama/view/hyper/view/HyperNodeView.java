@@ -24,7 +24,7 @@ import ontorama.view.hyper.model.HyperNode;
 import ontorama.view.hyper.model.PositionChangedObserver;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.ontologyConfig.NodeTypeDisplayInfo;
+import ontorama.conf.NodeTypeDisplayInfo;
 import org.tockit.canvas.CanvasItem;
 
 //import java.awt.geom.Ellipse2D.Double;

@@ -16,7 +16,7 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.NodeType;
-import ontorama.ontologyConfig.RdfMapping;
+import ontorama.conf.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;

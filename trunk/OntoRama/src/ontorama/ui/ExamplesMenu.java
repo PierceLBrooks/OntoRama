@@ -12,7 +12,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.conf.examplesConfig.OntoramaExample;
 
 /**
  * <p>Title: </p>

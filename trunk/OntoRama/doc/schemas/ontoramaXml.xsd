@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  	targetNamespace="http://kvo.itee.uq.edu.au/~nataliya/ont"
-  	xmlns="http://kvo.itee.uq.edu.au/~nataliya/ont"
+  	targetNamespace="http://www.ontorama.org"
+  	xmlns="http://www.ontorama.org"
 	elementFormDefault="qualified">
 
 	<!--Schema for validation of XML input for OntoRama application -->
+	<!-- W3C validation site: http://www.w3.org/2001/03/webdata/xsv -->
 
 	<xsd:element name="ontology">
 		<xsd:annotation>

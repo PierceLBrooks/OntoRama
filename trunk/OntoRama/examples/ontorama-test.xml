@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ontology top="root"  
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns="http://kvo.itee.uq.edu.au/~nataliya/ont"
-		xsi:schemaLocation="http://kvo.itee.uq.edu.au/~nataliya/ont http://kvo.itee.uq.edu.au/~nataliya/ontoramaXml.xsd">
+		xmlns="http://www.ontorama.org"
+		xsi:schemaLocation="http://www.ontorama.org http://www.ontorama.org/schemas/ontoramaXml.xsd"
+		>
 	<conceptType name="root" creator="OntoRama">
 		<description>Root conceptType</description>
 		<synonym>syn1</synonym>

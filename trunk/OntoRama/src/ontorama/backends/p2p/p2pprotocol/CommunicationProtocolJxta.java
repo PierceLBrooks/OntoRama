@@ -225,7 +225,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @param searchAttrib null/SEARCHGROUPNAME/SEARCHGROUPDESCR
 	 * @param searchString null/string and or wildcards (e.g. ?,*)
 	 * 
-	 * @return a vector of SearchGroupResultElement
+	 * @return a vector of GroupReferenceElement
 	 * @exception  IOException
      * @exception  GroupExceptionThread
 	 *
@@ -250,7 +250,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* search request and then waits for 20 seconds to get responses.
 	* 
 	* @param groupIDasString the peer group to perform a peer discovery in
-	* @return a vector of SearchGroupResultElement
+	* @return a vector of GroupReferenceElement
 	* @exception  IOException
     * @exception  GroupExceptionThread
 	*

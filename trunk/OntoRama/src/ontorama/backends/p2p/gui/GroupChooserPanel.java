@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
 /*
  * Created by IntelliJ IDEA.
@@ -113,8 +113,8 @@ public class GroupChooserPanel extends JPanel {
         Vector result = new Vector();
         for ( int i = 0; i < bound; i++ ) {
           for ( int j = bound-1; j > i; j-- ) {
-              SearchGroupResultElement currentObj = (SearchGroupResultElement) array[j];
-          	SearchGroupResultElement previousObj = (SearchGroupResultElement) array[j-1];
+              GroupReferenceElement currentObj = (GroupReferenceElement) array[j];
+          	GroupReferenceElement previousObj = (GroupReferenceElement) array[j-1];
               String currentName = currentObj.getName().toLowerCase();
               String previousName = previousObj.getName().toLowerCase();
               //if ( (array[j-1].toLowerCase()).compareTo ( array[j].toLowerCase()) > 0 ) {

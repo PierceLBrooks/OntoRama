@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.NewGroupAction;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
 
 /**
@@ -134,7 +134,7 @@ public class GroupsPanel extends JPanel {
 		
 		Enumeration e = foundGroups.elements();
 		while (e.hasMoreElements()) {
-			SearchGroupResultElement cur = (SearchGroupResultElement) e.nextElement();
+			GroupReferenceElement cur = (GroupReferenceElement) e.nextElement();
 			if (groupsListContainsGroup(_allGroupsListModel, cur)) {
 				continue;
 			}
@@ -146,7 +146,7 @@ public class GroupsPanel extends JPanel {
 		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
 		Enumeration e = joinedGroups.elements();
 		while (e.hasMoreElements()) {
-			SearchGroupResultElement element = (SearchGroupResultElement) e.nextElement();
+			GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
 			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
 				continue;
 			}
@@ -155,10 +155,10 @@ public class GroupsPanel extends JPanel {
 
 	}
 	
-	private boolean groupsListContainsGroup (DefaultListModel list, SearchGroupResultElement group) {
+	private boolean groupsListContainsGroup (DefaultListModel list, GroupReferenceElement group) {
 		Enumeration e = list.elements();
 		while (e.hasMoreElements()) {
-			SearchGroupResultElement cur = (SearchGroupResultElement) e.nextElement();
+			GroupReferenceElement cur = (GroupReferenceElement) e.nextElement();
 			if (cur.getID().equals(group.getID())) {
 				return true;
 			}

@@ -141,7 +141,7 @@ public class QueryEngine implements QueryEngineInterface {
         this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
         r.close();
         String newTermName = checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
-        if (newTermName.equals(query.getQueryTypeName())) {
+        if (! newTermName.equals(query.getQueryTypeName())) {
           query = new Query(newTermName, query.getRelationLinksList());
         }
         System.out.println("query result list = " + getQueryTypesList().size());
@@ -154,7 +154,20 @@ public class QueryEngine implements QueryEngineInterface {
     }
 
     /**
+     * Check if result set contains term we searched for.
+     * Check for exact term and also for a variant of it as if it was
+     * a webkb identifier. For example, if we searched for 'wood_mouse',
+     * result set will contain 'wn#wood_mouse'. Therefore, we check if result
+     * collection contains anything ending with '#wood_mouse'. If this is the
+     * case - we return this new term so we can update the original query term
+     * to reflect this.
      *
+     * @param resultSet - collection of ontology types returned by source.
+     * @param termName  - search term
+     * @return term: the same as search term OR updated term corresponding to
+     * the ontology type name matching this term.
+     * @todo  may not be a good idea to do this here, since identifiers with hashes
+     * may be specific to WebKB. Maybe should do some checking in WebKB2Source.
      */
     private String checkResultSetContainsSearchTerm (Collection resultSet, String termName)
                             throws NoSuchTypeInQueryResult {
@@ -163,11 +176,12 @@ public class QueryEngine implements QueryEngineInterface {
       String newTermName = termName;
       while (it.hasNext()) {
         OntologyType cur = (OntologyType) it.next();
-        System.out.println("cur = " + cur.getName() + " checking against " + termName);
+        String termIdentifierSuffix = "#" + termName;
+        //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
         if (cur.getName().equals(termName)) {
           found = true;
         }
-        if (cur.getName().endsWith("#" + termName)) {
+        if (cur.getName().endsWith(termIdentifierSuffix)) {
           found = true;
           newTermName = cur.getName();
         }

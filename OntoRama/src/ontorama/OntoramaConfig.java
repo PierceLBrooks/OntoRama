@@ -324,6 +324,9 @@ public class OntoramaConfig {
     public static void overrideExampleRootAndUrl (String root, String url) {
         OntoramaConfig.sourceUri = url;
         OntoramaConfig.ontologyRoot = root;
+        System.out.println("Overriden sourceUri = " + OntoramaConfig.sourceUri + ", root = " + OntoramaConfig.ontologyRoot);
+        OntoramaConfig.mainExample.setRoot(root);
+        OntoramaConfig.mainExample.setRelativeUri(url);
     }
 
     /**

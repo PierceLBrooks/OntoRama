@@ -1,7 +1,8 @@
 package ontorama.model.tree;
 
 
-import java.util.List;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 
 /*
  * Created by IntelliJ IDEA.
@@ -15,9 +16,10 @@ public interface Tree {
      * Returns root node of the tree.
      */
     public TreeNode getRootNode();
-
-    public List getNodesList();
-
-    public List getEdgesList();
+    
+   
+    // @todo need to decouple from graph nodes and edges.
+	public TreeNode addNode (TreeNode parentTreeNode, Edge graphEdge, Node graphNode);
+//    //public void removeNode(TreeNode nodeToRemove);
 
 }

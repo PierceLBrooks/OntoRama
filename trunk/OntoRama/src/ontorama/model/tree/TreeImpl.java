@@ -37,14 +37,20 @@ public class TreeImpl implements Tree {
         return _root;
     }
 
-    public List getNodesList() {
-        return _nodes;
-    }
-
-    public List getEdgesList() {
-        return _edges;
-    }
-
+	public TreeNode addNode (TreeNode parentTreeNode, Edge graphEdge, Node graphNode) {
+		TreeNode newNode = addTreeNode(graphNode);
+		TreeEdge newEdge = addTreeEdge(graphEdge, parentTreeNode, newNode);
+		
+		Iterator clones = parentTreeNode.getClones().iterator();
+		while (clones.hasNext()) {
+			TreeNode curClone = (TreeNode) clones.next();
+			TreeNode curNewNode = addTreeNode(graphNode);
+			addTreeEdge(graphEdge, parentTreeNode, curNewNode);
+		}
+		
+		//    	//_eventBroker.processEvent(new NodeAddedEvent(this, node));
+		return newNode;
+	}    
 
     private void buildTree (Node topGraphNode) {
         _root = addTreeNode(topGraphNode);
@@ -76,6 +82,7 @@ public class TreeImpl implements Tree {
             }
         }
         _nodes.add(treeNode);
+    	//_eventBroker.processEvent(new NodeAddedEvent(this, node));
         return treeNode;
     }
 

@@ -128,11 +128,7 @@ public class TestTree extends TestCase{
     }
 
     public void testTreeNodesNum () {
-        assertEquals("number of tree nodes ", 16 , _tree.getNodesList().size());
-    }
-
-    public void testTreeEdgesNum () {
-        assertEquals("number of tree edges ", 15, _tree.getEdgesList().size());
+        assertEquals("number of tree nodes ", 16 , countNumOfNodes());
     }
 
     public void testCloneWithChildren () {
@@ -199,6 +195,19 @@ public class TestTree extends TestCase{
     	assertEquals("tree should contain node1 ", true, (node1 != null));
     	assertEquals("depth for root node node1 ", 0, node1.getDepth());
     }
+    
+	public void testAddNode ()  throws GraphModificationException, NoSuchRelationLinkException {
+		int originalNodeCount = countNumOfNodes();
+		TreeNode node7 = getNodeByName("node7");
+		
+		Node newNode = new NodeImpl("newNode");
+		Edge newEdge = new EdgeImpl(node7.getGraphNode(), newNode, _edgeType1);
+		
+		_tree.addNode(node7, newEdge, newNode);
+		
+		assertEquals("number of nodes after add ", originalNodeCount + 3, countNumOfNodes());
+	}
+    
 
     private int calcBranchDepth (int depth, TreeNode top) {
         Iterator children = top.getChildren().iterator();
@@ -212,18 +221,41 @@ public class TestTree extends TestCase{
         }
         return depth;
     }
-
-
-
+      
     private TreeNode getNodeByName (String nodeName) {
-        Iterator it = _tree.getNodesList().iterator();
-        while (it.hasNext()) {
-            TreeNode treeNode = (TreeNode) it.next();
-            if (treeNode.getGraphNode().getName().equals(nodeName)) {
-                return treeNode;
-            }
-        }
+    	List q = new LinkedList();
+    	q.add(_tree.getRootNode());
+    	
+    	while (!q.isEmpty()) {
+    		TreeNode cur = (TreeNode) q.remove(0);
+    		Iterator children = cur.getChildren().iterator();
+    		while (children.hasNext()) {
+    			TreeEdge curEdge = (TreeEdge) children.next();
+    			TreeNode childNode = curEdge.getToNode();
+    			q.add(childNode);
+    		}
+    		if (cur.getGraphNode().getName().equals(nodeName)) {
+    			return cur;
+    		}
+    	}
         return null;
+    }
+    
+    private int countNumOfNodes () {
+		int result = 0;
+    	List q = new LinkedList();
+    	q.add(_tree.getRootNode());
 
+    	while (!q.isEmpty()) {
+    		TreeNode cur = (TreeNode) q.remove(0);
+    		result++;
+    		Iterator children = cur.getChildren().iterator();
+    		while (children.hasNext()) {
+    			TreeEdge curEdge = (TreeEdge) children.next();
+    			TreeNode childNode = curEdge.getToNode();
+    			q.add(childNode);
+    		}
+    	}
+    	return result;
     }
 }

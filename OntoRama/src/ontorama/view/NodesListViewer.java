@@ -44,6 +44,8 @@ public class NodesListViewer extends JComboBox {
     public NodesListViewer(EventBroker eventBroker)  {
         super();
         _eventBroker = eventBroker;
+        _nodesList = new LinkedList();
+
         addItem(_defaultHeadingString);
         setSelectedIndex(0);
         setListViewSize();
@@ -55,6 +57,7 @@ public class NodesListViewer extends JComboBox {
                 nodeIsSelectedAction(selectedNodeName);
             }
         });
+        setListSizeDependantProperties();
     }
 
     /**
@@ -65,6 +68,9 @@ public class NodesListViewer extends JComboBox {
 
         removeAllItems();
         addItem(_defaultHeadingString);
+
+        setListSizeDependantProperties();
+
         Iterator it = sortList().iterator();
         while (it.hasNext()) {
             String curName = (String) it.next();
@@ -72,7 +78,23 @@ public class NodesListViewer extends JComboBox {
         }
     }
 
+    /**
+     *
+     */
+    private void setListSizeDependantProperties() {
+        if (_nodesList.size() == 0) {
+            setEnabled(false);
+            setToolTipText("No unconnected nodes found in this ontology");
+        }
+        else {
+            setEnabled(true);
+            setToolTipText("Click here to see list of nodes not reachable from root node via relation links");
+        }
+    }
 
+    /**
+     *
+     */
     private void setListViewSize () {
         Font font = getFont();
         FontMetrics fontMetrics = getFontMetrics(font);

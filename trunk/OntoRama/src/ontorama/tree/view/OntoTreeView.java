@@ -4,7 +4,6 @@ package ontorama.tree.view;
 import java.util.Iterator;
 
 import javax.swing.JTree;
-//import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.event.TreeSelectionListener;
@@ -20,20 +19,27 @@ import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoNodeObserver;
 
+/**
+ * Title:
+ * Description:
+ * Copyright:    Copyright (c) 2001
+ * Company:
+ * @author
+ * @version 1.0
+ */
 
 public class OntoTreeView implements OntoNodeObserver {
 
     private JScrollPane treeView;
     private JTree tree;
-    private OntoTreeModel ontoTreeModel;
 
-
+    /**
+     * Constructor
+     */
     public OntoTreeView(Graph graph) {
-        this.ontoTreeModel = ontoTreeModel;
-
-        //System.out.println("TreeRamaApp, graph size = " + graph.getSize());
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
+        // sort out observers
         addOntoObservers(ontoTreeModel);
 
         try {
@@ -43,12 +49,9 @@ public class OntoTreeView implements OntoNodeObserver {
         catch (Exception e) {
         }
 
-
         //final JTree tree = new JTree(ontoTreeModel);
         this.tree = new JTree(ontoTreeModel);
-
-        this.tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);
+        this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         //Listen for when the selection changes.
         this.tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -56,7 +59,6 @@ public class OntoTreeView implements OntoNodeObserver {
                 OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
                 System.out.println("******** node " + node);
                 node.setFocus();
-
                 if (node == null) return;
             }
         });
@@ -65,7 +67,7 @@ public class OntoTreeView implements OntoNodeObserver {
         tree.putClientProperty("JTree.lineStyle", "Angled");
 
         // testing if communication from GraphNode to OntoTreeView is working
-
+        /*
         Iterator it = ontoTreeModel.getOntoTreeIterator();
         while (it.hasNext()) {
             OntoTreeNode ontoTreeNode = (OntoTreeNode) it.next();
@@ -78,34 +80,38 @@ public class OntoTreeView implements OntoNodeObserver {
                 //ontoTreeNode.setFocus();
             //}
         }
-
+        */
     }
 
     /**
-     *
+     * Update tree view by focusing on given object
+     * @param   TreePath path
      */
-    public void updateOnto (Object obj) {
-        TreePath path = (TreePath) obj;
+    public void updateOntoTree (TreePath path) {
         this.tree.makeVisible(path);
-        System.out.println("---OntoTreeView, method updateOnto");
+        System.out.println("---OntoTreeView, method updateOntoTree for path" + path);
+        this.tree.addSelectionPath(path);
     }
 
     /**
-     *
+     * Return TreeView as a JComponent
+     * @param   -
+     * @return  treeView
      */
-    private void addOntoObservers (OntoTreeModel treeModel) {
-        Iterator it = treeModel.getOntoTreeIterator();
+    public JComponent getTreeViewPanel () {
+        return (JComponent) this.treeView;
+    }
+
+    /**
+     * Add this model as an observer to all OntoTreeNodes
+     * @param OntoTreeModel ontoTreeModel
+     */
+    private void addOntoObservers (OntoTreeModel ontoTreeModel) {
+        Iterator it = ontoTreeModel.getOntoTreeIterator();
         while (it.hasNext()) {
             OntoTreeNode ontoTreeNode = (OntoTreeNode) it.next();
             ontoTreeNode.addOntoObserver(this);
         }
-    }
-
-    /**
-     *
-     */
-    public JComponent getTreeViewPanel () {
-        return (JComponent) this.treeView;
     }
 }
 

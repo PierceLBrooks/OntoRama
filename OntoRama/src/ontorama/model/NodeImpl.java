@@ -7,22 +7,22 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
 import java.util.*;
 
 /**
- * Basic GraphNode for ontology viewers.
+ * Basic NodeImpl for ontology viewers.
  *
  * <p>
  * Copyright:    Copyright (c) 2002
  * <br>
  * Company:     DSTC
  */
-public class GraphNode implements Cloneable, NodeIterface {
+public class NodeImpl implements Cloneable {
 
     /**
-     * Store the name/label of GraphNode.
+     * Store the name/label of NodeImpl.
      */
     private String name;
 
     /**
-     * Store alternative name of GraphNode
+     * Store alternative name of NodeImpl
      * (used in RDF inputs)
      */
     private String fullName;
@@ -50,21 +50,21 @@ public class GraphNode implements Cloneable, NodeIterface {
 
 
     /**
-     * Create a new GraphNode with given name
+     * Create a new NodeImpl with given name
      *
      * @param name
      */
-    public GraphNode(String name) {
+    public NodeImpl(String name) {
         this(name, name);
     }
 
     /**
-     * Create a new GraphNode with given name and an alternative name
+     * Create a new NodeImpl with given name and an alternative name
      *
      * @param name
      * @param fullName
      */
-    public GraphNode(String name, String fullName) {
+    public NodeImpl(String name, String fullName) {
         this.name = name;
         this.fullName = fullName;
         initNodeProperties();
@@ -115,7 +115,7 @@ public class GraphNode implements Cloneable, NodeIterface {
     }
 
     /**
-     * Return true if GraphNode has clones.
+     * Return true if NodeImpl has clones.
      */
     public boolean hasClones() {
         return !this.clones.isEmpty();
@@ -126,7 +126,7 @@ public class GraphNode implements Cloneable, NodeIterface {
      */
     /*
    public void hasFocus () {
-//        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
+//        System.out.println("NodeImpl method hasFocus() for graphNode " + this.getName());
        System.out.println("\t\tclones: " + this.clones);
 
    }
@@ -140,11 +140,11 @@ public class GraphNode implements Cloneable, NodeIterface {
     }
 
     /**
-     * Adds a new clone o this GraphNode.
+     * Adds a new clone o this NodeImpl.
      *
-     * @param  clone  GraphNode that is clone for this GraphNode
+     * @param  clone  NodeImpl that is clone for this NodeImpl
      */
-    private void addClone(GraphNode clone) {
+    private void addClone(NodeImpl clone) {
         clones.add(clone);
     }
 
@@ -165,7 +165,7 @@ public class GraphNode implements Cloneable, NodeIterface {
 //        this.depth = depth;
 //        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
 //        while (it.hasNext()) {
-//            GraphNode outboundNode = (GraphNode) it.next();
+//            NodeImpl outboundNode = (NodeImpl) it.next();
 //            outboundNode.setDepth(depth + 1);
 //        }
 //    }
@@ -194,14 +194,14 @@ public class GraphNode implements Cloneable, NodeIterface {
     }
 
     /**
-     * Make a clone for this GraphNode (make a new GraphNode with the same
+     * Make a clone for this NodeImpl (make a new NodeImpl with the same
      * name and add new node (clone) to appropriate lists of clones)
      *
      * @return cloneNode
      */
-    public GraphNode makeClone() throws NoSuchPropertyException {
+    public NodeImpl makeClone() throws NoSuchPropertyException {
         // clone curNode to cloneNode
-        GraphNode cloneNode = new GraphNode(name);
+        NodeImpl cloneNode = new NodeImpl(name);
 
         // make sure all node's properties are copied to clone.
         Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
@@ -214,17 +214,17 @@ public class GraphNode implements Cloneable, NodeIterface {
         // iterate through existing clones and add new clone to all of them
         Iterator it = clones.iterator();
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            NodeImpl cur = (NodeImpl) it.next();
             //if (!clones.contains(cloneNode)) {
             cur.clones.add(cloneNode);
             //}
         }
 
-        // add all clones of this GraphNode to the new node (clone node)
+        // add all clones of this NodeImpl to the new node (clone node)
         cloneNode.clones.addAll(this.clones);
-        // add the clone to the list of clones of this GraphNode
+        // add the clone to the list of clones of this NodeImpl
         this.clones.add(cloneNode);
-        // add this GraphNode to the list of clones for clonedNode
+        // add this NodeImpl to the list of clones for clonedNode
         cloneNode.clones.add(this);
 
 
@@ -261,17 +261,17 @@ public class GraphNode implements Cloneable, NodeIterface {
 //        int count = 0;
 //        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
 //        while (it.hasNext()) {
-//            GraphNode child = (GraphNode) it.next();
+//            NodeImpl child = (NodeImpl) it.next();
 //            q.add(child);
 //        }
 //
 //        while (q.size() != 0) {
-//            GraphNode cur = (GraphNode) q.remove(0);
+//            NodeImpl cur = (NodeImpl) q.remove(0);
 //
 //            count++;
 //            Iterator children = GraphImpl.getOutboundEdgeNodes(cur);
 //            while (children.hasNext()) {
-//                GraphNode next = (GraphNode) children.next();
+//                NodeImpl next = (NodeImpl) children.next();
 //                q.add(next);
 //            }
 //        }
@@ -293,17 +293,17 @@ public class GraphNode implements Cloneable, NodeIterface {
     /*
     public String toString() {
        String str = "";
-       str = str + "GraphNode: " + this.getName() + "\n";
+       str = str + "NodeImpl: " + this.getName() + "\n";
        str = str + "\t" + "inbound nodes: " + "\n";
        Iterator inboundNodes = EdgeImpl.getInboundEdgeNodes(this);
        while (inboundNodes.hasNext()) {
-           GraphNode node = (GraphNode) inboundNodes.next();
+           NodeImpl node = (NodeImpl) inboundNodes.next();
            str = str + "\t\t" + node.getName();
        }
        str = str + "\t" + "outbound nodes: " + "\n";
        Iterator outboundNodes = EdgeImpl.getOutboundEdgeNodes(this);
        while (outboundNodes.hasNext()) {
-           GraphNode node = (GraphNode) outboundNodes.next();
+           NodeImpl node = (NodeImpl) outboundNodes.next();
            str = str + "\t\t" + node.getName();
        }
        return str;

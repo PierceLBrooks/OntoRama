@@ -16,7 +16,7 @@ public interface Graph {
      * Returns root node of the tree.
      * The tree is modified from acyclic graph
      */
-    public GraphNode getRootNode();
+    public NodeImpl getRootNode();
 
 
     /**
@@ -39,7 +39,7 @@ public interface Graph {
      * @param rootNode
      * @param node
      */
-    public boolean nodeIsInGivenBranch(GraphNode rootNode, GraphNode node);
+    public boolean nodeIsInGivenBranch(NodeImpl rootNode, NodeImpl node);
 
     public void registerEdge(Edge edge);
 
@@ -47,19 +47,19 @@ public interface Graph {
     public List getEdgesList ();
 
 
-    public Iterator getOutboundEdges(GraphNode node);
+    public Iterator getOutboundEdges(NodeImpl node);
 
-    public Iterator getInboundEdges (GraphNode node);
+    public Iterator getInboundEdges (NodeImpl node);
 
-    public List getOutboundEdgeNodesList(GraphNode node);
+    public List getOutboundEdgeNodesList(NodeImpl node);
 
-    public List getInboundEdgeNodesList(GraphNode node);
+    public List getInboundEdgeNodesList(NodeImpl node);
 
-    public Iterator getOutboundEdgeNodes(GraphNode node);
+    public Iterator getOutboundEdgeNodes(NodeImpl node);
 
-    public Iterator getInboundEdgeNodes (GraphNode node);
+    public Iterator getInboundEdgeNodes (NodeImpl node);
 
-    public Iterator getInboundEdgeNodes (GraphNode node, RelationLinkDetails relLink);
+    public Iterator getInboundEdgeNodes (NodeImpl node, RelationLinkDetails relLink);
 
 
 

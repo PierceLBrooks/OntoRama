@@ -11,9 +11,9 @@ package ontorama.model;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 public interface Edge {
-    GraphNode getFromNode();
+    NodeImpl getFromNode();
 
-    GraphNode getToNode();
+    NodeImpl getToNode();
 
     RelationLinkDetails getEdgeType();
 }

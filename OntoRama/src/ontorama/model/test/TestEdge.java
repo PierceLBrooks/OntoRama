@@ -3,7 +3,7 @@ package ontorama.model.test;
 import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.model.GraphNode;
+import ontorama.model.NodeImpl;
 import ontorama.model.EdgeImpl;
 import ontorama.model.GraphImpl;
 import ontorama.model.Edge;
@@ -29,12 +29,12 @@ import java.util.*;
 
 public class TestEdge extends TestCase {
 
-    private GraphNode node1;
-    private GraphNode node2;
-    private GraphNode node3;
-    private GraphNode node4;
-    private GraphNode node5;
-    private GraphNode node6;
+    private NodeImpl node1;
+    private NodeImpl node2;
+    private NodeImpl node3;
+    private NodeImpl node4;
+    private NodeImpl node5;
+    private NodeImpl node6;
 
     private Edge edge1;
     private Edge edge2;
@@ -75,12 +75,12 @@ public class TestEdge extends TestCase {
      */
     protected void setUp() {
 
-        node1 = new GraphNode("node1");
-        node2 = new GraphNode("node2");
-        node3 = new GraphNode("node3");
-        node4 = new GraphNode("node4");
-        node5 = new GraphNode("node5");
-        node6 = new GraphNode("node6");
+        node1 = new NodeImpl("node1");
+        node2 = new NodeImpl("node2");
+        node3 = new NodeImpl("node3");
+        node4 = new NodeImpl("node4");
+        node5 = new NodeImpl("node5");
+        node6 = new NodeImpl("node6");
 
         try {
             edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getRelationLinkDetails()[1]);

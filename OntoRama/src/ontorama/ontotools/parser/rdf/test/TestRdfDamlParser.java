@@ -345,7 +345,7 @@ public class TestRdfDamlParser extends TestCase {
         while (it.hasNext()) {
             Node cur = (Node) it.next();
             NodeType curNodeType = cur.getNodeType();
-            if (curNodeType.getNodeType().equals("concept")) {
+            if (curNodeType.getDisplayName().equals("concept")) {
                 conceptsList.add(cur);
             }
             else {

@@ -1,13 +1,16 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Sep 9, 2002
- * Time: 1:07:04 PM
- * To change template for new interface use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.model.graph;
 
+import java.awt.Color;
+import java.awt.Shape;
+
 public interface NodeType {
-    public String getNodeType ();
+    public String getDisplayName();
+
+    /**
+     * The shape used to display the node.
+     * 
+     * The shape is centered around the (0,0) point, its size can be arbitrary.
+     */
+    public Shape getDisplayShape();
+    public Color getDisplayColor();
 }

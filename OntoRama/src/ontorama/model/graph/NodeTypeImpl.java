@@ -8,21 +8,37 @@
  */
 package ontorama.model.graph;
 
-
+import java.awt.Color;
+import java.awt.Shape;
 
 public class NodeTypeImpl implements NodeType {
-    private String _nodeTypeName;
+    private String _displayName;
+    private Shape _displayShape;
+    private Color _displayColor;
 
-    public NodeTypeImpl (String typeName) {
-        _nodeTypeName = typeName;
+	/**
+	 * The initialisation constructor.
+	 * 
+	 * Note that the shape should be centered around (0,0).
+	 */
+    public NodeTypeImpl(String displayName, Shape displayShape, Color displayColor) {
+        _displayName = displayName;
+        _displayShape = displayShape;
+        _displayColor = displayColor;
     }
 
-    public String getNodeType() {
-        return _nodeTypeName;
+    public String getDisplayName() {
+        return _displayName;
     }
 
     public String toString () {
-        return _nodeTypeName;
+        return _displayName;
+    }
+    public Shape getDisplayShape() {
+        return _displayShape;
+    }
+    public Color getDisplayColor() {
+        return _displayColor;
     }
 
 }

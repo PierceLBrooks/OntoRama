@@ -2,6 +2,9 @@
 package ontorama;
 
 import java.awt.Color;
+import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -383,12 +386,34 @@ public class OntoramaConfig {
     }
 
     private static List buildNodeTypesList () {
+    	/// @todo check why we do only half the width here
+    	int width = 30;
+    	int height = 30;
+
+        Shape conceptShape = new Ellipse2D.Double(-width/2, -height/2, width, height);
+        
+        int x[] = {-width/2, -width/2, width/2};
+        int y[] = {-height/2, height/2 -1, height/2 -1};
+        Shape relationShape = new Polygon(x, y, 3);
+
+        int x0 = -width/2;
+        int x1 = -(width * 1)/4;
+        int x2 = (width * 1)/4;
+        int x3 = width/2;
+        int y0 = -height/2;
+        int y1 = -(height * 1)/4;
+        int y2 = (height * 1)/4;
+        int y3 = height/2;
+        int xb[] = {x0,x1,x2,x3,x3,x2,x1,x0};
+        int yb[] = {y1,y0,y0,y1,y2,y3,y3,y2};
+        Shape unknownShape = new Polygon(xb, yb, 8); 
+
         List nodeTypes = new LinkedList();
-        NodeType typeConcept = new NodeTypeImpl("concept");
+        NodeType typeConcept = new NodeTypeImpl("concept", conceptShape , Color.BLUE);
         nodeTypes.add(typeConcept);
-        NodeType typeRelation = new NodeTypeImpl("relation");
+        NodeType typeRelation = new NodeTypeImpl("relation", relationShape, Color.GREEN);
         nodeTypes.add(typeRelation);
-        NodeType typeUnknown = new NodeTypeImpl("unknown");
+        NodeType typeUnknown = new NodeTypeImpl("unknown", unknownShape, Color.WHITE);
         nodeTypes.add(typeUnknown);
 
         return nodeTypes;
@@ -406,15 +431,7 @@ public class OntoramaConfig {
         while (it.hasNext()) {
             NodeType curNodeType = (NodeType) it.next();
             NodeTypeDisplayInfo displayInfo = new NodeTypeDisplayInfo();
-            if (curNodeType.getNodeType().equals("concept")) {
-                displayInfo.setColor(Color.blue);
-            }
-            if (curNodeType.getNodeType().equals("relation")) {
-                displayInfo.setColor(Color.green);
-            }
-            if (curNodeType.getNodeType().equals("unknown")) {
-                displayInfo.setColor(Color.white);
-            }
+            displayInfo.setColor(curNodeType.getDisplayColor());
             result.put(curNodeType, displayInfo);
         }
         return result;

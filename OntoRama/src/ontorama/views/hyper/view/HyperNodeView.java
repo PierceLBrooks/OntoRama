@@ -7,7 +7,6 @@ package ontorama.views.hyper.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
@@ -117,14 +116,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             nodeColor = displayInfo.getColor();
         }
         double radius = model.getNodeRadius();
-        nodeShape = new Ellipse2D.Double(-radius, -radius, radius * 2, radius * 2);
-        /// @todo hardcoded node type name here
-        if (nodeType.getNodeType().equals("relation")) {
-            nodeShape = new Polygon();
-            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
-            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + radius));
-            ((Polygon) nodeShape).addPoint( (int) (projectedX + radius), (int) (projectedY + radius));
-        }
+        nodeShape = nodeType.getDisplayShape();
     }
 
     /**

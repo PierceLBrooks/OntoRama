@@ -6,11 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -209,7 +210,7 @@ public class NodesListViewer extends JComboBox {
                 if (nodeType != null) {
                     ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
                     setIcon(image);
-                    setToolTipText(nodeType.getNodeType());
+                    setToolTipText(nodeType.getDisplayName());
                 }
                 else {
                     setIcon(_noImage);
@@ -224,48 +225,40 @@ public class NodesListViewer extends JComboBox {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2 = image.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(getBackground());
         g2.fillRect(0, 0, width, height);
         g2.drawRect(0, 0, width, height);
 
-        int ovalSize = width - (width * 12) / 100;
-        int ovalX = 0;
-        int ovalY = (height - ovalSize) / 2;
         g2.setColor(color);
 
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (nodeType == null) {
+        Shape displayShape;
+        if(nodeType == null) {
             /// @todo this check for null is a hack. have to change all following
             // if's and else's to a meaninfull  flow.
-            Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-            g2.fill(circle);
-            g2.setColor(outlineColor);
-            g2.draw(circle);
+            int ovalSize = width - (width * 12) / 100;
+            int ovalX = 0;
+            int ovalY = (height - ovalSize) / 2;
+            displayShape = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
         }
         else {
-            // @todo shouldn't hardcode string 'concept' here.
-            if (nodeType.getNodeType().equals("concept")) {
-                Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-                g2.fill(circle);
-                g2.setColor(outlineColor);
-                g2.draw(circle);
-            }
-            else {
-                int x[] = {0, 0, width};
-                int y[] = {0, height -1, height -1};
-                Polygon polygon = new Polygon(x, y, 3);
-                g2.fill(polygon);
-                g2.setColor(outlineColor);
-                g2.draw(polygon);
-            }
+            displayShape = nodeType.getDisplayShape();
         }
+		Rectangle2D bounds = displayShape.getBounds2D();
 
-//        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-//        g2.fill(circle);
-//        g2.setColor(outlineColor);
-//        g2.draw(circle);
+		double scale;		
+		if(bounds.getWidth()/width > bounds.getHeight()/height) {
+	        scale = width/bounds.getWidth();
+	    } else {
+	        scale = height/bounds.getHeight();
+		}
+		
+		g2.scale(scale,scale);
+        g2.translate(-bounds.getX(), -bounds.getY());
+        g2.fill(displayShape);
+        g2.setColor(outlineColor);
+        g2.draw(displayShape);
 
         return (new ImageIcon(image));
     }

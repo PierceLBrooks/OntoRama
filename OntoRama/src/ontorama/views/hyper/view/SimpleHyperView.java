@@ -279,7 +279,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
                 NodeType cur = (NodeType) it.next();
-                if (cur.getNodeType().equals("unknown")) {
+                if (cur.getDisplayName().equals("unknown")) {
                     nodeType = cur;
                 }
             }

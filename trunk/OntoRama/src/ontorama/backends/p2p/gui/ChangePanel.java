@@ -34,7 +34,7 @@ public class ChangePanel extends JPanel {
     }
 
     public void addChange (String changeStr, String peerName) {
-        _myModel.addRow(new Change(changeStr, peerName));
+        _myModel.addRow(new Change(changeStr , peerName));
         repaint();
     }
 
@@ -105,7 +105,7 @@ public class ChangePanel extends JPanel {
             if (change == null) {
                 return new String();
             }
-            if (col <= 1 ) {
+            if (col < 1 ) {
                 return change.getChange();
             }
             return change.getPeerName();

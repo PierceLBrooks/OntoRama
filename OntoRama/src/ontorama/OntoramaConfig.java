@@ -9,6 +9,8 @@ import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.EdgeType;
+import ontorama.model.NodeType;
+import ontorama.model.NodeTypeImpl;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.filemanager.FileBackend;
 
@@ -121,6 +123,8 @@ public class OntoramaConfig {
     private static List backends = new LinkedList();
     private static boolean loadBlankOnStartUp = false;
 
+    private static List nodeTypesList;
+
     /**
      * Values of vars that are set here should be read from
      * java properties file.
@@ -138,6 +142,7 @@ public class OntoramaConfig {
         }
 
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
+        nodeTypesList = buildNodeTypesList();
         System.out.println("--------- end of config--------------");
     }
 
@@ -371,6 +376,19 @@ public class OntoramaConfig {
 
     public static boolean loadBlank () {
         return loadBlankOnStartUp;
+    }
+
+    private static List buildNodeTypesList () {
+        List nodeTypes = new LinkedList();
+        NodeType typeConcept = new NodeTypeImpl("concept");
+        nodeTypes.add(typeConcept);
+        NodeType typeRelation = new NodeTypeImpl("relation");
+        nodeTypes.add(typeRelation);
+        return nodeTypes;
+    }
+
+    public static List getNodeTypesList() {
+        return nodeTypesList;
     }
 }
 

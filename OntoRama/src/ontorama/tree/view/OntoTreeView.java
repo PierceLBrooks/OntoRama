@@ -11,14 +11,21 @@ import javax.swing.tree.TreeSelectionModel;
 import javax.swing.ToolTipManager;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
+//import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeWillExpandListener;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.ActionMap;
+
 import java.awt.Image;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.*;
 
 import ontorama.ontologyConfig.*;
 
@@ -27,6 +34,8 @@ import ontorama.model.Graph;
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoNodeObserver;
+
+import ontorama.util.Debug;
 
 
 /**
@@ -38,17 +47,22 @@ import ontorama.tree.model.OntoNodeObserver;
  * @version 1.0
  */
 
-public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
+public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
+                                      TreeWillExpandListener,
+                                      KeyListener, MouseListener {
 
 
     private JScrollPane treeView;
     private JTree tree;
     private OntoTreeNode focusedNode;
 
+    private Debug debug = new Debug(true);
+
+
     /**
      * Constructor
      */
-    public OntoTreeView(Graph graph) {
+    public OntoTreeView(Graph graph)  {
 
         // build OntoTreeModel for this graph
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
@@ -67,9 +81,20 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
         //final JTree tree = new JTree(ontoTreeModel);
         this.tree = new JTree(ontoTreeModel);
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        this.tree.setEditable(false);
 
         //Listen for when the selection changes.
         this.tree.addTreeSelectionListener(this);
+
+        this.tree.addTreeWillExpandListener(this);
+
+
+        this.tree.addMouseListener(this);
+        this.tree.addKeyListener(this);
+//        ActionMap actionMap = this.tree.getActionMap();
+//        actionMap.put();
+//        System.out.println("ActionMap keys= " + actionMap.keys());
+
 
         ToolTipManager.sharedInstance().registerComponent(this.tree);
 
@@ -85,11 +110,11 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
      * @param   TreeSelectionEvent e
      */
     public void valueChanged(TreeSelectionEvent e) {
-        OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
-        if ( !node.equals(focusedNode)) {
-            //System.out.println("******** node " + node);
-            node.setFocus();
-        }
+      OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
+      //if ( !node.equals(focusedNode)) {
+        debug.message("TreeSelectionListener ******** node " + node);
+        node.setFocus();
+      //}
     }
 
     /**
@@ -123,6 +148,114 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             ontoTreeNode.addOntoObserver(this);
         }
     }
+
+    /**
+     * Implementation of treeWillCollapse for TreeWillExpandListener interface
+     */
+    public void treeWillExpand(TreeExpansionEvent e)
+                throws ExpandVetoException {
+        debug.message("Tree-will-expand event detected" + e);
+
+        boolean cancelExpand = false;
+        if (cancelExpand) {
+            //Cancel expansion.
+            debug.message("Tree expansion cancelled" + e);
+            throw new ExpandVetoException(e);
+        }
+    }
+
+    /**
+     * Implementation of treeWillExpand for TreeWillExpandListener interface
+     */
+    public void treeWillCollapse(TreeExpansionEvent e) {
+        debug.message("Tree-will-collapse event detected" + e);
+    }
+
+//    /**
+//     * Required by TreeExpansionListener interface.
+//     */
+//    public void treeExpanded(TreeExpansionEvent e) {
+//        debug.message("Tree-expanded event detected" + e);
+//    }
+//
+//    /**
+//     * Required by TreeExpansionListener interface.
+//     */
+//    public void treeCollapsed(TreeExpansionEvent e) {
+//        debug.message("Tree-collapsed event detected" + e);
+//    }
+
+
+    public void keyPressed(KeyEvent e) {
+      if (e.getModifiers() == InputEvent.ALT_GRAPH_MASK) {
+        debug.message("keyEvent ALT_GRAPH_MASK");
+      }
+      if (e.getModifiers() == InputEvent.ALT_MASK) {
+        debug.message("keyEvent ALT_MASK ");
+      }
+      if (e.getModifiers() == InputEvent.CTRL_MASK ) {
+        debug.message("keyEvent CTRL_MASK ");
+      }
+      if (e.getModifiers() == InputEvent.META_MASK ) {
+        debug.message("keyEvent META_MASK ");
+      }
+      if (e.getModifiers() == InputEvent.SHIFT_MASK ) {
+        debug.message("keyEvent SHIFT_MASK ");
+      }
+
+      //debug.message("keyPressed, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + e.getKeyText(e.getKeyCode()));
+
+    }
+    public void keyReleased(KeyEvent e) {
+      //debug.message("keyReleased, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + e.getKeyText(e.getKeyCode()));
+    }
+    public void keyTyped(KeyEvent e) {
+      debug.message("keyTyped, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + e.getKeyText(e.getKeyCode()));
+    }
+
+
+    public void mousePressed(MouseEvent e) {
+      int selRow = tree.getRowForLocation(e.getX(), e.getY());
+      TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+      if(selRow != -1) {
+         if(e.getClickCount() == 1) {
+             //debug.message("mousePressed, single click,  row=" + selRow);
+         }
+         else if(e.getClickCount() == 2) {
+             //debug.message("mousePressed, double click,  row=" + selRow);
+         }
+      }
+    }
+    public void mouseClicked (MouseEvent e) {
+      int selRow = tree.getRowForLocation(e.getX(), e.getY());
+      TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+      if (selPath == null) { return; }
+      OntoTreeNode selNode = (OntoTreeNode) selPath.getLastPathComponent();
+      debug.message("mouseClicked,  row=" + selRow + ", node = " + selNode.getGraphNode().getName());
+
+      if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
+        debug.message("BUTTON1_MASK");
+      }
+      if (e.getModifiers() == InputEvent.BUTTON2_MASK) {
+        debug.message("BUTTON2_MASK");
+      }
+      if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
+        debug.message("BUTTON3_MASK ");
+      }
+      if (e.getModifiers() == InputEvent.META_MASK ) {
+        debug.message("META_MASK ");
+      }
+    }
+    public void mouseEntered (MouseEvent e) {
+      //debug.message("mouseEntered");
+    }
+    public void mouseExited (MouseEvent e) {
+      //debug.message("mouseExited");
+    }
+    public void mouseReleased (MouseEvent e) {
+      //debug.message("mouseReleased");
+    }
+
 
     /**
      * @todo    Renderer should be in a standalone class

@@ -18,11 +18,10 @@ import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.NodeTypeDisplayInfo;
-import ontorama.ui.events.GeneralQueryEvent;
+import ontorama.ui.events.QueryNodeEvent;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
-import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
 /**
@@ -70,8 +69,7 @@ public class NodesListViewer extends JComboBox {
                     return;
                 }
                 Node selectedNode = (ontorama.model.graph.Node) selectedObject;
-                Query newQuery = new Query(selectedNode.getName());
-                _eventBroker.processEvent(new GeneralQueryEvent(newQuery));
+                _eventBroker.processEvent(new QueryNodeEvent(selectedNode));
             }
         });
         setListSizeDependantProperties();

@@ -558,7 +558,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		Graph graph = null;
 		setStatusLabel(_worker.getMessage());
 		if ((_worker.done()) || (_worker.isStopped())) {
-			if (_worker.done()) {
+            if (_worker.isStopped()) {
+                graph = _graph;
+                _modelEventBroker.processEvent(new QueryCancelledEvent(_query));
+            }
+            else {
+			    //if (_worker.done()) {
 				graph = _worker.getGraph();
 				_modelEventBroker.processEvent(new QueryEndEvent(graph));
 			}

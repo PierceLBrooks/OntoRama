@@ -97,11 +97,7 @@ public class RdfModelWriter implements ModelWriter {
     protected Model toRDFModel() throws RDFException, NoSuchRelationLinkException {
         Model rdfModel = new ModelMem();
 
-
-        List nodesList = _graph.getNodesList();
-        List edgesList = _graph.getEdgesList();
-
-        writeEdges(edgesList, rdfModel);
+        writeEdges(_graph.getEdgesList(), rdfModel);
 
         return rdfModel;
     }
@@ -153,7 +149,6 @@ public class RdfModelWriter implements ModelWriter {
         Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
         RdfMapping rdfMapping = (RdfMapping) _edgeTypesToRdfMapping.get(edgeType);
         if (rdfMapping.getType().equals(edgeType.getName()) ) {
-            Node toNode = (Node) curEdge.getToNode();
             result =  new SimpleTriple (curEdge.getFromNode(), predicate, curEdge.getToNode());
             _processedNodes.add(fromNode);
         }

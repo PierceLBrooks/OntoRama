@@ -101,8 +101,7 @@ public class SendMessageThread extends Thread{
 		        						  tag, 
 		        						  message);
 
-		 System.err.println("SendMessageThread::sendToAllPointToPoint");
-		 
+
 	 	//while travese to send the mesage to all groups this peer is a member of
 		Enumeration enum = this.comm.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
@@ -255,53 +254,37 @@ public class SendMessageThread extends Thread{
 	         	tmpMessage.addElement(tmpMessage.newMessageElement(
 	         								"TAG", 
 				                            mimeType, 
-	    	    		                    new Integer(tag).toString().getBytes()));
-	            if (tag == Communication.TAGPROPAGATE){
-	            	tmpMessage.addElement(
-	            		tmpMessage.newMessageElement(
-	            				"propType", 
-								mimeType, 
-			                	new Integer(propType).toString().getBytes()));
-				}
-	
-	            	tmpMessage.addElement(
-	            		tmpMessage.newMessageElement(
-	            				"SenderPeerID", 
-								mimeType, 
-			                	this.comm.getGlobalPG().getPeerID().toString().getBytes()));
-                    
-                    tmpMessage.addElement(
-                        tmpMessage.newMessageElement(
-                                "SenderPeerName", 
-                                mimeType, 
-                                this.comm.getGlobalPG().getPeerName().toString().getBytes()));
+                                                new Integer(tag).toString().getBytes()));
+        if (tag == Communication.TAGPROPAGATE){
+	        tmpMessage.addElement(
+	            tmpMessage.newMessageElement("propType",mimeType, new Integer(propType).toString().getBytes()));
+		}
 
-	                	
-	            if (ownPeerID != null){
-	            	tmpMessage.addElement(
-	            			tmpMessage.newMessageElement(
-	            				"PeerID", 
-			                    mimeType, 
-	        		            ownPeerID.getBytes()));
-	            }
-	            if (ownGroupID == null) {
-	               	tmpMessage.addElement(
-	               			tmpMessage.newMessageElement(
-	               				"GroupID", 
-	                            mimeType, 
-	                            this.comm.getGlobalPG().getPeerGroupID().toString().getBytes()));
-	            } else {
-	               	tmpMessage.addElement(
-							tmpMessage.newMessageElement("GroupID", 
-	                           mimeType, 
-	                           ownGroupID.getBytes())); 
-	            }
-	            tmpMessage.addElement(
-	                            tmpMessage.newMessageElement("Body", 
-	                            mimeType, 
-	                            message.getBytes())); 		
-		   		
-		   	return tmpMessage;
+System.out.println("  Send message: SenderPeerID:" + this.comm.getGlobalPG().getPeerID().toString());
+	    tmpMessage.addElement(
+            tmpMessage.newMessageElement("SenderPeerID",mimeType,
+			    this.comm.getGlobalPG().getPeerID().toString().getBytes()));
+                    
+        tmpMessage.addElement(
+            tmpMessage.newMessageElement("SenderPeerName",mimeType,
+                    this.comm.getGlobalPG().getPeerName().toString().getBytes()));
+
+        if (ownPeerID != null){
+            tmpMessage.addElement(
+	            tmpMessage.newMessageElement("PeerID",mimeType,ownPeerID.getBytes()));
+	    }
+        if (ownGroupID == null) {
+            tmpMessage.addElement(
+	            tmpMessage.newMessageElement("GroupID",mimeType,
+	                this.comm.getGlobalPG().getPeerGroupID().toString().getBytes()));
+	     } else {
+	        tmpMessage.addElement(
+			    tmpMessage.newMessageElement("GroupID",mimeType,ownGroupID.getBytes()));
+	     }
+	     tmpMessage.addElement(
+	        tmpMessage.newMessageElement("Body",mimeType,message.getBytes()));
+
+        return tmpMessage;
    	}
 
 

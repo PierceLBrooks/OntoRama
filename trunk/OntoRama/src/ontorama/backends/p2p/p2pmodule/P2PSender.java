@@ -135,7 +135,7 @@ public class P2PSender{
         if (groupName != null){
             //TODO maybe we should solve this in an other way, forexample send its own PeerID
             this.peersPanel.addGroup(groupID, groupName);
-            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupName);
+            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID);
             return true;
         }
     return false;
@@ -196,9 +196,7 @@ public class P2PSender{
               Enumeration tmpEnumernation = searchGroupResult.elements();
               if (tmpEnumernation.hasMoreElements()) {
                   SearchGroupResultElement searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
-                  System.out.println("Peer discovery in "
-                  + searchGroupResultElement.getName()
-                  + " (ID:" + searchGroupResultElement.getID()+ "):");
+                  System.err.println("Peer discovery in " + searchGroupResultElement.getName() + " (ID:" + searchGroupResultElement.getID()+ "):");
                   String tmpGroupID = searchGroupResultElement.getID().toString();
                   this.peersPanel.addGroup(tmpGroupID, groupName);
 
@@ -206,7 +204,7 @@ public class P2PSender{
                   Enumeration enum = result.elements();
                   while (enum.hasMoreElements()){
                           SearchGroupResultElement element = (SearchGroupResultElement)enum.nextElement();
-                          this.peersPanel.addPeer(element.getID().toString(), element.getName(), groupName);
+                          this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
                   }
                } else {
                   System.out.println("Couldn't find any group with that name");

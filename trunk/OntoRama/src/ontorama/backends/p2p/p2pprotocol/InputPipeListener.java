@@ -49,43 +49,49 @@ public class InputPipeListener implements PipeMsgListener {
 	*/
     public void pipeMsgEvent(PipeMsgEvent event) {
 
-        System.out.println("We have recieved a message");    	
+
         Message message = null;
         
 		message = event.getMessage();
 		String var = message.getString("TAG");
+        String senderPeerIDStr = message.getString("SenderPeerID");
 
-		//Only process messages that this peer has not sent
-		if (!(message.getString("SenderPeerID").equals(
-				this.comm.getGlobalPG().getPeerID().toString()))) {
+        //check to see if the message is sent for us
+        if ((senderPeerIDStr != null) && var != null) {
+            System.err.println("We have recieved a message with TAG, senderPeerID:" + var + "," + senderPeerIDStr);
 
-   		
-			switch(new Integer(var).intValue()) {
-				case Communication.TAGPROPAGATE : 
-	            	this.getP2PReciever().recievePropagateCommand(
-	            									new Integer(message.getString("propType")).intValue(),
-	            									message.getString("SenderPeerID"),
-                                                    message.getString("SenderPeerName"),
-                                                    message.getString("GroupID"),
-													message.getString("Body"));
-		            break; 
-	            case Communication.TAGLOGOUT : 
-					this.getP2PReciever().recieveLogoutCommand(message.getString("SenderPeerID"));
-		            break;
-	   		    case Communication.TAGSEARCH : 
+            //Only process messages that this peer has not sent
+            if (!(senderPeerIDStr.equals(
+                    this.comm.getGlobalPG().getPeerID().toString()))) {
 
-					this.getP2PReciever().recieveSearchRequest(message.getString("SenderPipeID"),
-                                                               message.getString("Body"));
-	                break;    
-	   		    case Communication.TAGSEARCHRESPONSE : 
-	            	this.recieveSearchResponse(message);
-	            	break;    
-	   		    case Communication.TAGFLUSHPEER : 
-					this.recieveFlushPeerAdvertisement(message.getString("GroupID"),
-													    message.getString("PeerID"));
-	            	break;
-                    }
-		}
+
+                switch(new Integer(var).intValue()) {
+                    case Communication.TAGPROPAGATE :
+                        this.getP2PReciever().recievePropagateCommand(
+                                                        new Integer(message.getString("propType")).intValue(),
+                                                        message.getString("SenderPeerID"),
+                                                        message.getString("SenderPeerName"),
+                                                        message.getString("GroupID"),
+                                                        message.getString("Body"));
+                        break;
+                    case Communication.TAGLOGOUT :
+                        this.getP2PReciever().recieveLogoutCommand(message.getString("SenderPeerID"));
+                        break;
+                    case Communication.TAGSEARCH :
+
+                        this.getP2PReciever().recieveSearchRequest(message.getString("SenderPipeID"),
+                                                                   message.getString("Body"));
+                        break;
+                    case Communication.TAGSEARCHRESPONSE :
+                        this.recieveSearchResponse(message);
+                        break;
+                    case Communication.TAGFLUSHPEER :
+                        this.recieveFlushPeerAdvertisement(message.getString("GroupID"),
+                                                            message.getString("PeerID"));
+                        break;
+                        }
+            }
+        }
     }
         
 

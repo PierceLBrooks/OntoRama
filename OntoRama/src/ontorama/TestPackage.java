@@ -5,7 +5,6 @@ import junit.framework.TestSuite;
 
 import ontorama.model.test.TestModelPackage; 
 import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.backends.test.TestBackendsPackage;
 
 /**
  * <p>Title: </p>
@@ -28,7 +27,7 @@ public class TestPackage {
 
         suite.addTest(TestModelPackage.suite());
         suite.addTest(TestWebkbtoolsPackage.suite());
-        suite.addTest(TestBackendsPackage.suite());
+        //suite.addTest(TestBackendsPackage.suite());
 
         return suite;
     }

@@ -211,6 +211,7 @@ public class ExamplesBackend implements Backend {
 		setCurrentExample(example);
 		// get graph for this query and load it into app
 		_eventBroker.processEvent(new QueryStartEvent(query));
+		_menu.setSelectedExampleMenuItem(_curExample);
 	}
 
 	/**

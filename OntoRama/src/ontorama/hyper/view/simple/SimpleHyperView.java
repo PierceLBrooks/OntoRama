@@ -35,7 +35,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-            System.out.println("processEvent: NodeActivated: " + nodeView);
+            //System.out.println("processEvent: NodeActivated: " + nodeView);
             toggleFold(nodeView.getGraphNode());
         }
     }
@@ -52,7 +52,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
             dragNode(nodeView, draggedEvent);
-            System.out.println("processEvent: NodeDragged: " + nodeView);
+            //System.out.println("processEvent: NodeDragged: " + nodeView);
         }
     }
 
@@ -66,7 +66,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-            System.out.println("processEvent: NodePointed: " + nodeView);
+            //System.out.println("processEvent: NodePointed: " + nodeView);
             highlightNodePathToRoot(nodeView);
             //highlightPathToRoot(pointedEvent);
         }
@@ -82,7 +82,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             CanvasItemMouseMovementEvent pointedEvent = (CanvasItemMouseMovementEvent) e;
-            System.out.println("processEvent: SpherePointed ");
+            //System.out.println("processEvent: SpherePointed ");
             highlightPathToRoot(pointedEvent);
         }
     }
@@ -191,10 +191,10 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
                 focusNode.getY() * focusNode.getY());
         lengthOfAnimation = (long) (distance * 1.5);
-        //animate();
+        animate();
 
-        moveCanvasItems(focusNode.getX(), focusNode.getY());
-        repaint();
+//        moveCanvasItems(focusNode.getX(), focusNode.getY());
+//        repaint();
     }
 
     /**
@@ -871,6 +871,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
         setScreenTransform(this.scaleToFit(g2d, bounds));
 
+        if(animationTime != 0) {
+            animate();
+        }
     }
 
 
@@ -937,6 +940,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         animationTime = newTime;
         if (animDist > 1) {
             animDist = 1;
+            animationTime = 0;
         }
 
         moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
@@ -1144,7 +1148,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (closestNode == null ) {
             return;
         }
-        System.out.println("\t closestNode  =  " + closestNode);
+        //System.out.println("\t closestNode  =  " + closestNode);
         highlightNodePathToRoot(closestNode);
     }
 

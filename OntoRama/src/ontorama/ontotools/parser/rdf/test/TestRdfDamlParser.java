@@ -9,7 +9,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.examplesmanager.ExamplesBackend;
+import ontorama.backends.Backend;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
@@ -72,7 +72,7 @@ public class TestRdfDamlParser extends TestCase {
     private Source source;
     private Parser parser;
     
-    private ExamplesBackend backend;
+    private Backend backend;
 
 
     /**
@@ -89,7 +89,7 @@ public class TestRdfDamlParser extends TestCase {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
                 
-        backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+        backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	OntoramaConfig.activateBackend(backend);
         
     	source = (Source) (Class.forName(sourcePackageName).newInstance());

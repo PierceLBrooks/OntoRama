@@ -29,28 +29,35 @@ public class NodesListViewer extends JFrame {
 	/**
 	 *
 	 */
-	public JList _nodesList;
+	private JList _nodesList;
+
+        /**
+         *
+         */
+        private OntoRamaApp _mainApp;
 
 	/**
 	 *
 	 */
-	public NodesListViewer (List nodes) {
-		Vector nodesVector = new Vector((Collection) nodes);
-		_nodesList = new JList(nodesVector);
-		_nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	public NodesListViewer (OntoRamaApp ontoramaApp, List nodes) {
+          _mainApp = ontoramaApp;
+          Vector nodesVector = new Vector((Collection) nodes);
+          _nodesList = new JList(nodesVector);
+          _nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		JScrollPane scrollPane = new JScrollPane(_nodesList);
+          JScrollPane scrollPane = new JScrollPane(_nodesList);
 
-//		_nodesList.addListSelectionListener(new ListSelectionListener() {
-//			public void valueChanged (ListSelectionEvent e) {
-//				GraphNode selectedNode = (GraphNode) _nodesList.getSelectedValue();
-//				System.out.println("selected node = " + selectedNode.getName());
-//			}
-//		});
+          _nodesList.addListSelectionListener(new ListSelectionListener() {
+                  public void valueChanged (ListSelectionEvent e) {
+                          GraphNode selectedNode = (GraphNode) _nodesList.getSelectedValue();
+                          System.out.println("selected node = " + selectedNode);
+                          _mainApp.resetGraphRoot(selectedNode);
+                  }
+          });
 
-		getContentPane().add(scrollPane);
+          getContentPane().add(scrollPane);
 
-		pack();
+          pack();
 	}
 
 //	/**
@@ -70,9 +77,16 @@ public class NodesListViewer extends JFrame {
         /**
          *
          */
-        public JList getList () {
-          return _nodesList;
+        public void close () {
+          dispose();
         }
+
+//        /**
+//         *
+//         */
+//        public JList getList () {
+//          return _nodesList;
+//        }
 
 }
 

@@ -206,6 +206,8 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         g2d.fillOval(	(int)projectedX - viewRadius,
                         (int)projectedY - viewRadius,
                        (int)viewRadius * 2, (int)viewRadius * 2);
+        g2d.setColor( Color.black );
+        g2d.drawString(model.getName(), (int)projectedX, (int)projectedY );
     }
 
     public String toString() {

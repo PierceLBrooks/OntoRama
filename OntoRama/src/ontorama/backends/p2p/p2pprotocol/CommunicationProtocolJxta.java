@@ -1,7 +1,6 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
@@ -359,10 +358,13 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
     * @version P2P-OntoRama 1.0.0
     */
     public Vector getMemberOfGroups(){
-        Vector groups = null;
-        Hashtable temptable = this.communicationGroup.getMemberOfGroups();
-        groups = new Vector(temptable.values());         
+//        Vector groups = null;
+//        Hashtable temptable = this.communicationGroup.getMemberOfGroups();
+//        groups = new Vector(temptable.values());      
+
+//		return groups;
         
-        return groups;
+        return new Vector(this.communicationGroup.memberOfGroupsByValues());   
+        
     }
 }

@@ -67,6 +67,9 @@ public class CommunicationGroup extends Communication {
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
 			
+//			DiscoveryService discService = this.getGlobalPG().getDiscoveryService();
+//			discService.remotePublish(pg.getPeerGroupAdvertisement(), DiscoveryService.GROUP);
+			
 			System.out.println("\ncreated group PeerGroup pg = " + pg + ", group name = " + pg.getPeerGroupName());
 		} catch (PeerGroupException e) {
 			throw new GroupException(e,"Could not create a group");
@@ -94,7 +97,8 @@ public class CommunicationGroup extends Communication {
 		//Get PeerGroup
 		System.out.println("CommunicationGroup::joinGroup, groupID = " + groupID);
         try {
-			if (this.getMemberOfGroups().containsKey(groupID)) {            
+			//if (this.getMemberOfGroups().containsKey(groupID)) {
+			if (this.memberOfGroupsContains(groupID)) {            
                 return null;
             } else {
                 pg = (PeerGroup) this.createdGroups.get(groupID);
@@ -145,7 +149,10 @@ public class CommunicationGroup extends Communication {
 				member.join(auth);
 
 				//If joined, then update the memberOfGroups
-				this.getMemberOfGroups().put(pg.getPeerGroupID(), pg);
+				//this.getMemberOfGroups().put(pg.getPeerGroupID(), pg);
+				this.addToMemberOfGroups(pg);
+				
+				System.out.println("CommunicationGroup::joinGroup(pg): joined group " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
 	           				
 			} else {
 				throw new GroupExceptionNotAllowed("Was not allowed to join the Peer Group");
@@ -207,8 +214,11 @@ public class CommunicationGroup extends Communication {
 			DiscoveryService discServGlobal = this.getGlobalPG().getDiscoveryService();
 			discServGlobal.flushAdvertisements(groupIDasString, DiscoveryService.GROUP);
 
-			//if leaved group, then update memberOfGroups
-			this.removeElementFromMembersOfGroup(groupIDasString);
+			//if left group, then update memberOfGroups
+
+			//this.removeElementFromMembersOfGroup(groupIDasString);
+			removeFromMemberOfGroups(groupIDasString);
+
 			//this.getMemberOfGroups().remove(groupIDasString);
 			
 			//remove the inputpipe by flushing it from local cache
@@ -347,7 +357,7 @@ public class CommunicationGroup extends Communication {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum.nextElement();
 			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
-								+ peerAdv.getPeerGroupID() + ", peerAdv.getDescription()" + peerAdv.getDescription());
+								+ peerAdv.getPeerGroupID());
 			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
 								  									peerAdv.getName(),
 								  									peerAdv.getDescription()));
@@ -356,34 +366,30 @@ public class CommunicationGroup extends Communication {
 	}
 	
 
-	private void removeElementFromMembersOfGroup(String groupIDasString) {
-		Enumeration enum = this.getMemberOfGroups().elements();
-		PeerGroup pg = null;
-		int i = 0;
-		
-		while (enum.hasMoreElements()) {
-			pg = (PeerGroup) enum.nextElement();
-			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
-				
-				
-				this.getMemberOfGroups().remove(pg);
-				
-				} 
-			i++;
-		}
-		
-		
-	}
+//	private void removeElementFromMembersOfGroup(String groupIDasString) {
+//		Enumeration enum = this.getMemberOfGroups().elements();
+//		
+//		PeerGroup pg = null;
+//		int i = 0;
+//		
+//		while (enum.hasMoreElements()) {
+//			pg = (PeerGroup) enum.nextElement();
+//			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
+//				this.getMemberOfGroups().remove(pg);
+//			} 
+//			i++;
+//		}
+//	}
 
-	private void printMembers() {
-		Enumeration enum = this.getMemberOfGroups().elements();
-		PeerGroup pg = null;
-		
-		System.err.println("This are the members in mermbersOfGroup");
-		
-		while (enum.hasMoreElements()) {
-			pg = (PeerGroup) enum.nextElement();
-			System.err.println("PG:" + pg.getPeerGroupName());	
-		}
-	}
+//	private void printMembers() {
+//		Enumeration enum = this.getMemberOfGroups().elements();
+//		PeerGroup pg = null;
+//		
+//		System.err.println("This are the members in mermbersOfGroup");
+//		
+//		while (enum.hasMoreElements()) {
+//			pg = (PeerGroup) enum.nextElement();
+//			System.err.println("PG:" + pg.getPeerGroupName());	
+//		}
+//	}
 }

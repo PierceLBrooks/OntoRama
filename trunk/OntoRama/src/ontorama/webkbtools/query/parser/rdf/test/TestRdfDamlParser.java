@@ -21,10 +21,10 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.CancelledQueryException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.webkbtools.ParserException;
+import ontorama.webkbtools.SourceException;
 
 /**
  * <p>Title: </p>

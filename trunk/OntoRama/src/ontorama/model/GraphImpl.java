@@ -21,7 +21,7 @@ import ontorama.model.util.NodeAlreadyExistsException;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
 /**

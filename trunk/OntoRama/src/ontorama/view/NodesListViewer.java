@@ -56,7 +56,7 @@ public class NodesListViewer extends JComboBox {
      * default heading/explanation string that should
      * always be first in the pull-down list.
      */
-    private String _defaultHeadingString = "Unconnected Nodes List";
+    private String _defaultHeadingString = "Component List";
 
     /**
      * Viewer to display list of unconnected nodes for current graph

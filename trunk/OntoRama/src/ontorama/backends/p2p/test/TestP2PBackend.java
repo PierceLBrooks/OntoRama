@@ -28,7 +28,7 @@ import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 import ontorama.webkbtools.writer.ModelWriter;
 import ontorama.webkbtools.writer.ModelWriterException;
 import ontorama.webkbtools.writer.rdf.RdfModelWriter;

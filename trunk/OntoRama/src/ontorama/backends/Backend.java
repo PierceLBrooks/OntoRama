@@ -10,7 +10,7 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
 /**

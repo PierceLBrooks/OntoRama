@@ -3,7 +3,7 @@ package ontorama.webkbtools.query.parser;
 import java.io.Reader;
 import java.security.AccessControlException;
 
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.ParserException;
 
 public interface Parser {
 

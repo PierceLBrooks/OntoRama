@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.Reader;
 
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.CancelledQueryException;
+import ontorama.webkbtools.SourceException;
 
 /*
  * Created by IntelliJ IDEA.

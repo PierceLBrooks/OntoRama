@@ -18,8 +18,8 @@ import java.net.URLConnection;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.CancelledQueryException;
+import ontorama.webkbtools.SourceException;
 
 public class UrlSource implements Source {
     /**

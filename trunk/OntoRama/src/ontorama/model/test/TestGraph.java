@@ -1,6 +1,6 @@
 package ontorama.model.test;
 
-import java.util.Iterator;import java.util.LinkedList;import java.util.List;import junit.framework.TestCase;import ontorama.OntoramaConfig;import ontorama.model.Edge;import ontorama.model.EdgeImpl;import ontorama.model.Graph;import ontorama.model.GraphImpl;import ontorama.model.NoTypeFoundInResultSetException;import ontorama.model.Node;import ontorama.model.NodeImpl;import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;import ontorama.model.util.GraphModificationException;import ontorama.webkbtools.TestWebkbtoolsPackage;import ontorama.webkbtools.query.Query;import ontorama.webkbtools.query.QueryResult;import ontorama.webkbtools.util.NoSuchRelationLinkException;import org.tockit.events.EventBroker;
+import java.util.Iterator;import java.util.LinkedList;import java.util.List;import junit.framework.TestCase;import ontorama.OntoramaConfig;import ontorama.model.Edge;import ontorama.model.EdgeImpl;import ontorama.model.Graph;import ontorama.model.GraphImpl;import ontorama.model.NoTypeFoundInResultSetException;import ontorama.model.Node;import ontorama.model.NodeImpl;import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;import ontorama.model.util.GraphModificationException;import ontorama.webkbtools.TestWebkbtoolsPackage;import ontorama.webkbtools.query.Query;import ontorama.webkbtools.query.QueryResult;import ontorama.webkbtools.NoSuchRelationLinkException;import org.tockit.events.EventBroker;
 
 /**
  * <p>Title: </p>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- JNLP File for OntoRama Application -->
-<jnlp spec="1.0+" codebase="http://www.webkb.org/ontorama/deployWebstart/" href="OntoRama.jnlp">
+<jnlp spec="1.0+" codebase="http://www.ontorama.org/deployWebstart/" href="OntoRama.jnlp">
 	<information>
 		<title>OntoRama Demo Application</title>
 		<vendor>DSTC, KVO (GU)</vendor>
-		<homepage href="http://www.webkb.org/ontorama"/>
+		<homepage href="http://www.ontorama.org"/>
 		<description>Ontology Browser Prototype</description>
 		<description kind="tooltip">GO OntoRama!</description>
 		<icon href="img/OntoramaLogo-smaller.jpg"/>
@@ -19,6 +19,6 @@
 		<jar href="lib/junit.jar"/>
 		<jar href="lib/xerces.jar"/>
         <jar href="lib/canvas.jar"/>
-        <jar href="lib/event.jar"/>
+        <jar href="lib/events.jar"/>
 	</resources>
 </jnlp>

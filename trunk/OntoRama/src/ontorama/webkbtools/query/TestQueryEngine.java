@@ -12,7 +12,7 @@ import ontorama.model.EdgeType;
 import ontorama.model.Node;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
  * <p>Title: </p>

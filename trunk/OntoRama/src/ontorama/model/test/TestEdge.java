@@ -14,7 +14,7 @@ import ontorama.model.EdgeImpl;
 import ontorama.model.EdgeType;
 import ontorama.model.Node;
 import ontorama.model.NodeImpl;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
  * Title:

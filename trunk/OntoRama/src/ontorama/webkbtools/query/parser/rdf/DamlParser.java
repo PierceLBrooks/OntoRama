@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.ParserException;
 
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;

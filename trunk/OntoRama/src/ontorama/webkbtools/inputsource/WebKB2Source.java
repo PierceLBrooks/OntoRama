@@ -33,9 +33,9 @@ import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.CancelledQueryException;
+import ontorama.webkbtools.ParserException;
+import ontorama.webkbtools.SourceException;
 
 
 public class WebKB2Source implements Source {

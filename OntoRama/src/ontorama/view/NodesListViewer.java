@@ -3,6 +3,8 @@ package ontorama.view;
 import ontorama.controller.QueryEvent;
 import ontorama.model.Node;
 import ontorama.model.NodeType;
+import ontorama.model.Graph;
+import ontorama.model.GraphImpl;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.ImageMaker;
@@ -28,6 +30,8 @@ public class NodesListViewer extends JComboBox {
      * list of currently displayed nodes
      */
     private List _nodesList = new LinkedList();
+
+    private Graph _graph;
 
     /**
      * event broker
@@ -72,8 +76,9 @@ public class NodesListViewer extends JComboBox {
     /**
      * set new list of nodes
      */
-    public void setNodesList (List nodes) {
-        _nodesList = nodes;
+    public void setGraph (Graph graph) {
+        _graph = graph;
+        _nodesList = graph.getUnconnectedNodesList();
         removeAllItems();
         addItem(_defaultHeadingString);
         setListSizeDependantProperties();
@@ -182,8 +187,14 @@ public class NodesListViewer extends JComboBox {
             }
             else {
                 Node node = (Node) value;
-                setText(node.getName());
                 NodeType nodeType = node.getNodeType();
+                setText(node.getName());
+                // @todo hack: should consider adding the method into interface
+                if (_graph instanceof GraphImpl) {
+                    GraphImpl graphImpl = (GraphImpl) _graph;
+                    int numOfDescendants = graphImpl.getNumOfDescendants(node);
+                    setText(node.getName() + " (" + numOfDescendants + ")");
+                }
                 setToolTipText(nodeType.getNodeType());
                 if (nodeType != null) {
                     ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);

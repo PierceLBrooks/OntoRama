@@ -4,37 +4,25 @@ package ontorama.hyper.view.simple;
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
-import ontorama.hyper.canvas.CanvasManager;
 import ontorama.hyper.model.HyperNode;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
-import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.Canvas;
-import org.tockit.canvas.controller.*;
-import org.tockit.canvas.events.CanvasItemActivatedEvent;
-import org.tockit.canvas.events.CanvasItemClickedEvent;
+import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.canvas.events.CanvasItemActivatedEvent;
+import org.tockit.canvas.events.CanvasItemDraggedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
-import org.tockit.events.LoggingEventListener;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.io.*;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.TimerTask;
 
 
 public class SimpleHyperView extends Canvas implements GraphView {
@@ -46,6 +34,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             this.eventBroker = eventBroker;
             eventBroker.subscribe(this, eventType, HyperNodeView.class);
         }
+
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
@@ -60,10 +49,22 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            System.out.println("processEvent for " + nodeView);
             toggleFold(nodeView.getGraphNode());
         }
     }
 
+    private class NodeDraggedEventHandler implements EventListener {
+        public NodeDraggedEventHandler(EventBroker eventBroker) {
+            eventBroker.subscribe(this, CanvasItemDraggedEvent.class, HyperNodeView.class);
+        }
+
+        public void processEvent(Event e) {
+            HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            System.out.println("drag processEvent for " + nodeView);
+            dragNode(nodeView);
+        }
+    }
 
     /**
      * Hold the mapping of HyperNode to GraphNodes
@@ -137,20 +138,21 @@ public class SimpleHyperView extends Canvas implements GraphView {
     private double ELECTRIC_CHARGE = 10;
 
 
-	/**
-	 *
-	 */
-    public SimpleHyperView( EventBroker eventBroker) {
+    /**
+     *
+     */
+    public SimpleHyperView(EventBroker eventBroker) {
         super(eventBroker);
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
         new GraphViewFocusEventHandler(eventBroker, this);
-        //new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
+        new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
+        new NodeDraggedEventHandler(eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     public void focus(GraphNode graphNode) {
         System.out.println("Hyper View FOCUS: node = " + graphNode.getName());
         System.out.println();
@@ -175,10 +177,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
         System.out.println();
     }
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     public void toggleFold(GraphNode node) {
+        System.out.println("\ntoggleFold for node " + node);
         HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
             return;
@@ -316,7 +319,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
         }
     }
-
 
 
     /**
@@ -917,7 +919,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Reset all global variables
      */
     protected void resetCanvas() {
-    	super.clearCanvas();
+        super.clearCanvas();
         this.hypernodes.clear();
         this.hypernodeviews.clear();
         this.focusNode = null;
@@ -941,7 +943,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
         }
     }
-
 
 
     /**
@@ -1028,7 +1029,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    private void addHyperNodeViews (Graph graph) {
+    private void addHyperNodeViews(Graph graph) {
 
 //        Iterator it = hypernodeviews.values().iterator();
 //        while (it.hasNext()) {
@@ -1057,12 +1058,50 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *  Add HyperNodeViews labels canvas manager.
      */
-    private void addLabelsViews () {
+    private void addLabelsViews() {
         Iterator it = hypernodeviews.values().iterator();
         while (it.hasNext()) {
             HyperNodeView hnv = (HyperNodeView) it.next();
             addCanvasItem(new LabelView(hnv));
         }
+    }
+
+    /**
+     *
+     */
+    protected void dragNode (HyperNodeView nodeView) {
+//        double lpx = lastPoint.getX();
+//        double lpy = lastPoint.getY();
+//        double x = e.getX();
+//        double y = e.getY();
+//        labelView = null;
+//        this.focusNode = null;
+//        if (dragmode == false) {
+//            double dragedAmount = Math.sqrt((lpx - x) * (lpx - x) + (lpy - y) * (lpy - y));
+//            if (dragedAmount > DRAG) {
+//                dragmode = true;
+//            } else {
+//                return;
+//            }
+//        }
+//        currentHighlightedView = null;
+//        if ((e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == 0) {
+//            double xDif = (lpx - x);
+//            double yDif = (lpy - y);
+//            moveCanvasItems(xDif, yDif);
+//        } else {
+//            // get x's and y's in cartesian coordinates
+//            double curX = x - getSize().width / 2;
+//            double curY = y - getSize().height / 2;
+//            double lastX = lpx - getSize().width / 2;
+//            double lastY = lpy - getSize().height / 2;
+//            // calculate angle of rotation
+//            double angle = Math.atan2(lastX, lastY) - Math.atan2(curX, curY);
+//            this.rotateNodes(angle);
+//        }
+//        lastPoint.setLocation(x, y);
+//        repaint();
+
     }
 
 }

@@ -51,7 +51,7 @@ public class SimpleHyperView  extends CanvasManager  {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 150;
+    private static double springLength = 60;
 
     /**
      * Stiffness factor for spring alogrithm
@@ -99,15 +99,14 @@ public class SimpleHyperView  extends CanvasManager  {
         }
         makeHyperNodes(root);
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
-
+        weightedRadialLayout(root, Math.PI * 2, 0);
         // (Math.PI * 2) is the number of radians in a circle
-        basicLayout(root, Math.PI * 2, 0);
-
+        //basicLayout(root, Math.PI * 2, 0);
         System.out.println("Running radial layout...");
 //        radialLayout(root, Math.PI * 2, 0);
 //        //if( runSpringForceAlgorithms == true ) {
         long start = System.currentTimeMillis();
-//        layoutNodes( 100 );
+//        layoutNodes( 200 );
         long end = System.currentTimeMillis();
 //        //}
 //        System.out.println("Time taken: " + ( (end - start)) + "ms");
@@ -117,7 +116,7 @@ public class SimpleHyperView  extends CanvasManager  {
 //        radialLayout(root, Math.PI * 2, 0);
 //        System.out.println("Running layoutNodes2( 100 )...");
 //        start = System.currentTimeMillis();
-//        layoutNodes2( 100 );
+        layoutNodes2( 200 );
         end = System.currentTimeMillis();
         System.out.println("Time taken: " + ( (end - start)) + "ms");
         //add lines to canvas manager.
@@ -320,47 +319,144 @@ public class SimpleHyperView  extends CanvasManager  {
     }
 
     /**
+     * Inner class to store graph node radial layouting info.
+     */
+    private class NodeList {
+        public GraphNode node = null;
+        public double numOfLeaves = 0;
+        public double wedge = 0;
+    }
+
+    /**
+     * Create a new array of NodeList.
+     *
+     * This array will be used to store graph node radial
+     * layouting info.
+     * List can be ordered by the number of leaf nodes.
+     */
+    private NodeList[] getNewNodeList( int size ) {
+        NodeList[] nodeList = new NodeList[ size ];
+        for( int i = 0; i < size; i++ ) {
+            nodeList[ i ] = new NodeList();
+        }
+        return nodeList;
+    }
+
+    /**
+     * Order NodeList by number of leaf nodes.
+     *
+     * Using a simple bubble sort for now.
+     */
+    private void sortNodeListAscending( NodeList[] nodeList ) {
+        NodeList temp;
+        for( int i = 0; i < (nodeList.length - 1); i++ ) {
+            for( int j = i + 1; j < nodeList.length; j++ ) {
+                if(nodeList[ i ].numOfLeaves < nodeList[ j ].numOfLeaves ) {
+                    temp = nodeList[ i ];
+                    nodeList[ i ] =  nodeList[ j ];
+                    nodeList[ j ] = temp;
+                }
+            }
+        }
+    }
+
+    /**
+     * Method node in the order they are to be layed out
+     * in the euclidean plane.
+     */
+    private void orderNodes( NodeList[] nodeList ) {
+        NodeList[] sortedNodeList = this.getNewNodeList( nodeList.length );
+        this.sortNodeListAscending( nodeList );
+//        for( int b = 0; b < nodeList.length; b++ ) {
+//            System.out.println("NumberOfLeaves = " + nodeList[b].numOfLeaves);
+//        }
+        // place largest node in the center and next to it
+        // place smalest node
+        int index = 0;
+        int i = 0; // starts at largest
+        int j = nodeList.length - 1; // starts at smallest
+        int center = (int)(((double)j/2) + 0.5); // round up
+        int offset = 0;
+        boolean firstLoop = true;
+//        System.out.println("center = " + center);
+//        while( index < nodeList.length ) {
+//            //place largest nodes
+//            sortedNodeList[center + (offset * -1)] = nodeList[i++];
+//            index++;
+//            if( index >= nodeList.length ) {
+//                break;
+//            }
+//            if( firstLoop == true ) {
+//                firstLoop = false;
+//            } else {
+//                sortedNodeList[center + offset] = nodeList[i++];
+//                index++;
+//                if( index >= nodeList.length ) {
+//                    break;
+//                }
+//            }
+//            offset = offset + 1;
+//            // place smallest nodes
+//            sortedNodeList[center + offset] = nodeList[j--];
+//            index++;
+//            if( index >= nodeList.length ) {
+//                break;
+//            }
+//            sortedNodeList[center + (offset * -1)] = nodeList[j--];
+//            index++;
+//            offset = offset + 1;
+//        }
+//        System.out.println("finnished sorting");
+//        for( int x = 0; x < sortedNodeList.length; x++ ) {
+//            System.out.println("NumberOfLeaves = " + sortedNodeList[x].numOfLeaves);
+//            System.out.println("Node = " + sortedNodeList[x].node.getName() + " Wedge = " + (180d/Math.PI * sortedNodeList[x].wedge));
+//        }
+    }
+
+    /**
      * Try to give the ontology a radial layout that allocates a
      * percentage of the wedge space to subtrees based on the number of
      * leaf node each subtree has to the total number of leaves on the tree.
-     * The spring and electrical algorthms shall they do the rest.
      */
-    private void weightedRadialLayout(GraphNode root, double wedge, double startAngle) {
+    private void weightedRadialLayout(GraphNode root, double wedgeSpace, double startAngle) {
         double rootNodeLeafTotal = getLeafNodeTotal( root );
+        double angle = startAngle;
+        double radius = springLength  * root.getDepth();
+        double drawAngle = startAngle + wedgeSpace / 2;
+        double x = Math.cos(drawAngle) * radius;
+        double y = Math.sin(drawAngle) * radius;
+        HyperNode hn = (HyperNode)hypernodes.get(root);
+        hn.setLocation( x, y);
 //        System.out.println("GraphNode root node is: " + root.getName());
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes < 1) {
             return;
         }
-        double x = 0, y = 0, radius = 0, count = 1;
+        NodeList[] nodeList = getNewNodeList( (int)numOfOutboundNodes );
         outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
-        double sumOfSlices = 0;
-        while (outboundNodesIterator.hasNext()) {
-            GraphNode curNode = (GraphNode) outboundNodesIterator.next();
-            double curNodeLeafTotal = getLeafNodeTotal( curNode );
-            double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
-            if( slice == 0 ) {
-                slice = 0.1;//(wedge/numOfOutboundNodes);
+        int count = 0;
+//        System.out.println("WedgeSpace = " + wedgeSpace + " rootNodeLeafTotal " + rootNodeLeafTotal);
+        while( outboundNodesIterator.hasNext() ) {
+            GraphNode cur = (GraphNode)outboundNodesIterator.next();
+            double numOfLeaves = getLeafNodeTotal( cur );
+            double wedge;
+            if( numOfLeaves == 0 ) { //no more children
+                wedge = wedgeSpace/rootNodeLeafTotal;
+            } else {
+                wedge = (numOfLeaves/rootNodeLeafTotal) * wedgeSpace;
             }
-//            if( (sumOfSlices + slice ) >= wedge ) {
-//                slice = 0;
-//            }
-            double drawAngle = (sumOfSlices + ( slice / 2 ) )  + startAngle;
-//            System.out.println(curNode.getName() + " has " + curNodeLeafTotal + " curNodeLeafTotal");
-//            System.out.println(curNode.getName() + " has " + (slice*(180/Math.PI)) + " slice");
-//            System.out.println(curNode.getName() + " has " + (sumOfSlices*(180/Math.PI)) + " sumOfSlices");
-//            System.out.println(curNode.getName() + " has " + (wedge*(180/Math.PI)) + " wedge");
-//            System.out.println(curNode.getName() + " has " + (startAngle*(180/Math.PI)) + " startAngle");
-//            System.out.println(curNode.getName() + " has " + (drawAngle*(180/Math.PI)) + " drawAngle");
-            sumOfSlices = sumOfSlices + slice;
-            count++;
-            radius = springLength  * curNode.getDepth();
-            x = Math.cos(drawAngle) * radius;
-            y = Math.sin(drawAngle) * radius;
-            HyperNode hn = (HyperNode)hypernodes.get(curNode);
-            hn.setLocation( x, y);
-            radialLayout( curNode, slice, ( drawAngle - (slice/2) ) );
+//            System.out.println("Wedge = " + wedge + " numOfLeaves " + numOfLeaves);
+            nodeList[ count ].node = cur;
+            nodeList[ count ].numOfLeaves = numOfLeaves;
+            nodeList[ count ].wedge = wedge;
+            count = count + 1;
+        }
+        this.orderNodes( nodeList );
+        // now position node in the euclidean plane.
+        for( int i = 0; i < nodeList.length; i++ ) {
+            weightedRadialLayout( nodeList[i].node, nodeList[i].wedge, angle );
+            angle = angle + nodeList[i].wedge;
         }
     }
 

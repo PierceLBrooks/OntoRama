@@ -90,7 +90,8 @@ my $newsserver = "";
 my $nicesubject = 0;
 
 # $maildate is what news and mail want to see as a date
-my $maildate = `/bin/date -R`; chomp $maildate;
+#my $maildate = `/bin/date -R`; chomp $maildate;
+my $maildate = `/bin/date`; chomp $maildate;
 # $userdate is what the user gets to see as a date
 my $userdate = `/bin/date`; chomp $userdate;
 

@@ -130,18 +130,32 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
 		makeHyperNodes(root);
         calculateDepths((HyperNode) this.hypernodes.get(root), 0);
+        
+        /// @todo the next few lines seem weird, there might be some chance for nicer code here
 		NodePlacementDetails rootNode = new NodePlacementDetails();
 		rootNode.node = root;
 		rootNode.numOfLeaves = getLeafNodeTotal(root);
 		weightedRadialLayout(rootNode, 0);
-		long start = System.currentTimeMillis();
-		long end = System.currentTimeMillis();
-		end = System.currentTimeMillis();
 
-		addCanvasItem(SimpleHyperView.sphereView);
-		addLinesToHyperNodeViews(hypernodeviews, root);
-		addHyperNodeViews();
-		addLabelViews();
+		addCanvasItem(SimpleHyperView.sphereView, "sphere");
+
+	    List queue = new LinkedList();
+	    queue.add(root);
+	    while (!queue.isEmpty()) {
+	        TreeNode curTreeNode = (TreeNode) queue.remove(0);
+	        HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curTreeNode);
+	        addCanvasItem(curHyperNodeView, "nodes");
+	        addCanvasItem(new LabelView(curHyperNodeView), "labels");
+	        Iterator children = curTreeNode.getChildren().iterator();
+	        while (children.hasNext()) {
+	            TreeNode childNode = (TreeNode) children.next();
+	            TreeEdge edge = curTreeNode.getEdge(childNode);
+	            EdgeType edgeType = edge.getEdgeType();
+	            HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(childNode);
+	            addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType, projection), "edges");
+	            queue.add(childNode);
+	        }
+	    }
 
 		setLeafNodes();
 
@@ -719,6 +733,10 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     protected void resetCanvas() {
         super.clearCanvas();
+        addLayer("sphere");
+        addLayer("edges");
+        addLayer("nodes");
+        addLayer("labels");
         this.hypernodes.clear();
         this.hypernodeviews.clear();
         this.focusNode = null;
@@ -771,54 +789,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         return SimpleHyperView.labelView;
     }
 
-    /**
-     * Add lines to join HyperNodeViews.
-     *
-     */
-    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, TreeNode root) {
-        List queue = new LinkedList();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            TreeNode curTreeNode = (TreeNode) queue.remove(0);
-            HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curTreeNode);
-            Iterator children = curTreeNode.getChildren().iterator();
-            while (children.hasNext()) {
-            	TreeNode childNode = (TreeNode) children.next();
-                TreeEdge edge = curTreeNode.getEdge(childNode);
-                EdgeType edgeType = edge.getEdgeType();
-                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(childNode);
-                addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType, projection));
-                queue.add(childNode);
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    private void addHyperNodeViews() {
-        Iterator it = hypernodeviews.values().iterator();
-        while (it.hasNext()) {
-            HyperNodeView hnv = (HyperNodeView) it.next();
-            addCanvasItem(hnv);
-        }
-    }
-
-    /**
-     *  Add HyperNodeViews labels canvas manager.
-     */
-    private void addLabelViews() {
-        Iterator it = hypernodeviews.values().iterator();
-        while (it.hasNext()) {
-            HyperNodeView hnv = (HyperNodeView) it.next();
-            addCanvasItem(new LabelView(hnv));
-        }
-    }
-    /**
-     *
-     * @param nodeView
-     * @param draggedEvent
-     */
     public void dragNode(HyperNodeView nodeView, CanvasItemDraggedEvent draggedEvent) {
         drag(draggedEvent);
     }

@@ -49,6 +49,8 @@ public class TestP2PEdge extends TestCase {
     private P2PEdge edge6;
     private P2PEdge edge7;
 
+	private P2PEdge equityTestEdge;
+
     private static final String edgeName_subtype = "subtype";
     private static final String edgeName_similar = "similar";
     private static final String edgeName_reverse = "reverse";
@@ -79,6 +81,7 @@ public class TestP2PEdge extends TestCase {
      */
     public TestP2PEdge(String name) {
         super(name);
+		_backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackendImpl", null);
     }
 
 
@@ -87,7 +90,6 @@ public class TestP2PEdge extends TestCase {
      */
     protected void setUp() throws URISyntaxException {
     	
-    	_backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackendImpl", null);
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
@@ -107,6 +109,7 @@ public class TestP2PEdge extends TestCase {
         node6.addRejection(creatorUri2);
 
         try {
+			equityTestEdge = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype));
         	edge1 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype));
         	edge1.addAssertion(creatorUri1);
         	edge2 = (P2PEdge) OntoramaConfig.getBackend().createEdge(node1, node3, OntoramaConfig.getEdgeType(edgeName_subtype));
@@ -265,6 +268,9 @@ public class TestP2PEdge extends TestCase {
 		assertEquals("addRejection for edge1", set, (HashSet) edge4.getRejections());
 	}
 	
+	public void testEquity () {
+		assertEquals("edge1 should equal test edge ", true, edge1.equals(equityTestEdge));	
+	}
 	
 	
     //////////////******* Helper methods ********////////////////////

@@ -23,5 +23,11 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
 	</example>
+	<example name="test webkb rdf parser" root="chair">
+		<source uri="examples/test/data/testCase.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+	</example>
 </ontoramaExamples>
 

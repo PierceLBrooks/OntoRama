@@ -7,12 +7,9 @@ import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import ontorama.OntoramaConfig;
 import ontorama.model.*;
-import ontorama.ontologyConfig.ConceptPropertiesDetails;
-import ontorama.ontologyConfig.ConceptPropertiesMapping;
 import ontorama.ontologyConfig.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
@@ -182,7 +179,6 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
-        doNodePropertiesMapping(resource, predicate, object);
         doEdgesMapping(resource, predicate, object);
     }
 
@@ -238,54 +234,6 @@ public class RdfDamlParser implements Parser {
         _edgesList.add(newEdge);
     }
 
-    /**
-     *
-     */
-    protected void addNodeProperty(RDFNode ontNodeResource, String propName,
-                                   RDFNode propValueResource)
-            throws NoSuchPropertyException {
-
-        String resourceName = stripUri(ontNodeResource);
-        String propValueName = propValueResource.toString();
-        Node node = getGraphNodeByName(resourceName, ontNodeResource.toString());
-        List nodePropertiesList = node.getProperty(propName);
-        nodePropertiesList.add(stripCarriageReturn(propValueName));
-        node.setProperty(propName, nodePropertiesList);
-    }
-
-
-    /**
-     *
-     */
-    protected void doNodePropertiesMapping(Resource resource, Property predicate, RDFNode object) {
-        Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
-        Enumeration e = conceptPropertiesRdfMapping.elements();
-        while (e.hasMoreElements()) {
-            ConceptPropertiesMapping conceptRdfMapping = (ConceptPropertiesMapping) e.nextElement();
-            String mappingTag = conceptRdfMapping.getRdfTag();
-            if (predicate.getLocalName().endsWith(mappingTag)) {
-                // found rdf element/resource that is matching mapping tag. Now
-                // need to find out what concept property name/id corresponds
-                // to this mapping tag.
-                String mappingId = conceptRdfMapping.getId();
-                // now we need to map this id/name to ConceptPropertiesDetails
-                ConceptPropertiesDetails conceptPropertiesDetails = OntoramaConfig.getConceptPropertiesDetails(mappingId);
-                try {
-                    if (conceptPropertiesDetails != null) {
-                        // add this info as a property of ontology type
-                        addNodeProperty(resource, mappingId, object);
-                    } else {
-                        // ERROR
-                        // throw exception here
-                        System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                    }
-                } catch (NoSuchPropertyException propExc) {
-                    System.err.println("NoSuchPropertyException: " + propExc);
-                    System.exit(-1);
-                }
-            }
-        }
-    }
 
     /**
      * @todo    need to check if this rdfNode string contains any uri's, otherwise

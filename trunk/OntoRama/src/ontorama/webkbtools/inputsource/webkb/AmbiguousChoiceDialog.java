@@ -107,15 +107,6 @@ public class AmbiguousChoiceDialog extends JDialog {
         for (int i = 0; i < numChoices; i++) {
             Node node= (Node) choiceList.get(i);
             JButton curButton = new JButton(node.getName());
-            try {
-                List descrPropValue = node.getProperty(descrPropName);
-                if (descrPropValue.size() > 0) {
-                    curButton.setToolTipText((String) descrPropValue.get(0));
-                }
-            } catch (NoSuchPropertyException e) {
-                // just do nothing - don't display any tool tips
-                ///todo: should find a way to unobtrusively complain about this
-            }
             buttons[i] = curButton;
             if (i == 0) {
                 curButton.setSelected(true);

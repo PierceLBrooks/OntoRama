@@ -11,10 +11,12 @@ package ontorama.webkbtools.inputsource;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.Node;
+import ontorama.model.Edge;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.CancelledQueryException;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
@@ -313,22 +315,32 @@ public class WebKB2Source implements Source {
         List typeNamesList = new LinkedList();
 
         RdfWebkbParser parser = new RdfWebkbParser();
-        List nodesList = parser.getResult(reader).getNodesList();
+        ParserResult parserResult = parser.getResult(reader);
+        List nodesList = parserResult.getNodesList();
         Iterator typesIt = nodesList.iterator();
         while (typesIt.hasNext()) {
             Node curNode = (Node) typesIt.next();
-            try {
-                List synonyms = curNode.getProperty(synPropName);
-                if (synonyms.contains(termName)) {
-                    typeNamesList.add(curNode);
-                }
-            } catch (NoSuchPropertyException e) {
-                System.out.println("NoSuchPropertyException for property " + synPropName);
-                e.printStackTrace();
-                System.exit(-1);
+            List synonyms = getSynonyms(curNode, parserResult.getEdgesList());
+            if (synonyms.contains(termName)) {
+                typeNamesList.add(curNode);
             }
         }
         return typeNamesList;
+    }
+
+    private List getSynonyms (Node node, List edgesList) {
+        List result = new LinkedList();
+        Iterator it = edgesList.iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            if (edge.getFromNode().equals(node)) {
+                if (edge.getEdgeType().getName().equals(synPropName)) {
+                    Node synonymNode = edge.getToNode();
+                    result.add(synonymNode.getName());
+                }
+            }
+        }
+        return result;
     }
 
     /**

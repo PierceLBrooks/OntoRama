@@ -56,6 +56,7 @@ public interface Graph {
     public List getInboundEdgeNodes (Node node);
 
     public List getInboundEdgeNodes (Node node, EdgeType relLink);
+    public List getOutboundEdgeNodes (Node node, EdgeType relLink);
 
 
 

@@ -40,7 +40,7 @@ public class ShowUnconnectedNodesAction extends AbstractAction {
         System.out.println("\n****************\nShowUnconnectedNodesAction, current status = " + _unconnectedNodesIsShowing);
         _unconnectedNodesIsShowing = !_unconnectedNodesIsShowing;
         System.out.println(", new status = " + _unconnectedNodesIsShowing);
-        OntoRamaApp.showUnconnectedNodesList();
+        //OntoRamaApp.showUnconnectedNodesList();
     }
 
     /**

@@ -343,15 +343,10 @@ public class TestEdge extends TestCase {
     //////////////******* Helper methods ********////////////////////
 
     /**
-     * calculate iterator size
+     *
      */
     private int getIteratorSize (Iterator it) {
-      int size = 0;
-      while (it.hasNext()) {
-        it.next();
-        size++;
-      }
-      return size;
+      return IteratorUtil.getIteratorSize(it);
     }
 
     /**

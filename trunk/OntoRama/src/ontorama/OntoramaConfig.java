@@ -376,7 +376,7 @@ public class OntoramaConfig {
 
           InputStream resultStream = null;
           System.out.println("resourceName = " + resourceName);
-          System.out.println("OntoramaConfig.classLoader = " + OntoramaConfig.classLoader);
+          //System.out.println("OntoramaConfig.classLoader = " + OntoramaConfig.classLoader);
           URL url = OntoramaConfig.classLoader.getResource(resourceName);
           //URL url = classLoader.getResource(resourceName);
           System.out.println("url = " + url);

@@ -406,6 +406,7 @@ public class GraphImpl implements Graph {
      */
     public void addNode (Node node) throws GraphModificationException {
     	System.out.println("GraphImpl::addNode, node = " + node.getName());
+		System.out.println("addNode: num of nodes: " + getNodesList().size() + ", num of edges: " + getEdgesList().size());
         if (_graphNodes.contains(node)) {
             throw new NodeAlreadyExistsException(node);
         }
@@ -419,6 +420,8 @@ public class GraphImpl implements Graph {
      */
     public void removeEdge(Edge remEdge) {
     	System.out.println("GraphImpl::removeEdge");
+		System.out.println("removeEdge: num of nodes: " + getNodesList().size() + ", num of edges: " + getEdgesList().size());
+    	
         _graphEdges.remove(remEdge);
         _eventBroker.processEvent(new GraphEdgeRemovedEvent(this, remEdge));
     }
@@ -439,6 +442,7 @@ public class GraphImpl implements Graph {
      */
     public void removeNode (Node node) {
     	System.out.println("GraphImpl::removeNode " + node.getName());
+		System.out.println("assertNode: num of nodes: " + getNodesList().size() + ", num of edges: " + getEdgesList().size());    	
         _graphNodes.remove(node);
         List edgesToRemove = new ArrayList();
         for (Iterator iterator = _graphEdges.iterator(); iterator.hasNext();) {

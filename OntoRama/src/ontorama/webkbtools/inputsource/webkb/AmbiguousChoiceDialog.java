@@ -53,7 +53,7 @@ public class AmbiguousChoiceDialog extends JDialog {
   /**
    * remember selected button
    */
-  private JRadioButton selectedButton;
+  private JButton selectedButton;
 
   /**
    * title string
@@ -95,13 +95,13 @@ public class AmbiguousChoiceDialog extends JDialog {
     contentPanel.setLayout(new BorderLayout());
     contentPanel.add(choicesPanel, BorderLayout.NORTH);
 
-    JButton okButton = new JButton("OK");
-    okButton.addActionListener(new ActionListener () {
-      public void actionPerformed (ActionEvent ae) {
-        closeDialog();
-      }
-    });
-    contentPanel.add(okButton, BorderLayout.SOUTH);
+//    JButton okButton = new JButton("OK");
+//    okButton.addActionListener(new ActionListener () {
+//      public void actionPerformed (ActionEvent ae) {
+//        closeDialog();
+//      }
+//    });
+//    contentPanel.add(okButton, BorderLayout.SOUTH);
 
     setModal(true);
     setLocationRelativeTo(frame);
@@ -119,13 +119,12 @@ public class AmbiguousChoiceDialog extends JDialog {
     choiceButtonsPanel.setLayout(new BoxLayout(choiceButtonsPanel, BoxLayout.Y_AXIS));
     choiceButtonsPanel.add(label);
 
-    JRadioButton[] radioButtons = new JRadioButton[choiceList.size()];
+    JButton[] buttons = new JButton[choiceList.size()];
     group = new ButtonGroup();
 
     for (int i = 0; i < numChoices; i++) {
       OntologyType curType = (OntologyType) choiceList.get(i);
-      //JRadioButton curButton = new JRadioButton( (String) choiceList.get(i));
-      JRadioButton curButton = new JRadioButton( curType.getName());
+      JButton curButton = new JButton( curType.getName());
       try {
         List descrPropValue = curType.getTypeProperty(descrPropName);
         if (descrPropValue.size() > 0 ) {
@@ -136,16 +135,17 @@ public class AmbiguousChoiceDialog extends JDialog {
         // just do nothing - don't display any tool tips
         ///todo: should find a way to unobtrusively complain about this
       }
-      radioButtons[i] = curButton;
+      buttons[i] = curButton;
       if (i == 0) {
         curButton.setSelected(true);
+        getRootPane().setDefaultButton(curButton);
         selectedButton = curButton;
       }
       curButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
-          JRadioButton selected = (JRadioButton) ae.getSource();
-          //System.out.println("button action: " + selected);
+          JButton selected = (JButton) ae.getSource();
           selectedButton = selected;
+          closeDialog();
         }
       });
       group.add(curButton);

@@ -35,7 +35,7 @@ public class HyperNode implements  PositionChaingedObservable {
     /**
      * Store node radius.
      */
-    private double nodeRadius = 15;
+    private double nodeRadius = 5;
 
 
     /**

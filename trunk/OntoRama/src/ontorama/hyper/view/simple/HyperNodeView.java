@@ -38,12 +38,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * The radius of the sphere we project upon.
      */
-    private static double sphereRadius = 300;
+    private static double sphereRadius = 150;
 
     /**
      * Used if setProjection(double) is called to determine the focal depth.
      */
-    private static double relativeFocus = 1.1;
+    private static double relativeFocus = .6;
 
     /**
      * The focal depth. Set to 10% more than sphereRadius.

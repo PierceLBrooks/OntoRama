@@ -1,6 +1,8 @@
 package ontorama.view;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.filemanager.FileJMenu;
+import ontorama.backends.filemanager.FileBackend;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;
 import ontorama.model.GraphImpl;
@@ -381,6 +383,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _menuBar.add(_fileMenu);
         _menuBar.add(_examplesMenu);
         _menuBar.add(_historyMenu);
+
+        JMenu backendsMenu = new JMenu("Backends");
+
+
+        FileBackend fileBackend = new FileBackend();
+        FileJMenu backendFileMenu = new FileJMenu(fileBackend);
+        backendsMenu.add(backendFileMenu);
+
+        _menuBar.add(backendsMenu);
+
         _menuBar.add(_helpMenu);
     }
 

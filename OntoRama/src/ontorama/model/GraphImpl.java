@@ -391,12 +391,17 @@ public class GraphImpl implements Graph {
                 continue;
             }
             _edgesToRemove.add(curEdge);
+            System.out.println("\t\ttoNode number of inbound edges: " + Edge.getInboundEdgeNodesList(toNode).size());
             System.out.println("\t\ttoNode inbound edges: " + Edge.getInboundEdgeNodesList(toNode));
             if (Edge.getInboundEdgeNodesList(toNode).size() > 1 ) {
                 Iterator inIt = Edge.getInboundEdges(toNode);
                 while (inIt.hasNext()) {
                     Edge edge = (Edge) inIt.next();
                     System.out.println("\t\t\t" + edge);
+                }
+                if ( ! nodeIsInGivenBranch(root, toNode)) {
+                    System.out.println ("this node is not in current branch");
+                    listItemsToRemove(toNode);
                 }
             }
             else {

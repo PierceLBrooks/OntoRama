@@ -47,9 +47,8 @@ public class ViewEventListener implements ViewEventObservable {
 					cur.focus (node);
 					break;
 				case 2:
-                                        System.out.println("SENDING TOGGLE FOLD EVENT for node " + node.getName());
-					cur.toggleFold (node);
-                                        //node.setFoldState(!node.getFoldedState());
+                    System.out.println("SENDING TOGGLE FOLD EVENT for node " + node.getName());
+                    cur.toggleFold (node);
 					break;
 				case 3:
 					break;
@@ -64,9 +63,9 @@ public class ViewEventListener implements ViewEventObservable {
 					break;
 			}
 		}
-                if (eventType == 2) {
-                  node.setFoldState(!node.getFoldedState());
-                }
+        if (eventType == 2) {
+          node.setFoldState(!node.getFoldedState());
+        }
 	}
 
 	/**

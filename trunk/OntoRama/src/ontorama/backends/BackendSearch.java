@@ -25,7 +25,7 @@ public class BackendSearch {
 	public static P2PGraph search(Query query, EventBroker eventBroker){
         P2PGraph retVal = new P2PGraphImpl(eventBroker);
         try {
-            Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
+            P2PBackend backend = (P2PBackend) OntoramaConfig.getBackend();
             System.out.println("---searching backend " + backend + " for query " + query);
 
             P2PGraph tempGraph = backend.search(query);
@@ -46,7 +46,7 @@ public class BackendSearch {
     public static P2PGraph searchLocal(Query query, EventBroker eventBroker) {
         P2PGraph retVal = new P2PGraphImpl(eventBroker);
         try{
-            Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
+            P2PBackend backend = (P2PBackend) OntoramaConfig.getBackend();
             System.out.println("--1---searching backend " + backend + " for query " + query);
             P2PGraph tempVal = backend.search(query);
             retVal.add(tempVal);

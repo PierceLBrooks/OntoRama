@@ -19,7 +19,7 @@ import ontorama.ontotools.query.Query;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public interface Peer2PeerBackend extends Backend {
+public interface P2PBackend extends Backend {
     public P2PGraph search(Query query);
     public void assertEdge(P2PEdge edge, URI asserter) 
     	throws GraphModificationException, NoSuchRelationLinkException;

@@ -1,7 +1,7 @@
 <dataFormatMappings>
 	<mapping name="RDF" extension="rdf" parser="ontorama.ontotools.parser.rdf.RdfDamlParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
 	<mapping name="XML" extension="xml" parser="ontorama.ontotools.parser.xml.XmlParserFull"/>
-	<mapping name="P2P-RDF" extension="p2p-rdf" parser="ontorama.ontotools.parser.xml.RdfP2PParser" writer="ontorama.ontotools.writer.rdf.RdfP2PWriter"/>
+	<mapping name="P2P-RDF" extension="p2p-rdf" parser="ontorama.ontotools.parser.rdf.RdfP2pParser" writer="ontorama.ontotools.writer.rdf.RdfP2PWriter"/>
 	<mapping name="WEBKB-RDF" extension="webkb-rdf" parser="ontorama.ontotools.parser.rdf.RdfWebkbParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
 	<mapping name="CGKB" extension="cgkb" parser="ontorama.ontotools.parser.cgkb.CgKbCsvParser"/>
 </dataFormatMappings>

@@ -175,6 +175,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         setStatusLabel("status bar is here");
 
         EventBroker eventBroker = new EventBroker();
+        new LoggingEventListener(eventBroker, CanvasItemEvent.class, Object.class, System.out);
 
         _queryPanel = new QueryPanel(this, eventBroker);
         _treeView = new OntoTreeView(eventBroker);

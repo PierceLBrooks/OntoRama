@@ -63,6 +63,12 @@ public class Graph implements GraphInterface {
     private List _unconnectedNodes;
 
     /**
+     * list of all graph nodes
+     */
+    private List _allNodes;
+
+
+    /**
      *
      */
     Debug debug = new Debug(false);
@@ -110,6 +116,7 @@ public class Graph implements GraphInterface {
 
         processedTypes = new LinkedList();
         _unconnectedNodes = new LinkedList();
+        _allNodes = new LinkedList();
 
         // remove all edges before building new set of edges
         Edge.removeAllEdges();
@@ -226,14 +233,15 @@ public class Graph implements GraphInterface {
         processedTypes.add(ot);
 
         // make GraphNode and set available properties for it.
-        GraphNode node = (GraphNode) processedNodes.get(ot.getName());
-        //System.out.println("----processing ot = " + ot.getName());
         debug.message("----processing ot = " + ot);
-        if (node == null) {
-            node = new GraphNode(ot.getName());
-            node.setFullName(ot.getFullName());
-            processedNodes.put(ot.getName(), node);
-        }
+        GraphNode node = getNodeFromNodesList(ot.getName(), ot.getFullName());
+//        GraphNode node = (GraphNode) processedNodes.get(ot.getName());
+//        //System.out.println("----processing ot = " + ot.getName());
+//        if (node == null) {
+//            node = new GraphNode(ot.getName());
+//            node.setFullName(ot.getFullName());
+//            processedNodes.put(ot.getName(), node);
+//        }
         debug.message("\t corresponding node = " + node);
         Hashtable conceptPropertiesConfig =
                 OntoramaConfig.getConceptPropertiesTable();
@@ -257,13 +265,13 @@ public class Graph implements GraphInterface {
             while (relatedTypes.hasNext()) {
                 OntologyType relatedType = (OntologyType) relatedTypes.next();
 
-                GraphNode relNode =
-                        (GraphNode) processedNodes.get(relatedType.getName());
-                if (relNode == null) {
-                    relNode = new GraphNode(relatedType.getName());
-                    relNode.setFullName(relatedType.getFullName());
-                    processedNodes.put(relatedType.getName(), relNode);
-                }
+                GraphNode relNode = getNodeFromNodesList(relatedType.getName(), relatedType.getFullName());
+//                        (GraphNode) processedNodes.get(relatedType.getName());
+//                if (relNode == null) {
+//                    relNode = new GraphNode(relatedType.getName());
+//                    relNode.setFullName(relatedType.getFullName());
+//                    processedNodes.put(relatedType.getName(), relNode);
+//                }
                 Edge oneWayEdge = Edge.getEdge(node, relNode, relLink.intValue());
                 Edge reversedEdge = Edge.getEdge(relNode, node, relLink.intValue());
                 if ((oneWayEdge != null) || (reversedEdge != null)) {
@@ -295,6 +303,20 @@ public class Graph implements GraphInterface {
                 }
             }
         }
+    }
+
+    /**
+     *
+     */
+    private GraphNode getNodeFromNodesList(String nodeName, String fullName) {
+        GraphNode node = (GraphNode) processedNodes.get(nodeName);
+        if (node == null) {
+            node = new GraphNode(nodeName);
+            node.setFullName(fullName);
+            processedNodes.put(nodeName, node);
+            _allNodes.add(node);
+        }
+        return node;
     }
 
     /**
@@ -429,24 +451,25 @@ public class Graph implements GraphInterface {
      * @return  list of all graph nodes
      */
     public List getNodesList() {
-        LinkedList queue = new LinkedList();
-        LinkedList result = new LinkedList();
-        boolean isTree = true;
-
-        queue.add(this.root);
-
-        while (!queue.isEmpty()) {
-            GraphNode nextQueueNode = (GraphNode) queue.remove(0);
-            result.add(nextQueueNode);
-
-            Iterator allOutboundNodes =
-                    Edge.getOutboundEdgeNodes(nextQueueNode);
-            while (allOutboundNodes.hasNext()) {
-                GraphNode curNode = (GraphNode) allOutboundNodes.next();
-                queue.add(curNode);
-            }
-        }
-        return result;
+//        LinkedList queue = new LinkedList();
+//        LinkedList result = new LinkedList();
+//        boolean isTree = true;
+//
+//        queue.add(this.root);
+//
+//        while (!queue.isEmpty()) {
+//            GraphNode nextQueueNode = (GraphNode) queue.remove(0);
+//            result.add(nextQueueNode);
+//
+//            Iterator allOutboundNodes =
+//                    Edge.getOutboundEdgeNodes(nextQueueNode);
+//            while (allOutboundNodes.hasNext()) {
+//                GraphNode curNode = (GraphNode) allOutboundNodes.next();
+//                queue.add(curNode);
+//            }
+//        }
+//        return result;
+        return _allNodes;
     }
 
     /**
@@ -551,6 +574,7 @@ public class Graph implements GraphInterface {
                     }
 
                     GraphNode cloneNode = curNode.makeClone();
+                    _allNodes.add(cloneNode);
 
                     // add edge from cloneNode to a NodeParent with this rel type and
                     // remove edge from curNode to a NodeParent with this rel type

@@ -52,7 +52,6 @@ public class OntoramaExample {
    *
    */
   private boolean isSourceDynamic = false;
-  private String queryStringCostructorPackagePathSuffix;
 
   /**
    * if need to group examples - can use subfolders in Menu
@@ -162,19 +161,7 @@ public class OntoramaExample {
     return this.isSourceDynamic;
   }
 
-  /**
-   *
-   */
-  public void setQueryStringConstructorPackagePathSuffix (String queryStringCostructorPackagePathSuffix) {
-    this.queryStringCostructorPackagePathSuffix = queryStringCostructorPackagePathSuffix;
-  }
 
-  /**
-   *
-   */
-  public String getQueryStringConstructorPackagePathSuffix () {
-    return this.queryStringCostructorPackagePathSuffix;
-  }
 
   /**
    *
@@ -188,8 +175,6 @@ public class OntoramaExample {
     str = str + ", parserPackagePathSuffix=" + this.parserPackagePathSuffix;
     str = str + ", sourcePackagePathSuffix=" + this.sourcePackagePathSuffix;
     str = str + ", isSourceDynamic=" + this.isSourceDynamic;
-    str = str + ", queryStringCostructorPackagePathSuffix=" + this.queryStringCostructorPackagePathSuffix;
-
     return str;
   }
 }

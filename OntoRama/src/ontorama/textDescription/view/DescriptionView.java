@@ -2,12 +2,11 @@ package ontorama.textDescription.view;
 
 import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
+import ontorama.graph.view.GraphView;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.util.event.ViewEventListener;
-import ontorama.util.event.ViewEventObserver;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import org.tockit.events.EventBroker;
 
@@ -26,7 +25,7 @@ import java.util.List;
  * @version 1.0
  */
 
-public class DescriptionView extends JPanel implements ViewEventObserver {
+public class DescriptionView extends JPanel implements GraphView {
 
     /**
      * this hashtable will hold labels of concept property names as keys
@@ -86,15 +85,12 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
     /**
      *
      */
-    private ViewEventListener _viewListener;
     private EventBroker _eventBroker;
 
     /**
      *
      */
-    public DescriptionView(ViewEventListener viewListener, EventBroker eventBroker) {
-        _viewListener = viewListener;
-        _viewListener.addObserver(this);
+    public DescriptionView( EventBroker eventBroker) {
 
         _eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
@@ -104,8 +100,8 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
         initPropertiesPanels();
         _fullUrlPanel =
                 new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
-        _clonesPanel = new ClonesPanel(_clonesLabelName, _viewListener, _eventBroker);
-        _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _viewListener, _eventBroker);
+        _clonesPanel = new ClonesPanel(_clonesLabelName, _eventBroker);
+        _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _eventBroker);
 
         _propertyNameLabelsDimension = calcLabelSize();
         setLabelSizesForNodePropertiesPanels();
@@ -290,10 +286,5 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
         _parentsPanel.update(Edge.getInboundEdgeNodes(node, _firstRelationLink));
     }
 
-    /**
-     *
-     */
-    public void query(GraphNode node) {
-    }
 
 }

@@ -2,7 +2,6 @@ package ontorama.textDescription.view;
 
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.model.GraphNode;
-import ontorama.util.event.ViewEventListener;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -19,8 +18,8 @@ import java.awt.event.MouseEvent;
  */
 public class ParentsPanel extends AbstractMultiValuesPanel {
 
-    public ParentsPanel(String propName, ViewEventListener viewListener, EventBroker eventBroker) {
-        super(propName, viewListener, eventBroker);
+    public ParentsPanel(String propName,  EventBroker eventBroker) {
+        super(propName,eventBroker);
     }
 
     /**

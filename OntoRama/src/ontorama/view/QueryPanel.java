@@ -8,8 +8,6 @@ import ontorama.graph.view.GraphQuery;
 import ontorama.graph.view.GraphView;
 import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.util.event.ViewEventListener;
-import ontorama.util.event.ViewEventObserver;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
 

@@ -12,8 +12,6 @@ import ontorama.tree.model.OntoTreeBuilder;
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.util.Debug;
-import ontorama.util.event.ViewEventListener;
-import ontorama.util.event.ViewEventObserver;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;

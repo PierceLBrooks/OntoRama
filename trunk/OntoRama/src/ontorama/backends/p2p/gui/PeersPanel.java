@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -34,7 +34,8 @@ public class PeersPanel extends JPanel  implements GroupView {
     private Hashtable _groupToPanelMapping;
     private Hashtable _groupNameToGroupIdMapping;
     private Hashtable _groupIdToGroupNameMapping;
-    private Vector _groupsVector;
+       
+    private DefaultComboBoxModel _groupsComboBoxModel;
 
     private JComboBox _comboBox;
     private JPanel _cardPanel;
@@ -45,9 +46,10 @@ public class PeersPanel extends JPanel  implements GroupView {
         _groupToPanelMapping = new Hashtable();
         _groupNameToGroupIdMapping = new Hashtable();
         _groupIdToGroupNameMapping = new Hashtable();
-        _groupsVector = new Vector();
+        
+        _groupsComboBoxModel = new DefaultComboBoxModel();
 
-        _comboBox = new JComboBox(_groupsVector);
+        _comboBox = new JComboBox(_groupsComboBoxModel);
         _comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selectedGroupName = (String) _comboBox.getSelectedItem();
@@ -86,7 +88,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 		String groupId = groupReferenceElement.getID().toString();
 		String groupName = groupReferenceElement.getName();
         if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
-            _groupsVector.add(groupName);
+        	_groupsComboBoxModel.addElement(groupName);
             GroupPanel groupPanel = new GroupPanel(groupId);
             _cardLayout.addLayoutComponent(groupPanel, groupId);
             _cardPanel.add(groupId, groupPanel);
@@ -123,7 +125,7 @@ public class PeersPanel extends JPanel  implements GroupView {
             _cardLayout.removeLayoutComponent(groupPanel);
             _cardPanel.remove(groupPanel);
 
-            _groupsVector.remove(groupName);
+            _groupsComboBoxModel.removeElement(groupName);
             _groupToPanelMapping.remove(groupID);
             _groupNameToGroupIdMapping.remove(groupName);
             _groupIdToGroupNameMapping.remove(groupID);
@@ -135,7 +137,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     public void clear() {
         _groupToPanelMapping.clear();
         _groupNameToGroupIdMapping.clear();
-        _groupsVector.clear();
+        _groupsComboBoxModel.removeAllElements();
         repaint();
     }
 

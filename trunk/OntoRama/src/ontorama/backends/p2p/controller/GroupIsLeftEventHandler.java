@@ -32,6 +32,7 @@ public class GroupIsLeftEventHandler implements EventBrokerListener {
 	 */
 	public void processEvent(Event event) {
 		GroupReferenceElement groupElement = (GroupReferenceElement) event.getSubject(); 
+		System.out.println("GroupIsLeftEventHandler::processEvent for group " + groupElement);
 		_groupView.removeGroup(groupElement);
 	}
 

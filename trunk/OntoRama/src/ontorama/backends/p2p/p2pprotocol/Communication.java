@@ -132,6 +132,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	protected void setInputPipeAdvertisement(PeerGroupID groupID,PipeAdvertisement obj)  {
+		System.out.println("\nCommunication::setInputPipeAdvertisement for group id " + groupID + " putting " + obj);
 		Communication.inputPipeAdvertisement.put(groupID,obj);
 	}
 	
@@ -143,6 +144,8 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	protected PipeAdvertisement getInputPipeAdvertisement(PeerGroupID groupID)  {
+		System.out.println("Communication::getInputPipeAdvertisement for group id " + groupID +
+						" returning " + (PipeAdvertisement) Communication.inputPipeAdvertisement.get(groupID));
 		return (PipeAdvertisement) Communication.inputPipeAdvertisement.get(groupID);
 	}
 

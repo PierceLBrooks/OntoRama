@@ -89,7 +89,7 @@ public class CommunicationGroup extends Communication {
 		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
 		//Get PeerGroup
-		System.out.println("groupID = " + groupID);
+		System.out.println("CommunicationGroup::joinGroup, groupID = " + groupID);
         try {
 			if (this.getMemberOfGroups().containsKey(groupID)) {            
                 return null;
@@ -212,7 +212,11 @@ public class CommunicationGroup extends Communication {
 			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
 			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
 									+ pipeAdv);
-			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
+			if (pipeAdv != null) {
+				/// @todo not sure if this check should be here (if we ever could have null pipeAdv
+				/// or if this should never happen)									
+				discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
+			}
 							
 		} catch (PeerGroupException e) {
 				throw new GroupException(e,"Could not leave the peer group");

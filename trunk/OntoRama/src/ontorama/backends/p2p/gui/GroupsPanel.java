@@ -214,10 +214,12 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithJoinedGroups () {
+		System.out.println("GroupsPanel::populateWithJoinedGroups");
 		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
 		Enumeration e = joinedGroups.elements();
 		while (e.hasMoreElements()) {
 			GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
+			System.out.println("joined group: " + element.getName() + ", ref = " + element);
 			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
 				continue;
 			}
@@ -277,9 +279,11 @@ public class GroupsPanel extends JPanel implements GroupView {
 	 * @see ontorama.backends.p2p.gui.GroupView#removeGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
 	 */
 	public void removeGroup(GroupReferenceElement groupReferenceElement) {
+		System.out.println("GroupsPanel::removeGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
 		if (! groupsListContainsGroup(_allGroupsListModel, groupReferenceElement)) {
 			_allGroupsListModel.addElement(groupReferenceElement);
 			_joinedGroupsListModel.removeElement(groupReferenceElement);
+			System.out.println("all_groups size = " + _allGroupsListModel.size() + ", joined group size = " + _joinedGroupsListModel.size());
 		}
 		_allGroupsPanel.repaint();
 	}

@@ -1,13 +1,8 @@
-package ontorama.util.validator.schema;
-
-import java.io.*;
-
+package ontorama.util.validate.schema;
 
 import org.jdom.input.SAXBuilder;
 import org.jdom.Document;
 import org.jdom.JDOMException;
-
-import org.apache.xerces.parsers.SAXParser; 
 
 public class Validator {
 

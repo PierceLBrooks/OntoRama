@@ -68,11 +68,11 @@ public class HyperNode implements PositionChaingedObservable {
     /**
      * Tell all Hyper observers of change.
      */
-    public void notifyPositionMoved(double x, double y) {
+    public void notifyPositionMoved() {
         Iterator it = positionChaingedObserver.iterator();
         while (it.hasNext()) {
-            PositionChaingedObserver hno = (PositionChaingedObserver) it.next();
-            hno.positionUpdate(x, y);
+            PositionChangedObserver hno = (PositionChangedObserver) it.next();
+            hno.positionChanged();
         }
     }
     /**
@@ -179,7 +179,7 @@ public class HyperNode implements PositionChaingedObservable {
      */
     public void setLocation(double x, double y) {
         position.setLocation(x, y);
-        notifyPositionMoved(x, y);
+        notifyPositionMoved();
     }
 
     public String toString() {

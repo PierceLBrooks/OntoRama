@@ -61,18 +61,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
             toggleFold(nodeView.getGraphNode());
         }
     }
-    
+
 
     /**
      * Hold the mapping of HyperNode to GraphNodes
      */
     protected Hashtable hypernodes = new Hashtable();
-    
+
     /**
      * Holds the mapping of HyperNodeView to GraphNodes
      */
     protected Hashtable hypernodeviews = new Hashtable();
-   
+
 
     /**
      * Temp flag to turn off spring and force algorithms.
@@ -94,12 +94,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Edge highlighted back to the root node.
      */
     private HyperNodeView currentHighlightedView = null;
-    
+
     /**
      * Stores the LabelView that is selected.
      */
     protected static LabelView labelView = null;
-    
+
     /**
      * The time when we did the last animation step.
      */
@@ -135,7 +135,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
 
 	/**
-	 * 
+	 *
 	 */
     public SimpleHyperView( EventBroker eventBroker) {
         super(eventBroker);
@@ -145,7 +145,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
 	/**
-	 * 
+	 *
 	 */
     public void focus(GraphNode graphNode) {
         System.out.println();
@@ -162,12 +162,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
         lengthOfAnimation = (long) (distance * 1.5);
         animationTime = System.currentTimeMillis();
         repaint();
-        
+
         System.out.println();
     }
 
 	/**
-	 * 
+	 *
 	 */
     public void toggleFold(GraphNode node) {
         HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
@@ -875,7 +875,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (lengthOfAnimation > 0) {
             animate();
         }
-        
+
         Iterator it = canvasItems.iterator();
         while (it.hasNext()) {
             CanvasItem cur = (CanvasItem) it.next();
@@ -900,8 +900,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
             hn.rotate(angle);
         }
     }
-    
-    
+
+
     /**
      * Move all the nodes by an offset x and y.
      */
@@ -912,9 +912,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
             hn.move(x, y);
         }
     }
-    
+
     /**
-     * 
+     *
      */
     protected void animate() {
         long newTime = System.currentTimeMillis();
@@ -943,7 +943,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         this.labelView = null;
         this.labelView = null;
         this.canvasScale = 1;
-        
+
     }
 
     /**
@@ -960,9 +960,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
         }
     }
-    
-    
-    
+
+
+
     /**
      * When a hyperNode has focus, its label is placed last in the
      * canvasItems list ( so as to be drawn last), and is told
@@ -1016,7 +1016,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
         return null;
     }
- 
+
 //    public void mouseReleased(MouseEvent e) {
 ////        if (dragmode == true) {
 ////            dragmode = false;
@@ -1040,5 +1040,5 @@ public class SimpleHyperView extends Canvas implements GraphView {
 ////            repaint();
 ////        }
 //    }
-    
+
 }

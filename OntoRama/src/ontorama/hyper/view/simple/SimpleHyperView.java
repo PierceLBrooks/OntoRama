@@ -26,6 +26,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -99,6 +101,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Stores the LabelView that is selected.
      */
     protected static LabelView labelView = null;
+    private static SphereView sphereView = null;
 
     /**
      * The time when we did the last animation step.
@@ -142,6 +145,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
         new GraphViewFocusEventHandler(eventBroker, this);
         //new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
+        this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
 	/**
@@ -279,32 +283,16 @@ public class SimpleHyperView extends Canvas implements GraphView {
 //        layoutNodes( 200 );
         long end = System.currentTimeMillis();
 //        //}
-//        System.out.println("Time taken: " + ( (end - start)) + "ms");
-
-
-//        System.out.println("Running radial layout...");
-//        radialLayout(root, Math.PI * 2, 0);
-//        System.out.println("Running layoutNodes2( 100 )...");
-//        start = System.currentTimeMillis();
-//        layoutNodes2( 200 );
         end = System.currentTimeMillis();
         System.out.println("Time taken: " + ((end - start)) + "ms");
-        //add lines to canvas manager.
-        addLinesToHyperNodeViews(hypernodeviews, root);
 
-        //Add HyperNodeViews to canvas manager.
-        Iterator it = hypernodeviews.values().iterator();
-        while (it.hasNext()) {
-            HyperNodeView hnv = (HyperNodeView) it.next();
-            addCanvasItem(hnv);
-        }
-        //Add HyperNodeViews labels canvas manager.
-        it = hypernodeviews.values().iterator();
-        while (it.hasNext()) {
-            HyperNodeView hnv = (HyperNodeView) it.next();
-            addCanvasItem(new LabelView(hnv));
-        }
+        addCanvasItem(this.sphereView);
+        addLinesToHyperNodeViews(hypernodeviews, root);
+        addHyperNodeViews(graph);
+        addLabelsViews();
+
         setLeafNodes();
+
         repaint();
     }
 
@@ -342,32 +330,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
     }
 
-    /**
-     * Add lines to join HyperNodeViews.
-     *
-     * ///TODO lines should eventually represent the binary relationship
-     * between nodes.
-     */
-    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, GraphNode root) {
-        List queue = new LinkedList();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            GraphNode curGraphNode = (GraphNode) queue.remove(0);
-            HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curGraphNode);
-            //System.out.println("curHyperNodeView = " + curHyperNodeView);
-
-            Iterator outboundEdges = Edge.getOutboundEdges(curGraphNode);
-            while (outboundEdges.hasNext()) {
-                Edge edge = (Edge) outboundEdges.next();
-                int edgeType = edge.getType();
-                GraphNode outboundGraphNode = edge.getToNode();
-                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
-                //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);
-                addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType));
-                queue.add(outboundGraphNode);
-            }
-        }
-    }
 
     /**
      * Try to give the ontology a basic layout.
@@ -844,12 +806,17 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
         g2d.setColor(new Color(222, 222, 222));
         g2d.fillRect(0, 0, getWidth(), getHeight());
+
         int width = this.getSize().width;
         int height = this.getSize().height;
         g2d.translate(width / 2, height / 2);
+
         double sphereRadius = HyperNodeView.getSphereRadius();
+
+
         double sphereSize = 2 * sphereRadius;
         if (width < height) {
             canvasScale = width / sphereSize;
@@ -860,9 +827,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (canvasScale != 0) {
             g2d.scale(canvasScale, canvasScale);
         }
-        g2d.setColor(new Color(244, 244, 244));
-        g2d.fill(new Ellipse2D.Double(-sphereRadius, -sphereRadius, sphereRadius * 2, sphereRadius * 2));
-        drawNodes(g2d);
+
+        paintCanvas(g2d);
+
+        /// @todo this use rectangle2D is questionalble...
+        Rectangle2D bounds = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+        setScreenTransform(this.scaleToFit(g2d, bounds));
+
     }
 
 
@@ -871,24 +842,24 @@ public class SimpleHyperView extends Canvas implements GraphView {
      *
      * @todo fix ConcurrentModificationException (seems as it happens when folding/unfolding nodes).
      */
-    protected void drawNodes(Graphics2D g2d) {
-        if (lengthOfAnimation > 0) {
-            animate();
-        }
-
-        Iterator it = canvasItems.iterator();
-        while (it.hasNext()) {
-            CanvasItem cur = (CanvasItem) it.next();
-            cur.draw(g2d);
-        }
-        if (this.focusNode == null) {
-            return;
-        }
-        if (lengthOfAnimation <= 0 && this.focusNode.hasClones()) {
-            HyperNodeView focusHyperNode = (HyperNodeView) this.hypernodeviews.get(this.focusNode.getGraphNode());
-            focusHyperNode.showClones(g2d, hypernodeviews);
-        }
-    }
+//    protected void drawNodes(Graphics2D g2d) {
+//        if (lengthOfAnimation > 0) {
+//            animate();
+//        }
+//
+//        Iterator it = canvasItems.iterator();
+//        while (it.hasNext()) {
+//            CanvasItem cur = (CanvasItem) it.next();
+//            cur.draw(g2d);
+//        }
+//        if (this.focusNode == null) {
+//            return;
+//        }
+//        if (lengthOfAnimation <= 0 && this.focusNode.hasClones()) {
+//            HyperNodeView focusHyperNode = (HyperNodeView) this.hypernodeviews.get(this.focusNode.getGraphNode());
+//            focusHyperNode.showClones(g2d, hypernodeviews);
+//        }
+//    }
 
     /**
      * Rotate node about the center (0, 0) by angle passed.
@@ -940,7 +911,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         this.hypernodeviews.clear();
         this.focusNode = null;
         this.currentHighlightedView = null;
-        this.labelView = null;
         this.labelView = null;
         this.canvasScale = 1;
 
@@ -1017,28 +987,71 @@ public class SimpleHyperView extends Canvas implements GraphView {
         return null;
     }
 
-//    public void mouseReleased(MouseEvent e) {
-////        if (dragmode == true) {
-////            dragmode = false;
-////            repaint();
-////        } else {
-////            HyperNodeView focusedHyperNodeView = getClickedItem(e);
-////            if (focusedHyperNodeView == null) {
-////                return;
-////            }
-////            if (e.getClickCount() == 1) {
-////                this.singleClickTimer = new Timer();
-////                this.singleClickTimer.schedule(new CanvasItemSingleClicked(focusedHyperNodeView), 300);
-////            } else if (e.getClickCount() == 2) {
-//////                this.singleClickTimer.cancel();
-//                System.out.println();
-//                System.out.println("CanvasManager is sending DoubleClick");
-//                System.out.println();
-//                System.out.println();
-//                eventBroker.processEvent(new CanvasItemActivatedEvent(getClickedItem(e), 0, null, null));
-////            }
-////            repaint();
-////        }
-//    }
+    /**
+     * Add lines to join HyperNodeViews.
+     *
+     * ///TODO lines should eventually represent the binary relationship
+     * between nodes.
+     */
+    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, GraphNode root) {
+        List queue = new LinkedList();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            GraphNode curGraphNode = (GraphNode) queue.remove(0);
+            HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curGraphNode);
+            //System.out.println("curHyperNodeView = " + curHyperNodeView);
+
+            Iterator outboundEdges = Edge.getOutboundEdges(curGraphNode);
+            while (outboundEdges.hasNext()) {
+                Edge edge = (Edge) outboundEdges.next();
+                int edgeType = edge.getType();
+                GraphNode outboundGraphNode = edge.getToNode();
+                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
+                //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);
+                addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType));
+                queue.add(outboundGraphNode);
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private void addHyperNodeViews (Graph graph) {
+
+//        Iterator it = hypernodeviews.values().iterator();
+//        while (it.hasNext()) {
+//            HyperNodeView hnv = (HyperNodeView) it.next();
+//            addCanvasItem(hnv);
+//        }
+
+
+        Iterator allNodesIterator = graph.getNodesList().iterator();
+        while (allNodesIterator.hasNext()) {
+            GraphNode graphNode = (GraphNode) allNodesIterator.next();
+            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
+            /// @todo temporary hack: checking if nodeView is not null.
+            // this is connected to displaying unconnected nodes.
+            // need to create hypernodeviews for all nodes in the graph, not only ones that
+            // can be reached from the root.
+            // fix this!
+            if (hyperNodeView == null) {
+                continue;
+            }
+            System.out.println("adding hyperNodeView to canvas: " + hyperNodeView  );
+            addCanvasItem(hyperNodeView);
+        }
+    }
+
+    /**
+     *  Add HyperNodeViews labels canvas manager.
+     */
+    private void addLabelsViews () {
+        Iterator it = hypernodeviews.values().iterator();
+        while (it.hasNext()) {
+            HyperNodeView hnv = (HyperNodeView) it.next();
+            addCanvasItem(new LabelView(hnv));
+        }
+    }
 
 }

@@ -63,7 +63,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
     public OntoTreeNode ( GraphNode graphNode ) {
         this.graphNode = graphNode;
         this.graphNode.addObserver(this);
-        System.out.println("----" + this);
+        //System.out.println("----" + this);
     }
 
     /**

@@ -118,6 +118,7 @@ public class GraphNode implements Cloneable, NodeObservable {
         System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
         System.out.println("\t\tdescription = " + this.getDescription());
         System.out.println("\t\tcreator = " + this.getCreator());
+        System.out.println("\t\tclones: " + this.clones);
 
         notifyChange();
     }
@@ -346,9 +347,11 @@ public class GraphNode implements Cloneable, NodeObservable {
             GraphNode GraphNode = (GraphNode)it.next();
             c = c + GraphNode.getName() + " ";
         }
-        return "GraphNode name: " + name +
-                " Parents: " + p +
-                " Children: " + c;
+//        return "GraphNode name: " + name +
+//                " Parents: " + p +
+//                " Children: " + c;
+        return name;
+
     }
 
 

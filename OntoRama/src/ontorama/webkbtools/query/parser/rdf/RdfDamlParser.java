@@ -55,6 +55,8 @@ public class RdfDamlParser implements Parser {
     private static final int CLASS = 1;
     private static final int PROPERTY = 2;
 
+    private static NodeType nodeTypeConcept;
+    private static NodeType nodeTypeRelation;
 
     /**
      * Constructor
@@ -62,6 +64,19 @@ public class RdfDamlParser implements Parser {
     public RdfDamlParser() {
         _nodesHash = new Hashtable();
         _edgesList = new LinkedList();
+
+        /// @todo a bit of a hack to get node types we need - should be more dynamic, and mapped to rdf tags.
+        List nodeTypesList = OntoramaConfig.getNodeTypesList();
+        Iterator it = nodeTypesList.iterator();
+        while (it.hasNext()) {
+            NodeType cur = (NodeType) it.next();
+            if (cur.getNodeType().equals("concept")) {
+                nodeTypeConcept = cur;
+            }
+            if (cur.getNodeType().equals("relation")) {
+                nodeTypeRelation = cur;
+            }
+        }
     }
 
 
@@ -108,14 +123,25 @@ public class RdfDamlParser implements Parser {
                         }
                     }
 
-                    /// @todo we are ignoring rdf properties for the moment
                     if (rdfClassesList.contains(s.getSubject())) {
                         if (s.getPredicate().equals(RDFS.subClassOf)) {
                             if (!rdfClassesList.contains(s.getObject())) {
                                 rdfClassesList.add(s.getObject());
                             }
                         }
+                    }
+                    if (rdfPropertiesList.contains(s.getSubject())) {
+                        if (s.getPredicate().equals(RDFS.subPropertyOf)) {
+                            rdfPropertiesList.add(s.getObject());
+                        }
+                    }
+
+                    /// @todo we are ignoring rdf properties for the moment
+                    if (rdfClassesList.contains(s.getSubject())) {
                         processStatement(s);
+                    }
+                    else {
+                        System.out.println("Parser: ignoring statement: " + s);
                     }
                 }
             }
@@ -179,7 +205,34 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
+
         doEdgesMapping(resource, predicate, object);
+    }
+
+    /**
+     *
+     */
+    protected Node doNodeMapping (RDFNode object, int type) {
+        String nodeName = stripUri(object);
+        Node node;
+        if (_nodesHash.containsKey(nodeName)) {
+            node = (Node) _nodesHash.get(nodeName);
+        } else {
+            node = new NodeImpl(nodeName, object.toString());
+            if (type == CLASS) {
+                // set node type to be concept node type
+            }
+            else if (type == PROPERTY) {
+                // set node type to be relation node type
+
+            }
+            else {
+                System.err.println("this resource is neither class or property!");
+                System.exit(-1);
+            }
+            _nodesHash.put(nodeName, node);
+        }
+        return node;
     }
 
     /**
@@ -282,6 +335,8 @@ public class RdfDamlParser implements Parser {
             return node;
         }
     }
+
+
 
     /**
      * Replace carriage returns and leading tabs in a string

@@ -14,35 +14,38 @@ import ontorama.webkbtools.inputsource.*;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.util.TestingUtils;
 
 import java.io.Reader;
 
 public class TestCgKbCsvParser extends TestCase {
+
+    private ParserResult parserResult;
+
     public TestCgKbCsvParser(String s) {
         super(s);
     }
 
     protected void setUp() throws Exception {
 
-//        OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
-//                "ontorama.properties", "examples/test/data/testCase-config.xml");
-//        System.out.println('2');
-//        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCSV"));
-//
-//        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-//        //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
+        OntoramaConfig.loadAllConfig("cgkb/examplesConfig.xml", "ontorama.properties", "cgkb/config.xml");
+
         Source source = new JarSource();
-        SourceResult sr = source.getSourceResult("examples/cgkb/test.cgkb", new Query("KVO"));
+        SourceResult sr = source.getSourceResult("examples/cgkb/test1.csv", new Query("KVO"));
         Reader r = sr.getReader();
 
         Parser parser = new CgKbCsvParser();
-        parser.getResult(r);
+        parserResult = parser.getResult(r);
 
     }
 
-    public void testParser () {
+    public void testNodesSize () {
+        assertEquals("number of nodes returned ", 15, parserResult.getNodesList().size());
+    }
 
+    public void testEdgesSize () {
+        assertEquals("number of edges returned ", 14, parserResult.getEdgesList().size());
     }
 
 }

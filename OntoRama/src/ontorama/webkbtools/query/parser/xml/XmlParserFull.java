@@ -11,10 +11,10 @@ package ontorama.webkbtools.query.parser.xml;
 
 
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;
@@ -32,10 +32,8 @@ import java.security.AccessControlException;
 
 public class XmlParserFull implements Parser {
 
-    /**
-     * Hashtable to hold all OntologyTypes that we are creating
-     */
-    private Hashtable ontHash;
+    private Hashtable _nodes;
+    private List _edges;
 
     /**
      * debug
@@ -46,7 +44,9 @@ public class XmlParserFull implements Parser {
      *
      */
     public XmlParserFull() {
-        ontHash = new Hashtable();
+//        ontHash = new Hashtable();
+        _nodes = new Hashtable();
+        _edges = new LinkedList();
 
     }
 
@@ -58,20 +58,6 @@ public class XmlParserFull implements Parser {
      * @throws AccessControlException
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
-        return null;
-    }
-
-    /**
-     *
-     */
-    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException {
-        return getOntologyTypeCollection(reader).iterator();
-    }
-
-    /**
-     *
-     */
-    public Collection getOntologyTypeCollection(Reader reader) throws ParserException {
         try {
             SAXBuilder builder = new SAXBuilder();
             // Create the document
@@ -88,7 +74,7 @@ public class XmlParserFull implements Parser {
             e.printStackTrace();
             System.exit(-1);
         }
-        return ontHash.values();
+        return new ParserResult(new LinkedList(_nodes.values()), _edges);
     }
 
     /**
@@ -106,12 +92,12 @@ public class XmlParserFull implements Parser {
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", "conceptType");
 
-            OntologyType type = (OntologyTypeImplementation) ontHash.get(nameAttr.getValue());
+            GraphNode node = (GraphNode) _nodes.get(nameAttr.getValue());
 
-            if (type == null) {
-                type = new OntologyTypeImplementation(nameAttr.getValue());
+            if (node == null) {
+                node = new GraphNode(nameAttr.getValue());
                 // add child to hashtable
-                ontHash.put(nameAttr.getValue(), type);
+                _nodes.put(nameAttr.getValue(), node);
             }
             Enumeration conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable().keys();
             while (conceptPropertiesConfig.hasMoreElements()) {
@@ -122,11 +108,13 @@ public class XmlParserFull implements Parser {
                     propEl = conceptTypeEl.getChild(propName.toLowerCase());
                 }
                 if (propEl != null) {
-                    type.addTypeProperty(propName, propEl.getText());
+                    List propValue = node.getProperty(propName);
+                    propValue.add(propEl.getText());
+                    node.setProperty(propName, propValue);
                 }
             }
 
-            debug.message("XmlParserFull", "readConceptTypes", "created type: " + type);
+            debug.message("XmlParserFull", "readConceptTypes", "created type: " + node);
         }
     }
 
@@ -152,8 +140,8 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(nameAttr, "name", "relationLink");
             Attribute fromAttr = relLinkEl.getAttribute("from");
             checkCompulsoryAttr(fromAttr, "from", "relationLink");
-            OntologyType fromType = (OntologyTypeImplementation) ontHash.get(fromAttr.getValue());
-            if (fromType == null) {
+            GraphNode fromNode = (GraphNode) _nodes.get(fromAttr.getValue());
+            if (fromNode == null) {
                 // Won't throw exception for now. consider example:
                 // wn#Cat with children generated from webkb rdf output.
                 // Input file will have all types declared, except wn#TrueCat,
@@ -166,12 +154,12 @@ public class XmlParserFull implements Parser {
 
             Attribute toAttr = relLinkEl.getAttribute("to");
             checkCompulsoryAttr(toAttr, "to", "relationLink");
-            OntologyType toType = (OntologyTypeImplementation) ontHash.get(toAttr.getValue());
-            if (toType == null) {
+            GraphNode toNode = (GraphNode) _nodes.get(toAttr.getValue());
+            if (toNode == null) {
                 throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
             }
-            debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromType.getName() + ", toType = " + toType.getName() + " , relationLink = " + nameAttr.getValue());
-            boolean foundRelationLink = false;
+            debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
+            Edge edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
                     continue;
@@ -179,16 +167,17 @@ public class XmlParserFull implements Parser {
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if ((nameAttr.getValue()).equals(relationLinkDetails.getLinkName())) {
                     debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    fromType.addRelationType(toType, i);
-                    foundRelationLink = true;
+                    edge = new Edge(fromNode, toNode, relationLinkDetails);
                 } else if ((nameAttr.getValue()).equals(relationLinkDetails.getReversedLinkName())) {
                     debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    toType.addRelationType(fromType, i);
-                    foundRelationLink = true;
+                    edge = new Edge(toNode, fromNode, relationLinkDetails);
                 }
             }
-            if (foundRelationLink == false) {
+            if (edge == null) {
                 throw new ParserException("Attribute name '" + nameAttr.getValue() + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
+            }
+            if (!_edges.contains(edge)) {
+                 _edges.add(edge);
             }
         }
     }

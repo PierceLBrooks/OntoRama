@@ -14,10 +14,10 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.inputsource.*;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 
 import java.util.*;
 import java.io.*;
@@ -25,28 +25,18 @@ import java.security.AccessControlException;
 
 public class CgKbCsvParser implements Parser {
 
-    /**
-     * Hashtable to hold all OntologyTypes that we are creating
-     */
-    private Hashtable ontHash;
+    private Hashtable _nodes;
+    private List _edges;
 
     /**
-     * @todo fix to return ParserResult(not null)
      * @param reader
      * @return
      * @throws ParserException
      * @throws AccessControlException
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
-        return null;
-    }
-
-    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException {
-        return getOntologyTypeCollection(reader).iterator();
-    }
-
-    public Collection getOntologyTypeCollection(Reader reader) throws ParserException {
-        ontHash = new Hashtable();
+        _nodes = new Hashtable();
+        _edges = new LinkedList();
         BufferedReader br = new BufferedReader(reader);
         try {
             String line;
@@ -80,43 +70,38 @@ public class CgKbCsvParser implements Parser {
             e.printStackTrace();
             throw new ParserException(e.getMessage());
         }
-
-        return ontHash.values();
+        return ( new ParserResult(new LinkedList(_nodes.values()), _edges));
     }
+
 
     private void processLineTokens(String[] tokens) throws ParserException {
         String obj1 = tokens[0];
         String rel = tokens[1];
         String obj2 = tokens[2];
-        //System.out.println(obj1 + "," + rel + "," + obj2 + ".");
-//        String shortNameObj1 = stripFullName(obj1);
-//        String shortNameObj2 = stripFullName(obj2);
         String shortNameObj1 = obj1;
         String shortNameObj2 = obj2;
-        //System.out.println("===" + shortNameObj1 + "," + rel + "," + shortNameObj2 + ".");
 
         try {
             RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
-            OntologyType fromType = getOntologyTypeForName(shortNameObj1, obj1);
-            OntologyType toType = getOntologyTypeForName(shortNameObj2, obj2);
-            boolean foundRelationLink = false;
+            GraphNode fromNode = getNodeForName(shortNameObj1,  obj1);
+            GraphNode toNode = getNodeForName(shortNameObj2, obj2);
+            Edge edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
                     continue;
                 }
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if (rel.equals(relationLinkDetails.getLinkName())) {
-                    fromType.addRelationType(toType, i);
-                    //toType.addRelationType(fromType, i);
-                    foundRelationLink = true;
+                    edge = new Edge(fromNode, toNode, relationLinkDetails);
                 } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
-                    //toType.addRelationType(fromType, i);
-                    fromType.addRelationType(toType, i);
-                    foundRelationLink = true;
+                    edge = new Edge(fromNode, toNode, relationLinkDetails);
                 }
             }
-            if (foundRelationLink == false) {
+            if (edge == null) {
                 throw new ParserException ("Attribute name '" + rel + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
+            }
+            if (!_edges.contains(edge)) {
+                 _edges.add(edge);
             }
         }
         catch (NoSuchRelationLinkException e) {
@@ -125,14 +110,14 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
-    private OntologyType getOntologyTypeForName(String shortName, String fullName) {
-        OntologyType ot = (OntologyTypeImplementation) ontHash.get(shortName);
-        if (ot == null) {
-            ot = new OntologyTypeImplementation(shortName);
-            ontHash.put(shortName, ot);
-            ot.setFullName(fullName);
+    private GraphNode getNodeForName (String shortName, String fullName) {
+        GraphNode node = (GraphNode) _nodes.get(shortName);
+        if (node == null) {
+            node = new GraphNode(shortName);
+            _nodes.put(shortName, node);
+            node.setFullName(fullName);
         }
-        return ot;
+        return node;
     }
 
     private String stripFullName (String fullName) {

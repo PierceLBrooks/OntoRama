@@ -6,12 +6,12 @@
  */
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 /**
  * @author nataliya
  */
 public interface GroupView {
-	public void addGroup(GroupReferenceElement groupReferenceElement);
-	public void removeGroup(GroupReferenceElement groupReferenceElement);
+	public void addGroup(ItemReference groupReferenceElement);
+	public void removeGroup(ItemReference groupReferenceElement);
 }

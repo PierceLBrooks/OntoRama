@@ -20,7 +20,7 @@ import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 
 /**
@@ -119,7 +119,7 @@ public class P2PSender{
      */
     public void sendCreateGroup(String name, String descr) throws GroupException{
         PeerGroup pg = this.comm.sendCreateGroup(name, descr);
-        GroupReferenceElement groupRefElement = new GroupReferenceElement(
+        ItemReference groupRefElement = new ItemReference(
         											pg.getPeerGroupID(), pg.getPeerGroupName(), 
         											pg.getPeerGroupAdvertisement().getDescription());
         this.backend.getEventBroker().processEvent(new GroupJoinedEvent(groupRefElement));
@@ -139,7 +139,7 @@ public class P2PSender{
     public boolean sendJoinGroup(PeerGroupID groupID) throws GroupExceptionNotAllowed, GroupException {
     	String groupName = this.comm.sendJoinGroup(groupID.toString());
         if (groupName != null){
-        	this.backend.getEventBroker().processEvent(new GroupJoinedEvent(new GroupReferenceElement(groupID, groupName, "")));
+        	this.backend.getEventBroker().processEvent(new GroupJoinedEvent(new ItemReference(groupID, groupName, "")));
             this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID.toString());
             return true;
         }
@@ -163,7 +163,7 @@ public class P2PSender{
         boolean leaved = this.comm.sendLeaveGroup(groupID.toString());
         if (leaved){
             /// @todo pretty dodgy passing null's to the constructor.
-            this.backend.getEventBroker().processEvent(new GroupIsLeftEvent(new GroupReferenceElement(groupID, null, null)));
+            this.backend.getEventBroker().processEvent(new GroupIsLeftEvent(new ItemReference(groupID, null, null)));
         	this.sendPropagate(TAGPROPAGATELEAVEGROUP, null, groupID.toString());
             return true;
         }
@@ -200,7 +200,7 @@ public class P2PSender{
 				Object obj = e.nextElement();
 				System.out.println("obj = " + obj);
 				PeerAdvertisement cur = (PeerAdvertisement) obj;
-			  	GroupReferenceElement element = new GroupReferenceElement(cur.getID(), cur.getName(), cur.getDescription());
+			  	ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
 			  	System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
 			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
 			}
@@ -226,7 +226,7 @@ public class P2PSender{
 			Enumeration e = result.elements();
 			System.out.println("\n\nPeer Discovery returned: size = " + result.size() + " for group " + groupName);
 			while (e.hasMoreElements()){
-			  GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
+			  ItemReference element = (ItemReference) e.nextElement();
 			  System.out.println("--- name = " + element.getName() + ", id = " + element.getID());
 			  this.peersPanel.addPeer(element.getID().toString(), element.getName(), curGroup.getPeerGroupID().toString());
 			}
@@ -247,7 +247,7 @@ public class P2PSender{
 				System.out.println("Couldn't find any group with name " + groupName);
               }
               else {
-                  GroupReferenceElement searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
+                  ItemReference searchGroupResultElement = (ItemReference)tmpEnumernation.nextElement();
                   String tmpGroupID = searchGroupResultElement.getID().toString();
 
                   this.backend.getEventBroker().processEvent(new GroupJoinedEvent(searchGroupResultElement));
@@ -287,7 +287,7 @@ public class P2PSender{
  		Enumeration e = joinedGroups().elements();
  		while (e.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) e.nextElement();
-			GroupReferenceElement element = new GroupReferenceElement(pg.getPeerGroupID(), 
+			ItemReference element = new ItemReference(pg.getPeerGroupID(), 
 											pg.getPeerGroupName(), 
 											pg.getPeerGroupAdvertisement().getDescription());
 			res.add(element);
@@ -301,11 +301,11 @@ public class P2PSender{
 
 
    private static void printSearchGroupResult(String tag, Vector obj) {
-        GroupReferenceElement searchGroupResultElement = null;
+        ItemReference searchGroupResultElement = null;
         System.out.println("Found following matching " + tag + "s");
         Enumeration tmpEnumernation = obj.elements();
             while (tmpEnumernation.hasMoreElements()) {
-            searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
+            searchGroupResultElement = (ItemReference)tmpEnumernation.nextElement();
             System.out.println(tag + ":" +
                 searchGroupResultElement.getName()
                 + " (ID:" + searchGroupResultElement.getID() + ")");

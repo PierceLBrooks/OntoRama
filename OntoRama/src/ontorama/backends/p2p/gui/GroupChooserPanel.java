@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 /*
  * Created by IntelliJ IDEA.
@@ -56,8 +56,8 @@ public class GroupChooserPanel extends JPanel {
         Vector result = new Vector();
         for ( int i = 0; i < bound; i++ ) {
           for ( int j = bound-1; j > i; j-- ) {
-              GroupReferenceElement currentObj = (GroupReferenceElement) array[j];
-          	GroupReferenceElement previousObj = (GroupReferenceElement) array[j-1];
+              ItemReference currentObj = (ItemReference) array[j];
+          	ItemReference previousObj = (ItemReference) array[j-1];
               String currentName = currentObj.getName().toLowerCase();
               String previousName = previousObj.getName().toLowerCase();
               //if ( (array[j-1].toLowerCase()).compareTo ( array[j].toLowerCase()) > 0 ) {

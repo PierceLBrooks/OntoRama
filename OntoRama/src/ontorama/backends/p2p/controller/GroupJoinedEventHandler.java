@@ -7,7 +7,7 @@
 package ontorama.backends.p2p.controller;
 
 import ontorama.backends.p2p.gui.GroupView;
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
@@ -31,7 +31,7 @@ public class GroupJoinedEventHandler implements EventBrokerListener {
 	 * @see org.tockit.events.EventBrokerListener#processEvent(org.tockit.events.Event)
 	 */
 	public void processEvent(Event event) {
-		GroupReferenceElement groupElement = (GroupReferenceElement) event.getSubject(); 
+		ItemReference groupElement = (ItemReference) event.getSubject(); 
 		_groupView.addGroup(groupElement);
 	}
 

@@ -12,8 +12,6 @@ import ontorama.model.graph.Node;
 import ontorama.util.Debug;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.ParserException;

@@ -12,6 +12,7 @@ import ontorama.OntoramaConfig;
 import ontorama.webkbtools.inputsource.*;
 import ontorama.webkbtools.datamodel.*;
 import ontorama.webkbtools.util.*;
+import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.*;
 import ontorama.webkbtools.query.parser.Parser;
 
@@ -46,7 +47,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
                "ontorama.properties","examples/test/data/testCase-config.xml");
 
     Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-    Reader r = source.getReader(OntoramaConfig.sourceUri);
+    Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
 
     RdfDamlParser parser = new RdfWebkbParser();
     buildResultCollection(parser, r);

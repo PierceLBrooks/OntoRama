@@ -11,6 +11,8 @@ package ontorama.webkbtools.inputsource;
 
 import java.io.Reader;
 
+import ontorama.webkbtools.query.Query;
+
 /**
  * Model a Data Source.
  */
@@ -22,6 +24,6 @@ public interface Source {
      *  @return reader
      *  @throws Exception
      */
-    public Reader getReader (String uri) throws Exception;
+    public Reader getReader (String uri, Query query) throws Exception;
 
 }

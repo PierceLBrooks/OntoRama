@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import ontorama.OntoramaConfig;
+import ontorama.webkbtools.query.Query;
 
 public class UrlSource implements Source {
 
@@ -25,7 +26,7 @@ public class UrlSource implements Source {
      *  @return reader
      *  @throws Exception
      */
-    public Reader getReader (String uri) throws Exception {
+    public Reader getReader (String uri, Query query) throws Exception {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("uri = " + uri);
         }

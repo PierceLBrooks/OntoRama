@@ -17,6 +17,7 @@ import java.security.AccessControlException;
 
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
+import com.hp.hpl.mesa.rdf.jena.common.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.*;
 import com.hp.hpl.jena.daml.*;
 import com.hp.hpl.jena.daml.common.DAMLModelImpl;
@@ -137,6 +138,7 @@ public class RdfWebkbParser extends RdfDamlParser {
       //System.out.println("new collection size: null");
       return null;
     }
+
 
     /**
      * write out hashtable mapping old names to new

@@ -7,6 +7,7 @@ import java.io.InputStream;
 //import java.net.URLConnection;
 
 import ontorama.OntoramaConfig;
+import ontorama.webkbtools.query.Query;
 
 /**
  * <p>Title: </p>
@@ -26,7 +27,7 @@ public class JarSource implements Source {
      *  @return reader
      *  @throws Exception
      */
-    public Reader getReader (String relativePath) throws Exception {
+    public Reader getReader (String relativePath, Query query) throws Exception {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("relativePath = " + relativePath);
         }

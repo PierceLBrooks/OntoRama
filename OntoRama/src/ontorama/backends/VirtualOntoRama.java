@@ -1,10 +1,6 @@
 package ontorama.backends;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -20,6 +16,9 @@ import ontorama.backends.p2p.p2pmodule.ChangePanel;
 import ontorama.backends.p2p.p2pmodule.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.writer.ModelWriter;
+import ontorama.webkbtools.writer.ModelWriterException;
+import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
 
 /**
  * @author henrika
@@ -103,7 +102,16 @@ public class VirtualOntoRama {
 							relationLinks.add(new Integer(4));
 							relationLinks.add(new Integer(7));
 	                        P2PGraph extGraph = p2pBackend.search(new Query(lineIn,relationLinks));
-	                        String ontology = extGraph.toRDFString();
+
+                            ModelWriter modelWriter = new RdfP2PWriter();
+                            Writer _writer = new StringWriter();
+                            try {
+                                modelWriter.write(extGraph, _writer);
+                            } catch (ModelWriterException e) {
+                                e.printStackTrace();
+                            }
+
+                            String ontology = _writer.toString();
 	                        System.err.println("Result of the search:");
 	                        System.err.println(ontology);
 						}
@@ -114,7 +122,8 @@ public class VirtualOntoRama {
             }
         }
     }
-     
+
+
     private static String readLine(){
         try {
             BufferedReader stdin = 

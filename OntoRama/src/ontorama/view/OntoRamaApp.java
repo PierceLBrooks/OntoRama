@@ -14,6 +14,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -36,14 +38,32 @@ public class OntoRamaApp extends JFrame {
     private SimpleHyperView hyperView;
     private OntoTreeView treeView;
 
+    private String termName;
+
+    GraphBuilder graphBuilder;
+    Graph graph;
+
+    private QueryPanel queryPanel;
+
     public OntoRamaApp() {
         super("OntoRamaApp");
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        //Create a tree that allows one selection at a time.
-        GraphBuilder graphBuilder = new GraphBuilder();
-        Graph graph = graphBuilder.getGraph();
+        termName = "root";
+        graphBuilder = new GraphBuilder(termName);
+        graph = graphBuilder.getGraph();
+
+		// create a query panel
+        queryPanel = new QueryPanel();
+        queryPanel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println ("---actionListener for queryPanel");
+                //graphBuilder = new GraphBuilder(queryField.getText());
+                //graph = graphBuilder.getGraph();
+                // update views
+            }
+        } );
 
         // Create HyperView
         hyperView = new SimpleHyperView();
@@ -60,10 +80,9 @@ public class OntoRamaApp extends JFrame {
         splitPane.setLeftComponent(hyperView);
         splitPane.setRightComponent(treeViewPanel);
 
-
         //Add the split pane to this frame.
+        getContentPane().add(queryPanel,BorderLayout.NORTH);
         getContentPane().add(splitPane, BorderLayout.CENTER);
-
     }
 
     public static void main(String[] args) {

@@ -220,6 +220,23 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         OntoramaConfig.loadAllConfig(configFilePath,ontoramaPropertiesPath, examplesConfigFilePath);
         new OntoRamaApp();
     }
+
+    /**
+     *
+     * @param examplesConfigFilePath
+     * @param ontoramaPropertiesPath
+     * @param configFilePath
+     * @param exampleRoot
+     * @param exampleURL
+     * @todo this approach is a hack to make distillery work. need to rethink whole process
+     */
+    public OntoRamaApp(String examplesConfigFilePath, String ontoramaPropertiesPath, String configFilePath,
+                        String exampleRoot, String exampleURL) {
+        OntoramaConfig.loadAllConfig(configFilePath,ontoramaPropertiesPath, examplesConfigFilePath);
+        OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
+        new OntoRamaApp();
+    }
+
     /**
      * Initialise actions
      */
@@ -590,9 +607,15 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         else if (args.length == 3) {
             new OntoRamaApp(args[0], args[1], args[2]);
         }
+        else if (args.length == 5) {
+            /// @todo need some errorchecking here, or should pass parameters with options: --root=Root and
+            /// then split them into proper parameteres
+            new OntoRamaApp(args[0], args[1], args[2], args[3], args[4]);
+        }
         else {
             String usage = " Usage: \n";
-            usage = usage + "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml]\n";
+            usage = usage + "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml] ";
+            usage = usage + "[ontologyRoot ontologyURL]";
             usage = usage + "To use default OntoRama settings - no need for command line arguments\n";
             usage = usage + "To load alternative OntoRama setting - specify relative paths to config.xml, ontorama.properties and examplesConfig.xml\n";
             System.err.println(usage);

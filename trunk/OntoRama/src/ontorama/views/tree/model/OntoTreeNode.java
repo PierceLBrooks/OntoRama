@@ -10,7 +10,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import ontorama.model.graph.EdgeType;
-import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode
@@ -43,11 +42,6 @@ public class OntoTreeNode implements TreeNode {
      */
     private EdgeType _edgeType;
 
-    /**
-     * debug
-     */
-    private boolean debugOn = false;
-    Debug debug = new Debug(this.debugOn);
 
     /**
      *  Constructor

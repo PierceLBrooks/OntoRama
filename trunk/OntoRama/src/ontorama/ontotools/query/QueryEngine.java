@@ -15,7 +15,6 @@ import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
-import ontorama.util.Debug;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -52,11 +51,6 @@ public class QueryEngine {
 	private Source source;
 	private String sourceUri;
 
-    /**
-     * debug
-     */
-    //Debug debug = new Debug(OntoramaConfig.DEBUG);
-    Debug debug = new Debug(true);
 
     /**
      * Execute a query to OntologyServer and get a query resul

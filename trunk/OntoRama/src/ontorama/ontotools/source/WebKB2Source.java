@@ -170,9 +170,6 @@ public class WebKB2Source implements Source {
      * execute webkb query
      */
     private Reader executeWebkbQuery(String fullUrl) throws IOException {
-        if (OntoramaConfig.DEBUG) {
-            System.out.println("fullUrl = " + fullUrl);
-        }
         InputStreamReader reader = getInputStreamReader(fullUrl);
         return reader;
     }

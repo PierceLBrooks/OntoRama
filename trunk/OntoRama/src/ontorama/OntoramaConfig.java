@@ -54,11 +54,6 @@ public class OntoramaConfig {
     private static ClassLoader classLoader;
 
     /**
-     * debug
-     */
-    public static boolean DEBUG;
-
-    /**
      * turns funny edges on
      */
     public static boolean FOUNTAINS;
@@ -184,7 +179,6 @@ public class OntoramaConfig {
                                         throws SourceException, IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
-        DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();

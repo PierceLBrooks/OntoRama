@@ -43,9 +43,6 @@ public class UrlSource implements Source {
      *  @throws SourceException
      */
     private Reader getReader(String uri, Query query) throws SourceException {
-        if (OntoramaConfig.DEBUG) {
-            System.out.println("uri = " + uri);
-        }
         InputStreamReader reader = null;
 
         try {

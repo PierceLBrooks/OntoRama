@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.GeneralPath;
 
 public class HyperEdgeView extends CanvasItem {
 
@@ -66,10 +67,24 @@ public class HyperEdgeView extends CanvasItem {
         } else {
             g2d.setColor(Color.lightGray);
         }
-        g2d.draw(new Line2D.Double(from.getProjectedX(),
-                from.getProjectedY(),
-                to.getProjectedX(),
-                to.getProjectedY()));
+        if (OntoramaConfig.FOUNTAINS) {
+            double firstControlPos = 29 / 30.0;
+            double secondControlPos = 1 / 30.0;
+            float[] points = new float[]{
+                (float) (from.getProjectedX() * firstControlPos + to.getProjectedX() * (1-firstControlPos)) * 1.2F,
+                (float) (from.getProjectedY() * firstControlPos + to.getProjectedY() * (1-firstControlPos)) * 1.2F,
+                (float) (from.getProjectedX() * secondControlPos + to.getProjectedX() * (1-secondControlPos)) * 1.2F,
+                (float) (from.getProjectedY() * secondControlPos + to.getProjectedY() * (1-secondControlPos)) * 1.2F,
+                (float) to.getProjectedX(),
+                (float) to.getProjectedY()
+            };
+            GeneralPath pathShape = new GeneralPath();
+            pathShape.moveTo((float) from.getProjectedX(), (float) from.getProjectedY());
+            pathShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
+            g2d.draw(pathShape);
+        } else {
+            g2d.draw(new Line2D.Double(from.getProjectedX(),from.getProjectedY(),to.getProjectedX(),to.getProjectedY()));
+        }
 
         g2d.drawImage(iconImg.getImage(), (int) imgX, (int) imgY, (int) imgW, (int) imgH, iconImg.getImageObserver());
     }

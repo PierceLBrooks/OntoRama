@@ -15,10 +15,7 @@ import ontorama.OntoramaConfig;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -103,6 +100,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private boolean isLeaf = false;
 
     private NodeType nodeType;
+    private Shape pathShape;
 
     /**
      * Returns the radius of the projection sphere.
@@ -126,11 +124,15 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             nodeColor = Color.red;
         } else {
             nodeColor = displayInfo.getColor();
-            nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
-            /// @todo hardcoded node type name here
-            if (nodeType.getNodeType().equals("relation")) {
-                nodeShape = new Polygon();
-            }
+        }
+        double radius = model.getNodeRadius();
+        nodeShape = new Ellipse2D.Double(-radius, -radius, radius * 2, radius * 2);
+        /// @todo hardcoded node type name here
+        if (nodeType.getNodeType().equals("relation")) {
+            nodeShape = new Polygon();
+            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
+            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + radius));
+            ((Polygon) nodeShape).addPoint( (int) (projectedX + radius), (int) (projectedY + radius));
         }
     }
 
@@ -206,6 +208,24 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return model.getName();
     }
 
+    private float[] transform(float[] in) {
+        float[] retval = new float[in.length];
+        for (int i = 0; i < in.length; i+=2) {
+            double x = model.getX() + in[i];
+            double y = model.getY() + in[i+1];
+            Point2D newCoord = transform(x,y);
+            retval[i] = (float) newCoord.getX();
+            retval[i+1] = (float) newCoord.getY();
+        }
+        return retval;
+    }
+
+    private Point2D transform(double x, double y) {
+        double length = Math.sqrt(x * x + y * y + focalDepth * focalDepth);
+        double scale = sphereRadius / length;
+        return new Point2D.Double(scale * x, scale * y);
+    }
+
     /**
      * Project the model coordinates into the hyperbolic plane.
      *
@@ -220,27 +240,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         projectedY = scale * y;
         depth = (1 - scale) * focalDepth;
         calculateFadedColor();
-        viewRadius = model.getNodeRadius() * getScale();
-
-//     **************************** new code *****************************
-        // start hyperbolic projection using Poincaré disc model
-        // complex3
-//        double conjugateX = x;
-//        double conjugateY = -y;
-//        double mu1 = (x * conjugateX) - (y * conjugateY);
-//        double mu2 = (x * conjugateY) + (y * conjugateX);
-//        double mi1 = 1d - mu1;//(1-mu1)
-//        double mi2 = 0d - mu2;//(0-mu2)
-//        //end
-//        double abs = mi1*mi1 + mi2*mi2;
-//        double div1 = (x * mi1 + y * mi2) / (abs);
-//        double div2 = (y * mi1 - x * mi2) / (abs);
-//        // now enlarge to screen coordinates
-
-//        double abs2 = Math.sqrt(div1*div1 + div2*div2);
-
-//        projectedX = div1;
-//        projectedY = div2;
     }
 
     /**
@@ -285,7 +284,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Returns true if this is the node clicked on
      */
     public boolean containsPoint(Point2D point) {
-        return nodeShape.contains(point);
+        return pathShape.contains(point);
     }
 
     /**
@@ -330,25 +329,44 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
         updateProjection();
         g2d.setColor(fadeColor);
-        /// @todo a hack to get different node shapes
-        if (nodeShape instanceof Polygon) {
-            Polygon polygon = (Polygon) nodeShape;
-            polygon.reset();
-            polygon.addPoint( (int) projectedX, (int) projectedY);
-            polygon.addPoint( (int) projectedX , (int) (projectedY + viewRadius * 1.5));
-            polygon.addPoint( (int) (projectedX + viewRadius * 1.5), (int) (projectedY + viewRadius * 1.5 ));
-        }
-        else {
-            ((Ellipse2D) nodeShape).setFrame(projectedX - viewRadius,
-                    projectedY - viewRadius,
-                    viewRadius * 2, viewRadius * 2);
-        }
+
+        pathShape = transform(nodeShape);
 
         if (!isLeaf && this.getFolded()) {
-            g2d.fill(nodeShape.getBounds2D());
+            g2d.fill(pathShape.getBounds2D());
         } else {
-            g2d.fill(nodeShape);
+            g2d.fill(pathShape);
         }
+    }
+
+    private Shape transform(Shape inShape) {
+        GeneralPath outShape = new GeneralPath();
+        PathIterator path = inShape.getPathIterator(null);
+        outShape.setWindingRule(path.getWindingRule());
+        float[] points = new float[6];
+        while(!path.isDone()) {
+            int segType = path.currentSegment(points);
+            points = transform(points);
+            switch(segType) {
+                case PathIterator.SEG_LINETO:
+                    outShape.lineTo(points[0], points[1]);
+                    break;
+                case PathIterator.SEG_MOVETO:
+                    outShape.moveTo(points[0], points[1]);
+                    break;
+                case PathIterator.SEG_QUADTO:
+                    outShape.quadTo(points[0], points[1], points[2], points[3]);
+                    break;
+                case PathIterator.SEG_CUBICTO:
+                    outShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
+                    break;
+                case PathIterator.SEG_CLOSE:
+                    outShape.closePath();
+                    break;
+            }
+            path.next();
+        }
+        return outShape;
     }
 
     private void calculateFadedColor() {
@@ -373,7 +391,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     public void showClones(Graphics2D g2d, Hashtable hypernodeviews) {
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
-        this.showClone(g2d);
         // draw lines to, and show clones
         Iterator it = this.getGraphNode().getClones().iterator();
         while (it.hasNext()) {
@@ -383,7 +400,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
                 //System.out.println("HyperNodeView not found for " + cur.getName());
                 continue;
             }
-            hyperNodeView.showClone(g2d);
             double x1 = this.projectedX;
             double y1 = this.projectedY;
             double x2 = hyperNodeView.getProjectedX();
@@ -398,35 +414,17 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             y1 = Math.cos(angle) * ringRadius;
             x2 = Math.sin(angle) * dist;
             y2 = Math.cos(angle) * dist;
+            Stroke oldStroke = g2d.getStroke();
+            float[] dashstyle = {4, 4};
+            g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_BEVEL, 1, dashstyle, 0));
             g2d.draw(new Line2D.Double(x1, y1, x2, y2));
+            g2d.setStroke(oldStroke);
         }
-    }
-
-    /**
-     * Highlight clones for focused clone node.
-     */
-    public void showClone(Graphics2D g2d) {
-        double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
-        /// @todo a hack to get different node shapes
-        if (nodeShape instanceof Polygon) {
-            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
-            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + ringRadius));
-            ((Polygon) nodeShape).addPoint( (int) (projectedX + ringRadius), (int) (projectedY + ringRadius));
-        }
-        else {
-            ((Ellipse2D) nodeShape).setFrame(projectedX - ringRadius,
-                    projectedY - ringRadius,
-                    ringRadius * 2, ringRadius * 2);
-        }
-
-//        nodeShape.setFrame(projectedX - ringRadius,
-//                projectedY - ringRadius,
-//                ringRadius * 2, ringRadius * 2);
-        g2d.draw(nodeShape);
     }
 
     public Rectangle2D getCanvasBounds(Graphics2D g) {
-        return nodeShape.getBounds2D();
+        return pathShape.getBounds2D();
     }
 
     public boolean hasAutoRaise() {
@@ -434,7 +432,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
 
     public Point2D getPosition() {
-        Rectangle2D bounds = nodeShape.getBounds2D();
+        Rectangle2D bounds = pathShape.getBounds2D();
         return new Point2D.Double(bounds.getX() + bounds.getWidth()/2, bounds.getY() + bounds.getHeight()/2);
     }
 

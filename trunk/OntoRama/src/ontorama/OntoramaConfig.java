@@ -291,26 +291,35 @@ public class OntoramaConfig {
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         allRelationsArray = xmlConfig.getRelationLinksArray();
         MAXTYPELINK = allRelationsArray.length;
-        relationLinksSet = buildRelationLinksSet (allRelationsArray);
+        relationLinksSet = buildRelationLinksSet ();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
         conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
         conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
     }
 
-
-
     /**
      * @todo: we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static HashSet buildRelationLinksSet (RelationLinkDetails[] allRelationsArray) {
+    public static List getRelationLinksList () {
         LinkedList allRelations = new LinkedList ();
         for (int i = 0; i < allRelationsArray.length; i++ ) {
             if ( allRelationsArray[i] != null ) {
                 allRelations.add(new Integer (i));
             }
         }
+        //System.out.println("\n\n\n returning list of relations: " + allRelations);
+        return allRelations;
+    }
+
+
+    /**
+     * @todo: we are assuming that allRelationsArray got all relations id's in order
+     * from 1 to n. If this is not a case -> what we are doing here could be wrong
+     */
+    public static HashSet buildRelationLinksSet () {
+        List allRelations = getRelationLinksList();
         return new HashSet ((Collection) allRelations);
     }
 

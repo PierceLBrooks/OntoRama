@@ -3,6 +3,8 @@ package ontorama.backends.p2p.p2pprotocol;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import ontorama.backends.p2p.P2PGlobals;
+
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.MimeMediaType;
 import net.jxta.endpoint.Message;
@@ -89,27 +91,20 @@ public class SendMessageThread extends Thread{
     						  int tag, 
     						  String message) {
         
-		PeerGroup pg = null;
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;				 
-		DiscoveryService discoveryService = null;
-
 
 	 	//while travese to send the mesage to all groups this peer is a member of
 		Enumeration enum = this.commProt.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
-			pg = (PeerGroup) enum.nextElement();
-	        discoveryService = pg.getDiscoveryService();
-
-            //Prepare a message to be sent
-             Message msgToSend = this.createMsg(pg,
-                                              propType,
-                                              ownPeerID,
-                                              ownGroupID,
-                                              tag,
-                                              message);
+			PeerGroup pg = (PeerGroup) enum.nextElement();
+			DiscoveryService discoveryService = pg.getDiscoveryService();
+			
+			//Prepare a message to be sent
+			Message msgToSend = this.createMsg(pg, propType, ownPeerID, 
+												ownGroupID, tag, message);
 
 
-            /*
+	        /*
 	 		inputpipeDiscoveryListener = new InputpipeDiscoveryListener(msgToSend,this.comm,pg);
 	        //Add the listener that will be invoked when a response from the query will be resived
 	        discoveryService.addDiscoveryListener(inputpipeDiscoveryListener);
@@ -117,48 +112,49 @@ public class SendMessageThread extends Thread{
 			//Ask other peers for inputpipes with or without a species peerID  
 			discoveryService.getRemoteAdvertisements(null,
 						       					 DiscoveryService.ADV,
-						       					 "Name",
-						       					 "InputPipe",
+						       					 P2PGlobals.ADV_Name,
+						       					 P2PGlobals.ADV_InputPipe,
 						       					 100);
-		 try{
-             Thread.sleep(3*1000);
-             Enumeration adverts = discoveryService.getLocalAdvertisements(DiscoveryService.ADV,
-                                                                        "Name",
-                                                                        "InputPipe");
-               PipeService pipeService = pg.getPipeService();                   
-			
-			PipeAdvertisement tmpAdv = null;
-			OutputPipe tmpOutputPipe = null;
-			Message msgToSendCopy = null;
-	          while(adverts.hasMoreElements()){
-	             try {  
-	                   tmpAdv = (PipeAdvertisement) adverts.nextElement();
-	                   //Create a OutputPipe  
-	                   tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 1*1000);
-	                   //Send message through new pipe and close pipe
+			 try{
+				Thread.sleep(3*1000);
+				Enumeration adverts = discoveryService.getLocalAdvertisements(
+				 										DiscoveryService.ADV,
+				                                        P2PGlobals.ADV_Name,
+				                                        P2PGlobals.ADV_InputPipe);
+				PipeService pipeService = pg.getPipeService();                   
+				
+				PipeAdvertisement tmpAdv = null;
+				OutputPipe tmpOutputPipe = null;
+				Message msgToSendCopy = null;
+				while(adverts.hasMoreElements()){
+					try {  
+						tmpAdv = (PipeAdvertisement) adverts.nextElement();
+						//Create a OutputPipe  
+						tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 1*1000);
+						//Send message through new pipe and close pipe
 						msgToSendCopy = (Message) msgToSend.clone(); 
-	                   tmpOutputPipe.send(msgToSendCopy);
-	                   tmpOutputPipe.close();
-	              } catch (IOException e) {
+						tmpOutputPipe.send(msgToSendCopy);
+						tmpOutputPipe.close();
+					} catch (IOException e) {
+						//Couldn't find a host to a given Adv.
+					}             
+				}  
+	         }catch (InterruptedException e) {
+				this.anyErrors = true;
+		     }catch (IOException e) {
 	                    //Couldn't find a host to a given Adv.
-	             }             
-	          }  
-         }catch (InterruptedException e) {
-			this.anyErrors = true;
-	     }catch (IOException e) {
-                    //Couldn't find a host to a given Adv.
-         }finally {
-			enum = this.commProt.getMemberOfGroups().elements();
-			while (enum.hasMoreElements()) {
-				pg = (PeerGroup) enum.nextElement();
-		        discoveryService = pg.getDiscoveryService();	
-				discoveryService.removeDiscoveryListener(inputpipeDiscoveryListener);
+	         }finally {
+				enum = this.commProt.getMemberOfGroups().elements();
+				while (enum.hasMoreElements()) {
+					pg = (PeerGroup) enum.nextElement();
+			        discoveryService = pg.getDiscoveryService();	
+					discoveryService.removeDiscoveryListener(inputpipeDiscoveryListener);
+				}
 			}
-		}
-        }
-        }
+	        }
+	}
     
-      /** 
+   /** 
 	* Sends a message to a peer in tone of the groups where this peer belongs
 	*
 	* @param propType the type of propagation (if it is a propagataion)
@@ -178,12 +174,8 @@ public class SendMessageThread extends Thread{
 		PeerGroup pg = this.commProt.getGlobalPG();
         System.err.println("SendMessageThread::sendToPeer (one specific)" );
 
-        Message msgToSend = this.createMsg(pg,
-                                          propType,
-		        						  ownPeerID,
-                                          ownGroupID,
-		        						  tag,
-		        						  message);
+        Message msgToSend = this.createMsg(pg, propType, ownPeerID,
+                                          ownGroupID, tag, message);
 
         discoveryService = this.commProt.getGlobalPG().getDiscoveryService();
 
@@ -194,38 +186,37 @@ public class SendMessageThread extends Thread{
 
 		//Ask other peers for inputpipes with or without a species peerID  
 		discoveryService.getRemoteAdvertisements(null,
-					       					 DiscoveryService.ADV,
-					       					 "Name",
-					       					 "InputPipe",
-					       					 100);
+			       					 DiscoveryService.ADV,
+			       					 P2PGlobals.ADV_Name, P2PGlobals.ADV_InputPipe, 100);
                                              
-         try{
-             Thread.sleep(3*1000);
-             Enumeration adverts = discoveryService.getLocalAdvertisements(DiscoveryService.ADV,
-                                                                        "Id",
-                                                                        recieverPipeAdvID);
-                   PipeService pipeService = pg.getPipeService();                    
-          while(adverts.hasMoreElements()){
-             try {  
-                    PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement(); 
-                  //Create a OutputPipe  
-                  
-                   OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv,5*1000);
-                                                
-                   //Send message through new pipe and close pipe
-                   tmpOutputPipe.send(msgToSend);
-                   tmpOutputPipe.close();
-                 } catch (IOException e) {
-                    //Couldn't find a host to a given Adv.
-             }             
-          }  
-         } catch (InterruptedException e) {
-	        System.err.println("Thread:: gonna do getREmoteAdvertisements FAILED" );
+		try{
+			Thread.sleep(3*1000);
+			Enumeration adverts = discoveryService.getLocalAdvertisements(
+													DiscoveryService.ADV,
+                                                    P2PGlobals.ADV_Id,
+                                                    recieverPipeAdvID);
+			PipeService pipeService = pg.getPipeService();                    
+			while(adverts.hasMoreElements()){
+				try {  
+					PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement(); 
+
+					//Create a OutputPipe  
+					OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv,5*1000);
+
+					//Send message through new pipe and close pipe
+					tmpOutputPipe.send(msgToSend);
+					tmpOutputPipe.close();
+				} catch (IOException e) {
+				    //Couldn't find a host to a given Adv.
+				}             
+			}  
+		} catch (InterruptedException e) {
+			System.err.println("Thread:: gonna do getREmoteAdvertisements FAILED" );
 			this.anyErrors = true;
-	     } catch (IOException e) {
-              //Couldn't find a host to a given Adv.
-         } finally {
-	        discoveryService = pg.getDiscoveryService();	
+		} catch (IOException e) {
+		      //Couldn't find a host to a given Adv.
+		} finally {
+			discoveryService = pg.getDiscoveryService();	
 			discoveryService.removeDiscoveryListener(inputpipeDiscoveryListener);
 		}
 	}
@@ -239,48 +230,60 @@ public class SendMessageThread extends Thread{
 	 * @param tag the tag for the message
 	 * @param message the message to send
 	 */
-   	private Message createMsg(PeerGroup pg,
-                              int propType,
-    						  String ownPeerID, 
-                              String ownGroupID, 
-    						  int tag, 
-    						  String message){
-    		MimeMediaType mimeType = new MimeMediaType("text/xml");					  	
-			Message tmpMessage = null;
-		 	 tmpMessage = pg.getPipeService().createMessage();
-	         	tmpMessage.addElement(tmpMessage.newMessageElement(
-	         								"TAG", 
-				                            mimeType, 
-                                                new Integer(tag).toString().getBytes()));
-        if (tag == CommunicationProtocolJxta.TAGPROPAGATE){
-	        tmpMessage.addElement(
-	            tmpMessage.newMessageElement("propType",mimeType, new Integer(propType).toString().getBytes()));
+   	private Message createMsg(PeerGroup pg, int propType,
+    						  String ownPeerID, String ownGroupID, 
+    						  int tag, String message){
+		MimeMediaType mimeType = new MimeMediaType("text/xml");					  	
+		Message result = pg.getPipeService().createMessage();
+		
+        result.addElement( result.newMessageElement( 
+        							P2PGlobals.STR_TAG, 
+									mimeType, 
+									new Integer(tag).toString().getBytes()));
+        
+        if (tag == P2PGlobals.TAGPROPAGATE){
+	        result.addElement( result.newMessageElement(
+	        						P2PGlobals.STR_propType,
+	        						mimeType, 
+	            					new Integer(propType).toString().getBytes()));
 		}
 
-	    tmpMessage.addElement(
-            tmpMessage.newMessageElement("SenderPeerID",mimeType,
-			this.commProt.getGlobalPG().getPeerID().toString().getBytes()));
-                    
-        tmpMessage.addElement(
-            tmpMessage.newMessageElement("SenderPeerName",mimeType,
-			this.commProt.getGlobalPG().getPeerName().toString().getBytes()));
+		byte[] peerIdInBytes = this.commProt.getGlobalPG().getPeerID().toString().getBytes();
+	    result.addElement( result.newMessageElement(
+	    							P2PGlobals.STR_SenderPeerID,
+	    							mimeType,
+	    							peerIdInBytes));
+
+		byte[] peerNameInBytes = this.commProt.getGlobalPG().getPeerName().toString().getBytes();
+        result.addElement( result.newMessageElement(
+        							P2PGlobals.STR_SenderPeerName,
+        							mimeType,
+        							peerNameInBytes));
 
         if (ownPeerID != null){
-            tmpMessage.addElement(
-	            tmpMessage.newMessageElement("PeerID",mimeType,ownPeerID.getBytes()));
+            result.addElement( result.newMessageElement(
+            						P2PGlobals.STR_PeerID,
+            						mimeType,
+            						ownPeerID.getBytes()));
 	    }
         if (ownGroupID == null) {
-            tmpMessage.addElement(
-	            tmpMessage.newMessageElement("GroupID",mimeType,
-				this.commProt.getGlobalPG().getPeerGroupID().toString().getBytes()));
+			byte[] peerGroupIdInBytes = this.commProt.getGlobalPG().getPeerGroupID().toString().getBytes();
+            result.addElement( result.newMessageElement(
+            						P2PGlobals.STR_GroupID,
+            						mimeType,
+            						peerGroupIdInBytes));
 	     } else {
-	        tmpMessage.addElement(
-			    tmpMessage.newMessageElement("GroupID",mimeType,ownGroupID.getBytes()));
+	        result.addElement( result.newMessageElement(
+	        						P2PGlobals.STR_GroupID,
+	        						mimeType,
+	        						ownGroupID.getBytes()));
 	     }
-	     tmpMessage.addElement(
-	        tmpMessage.newMessageElement("Body",mimeType,message.getBytes()));
+	     result.addElement( result.newMessageElement(
+	     							P2PGlobals.STR_Body,
+	     							mimeType,
+	     							message.getBytes()));
 
-        return tmpMessage;
+        return result;
    	}
 
 

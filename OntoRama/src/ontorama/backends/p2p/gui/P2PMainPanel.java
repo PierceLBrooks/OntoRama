@@ -2,6 +2,7 @@ package ontorama.backends.p2p.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import ontorama.backends.p2p.gui.PeersPanel;
 
 /*
  * Created by IntelliJ IDEA.

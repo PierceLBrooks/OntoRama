@@ -65,7 +65,7 @@ public class NodesListViewer extends JComboBox {
             public void actionPerformed (ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 Object selectedObject = cb.getSelectedItem();
-                if (selectedObject instanceof String) {
+                if (!(selectedObject instanceof Node)) {
                     return;
                 }
                 Node selectedNode = (ontorama.model.graph.Node) selectedObject;

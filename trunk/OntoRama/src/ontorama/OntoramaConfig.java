@@ -205,6 +205,15 @@ public class OntoramaConfig {
         DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
+        /// @todo the way backends are handled is a bit of a hack for now.
+        Enumeration e = properties.propertyNames();
+        while (e.hasMoreElements()) {
+            String str = (String) e.nextElement();
+            if (str.startsWith("backend")) {
+                backends.add(properties.getProperty(str));
+            }
+        }
+
     }
 
     /**
@@ -357,8 +366,6 @@ public class OntoramaConfig {
     }
 
     public static List getBackends () {
-        backends.add("ontorama.backends.p2p.P2PBackend");
-        backends.add("ontorama.backends.filemanager.FileBackend");
         return backends;
     }
 

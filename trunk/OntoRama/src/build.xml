@@ -70,6 +70,7 @@
       <fileset dir="${src.home}" includes="**/*.properties"/>
       <fileset dir="${src.home}" includes="**/config.xml"/>
       <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
+      <fileset dir="${src.home}" includes="**/dataFormatsConfig.xml"/>
       <fileset dir="${src.home}" includes="MANIFEST.MF"/>
 	</copy>
      <copy   todir="${deploy.home}/cgkb">
@@ -106,7 +107,8 @@
   </target>
 
   <target name="jar" depends="compile">
-    <jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF" excludes="ontorama/backends/**"/>
+    <jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF"/>
+    <!--<jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF" excludes="ontorama/backends/p2p/**"/>-->
   </target>
 
 

@@ -126,7 +126,7 @@ public class RdfDamlParser implements Parser {
 
       doConceptPropertiesMapping(resource, predicate, object);
       doRelationLinksMapping(resource, predicate, object);
-    }
+   }
 
     /**
      *

@@ -112,7 +112,7 @@
 
   <target name="javadoc" depends="prepare">
     <javadoc sourcepath="${src.home}" 
-			packagenames="ontorama.*,ontorama.model.*,ontorama.view.hyper.*,ontorama.ui.*,ontorama.tree.*"
+			packagenames="ontorama.*,ontorama.model.*,ontorama.view.hyper.*,ontorama.ui.*,ontorama.view.tree.*"
             destdir="${javadoc.home}"
 			classpathref="project.class.path"/>
   </target>

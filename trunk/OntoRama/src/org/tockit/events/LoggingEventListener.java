@@ -10,10 +10,10 @@ package org.tockit.events;
 
 import java.io.PrintStream;
 
-public class DebugEventListener implements EventListener {
+public class LoggingEventListener implements EventListener {
     private PrintStream printStream;
 
-    public DebugEventListener(EventBroker eventBroker, Class eventType, Class subjectType, PrintStream printStream) {
+    public LoggingEventListener(EventBroker eventBroker, Class eventType, Class subjectType, PrintStream printStream) {
         this.printStream = printStream;
         eventBroker.subscribe(this, eventType, subjectType);
     }

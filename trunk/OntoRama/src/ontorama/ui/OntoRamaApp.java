@@ -175,6 +175,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     		HistoryElement historyElement = (HistoryElement) event.getSubject();
             _lastQuery = _query;
             _query = historyElement.getQuery();
+    		Backend backend = OntoramaConfig.getBackend();
+    		backend.setQueryEngine(historyElement.getQueryEngine());
             _worker = new QueryEngineThread(_query, historyElement.getQueryEngine(), _modelEventBroker);
             _modelEventBroker.removeSubscriptions(_viewsEventBroker);
             _worker.start();
@@ -312,6 +314,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				            QueryCancelledEvent.class,
 				            Object.class,
 				            System.out);
+
+    	new LoggingEventListener(
+    						_modelEventBroker,
+    						HistoryQueryStartEvent.class,
+    						Object.class,
+    						System.out);
 
         _descriptionViewPanel = new DescriptionView(_viewsEventBroker);
         _queryPanel = new QueryPanel(_viewsEventBroker);

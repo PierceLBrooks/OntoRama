@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemContextMenuRequestEvent.java,v 1.1 2002-08-01 04:53:38 johang Exp $
+ * $Id: CanvasItemContextMenuRequestEvent.java,v 1.2 2002-08-02 09:30:19 pbecker Exp $
  */
 package org.tockit.canvas.events;
 
@@ -18,7 +18,8 @@ import java.awt.geom.Point2D;
  * systems and can be used to open a context menu for an item.
  */
 public class CanvasItemContextMenuRequestEvent extends CanvasItemEventWithPosition {
-    public CanvasItemContextMenuRequestEvent(CanvasItem item, Point2D canvasPosition, Point2D awtPosition) {
-        super(item, canvasPosition, awtPosition);
+    public CanvasItemContextMenuRequestEvent(CanvasItem item, int modifiers,
+                                             Point2D canvasPosition, Point2D awtPosition) {
+        super(item, modifiers, canvasPosition, awtPosition);
     }
 }

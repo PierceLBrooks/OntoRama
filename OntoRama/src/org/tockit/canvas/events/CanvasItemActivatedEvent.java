@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemActivatedEvent.java,v 1.1 2002-08-01 04:53:37 johang Exp $
+ * $Id: CanvasItemActivatedEvent.java,v 1.2 2002-08-02 09:30:19 pbecker Exp $
  */
 package org.tockit.canvas.events;
 
@@ -15,7 +15,8 @@ import java.awt.geom.Point2D;
  * This event is emitted whenever an canvas item was activated (e.g. by double-clicking).
  */
 public class CanvasItemActivatedEvent extends CanvasItemEventWithPosition {
-    public CanvasItemActivatedEvent(CanvasItem item, Point2D canvasPosition, Point2D awtPosition) {
-        super(item, canvasPosition, awtPosition);
+    public CanvasItemActivatedEvent(CanvasItem item, int modifiers,
+                                    Point2D canvasPosition, Point2D awtPosition) {
+        super(item, modifiers, canvasPosition, awtPosition);
     }
 }

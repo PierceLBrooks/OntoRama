@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasController.java,v 1.4 2002-08-02 07:44:20 pbecker Exp $
+ * $Id: CanvasController.java,v 1.5 2002-08-02 09:30:18 pbecker Exp $
  */
 package org.tockit.canvas.controller;
 
@@ -94,7 +94,7 @@ public class CanvasController implements MouseListener, MouseMotionListener {
         Point screenPos = e.getPoint();
         if (e.isPopupTrigger()) {
             Point2D canvasPos = canvas.getCanvasCoordinates(screenPos);
-            handlePopupRequest(canvasPos, screenPos);
+            handlePopupRequest(e.getModifiers(), canvasPos, screenPos);
             popupOpen = true;
         }
         if (dragMode) {
@@ -105,16 +105,18 @@ public class CanvasController implements MouseListener, MouseMotionListener {
             Point2D modelPos = null;
             modelPos = canvas.getCanvasCoordinates(screenPos);
             this.eventBroker.processEvent(
-                    new CanvasItemClickedEvent(this.selectedCanvasItem, modelPos, screenPos));
+                    new CanvasItemClickedEvent(this.selectedCanvasItem,
+                                               e.getModifiers(), modelPos, screenPos));
             if (e.getClickCount() == 1) {
                 this.doubleClickTimer = new Timer();
                 this.doubleClickTimer.schedule(
                         new CanvasItemSingleClickTask(this.selectedCanvasItem,
-                                modelPos, screenPos, eventBroker), 300);
+                                e.getModifiers(), modelPos, screenPos, eventBroker), 300);
             } else if (e.getClickCount() == 2) {
                 this.doubleClickTimer.cancel();
                 this.eventBroker.processEvent(
-                        new CanvasItemActivatedEvent(selectedCanvasItem, modelPos, screenPos));
+                        new CanvasItemActivatedEvent(selectedCanvasItem,
+                                                     e.getModifiers(), modelPos, screenPos));
             }
         }
         selectedCanvasItem = null;
@@ -150,6 +152,7 @@ public class CanvasController implements MouseListener, MouseMotionListener {
             lastMousePosTr = canvas.getCanvasCoordinates(lastMousePos);
             this.eventBroker.processEvent(new CanvasItemDraggedEvent(
                     this.selectedCanvasItem,
+                    e.getModifiers(),
                     lastMousePosTr, lastMousePos,
                     mousePosTr, mousePos));
             lastMousePos = mousePos;
@@ -168,13 +171,13 @@ public class CanvasController implements MouseListener, MouseMotionListener {
         this.selectedCanvasItem = canvas.getCanvasItemAt(canvasPos);
         this.lastMousePos = screenPos;
         if (e.isPopupTrigger()) {
-            handlePopupRequest(canvasPos, screenPos);
+            handlePopupRequest(e.getModifiers(), canvasPos, screenPos);
         }
         this.popupOpen = e.isPopupTrigger();
     }
 
-    private void handlePopupRequest(Point2D canvasPos, Point screenPos) {
+    private void handlePopupRequest(int modifiers, Point2D canvasPos, Point screenPos) {
         this.eventBroker.processEvent(new CanvasItemContextMenuRequestEvent(
-                this.selectedCanvasItem, canvasPos, screenPos));
+                this.selectedCanvasItem, modifiers, canvasPos, screenPos));
     }
 }

@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemEventWithPosition.java,v 1.1 2002-08-01 04:53:40 johang Exp $
+ * $Id: CanvasItemEventWithPosition.java,v 1.2 2002-08-02 09:30:20 pbecker Exp $
  */
 package org.tockit.canvas.events;
 
@@ -27,8 +27,9 @@ abstract public class CanvasItemEventWithPosition extends CanvasItemEvent {
     /**
      * Creates a new event with positions.
      */
-    public CanvasItemEventWithPosition(CanvasItem item, Point2D canvasPosition, Point2D awtPosition) {
-        super(item);
+    public CanvasItemEventWithPosition(CanvasItem item, int modifiers,
+                                       Point2D canvasPosition, Point2D awtPosition) {
+        super(item, modifiers);
         this.canvasPosition = canvasPosition;
         this.awtPosition = awtPosition;
     }

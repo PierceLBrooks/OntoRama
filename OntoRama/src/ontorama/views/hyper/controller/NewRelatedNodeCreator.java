@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.3 2002-11-29 04:47:35 nataliya Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.4 2002-12-02 05:04:01 nataliya Exp $
  */
 package ontorama.views.hyper.controller;
 
@@ -16,20 +16,27 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.GraphModificationException;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+import ontorama.model.tree.Tree;
+import ontorama.model.tree.TreeNode;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.views.hyper.view.SimpleHyperView;
 
 public class NewRelatedNodeCreator {
     private JDialog dialog;
     private SimpleHyperView view;
-    private ontorama.model.graph.Node graphNode;
-    private ontorama.model.graph.EdgeType edgeType;
+    private TreeNode treeNode;
+    private EdgeType edgeType;
     private JTextField textField;
 
-    public NewRelatedNodeCreator(SimpleHyperView view, ontorama.model.graph.Node graphNode, ontorama.model.graph.EdgeType edgeType) {
+    public NewRelatedNodeCreator(SimpleHyperView view, TreeNode treeNode, EdgeType edgeType) {
         this.view = view;
-        this.graphNode = graphNode;
+        this.treeNode = treeNode;
         this.edgeType = edgeType;
 
         JLabel label = new JLabel("Please enter a new node identifier: ");
@@ -42,30 +49,45 @@ public class NewRelatedNodeCreator {
         dialog = pane.createDialog(view, "New Node");
     }
 
-    public ontorama.model.graph.Node createNewRelatedNode() {
-//        dialog.show();
-//
-//        ontorama.model.graph.Node newNode = new ontorama.model.graph.NodeImpl(textField.getText());
-//        List newEdges = new ArrayList();
-//        try {
-//            newEdges.add(new ontorama.model.graph.EdgeImpl(graphNode, newNode, edgeType));
-//            List clones = graphNode.getClones();
+    public TreeNode createNewRelatedNode() {
+        dialog.show();
+    	TreeNode newTreeNode = null;
+
+    	Tree tree = view.getTree();
+
+        Node newGraphNode = new NodeImpl(textField.getText());
+        List newEdges = new ArrayList();
+        try {
+        	Edge newGraphEdge = new EdgeImpl(treeNode.getGraphNode(), newGraphNode, edgeType);
+        	
+			newTreeNode = tree.addNode(treeNode, newGraphEdge, newGraphNode);
+        	
+//            newEdges.add(newGraphEdge);
+//            
+//            newTreeNode = new TreeNodeImpl(newGraphNode);
+//            TreeEdge newTreeEdge = new TreeEdgeImpl(newGraphEdge, newTreeNode);
+//            treeNode.addChild(newTreeEdge);
+//            
+//            List clones = treeNode.getClones();
 //            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
-//                ontorama.model.graph.Node node = (ontorama.model.graph.Node) iterator.next();
-//                newEdges.add(new ontorama.model.graph.EdgeImpl(node, newNode.makeClone(), edgeType));
+//                TreeNode node = (TreeNode) iterator.next();
+//                TreeNode childCloneNode = new TreeNodeImpl (newGraphNode);
+//                TreeEdge childCloneEdge = new TreeEdgeImpl (newGraphEdge, childCloneNode);
+//                node.addChild(childCloneEdge);
 //            }
-//        } catch (NoSuchRelationLinkException e) {
-//            /// @todo what to do here? Do we get this?
-//            e.printStackTrace();
-//            return null;
-//        }
-//
-//        ontorama.model.graph.Graph graph = view.getGraph();
+        } catch (NoSuchRelationLinkException e) {
+            /// @todo what to do here? Do we get this?
+            e.printStackTrace();
+            return null;
+        }
+
+        
 //        try {
-//            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
-//                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) iterator.next();
-//                graph.addEdge(edge);
-//            }
+            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
+                Edge edge = (Edge) iterator.next();
+                /// @todo modify graph here!
+                //graph.addEdge(edge);
+            }
 //        } catch (GraphModificationException e) {
 //            /// @todo what to do here? Do we get this?
 //            e.printStackTrace();
@@ -75,7 +97,6 @@ public class NewRelatedNodeCreator {
 //            e.printStackTrace();
 //            return null;
 //        }
-//        return newNode;
-return null;
+        return newTreeNode;
     }
 }

@@ -3,16 +3,17 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: GraphChangedEvent.java,v 1.2 2002-11-26 00:06:08 pbecker Exp $
+ * $Id: GraphChangedEvent.java,v 1.3 2002-12-02 05:04:01 nataliya Exp $
  */
 package ontorama.model.graph.events;
 
+import ontorama.model.graph.Graph;
 import org.tockit.events.Event;
 
 public class GraphChangedEvent implements Event {
-    private ontorama.model.graph.Graph graph;
+    private Graph graph;
 
-    public GraphChangedEvent(ontorama.model.graph.Graph subject) {
+    public GraphChangedEvent(Graph subject) {
         this.graph = subject;
     }
 
@@ -20,7 +21,7 @@ public class GraphChangedEvent implements Event {
         return graph;
     }
 
-    public ontorama.model.graph.Graph getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 }

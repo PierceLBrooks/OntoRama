@@ -1,4 +1,5 @@
 package ontorama.ui;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -19,12 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -56,22 +55,22 @@ import org.tockit.events.EventBrokerListener;
 import org.tockit.events.LoggingEventListener;
 
 /**
- * Main Application class. This class start OntoRama application.
+ * Main Application class. This class starts OntoRama application.
  */
 public class OntoRamaApp extends JFrame implements ActionListener {
     
     /**
-     * holds hyper ui
+     * holds hyper view 
      */
     private SimpleHyperView _hyperView;
 
     /**
-     * holds tree ui
+     * holds tree view 
      */
     private OntoTreeView _treeView;
 
     /**
-     * hold query panel
+     * holds query panel
      */
     public QueryPanel _queryPanel;
 
@@ -93,7 +92,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private JMenu _helpMenu;
 
     /**
-     * back_forward toolbar
+     * application toolbar
      */
     private JToolBar _toolBar;
 
@@ -104,16 +103,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     public Action _aboutAction;
 
     /**
-     * desctiption ui panel contains concept properties details
+     * desctiption ui panel contains details for each node
+     * of focus (normally these are details not displayed in
+     * the graph visualisations).
      */
     private DescriptionView _descriptionViewPanel;
 
     /**
      * status bar
      */
-    private JPanel _statusBar;
-    private JLabel _statusLabel;
-    private JProgressBar _progressBar;
+	private StatusBar _statusBar = new StatusBar();
     private Timer _timer;
 
     /**
@@ -183,7 +182,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
 			_worker.start();
 			_timer.start();
-			_progressBar.setIndeterminate(true);
+			_statusBar.startProgressBar("Getting data from data source");
 			_queryPanel.enableStopQueryAction(true);
 		}
 	}
@@ -205,8 +204,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private class GraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             Graph graph = (Graph) event.getSubject();
-            _progressBar.setIndeterminate(false);
-            setStatusLabel("");
+			_statusBar.stopProgressBar();
             _queryPanel.enableStopQueryAction(false);
             _queryPanel.enableQueryActions(true);
             _modelEventBroker.subscribe(
@@ -229,8 +227,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     class QueryCancelledEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             _worker.stopProcess();
-            _progressBar.setIndeterminate(false);
-            setStatusLabel("");
+			_statusBar.stopProgressBar();
             _queryPanel.enableStopQueryAction(false);
             
             if (_lastQuery != null) {
@@ -247,15 +244,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private class PutThinkingCapOnEventHandler implements EventBrokerListener {
     	public void  processEvent (Event event) {
     		String message = (String) event.getSubject();
-    		_progressBar.setIndeterminate(true);
-    		setStatusLabel(message);
+			_statusBar.startProgressBar(message);
     	}
     }
 
 	private class TakeThinkingCapOffEventHandler implements EventBrokerListener {
 		public void  processEvent (Event event) {
-			_progressBar.setIndeterminate(false);
-			setStatusLabel("");
+			_statusBar.stopProgressBar();
 		}
 	}
 
@@ -336,8 +331,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _listViewer = new NodesListViewer(_viewsEventBroker);
 
         buildToolBar();
-        buildStatusBar();
-
 
         new LoggingEventListener(
 				            _modelEventBroker,
@@ -518,7 +511,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * waiting - update progress bar.
      */
     public void actionPerformed(ActionEvent evt) {
-        setStatusLabel(_worker.getMessage());
+        _statusBar.setStatusLabel(_worker.getMessage());
 		if (_worker.isStopped()) {
 			_timer.stop();
 			_modelEventBroker.processEvent(new QueryCancelledEvent(_query));
@@ -565,20 +558,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
         return frames[0];
     }
-
-    private void buildStatusBar() {
-        _statusBar = new JPanel(new BorderLayout());
-        _statusLabel = new JLabel();
-        _progressBar = new JProgressBar();
-        _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        _statusBar.add(_statusLabel, BorderLayout.WEST);
-        _statusBar.add(_progressBar, BorderLayout.EAST);
-    }
-
-    private void setStatusLabel(String statusMessage) {
-        _statusLabel.setText(statusMessage);
-    }
-
 
     protected void closeWindow() {
     	if (! OntoramaConfig.SECURITY_RESTRICTED) {

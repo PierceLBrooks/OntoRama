@@ -49,7 +49,8 @@ import ontorama.textDescription.view.DescriptionView;
 public class OntoRamaApp extends JFrame {
 
     private SimpleHyperView hyperView;
-    private OntoTreeView treeView;
+    //private OntoTreeView treeView;
+    private JComponent treeView;
 
     private String termName;
 
@@ -58,16 +59,23 @@ public class OntoRamaApp extends JFrame {
 
     private QueryPanel queryPanel;
 
+    private JSplitPane splitPane;
+
+    int leftSplitPanelWidthPercent = 80;
+
+    private int appHeight = 600;
+    private int appWidth = 700;
+    private int dividerBarLocation = -1;
+
     /**
      * @todo: introduce error dialogs for exception
      */
     public OntoRamaApp() {
         super("OntoRamaApp");
 
-        int appHeight = 600;
-        int appWidth = 700;
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         termName = OntoramaConfig.ontologyRoot;
 
@@ -125,17 +133,31 @@ public class OntoRamaApp extends JFrame {
         hyperView = new SimpleHyperView();
         hyperView.setGraph(graph);
         hyperView.saveCanvasToFile( "hyperView" );
+
         // Create OntoTreeView
-        treeView = new OntoTreeView(graph);
-        JComponent treeViewPanel = treeView.getTreeViewPanel();
+        treeView = (new OntoTreeView(graph)).getTreeViewPanel();
+        //JComponent treeViewPanel = treeView.getTreeViewPanel();
 
         //Add the scroll panes to a split pane.
-        int splitPaneWidth = (appWidth * 70)/100;
-        int splitPaneHeight = appHeight;
+        setSplitPanelSizes(appWidth, appHeight);
         splitPane.setLeftComponent(hyperView);
-        splitPane.setRightComponent(treeViewPanel);
-        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
-        splitPane.setDividerLocation(splitPaneWidth);
+        splitPane.setRightComponent(treeView);
+        splitPane.setOneTouchExpandable(true);
+//        int splitPaneWidth = appWidth;
+//        int splitPaneHeight = (appHeight * 70)/100;
+//
+//        int rigthPanelWidthPercent = 100 - leftSplitPanelWidthPercent;
+//        int leftPanelWidth = (appWidth *leftSplitPanelWidthPercent)/100;
+//        int rigthPanelWidth = (appWidth * leftSplitPanelWidthPercent)/100;
+//
+//        hyperView.setPreferredSize(new Dimension(leftPanelWidth - 5, splitPaneHeight - 5));
+//        treeViewPanel.setPreferredSize(new Dimension(rigthPanelWidth - 5, splitPaneHeight - 5));
+//        splitPane.setLeftComponent(hyperView);
+//        splitPane.setRightComponent(treeViewPanel);
+//        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
+//        splitPane.setOneTouchExpandable(true);
+//        splitPane.setDividerLocation(leftPanelWidth);
+
 
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph);
@@ -148,6 +170,73 @@ public class OntoRamaApp extends JFrame {
         pack();
         setSize(appWidth,appHeight);
         setVisible(true);
+    }
+
+    public void repaint () {
+        int curAppWidth = getContentPane().getWidth();
+        int curAppHeight = getContentPane().getHeight();
+
+
+        // recalculate percentage for leftSplitPanelWidthPercent to
+        // account for user specified position of divider bar
+        int currentDividerBarLocation = splitPane.getDividerLocation();
+        if (this.dividerBarLocation != currentDividerBarLocation) {
+            System.out.println("*****this.dividerBarLocation != currentDividerBarLocation: " + this.dividerBarLocation + ", " + currentDividerBarLocation);
+
+            //System.out.println("repaint: lastAppWidth = " + this.appWidth + ", last divider location = " + splitPane.getDividerLocation() + ", curAppWidth = " + curAppWidth);
+            double scale = (double) curAppWidth/(double) this.appWidth;
+            //System.out.println("scale = " + scale);
+            //System.out.println("lastAppWidth * scale = " + ((double) this.appWidth * scale));
+            //System.out.println("new divider bar scale = " + ( (double) this.leftSplitPanelWidthPercent * scale));
+
+                    double scaledDividerLocation = ((double) this.dividerBarLocation * scale);
+                    System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
+
+            int newLeftPanelPercent = (currentDividerBarLocation * 100) / this.appWidth;
+            System.out.println("newLeftPanelPercent = " + newLeftPanelPercent);
+
+            System.out.println("calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
+        //if ( ( (newLeftPanelPercent - this.leftSplitPanelWidthPercent) > 3) || ((this.leftSplitPanelWidthPercent - newLeftPanelPercent) > 3) ){
+            if ( ((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)-scaledDividerLocation) > 25) ||
+                     ((scaledDividerLocation- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
+
+                //this.leftSplitPanelWidthPercent = newLeftPanelPercent;
+            }
+        }
+        System.out.println("this.leftSplitPanelWidthPercent = " + this.leftSplitPanelWidthPercent);
+
+        setSplitPanelSizes(curAppWidth, curAppHeight);
+        this.appWidth = curAppWidth;
+        this.appHeight = curAppHeight;
+
+    }
+
+    private int calculateLeftPanelWidth (int appWidth, int percent) {
+        return ( (appWidth * percent)/100 );
+    }
+
+    private void setSplitPanelSizes (int applicationWidth, int applicationHeigth) {
+
+        int splitPaneWidth = applicationWidth;
+        int splitPaneHeight = (applicationHeigth * 70)/100;
+
+        int dividerBarWidth = splitPane.getDividerSize();
+
+        int leftPanelWidth = calculateLeftPanelWidth(applicationWidth, this.leftSplitPanelWidthPercent );
+        int rigthPanelWidth = applicationWidth - leftPanelWidth;
+        //int leftPanelWidth = (applicationWidth * this.leftSplitPanelWidthPercent)/100;
+        //int rigthPanelWidthPercent = 100 - leftSplitPanelWidthPercent;
+        //int rigthPanelWidth = (applicationWidth * this.leftSplitPanelWidthPercent)/100;
+
+        hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, splitPaneHeight));
+        treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, splitPaneHeight));
+
+        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
+
+        this.dividerBarLocation = leftPanelWidth;
+
+        splitPane.setDividerLocation(this.dividerBarLocation);
+        //System.out.println("leftPanelWidth = " + leftPanelWidth + ", splitPaneWidth = " + splitPaneWidth);
     }
 
     /**

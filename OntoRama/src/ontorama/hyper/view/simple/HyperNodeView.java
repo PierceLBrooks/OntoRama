@@ -169,6 +169,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Notify Hypernode that it has focus.
      */
     public void hasFocus() {
+        System.out.println("HyperNodeView hasFocus");
         model.hasFocus();
     }
 

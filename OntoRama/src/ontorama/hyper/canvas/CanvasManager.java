@@ -93,8 +93,10 @@ import java.util.LinkedList;
                 curX = curX * ( 1 / canvasScale);
                 curY = curY  * (1 / canvasScale);
                 boolean found = cur.isClicked( curX, curY);
-                if(  found == true && cur instanceof HyperNodeView) {
+                if(  found == true ) {
+                    System.out.println("mouseClicked");
                     ((HyperNodeView)cur).hasFocus();
+
                 }
             }
         }

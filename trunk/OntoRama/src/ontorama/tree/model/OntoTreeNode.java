@@ -154,16 +154,15 @@ public class OntoTreeNode implements TreeNode {
      * @todo    should return null if index is out of bounds????
      */
     public TreeNode getChildAt(int childIndex) {
-        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
-        Node outboundGraphNode = (Node) outboundNodes.get(childIndex);
-        TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundGraphNode);
+//        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
+//        Node outboundGraphNode = (Node) outboundNodes.get(childIndex);
+//        TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundGraphNode);
 
-        /*
-        List childrenList = this.graphNode.getChildrenList();
-        Node childGraphNode = (Node) childrenList.get(childIndex);
-        TreeNode childNode = OntoTreeBuilder.getTreeNode(childGraphNode);
-        */
-        //debug.message("OntoTreeNode","getChildAt", "node = " + this.graphNode.getName() + " returning " + childNode + " for index " + childIndex);
+        List outboundEdges = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
+        Edge outboundEdge = (Edge) outboundEdges.get(childIndex);
+        Node outboundNode = outboundEdge.getToNode();
+        TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundNode);
+
         return ouboundTreeNode;
     }
 
@@ -173,11 +172,8 @@ public class OntoTreeNode implements TreeNode {
      * @todo  remove getNumberOfChildren method
      */
     public int getChildCount() {
-        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
-        //System.out.println("node = " + this.graphNode.getName() + " returning "  + outboundNodes.size());
-
-        //List childrenList = this.graphNode.getChildrenList();
-        //debug.message("OntoTreeNode","getChildCount","node = " + this.graphNode.getName() + " returning "  + childrenList.size());
+//        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
+        List outboundNodes = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
         return outboundNodes.size();
     }
 
@@ -190,22 +186,20 @@ public class OntoTreeNode implements TreeNode {
      * @return parent TreeNode
      */
     public TreeNode getParent() {
-
-        Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode).iterator();
-        if (inboundNodes.hasNext()) {
-            Node inboundGraphNode = (Node) inboundNodes.next();
-            return (OntoTreeBuilder.getTreeNode(inboundGraphNode));
+        List inboundEdges = OntoTreeModel.graph.getInboundEdgesDisplayedInGraph(this.graphNode);
+        Iterator it = inboundEdges.iterator();
+        if (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            Node inboundNode = edge.getFromNode();
+            return (OntoTreeBuilder.getTreeNode(inboundNode));
         }
 
-        /*
-        Iterator parentsIterator = this.graphNode.getParents();
-        if (parentsIterator.hasNext()) {
-            Node parentGraphNode = (Node) parentsIterator.next();
-            //debug.message("OntoTreeNode","getParent","node = " + this.graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
-            return ( (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
-        }
-        //debug.message("OntoTreeNode","getParent","node = " + this.graphNode.getName() + " returning null");
-        */
+//        Iterator inboundNodes = OntoTreeModel.graph.getInboundEdgeNodes(this.graphNode).iterator();
+//        if (inboundNodes.hasNext()) {
+//            Node inboundGraphNode = (Node) inboundNodes.next();
+//            return (OntoTreeBuilder.getTreeNode(inboundGraphNode));
+//        }
+
         return null;
     }
 
@@ -218,13 +212,19 @@ public class OntoTreeNode implements TreeNode {
      * that by 'receiver' they mean this node.
      */
     public int getIndex(TreeNode node) {
-        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
-        return outboundNodes.indexOf(node);
-        /*
-        List childrenList = this.graphNode.getChildrenList();
-        //debug.message("OntoTreeNode","getIndex","node = " + this.graphNode.getName() + " returning "  + childrenList.indexOf(node) + for TreeNode " +  (OntoTreeBuilder.getGraphNode(node)).getName());
-        return childrenList.indexOf(node);
-        */
+//        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
+//        return outboundNodes.indexOf(node);
+        List outboundEdges = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
+        Iterator it = outboundEdges.iterator();
+        int index = -1;
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            Node toNode = edge.getToNode();
+            if (toNode.equals(node)) {
+                index = outboundEdges.indexOf(edge);
+            }
+        }
+        return index;
     }
 
     /**
@@ -241,15 +241,12 @@ public class OntoTreeNode implements TreeNode {
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-        List outboundNodesList = OntoTreeModel.graph.getOutboundEdgeNodesList(this.getGraphNode());
-        if (outboundNodesList.size() <= 0) {
-            //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
-            // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
+//        List outboundNodesList = OntoTreeModel.graph.getOutboundEdgeNodesList(this.getGraphNode());
+//        if (outboundNodesList.size() <= 0) {
+        List outboundEdgesList = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.getGraphNode());
+        if (outboundEdgesList.size() <= 0) {
             return true;
         }
-        //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning false");
-
-        //debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning false");
         return false;
     }
 
@@ -258,13 +255,9 @@ public class OntoTreeNode implements TreeNode {
      * @return  children Enumeration
      */
     public Enumeration children() {
-        Enumeration outboundNodesEnum = (Enumeration) OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
-        return outboundNodesEnum;
-        /*
-      Enumeration childrenEnum = (Enumeration) ( this.graphNode.getChildrenList());
-      //debug.message("OntoTreeNode","children","node = " + this.graphNode.getName() + " returning" + childrenEnum);
-      return childrenEnum;
-      */
+//        Enumeration outboundNodesEnum = (Enumeration) OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
+        Enumeration outboundEdgesEnum = (Enumeration) OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
+        return outboundEdgesEnum;
     }
 
     ///////////////End of TreeNode interface implementation/////////////////

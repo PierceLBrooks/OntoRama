@@ -6,9 +6,10 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.controller;
+package ontorama.model.graph.controller;
 
 import ontorama.model.graph.Node;
+import ontorama.model.graph.controller.NodeEvent;
 
 public class NodeSelectedEvent extends NodeEvent {
     public NodeSelectedEvent(ontorama.model.graph.Node subject) {

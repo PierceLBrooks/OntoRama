@@ -17,8 +17,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import ontorama.controller.NodeSelectedEvent;
-import ontorama.controller.QueryEvent;
+import ontorama.model.graph.controller.NodeSelectedEvent;
+import ontorama.model.graph.controller.QueryEvent;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
 import ontorama.model.graph.Graph;

@@ -4,8 +4,9 @@ import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
 import ontorama.model.GraphImpl;
+import ontorama.model.EdgeIterface;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -35,13 +36,13 @@ public class TestEdge extends TestCase {
     private GraphNode node5;
     private GraphNode node6;
 
-    private Edge edge1;
-    private Edge edge2;
-    private Edge edge3;
-    private Edge edge4;
-    private Edge edge5;
-    private Edge edge6;
-    private Edge edge7;
+    private EdgeIterface edge1;
+    private EdgeIterface edge2;
+    private EdgeIterface edge3;
+    private EdgeIterface edge4;
+    private EdgeIterface edge5;
+    private EdgeIterface edge6;
+    private EdgeIterface edge7;
 
     private Set relLinksSet;
 
@@ -82,13 +83,13 @@ public class TestEdge extends TestCase {
         node6 = new GraphNode("node6");
 
         try {
-            edge1 = new Edge(node1, node2, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge2 = new Edge(node1, node3, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge3 = new Edge(node1, node4, OntoramaConfig.getRelationLinkDetails()[2]);
-            edge4 = new Edge(node1, node5, OntoramaConfig.getRelationLinkDetails()[3]);
-            edge5 = new Edge(node2, node6, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge6 = new Edge(node3, node6, OntoramaConfig.getRelationLinkDetails()[2]);
-            edge7 = new Edge(node4, node6, OntoramaConfig.getRelationLinkDetails()[3]);
+            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getRelationLinkDetails()[2]);
+            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getRelationLinkDetails()[3]);
+            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getRelationLinkDetails()[1]);
+            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getRelationLinkDetails()[2]);
+            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getRelationLinkDetails()[3]);
 
             // create relation links set
             relLinksSet = createSet(OntoramaConfig.getRelationLinkDetails()[2], OntoramaConfig.getRelationLinkDetails()[3]);

@@ -159,7 +159,7 @@ public class OntoramaConfig {
     /**
      *
      */
-    private static JarSource streamReader = new JarSource();
+    private static JarSource streamReader = new JarSource();;
 
 
     /**
@@ -183,14 +183,6 @@ public class OntoramaConfig {
         }
 
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
-
-//        System.out.println("---------config--------------");
-//        System.out.println("sourceUri = " + sourceUri);
-//        System.out.println("ontologyRoot = " + ontologyRoot);
-//        System.out.println("queryOutputFormat = " + queryOutputFormat);
-//        System.out.println("DEBUG = " + DEBUG);
-//        System.out.println("parserPackageName = " + getParserPackageName());
-//        System.out.println("sourcePackageName = " + sourcePackageName);
         System.out.println("--------- end of config--------------");
     }
 
@@ -198,9 +190,9 @@ public class OntoramaConfig {
      *
      */
     private static void fatalExit(String message, Exception e) {
-        ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, null);
-        //System.err.println(message);
+        new ErrorPopupMessage(message, null);
         System.err.println("Exception: " + e);
+        e.printStackTrace();
         System.exit(1);
     }
 
@@ -209,14 +201,12 @@ public class OntoramaConfig {
      */
     public static void loadAllConfig(String examplesConfigLocation,
                                      String propertiesFileLocation, String configFileLocation) {
+
         try {
-            loadExamples(examplesConfigLocation);
             loadPropertiesFile(propertiesFileLocation);
             loadConfiguration(configFileLocation);
+            loadExamples(examplesConfigLocation);
         }
-//        catch (IOException ioe) {
-//          fatalExit("Unable to read xml configuration file, IOException", ioe);
-//        }
         catch (SourceException sourceExc) {
             sourceExc.printStackTrace();
             fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
@@ -275,7 +265,7 @@ public class OntoramaConfig {
         //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
         //InputStream configInStream = getInputStreamFromResource(configFileLocation);
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
-
+        System.out.println("configInStrem = " + configInStream);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         allRelationsArray = xmlConfig.getRelationLinksArray();
         MAXTYPELINK = allRelationsArray.length;
@@ -287,7 +277,7 @@ public class OntoramaConfig {
     }
 
     /**
-     * @todo: we are assuming that allRelationsArray got all relations id's in order
+     * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
     public static List getRelationLinksList() {
@@ -303,12 +293,12 @@ public class OntoramaConfig {
 
 
     /**
-     * @todo: we are assuming that allRelationsArray got all relations id's in order
+     * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
     public static HashSet buildRelationLinksSet() {
         List allRelations = getRelationLinksList();
-        return new HashSet((Collection) allRelations);
+        return new HashSet(allRelations);
     }
 
     /**
@@ -379,15 +369,6 @@ public class OntoramaConfig {
         OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
         OntoramaConfig.ontologyRoot = example.getRoot();
         OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
-
-        /*
-        System.out.println("setNewExampleDetails:");
-        System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-        System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
-        System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
-        System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
-        System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
-        */
     }
 
     /**

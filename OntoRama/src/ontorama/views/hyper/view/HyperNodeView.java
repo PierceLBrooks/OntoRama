@@ -1,9 +1,5 @@
 package ontorama.views.hyper.view;
 
-/**
- *
- */
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -25,8 +21,6 @@ import ontorama.views.hyper.model.HyperNode;
 import ontorama.views.hyper.model.PositionChangedObserver;
 import org.tockit.canvas.CanvasItem;
 
-//import java.awt.geom.Ellipse2D.Double;
-
 public class HyperNodeView extends CanvasItem implements PositionChangedObserver {
 
     /**
@@ -45,17 +39,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private double projectedY;
 
     /**
-     * Set the color of the node.
-     *
-     * @todo this color should be stored and maybe based on
-     * ontology type.
+     * Color of the node.
      */
-    private Color nodeColor = Color.blue;
+    private Color nodeColor;
 
     /**
      * Store the node fade color.
      */
-    private Color fadeColor = nodeColor;
+    private Color fadeColor;
 
     /**
      * Holds the current node ui radius.
@@ -103,14 +94,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         this.projection = (SphericalProjection) projection;
         
         model.addPositionChangedObserver(this);
-        updateProjection();
         NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(this.nodeType);
         if (model.hasClones()) {
             nodeColor = displayInfo.getCloneColor();
         } else {
             nodeColor = displayInfo.getColor();
         }
-        double radius = model.getNodeRadius();
+        fadeColor = nodeColor;
+		updateProjection();
     }
 
     /**

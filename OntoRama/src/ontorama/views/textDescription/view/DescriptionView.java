@@ -275,18 +275,16 @@ public class DescriptionView extends JPanel implements GraphView {
                 // more then that - we are displaying 'fake' edges in this panel,
                 // such as clones and full url. so instead of throwing exception - 
                 // we know that we have to deal with these 'fake' edges.
-                // @todo sounds like a hack to me (see comments above)
                 if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName))
                 						|| (edgeName.equals(_descriptionLabelName)) ) {
-                	if (edgeName.equals(_clonesLabelName)) {
-                		// NodeClonesRequestEventHandler takes care of this
-                	}
-                	else if (edgeName.equals(_descriptionLabelName)) {
+                	if (edgeName.equals(_descriptionLabelName)) {
 						AbstractPropertiesPanel descrPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(_descriptionLabelName);
 						value.add(node.getDescription());
 						descrPanel.update(value);
                 	}
-                	else {
+                	else if (!edgeName.equals(_clonesLabelName)){
+						// NodeClonesRequestEventHandler takes care of case if we are 
+						// processing clones.
                 		value.add(node.getIdentifier());
                 		propPanel.update(value);
                 	}

@@ -1,7 +1,10 @@
 package ontorama.ui;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
+import ontorama.ui.events.HistoryQueryStartEvent;
 
 
 /**
@@ -11,21 +14,23 @@ import ontorama.ontotools.query.QueryEngine;
  * <p>Company: DSTC</p>
  * @version 1.0
  */
-public class HistoryElement {
+public class HistoryElement implements HistoryElementInterface {
 
     private Query _query;
     private String _menuDisplayName;
     private QueryEngine _queryEngine;
+	private EventBroker _eventBroker;
 
     /**
      * Create history element with given _getRelationLinksList, query and _example.
      * @param	menuDisplayName - is a string that appears on the lable on corresponding menu
      * item for this _example. also may be used as an id.
      */
-    public HistoryElement(String menuDisplayName, Query query, QueryEngine queryEngine) {
+    public HistoryElement(String menuDisplayName, Query query, QueryEngine queryEngine, EventBroker eventBroker) {
         _menuDisplayName = menuDisplayName;
         _query = query;
         _queryEngine = queryEngine;
+        _eventBroker = eventBroker;
     }
 
     /**
@@ -52,6 +57,14 @@ public class HistoryElement {
     public QueryEngine getQueryEngine() {
     	return _queryEngine;
     }
+    
+	/**
+	 * @see ontorama.ui.HistoryElementInterface#displayElement()
+	 */
+	public void displayElement() {
+		_eventBroker.processEvent(new HistoryQueryStartEvent(this));		
+	}
+    
 
     /**
      *
@@ -62,5 +75,6 @@ public class HistoryElement {
         str = str + ", query = " + _query;
         return str;
     }
+
 
 }

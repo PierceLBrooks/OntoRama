@@ -96,8 +96,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         setToolTipText(getToolTipText(value, relLinkDetails));
 
-
-        if (treeNode.getGraphNode().getDepth() == 0) {
+        if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(_nodeImageIcon);
         } else if (treeNode.getGraphNode().hasClones()) {
             //System.out.println("clone: " + treeNode);

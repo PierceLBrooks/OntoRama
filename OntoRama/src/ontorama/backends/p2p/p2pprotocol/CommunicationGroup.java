@@ -67,9 +67,6 @@ public class CommunicationGroup extends Communication {
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
 			
-//			DiscoveryService discService = this.getGlobalPG().getDiscoveryService();
-//			discService.remotePublish(pg.getPeerGroupAdvertisement(), DiscoveryService.GROUP);
-			
 			System.out.println("\ncreated group PeerGroup pg = " + pg + ", group name = " + pg.getPeerGroupName());
 		} catch (PeerGroupException e) {
 			throw new GroupException(e,"Could not create a group");
@@ -322,15 +319,23 @@ public class CommunicationGroup extends Communication {
 		PeerAdvertisement peerAdv = null;
 		PeerGroup pg = null;
 		DiscoveryService discServ = this.getGlobalPG().getDiscoveryService();		
-        Enumeration enum = null;
+        Enumeration enum1 = null;
+		Enumeration enum = null;
+
+		discServ.getRemoteAdvertisements(null,
+									DiscoveryService.PEER,
+										null,null,
+										10);
         		
 		//Get the group the the peer answering the question belongs to. 
 		pg = getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
-		//DiscoveryService discServ1 = pg.getDiscoveryService();
+		DiscoveryService discServ1 = pg.getDiscoveryService();
+		
 		/// @todo added line below instead of commented out above while trying to figure out why we can't see other peers in our group
-		DiscoveryService discServ1 = discServ;
+		//DiscoveryService discServ1 = discServ;
+		
 		//discServ = pg.getDiscoveryService();
 
 		//Send a request to other peers
@@ -341,7 +346,10 @@ public class CommunicationGroup extends Communication {
 		try {
 			Thread.sleep(3*1000);
 
-			enum = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
+			enum = discServ.getLocalAdvertisements(DiscoveryService.PEER,
+													null,null);
+
+			enum1 = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
 													null,null);
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
@@ -357,6 +365,15 @@ public class CommunicationGroup extends Communication {
 		while (enum.hasMoreElements()) {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum.nextElement();
+			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
+								+ peerAdv.getPeerGroupID());
+			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
+																	peerAdv.getName(),
+																	peerAdv.getDescription()));
+		}
+		while (enum1.hasMoreElements()) {
+			//Add the peer information to the searchGroupResult
+			peerAdv = (PeerAdvertisement) enum1.nextElement();
 			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
 								+ peerAdv.getPeerGroupID());
 			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),

@@ -26,12 +26,15 @@ import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
+import ontorama.backends.p2p.gui.P2PJMenu;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+
+import javax.swing.*;
 
 /**
  * @author henrika
@@ -44,14 +47,13 @@ import ontorama.webkbtools.util.ParserException;
 public class P2PBackend implements Backend{
     private P2PGraph graph = null;
     private P2PSender sender = null;
-    private OntoRamaBackend ontoRama = null;
+    //private OntoRamaBackend ontoRama = null;
     public List panels = null;
 
 
 //Constructor 
-    public P2PBackend(OntoRamaBackend ontoRama){
+    public P2PBackend(){
         this.graph = new P2PGraphImpl();     
-        this.ontoRama = ontoRama;
         this.panels = new LinkedList();
         this.panels.add(0, new PeersPanel(this));
         this.panels.add(1, new ChangePanel());
@@ -88,7 +90,7 @@ public class P2PBackend implements Backend{
                sender.sendSearchResponse(senderPeerID, rdfResultGraph);
           
                //TODO should be toRdf instead 
-               P2PGraph resultGraphOntoRama = this.ontoRama.search(tmpQuery);
+               P2PGraph resultGraphOntoRama = OntoRamaBackend.search(tmpQuery);
                String rdfResultOntoRama = resultGraphOntoRama.toRDFString();
                sender.sendSearchResponse(senderPeerID, rdfResultOntoRama);
         } catch (GroupExceptionThread e) {
@@ -100,7 +102,7 @@ public class P2PBackend implements Backend{
     public P2PGraph search(Query query) {
        //Emtpy the previus graph model and set it to what ontoRama returns
        //TODO this should be used when everything is working
-       this.setP2PGraph(this.ontoRama.search(query));
+       this.setP2PGraph(OntoRamaBackend.search(query));
        ((ChangePanel) this.getPanels().get(1)).empty();
        //Ask the other peers what they got
          try {
@@ -229,6 +231,10 @@ public class P2PBackend implements Backend{
     
     public Menu getMenu(){
         return (Menu) new P2PMenu(this.sender, this);
+    }
+
+    public JMenu getJMenu() {
+        return new P2PJMenu(this);
     }
 
     public String showGraph(){

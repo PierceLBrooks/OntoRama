@@ -18,7 +18,7 @@ public class P2PMainPanel extends JFrame {
     private static final String _changePanelTitle = "Updates from other peers";
     private static final String _changePanelToolTip = "View updates recieved from other peers";
 
-    public P2PMainPanel(JFrame parent) {
+    public P2PMainPanel(Frame parent) {
         super(_title);
 
         PeerPanel peerPanel = new PeerPanel();
@@ -33,10 +33,13 @@ public class P2PMainPanel extends JFrame {
         contentPanel.add(tabbedPanel);
         pack();
         setLocationOnScreen(parent);
-        setVisible(true);
     }
 
-    private void setLocationOnScreen (JFrame parent) {
+    public void showP2PPanel (boolean show) {
+        setVisible(show);
+    }
+
+    private void setLocationOnScreen (Frame parent) {
         Dimension parentSize = parent.getSize();
         Point parentLocation = parent.getLocation();
 

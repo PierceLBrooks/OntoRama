@@ -5,6 +5,7 @@ import java.util.Iterator;
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.webkbtools.query.Query;
+import ontorama.view.OntoRamaApp;
 
 
 /**
@@ -19,13 +20,12 @@ import ontorama.webkbtools.query.Query;
 
 //TODO This class should maybe be in ontoRama instead..
 public class OntoRamaBackend {
-	private VirtualOntoRama ontoRama = null;
-	
+
     //TODO This one must return a ExtendedGraph even if it is empty, null is not accepted
-	public P2PGraph search(Query query){
+	public static P2PGraph search(Query query){
 		P2PGraph retVal = null;
 		
-		Iterator backendIt = ontoRama.getBackends().iterator();
+		Iterator backendIt = OntoRamaApp.getBackends().iterator();
 		while (backendIt.hasNext()) {
 			Backend backend = (Backend) backendIt.next();
 			
@@ -36,7 +36,4 @@ public class OntoRamaBackend {
 		return retVal;
 	}
    
-	public OntoRamaBackend(VirtualOntoRama obj){
-		ontoRama = obj;
-    }   
 }

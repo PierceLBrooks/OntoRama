@@ -9,6 +9,8 @@ import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.EdgeType;
+import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.filemanager.FileBackend;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,6 +117,8 @@ public class OntoramaConfig {
      *
      */
     private static Properties properties = new Properties();
+
+    private static List backends = new LinkedList();
 
     /**
      * Values of vars that are set here should be read from
@@ -348,6 +352,12 @@ public class OntoramaConfig {
      */
     public static ClassLoader getClassLoader() {
         return OntoramaConfig.classLoader;
+    }
+
+    public static List getBackends () {
+        backends.add("ontorama.backends.p2p.P2PBackend");
+        backends.add("ontorama.backends.filemanager.FileBackend");
+        return backends;
     }
 }
 

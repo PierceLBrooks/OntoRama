@@ -13,6 +13,7 @@ import java.util.List;
 import ontorama.backends.Backend;
 import ontorama.backends.Menu;
 import ontorama.backends.filemanager.FileMenu;
+import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
@@ -23,6 +24,8 @@ import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+
+import javax.swing.*;
 
 
 /**
@@ -90,7 +93,12 @@ public class FileBackend implements Backend{
     public Menu getMenu(){
         return new FileMenu(this);
     }
-    
+
+    public JMenu getJMenu() {
+        JMenu menu = new FileJMenu(this);
+        return menu;
+    }
+
     public void loadFile(String filename){
     
        try {

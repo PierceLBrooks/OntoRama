@@ -10,6 +10,7 @@ import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupFactory;
 import net.jxta.pipe.PipeService;
 import net.jxta.protocol.PipeAdvertisement;
+import net.jxta.protocol.ModuleImplAdvertisement;
 
 /**
  * This class handles the P2P communication which is related to Initialization 
@@ -49,20 +50,20 @@ public class CommunicationInit extends Communication {
 	protected void initJxtaTopGroup() throws GroupExceptionInit {
 		try {
 			//create and start the default JXTA Platform and NetPeerGroup
-
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			this.setGlobalPlatform(PeerGroupFactory.newPlatform());
 			this.setGlobalPG(PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform()));
 			}
 		catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
-		}
-		catch (ClassNotFoundException e) {
-			throw new GroupExceptionInit(e,"The platform could not be instansiated");			
-		}
+		} catch (ClassNotFoundException e) {
+			throw new GroupExceptionInit(e,"The platform could not be instansiated");
+        }
 	}
-	
-	
+
+
+
+
 	/**
 	* This method creates a propagate pipe advertisement
 	* 

@@ -3,6 +3,8 @@ package ontorama.backends.p2p.gui;
 import javax.swing.*;
 import java.util.Vector;
 import java.util.Hashtable;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ public class PeersPanel extends JPanel {
      */
     private Hashtable _groupToPanelMapping;
     private Hashtable _groupNameToGroupIdMapping;
+    private Hashtable _groupIdToGroupNameMapping;
     private Vector _groupsVector;
 
     private JComboBox _comboBox;
@@ -32,6 +35,7 @@ public class PeersPanel extends JPanel {
         super();
         _groupToPanelMapping = new Hashtable();
         _groupNameToGroupIdMapping = new Hashtable();
+        _groupIdToGroupNameMapping = new Hashtable();
         _groupsVector = new Vector();
 
         _comboBox = new JComboBox(_groupsVector);
@@ -78,6 +82,7 @@ System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
             _cardPanel.add(groupId, groupPanel);
             _groupToPanelMapping.put(groupId, groupPanel);
             _groupNameToGroupIdMapping.put(groupName,groupId);
+            _groupIdToGroupNameMapping.put(groupId,groupName);
             repaint();
         }
     }
@@ -92,7 +97,21 @@ System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
     }
 
     public void removeGroup(String groupID) {
-        /// @todo implement
+        String groupName = null;
+        groupName = (String) _groupIdToGroupNameMapping.get(groupID);
+
+        if (groupName != null) {
+            GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
+            _cardLayout.removeLayoutComponent(groupPanel);
+            _cardPanel.remove(groupPanel);
+
+            _groupsVector.remove(groupName);
+            _groupToPanelMapping.remove(groupID);
+            _groupNameToGroupIdMapping.remove(groupName);
+            _groupIdToGroupNameMapping.remove(groupID);
+            repaint();
+            //@todo repaint problem, the combobox is not repainted
+        }
     }
 
     public void clear() {

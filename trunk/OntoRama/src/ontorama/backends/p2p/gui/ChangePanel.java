@@ -31,15 +31,6 @@ public class ChangePanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(_table);
 
         add(scrollPane);
-
-//        addChange("test1", "peer1");
-//        addChange("test2", "peer2");
-//        addChange("test3", "peer3");
-//        addChange("test4", "peer4");
-//        addChange("test5", "peer5");
-//        addChange("test6", "peer6");
-
-
     }
 
     public void addChange (String changeStr, String peerName) {

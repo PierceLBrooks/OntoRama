@@ -62,6 +62,7 @@ public class LeaveGroupDialog extends JDialog {
                 String groupId = selectedGroup.getPeerGroupID().toString();
                 System.out.println("trying to leave group: name = " + selectedGroup.getPeerGroupName() + ", id = " + groupId);
                 try {
+
                     _p2pSender.sendLeaveGroup(groupId);
                 }
                 catch (Exception exc) {

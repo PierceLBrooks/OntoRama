@@ -193,7 +193,8 @@ public class NodeImpl implements Cloneable, Node {
      * toString method
      */
     public String toString() {
-        return name;
+        String str = "Node: " + name;
+        return str;
 
     }
 }

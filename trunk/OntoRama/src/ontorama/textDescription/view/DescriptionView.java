@@ -207,11 +207,6 @@ public class DescriptionView extends JPanel implements GraphView {
         while (it.hasNext()) {
             NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
             curPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
-//			JLabel curLabel = curPanel.getPropNameLabel();
-//			curLabel.setSize(_propertyNameLabelsDimension);
-//			curLabel.setMinimumSize(_propertyNameLabelsDimension);
-//			curLabel.setMaximumSize(_propertyNameLabelsDimension);
-//			curLabel.setPreferredSize(_propertyNameLabelsDimension);
         }
         _clonesPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
         _parentsPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
@@ -267,27 +262,11 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     public void focus(Node node) {
-
-//        List edgeTypesToDisplay = new LinkedList();
-//        List edgeTypesList = OntoramaConfig.getEdgeTypesList();
-//        Iterator it = edgeTypesList.iterator();
-//        while (it.hasNext()) {
-//            EdgeType edgeType = (EdgeType) it.next();
-//            EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
-//            if (displayInfo.isDisplayInDescription()) {
-//                edgeTypesToDisplay.add(edgeType);
-//            }
-//            if (displayInfo.isDisplayReverseEdgeInDescription()) {
-//                edgeTypesToDisplay.add(edgeType);
-//            }
-//        }
-
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String edgeName = (String) e.nextElement();
             try {
-                NodePropertiesPanel propPanel =
-                        (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
+                NodePropertiesPanel propPanel = (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
                 List value = new LinkedList();
                 EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);

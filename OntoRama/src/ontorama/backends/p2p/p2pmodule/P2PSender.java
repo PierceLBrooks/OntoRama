@@ -28,6 +28,7 @@ public class P2PSender{
     public final static int TAGPROPAGATEUPDATE = 3;
     public final static int TAGPROPAGATEINIT = 4;
     public final static int TAGPROPAGATEJOINGROUP = 5;
+    public final static int TAGPROPAGATELEAVEGROUP = 6;
 
     private CommunicationProtocol comm = null;
     private Backend backend = null;
@@ -133,7 +134,6 @@ public class P2PSender{
     public boolean sendJoinGroup(String groupID) throws GroupExceptionNotAllowed, GroupException {
     	String groupName = this.comm.sendJoinGroup(groupID);
         if (groupName != null){
-            //TODO maybe we should solve this in an other way, forexample send its own PeerID
             this.peersPanel.addGroup(groupID, groupName);
             this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID);
             return true;
@@ -158,6 +158,7 @@ public class P2PSender{
         boolean leaved = this.comm.sendLeaveGroup(groupID);
         if (leaved){
             peersPanel.removeGroup(groupID);
+            this.sendPropagate(TAGPROPAGATELEAVEGROUP, null, groupID);
             return true;
         }
         return false;

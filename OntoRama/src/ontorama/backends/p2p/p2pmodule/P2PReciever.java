@@ -36,6 +36,7 @@ public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATEUPDATE = 3;     
     public final static int TAGPROPAGATEINIT = 4;
     public final static int TAGPROPAGATEJOINGROUP = 5;
+    public final static int TAGPROPAGATELEAVEGROUP = 6;
 
     P2PBackend backend = null;
 //    PeersPanel activePeers = null;
@@ -46,7 +47,6 @@ public class P2PReciever implements P2PRecieverInterface{
   
     public P2PReciever(P2PBackend backend){
         this.backend = backend;
-        idMapping = new Hashtable();
         //Get the panel used to status of peers
         List panels = (List) backend.getPanels();
         activePeers = (PeersPanel) panels.get(0);
@@ -77,7 +77,11 @@ public class P2PReciever implements P2PRecieverInterface{
                         //Todo the string tobe shown could include what has been deleted
                         changes.addChange(internalModel, senderPeerName); 
                         break;
-                    case P2PReciever.TAGPROPAGATEJOINGROUP: 
+                case P2PReciever.TAGPROPAGATELEAVEGROUP:
+                    //Remove the peer from the group
+                    activePeers.removePeer(senderPeerID,internalModel);
+                    break;
+                    case P2PReciever.TAGPROPAGATEJOINGROUP:
                          this.recieveJoinGroup(senderPeerID, senderPeerName, internalModel);
                     break;
             }   
@@ -85,8 +89,7 @@ public class P2PReciever implements P2PRecieverInterface{
     
     public void recieveLogoutCommand(String senderPeerID){
             //Remove the peer from the panel showing connected peers
-            activePeers.removePeer(senderPeerID);
-    
+            activePeers.removePeerFromAllGroups(senderPeerID);
     }
     
 	public void recieveSearchRequest(String senderPeerID, String query){
@@ -118,7 +121,6 @@ public class P2PReciever implements P2PRecieverInterface{
 
     private void recieveJoinGroup(String senderPeerID, String senderPeerName, String groupID){
        //Add the new peer to the panel showing peers and groups
-       idMapping.put(senderPeerID, senderPeerName);
        this.activePeers.addPeer(senderPeerID, senderPeerName, groupID);
     }
 
@@ -127,7 +129,6 @@ public class P2PReciever implements P2PRecieverInterface{
 	private void receiveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
     	try{ 
         	//Add the new host to the panel showing connected peers
-            this.idMapping.put(senderPeerID, senderPeerName);
 			activePeers.addPeer(senderPeerID, senderPeerName, senderGroupID);
 
 			//Parse the input recieved from the new peer                     

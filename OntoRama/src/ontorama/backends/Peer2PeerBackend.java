@@ -1,9 +1,6 @@
 package ontorama.backends;
 
 import java.net.URI;
-import java.util.List;
-
-import javax.swing.JMenu;
 
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
@@ -21,7 +18,7 @@ import org.tockit.events.EventBroker;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public interface Peer2PeerBackend{
+public interface Peer2PeerBackend extends Backend {
     public P2PGraph search(Query query);
     public void assertEdge(P2PEdge edge, URI asserter) 
     	throws GraphModificationException, NoSuchRelationLinkException;
@@ -35,8 +32,6 @@ public interface Peer2PeerBackend{
     public void rejectNode(P2PNode node, URI rejecter) 
     	throws GraphModificationException;
 
-    public List getPanels();
-    public JMenu getJMenu();
 
     public void setEventBroker(EventBroker eventBroker);
 
@@ -46,13 +41,4 @@ public interface Peer2PeerBackend{
      */
     public void showPanels (boolean show);
     
-    /* Methods we want:
-	Node createNode(...) // instead of constructor
-	Edge createEdge(...) // instead of constructor
-	Collection getExportFormats() // returns (writer,format name, extension..)
-	Parser getParser() // ???
-	Graph search(Query)
-	List getPanels()
-	JMenu getMenu()
-	         */
 }

@@ -1,7 +1,5 @@
 package ontorama.backends.p2p.p2pmodule;
 
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -10,11 +8,8 @@ import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.ParserException;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
 
 
 /**
@@ -28,7 +23,7 @@ import ontorama.ontotools.parser.rdf.RdfDamlParser;
  * <b>Copyright:</b>        Copyright (c) 2002<br>
  * <b>Company:</b>          DSTC<br>
  *
- * TODO handle the exception better
+ * @todo handle the exception better
  */
 
 public class P2PReciever implements P2PRecieverInterface{
@@ -47,7 +42,7 @@ public class P2PReciever implements P2PRecieverInterface{
     public P2PReciever(P2PBackend backend){
         this.backend = backend;
         //Get the panel used to status of peers
-        List panels = (List) backend.getPanels();
+        List panels = backend.getPanels();
         activePeers = (PeersPanel) panels.get(0);
         changes = (ChangePanel) panels.get(1);
     }

@@ -48,18 +48,4 @@ public interface TreeNode extends GeneralNode {
  	public void setParent(TreeNode parent);
  	public TreeNode getParent();
 
-	/**
-	 * Returns the distance to the root node.
-	 * @return node depth
-	 * @todo should be in the hyper model since it is only used there
-	 */
-	public int getDepth();
-
-	/**
-	 * set distance to the root node
-	 * @param depth
-	 * @todo should be in the hyper model since it is only used there
-	 *	 */
-	public void setDepth(int depth);
-
 }

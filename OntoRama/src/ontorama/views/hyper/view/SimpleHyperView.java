@@ -37,12 +37,12 @@ import org.tockit.events.EventBroker;
 public class SimpleHyperView extends Canvas implements TreeView {
 
     /**
-     * Hold the mapping of HyperNode to GraphNodes
+     * Hold the mapping of HyperNode to TreeNodes
      */
     protected Hashtable hypernodes = new Hashtable();
 
     /**
-     * Holds the mapping of HyperNodeView to GraphNodes
+     * Holds the mapping of HyperNodeView to TreeNodes
      */
     protected Hashtable hypernodeviews = new Hashtable();
 
@@ -134,6 +134,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		_root = _tree.getRootNode();
 
 		makeHyperNodes(_root);
+        calculateDepths((HyperNode) this.hypernodes.get(_root), 0);
 		NodePlacementDetails rootNode = new NodePlacementDetails();
 		rootNode.node = _root;
 		rootNode.numOfLeaves = getLeafNodeTotal(_root);
@@ -310,16 +311,15 @@ public class SimpleHyperView extends Canvas implements TreeView {
         double x = 0, y = 0, radius = 0, count = 1;
         while (children.hasNext()) {
         	TreeNode node = (TreeNode) children.next();
-            TreeEdge edge = root.getEdge(node);
-            double ang = (angle * count) + startAngle - rads / 2;
-            count = count + 1;
-            radius = springLength * (node.getDepth());
-            x = Math.cos(ang) * radius;
-            y = Math.sin(ang) * radius;
             HyperNode hn = (HyperNode) hypernodes.get(node);
             if (hn == null) {
                 return;
             }
+            double ang = (angle * count) + startAngle - rads / 2;
+            count = count + 1;
+            radius = springLength * (hn.getDepth());
+            x = Math.cos(ang) * radius;
+            y = Math.sin(ang) * radius;
             hn.setLocation(x, y);
             radialLayout(node, angle, ang);
         }
@@ -428,9 +428,10 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     private void weightedRadialLayout(NodePlacementDetails rootNode, double startAngle) {
         double angle = startAngle;
+        HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         // Position node in the euclidean plane.
         // Calculate node radius from the center.
-        double radius = springLength * rootNode.node.getDepth();
+        double radius = springLength * hn.getDepth();
         if (radius != 0) { // Not _root node
             // Not sure if I like this effect, but shall leave it here for now
 //            System.out.println("Radius before: " + radius + " numOfLeaves " + rootNode.numOfLeaves);
@@ -440,7 +441,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         double drawAngle = startAngle + rootNode.wedge / 2;
         double x = Math.cos(drawAngle) * radius;
         double y = Math.sin(drawAngle) * radius;
-        HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
+
         hn.setLocation(x, y);
 
         List childrenList = (rootNode.node).getChildren();
@@ -456,7 +457,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         //get graph node and their leaf count
         while (childrenEdgesIterator.hasNext()) {
         	TreeNode cur = (TreeNode) childrenEdgesIterator.next();
-        	TreeEdge edge = rootNode.node.getEdge(cur);
             double numOfLeaves = getLeafNodeTotal(cur);
             nodeList[count].node = cur;
             nodeList[count].numOfLeaves = numOfLeaves;
@@ -911,4 +911,19 @@ public class SimpleHyperView extends Canvas implements TreeView {
             repaint();
         }
     }
+
+    /**
+     * Calculate the depths of all children in respect to this node.
+     */
+    private void calculateDepths(HyperNode top, int depth) {
+        top.setDepth(depth);
+        Iterator it = top.getTreeNode().getChildren().iterator();
+        while (it.hasNext()) {
+            TreeNode childNode = (TreeNode) it.next();
+            HyperNode childHyperNode = (HyperNode) this.hypernodes.get(childNode);
+            childHyperNode.setDepth(depth + 1);
+            calculateDepths(childHyperNode, depth + 1);
+        }
+    }
+
 }

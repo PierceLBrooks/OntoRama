@@ -35,6 +35,11 @@ public class HyperNode implements PositionChangedObservable {
      */
     private double nodeRadius = 15;
 
+    /**
+     * store distance from the root
+     */
+    private int depth = 0;
+
 
     /**
      * Store the graph node for this hyper node.
@@ -159,6 +164,14 @@ public class HyperNode implements PositionChangedObservable {
     public void setLocation(double x, double y) {
         position.setLocation(x, y);
         notifyPositionMoved();
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public String toString() {

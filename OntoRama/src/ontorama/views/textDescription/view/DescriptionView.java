@@ -263,10 +263,10 @@ public class DescriptionView extends JPanel implements GraphView {
                 EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
                 if (displayInfo.isDisplayInDescription()) {
-                    value = _graph.getOutboundEdgeNodes(node, edgeType);
+                    value = _graph.getOutboundEdgeNodesByType(node, edgeType);
                 }
                 else if (displayInfo.isDisplayReverseEdgeInDescription()) {
-                    value = _graph.getInboundEdgeNodes(node, edgeType);
+                    value = _graph.getInboundEdgeNodesByType(node, edgeType);
                 }
                 propPanel.update(value);
             } catch (NoSuchRelationLinkException exc) {

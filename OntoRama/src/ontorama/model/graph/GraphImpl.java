@@ -290,7 +290,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getUnconnectedNodesList() {
+    public List getBranchRootsList() {
         return _topLevelUnconnectedNodes;
     }
 
@@ -513,7 +513,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getOutboundEdgeNodes(Node node, EdgeType edgeType) {
+    public List getOutboundEdgeNodesByType(Node node, EdgeType edgeType) {
     	List result = new LinkedList();
     	Iterator it = getOutboundEdges(node).iterator();
 		while (it.hasNext()) {
@@ -528,7 +528,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getInboundEdgeNodes(Node node, EdgeType edgeType) {
+    public List getInboundEdgeNodesByType(Node node, EdgeType edgeType) {
     	List result = new LinkedList();
     	Iterator it = getInboundEdges(node).iterator();
     	while (it.hasNext()) {

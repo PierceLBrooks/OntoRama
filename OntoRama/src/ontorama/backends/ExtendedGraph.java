@@ -16,7 +16,7 @@ import java.util.List;
 
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.Model;
@@ -67,7 +67,7 @@ public class ExtendedGraph extends Graph {
 	
 
 	public ExtendedGraph() {
-		this.rejectedEgdes = new Edge();	
+		this.rejectedEgdes = new ontorama.backends.Edge();	
 		this.rules = new Rules(this);
 		this.allNodes = new Hashtable();
 	}
@@ -86,7 +86,26 @@ public class ExtendedGraph extends Graph {
 		this.allNodes = allNodes;
 	}
 	
-	public void addEdge(String fromURI, String toURI, int relationType,String namespace) {
+
+	public void add(List nodes, List edges) {
+//TODO MODEL - this model does not use relationType as int not as String in the new model
+//
+//		Iterator it = nodes.iterator();
+//		while (it.hasNext()) {
+//			this.addNode(new GraphNode(((Node) it.next()).getIdentifier()));	
+//		}	
+//		it = edges.iterator();
+//		while (it.hasNext()) {
+//			ontorama.model.Edge edge = (ontorama.model.Edge) it.next();
+//			this.addEdge(edge.getFromNode().getIdentifier(),
+//						  edge.getToNode().getIdentifier(),
+//						  edge.getEdgeType().getName(),
+//						  edge.getEdgeType().getNamespace());	
+//		}	
+//		
+	}
+
+		public void addEdge(String fromURI, String toURI, int relationType,String namespace) {
 		//stem.err.println("ExtGraph::addEdge:" + toURI + ";" + fromURI + ";" + relationType);
 		GraphNode fromNode = null;
 		GraphNode toNode = null;
@@ -120,7 +139,7 @@ public class ExtendedGraph extends Graph {
 
 	public void addNode(GraphNode node) {
 		//Make an exact copy with all data
-		GraphNode newNode;
+		GraphNode newNode = null;
 		try {
 			newNode = node.makeCopy();
 
@@ -135,9 +154,8 @@ public class ExtendedGraph extends Graph {
 					this.getNodes().put(newNode.getFullName(),newNode);								
 				}
 			}	
-		} catch (NoSuchPropertyException e) {
-			System.err.println("Error ExtGraph::addNode");
-			//TODO do something
+		} catch (NoSuchRelationLinkException e) {
+			//TODO some errorhandling
 		}
 	}
 	
@@ -416,13 +434,4 @@ public class ExtendedGraph extends Graph {
 		return this.rejectedEgdes.getEdges();
 	}
 	
-	public String printRejected() {
-		Iterator it = this.rejectedEgdes.getEdgeIterator();
-		EdgeObject edgObj;
-		while (it.hasNext()) {
-			edgObj = (EdgeObject) it.next();
-			System.out.println("Edge:" + edgObj);
-		}	
-		return "";
-	}
 }

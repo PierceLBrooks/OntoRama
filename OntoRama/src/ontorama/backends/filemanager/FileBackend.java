@@ -13,9 +13,9 @@ import ontorama.backends.Backend;
 import ontorama.backends.ExtendedGraph;
 import ontorama.backends.GraphNode;
 import ontorama.backends.Menu;
-import ontorama.backends.RdfDamlParser;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.ParserException;
 
 
@@ -72,15 +72,13 @@ public class FileBackend implements Backend{
             System.out.println("Loading file = " + filename);
             Reader reader = new FileReader(filename);
             RdfDamlParser parser = new RdfDamlParser();
-            parser.parse(reader, this.graph, "own");
+            ParserResult parserResult = parser.getResult(reader);
+            graph.add(parserResult.getNodesList(), parserResult.getEdgesList());
            
         } catch (FileNotFoundException e) {
             System.out.println("The file was not found");
             System.err.println("Error the file was not found");
         } catch (ParserException e) {
-            System.err.println("Error");
-            e.printStackTrace();
-        } catch (NoSuchPropertyException e) {
             System.err.println("Error");
             e.printStackTrace();
         }

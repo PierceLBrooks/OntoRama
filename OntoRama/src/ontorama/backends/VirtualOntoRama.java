@@ -19,7 +19,7 @@ import ontorama.backends.p2p.p2pmodule.ChangePanel;
 import ontorama.backends.p2p.p2pmodule.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * @author henrika
@@ -229,7 +229,7 @@ public class VirtualOntoRama {
 					} else {
 						System.err.println("The node URI could not be found");	
 					}
-				} catch (NoSuchPropertyException e) {
+				} catch (NoSuchRelationLinkException e) {
 					System.out.println("No such property could be found");					
 				}
 				break;

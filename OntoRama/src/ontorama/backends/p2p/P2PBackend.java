@@ -1,5 +1,6 @@
 package ontorama.backends.p2p;
 
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -15,7 +16,6 @@ import ontorama.backends.GraphNode;
 import ontorama.backends.Menu;
 import ontorama.backends.NoSuchGraphNodeException;
 import ontorama.backends.OntoRamaBackend;
-import ontorama.backends.RdfDamlParser;
 import ontorama.backends.p2p.p2pmodule.ChangePanel;
 import ontorama.backends.p2p.p2pmodule.P2PReciever;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
@@ -25,7 +25,9 @@ import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
 /**
@@ -107,27 +109,25 @@ public class P2PBackend implements Backend{
                     RdfDamlParser parser = new RdfDamlParser();
                     SearchResultElement resultElement = (SearchResultElement) enum.nextElement();   
                     Reader resultPart = new StringReader(resultElement.getResultText()); 
-                    parser.parse(resultPart,this.graph, resultElement.getPeerID());
-                    } 
+                    ParserResult parserResult = parser.getResult(resultPart);
+                    this.graph.add(parserResult.getNodesList(),parserResult.getEdgesList());
+			  } 
             
             //Let the responses arrive for a while and then return the new graph
           	  this.graph.setRoot(query.getQueryTypeName());  
 			} catch (NoSuchGraphNodeException e) {
 				System.err.println("Could not find the root node");
 				e.printStackTrace();
-           } catch (ParserException e) {
+			} catch (ParserException e) {
               System.err.println("An error accured in search()");
               e.printStackTrace();
-           } catch (NoSuchPropertyException e) {
-              System.err.println("An error accured in search()");
-              e.printStackTrace();
-           } catch (GroupExceptionThread e) {
+			} catch (GroupExceptionThread e) {
               System.err.println("An error accured in search()");
               e.printStackTrace();   
-          } catch (IOException e) {
-              System.err.println("An error accured in search()");
-              e.printStackTrace();   
-           } 
+			} catch (IOException e) {
+				System.err.println("An error accured in search()");
+            	e.printStackTrace();   
+			} 
        return this.getExtendedGraph();
      }
     
@@ -221,13 +221,6 @@ public class P2PBackend implements Backend{
     
     public Menu getMenu(){
         return (Menu) new P2PMenu(this.sender, this);
-    }
-    //For testing
-    public void printGraph(){
-        try {
-            System.out.println("the rdf: " + this.graph.printXml());
-        } catch (NoSuchPropertyException e) {
-        }
     }
 
     public String showGraph(){

@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.LinkedList;
 
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
 public class TestExtendedGraph {
@@ -37,7 +39,9 @@ public class TestExtendedGraph {
 			
 			reader = new BufferedReader(new FileReader(fileName));
 			
-			parser.parse(reader, extGraph,"Unknown");
+			ParserResult parserResult = parser.getResult(reader);
+			extGraph.add(parserResult.getNodesList(),parserResult.getEdgesList());
+			
 			try {
 				extGraph.setRoot("http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail");
 			} catch (NoSuchGraphNodeException e) {
@@ -50,8 +54,6 @@ public class TestExtendedGraph {
 			System.err.println("Error1");
 		} catch (ParserException e) {
 			System.err.println("Error2");
-		} catch (NoSuchPropertyException e) {
-			System.err.println("Error3");
 		}
 	}
 	
@@ -81,7 +83,7 @@ public class TestExtendedGraph {
 			extNode1.setProperty("Creator", "http://undefined.se", temp);
 			extNode2.setProperty("Creator", "http://undefined.se", temp);
 			extNode3.setProperty("Creator", "http://undefined.se", temp);
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
 			//do nothing
 		}
 		//Adds the nodes
@@ -110,7 +112,7 @@ public class TestExtendedGraph {
 			GraphNode newExtNode1 = extNode1.makeCopy();
 			newExtNode1.setProperty("Synonym", "http://undefined.se", temp);
 			extGraph.updateNode(newExtNode1);
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
 			System.err.println("ERROR1");
 		}
 	}

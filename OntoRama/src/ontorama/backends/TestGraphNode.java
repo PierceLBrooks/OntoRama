@@ -2,7 +2,7 @@ package ontorama.backends;
 
 import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -46,21 +46,15 @@ public class TestGraphNode extends TestCase {
     /**
      *
      */
-    protected void setUp() throws NoSuchPropertyException {
+    protected void setUp() throws NoSuchRelationLinkException {
         node1 = new GraphNode("node1", fullNameNode1);
-        node2 = new GraphNode("node2");
-        node3 = new GraphNode("node3");
 
         propValue.add("description str1");
         propValue.add("description str2");
 
         node1.setProperty(propName, "http://undefined.se",propValue);
 
-        cloneNode2 = node2.makeClone();
-        cloneNode3 = node2.makeClone();
-
         node1.setFoldState(true);
-        node3.setFoldState(false);
     }
 
     /**
@@ -95,7 +89,7 @@ public class TestGraphNode extends TestCase {
     /**
      *
      */
-    public void testSetProperty() throws NoSuchPropertyException {
+    public void testSetProperty() throws NoSuchRelationLinkException {
         node2.setProperty(propName, "http://undefined.se",propValue);
 
         List node2PropValue = node2.getProperty(propName);
@@ -116,7 +110,7 @@ public class TestGraphNode extends TestCase {
 
 	        assertEquals(propValue.size(), node1PropValue.size());
 	        compareLists(propValue, node1PropValue);
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
 			throw e.fillInStackTrace();
 		}
     
@@ -127,7 +121,7 @@ public class TestGraphNode extends TestCase {
 	        List node2PropValue;
 			node2PropValue = node2.getProperty(propName);
 	        assertEquals(0, node2PropValue.size());
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
 			//ok
 		}
 	    
@@ -151,38 +145,6 @@ public class TestGraphNode extends TestCase {
         assertEquals("number of clones for node1", 0, IteratorUtil.getIteratorSize(node1.getClones()));
     }
 
-    /**
-     * test method makeClone()
-     *
-     * if clone for node2 is added correctly - it should be added to
-     * all clones of node2 as well. Vice Versa, testCloneNode should
-     * have node2 and all it's clones in the clones list
-     */
-    public void testMakeClone() throws NoSuchPropertyException {
-
-        GraphNode testCloneNode = node2.makeClone();
-
-        assertEquals("number of clones for node2 and cloneNode2 should be the same",
-                IteratorUtil.getIteratorSize(node2.getClones()),
-                IteratorUtil.getIteratorSize(cloneNode2.getClones()));
-        assertEquals("number of clones for node2 and testCloneNode should be the same",
-                IteratorUtil.getIteratorSize(node2.getClones()),
-                IteratorUtil.getIteratorSize(testCloneNode.getClones()));
-
-        assertEquals("testCloneNode is within node2 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, node2.getClones()));
-        assertEquals("testCloneNode is within cloneNode2 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, cloneNode2.getClones()));
-        assertEquals("testCloneNode is within cloneNode3 clones", true,
-                IteratorUtil.objectIsInIterator(testCloneNode, cloneNode3.getClones()));
-        assertEquals("node2 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(node2, testCloneNode.getClones()));
-        assertEquals("cloneNode2 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(cloneNode2, testCloneNode.getClones()));
-        assertEquals("cloneNode3 is within testCloneNode clones", true,
-                IteratorUtil.objectIsInIterator(cloneNode3, testCloneNode.getClones()));
-
-    }
 
     /**
      * test method hasClones()

@@ -1,6 +1,7 @@
 package ontorama.backends;
 
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+
 
 
 /**
@@ -93,9 +94,10 @@ public class EdgeObject {
 									this.toNode.makeCopy(),
 									this.type,
 									new String(this.namespace));
-		} catch (NoSuchPropertyException e) {
+		} catch (NoSuchRelationLinkException e) {
+			//TODO some errorhandling
 		}
-    	
+
     	return copyObj;	
     }
 }

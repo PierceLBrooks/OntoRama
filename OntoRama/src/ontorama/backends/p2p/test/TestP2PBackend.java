@@ -23,7 +23,7 @@ import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;

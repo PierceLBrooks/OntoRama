@@ -20,7 +20,7 @@ import ontorama.controller.GeneralQueryEvent;
 import ontorama.controller.GraphLoadedEvent;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.NoTypeFoundInResultSetException;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;

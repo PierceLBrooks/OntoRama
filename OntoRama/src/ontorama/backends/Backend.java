@@ -8,7 +8,7 @@ import javax.swing.JMenu;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
@@ -24,10 +24,10 @@ import org.tockit.events.EventBroker;
 public interface Backend{
     public P2PGraph search(Query query);
     public void assertEdge(P2PEdge edge, URI asserter) 
-    	throws GraphModificationException, NoSuchRelationLinkException; 
+    	throws GraphModificationException, NoSuchRelationLinkException;
 
     public void assertNode(P2PNode node, URI asserter) 
-    	throws GraphModificationException; 
+    	throws GraphModificationException;
 
     public void rejectEdge(P2PEdge edge, URI rejecter) 
     	throws GraphModificationException, NoSuchRelationLinkException;

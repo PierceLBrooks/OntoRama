@@ -3,6 +3,7 @@
 bak
 classes
 deploy
+build
 deployWebstart
 *.tpr
 doc
@@ -12,3 +13,9 @@ uml
 .jpx.*
 *~
 .dfPackage
+.classpath
+.project
+*.ipr
+*.iws
+.xvpics
+*.xcf

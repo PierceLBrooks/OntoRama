@@ -8,6 +8,7 @@ import ontorama.hyper.controller.*;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.GraphImpl;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
@@ -153,7 +154,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Method to fold and unfold HyperNodeViews.
      */
     private void drawFolded(boolean foldedState, GraphNode node) {
-        Iterator it = Edge.getOutboundEdgeNodes(node);
+        Iterator it = GraphImpl.getOutboundEdgeNodes(node);
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
@@ -170,7 +171,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Unfold nodes back to root node.
      */
     private void unfoldNodes(HyperNodeView hyperNodeView) {
-        Iterator it = Edge.getInboundEdgeNodes(hyperNodeView.getGraphNode());
+        Iterator it = GraphImpl.getInboundEdgeNodes(hyperNodeView.getGraphNode());
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
             HyperNodeView curHyperNode = (HyperNodeView) hypernodeviews.get(cur);
@@ -247,7 +248,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         int numOfLeaves = 0;
         while (it.hasNext()) {
             HyperNodeView hnv = (HyperNodeView) it.next();
-            numOfLeaves = Edge.getIteratorSize(Edge.getOutboundEdges(hnv.getGraphNode()));
+            numOfLeaves = GraphImpl.getIteratorSize(GraphImpl.getOutboundEdges(hnv.getGraphNode()));
             if (numOfLeaves == 0) {
                 hnv.setNodeAsLeafNode();
             }
@@ -264,7 +265,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         HyperNodeView hnv = new HyperNodeView(hn);
         hypernodes.put(node, hn);
         hypernodeviews.put(node, hnv);
-        Iterator outboundNodes = Edge.getOutboundEdgeNodes(node);
+        Iterator outboundNodes = GraphImpl.getOutboundEdgeNodes(node);
         while (outboundNodes.hasNext()) {
             GraphNode gn = (GraphNode) outboundNodes.next();
             makeHyperNodes(gn);
@@ -277,14 +278,14 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * The spring and electrical algorthms shall they do the rest.
      */
     private void radialLayout(GraphNode root, double rads, double startAngle) {
-        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
-        int numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        Iterator outboundNodesIterator = GraphImpl.getOutboundEdgeNodes(root);
+        int numOfOutboundNodes = GraphImpl.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes == 0) {
             return;
         }
         double angle = rads / numOfOutboundNodes;
         double x = 0, y = 0, radius = 0, count = 1;
-        outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        outboundNodesIterator = GraphImpl.getOutboundEdgeNodes(root);
         while (outboundNodesIterator.hasNext()) {
             GraphNode node = (GraphNode) outboundNodesIterator.next();
             double ang = (angle * count) + startAngle - rads / 2;
@@ -420,13 +421,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double y = Math.sin(drawAngle) * radius;
         HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         hn.setLocation(x, y);
-        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(rootNode.node);
-        double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        Iterator outboundNodesIterator = GraphImpl.getOutboundEdgeNodes(rootNode.node);
+        double numOfOutboundNodes = GraphImpl.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes < 1) {
             return;
         }
         NodePlacementDetails[] nodeList = getNewNodeList((int) numOfOutboundNodes);
-        outboundNodesIterator = Edge.getOutboundEdgeNodes(rootNode.node);
+        outboundNodesIterator = GraphImpl.getOutboundEdgeNodes(rootNode.node);
         int count = 0;
         //get graph node and their leaf count
         while (outboundNodesIterator.hasNext()) {
@@ -471,11 +472,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     private int getLeafNodeTotal(GraphNode root) {
         int sumOfLeafNodes = 0;
-        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        Iterator outboundNodesIterator = GraphImpl.getOutboundEdgeNodes(root);
         while (outboundNodesIterator.hasNext()) {
             GraphNode cur = (GraphNode) outboundNodesIterator.next();
             //is this node a feaf node
-            int numOfchildren = Edge.getIteratorSize(Edge.getOutboundEdgeNodes(cur));
+            int numOfchildren = GraphImpl.getIteratorSize(GraphImpl.getOutboundEdgeNodes(cur));
             if (numOfchildren == 0) {
                 sumOfLeafNodes++;
             } else {
@@ -500,7 +501,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             count = 0;
             sumOfAverageMoves = 0;
-            Iterator it = Edge.getOutboundEdgeNodes(root);
+            Iterator it = GraphImpl.getOutboundEdgeNodes(root);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 queue.add(node);
@@ -509,7 +510,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 GraphNode cur = (GraphNode) queue.remove(0);
                 sumOfAverageMoves += adjustPosition(cur);
                 count++;
-                it = Edge.getOutboundEdgeNodes(cur);
+                it = GraphImpl.getOutboundEdgeNodes(cur);
                 while (it.hasNext()) {
                     GraphNode node = (GraphNode) it.next();
                     queue.add(node);
@@ -537,7 +538,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double yMove = 0;
         double curX = 0;
         double curY = 0;
-        Iterator it = Edge.getInboundEdgeNodes(cur);
+        Iterator it = GraphImpl.getInboundEdgeNodes(cur);
         while (it.hasNext()) {
             GraphNode parent = (GraphNode) it.next();
             HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
@@ -565,7 +566,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         mainWhile: while (!queue.isEmpty()) {
             GraphNode other = (GraphNode) queue.remove(0);
             //it = other.getChildrenIterator();
-            it = Edge.getOutboundEdgeNodes(other);
+            it = GraphImpl.getOutboundEdgeNodes(other);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 queue.add(node);
@@ -574,7 +575,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 continue;
             }
             //it = cur.getParents();
-            it = Edge.getInboundEdgeNodes(cur);
+            it = GraphImpl.getInboundEdgeNodes(cur);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 if (node == other) {
@@ -620,7 +621,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         System.out.println("Starting spring and force algorthms: ");
         do {
             loopAgain = false;
-            Iterator it = Edge.getOutboundEdgeNodes(root);
+            Iterator it = GraphImpl.getOutboundEdgeNodes(root);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 queue.add(node);
@@ -634,7 +635,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
                         finishedNodes.add(cur);
                     }
                 }
-                it = Edge.getOutboundEdgeNodes(cur);
+                it = GraphImpl.getOutboundEdgeNodes(cur);
                 while (it.hasNext()) {
                     GraphNode node = (GraphNode) it.next();
                     queue.add(node);
@@ -658,7 +659,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double yMove = 0;
         double curX = 0;
         double curY = 0;
-        Iterator it = Edge.getInboundEdgeNodes(cur);
+        Iterator it = GraphImpl.getInboundEdgeNodes(cur);
         while (it.hasNext()) {
             GraphNode parent = (GraphNode) it.next();
             HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
@@ -686,7 +687,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         mainWhile: while (!queue.isEmpty()) {
             GraphNode other = (GraphNode) queue.remove(0);
             //it = other.getChildrenIterator();
-            it = Edge.getOutboundEdgeNodes(other);
+            it = GraphImpl.getOutboundEdgeNodes(other);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 queue.add(node);
@@ -695,7 +696,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 continue;
             }
             //it = cur.getParents();
-            it = Edge.getInboundEdgeNodes(cur);
+            it = GraphImpl.getInboundEdgeNodes(cur);
             while (it.hasNext()) {
                 GraphNode node = (GraphNode) it.next();
                 if (node == other) {
@@ -849,7 +850,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Method called to highlight edges back to the root node.
      */
     private void highlightEdge(GraphNode node) {
-        Iterator it = Edge.getInboundEdgeNodes(node);
+        Iterator it = GraphImpl.getInboundEdgeNodes(node);
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
@@ -906,7 +907,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curGraphNode);
             //System.out.println("curHyperNodeView = " + curHyperNodeView);
 
-            Iterator outboundEdges = Edge.getOutboundEdges(curGraphNode);
+            Iterator outboundEdges = GraphImpl.getOutboundEdges(curGraphNode);
             while (outboundEdges.hasNext()) {
                 Edge edge = (Edge) outboundEdges.next();
                 RelationLinkDetails edgeType = edge.getEdgeType();

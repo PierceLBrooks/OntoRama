@@ -3,6 +3,7 @@ package ontorama.tree.model;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.GraphImpl;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
@@ -51,7 +52,7 @@ public class OntoTreeBuilder {
      *
      */
     private void processNode (GraphNode topGraphNode) {
-        Iterator outboundEdges = Edge.getOutboundEdges(topGraphNode);
+        Iterator outboundEdges = GraphImpl.getOutboundEdges(topGraphNode);
 
         // take care of a case when we only have one node and no edges
         if (!outboundEdges.hasNext()) {
@@ -74,7 +75,7 @@ public class OntoTreeBuilder {
         ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);
 
-        Iterator outboundEdges = Edge.getOutboundEdges(top);
+        Iterator outboundEdges = GraphImpl.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
             GraphNode toGraphNode = (GraphNode) edge.getToNode();

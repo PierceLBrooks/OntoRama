@@ -11,11 +11,6 @@ import java.util.List;
 public interface Graph {
 
     /**
-     *
-     */
-    //public Graph (QueryResult queryResult);
-
-    /**
      * Returns root node of the tree.
      * The tree is modified from acyclic graph
      */
@@ -37,27 +32,14 @@ public interface Graph {
      */
     public List getNodesList();
 
-//    /**
-//     * find root of branch corresponding to the given node
-//     * @param node
-//     * @return
-//     */
-//    public GraphNode getBranchRootForNode (GraphNode node);
-
-
-//    /**
-//     *
-//     * @param rootNode
-//     * @todo temp: shouldn't need this once implement trees
-//     */
-//    public void setRoot(GraphNode rootNode);
-
     /**
      *
      * @param rootNode
      * @param node
      */
     public boolean nodeIsInGivenBranch(GraphNode rootNode, GraphNode node);
+
+    public void registerEdge(Edge edge);
 
 
 

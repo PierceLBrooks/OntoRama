@@ -154,7 +154,7 @@ public class GraphNode implements Cloneable {
      */
     protected void setDepth(int depth) {
         this.depth = depth;
-        Iterator it = Edge.getOutboundEdgeNodes(this);
+        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
         while (it.hasNext()) {
             GraphNode outboundNode = (GraphNode) it.next();
             outboundNode.setDepth(depth + 1);
@@ -250,7 +250,7 @@ public class GraphNode implements Cloneable {
     public int getBranchNodesNum() {
         LinkedList q = new LinkedList();
         int count = 0;
-        Iterator it = Edge.getOutboundEdgeNodes(this);
+        Iterator it = GraphImpl.getOutboundEdgeNodes(this);
         while (it.hasNext()) {
             GraphNode child = (GraphNode) it.next();
             q.add(child);
@@ -260,7 +260,7 @@ public class GraphNode implements Cloneable {
             GraphNode cur = (GraphNode) q.remove(0);
 
             count++;
-            Iterator children = Edge.getOutboundEdgeNodes(cur);
+            Iterator children = GraphImpl.getOutboundEdgeNodes(cur);
             while (children.hasNext()) {
                 GraphNode next = (GraphNode) children.next();
                 q.add(next);

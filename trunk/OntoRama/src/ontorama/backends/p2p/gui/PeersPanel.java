@@ -100,9 +100,9 @@ public class PeersPanel extends JPanel  implements GroupView {
 			public void actionPerformed(ActionEvent event) {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");						
 				System.out.println("REFRESH on peers, time (mils): " + sdf.format(new Date()));
-				((P2PBackendImpl)_p2pBackend).getSender().peerDiscovery();
+				_p2pBackend.getSender().peerDiscovery();
 				System.out.println("----+++++-------");
-				((P2PBackendImpl) _p2pBackend).getSender().peerDiscoveryForGlobalGroup();
+				_p2pBackend.getSender().peerDiscoveryForGlobalGroup();
 			}
         	
         });

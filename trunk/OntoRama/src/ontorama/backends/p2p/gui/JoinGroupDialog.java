@@ -22,7 +22,6 @@ import org.tockit.events.EventBrokerListener;
 
 import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.NewGroupEvent;
@@ -70,7 +69,7 @@ public class JoinGroupDialog extends JDialog {
                
         Vector foundGroups = new Vector();
         try {
-            foundGroups = ((P2PBackendImpl) _p2pBackend).getSender().sendSearchGroup(null, null);
+            foundGroups =  _p2pBackend.getSender().sendSearchGroup(null, null);
         }
         catch (Exception e) {
             /// @todo deal with exceptions propertly

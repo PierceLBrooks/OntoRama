@@ -2,6 +2,7 @@ package ontorama.backends.p2p.p2pmodule;
 
 import java.util.Hashtable;
 
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.gui.ChangePanel;
@@ -34,12 +35,12 @@ public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATEJOINGROUP = 5;
     public final static int TAGPROPAGATELEAVEGROUP = 6;
 
-    P2PBackendImpl backend = null;
+    P2PBackend backend = null;
     PeersPanel activePeers = null;
     ChangePanel changes = null;
     Hashtable idMapping = null;
 
-    public P2PReciever(P2PBackendImpl backend){
+    public P2PReciever(P2PBackend backend){
         this.backend = backend;
         //Get the panel used to status of peers
     	P2PMainPanel panel = (P2PMainPanel) backend.getPanel();

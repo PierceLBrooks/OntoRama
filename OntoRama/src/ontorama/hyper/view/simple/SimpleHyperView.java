@@ -6,6 +6,7 @@ import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.controller.*;
 import ontorama.model.*;
+import ontorama.OntoramaConfig;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.*;
@@ -258,8 +259,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     private void makeHyperNodes(Node node) {
         HyperNode hn = new HyperNode(node);
+        NodeType nodeType = node.getNodeType();
         hn.addFocusChangedObserver(this);
-        HyperNodeView hnv = new HyperNodeView(hn);
+        HyperNodeView hnv = new HyperNodeView(hn, OntoramaConfig.getNodeTypeDisplayInfo(nodeType));
         hypernodes.put(node, hn);
         hypernodeviews.put(node, hnv);
         Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(node).iterator();

@@ -48,6 +48,7 @@
   	<pm:part rdf:resource="http://www.webkb.org/ontorama/test#SomeRelation"/>
   	<pm:similar rdf:resource="http://www.webkb.org/ontorama/test#SomeOtherRelation"/>
      <rdfs:domain rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#Type"/>
+     <rdfs:range rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#Type"/>
      <rdfs:comment>type of relations from a concept/relation type, i.e. in RDFS terminology, from a class or a property</rdfs:comment>
      <rdfs:subPropertyOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relation"/>
    </rdf:Property>

@@ -25,7 +25,7 @@ public class TypeQueryImplementation extends TypeQueryBase {
     * @todo    think what should happen with ParserException
     * @todo   formulate and execute query to webkb and return Reader
     */
-    public Iterator getTypeRelative(String termName) {
+    public Iterator getTypeRelative(String termName) throws Exception {
         Iterator iterator = null;
 
         try {
@@ -36,19 +36,20 @@ public class TypeQueryImplementation extends TypeQueryBase {
             r.close();
         }
         catch (ParserException pe ) {
-            System.err.println("ParserException: " + pe.getMessage());
-            System.err.println("Stack Trace: ");
-             pe.printStackTrace();
-            System.exit(1);
+            //System.err.println("ParserException: " + pe.getMessage());
+            //pe.printStackTrace();
+            //System.exit(1);
+            throw new Exception(pe.getMessage());
         }
         catch (IOException io) {
-            System.err.println("IOException: " + io);
-            System.exit(1);
-
+            //System.err.println("IOException: " + io);
+            //System.exit(1);
+            throw new Exception(io.getMessage());
         }
         catch (Exception e) {
-            System.err.println("Exception: " + e);
-            System.exit(1);
+            //System.err.println("Exception: " + e);
+            //System.exit(1);
+            throw new Exception(e.getMessage());
         }
         return iterator;
 

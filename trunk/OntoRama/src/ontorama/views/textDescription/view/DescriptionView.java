@@ -17,11 +17,15 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
+import ontorama.model.tree.events.NodeClonesRequestEvent;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
+
+import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
+import org.tockit.events.EventBrokerListener;
 
 /**
  * Title:        OntoRama
@@ -80,6 +84,25 @@ public class DescriptionView extends JPanel implements GraphView {
      * 
      */
     private Graph _graph;
+    
+    private class NodeClonesRequestEventHandler implements EventBrokerListener {
+    	
+		/**
+		 * Constructor for NodeClonesRequestEventHandler.
+		 */
+		public NodeClonesRequestEventHandler(EventBroker eventBroker) {
+			eventBroker.subscribe(this, NodeClonesRequestEvent.class, Object.class);
+		}
+
+    	/**
+		 * @see org.tockit.events.EventBrokerListener#processEvent(org.tockit.events.Event)
+		 */
+		public void processEvent(Event event) {
+			List clones = (List) event.getSubject();
+			AbstractPropertiesPanel clonesPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(_clonesLabelName);
+			clonesPanel.update(clones);
+		}
+	}
 
     /**
      *
@@ -88,7 +111,8 @@ public class DescriptionView extends JPanel implements GraphView {
 
         _eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
-
+        new NodeClonesRequestEventHandler(eventBroker);
+        
         initPropertiesPanels();
 
         _propertyNameLabelsDimension = calcLabelSize();
@@ -247,14 +271,12 @@ public class DescriptionView extends JPanel implements GraphView {
                 // @todo sounds like a hack to me (see comments above)
                 if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName)) ) {
                 	if (edgeName.equals(_clonesLabelName)) {
-                		// @todo need a mapping from graph node to tree node
-                		// in order to find clones for given graph node.
-                		// or should pass tree to this view instead of a graph.
+                		// NodeClonesRequestEventHandler takes care of this
                 	}
                 	else {
                 		value.add(node.getIdentifier());
+                		propPanel.update(value);
                 	}
-                	propPanel.update(value);
                 }
                 else {
                 	System.err.println("NoSuchRelationLinkException exception: " + exc);

@@ -1,10 +1,6 @@
 package ontorama.model;
 
-import ontorama.webkbtools.query.QueryResult;
-import ontorama.ontologyConfig.RelationLinkDetails;
-
 import java.util.List;
-import java.util.Iterator;
 
 /**
  *

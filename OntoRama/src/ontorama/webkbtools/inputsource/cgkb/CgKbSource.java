@@ -12,8 +12,7 @@ import ontorama.webkbtools.inputsource.*;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.OntoramaConfig;
+import ontorama.model.EdgeType;
 
 import java.util.*;
 import java.io.*;
@@ -32,14 +31,14 @@ public class CgKbSource implements Source {
         Iterator it = relLinksList.iterator();
         String allReadersString="";
         while (it.hasNext()) {
-            RelationLinkDetails relDetails = (RelationLinkDetails) it.next();
+            EdgeType relDetails = (EdgeType) it.next();
 
             String readerString = "";
             Hashtable paramTable = new Hashtable();
 
             paramTable.put("node",query.getQueryTypeName());
 
-            paramTable.put("rel", relDetails.getLinkName());
+            paramTable.put("rel", relDetails.getName());
             int depth = query.getDepth();
             if ((depth < 1) || (depth > 3)) {
                 depth=_defaultDepth;

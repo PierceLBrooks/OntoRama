@@ -1,8 +1,7 @@
 package ontorama.ontologyConfig;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.EdgeTypeImpl;
-import ontorama.model.EdgeType;
+import ontorama.model.*;
 import ontorama.util.Debug;
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
@@ -23,11 +22,6 @@ import java.awt.*;
  */
 
 public class XmlConfigParser extends XmlParserAbstract {
-
-    /**
-     *
-     */
-    private static RelationLinkDetails[] relationLinkConfig;
 
     private static Hashtable edgesConfig;
 
@@ -139,13 +133,6 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    public static RelationLinkDetails[] getRelationLinksArray() {
-        return relationLinkConfig;
-    }
-
-    /**
-     *
-     */
     public static Hashtable getConceptPropertiesTable() {
         return conceptPropertiesConfig;
     }
@@ -217,7 +204,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
         result = new EdgeTypeDisplayInfo();
         if (displayInGraphElement != null) {
-            result.setDisplayLocationDirective(EdgeTypeDisplayInfo.DISPLAY_IN_GRAPH);
+            result.setDisplayInGraph(true);
             Element createIconElement = displayInGraphElement.getChild(createIconElementName);
             if (createIconElement != null) {
                 processCreateIconElement(createIconElement, edgeType, result);
@@ -321,98 +308,6 @@ public class XmlConfigParser extends XmlParserAbstract {
     }
 
 
-    /**
-     *
-     */
-    private void parseOntologyElement(Element ontologyEl)
-                    throws ConfigParserException, ArrayIndexOutOfBoundsException {
-        List relationElementsList = ontologyEl.getChildren("relation");
-        if (relationElementsList.size() == 0) {
-            throw new ConfigParserException("Element 'relation' doesn't have any sublements");
-        }
-        initialiseRelationLinkConfigArray(relationElementsList.size());
-
-
-        Iterator relationElementsIterator = relationElementsList.iterator();
-        while (relationElementsIterator.hasNext()) {
-            Element relationElement = (Element) relationElementsIterator.next();
-            Attribute idAttr = relationElement.getAttribute(idAttributeName);
-
-            checkCompulsoryAttr(idAttr, idAttributeName, "relation");
-
-            List relationTypeElementsList = relationElement.getChildren("relationType");
-            int listSize = relationTypeElementsList.size();
-
-            if (listSize == 0) {
-                throw new ConfigParserException("Expected Element 'relationType' in the Element 'relation' with attribute" + idAttr);
-            }
-            if (listSize > 2) {
-                throw new ConfigParserException("Can't have more then 2 of 'relationType' Elements in the Element 'relation' with attribute" + idAttr);
-            }
-            int i = 0;
-            RelationLinkDetails relationLinkDetails = null;
-            while (i < listSize) {
-                Element relationTypeElement = (Element) relationTypeElementsList.get(i);
-                Attribute nameAttr = relationTypeElement.getAttribute("name");
-                checkCompulsoryAttr(nameAttr, "name", "relationType");
-                Attribute mappingSymbolAttr = relationTypeElement.getAttribute("mappingSymbol");
-                //checkCompulsoryAttr(mappingSymbolAttr, "mappingSymbol", "relationType");
-                if (i == 0) {
-                    relationLinkDetails = new RelationLinkDetails(nameAttr.getValue());
-                    if (mappingSymbolAttr != null) {
-                        relationLinkDetails.setLinkSymbol(mappingSymbolAttr.getValue());
-                    }
-                }
-                if (i == 1) {
-                    relationLinkDetails.setReversedLinkName(nameAttr.getValue());
-                    if (mappingSymbolAttr != null) {
-                        relationLinkDetails.setReversedLinkSymbol(mappingSymbolAttr.getValue());
-                    }
-                }
-                i++;
-            }
-            Element displayElement = relationElement.getChild("display");
-
-            Attribute displayInDescriptionWinAttr = relationElement.getAttribute("inDescriptionView");
-            if (displayInDescriptionWinAttr != null) {
-                checkCompulsoryAttr(displayInDescriptionWinAttr, "inDescriptionView", "display");
-                relationLinkDetails.setDisplayType(RelationLinkDetails.DISPLAY_TYPE_DESCRIPTION);
-            }
-            else {
-                Attribute colorAttr = displayElement.getAttribute("color");
-                checkCompulsoryAttr(colorAttr, "color", "display");
-                relationLinkDetails.setDisplayColor(colorAttr.getValue());
-
-                Attribute displayMappingSymbolAttr = displayElement.getAttribute("symbol");
-                checkCompulsoryAttr(displayMappingSymbolAttr, "symbol", "display");
-                relationLinkDetails.setDisplaySymbol(displayMappingSymbolAttr.getValue());
-
-                Attribute iconAttr = displayElement.getAttribute("icon");
-                if (iconAttr != null) {
-                    relationLinkDetails.setDisplayImage(iconAttr.getValue());
-                }
-            }
-
-
-            try {
-                relationLinkConfig[idAttr.getIntValue()] = relationLinkDetails;
-            } catch (DataConversionException e) {
-                throw new ConfigParserException("Invalid number for Attribute 'id', received: " + idAttr.getValue());
-            }
-
-        }
-        // now process element conceptProperty
-        List conceptPropertyElList = ontologyEl.getChildren("conceptProperty");
-        Iterator conceptPropertyElIterator = conceptPropertyElList.iterator();
-        while (conceptPropertyElIterator.hasNext()) {
-            Element conceptPropertyEl = (Element) conceptPropertyElIterator.next();
-            Attribute conceptPropertyIdAttr = conceptPropertyEl.getAttribute("id");
-            checkCompulsoryAttr(conceptPropertyIdAttr, "id", "conceptProperty");
-            ConceptPropertiesDetails conceptPropertyDetails = new ConceptPropertiesDetails(conceptPropertyIdAttr.getValue());
-            conceptPropertiesConfig.put(conceptPropertyIdAttr.getValue(), conceptPropertyDetails);
-        }
-
-    }
 
     /**
      *
@@ -469,16 +364,6 @@ public class XmlConfigParser extends XmlParserAbstract {
        }
    }
    */
-
-    /**
-     *
-     */
-    private void initialiseRelationLinkConfigArray(int arraySize) {
-        relationLinkConfig = new RelationLinkDetails[arraySize + 1];
-        for (int i = 0; i < arraySize; i++) {
-            relationLinkConfig[i] = null;
-        }
-    }
 
     /**
      * Print Concept Properties Mapping. Usefull for debugging

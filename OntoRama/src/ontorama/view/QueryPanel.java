@@ -6,7 +6,6 @@ import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.graph.view.GraphQuery;
 import ontorama.graph.view.GraphView;
 import ontorama.model.*;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -229,7 +228,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         while (en.hasMoreElements()) {
             JCheckBox key = (JCheckBox) en.nextElement();
             if (key.isSelected()) {
-                RelationLinkDetails relLinkType = (RelationLinkDetails) _relationLinksCheckBoxes.get(key);
+                EdgeType relLinkType = (EdgeType) _relationLinksCheckBoxes.get(key);
                 wantedRelationLinks.add(relLinkType);
             }
         }
@@ -243,7 +242,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         Enumeration enum = _relationLinksCheckBoxes.keys();
         while (enum.hasMoreElements()) {
             JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
-            RelationLinkDetails correspondingRelLink = (RelationLinkDetails) _relationLinksCheckBoxes.get(curCheckBox);
+            EdgeType correspondingRelLink = (EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
             } else {

@@ -140,6 +140,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         Iterator it = relLinksSet.iterator();
         while (it.hasNext()) {
             EdgeType cur = (EdgeType) it.next();
+            if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
+                continue;
+            }
             Image nodeImage = makeImageForRelLink(cur, false);
             _relLinksImages.put(cur, nodeImage);
         }

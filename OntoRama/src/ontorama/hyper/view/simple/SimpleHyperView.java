@@ -6,7 +6,6 @@ import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.controller.*;
 import ontorama.model.*;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.*;
@@ -277,7 +276,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     private void radialLayout(Node root, double rads, double startAngle) {
         Iterator outboundNodesIterator = graph.getOutboundEdgeNodes(root).iterator();
-        int numOfOutboundNodes = GraphImpl.getIteratorSize(outboundNodesIterator);
+        int numOfOutboundNodes = graph.getOutboundEdgeNodes(root).size();
         if (numOfOutboundNodes == 0) {
             return;
         }
@@ -420,7 +419,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         hn.setLocation(x, y);
         Iterator outboundNodesIterator = graph.getOutboundEdgeNodes(rootNode.node).iterator();
-        double numOfOutboundNodes = GraphImpl.getIteratorSize(outboundNodesIterator);
+        double numOfOutboundNodes = graph.getOutboundEdgeNodes(rootNode.node).size();
         if (numOfOutboundNodes < 1) {
             return;
         }

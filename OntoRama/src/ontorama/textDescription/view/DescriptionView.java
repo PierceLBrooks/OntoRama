@@ -4,7 +4,6 @@ import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.model.*;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import org.tockit.events.EventBroker;
 

@@ -56,18 +56,9 @@ public class P2PJMenu extends JMenu {
         add(_resetChangePanelAction);
         addSeparator();
            	
-    	setActionsEnabled(false);
         
     }
    
-    private void setActionsEnabled (boolean actionIsEnabled) {
-//    	_searchAction.setEnabled(isEnabled);
-//    	_joinGroupAction.setEnabled(isEnabled);
-//    	_leaveGroupAction.setEnabled(isEnabled);
-//    	_updatePanelAction.setEnabled(isEnabled);
-//    	_resetChangePanelAction.setEnabled(isEnabled);
-    }   
-    
     private class P2PFileFilter extends FileFilter {
     	
     	private String p2pExtension;

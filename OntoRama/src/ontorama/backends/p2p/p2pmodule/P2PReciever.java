@@ -48,42 +48,33 @@ public class P2PReciever implements P2PRecieverInterface{
     	changes = panel.getChangePanel();
     }
 
-//    public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
 	public void recievePropagateCommand(int TAG, PeerItemReference senderPeer, String senderGroupID, String internalModel){
-            switch (TAG){
-                    case P2PReciever.TAGPROPAGATEINIT:
-                    	System.err.println("\nP2PReciever.TAGPROPAGATEINIT");
-                          this.recieveInit(senderPeer, senderGroupID,internalModel);
-                          break;
-
-                    case P2PReciever.TAGPROPAGATEDELETE:
-		            	System.err.println("\nP2PReciever.TAGPROPAGATEDELETE");
-                        //Add the change to the panel showing made changes
-                        processModelChange(internalModel, senderPeer);
-                        break;
-
-                    case P2PReciever.TAGPROPAGATEUPDATE:
-            			System.err.println("\nP2PReciever.TAGPROPAGATEUPDATE");                    
-                        //Add the change to the panel showing made changes
-                        processModelChange(internalModel, senderPeer);
-                        break;
-
-                    case P2PReciever.TAGPROPAGATEADD:
-            			System.err.println("\nP2PReciever.TAGPROPAGATEADD");                    
-                        //Add the change to the panel showing made changes
-                        processModelChange(internalModel, senderPeer);
-                        break;
-                case P2PReciever.TAGPROPAGATELEAVEGROUP:
-	            	System.err.println("\nP2PReciever.TAGPROPAGATELEAVEGROUP");
-                    //Remove the peer from the group
-                    activePeers.removePeer(senderPeer.getID(),internalModel);
-                    break;
-                    case P2PReciever.TAGPROPAGATEJOINGROUP:
-		            	System.err.println("\nP2PReciever.TAGPROPAGATEJOINGROUP");            
-                         this.recieveJoinGroup(senderPeer, internalModel);
-                    break;
-            }
-    }
+		if (TAG == P2PReciever.TAGPROPAGATEINIT) {
+			System.err.println("\nP2PReciever.TAGPROPAGATEINIT");
+			this.recieveInit(senderPeer, senderGroupID,internalModel);
+		}
+		if (TAG == P2PReciever.TAGPROPAGATEDELETE) {
+			System.err.println("\nP2PReciever.TAGPROPAGATEDELETE");
+			processModelChange(internalModel, senderPeer);
+		}
+		if (TAG == P2PReciever.TAGPROPAGATEUPDATE) {
+			System.err.println("\nP2PReciever.TAGPROPAGATEUPDATE");                    
+			processModelChange(internalModel, senderPeer);
+		}
+		if (TAG == P2PReciever.TAGPROPAGATEADD) {
+			System.err.println("\nP2PReciever.TAGPROPAGATEADD");                    
+			processModelChange(internalModel, senderPeer);
+		}
+		if (TAG == P2PReciever.TAGPROPAGATELEAVEGROUP) {
+			System.err.println("\nP2PReciever.TAGPROPAGATELEAVEGROUP");
+			//Remove the peer from the group
+			activePeers.removePeer(senderPeer.getID(),internalModel);
+		}
+		if (TAG == P2PReciever.TAGPROPAGATEJOINGROUP) {
+			System.err.println("\nP2PReciever.TAGPROPAGATEJOINGROUP");            
+			this.recieveJoinGroup(senderPeer, internalModel);
+		}
+	}
 
     public void recieveLogoutCommand(String senderPeerID){
             //Remove the peer from the panel showing connected peers

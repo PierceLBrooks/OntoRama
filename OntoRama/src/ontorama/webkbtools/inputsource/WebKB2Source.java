@@ -77,9 +77,21 @@ public class WebKB2Source implements Source {
     private List typesList = new LinkedList();
 
     /**
-     * this is hacky
+     *
      */
     private Query newQuery = null;
+
+    /**
+     * holds string representing all reader data
+     * returned from webkb query
+     */
+    private String readerString = "";
+
+    /**
+     *
+     */
+    private String webkbErorrStartPattern = "<br><b>";
+    private String webkbErrorEndPattern = "</b><br>";
 
     /**
      *  Get a SourceResult from given uri. First, get a reader and check ir.
@@ -100,6 +112,7 @@ public class WebKB2Source implements Source {
         this.docs = new LinkedList();
         this.typesList = new LinkedList();
         this.newQuery = null;
+        this.readerString = "";
 
         String fullUri = uri + constructQueryString(query);
         Reader resultReader = null;
@@ -114,6 +127,10 @@ public class WebKB2Source implements Source {
           System.out.println("checking for multi documents");
           checkForMultiRdfDocuments(br);
           System.out.println("docs size = " + docs.size());
+          if (docs.size() == 0 ) {
+            String webkbError = checkForWebkbErrors(readerString );
+            throw new SourceException("WebKB Error: " + webkbError);
+          }
           if( resultIsAmbiguous() ) {
             System.out.println("\n\nresult is ambiguous");
             this.newQuery = processAmbiguousResultSet();
@@ -175,6 +192,29 @@ public class WebKB2Source implements Source {
         return reader;
     }
 
+    /**
+     * check for errors returned by webkb
+     */
+    private String checkForWebkbErrors (String doc) {
+      System.out.println("doc str = " + doc);
+      String extractedErrorStr = doc;
+      int startPatternInd = doc.indexOf(webkbErorrStartPattern);
+      int endPatternInd = doc.indexOf(webkbErrorEndPattern);
+
+      System.out.println("\n\nstartPatternInd = " + startPatternInd + ", endPatternInd = " + endPatternInd);
+
+      if (endPatternInd != -1 ) {
+        extractedErrorStr = extractedErrorStr.substring(0, endPatternInd);
+      }
+
+      if (startPatternInd != -1)  {
+        extractedErrorStr = extractedErrorStr.substring( webkbErorrStartPattern.length());
+      }
+
+      System.out.println("extractedErrorStr = " + extractedErrorStr);
+
+      return extractedErrorStr;
+    }
 
     /**
      * Read RDF documents into list.
@@ -194,6 +234,8 @@ public class WebKB2Source implements Source {
           //System.out.print(count + ".");
           System.out.print(".");
           //count++;
+            readerString = readerString + line;
+
             st = new StringTokenizer(line, "<", true);
 
             while(st.hasMoreTokens()) {
@@ -234,15 +276,6 @@ public class WebKB2Source implements Source {
 
       Query newQuery = new Query(newTermName, this.query.getRelationLinksList());
       return newQuery;
-
-//      // execute new query to webkb and return new reader
-//      String fullUri = this.uri + constructQueryString(newQuery);
-//      //Reader selectedReader = executeWebkbQuery(fullUri);
-//
-//      //String selectedDocument = (String) this.typeToReaderMap.get(selectedType);
-//      //StringReader selectedReader = new StringReader(selectedDocument);
-//
-//      //return selectedReader;
     }
 
 

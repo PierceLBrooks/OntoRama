@@ -122,6 +122,12 @@ public class OntoramaConfig {
      */
     public static boolean VERBOSE;
 
+	/**
+	 * flag to enable editing mode.
+	 */
+	public static boolean EDIT_ENABLED;
+
+
     /**
      *
      */
@@ -225,6 +231,7 @@ public class OntoramaConfig {
         DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
+		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
         /// @todo the way backends are handled is a bit of a hack for now.
         Enumeration e = properties.propertyNames();

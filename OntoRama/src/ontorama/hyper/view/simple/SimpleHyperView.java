@@ -113,7 +113,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new NodeActivatedEventHandler(this, eventBroker);
         //new NodeDraggedEventHandler(this, eventBroker);
         new NodePointedEventHandler(this, eventBroker);
-        new NodeContextMenuHandler(this, eventBroker);
+        if (OntoramaConfig.EDIT_ENABLED) {
+        	new NodeContextMenuHandler(this, eventBroker);
+        }
         new SphereMouseMovedEventHandler(this, eventBroker);
         new DraggedEventHandler(this, eventBroker);
         SimpleHyperView.sphereView = new SphereView(HyperNodeView.getSphereRadius());

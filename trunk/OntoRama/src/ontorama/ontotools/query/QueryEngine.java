@@ -206,10 +206,6 @@ public class QueryEngine {
      */
     public QueryResult getQueryResult(Query query) throws QueryFailedException, CancelledQueryException,
     														NoSuchTypeInQueryResult {
-		System.out.println("\n\nexecuting query engine thread for query engine with \n" 
-						+ "source = " + this.sourceUri + ", parser = " + this.parser 
-						+ ", source package = " + this.source + "\n\n");
-    															
     	return executeQuery(query);
     }
 

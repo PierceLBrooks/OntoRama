@@ -82,6 +82,10 @@ public class TreeImpl implements Tree {
 		}
 		_eventBroker.processEvent(new TreeNodeRemovedEvent(this, nodeToRemove));
 	}
+	
+	public Graph getGraph() {
+		return _graph;
+	}
 
 	private void removeTreeNode(TreeNode nodeToRemove) {
 		TreeNode parent = nodeToRemove.getParent();

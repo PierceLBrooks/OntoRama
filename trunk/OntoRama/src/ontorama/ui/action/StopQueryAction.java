@@ -38,7 +38,6 @@ public class StopQueryAction extends AbstractAction {
      *
      */
     public void actionPerformed(ActionEvent parm1) {
-        System.out.println("___action: stop query");
         /// @todo get rid of this dummyQuery
         Query dummyQuery = new Query();
         _eventBroker.processEvent(new QueryCancelledEvent(dummyQuery));

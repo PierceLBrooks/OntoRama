@@ -59,8 +59,12 @@ public class HyperEdgeView extends CanvasItem{
         double scale = (nodeViewRadius/2 + imgHyp) / distanceBetweenTwoNodes;
         double imgX = x2 - ( xDiff * scale) - imgW/2;
         double imgY = y2 - ( yDiff * scale) - imgH/2;
-
-        g2d.setColor( Color.lightGray );
+        if( this.to.getHighlightEdge() == true ) {
+            g2d.setColor( Color.black );
+            this.to.setHighlightEdge( false );
+        } else {
+            g2d.setColor( Color.lightGray );
+        }
         edgeView.setLine( from.getProjectedX(),
                           from.getProjectedY(),
                           to.getProjectedX(),

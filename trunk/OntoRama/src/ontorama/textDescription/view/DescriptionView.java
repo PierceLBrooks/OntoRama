@@ -150,7 +150,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
       }
       // deal with clones
       clonesPanel.update(node.getClones());
-      this.repaint();
+      //this.repaint();
   }
 
 
@@ -161,7 +161,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    */
   public void focus ( GraphNode node) {
       System.out.println();
-      System.out.println("******* desciptionView got focus for node " + node.getName());
+      System.out.println("******* desciptionView got focus for node " + node.getName() + ", address = " + node);
       setFocus(node);
       System.out.println();
   }

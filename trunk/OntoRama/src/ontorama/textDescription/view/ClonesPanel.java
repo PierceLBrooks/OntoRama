@@ -88,34 +88,32 @@ public class ClonesPanel extends JPanel {
         System.out.println("ClonesPanel, method update");
         this.clones = clonesIterator;
         clonesValuePanel.removeAll();
-        //clonesValuePanel.updateUI();
+        // need updateUI, otherwise it seems that when a user clicks
+        // on a clone button and clone is focused - we don't get a 'clone
+        // button'
+        clonesValuePanel.updateUI();
         this.buttonCloneMapping = new Hashtable();
-        //String clonesString = "";
         while (clonesIterator.hasNext()) {
           GraphNode clone = (GraphNode) clonesIterator.next();
-          System.out.println("clone = " + clone.getName());
+          //System.out.println("clone = " + clone.getName());
           JButton button = new JButton();
-          //System.out.println("created new button");
           button.setText(clone.getName());
-          //System.out.println("button.setText");
           buttonCloneMapping.put(button,clone);
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GraphNode node = (GraphNode) buttonCloneMapping.get(e.getSource());
+                //System.out.println("CLONE button is sending event ViewEventListener.MOUSE_SINGLECLICK for node " + node);
                 viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
-                //node.hasFocus();
             }
           });
           clonesValuePanel.add(button);
-          //System.out.println("clonesValuePanel.add(button)");
         }
-        clonesValuePanel.repaint();
+        //clonesValuePanel.repaint();
         //this.repaint();
     }
 
     public void clear () {
       clonesValuePanel.removeAll();
-      //clonesValuePanel.repaint();
     }
 
 }

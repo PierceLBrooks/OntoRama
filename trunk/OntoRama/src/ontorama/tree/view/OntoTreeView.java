@@ -125,6 +125,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
 
         // fold/unfold all tree nodes depending on GraphNode.getFolded() value
+
         Iterator it = ontoTreeModel.getOntoTreeIterator();
         while (it.hasNext()) {
           OntoTreeNode node = (OntoTreeNode) it.next();
@@ -134,6 +135,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
             this.tree.expandPath(path);
           }
         }
+
         setViewportView(tree);
 
         tree.putClientProperty("JTree.lineStyle", "Angled");
@@ -407,6 +409,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      */
     public void toggleFold ( GraphNode node) {
       System.out.println("\n\n******* treeView got toggleFold for node " + node.getName());
+      /*
       this.tree.repaint();
 
       OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
@@ -433,6 +436,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
       this.tree.scrollPathToVisible(path);
 
         this.tree.repaint();
+      */
     }
 
     /**

@@ -20,6 +20,7 @@
 			<file sourceFile="img/package_webkbtools.png" targetFile="img/package_webkbtools.png" type="copy"/>
 			<file sourceFile="img/query-engine-message-passing.png" targetFile="img/query-engine-message-passing.png" type="copy"/>
             <file sourceFile="img/ontorama-small.gif" targetFile="img/ontorama-small.gif" type="copy"/>
+            <file sourceFile="img/ontorama-small-clones.gif" targetFile="img/ontorama-small-clones.gif" type="copy"/>
 		</section>
 		<directory sourceDir="doc" targetDir="doc">
 			<entry name="print Introduction" sourceFile="intro.xhtml" targetFile="intro_print.html" type="Printable"/>

@@ -41,7 +41,7 @@ public class ForwardHistoryAction extends AbstractAction {
    */
   public void actionPerformed(ActionEvent parm1) {
     int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
-    int forwardInd = indexOfCur - 1;
+    int forwardInd = indexOfCur + 1;
     JCheckBoxMenuItem forwardItem = HistoryMenu.getMenuItem(forwardInd);
     System.out.println("___action: forward");
     HistoryMenu.displayHistoryItem(forwardItem);

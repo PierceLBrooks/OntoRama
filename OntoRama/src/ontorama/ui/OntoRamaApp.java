@@ -174,6 +174,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private class QueryEngineThreadStartEventHandler implements EventBrokerListener {
 		public void processEvent(Event event) {
 			QueryEngine queryEngine = (QueryEngine) event.getSubject();
+			System.out.println("QueryEngineThreadStartEventHandler");
 			QueryEngineThreadStartEvent e = (QueryEngineThreadStartEvent) event;
 			Query query = e.getQuery();
 			_lastQuery = _query;
@@ -197,6 +198,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
                 _viewsEventBroker,
                 TreeChangedEvent.class,
                 Object.class);
+			_modelEventBroker.subscribe(
+				_viewsEventBroker,
+				QueryEngineThreadStartEvent.class,
+				Object.class);
             _graph = graph;
             _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
             _tree =
@@ -256,6 +261,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _viewsEventBroker = new EventBroker();
 
         /// @todo need to sort out what broker is responsible for handling what events
+        
+        System.out.println("model event broker = " + _modelEventBroker);
+		System.out.println("views event broker = " + _viewsEventBroker);
 
         new QueryNodeEventHandler(_modelEventBroker);
         new QueryNodeEventHandler(_viewsEventBroker);
@@ -265,6 +273,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				            new QueryStartEventHandler(_modelEventBroker),
 				            QueryStartEvent.class,
 				            Object.class);
+		_viewsEventBroker.subscribe(
+							new QueryStartEventHandler(_viewsEventBroker),
+							QueryStartEvent.class,
+							Object.class);
 
         _modelEventBroker.subscribe(
 				            new GraphIsLoadedEventHandler(),
@@ -299,6 +311,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							Object.class);
 
 		_modelEventBroker.subscribe(
+							new QueryEngineThreadStartEventHandler(),
+							QueryEngineThreadStartEvent.class,
+							Object.class);
+		_viewsEventBroker.subscribe(
 							new QueryEngineThreadStartEventHandler(),
 							QueryEngineThreadStartEvent.class,
 							Object.class);

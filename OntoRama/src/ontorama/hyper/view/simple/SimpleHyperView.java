@@ -89,7 +89,7 @@ public class SimpleHyperView  extends CanvasManager {
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-        layoutNodes( 250 );
+        //layoutNodes( 250 );
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -221,10 +221,12 @@ public class SimpleHyperView  extends CanvasManager {
     private void basicLayout(GraphNode root, double rads, double startAngle) {
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         int numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        int numOfInboundNodes = Edge.getIteratorSize(Edge.getInboundEdgeNodes(root));
         if (numOfOutboundNodes == 0) {
             return;
         }
         double angle = rads/numOfOutboundNodes;
+        //double angle = Math.min( (rads * numOfInboundNodes)/numOfOutboundNodes, rads/numOfOutboundNodes);
         double x = 0, y = 0, radius = 0, count = 1;
         outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         while (outboundNodesIterator.hasNext()) {
@@ -240,6 +242,7 @@ public class SimpleHyperView  extends CanvasManager {
             }
             hn.setLocation( x, y);
             //System.out.println("hyper node = " + hn.getName() + ", x = " + x + ", y = " + y);
+            //double wedge =
             basicLayout( node, angle, ang );
         }
     }

@@ -36,7 +36,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     private Position3D position;
 
     /**
-     * Store the name/label of node.
+     * Store node radius.
      */
     private double nodeRadius = 20;
 

@@ -845,6 +845,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         g2d.setColor(new Color(222, 222, 222));
         g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int width = this.getSize().width;
         int height = this.getSize().height;

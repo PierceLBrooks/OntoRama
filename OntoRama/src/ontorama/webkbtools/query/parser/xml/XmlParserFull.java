@@ -25,6 +25,8 @@ import org.jdom.input.SAXBuilder;
 import java.io.Reader;
 import java.util.*;
 import java.security.AccessControlException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class XmlParserFull implements Parser {
@@ -36,6 +38,13 @@ public class XmlParserFull implements Parser {
      * debug
      */
     Debug debug = new Debug(false);
+    private NodeType relationNodeType;
+    private NodeType conceptNodeType;
+
+    private Element rootElement;
+
+    private static final String conceptTypeElementName = "conceptType";
+    private static final String relationTypeElementName = "relationType";
 
     /**
      *
@@ -59,13 +68,25 @@ public class XmlParserFull implements Parser {
             SAXBuilder builder = new SAXBuilder();
             // Create the document
             Document doc = builder.build(reader);
-            Element rootElement = doc.getRootElement();
+            rootElement = doc.getRootElement();
 
-            Element conceptTypesElement = rootElement.getChild("conceptTypes");
-            Element relationLinksElement = rootElement.getChild("relationLinks");
+            /// @todo hack to get concept node type
+            Iterator it = OntoramaConfig.getNodeTypesList().iterator();
+            while (it.hasNext()) {
+                NodeType nodeType = (NodeType) it.next();
+                if (nodeType.getNodeType().equals("concept")) {
+                    conceptNodeType = nodeType;
+                }
+                else if (nodeType.getNodeType().equals("relation")) {
+                    relationNodeType = nodeType;
+                }
+            }
 
-            readConceptTypes(conceptTypesElement);
-            readRelationLinks(relationLinksElement);
+            readConceptTypes(rootElement.getChildren(conceptTypeElementName));
+        } catch (URISyntaxException e) {
+            System.out.println("URISyntaxException: " + e);
+            e.printStackTrace();
+            throw new ParserException("Expecting valid URI for type creator attribute: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Exception: " + e);
             e.printStackTrace();
@@ -74,87 +95,133 @@ public class XmlParserFull implements Parser {
         return new ParserResult(new LinkedList(_nodes.values()), _edges);
     }
 
-    /**
-     *
-     * @todo change: harcoded addTypeProperty("description", descriptionEl.getText())
-     * and addTypeProperty("creator", creatorEl.getText()) so they are dinamically read
-     * from OntoramaConfig.
-     */
-    private void readConceptTypes(Element top) throws ParserException {
-        List conceptTypeElementsList = top.getChildren("conceptType");
+    private void readConceptTypes(List conceptTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
         Iterator conceptTypeElementsIterator = conceptTypeElementsList.iterator();
-
-        /// @todo hack to get concept node type
-        Iterator it = OntoramaConfig.getNodeTypesList().iterator();
-        NodeType conceptNodeType = null;
-        while (it.hasNext()) {
-            NodeType nodeType = (NodeType) it.next();
-            if (nodeType.getNodeType().equals("concept")) {
-                conceptNodeType = nodeType;
-            }
-        }
-
-
         while (conceptTypeElementsIterator.hasNext()) {
             Element conceptTypeEl = (Element) conceptTypeElementsIterator.next();
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", "conceptType");
+            String nodeName = nameAttr.getValue();
 
-            Node node = (Node) _nodes.get(nameAttr.getValue());
+            Node node = makeNode(nodeName, conceptNodeType);
 
-            if (node == null) {
-                node = new NodeImpl(nameAttr.getValue());
-                node.setNodeType(conceptNodeType);
-                // add child to hashtable
-                _nodes.put(nameAttr.getValue(), node);
-            }
-            debug.message("XmlParserFull", "readConceptTypes", "created type: " + node);
+            processTypeDetails(conceptTypeEl, node);
         }
+    }
+
+    private void readRelationTypes(List relationTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
+        Iterator relationTypeElementsIterator = relationTypeElementsList.iterator();
+        while (relationTypeElementsIterator.hasNext()) {
+            Element relationTypeEl = (Element) relationTypeElementsIterator.next();
+            Attribute nameAttr = relationTypeEl.getAttribute("name");
+            checkCompulsoryAttr(nameAttr, "name", "relationType");
+            String nodeName = nameAttr.getValue();
+
+            Node node = makeNode(nodeName, relationNodeType);
+
+            processTypeDetails(relationTypeEl, node);
+        }
+    }
+
+    private Node makeNode(String nodeName, NodeType nodeType) {
+        Node node = (Node) _nodes.get(nodeName);
+
+        if (node == null) {
+            node = new NodeImpl(nodeName);
+            node.setNodeType(nodeType);
+            _nodes.put(nodeName, node);
+        }
+        return node;
+    }
+
+    private NodeType getNodeTypeForDestinationNode (String nodeName) {
+        NodeType retVal = null;
+        Iterator conceptTypesIterator = rootElement.getChildren(conceptTypeElementName).iterator();
+        while (conceptTypesIterator.hasNext()) {
+            Element cur = (Element) conceptTypesIterator.next();
+            Attribute typeNameAttr = cur.getAttribute("name");
+            if (typeNameAttr.getValue().equals(nodeName)) {
+                retVal = conceptNodeType;
+            }
+        }
+        Iterator relationTypesIterator = rootElement.getChildren(relationTypeElementName).iterator();
+        while (relationTypesIterator.hasNext()) {
+            Element cur = (Element) relationTypesIterator.next();
+            Attribute typeNameAttr = cur.getAttribute("name");
+            if (typeNameAttr.getValue().equals(nodeName)) {
+                retVal = relationNodeType;
+            }
+        }
+        return retVal;
+    }
+
+    private void processTypeDetails (Element typeElement, Node node) throws URISyntaxException, NoSuchRelationLinkException, ParserException {
+        URI creator = getCreator(typeElement);
+        if (creator != null) {
+            node.setCreatorUri(creator);
+        }
+
+        processTypeProperty(typeElement, node, "description");
+        processTypeProperty(typeElement, node, "synonym");
+
+        processRelationLinks(typeElement, node);
+
+
+
+    }
+
+    private void processTypeProperty(Element typeElement, Node node, String typePropertyName) throws NoSuchRelationLinkException {
+        List descr = getTypeProperty(typeElement, typePropertyName);
+        Iterator it = descr.iterator();
+        while (it.hasNext()) {
+            String cur = (String) it.next();
+            Node toNode = makeNode(cur, null);
+            Edge edge = makeEdge(node, toNode, typePropertyName);
+            if (! edgeAlreadyInList(edge)) {
+                 _edges.add(edge);
+            }
+        }
+    }
+
+    private URI getCreator (Element typeElement) throws URISyntaxException {
+        Attribute creatorAttr = typeElement.getAttribute("creator");
+        if (creatorAttr != null) {
+            URI creatorUri = new URI(creatorAttr.getValue());
+            return creatorUri;
+        }
+        return null;
+    }
+
+    private List getTypeProperty (Element typeElement, String subelementName) {
+        List retVal = new LinkedList();
+        Iterator subelements =  typeElement.getChildren(subelementName).iterator();
+        while (subelements.hasNext()) {
+            Element cur = (Element) subelements.next();
+            retVal.add(cur.getTextTrim());
+        }
+        return retVal;
     }
 
     /**
      *
-     * @todo    when relation links array is build - if a user started with id =1
-     * in config.xml - then we have a null element at index=0. To avoid trouble -
-     * had to add following lines of code:
-     * if (relationLinksConfigArray[i] == null) {
-     *  continue;
-     * }
-     * This should be fixed in config.xml and XmlConfigParser!!!
      */
-    private void readRelationLinks(Element top) throws ParserException, NoSuchRelationLinkException {
-        List relationLinksElementsList = top.getChildren("relationLink");
+    private void processRelationLinks(Element top, Node fromNode) throws ParserException, NoSuchRelationLinkException {
+        List relationLinksElementsList = top.getChildren("relationship");
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
 
         while (relationLinksElementsIterator.hasNext()) {
             Element relLinkEl = (Element) relationLinksElementsIterator.next();
-            Attribute nameAttr = relLinkEl.getAttribute("name");
-            checkCompulsoryAttr(nameAttr, "name", "relationLink");
-            Attribute fromAttr = relLinkEl.getAttribute("from");
-            checkCompulsoryAttr(fromAttr, "from", "relationLink");
-            Node fromNode = (Node) _nodes.get(fromAttr.getValue());
-            if (fromNode == null) {
-                // Won't throw exception for now. consider example:
-                // wn#Cat with children generated from webkb rdf output.
-                // Input file will have all types declared, except wn#TrueCat,
-                // however it will have supertype link from
-                // wn#TrueCat to wn#Cat.
-                // For now - we simply skip it.
-                continue;
-                //throw new ParserException ("conceptType " + fromAttr.getValue() + " is not declared in conceptTypes section");
-            }
-
+            Attribute typeAttr = relLinkEl.getAttribute("type");
+            checkCompulsoryAttr(typeAttr, "type", "relationship");
             Attribute toAttr = relLinkEl.getAttribute("to");
-            checkCompulsoryAttr(toAttr, "to", "relationLink");
-            Node toNode = (Node) _nodes.get(toAttr.getValue());
-            if (toNode == null) {
-                throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
-            }
-            debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
-            Edge edge = makeEdge(nameAttr, fromNode, toNode);
+            checkCompulsoryAttr(toAttr, "to", "relationship");
+            NodeType toNodeType = getNodeTypeForDestinationNode(toAttr.getValue());
+            Node toNode = makeNode(toAttr.getValue(), toNodeType);
+            debug.message("XmlParserFull", "processRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + typeAttr.getValue());
+            Edge edge = makeEdge(fromNode, toNode, typeAttr.getValue());
             if (edge == null) {
-                throw new ParserException("Attribute name '" + nameAttr.getValue() + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
+                throw new ParserException("Attribute name '" + typeAttr.getValue() + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
             }
             if (! edgeAlreadyInList(edge)) {
                  _edges.add(edge);
@@ -162,15 +229,14 @@ public class XmlParserFull implements Parser {
         }
     }
 
-    private Edge makeEdge(Attribute nameAttr, Node fromNode, Node toNode) throws NoSuchRelationLinkException {
-        String nameAttrValue = nameAttr.getValue();
+    private Edge makeEdge(Node fromNode, Node toNode, String edgeName) throws NoSuchRelationLinkException {
         Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
         while (edgeTypesIterator.hasNext()) {
             EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
-            if ((edgeType.getName()).equals(nameAttrValue)) {
+            if ((edgeType.getName()).equals(edgeName)) {
                 Edge edge = new EdgeImpl(fromNode, toNode, edgeType);
                 return edge;
-            } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(nameAttrValue)) ) {
+            } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(edgeName)) ) {
                 Edge edge = new EdgeImpl(toNode, fromNode, edgeType);
                 return edge;
             }

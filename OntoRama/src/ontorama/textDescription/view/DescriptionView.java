@@ -72,6 +72,16 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	private String _fullUrlPropName = "Full Url ";
 	
 	/**
+	 * @todo  think of a way to not hardcode _parents
+	 */
+	private String _parentsLabelName = "Parents";
+	
+	/**
+	 * 
+	 */
+	private ParentsPanel _parentsPanel;
+	
+	/**
 	 * 
 	 */
 	private NodePropertiesPanel _fullUrlPanel;
@@ -112,6 +122,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		}
 		this.add(clonesPanel);
 		this.add(_fullUrlPanel);
+		this.add(_parentsPanel);
 	}
 
 	/**
@@ -132,7 +143,8 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 				new NodePropertiesPanel(propName, new LinkedList());
 			nodePropertiesPanels.put(propName, propPanel);
 		}
-		this.clonesPanel = new ClonesPanel("Clones",viewListener);
+		this.clonesPanel = new ClonesPanel(clonesLabelName,viewListener);
+		_parentsPanel = new ParentsPanel(_parentsLabelName, viewListener);
 	}
 
 	/**
@@ -206,6 +218,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 			propPanel.clear();
 		}
 		clonesPanel.clear();
+		_parentsPanel.clear();
 	}
 
 	/**
@@ -231,6 +244,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		// deal with clones
 		clonesPanel.update(node.getClones());
 		//this.repaint();
+		
 
 		List fullUrlPropList = new LinkedList();
 		fullUrlPropList.add(node.getFullName());
@@ -241,6 +255,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
           GraphNode parent = (GraphNode) it.next();
           System.out.println("  parent: " + parent.getName());
         }
+		_parentsPanel.update(Edge.getInboundEdgeNodes(node,1));
 	}
 
 	//////////////////////////ViewEventObserver interface implementation////////////////

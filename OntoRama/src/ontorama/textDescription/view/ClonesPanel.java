@@ -37,6 +37,7 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
    protected JComponent createPropertyComponent (GraphNode graphNode) {
           JButton button = new JButton();
           button.setText(graphNode.getName());
+          _componentToPropValueMapping.put(button, graphNode);
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("action performed for clone button");

@@ -6,6 +6,7 @@ import org.tockit.events.EventBroker;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
+import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.Graph;
 import ontorama.model.Node;

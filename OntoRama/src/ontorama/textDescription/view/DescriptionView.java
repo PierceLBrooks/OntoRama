@@ -113,13 +113,16 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		setLabelSizesForNodePropertiesPanels();
 
 		setLayout(new GridLayout(1,2));
+		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 				
 		JPanel leftSubPanel = new JPanel();
 		leftSubPanel.setLayout(new BoxLayout(leftSubPanel, BoxLayout.Y_AXIS));
-		
+		leftSubPanel.setBorder(BorderFactory.createEtchedBorder());
+
 		JPanel rightSubPanel = new JPanel();
 		rightSubPanel.setLayout(new BoxLayout(rightSubPanel, BoxLayout.Y_AXIS));
-
+		rightSubPanel.setBorder(BorderFactory.createEtchedBorder());
+		
 		// add panels to the view
 		Enumeration propPanelsEnum = _nodePropertiesPanels.keys();
 		while (propPanelsEnum.hasMoreElements()) {

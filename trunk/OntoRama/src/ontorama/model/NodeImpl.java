@@ -1,6 +1,5 @@
 package ontorama.model;
 
-import ontorama.webkbtools.util.NoSuchPropertyException;
 
 import java.util.*;
 
@@ -164,7 +163,7 @@ public class NodeImpl implements Cloneable, Node {
      *
      * @return cloneNode
      */
-    public Node makeClone() throws NoSuchPropertyException {
+    public Node makeClone() {
         // clone curNode to cloneNode
         Node cloneNode = new NodeImpl(name);
 

@@ -4,7 +4,6 @@ import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.util.*;
@@ -47,8 +46,8 @@ public class GraphImpl implements Graph {
      */
     public List _graphEdges = new LinkedList();
 
-    private List _edgesToDisplayInGraph = new LinkedList();
-    private List _edgesToDisplayInDescription = new LinkedList();
+//    private List _edgesToDisplayInGraph = new LinkedList();
+//    private List _edgesToDisplayInDescription = new LinkedList();
 
     private List _nodesToRemove = new LinkedList();
     private List _edgesToRemove = new LinkedList();
@@ -83,7 +82,6 @@ public class GraphImpl implements Graph {
      * @param   queryResult
      * @throws  NoSuchRelationLinkException
      * @throws  NoTypeFoundInResultSetException
-     * @throws  NoSuchPropertyException
      * @todo  maybe we shouldn't remove non-connected _graphEdges, but attach them to artafficial
      *        root node. (this is good solution for static ontologies, but not so for
      *        webkb ontology (remember ontology viewer for hibkb)).
@@ -91,8 +89,7 @@ public class GraphImpl implements Graph {
     public GraphImpl(QueryResult queryResult)
             throws
             NoSuchRelationLinkException,
-            NoTypeFoundInResultSetException,
-            NoSuchPropertyException {
+            NoTypeFoundInResultSetException {
         debug.message(
                 "******************* GraphBuilder constructor start *******************");
         _topLevelUnconnectedNodes = new LinkedList();
@@ -121,13 +118,12 @@ public class GraphImpl implements Graph {
 
             //System.out.println( printXml());
             convertIntoTree(root);
+            System.out.println("finished convertIntoTree()");
             calculateDepths(root, 0);
 
 
         } catch (NoSuchRelationLinkException e) {
             throw e;
-        } catch (NoSuchPropertyException e2) {
-            throw e2;
         }
         debug.message(
                 "******************* GraphBuilder constructor end *******************");
@@ -141,17 +137,17 @@ public class GraphImpl implements Graph {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
 
-        Iterator edgesIt = edgesList.iterator();
-        while (edgesIt.hasNext()) {
-            Edge edge = (Edge) edgesIt.next();
-            EdgeType edgeType = edge.getEdgeType();
-            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                _edgesToDisplayInGraph.add(edge);
-            }
-            else {
-                _edgesToDisplayInDescription.add(edge);
-            }
-        }
+//        Iterator edgesIt = edgesList.iterator();
+//        while (edgesIt.hasNext()) {
+//            Edge edge = (Edge) edgesIt.next();
+//            EdgeType edgeType = edge.getEdgeType();
+//            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+//                _edgesToDisplayInGraph.add(edge);
+//            }
+//            else {
+//                _edgesToDisplayInDescription.add(edge);
+//            }
+//        }
 
 //        Iterator it = edgesList.iterator();
 //        while (it.hasNext()) {
@@ -386,10 +382,9 @@ public class GraphImpl implements Graph {
      *
      * @param   root - root node for the graph
      * @throws  NoSuchRelationLinkException
-     * @throws  NoSuchPropertyException
      */
     private void convertIntoTree(Node root)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
+            throws NoSuchRelationLinkException{
         LinkedList queue = new LinkedList();
 
         queue.add(root);
@@ -512,19 +507,24 @@ public class GraphImpl implements Graph {
      * @param   node    original node
      * @param   cloneNode   copy node that needs all outbound _graphEdges filled in
      * @throws  NoSuchRelationLinkException
-     * @throws  NoSuchPropertyException
      */
     private void deepCopy(Node node, Node cloneNode)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
+            throws NoSuchRelationLinkException {
 
         Iterator outboundEdgesIterator = getOutboundEdges(node).iterator();
 
         while (outboundEdgesIterator.hasNext()) {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
+            System.out.println("deepCopy: edge = " + curEdge);
             Node toNode = curEdge.getToNode();
             Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
             registerEdge(newEdge);
+            EdgeType edgeType = curEdge.getEdgeType();
+            if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+                System.out.println("edgeType = " + edgeType.getName() + ", don't need to recurse on this one");
+                continue;
+            }
             deepCopy(toNode, cloneToNode);
         }
     }

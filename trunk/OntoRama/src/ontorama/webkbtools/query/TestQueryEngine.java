@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.model.*;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 
@@ -62,8 +61,7 @@ public class TestQueryEngine extends TestCase {
 
     /**
      */
-    protected void setUp() throws NoSuchPropertyException,
-            NoSuchRelationLinkException, Exception {
+    protected void setUp() throws NoSuchRelationLinkException, Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
         OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));

@@ -136,10 +136,6 @@ public class QueryEngineThread extends Thread {
             System.err.println(sourceExc);
             sourceExc.printStackTrace();
             OntoRamaApp.showErrorDialog(sourceExc.getMessage());
-        } catch (NoSuchPropertyException noSuchPropExc) {
-            System.err.println(noSuchPropExc);
-            noSuchPropExc.printStackTrace();
-            OntoRamaApp.showErrorDialog(noSuchPropExc.getMessage());
         } catch (CancelledQueryException cancelledExc) {
             if (!isInterrupted()) {
                 System.err.println("got CancelledQueryException when didn't try to interrupt the query!");

@@ -163,10 +163,8 @@ public class QueryEngine implements QueryEngineInterface {
         boolean found = false;
         Iterator it = nodesList.iterator();
         String newTermName = termName;
-        System.out.println("QueryEngine::checkResultSetContainsSearchTerm, looking for termName " + termName);
         while (it.hasNext()) {
             Node cur = (Node) it.next();
-            System.out.println("QueryEngine::checkResultSetContainsSearchTerm, cur node " + cur);
             String termIdentifierSuffix = "#" + termName;
             if (cur.getIdentifier().equals(termName)) {
                 found = true;
@@ -183,7 +181,6 @@ public class QueryEngine implements QueryEngineInterface {
         if (!found) {
             throw new NoSuchTypeInQueryResult(termName);
         }
-        System.out.println("QueryEngine::checkResultSetContainsSearchTerm, returning newTermName " + newTermName);
         return newTermName;
     }
 

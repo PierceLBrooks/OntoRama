@@ -5,9 +5,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Hashtable;
@@ -109,7 +110,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
                 ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
-                if (cur.getNodeType().equals("unknown")) {
+                if (cur.getDisplayName().equals("unknown")) {
                     nodeType = cur;
                 }
             }
@@ -118,7 +119,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         String nodeTextStr = treeNode.getModelTreeNode().getName();
 
         // @todo shouldn't hardcode string 'relation' here.
-        if (nodeType.getNodeType().equals("relation")) {
+        if (nodeType.getDisplayName().equals("relation")) {
             String sign1 = null;
             String sign2 = null;
             Iterator it = treeNode.getModelTreeNode().getChildren().iterator();
@@ -205,12 +206,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         OntoTreeNode treeNode = (OntoTreeNode) value;
         ontorama.model.tree.TreeNode node = treeNode.getModelTreeNode();
         NodeType nodeType = node.getNodeType();
-//        if (nodeType == null) {
-//            result = "???";
-//        }
-//        else {
-//            result = result + "type: " + nodeType.getNodeType();
-//        }
 
         if (edgeType == null) {
             result = result + "Node: " + treeNode.getModelTreeNode().getName();
@@ -273,6 +268,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
     /**
      * make icon for nodes
+     * 
+     * @todo this code seems to be extremely close to NodeListViewer.
+     * makeNodeIcon(..) -- refactor
      */
     private ImageIcon makeNodeIcon(int width, int height, Color color, ontorama.model.graph.NodeType nodeType) {
 
@@ -284,38 +282,36 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         g2.fillRect(0, 0, width, height);
         g2.drawRect(0, 0, width, height);
 
-        int ovalSize = width - (width * 12) / 100;
-        int ovalX = 0;
-        int ovalY = (height - ovalSize) / 2;
         g2.setColor(color);
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (nodeType == null) {
+        Shape displayShape;
+        if(nodeType == null) {
             /// @todo this check for null is a hack. have to change all following
             // if's and else's to a meaninfull  flow.
-            Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-            g2.fill(circle);
-            g2.setColor(Color.black);
-            g2.draw(circle);
+            int ovalSize = width - (width * 12) / 100;
+            int ovalX = 0;
+            int ovalY = (height - ovalSize) / 2;
+            displayShape = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
         }
         else {
-            // @todo shouldn't hardcode string 'concept' here.
-            if (nodeType.getNodeType().equals("concept")) {
-                Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-                g2.fill(circle);
-                g2.setColor(Color.black);
-                g2.draw(circle);
-            }
-            else {
-                int x[] = {0, 0, width};
-                int y[] = {0, height -1, height -1};
-                Polygon polygon = new Polygon(x, y, 3);
-                g2.fill(polygon);
-                g2.setColor(Color.black);
-                g2.draw(polygon);
-            }
+            displayShape = nodeType.getDisplayShape();
         }
+        Rectangle2D bounds = displayShape.getBounds2D();
+
+        double scale;
+        if(bounds.getWidth()/width > bounds.getHeight()/height) {
+            scale = width/bounds.getWidth();
+        } else {
+            scale = height/bounds.getHeight();
+        }
+
+        g2.scale(scale,scale);
+        g2.translate(-bounds.getX(), -bounds.getY());
+        g2.fill(displayShape);
+        g2.setColor(Color.black);
+        g2.draw(displayShape);
 
         return (new ImageIcon(image));
     }

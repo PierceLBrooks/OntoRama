@@ -79,10 +79,10 @@ public class XmlParserFull implements Parser {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
                 ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) it.next();
-                if (nodeType.getNodeType().equals("concept")) {
+                if (nodeType.getDisplayName().equals("concept")) {
                     conceptNodeType = nodeType;
                 }
-                else if (nodeType.getNodeType().equals("relation")) {
+                else if (nodeType.getDisplayName().equals("relation")) {
                     relationNodeType = nodeType;
                 }
             }

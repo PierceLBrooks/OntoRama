@@ -97,10 +97,10 @@ public class RdfDamlParser implements Parser {
         Iterator it = nodeTypesList.iterator();
         while (it.hasNext()) {
             ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
-            if (cur.getNodeType().equals("concept")) {
+            if (cur.getDisplayName().equals("concept")) {
                 nodeTypeConcept = cur;
             }
-            if (cur.getNodeType().equals("relation")) {
+            if (cur.getDisplayName().equals("relation")) {
                 nodeTypeRelation = cur;
             }
         }

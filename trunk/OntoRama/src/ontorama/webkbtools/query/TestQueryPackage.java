@@ -3,6 +3,10 @@ package ontorama.ontotools.query;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import ontorama.ontotools.parser.rdf.test.TestRdfDamlParser;
+import ontorama.ontotools.parser.rdf.test.TestRdfWebkbParser;
+import ontorama.ontotools.parser.rdf.test.TestRdfP2pParser;
+import ontorama.ontotools.parser.cgkb.TestCgKbCsvParser;
 
 /**
  * <p>Title: </p>

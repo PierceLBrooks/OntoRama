@@ -10,12 +10,12 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.util.Debug;
-import ontorama.ontotools.source.Source;
-import ontorama.ontotools.source.SourceResult;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.parser.Parser;
 
 /**
  * Description: Query Engine will query Ontology Server with the given

@@ -1,6 +1,6 @@
 <ontoramaExamples>
     <example name="p2p" root="wn#Tail" loadOnStart="yes">
-        <source uri="examples/test/p2p/short.rdf"
+        <source uri="examples/test/p2p/rdfExampleShort.rdf"
             isSourceDynamic="true"
             sourcePackagePathSuffix="JarSource"/>
         <queryOutputFormat>RDF</queryOutputFormat>

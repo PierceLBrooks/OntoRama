@@ -4,11 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JMenuItem;
 
 import ontorama.ui.HistoryMenu;
-import ontorama.ui.events.DisplayHistoryItemEvent;
-import org.tockit.events.EventBroker;
 
 
 /**
@@ -29,14 +26,14 @@ public class BackHistoryAction extends AbstractAction {
     //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
     //private static final String ACCELERATOR_KEY="ALT+Left";
 
-    private EventBroker _eventBroker;
+    private HistoryMenu _historyMenu;
 
 
     /**
      *
      */
-    public BackHistoryAction(EventBroker eventBroker) {
-        _eventBroker = eventBroker;
+    public BackHistoryAction(HistoryMenu historyMenu) {
+        _historyMenu = historyMenu;
         putValue(Action.NAME, NAME_COPY);
         putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
         putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
@@ -47,10 +44,7 @@ public class BackHistoryAction extends AbstractAction {
      *
      */
     public void actionPerformed(ActionEvent parm1) {
-        int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
-        int backInd = indexOfCur - 1;
-    	JMenuItem backItem = HistoryMenu.getMenuItem(backInd);
-        _eventBroker.processEvent(new DisplayHistoryItemEvent(backItem));
+		_historyMenu.displayPreviousHistoryItem();
     }
 
 

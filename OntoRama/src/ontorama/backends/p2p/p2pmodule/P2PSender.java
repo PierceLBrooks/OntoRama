@@ -130,12 +130,11 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public boolean sendJoinGroup(String groupID) throws GroupExceptionNotAllowed, GroupException {
-        System.out.println("DEBUG: sendJoinGroup for groupID = " + groupID);
     	String groupName = this.comm.sendJoinGroup(groupID);
         if (groupName != null){
             //TODO maybe we should solve this in an other way, forexample send its own PeerID
             this.peersPanel.addGroup(groupID, groupName); 
-            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, null);
+            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupName);
             return true;    
         }
     return false;

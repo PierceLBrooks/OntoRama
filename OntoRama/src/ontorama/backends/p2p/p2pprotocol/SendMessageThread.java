@@ -93,7 +93,7 @@ public class SendMessageThread extends Thread{
 		PeerGroup pg = null;
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;				 
 		DiscoveryService discoveryService = null;
-		
+
         //Prepare a message to be sent
          Message msgToSend = this.createMsg(propType,
 		        						  ownPeerID, 
@@ -295,7 +295,7 @@ public class SendMessageThread extends Thread{
 							tmpMessage.newMessageElement("GroupID", 
 	                           mimeType, 
 	                           ownGroupID.getBytes())); 
-	            }    
+	            }
 	            tmpMessage.addElement(
 	                            tmpMessage.newMessageElement("Body", 
 	                            mimeType, 

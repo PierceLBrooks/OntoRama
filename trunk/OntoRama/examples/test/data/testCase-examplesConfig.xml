@@ -18,7 +18,7 @@
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="test webkb: cat" root="cat">
-		<source uri="http://www.webkb.org/bin/termSearch.cgi" 
+		<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi" 
 					sourcePackagePathSuffix="WebKB2Source"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>

@@ -2,6 +2,8 @@
 *.jpr.*
 bak
 classes
+deploy
+deployWebstart
 *.tpr
 doc
 *.tws

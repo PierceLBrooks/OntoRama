@@ -105,11 +105,6 @@ public class P2PBackend implements Peer2PeerBackend{
 		parserPackage = mapping.getParserName();
 		p2pFileExtension = mapping.getFileExtention();
 		
-		/// @todo not sure if we should be creating an empty graph here if we don't have any
-		/// capabilities to display it. we should either not create an empty graph OR
-		/// have some way to display this empty graph so user can add edges and nodes to it.
-		//this.graph = new P2PGraphImpl();
-				
 		mainPanel = new P2PMainPanel(this);
 		
 		System.out.println("p2p backend constructor, p2pbackend = " + this);
@@ -438,35 +433,6 @@ public class P2PBackend implements Peer2PeerBackend{
         }
         return retVal;
     }
-
-//    public void showPanels(boolean show) {
-//        this.mainPanel.showP2PPanel(show);
-//    }
-
-
-//    public void buildP2PGraph (Graph graph) {
-//        this.graph = new P2PGraphImpl();
-//        _graphNodesMapping = new Hashtable();
-//        _graphEdgesMapping = new Hashtable();
-//        Iterator graphEdges = graph.getEdgesList().iterator();
-//        while (graphEdges.hasNext()) {
-//            Edge curEdge = (Edge) graphEdges.next();
-//            Node fromNode = curEdge.getFromNode();
-//            Node toNode = curEdge.getToNode();
-//            try {
-//                makeP2PNode(fromNode);
-//                makeP2PNode(toNode);
-//                makeP2PEdge(curEdge);
-//            }
-//            catch (NoSuchRelationLinkException e) {
-//                /// ignore here because we would have caught it while building graph
-//            }
-//            catch (GraphModificationException e) {
-//                /// @todo what to do with this exception?
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     private void makeP2PNode (Node node) throws GraphModificationException {
         Enumeration e = _graphNodesMapping.keys();

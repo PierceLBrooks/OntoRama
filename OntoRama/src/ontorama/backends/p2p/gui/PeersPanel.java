@@ -3,6 +3,8 @@ package ontorama.backends.p2p.gui;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -89,6 +91,8 @@ public class PeersPanel extends JPanel  implements GroupView {
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");						
+				System.out.println("REFRESH on peers, time (mils): " + sdf.format(new Date()));
 				_p2pBackend.getSender().peerDiscovery();
 			}
         	
@@ -180,8 +184,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 
         public void addPeer (String peerID, String peerName) {
         	System.out.println("PeersPanel::GroupPanel::addPeer peerName = " + peerName + ", peerId = " + peerID + ", group = " + this.group.getName());
-            //if (!peersList.contains(peerID)) {
-			if (!listModel.contains(peerName)) {
+            if (!peersList.contains(peerID)) {
                  peersList.add(peerID);
                 _peerIdToPeerNameMapping.put(peerID, peerName);
 

@@ -29,12 +29,16 @@ import net.jxta.protocol.PipeAdvertisement;
 public class Communication {
 	//The serach result from a query (on tontologies)
 	private static Vector searchResult = null;
+
 	//The top p2p group
 	private static PeerGroup globalP2PGroup = null;
+
 	//The p2p platform
 	private static PeerGroup globalP2PPlatform = null;	
+
 	//Keeps track of which group this peer belongs to
 	private static Hashtable memberOfGroups = null;
+
 	//The pipe advertisement
 	private static Hashtable outputPropagatePipe = null;
 
@@ -47,6 +51,7 @@ public class Communication {
 	//Used by sendSearchGroup
 	public final static String SEARCHGROUPNAME = "Name";
 	public final static String SEARCHGROUPDESCR = "Desc";
+
 	//Used by sendMessage
 	public final static int TAGSEARCH = 1;
 	public final static int TAGLOGOUT = 2;
@@ -113,24 +118,11 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	private void setMemberOfGroups(Hashtable obj)  {
-		System.out.println("Communication::setMemberOfGroups, hashtable size = " + obj.size());
 		Communication.memberOfGroups = obj;
 	}
 	
-	/**
-	* Gets the member of groups object, which is used to save all the groups the peer 
-    * belongs to.
-	* @return cointaining the groups the peer belongs to.
-	* @version P2P-OntoRama 1.0.0
-	*/
-//	protected Hashtable getMemberOfGroups() {
-//		System.out.println("Communication::setMemberOfGroups, hashtable size = " + Communication.memberOfGroups.size());
-//		return Communication.memberOfGroups;
-//	}
-	
 	protected void addToMemberOfGroups (PeerGroup pg) {
 		Communication.memberOfGroups.put(pg.getPeerGroupID(), pg);
-		System.out.println("Communication::addToMemberOfGroups, adding " + pg.getPeerGroupName() +", hashtable size = " + Communication.memberOfGroups.size());
 	}
 	
 	protected Enumeration memberOfGroups () {
@@ -164,13 +156,9 @@ public class Communication {
 	}
 	
 	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
-		System.out.println("Communication::memberOfGroupsContains, peerGroupId = " + peerGroupId + ", hashtable = " + memberOfGroups);
 		return memberOfGroups.containsKey(peerGroupId);
 	}
 	
-
-
-
 	/**
 	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
     * from other peers.

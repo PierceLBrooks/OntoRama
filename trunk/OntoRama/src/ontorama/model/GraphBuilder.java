@@ -67,12 +67,7 @@ public class GraphBuilder {
     /**
      * Build Graph from given QueryResult.
      *
-     * @param   queryResult
-     * @throws  NoSuchRelationLinkException
-     * @throws  NoTypeFoundInResultSetException
-     * @throws  NoSuchPropertyException
-     * @todo: should never return null!!! need to introduce exception chain up to the parser??
-     * @todo    query returns an iterator of ontology types. some of those types may
+     * NOTE: query returns an iterator of ontology types. some of those types may
      * not be relevant for our view. For example: consider following rdf:
      *       <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/comms#WirelessNetwork">
      *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Network_2"/>
@@ -83,6 +78,22 @@ public class GraphBuilder {
      *  where comms#WirelessNetwork has 3 parents. Therefor we clone this node, but wn#Network_2, wn#Network_3 don't have
      *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the view.
      *  Yet, comms#WirelessNetwork is thinking it's got 3 clones, but user can't navigate to them.
+     *  (We will call those unconnected nodes 'hanging' nodes).
+     *  One way to get around it is: to remove edges that don't have incoming edges (parents).
+     *  This is our solution for the present.
+     *  However, this solution may not be beneficial for some ontologies (that are not strict
+     *  hierarchy. Some of RDF examples found on the web are such ontologies). Solution could be:
+     *  instead of removing 'hanging' nodes - introduce artafficial root node and attach all these nodes
+     *  to it.
+     *
+     * @param   queryResult
+     * @throws  NoSuchRelationLinkException
+     * @throws  NoTypeFoundInResultSetException
+     * @throws  NoSuchPropertyException
+     * @todo  should never return null!!! need to introduce exception chain up to the parser??
+     * @todo consider moving all code in this class into Graph. Graph should get
+     *        ontology types Iterator and build GraphNodes and Edges from it. This
+     *        way graph would be responsible for clearing out edges if need be.
      */
     public GraphBuilder(QueryResult queryResult)
                 throws NoSuchRelationLinkException, NoTypeFoundInResultSetException,
@@ -106,18 +117,14 @@ public class GraphBuilder {
           }
 
           // clean up before we create a graph
+          int lastNumOfEdges = -1;
           System.out.println("number of Edges = " + Edge.edges.size());
-          cleanUp();
+          while (Edge.edges.size() != lastNumOfEdges) {
+            System.out.println("number of Edges = " + Edge.edges.size() + ", lastNumOfEdges = " + lastNumOfEdges);
+            lastNumOfEdges = Edge.edges.size();
+            cleanUpEdges();
+          }
           System.out.println("number of Edges = " + Edge.edges.size());
-          // clean up again - testing if there is anything left.
-          // @todo  test and remove this!!!! may need to rewrite the method? or move it to Graph class??
-          cleanUp();
-          System.out.println("number of Edges = " + Edge.edges.size());
-          cleanUp();
-          System.out.println("number of Edges = " + Edge.edges.size());
-          cleanUp();
-          System.out.println("number of Edges = " + Edge.edges.size());
-
           System.out.println("edgeRoot = " + edgeRoot);
 
           if (! processedNodes.containsKey(termName)) {
@@ -195,8 +202,12 @@ public class GraphBuilder {
    * Remove all edges that are 'hanging in space' (edges that don't
    * have any parents).
    * @todo  does it need to be recusive?
+   * @todo  if not making this recursive - is there a better way to do this?
+   *        Recursive may not work because we are trying to get rid of
+   *        'hanging' nodes, which by definition don't have parents.
+   *        this means that we can't get to them via recursion anyway.
    */
-  private void cleanUp () {
+  private void cleanUpEdges () {
     Iterator allNodes = processedNodes.values().iterator();
 
     while (allNodes.hasNext()) {

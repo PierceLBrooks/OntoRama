@@ -1,12 +1,14 @@
 package ontorama.view;
 
 import ontorama.controller.QueryEvent;
+import ontorama.controller.GeneralQueryEvent;
 import ontorama.model.Node;
 import ontorama.model.NodeType;
 import ontorama.model.Graph;
 import ontorama.model.GraphImpl;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.OntoramaConfig;
+import ontorama.webkbtools.query.Query;
 import ontorama.ontologyConfig.ImageMaker;
 import org.tockit.events.EventBroker;
 
@@ -65,7 +67,7 @@ public class NodesListViewer extends JComboBox {
                 }
                 Node selectedNode = (Node) selectedObject;
                 System.out.println("\n\nsending new QueryEvent");
-                _eventBroker.processEvent(new QueryEvent(selectedNode));
+                _eventBroker.processEvent(new GeneralQueryEvent(new Query(selectedNode.getName())));
             }
         });
         setListSizeDependantProperties();

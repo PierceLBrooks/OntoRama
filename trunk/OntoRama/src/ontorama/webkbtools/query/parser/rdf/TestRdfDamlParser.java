@@ -8,6 +8,7 @@ import java.util.*;
 import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.query.parser.Parser;
@@ -56,6 +57,9 @@ public class TestRdfDamlParser extends TestCase {
   protected OntologyType testType_allChairs;
   protected OntologyType testType_ACHRONYM;
 
+  private Source source;
+  private Parser parser;
+
 
   /**
    *
@@ -72,11 +76,11 @@ public class TestRdfDamlParser extends TestCase {
     OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                "ontorama.properties","examples/test/data/testCase-config.xml");
 
-    Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
     //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
     Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
 
-    RdfDamlParser parser = new RdfDamlParser();
+    parser = new RdfDamlParser();
     buildResultCollection(parser, r);
 
     testType_chair = getOntologyTypeFromList("test#Chair",resultCollection);
@@ -93,6 +97,7 @@ public class TestRdfDamlParser extends TestCase {
     testType_someObject = getOntologyTypeFromList("test#SomeObject", resultCollection);
     testType_allChairs = getOntologyTypeFromList("test#AllChairs", resultCollection);
   }
+
 
   /**
    *
@@ -263,6 +268,52 @@ public class TestRdfDamlParser extends TestCase {
   /**
    *
    */
+  public void testInvalidRDF_extraColumnInElementName () throws java.lang.ClassNotFoundException,
+                            java.lang.IllegalAccessException, java.lang.InstantiationException,
+                            SourceException {
+
+    OntoramaExample testCaseToLoad = getExampleByName("testCase: invalid RDF 1");
+    OntoramaConfig.setCurrentExample(testCaseToLoad);
+
+    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+    parser = new RdfDamlParser();
+    try {
+      parser.getOntologyTypeCollection(r);
+      fail("failed to catch ParserException for invalid RDF file");
+    }
+    catch (ParserException e) {
+      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
+    }
+  }
+
+  /**
+   *
+   */
+  public void testInvalidRDF_DoubleSlashComments () throws java.lang.ClassNotFoundException,
+                            java.lang.IllegalAccessException, java.lang.InstantiationException,
+                            SourceException {
+
+    OntoramaExample testCaseToLoad = getExampleByName("testCase: invalid RDF 2");
+    OntoramaConfig.setCurrentExample(testCaseToLoad);
+
+    source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+    Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+    parser = new RdfDamlParser();
+    try {
+      parser.getOntologyTypeCollection(r);
+      fail("failed to catch ParserException for invalid RDF file");
+    }
+    catch (ParserException e) {
+      //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
+    }
+
+  }
+
+
+  /**
+   *
+   */
   protected void testingRelationLink (String relLinkName, int relLinkId,
                         OntologyType fromType, String nameOfDestinationType,
                         int expectedIteratorSize)
@@ -284,11 +335,27 @@ public class TestRdfDamlParser extends TestCase {
       assertEquals(message2, nameOfDestinationType, destinationType.getName());
   }
 
-
-
+  /**
+   *
+   */
   protected OntologyType getOntologyTypeFromList (String name, Collection collection) {
     List list = new LinkedList ( collection);
     return IteratorUtil.getOntologyTypeFromList (name, list);
+  }
+
+  /**
+   *
+   */
+  private OntoramaExample getExampleByName (String exampleName) {
+    List examplesList = OntoramaConfig.getExamplesList();
+    OntoramaExample result = null;
+    for (int i = 0; i < examplesList.size(); i++) {
+      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
+      if (curExample.getName().equals(exampleName)) {
+        result = curExample;
+      }
+    }
+    return result;
   }
 
 

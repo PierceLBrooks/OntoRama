@@ -17,6 +17,8 @@ import ontorama.backends.filemanager.FileBackend;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
+import java.awt.*;
 
 
 /**
@@ -124,6 +126,7 @@ public class OntoramaConfig {
     private static boolean loadBlankOnStartUp = false;
 
     private static List nodeTypesList;
+    private static Hashtable nodesConfig;
 
     /**
      * Values of vars that are set here should be read from
@@ -143,6 +146,7 @@ public class OntoramaConfig {
 
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
         nodeTypesList = buildNodeTypesList();
+        nodesConfig = buildNodeTypeDisplayMapping(nodeTypesList);
         System.out.println("--------- end of config--------------");
     }
 
@@ -387,8 +391,36 @@ public class OntoramaConfig {
         return nodeTypes;
     }
 
+    /**
+     *
+     * @param nodeTypesList
+     * @return
+     * @todo this method is a temp hack untill node types display info can be put into the config file.
+     */
+    private static Hashtable buildNodeTypeDisplayMapping (List nodeTypesList) {
+        Hashtable result = new Hashtable();
+        Iterator it = nodeTypesList.iterator();
+        while (it.hasNext()) {
+            NodeType curNodeType = (NodeType) it.next();
+            NodeTypeDisplayInfo displayInfo = new NodeTypeDisplayInfo();
+            if (curNodeType.getNodeType().equals("concept")) {
+                displayInfo.setColor(Color.blue);
+            }
+            if (curNodeType.getNodeType().equals("relation")) {
+                displayInfo.setColor(Color.green);
+            }
+            result.put(curNodeType, displayInfo);
+        }
+        return result;
+    }
+
     public static List getNodeTypesList() {
         return nodeTypesList;
     }
+
+    public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
+        return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
+    }
+
 }
 

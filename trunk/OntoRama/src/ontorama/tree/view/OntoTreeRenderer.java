@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -25,19 +24,15 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * node and line colors
      */
-    private final static Color _nodeColor = Color.blue;
     private final static Color _cloneNodeColor = Color.red;
+    private final static Color _unknownNodeColor = Color.white;
     private final static Color _lineColor = Color.gray;
-
-    /**
-     * icon for a tree node
-     */
-    private ImageIcon _nodeImageIcon;
 
     /**
      *
      */
     private ImageIcon _cloneNodeImageIcon;
+    private ImageIcon _unknownNodeImageIcon;
 
     /**
      * icon drawing line between relation link
@@ -46,12 +41,10 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     private ImageIcon _lineIcon;
 
     /**
-     * map relation link to image
-     * store an image for each link.
-     * keys - rel link type
+     * keys - node types
      * values - corresponding images
      */
-    private static Hashtable _relLinksImages = new Hashtable();
+    private static Hashtable _nodeTypeToImageMapping = new Hashtable();
 
     /**
      * Renderer for OntoTree View
@@ -59,12 +52,22 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     public OntoTreeRenderer() {
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
-        _nodeImageIcon = makeNodeIcon(iconW / 2, iconH, _nodeColor);
+
+        Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
+        while (nodeTypesIterator.hasNext()) {
+            NodeType nodeType = (NodeType) nodeTypesIterator.next();
+            Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
+            ImageIcon image = makeNodeIcon(iconW/2, iconH, color);
+            _nodeTypeToImageMapping.put(nodeType, image);
+
+        }
+
         _cloneNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _cloneNodeColor);
+        _unknownNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _unknownNodeColor);
 
         _lineIcon = makeLineIcon(iconW / 2, iconH);
 
-        initRelationLinkImages();
+        //initRelationLinkImages();
     }
 
     /**
@@ -85,16 +88,22 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                 hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        EdgeType relLinkDetails = treeNode.getRelLink();
+        EdgeType edge = treeNode.getRelLink();
 
-        setToolTipText(getToolTipText(value, relLinkDetails));
+        NodeType nodeType = treeNode.getGraphNode().getNodeType();
+
+        setToolTipText(getToolTipText(value, edge));
+
+        ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
 
         if (treeNode.getTreePath().getPathCount() == 1) {
-            setIcon(_nodeImageIcon);
+            setIcon(image);
         } else if (treeNode.getGraphNode().hasClones()) {
-            setIcon(getIcon(relLinkDetails, true));
+            Icon icon = getIcon(edge, image, true);
+            setIcon(icon);
         } else {
-            setIcon(getIcon(relLinkDetails, false));
+            Icon icon = getIcon(edge, image, false);
+            setIcon(icon);
         }
 
         return this;
@@ -104,13 +113,14 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(EdgeType edgeType, boolean isClone) {
+    protected Icon getIcon(EdgeType edgeType, ImageIcon nodeImageIcon, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
-            nodeImage = makeImageForRelLink(edgeType, true);
+            nodeImage = makeImageForRelLink(edgeType, true, nodeImageIcon);
         } else {
-            nodeImage = (Image) _relLinksImages.get(edgeType);
+            //nodeImage = (Image) _relLinksImages.get(edgeType);
+            nodeImage = makeImageForRelLink(edgeType, false, nodeImageIcon);
         }
 
         Icon icon = new ImageIcon(nodeImage);
@@ -143,29 +153,11 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     }
 
     /**
-     * initialise relation link images - build an image
-     * for each relation link. Image consist from relation
-     * link image + node image connected by line
-     */
-    private void initRelationLinkImages() {
-        HashSet relLinksSet = OntoramaConfig.getEdgeTypesSet();
-        Iterator it = relLinksSet.iterator();
-        while (it.hasNext()) {
-            EdgeType cur = (EdgeType) it.next();
-            if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
-                continue;
-            }
-            Image nodeImage = makeImageForRelLink(cur, false);
-            _relLinksImages.put(cur, nodeImage);
-        }
-    }
-
-    /**
      *
      */
-    private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone) {
+    private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
         Image relImage = OntoramaConfig.getEdgeDisplayInfo(relLinkType).getImage();
-        Image nodeImage = makeCombinedIcon(isClone, relImage);
+        Image nodeImage = makeCombinedIcon(isClone, relImage, nodeImageIcon);
         return nodeImage;
     }
 
@@ -173,7 +165,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * combine relation link image and node image connected
      * by image drawing connecting line.
      */
-    private Image makeCombinedIcon(boolean isClone, Image relImage) {
+    private Image makeCombinedIcon(boolean isClone, Image relImage, ImageIcon nodeImage) {
 
         ImageIcon relImageIcon = new ImageIcon(relImage);
         ImageObserver relImageObserver = relImageIcon.getImageObserver();
@@ -202,9 +194,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                     _cloneNodeImageIcon.getIconWidth(), totalHeight,
                     _cloneNodeImageIcon.getImageObserver());
         } else {
-            g2.drawImage(_nodeImageIcon.getImage(), w, 0,
-                    _nodeImageIcon.getIconWidth(), totalHeight,
-                    _nodeImageIcon.getImageObserver());
+            g2.drawImage(nodeImage.getImage(), w, 0,
+                    nodeImage.getIconWidth(), totalHeight,
+                    nodeImage.getImageObserver());
         }
         return image;
     }

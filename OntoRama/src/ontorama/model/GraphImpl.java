@@ -381,28 +381,28 @@ public class GraphImpl implements Graph {
 //        return null;
 //    }
 
-//    /**
-//     *
-//     */
-//    public boolean nodeIsInCurrentGivenBranch (GraphNode branchRoot, GraphNode node) {
-//        List queue = new LinkedList();
-//        queue.add(branchRoot);
-//
-//        while (!queue.isEmpty()) {
-//            GraphNode curNode = (GraphNode) queue.remove(0);
-//
-//            if (curNode.equals(node)) {
-//                return true;
-//            }
-//
-//            Iterator it = Edge.getOutboundEdgeNodes(curNode);
-//            while (it.hasNext()) {
-//                GraphNode nextNode = (GraphNode) it.next();
-//                queue.add(nextNode);
-//            }
-//        }
-//        return false;
-//    }
+    /**
+     *
+     */
+    public boolean nodeIsInGivenBranch (GraphNode branchRoot, GraphNode node) {
+        List queue = new LinkedList();
+        queue.add(branchRoot);
+
+        while (!queue.isEmpty()) {
+            GraphNode curNode = (GraphNode) queue.remove(0);
+
+            if (curNode.equals(node)) {
+                return true;
+            }
+
+            Iterator it = Edge.getOutboundEdgeNodes(curNode);
+            while (it.hasNext()) {
+                GraphNode nextNode = (GraphNode) it.next();
+                queue.add(nextNode);
+            }
+        }
+        return false;
+    }
 
     /**
      * Get nodes list. Convinience method.

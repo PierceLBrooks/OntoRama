@@ -7,8 +7,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
 
 import org.tockit.events.EventBroker;
 
@@ -42,10 +42,12 @@ public class NodesListViewer extends JScrollPane {
      *
      */
     public void setNodesList (List nodes) {
-        Vector nodesVector = new Vector(nodes);
+
+        Vector nodesVector = new Vector(sortList(nodes));
         _nodesList = new JList(nodesVector);
         _nodesList.setCellRenderer(new NodeListCellRenderer());
         _nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 
         _nodesList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -66,6 +68,33 @@ public class NodesListViewer extends JScrollPane {
         setVisible(setVisibleFlag);
     }
 
+    /**
+     * sort list of nodes in ascending alphabetic order
+     * (algorithm is taken from the website http://www.bus.utexas.edu/~plummer/sorting.ppt )
+     * @param nodesList list of nodes to sort
+     * @return sorted list of nodes
+     */
+    private List sortList(List nodesList)  {
+        int j;
+        boolean atLeastOneSwap=true;
+        while(atLeastOneSwap) {
+            atLeastOneSwap = false;
+            for(j=0; j < (nodesList.size()-1); ++j) {
+                GraphNode curNode = (GraphNode) nodesList.get(j);
+                GraphNode nextNode = (GraphNode) nodesList.get(j+1);
+
+                String curNodeName = curNode.getName();
+                String nextNodeName = nextNode.getName();
+
+                if(curNodeName.compareToIgnoreCase(nextNodeName) >  0 ) {    // ascending sort
+                    nodesList.set(j, nextNode);
+                    nodesList.set(j+1, curNode);
+                    atLeastOneSwap = true;
+                }
+            }
+        }
+        return nodesList;
+    }
 
     class NodeListCellRenderer extends DefaultListCellRenderer {
 

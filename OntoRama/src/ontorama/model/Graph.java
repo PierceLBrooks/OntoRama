@@ -52,13 +52,12 @@ public interface Graph {
 //     */
 //    public void setRoot(GraphNode rootNode);
 
-//    /**
-//     *
-//     * @param rootNode
-//     * @param node
-//     * @todo temp: shouldn't need this once implement trees
-//     */
-//    public boolean nodeIsInCurrentGivenBranch(GraphNode rootNode, GraphNode node);
+    /**
+     *
+     * @param rootNode
+     * @param node
+     */
+    public boolean nodeIsInGivenBranch(GraphNode rootNode, GraphNode node);
 
 
 

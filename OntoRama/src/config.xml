@@ -43,7 +43,6 @@ inclusive: 	purple:9999FF
 			<relationType name="instanceOf" mappingSymbol="^"/>
 			<display color="#FF99CC" symbol=":"/>
 		</relation>
-
 		<relation id="3">
 			<relationType name="part" mappingSymbol="p"/>
 			<relationType name="partOf" mappingSymbol="P"/>
@@ -67,11 +66,9 @@ inclusive: 	purple:9999FF
 			<relationType name="exclusive"/>
 			<display color="#9999FF" symbol="e"/>
 		</relation>
-		
 		<conceptProperty id="Description"/>
 		<conceptProperty id="Creator"/>
-		<conceptProperty id="Synonyms"/>
-
+		<conceptProperty id="Synonym"/>
 	</ontology>
 	<rdfMapping>
 		<relationLinks>

@@ -15,7 +15,7 @@ import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.EdgeTypeDisplayInfo;
-import ontorama.model.graph.controller.NodeSelectedEvent;
+import ontorama.model.graph.events.NodeSelectedEvent;
 import ontorama.views.hyper.view.HyperNodeView;
 import ontorama.views.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;

@@ -25,7 +25,7 @@ import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.ImageMaker;
-import ontorama.model.graph.controller.GeneralQueryEvent;
+import ontorama.model.graph.events.GeneralQueryEvent;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 

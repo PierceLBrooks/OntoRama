@@ -17,6 +17,7 @@ import ontorama.model.graph.NodeType;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeEdge;
 import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.controller.TreeViewFocusEventHandler;
 import ontorama.model.tree.view.TreeView;
 import ontorama.views.hyper.controller.DraggedEventHandler;
 import ontorama.views.hyper.controller.NodeActivatedEventHandler;
@@ -110,8 +111,8 @@ public class SimpleHyperView extends Canvas implements TreeView {
     public SimpleHyperView(EventBroker eventBroker, Projection projection) {
         super(eventBroker);
         this.projection = projection;
-//        new NodeSelectedEventTransformer(eventBroker);
-//        new GraphViewFocusEventHandler(eventBroker, this);
+        new NodeSelectedEventTransformer(eventBroker);
+        new TreeViewFocusEventHandler(eventBroker, this);
 //        new NodeActivatedEventHandler(this, eventBroker);
 //        //new NodeDraggedEventHandler(this, eventBroker);
 //        new NodePointedEventHandler(this, eventBroker);

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-import ontorama.model.graph.controller.NodeSelectedEvent;
+import ontorama.model.graph.events.NodeSelectedEvent;
 import org.tockit.events.EventBroker;
 
 /**

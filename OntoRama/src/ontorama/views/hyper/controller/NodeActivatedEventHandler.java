@@ -8,7 +8,7 @@
  */
 package ontorama.views.hyper.controller;
 
-import ontorama.model.graph.controller.NodeSelectedEvent;
+import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.views.hyper.view.HyperNodeView;
 import ontorama.views.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
@@ -30,8 +30,8 @@ public class NodeActivatedEventHandler implements EventBrokerListener {
     }
 
     public void processEvent(Event e) {
-//        HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-//        eventBroker.processEvent(new NodeSelectedEvent(nodeView.getTreeNode()));
-//        simpleHyperView.toggleFold(nodeView.getTreeNode());
+        HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+        eventBroker.processEvent(new TreeNodeSelectedEvent(nodeView.getTreeNode()));
+        simpleHyperView.toggleFold(nodeView.getTreeNode());
     }
 }

@@ -77,7 +77,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
     private void processExampleElement (Element element) throws ConfigParserException {
       Attribute nameAttr = element.getAttribute("name");
       checkCompulsoryAttr(nameAttr, "name", "element");
-      System.out.println("processing example element with name: " + nameAttr);
+      //System.out.println("processing example element with name: " + nameAttr);
       Attribute rootAttr = element.getAttribute("root");
       checkCompulsoryAttr(rootAttr, "root", "element");
       Attribute loadOnStartAttr = element.getAttribute("loadOnStart");
@@ -113,11 +113,11 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
       }
 
       Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
-      System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
+      //System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
       if ( ( isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true")) ) {
         Attribute queryStringConstructorPackagePathSuffixAttr = sourceElement.getAttribute("queryStringConstructorPackagePathSuffix");
         System.out.println("queryStringConstr attr = " + queryStringConstructorPackagePathSuffixAttr);
-        checkCompulsoryAttr(queryStringConstructorPackagePathSuffixAttr, "queryStringConstructorPackagePathSuffix", "source");
+        //checkCompulsoryAttr(queryStringConstructorPackagePathSuffixAttr, "queryStringConstructorPackagePathSuffix", "source");
         example.setIsSourceDynamic(true);
         example.setQueryStringConstructorPackagePathSuffix(queryStringConstructorPackagePathSuffixAttr.getValue());
       }

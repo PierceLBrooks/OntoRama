@@ -5,10 +5,7 @@ package ontorama.hyper.view.simple;
  */
 
 import ontorama.hyper.canvas.CanvasItem;
-
-//import hyper.canvas.CanvasItem;
 import ontorama.hyper.model.HyperNode;
-//import hyper.model.Position3D;
 import ontorama.hyper.model.PositionChaingedObserver;
 
 import java.awt.Color;
@@ -16,9 +13,12 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.Iterator;
 
+import java.awt.geom.Ellipse2D;
+//import java.awt.geom.Ellipse2D.Double;
+
 public class HyperNodeView extends CanvasItem implements PositionChaingedObserver {
 
-        /**
+    /**
      * Hold the model for this view.
      */
     private HyperNode model;
@@ -51,7 +51,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Set the color of the node.
      *
-     * ///TODO this color should be stored and maybe based on
+     * @todo this color should be stored and maybe based on
      * ontology type.
      */
     private Color nodeColor = Color.blue;
@@ -62,26 +62,11 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     private Color fadeColor = nodeColor;
 
     /**
-     * Holds the current view radius.
+     * Holds the current node view radius.
      */
-    private int viewRadius;
+    private double viewRadius;
 
-    /**
-     * Sets the projection information for all nodes.
-     */
-    public static void setProjection(double sphereRadius, double focalDepth) {
-        //NodeView.sphereRadius = sphereRadius;
-        //NodeView.focalDepth = focalDepth;
-    }
-
-    /**
-     * Sets the projection information for all nodes, setting the focal depth
-     * to 110% of the radius.
-     */
-    public static void setProjection(double sphereRadius) {
-        //NodeView.sphereRadius = sphereRadius;
-        //NodeView.focalDepth = sphereRadius * relativeFocus;
-    }
+    private Ellipse2D nodeShape = new Ellipse2D.Double( 0,0,0,0 );
 
     /**
      * Returns the radius of the projection sphere.
@@ -193,7 +178,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         return false;
     }
     /**
-     *
+     * Return the node view radius.
      */
     public double getViewRadius() {
         return viewRadius;
@@ -215,15 +200,16 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         }
         double scale = getScale();
         double colorScale = (dist/sphereRadius);
-        viewRadius = (int)(model.getNoderadius() * scale);
+        viewRadius = model.getNodeRadius() * scale;
         double red = nodeColor.getRed() + ( ( 255 -  nodeColor.getRed() ) * colorScale );
         double green = nodeColor.getGreen() + ( ( 255 -  nodeColor.getGreen() ) * colorScale );
         double blue = nodeColor.getBlue() + ( ( 255 -  nodeColor.getBlue() ) * colorScale );
         fadeColor = new Color( (int)red, (int)green, (int)blue );
         g2d.setColor( fadeColor );
-        g2d.fillOval(	(int)projectedX - viewRadius,
-                        (int)projectedY - viewRadius,
-                       (int)viewRadius * 2, (int)viewRadius * 2);
+        nodeShape.setFrame( projectedX - viewRadius,
+                            projectedY - viewRadius,
+                            viewRadius * 2, viewRadius * 2 );
+        g2d.fill( nodeShape );
     }
 
     public String toString() {

@@ -1,6 +1,5 @@
 package ontorama.ui;
 
-import ontorama.ontotools.query.Query;
 
 /**
  * <p>Title: </p>

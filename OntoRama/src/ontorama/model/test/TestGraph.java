@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.tockit.events.EventBroker;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -103,7 +105,7 @@ public class TestGraph extends TestCase {
 
         QueryResult queryResult = new QueryResult(query, _nodesList, _edgesList);
 
-        graph = new GraphImpl(queryResult);
+        graph = new GraphImpl(queryResult, new EventBroker());
         System.out.println("nodes list = " + graph.getNodesList());
         System.out.println("edges list = " + graph.getEdgesList());
 

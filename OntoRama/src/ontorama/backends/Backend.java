@@ -12,6 +12,8 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import javax.swing.*;
 
+import org.tockit.events.EventBroker;
+
 /**
  * @author henrika
  *
@@ -37,4 +39,6 @@ public interface Backend{
     public List getPanels();
     public Menu getMenu();
     public JMenu getJMenu();
+
+    public void setEventBroker(EventBroker eventBroker);
  }

@@ -6,6 +6,7 @@ import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;
 import ontorama.model.GraphImpl;
 import ontorama.model.events.GraphChangedEvent;
+import ontorama.model.events.NodeAddedEvent;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.textDescription.view.DescriptionView;
 import ontorama.tree.view.OntoTreeView;
@@ -16,6 +17,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
 import org.tockit.events.Event;
+import org.tockit.events.LoggingEventListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -160,6 +162,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private static Vector _backends;
 
+    private static EventBroker _eventBroker;
+
 
     /**
      * debugging
@@ -192,7 +196,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         super("OntoRamaApp");
 
         initActions();
-        EventBroker eventBroker = new EventBroker();
+        _eventBroker = new EventBroker();
+        System.out.println("main app event broker: " + _eventBroker);
 
         _timer = new Timer(TIMER_INTERVAL, this);
         initBackends();
@@ -204,7 +209,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         buildMenuBar();
         setJMenuBar(_menuBar);
 
-        _listViewer = new NodesListViewer(eventBroker);
+        _listViewer = new NodesListViewer(_eventBroker);
 
         buildToolBar();
 
@@ -212,13 +217,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         buildStatusBar();
         setStatusLabel("status bar is here");
 
-        //new LoggingEventListener(eventBroker, CanvasItemEvent.class, Object.class, System.out);
+        new LoggingEventListener(_eventBroker, NodeAddedEvent.class, Object.class, System.out);
 
-        _descriptionViewPanel = new DescriptionView(eventBroker);
+        _descriptionViewPanel = new DescriptionView(_eventBroker);
 
-        _queryPanel = new QueryPanel(this, eventBroker);
-        _treeView = new OntoTreeView(eventBroker);
-        _hyperView = new SimpleHyperView(eventBroker);
+        _queryPanel = new QueryPanel(this, _eventBroker);
+        _treeView = new OntoTreeView(_eventBroker);
+        _hyperView = new SimpleHyperView(_eventBroker);
 
 
         addComponentsToScrollPanel(_hyperView, _treeView);
@@ -282,6 +287,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             String backendName =(String) it.next();
             try {
                 Backend curBackend = (Backend) Class.forName(backendName).newInstance();
+                curBackend.setEventBroker(_eventBroker);
                 _backends.add(curBackend);
             }
             catch (ClassNotFoundException e) {
@@ -483,8 +489,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
             _graph = graph;
             /// @todo nasty shortcut, fix
-            GraphImpl graphImpl = (GraphImpl) _graph;
-            graphImpl.getEventBroker().subscribe(new ViewUpdateHandler(), GraphChangedEvent.class, Graph.class);
+            //GraphImpl graphImpl = (GraphImpl) _graph;
+            //graphImpl.getEventBroker().subscribe(new ViewUpdateHandler(), GraphChangedEvent.class, Graph.class);
+            _eventBroker.subscribe(new ViewUpdateHandler(), GraphChangedEvent.class, Graph.class);
             updateViews();
 //            showUnconnectedNodes();
         }
@@ -499,7 +506,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _query = query;
         _debug.message(".............. EXECUTE QUERY for new graph ...................");
 
-        _worker = new QueryEngineThread(_query);
+        _worker = new QueryEngineThread(_query, _eventBroker);
         _worker.start();
 
         _timer.start();

@@ -6,6 +6,8 @@ import ontorama.webkbtools.util.*;
 
 import java.io.IOException;
 
+import org.tockit.events.EventBroker;
+
 
 /**
  * <p>Title: </p>
@@ -47,11 +49,17 @@ public class QueryEngineThread extends Thread {
     private boolean _finished = false;
 
     /**
+     * @todo probably shouldn't pass event broker here
+     */
+    EventBroker _eventBroker;
+
+    /**
      * Constructor.
      */
-    public QueryEngineThread(Query query) {
+    public QueryEngineThread(Query query, EventBroker eventBroker) {
         super();
         _query = query;
+        _eventBroker = eventBroker;
         initAll();
     }
 
@@ -99,7 +107,8 @@ public class QueryEngineThread extends Thread {
             _status = "building graph";
             _current = 90;
             //printStatus();
-            _graph = new GraphImpl(queryResult);
+            System.out.println("thread event broker: " + _eventBroker);
+            _graph = new GraphImpl(queryResult, _eventBroker);
 
             _status = "graph is built";
         } catch (NoTypeFoundInResultSetException noTypeExc) {

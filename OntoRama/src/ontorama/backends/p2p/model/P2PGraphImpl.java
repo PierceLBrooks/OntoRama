@@ -16,6 +16,7 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import org.tockit.events.EventBroker;
 
 /**
  * Build a collection of GraphNodes and Edges that form a Graph.
@@ -34,42 +35,43 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
  */
 public class P2PGraphImpl extends GraphImpl implements P2PGraph,Cloneable {
 
+    /**
+     * @todo: not sure about this empty event broker?.....
+     */
 	public P2PGraphImpl() {
-		super();
+		super(new EventBroker());
+        System.out.println("p2p constructor 1");
 	}
 
-	public P2PGraphImpl(QueryResult queryResult) 
+	public P2PGraphImpl(QueryResult queryResult)
 		throws NoTypeFoundInResultSetException, NoSuchRelationLinkException {
-		super(queryResult);
+		super(queryResult, new EventBroker());
+        System.out.println("p2p constructor 2");
 	}
 
 
 	public void add(ParserResult parserResult) throws GraphModificationException, NoSuchRelationLinkException {
 		try {
-            System.out.println("1111");
-			Iterator it = parserResult.getNodesList().iterator();
-            System.out.println("2222");
-			while (it.hasNext()) {
-            System.out.println("   eeeeeee");				
-				this.addNode((Node) it.next());
-			}	
+            Iterator it = parserResult.getNodesList().iterator();
+            while (it.hasNext()) {
+            	this.addNode((Node) it.next());
+			}
 			it = parserResult.getEdgesList().iterator();
 			while (it.hasNext()) {
 					this.addEdge((Edge) it.next());
-			}	
+			}
 		} catch (GraphModificationException e) {
-            System.out.println("GraphMOdificationError");	
+            System.out.println("GraphMOdificationError");
 			throw e;
 		} catch (NoSuchRelationLinkException e) {
             System.out.println("NoSuchRElationLinkException");
 			throw e;
 		}
 	}
-	
-	
+
     /**
      * Assert a node.
-     * 
+     *
      * @param p2pnode to assert
      * @param userIdUri for the asserter
      */

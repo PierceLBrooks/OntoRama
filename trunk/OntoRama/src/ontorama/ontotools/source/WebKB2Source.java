@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
@@ -356,8 +355,6 @@ public class WebKB2Source implements Source {
      * an original search term as a synonym. Otherwise, it is not clear
      * how to extract these 'wanted' terms from the list of ontology terms
      * returned from webkb for each ambuguous choice.
-     *
-     * @todo  check if this assumption (above) is fair
      *
      */
     private List getTypesListFromRdfStream(Reader reader, String termName)

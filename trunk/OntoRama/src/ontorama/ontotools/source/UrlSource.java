@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import ontorama.OntoramaConfig;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
@@ -32,32 +31,19 @@ public class UrlSource implements Source {
      *  @todo implement if needed: throw CancelledQueryException
      */
     public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException {
-        Reader reader = getReader(uri, query);
-        return (new SourceResult(true, reader, null));
+		try {
+			System.out.println("class UrlSource, uri = " + uri);
+			URL url = new URL(uri);
+			URLConnection connection = url.openConnection();
+			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+			return (new SourceResult(true, reader, null));
+		} catch (MalformedURLException urlExc) {
+			throw new SourceException("Url " + uri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage(), urlExc);
+		} catch (IOException ioExc) {
+			throw new SourceException("Couldn't read input data source for " + uri + ", error: " + ioExc.getMessage(), ioExc);
+		}
     }
 
-    /**
-     *  Get a Reader from given uri.
-     *  @param  uri  this object specified resource file
-     *  @return reader
-     *  @throws SourceException
-     */
-    private Reader getReader(String uri, Query query) throws SourceException {
-        InputStreamReader reader = null;
-
-        try {
-            System.out.println("class UrlSource, uri = " + uri);
-            URL url = new URL(uri);
-            URLConnection connection = url.openConnection();
-            reader = new InputStreamReader(connection.getInputStream());
-        } catch (MalformedURLException urlExc) {
-            throw new SourceException("Url " + uri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage(), urlExc);
-        } catch (IOException ioExc) {
-            throw new SourceException("Couldn't read input data source for " + uri + ", error: " + ioExc.getMessage(), ioExc);
-        }
-
-        return reader;
-    }
 
 
 }

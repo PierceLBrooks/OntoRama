@@ -131,10 +131,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		makeHyperNodes(root);
         calculateDepths((HyperNode) this.hypernodes.get(root), 0);
         
-        /// @todo the next few lines seem weird, there might be some chance for nicer code here
-		NodePlacementDetails rootNode = new NodePlacementDetails();
-		rootNode.node = root;
-		rootNode.numOfLeaves = getLeafNodeTotal(root);
+		NodePlacementDetails rootNode = new NodePlacementDetails(root, getLeafNodeTotal(root));
 		weightedRadialLayout(rootNode, 0);
 
 		addCanvasItem(SimpleHyperView.sphereView, "sphere");
@@ -330,9 +327,17 @@ public class SimpleHyperView extends Canvas implements TreeView {
     private class NodePlacementDetails {
         public TreeNode node = null;
         public double numOfLeaves = 0;
-        // (Math.PI * 2) is the number of radians in a circle
-        public double wedge = Math.PI * 2;
-        public double weight = 1;// used to calc node radius from center
+		// (Math.PI * 2) is the number of radians in a circle
+		public double wedge = Math.PI * 2;
+		public double weight = 1;// used to calc node radius from center
+        
+        public NodePlacementDetails() {
+        	System.out.println("NodePlacementDetails()");
+        }
+        
+		public NodePlacementDetails(TreeNode node, double numOfLeaves) {
+			System.out.println("NodePlacementDetails() 2");
+		}
     }
 
     /**

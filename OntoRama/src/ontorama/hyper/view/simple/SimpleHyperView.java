@@ -90,11 +90,11 @@ public class SimpleHyperView extends CanvasManager implements GraphView, ViewEve
      */
     private String testFileOutputPath = "benchmark_out/";
 
-    public SimpleHyperView(ViewEventListener viewListener, EventBroker eventBroker) {
-        super(viewListener, eventBroker);
+    public SimpleHyperView( EventBroker eventBroker) {
+        super(eventBroker);
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
         new GraphViewFocusEventHandler(eventBroker, this);
-        new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
+        //new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
     }
 
     public void focus(GraphNode node) {

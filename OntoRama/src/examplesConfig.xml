@@ -118,4 +118,18 @@
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Test Cases"/>
 	</example>
+	<example name="testCase2" root="Contact">
+		<source uri="examples/web-examples/cerif.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Test Cases"/>
+	</example>
+	<example name="testCase3" root="Publication">
+		<source uri="examples/web-examples/slinks.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Test Cases"/>
+	</example>
 </ontoramaExamples>

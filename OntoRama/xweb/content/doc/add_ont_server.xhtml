@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<title>Adding WebKB as Ontology Server</title>
+	</head>
+	<body>
+		<h1 align="center">
+			Adding WebKB as Ontology Server
+		</h1>
+		<h3>Package Design Overview</h3>
+		<p>
+		The aim of the OntoRama project is to build a generic ontology browser, this means that 
+		we should be able to have one data model and populate it using different input sources, 
+		data formats, etc. To achieve this we designed API to deal with this. This API should
+		work well for any ontology sources, be it static file inputs or dynamic ontology servers.
+		The same applies to different input formats, be it XML, RDF or some other data format.
+		</p>
+		<p>
+		The package reading and parsing ontologies is called webkbtools (we will have to change naming convention
+		in the future). This package includes packages: datamodel, inputsource and query.
+		Datamodel package contains model of ontology terms. Inputsource package is responsible for reading 
+		ontology data  from the specified source into an input stream. Query package is responsible for 
+		processing an input stream received from the source and parsing data to represent the data model.
+		Below are a couple of diagrams depicting webkbtools package structure and message passing between
+		GUI, query engine and webkbtools (please not, these diagrams are not strict UML ).
+		</p>
+		<p>
+		Diagram of webkbtools package structure:
+		</p>
+		<img src="img/package_webkbtools.png" alt="Diagram of package webkbtools"/>
+		<p>
+		Diagram of message passing while executing a query
+		</p>
+		<img src="img/query-engine-message-passing.png" alt="Diagram: QueryEngine message passing"/>
+		<h3>Implementing connectivity to WebKB2</h3>
+		<p>
+		In order to be able to communicate with WebKB2 we needed to implement 
+		Source (webkbtools.inputsource.Source) and Parser (webkbtools.query.parser.Parser) 
+		interfaces. Once this was done - we simply add them to the package structure 
+		and edit config.xml file to specify where to find these new classes.
+		</p>
+		<p>
+		For instance, our implementation of Source is located at webkbtools.inputsource.WebKB2Source. 
+		Corresponding config file entry is: 
+		</p>
+		<xml>
+		<source uri = "http://www.webkb.org/bin/termSearch.cgi"
+				isSourceDynamic= "true"
+				sourcePackagePathSuffix= "WebKB2Source" />	
+		</xml>
+		<p>
+		where: 'uri' is URI of WebKB cgi script; 'isSourceDynamic' specifies that we are dealing with dynamic
+		content and 'sourcePackagePathSuffix' is name of WebKB2 source implementation (relative to package path
+		webkbtools.inputsource. ).
+		</p>
+		<p>
+		And following line is describing location of Parser package:
+		</p>
+		<xml>
+		<parserPackagePathSuffix> rdf.RdfWebkbParser </parserPackagePathSuffix>
+		</xml>
+		<p>
+		where 'parserPackageSuffix' specifies how to find Parser implementation 
+		(relative to webkbtools.query.parser.). Our implementation is located
+		at 'webkbtools.query.parser.rdf.RdfWebkbParser'.
+		</p>
+		<p>
+		For more information on configuration, see  <a href="menus.html#examples">examples menu configuration section</a> of 
+		the OntoRama documentation.
+		
+		</p>
+		
+	</body>
+</html>		

@@ -37,19 +37,19 @@ public class NodeDraggedEventHandler implements EventListener {
 //        this.focusNode = null;
 //        currentHighlightedView = null;
 
-        double x = draggedEvent.getCanvasToPosition().getX();
-        double y = draggedEvent.getCanvasToPosition().getY();
-        double lpx = draggedEvent.getCanvasFromPosition().getX();
-        double lpy = draggedEvent.getCanvasFromPosition().getY();
-
-        if ((draggedEvent.getModifiers() & MouseEvent.CTRL_DOWN_MASK) == 0) {
-            System.out.println("\n\nDRAG...");
-            double xDif = (lpx - x);
-            double yDif = (lpy - y);
-            SimpleHyperView.moveCanvasItems(xDif, yDif);
-        } else {
-            System.out.println("\n\nROTATE...");
-            // get x's and y's in cartesian coordinates
+//        double x = draggedEvent.getCanvasToPosition().getX();
+//        double y = draggedEvent.getCanvasToPosition().getY();
+//        double lpx = draggedEvent.getCanvasFromPosition().getX();
+//        double lpy = draggedEvent.getCanvasFromPosition().getY();
+//
+//        if ((draggedEvent.getModifiers() & MouseEvent.CTRL_DOWN_MASK) == 0) {
+//            System.out.println("\n\nDRAG...");
+//            double xDif = (lpx - x);
+//            double yDif = (lpy - y);
+//            moveCanvasItems(xDif, yDif);
+//        } else {
+//            System.out.println("\n\nROTATE...");
+             //get x's and y's in cartesian coordinates
 //            double curX = x - getSize().width / 2;
 //            double curY = y - getSize().height / 2;
 //            double lastX = lpx - getSize().width / 2;
@@ -57,22 +57,22 @@ public class NodeDraggedEventHandler implements EventListener {
 //            // calculate angle of rotation
 //            double angle = Math.atan2(lastX, lastY) - Math.atan2(curX, curY);
 //            this.rotateNodes(angle);
-        }
+//        }
         //lastPoint.setLocation(x, y);
-        repaint();
+//        repaint();
 
     }
 
     /**
      * Rotate node about the center (0, 0) by angle passed.
      */
-    protected void rotateNodes(double angle) {
-        Iterator it = SimpleHyperView.hypernodes.values().iterator();
-        while (it.hasNext()) {
-            HyperNode hn = (HyperNode) it.next();
-            hn.rotate(angle);
-        }
-    }
+//    protected void rotateNodes(double angle) {
+//        Iterator it = SimpleHyperView.hypernodes.values().iterator();
+//        while (it.hasNext()) {
+//            HyperNode hn = (HyperNode) it.next();
+//            hn.rotate(angle);
+//        }
+//    }
 
 
 }

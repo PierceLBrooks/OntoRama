@@ -903,7 +903,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Move all the nodes by an offset x and y.
      */
-    public static void moveCanvasItems(double x, double y) {
+    public void moveCanvasItems(double x, double y) {
         Iterator it = this.hypernodes.values().iterator();
         while (it.hasNext()) {
             HyperNode hn = (HyperNode) it.next();

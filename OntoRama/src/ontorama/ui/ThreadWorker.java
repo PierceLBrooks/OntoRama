@@ -57,6 +57,7 @@ public abstract class ThreadWorker extends Thread {
 	 * stop this thread
 	 */
 	public void stopProcess() {
+		System.out.println("\nThreadWorker::stopProcess()");
 		interrupt();
 		_interrupted = true;
 	}

@@ -177,7 +177,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			Query query = e.getQuery();
 			_lastQuery = _query;
 			_query = query;
-			_worker = new QueryEngineThread(queryEngine, _query, _modelEventBroker);
+			_worker = new QueryEngineThread(queryEngine, _query, _modelEventBroker, _viewsEventBroker);
 			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
 			_worker.start();
 			_timer.start();
@@ -212,19 +212,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
     }
 
-    class QueryCancelledEventHandler implements EventBrokerListener {
+	/**
+	 * This event handler is only interested in this event in order to 
+	 * reset UI and revert to the previous query. 
+	 */
+    class UpdateViewsWithQueryCancelledEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
-            _worker.stopProcess();
 			_statusBar.stopProgressBar();
             _queryPanel.enableStopQueryAction(false);
             
             if (_lastQuery != null) {
 	            _query = _lastQuery;
 	            _queryPanel.setQuery(_query);
-	            _modelEventBroker.subscribe(
-	                _viewsEventBroker,
-	                TreeChangedEvent.class,
-	                Object.class);
+	            _modelEventBroker.subscribe( _viewsEventBroker, TreeChangedEvent.class, Object.class);
             }
         }
     }
@@ -274,35 +274,36 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							QueryStartEvent.class,
 							Object.class);
 
+
+
+        _modelEventBroker.subscribe(
+				            new GraphIsLoadedEventHandler(),
+				            GraphIsLoadedEvent.class,
+				            Object.class);
+        _viewsEventBroker.subscribe(
+				            new GraphIsLoadedEventHandler(),
+				            GraphIsLoadedEvent.class,
+				            Object.class);
+
+        _modelEventBroker.subscribe(
+				            new UpdateViewsWithQueryCancelledEventHandler(),
+							UpdateViewsWithQueryCancelledEvent.class,
+				            Query.class);
+        _viewsEventBroker.subscribe(
+				            new UpdateViewsWithQueryCancelledEventHandler(),
+							UpdateViewsWithQueryCancelledEvent.class,
+				            Query.class);
+
 		new ExtendedLoggingEventListener(
 							_modelEventBroker,
-							QueryStartEvent.class,
+							QueryCancelledEvent.class,
 							Object.class,
 							System.out);
 		new ExtendedLoggingEventListener(
 							_viewsEventBroker,
-							QueryStartEvent.class,
+							QueryCancelledEvent.class,
 							Object.class,
 							System.out);
-
-
-        _modelEventBroker.subscribe(
-				            new GraphIsLoadedEventHandler(),
-				            GraphIsLoadedEvent.class,
-				            Object.class);
-        _viewsEventBroker.subscribe(
-				            new GraphIsLoadedEventHandler(),
-				            GraphIsLoadedEvent.class,
-				            Object.class);
-
-        _modelEventBroker.subscribe(
-				            new QueryCancelledEventHandler(),
-				            QueryCancelledEvent.class,
-				            Object.class);
-        _viewsEventBroker.subscribe(
-				            new QueryCancelledEventHandler(),
-				            QueryCancelledEvent.class,
-				            Object.class);
 
 		_modelEventBroker.subscribe(
 							new PutThinkingCapOnEventHandler(),

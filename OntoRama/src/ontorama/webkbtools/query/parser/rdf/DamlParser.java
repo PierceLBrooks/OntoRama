@@ -5,6 +5,7 @@ import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.ParserException;
 
 import java.io.Reader;
@@ -18,6 +19,16 @@ import java.util.Iterator;
  */
 public class DamlParser implements Parser {
 
+    /**
+     * @todo return proper ParserResult (not null)
+     * @param reader
+     * @return
+     * @throws ParserException
+     * @throws AccessControlException
+     */
+    public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+        return null;
+    }
 
     /**
      *

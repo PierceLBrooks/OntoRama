@@ -2,13 +2,15 @@ package ontorama.webkbtools.query.parser.rdf;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
-import ontorama.util.IteratorUtil;
+import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.*;
 
 import java.io.Reader;
@@ -36,6 +38,8 @@ import java.util.List;
 
 public class TestRdfDamlParser extends TestCase {
 
+    protected ParserResult parserResult;
+
     protected Collection resultCollection;
 
 
@@ -43,19 +47,19 @@ public class TestRdfDamlParser extends TestCase {
     protected String propName_creator = "Creator";
     protected String propName_synonym = "Synonym";
 
-    protected OntologyType testType_chair;
-    protected OntologyType testType_armchair;
-    protected OntologyType testType_furniture;
-    protected OntologyType testType_backrest;
-    protected OntologyType testType_leg;
-    protected OntologyType testType_myChair;
-    protected OntologyType testType_someSubstanceNode;
-    protected OntologyType testType_table;
-    protected OntologyType testType_someLocation;
-    protected OntologyType testType_url;
-    protected OntologyType testType_someObject;
-    protected OntologyType testType_allChairs;
-    protected OntologyType testType_ACHRONYM;
+    protected GraphNode testNode_chair;
+    protected GraphNode testNode_armchair;
+    protected GraphNode testNode_furniture;
+    protected GraphNode testNode_backrest;
+    protected GraphNode testNode_leg;
+    protected GraphNode testNode_myChair;
+    protected GraphNode testNode_someSubstanceNode;
+    protected GraphNode testNode_table;
+    protected GraphNode testNode_someLocation;
+    protected GraphNode testNode_url;
+    protected GraphNode testNode_someObject;
+    protected GraphNode testNode_allChairs;
+    protected GraphNode testNode_ACHRONYM;
 
     private Source source;
     private Parser parser;
@@ -83,29 +87,29 @@ public class TestRdfDamlParser extends TestCase {
         Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
 
         parser = new RdfDamlParser();
-        buildResultCollection(parser, r);
+        buildResult(parser, r);
 
-        testType_chair = getOntologyTypeFromList("test#Chair", resultCollection);
-        //System.out.println("chair ont.type " + testType_chair);
-        testType_armchair = getOntologyTypeFromList("test#Armchair", resultCollection);
-        testType_furniture = getOntologyTypeFromList("test#Furniture", resultCollection);
-        testType_backrest = getOntologyTypeFromList("test#Backrest", resultCollection);
-        testType_leg = getOntologyTypeFromList("test#Leg", resultCollection);
-        testType_myChair = getOntologyTypeFromList("test#MyChair", resultCollection);
-        testType_someSubstanceNode = getOntologyTypeFromList("test#SomeSubstanceNode", resultCollection);
-        testType_table = getOntologyTypeFromList("test#Table", resultCollection);
-        testType_someLocation = getOntologyTypeFromList("test#SomeLocation", resultCollection);
-        testType_url = getOntologyTypeFromList("OntoRama", resultCollection);
-        testType_someObject = getOntologyTypeFromList("test#SomeObject", resultCollection);
-        testType_allChairs = getOntologyTypeFromList("test#AllChairs", resultCollection);
+        List nodesList = parserResult.getNodesList();
+        testNode_chair = getGraphNodeFromList("test#Chair", nodesList);
+        testNode_armchair = getGraphNodeFromList("test#Armchair", nodesList);
+        testNode_furniture = getGraphNodeFromList("test#Furniture", nodesList);
+        testNode_backrest = getGraphNodeFromList("test#Backrest", nodesList);
+        testNode_leg  = getGraphNodeFromList("test#Leg", nodesList);
+        testNode_myChair = getGraphNodeFromList("test#MyChair", nodesList);
+        testNode_someSubstanceNode = getGraphNodeFromList("test#SomeSubstanceNode", nodesList);
+        testNode_table = getGraphNodeFromList("test#Table", nodesList);
+        testNode_someLocation  = getGraphNodeFromList("test#SomeLocation", nodesList);
+        testNode_url = getGraphNodeFromList("OntoRama", nodesList);
+        testNode_someObject = getGraphNodeFromList("test#SomeObject", nodesList);
+        testNode_allChairs = getGraphNodeFromList("test#AllChairs", nodesList);
+
     }
-
 
     /**
      *
      */
-    protected void buildResultCollection(Parser parser, Reader r) throws ParserException {
-        resultCollection = parser.getOntologyTypeCollection(r);
+    protected void buildResult (Parser parser, Reader r) throws ParserException {
+        parserResult = parser.getResult(r);
     }
 
     /**
@@ -122,7 +126,7 @@ public class TestRdfDamlParser extends TestCase {
         Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
-            parser.getOntologyTypeCollection(r);
+            parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");
         } catch (ParserException e) {
             //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
@@ -143,7 +147,7 @@ public class TestRdfDamlParser extends TestCase {
         Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
         parser = new RdfDamlParser();
         try {
-            parser.getOntologyTypeCollection(r);
+            parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");
         } catch (ParserException e) {
             //System.out.println("caught parser exception as expected, message: \n" + e.getMessage());
@@ -164,9 +168,8 @@ public class TestRdfDamlParser extends TestCase {
      *
      */
     public void testResultSize() {
-        // expecting 15 types in the result: 14 are ours and 1 is
-        // default produced by rdf parser: rdf-schema#Class
-        assertEquals(14, resultCollection.size());
+        // expecting 14 types in the result
+        assertEquals(14, parserResult.getNodesList().size());
     }
 
     /**
@@ -174,61 +177,61 @@ public class TestRdfDamlParser extends TestCase {
      */
     public void testFullName() {
         String message = "full name of the ontology type";
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testType_chair.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Furniture", testType_furniture.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Backrest", testType_backrest.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Leg", testType_leg.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#MyChair", testType_myChair.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#AllChairs", testType_allChairs.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeSubstanceNode", testType_someSubstanceNode.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Table", testType_table.getFullName());
-        assertEquals(message, "http://www.webkb.org/OntoRama", testType_url.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeLocation", testType_someLocation.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeObject", testType_someObject.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testType_armchair.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testNode_chair.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Furniture", testNode_furniture.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Backrest", testNode_backrest.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Leg", testNode_leg.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#MyChair", testNode_myChair.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#AllChairs", testNode_allChairs.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeSubstanceNode", testNode_someSubstanceNode.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Table", testNode_table.getFullName());
+        assertEquals(message, "http://www.webkb.org/OntoRama", testNode_url.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeLocation", testNode_someLocation.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeObject", testNode_someObject.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testNode_armchair.getFullName());
     }
 
     /**
      *
      */
-    public void testTypePropertyDescr_chair() throws NoSuchPropertyException {
+    public void testNodePropertyDescr_chair() throws NoSuchPropertyException {
         //System.out.println("\n\n\n testing property description");
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("test term 'chair'");
-        testingTypeProperty(propName_descr, expectedValueList, testType_chair);
+        testingNodeProperty(propName_descr, expectedValueList, testNode_chair);
     }
 
     /**
      *
      */
-    public void testTypePropertyCreator_chair() throws NoSuchPropertyException {
+    public void testNodePropertyCreator_chair() throws NoSuchPropertyException {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("nataliya@dstc.edu.au");
-        testingTypeProperty(propName_creator, expectedValueList, testType_chair);
+        testingNodeProperty(propName_creator, expectedValueList, testNode_chair);
     }
 
     /**
      *
      */
-    public void testTypePropertySyn_chair() throws NoSuchPropertyException {
+    public void testNodePropertySyn_chair() throws NoSuchPropertyException {
         LinkedList expectedValueList = new LinkedList();
         expectedValueList.add("chair");
         expectedValueList.add("sit");
-        testingTypeProperty(propName_synonym, expectedValueList, testType_chair);
+        testingNodeProperty(propName_synonym, expectedValueList, testNode_chair);
     }
 
     /**
      *
      */
-    protected void testingTypeProperty(String propName, List expectedPropValueList,
-                                       OntologyType type) throws NoSuchPropertyException {
+    protected void testingNodeProperty(String propName, List expectedPropValueList,
+                                       GraphNode node) throws NoSuchPropertyException {
         //
-        assertEquals("ontology type should never be null here, check setUp() method" +
-                " for type " + type, false, (type == null));
+        assertEquals("graph node should never be null here, check setUp() method" +
+                " for node " + node, false, (node == null));
         String message = "checking concept type property '" + propName;
-        message = message + "' for type '" + type.getName() + "'";
+        message = message + "' for type '" + node.getName() + "'";
 
-        List propValue = testType_chair.getTypeProperty(propName);
+        List propValue = testNode_chair.getProperty(propName);
         assertEquals(message + ", number of prop. values", expectedPropValueList.size(), propValue.size());
 
         for (int i = 0; i < expectedPropValueList.size(); i++) {
@@ -240,9 +243,9 @@ public class TestRdfDamlParser extends TestCase {
      * test rel link 'subtype' for type chair
      * id = 1
      */
-    public void testTypeRelationLinks_chair_subtype() throws NoSuchRelationLinkException {
-        testingRelationLink("subtype", 1, testType_chair, "test#Armchair", 1);
-        testingRelationLink("supertype", 1, testType_furniture, "test#Chair", 1);
+    public void testEdge_chair_subtype() throws NoSuchRelationLinkException {
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[1], testNode_chair, "test#Armchair", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[1], testNode_furniture, "test#Chair", 1);
     }
 
     /**
@@ -250,7 +253,7 @@ public class TestRdfDamlParser extends TestCase {
      * id = 2
      */
     public void testTypeRelationLinks_chair_similar() throws NoSuchRelationLinkException {
-        testingRelationLink("similar", 2, testType_chair, "test#OtherChairs", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[2],testNode_chair,"test#OtherChairs", 1);
     }
 
     /**
@@ -268,8 +271,8 @@ public class TestRdfDamlParser extends TestCase {
     public void testTypeRelationLinks_chair_part() throws NoSuchRelationLinkException {
         // these links are in reversed order, so we are testing
         // types chair, backrest and leg.
-        testingRelationLink("part", 4, testType_chair, "test#Backrest", 2);
-        //testingRelationLink("part", 4, testType_chair, "leg", 2);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[4], testNode_chair, "test#Backrest", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[4], testNode_chair, "test#Leg", 1);
     }
 
     /**
@@ -277,8 +280,8 @@ public class TestRdfDamlParser extends TestCase {
      * id = 5
      */
     public void testTypeRelationLinks_chair_substance() throws NoSuchRelationLinkException {
-        testingRelationLink("substance", 5, testType_chair, "test#SomeSubstanceNode", 1);
-        testingRelationLink("substance", 5, testType_chair, "test#SomeSubstanceNode", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[5], testNode_chair, "test#SomeSubstanceNode", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[5], testNode_chair, "test#SomeSubstanceNode", 1);
     }
 
     /**
@@ -286,10 +289,10 @@ public class TestRdfDamlParser extends TestCase {
      * id = 6
      */
     public void testTypeRelationLinks_chair_instance() throws NoSuchRelationLinkException {
-        testingRelationLink("instance", 6, testType_chair, "test#MyChair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[6], testNode_chair, "test#MyChair", 0);
         // 2 here to account for a fact that rdf resource is an instance of rdf-schema#Class
         // so we have 1 type that instance of type 'chair' + 1 rdf-schema#Class
-        testingRelationLink("instance", 6, testType_myChair, "test#Chair", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[6], testNode_myChair, "test#Chair", 1);
     }
 
     /**
@@ -297,8 +300,8 @@ public class TestRdfDamlParser extends TestCase {
      * id = 7
      */
     public void testTypeRelationLinks_chair_complement() throws NoSuchRelationLinkException {
-        testingRelationLink("exclusion/complement", 7, testType_chair, "test#Table", 1);
-        testingRelationLink("exclusion/complement", 7, testType_table, "test#Chair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[7], testNode_chair, "test#Table", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[7], testNode_table, "test#Chair", 0);
     }
 
     /**
@@ -306,8 +309,8 @@ public class TestRdfDamlParser extends TestCase {
      * id = 8
      */
     public void testTypeRelationLinks_chair_location() throws NoSuchRelationLinkException {
-        testingRelationLink("location", 8, testType_chair, "test#SomeLocation", 1);
-        testingRelationLink("location", 8, testType_someLocation, "test#Chair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[8], testNode_chair, "test#SomeLocation", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[8], testNode_someLocation, "test#Chair", 0);
     }
 
     /**
@@ -315,8 +318,8 @@ public class TestRdfDamlParser extends TestCase {
      * id = 9
      */
     public void testTypeRelationLinks_chair_member() throws NoSuchRelationLinkException {
-        testingRelationLink("member", 9, testType_chair, "test#AllChairs", 1);
-        testingRelationLink("member", 9, testType_allChairs, "test#Chair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[9], testNode_chair, "test#AllChairs", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[9], testNode_allChairs, "test#Chair", 0);
     }
 
     /**
@@ -324,8 +327,8 @@ public class TestRdfDamlParser extends TestCase {
      * id = 10
      */
     public void testTypeRelationLinks_chair_object() throws NoSuchRelationLinkException {
-        testingRelationLink("object", 10, testType_chair, "test#SomeObject", 2);
-        testingRelationLink("object", 10, testType_someObject, "test#Chair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[10], testNode_chair, "test#SomeObject",1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[10], testNode_chair, "test#ACHRONYM", 1);
     }
 
     /**
@@ -335,43 +338,63 @@ public class TestRdfDamlParser extends TestCase {
     public void testTypeRelationLinks_chair_url() throws NoSuchRelationLinkException {
         //System.out.println("testType_chair = " + testType_chair);
         //System.out.println("testType_url = " + testType_url);
-        testingRelationLink("url", 11, testType_chair, "OntoRama", 1);
-        testingRelationLink("url", 11, testType_url, "test#Chair", 0);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[11], testNode_chair, "OntoRama", 1);
+        testingEdge(OntoramaConfig.getRelationLinkDetails()[11], testNode_url, "test#Chair", 0);
     }
 
 
-    /**
-     *
-     */
-    protected void testingRelationLink(String relLinkName, int relLinkId,
-                                       OntologyType fromType, String nameOfDestinationType,
+
+    protected void testingEdge (RelationLinkDetails edgeType, GraphNode fromNode, String toNodeName,
                                        int expectedIteratorSize)
             throws NoSuchRelationLinkException {
 
-        assertEquals("ontology type should never be null here, check setUp() method" +
-                " for type " + fromType + " (checking rel link '" + relLinkName + "')",
-                false, (fromType == null));
+        assertEquals("graph node should never be null here, check setUp() method" +
+                " for node " + fromNode + " (checking edge type '" + edgeType.getLinkName() + "')",
+                false, (fromNode == null));
 
-        String message1 = "number of '" + relLinkName + "' links from '";
-        message1 = message1 + fromType.getName() + "'";
-        assertEquals(message1, expectedIteratorSize,
-                IteratorUtil.getIteratorSize(fromType.getIterator(relLinkId)));
+        String message1 = "number of '" + edgeType.getLinkName() + "' links from '";
+        message1 = message1 + fromNode.getName() + "'" + "to '" + toNodeName + "'";
+        List edges = getEdgesFromList( fromNode, toNodeName, edgeType);
+        assertEquals(message1, expectedIteratorSize, edges.size());
 
-        Iterator it = fromType.getIterator(relLinkId);
-        if (!it.hasNext()) {
+        if (edges.isEmpty()) {
             return;
         }
-        OntologyType destinationType = (OntologyType) it.next();
-        String message2 = "related type (rel.link: " + nameOfDestinationType + ")";
-        assertEquals(message2, nameOfDestinationType, destinationType.getName());
+        Edge firstEdge = (Edge) edges.get(0);
+        GraphNode toNode = firstEdge.getToNode();
+        String message2 = "related node (edge type: " + edgeType + "):" + toNodeName + ")";
+        assertEquals(message2, toNodeName, toNode.getName());
     }
+
 
     /**
      *
      */
-    protected OntologyType getOntologyTypeFromList(String name, Collection collection) {
-        List list = new LinkedList(collection);
-        return IteratorUtil.getOntologyTypeFromList(name, list);
+    protected GraphNode getGraphNodeFromList (String name, List list) {
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            if (cur.getName().equals(name)) {
+                return cur;
+            }
+        }
+        return null;
+    }
+
+    protected List getEdgesFromList (GraphNode fromNode, String toNodeName, RelationLinkDetails edgeType) {
+        LinkedList result = new LinkedList();
+        List allEdges = parserResult.getEdgesList();
+        Iterator it = allEdges.iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            if ( (edge.getFromNode().equals(fromNode)) && (edge.getEdgeType().equals(edgeType))  ){
+                GraphNode toNode = edge.getToNode();
+                if (toNode.getName().equals(toNodeName)) {
+                    result.add(edge);
+                }
+            }
+        }
+        return result;
     }
 
 

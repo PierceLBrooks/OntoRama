@@ -1,7 +1,6 @@
 package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
-import ontorama.util.IteratorUtil;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,7 +19,8 @@ public class TestQueryResult extends TestCase {
 
     private Query query;
     private QueryResult queryResult;
-    private List expectedList;
+    private List expectedNodesList;
+    private List expectedEdgesList;
 
     /**
      *
@@ -35,14 +35,18 @@ public class TestQueryResult extends TestCase {
     protected void setUp() {
         query = new Query("testQueryType");
 
-        expectedList = new LinkedList();
-        expectedList.add("obj1");
-        expectedList.add("obj2");
-        expectedList.add("obj3");
-        expectedList.add("obj4");
-        expectedList.add("obj5");
+        expectedNodesList = new LinkedList();
+        expectedNodesList.add("obj1");
+        expectedNodesList.add("obj2");
+        expectedNodesList.add("obj3");
+        expectedNodesList.add("obj4");
+        expectedNodesList.add("obj5");
 
-        queryResult = new QueryResult(query, expectedList.iterator());
+        expectedEdgesList = new LinkedList();
+        expectedEdgesList.add("edge1");
+        expectedEdgesList.add("edge2");
+
+        queryResult = new QueryResult(query, expectedNodesList, expectedEdgesList);
 
     }
 
@@ -59,16 +63,13 @@ public class TestQueryResult extends TestCase {
      *
      */
     public void testGetOntologyTypesIterator() {
+        assertEquals("iterator size", expectedNodesList.size(), queryResult.getNodesList().size());
 
-        List testOntTypesList = IteratorUtil.copyIteratorToList(queryResult.getOntologyTypesIterator());
-
-        assertEquals("iterator size", expectedList.size(), testOntTypesList.size());
-
-        Iterator it = testOntTypesList.iterator();
+        Iterator it = queryResult.getNodesList().iterator();
         while (it.hasNext()) {
             String cur = (String) it.next();
             //System.out.println("cur = " + cur);
-            boolean found = expectedList.contains(cur);
+            boolean found = expectedNodesList.contains(cur);
             assertEquals("expected values list should contain object " + cur +
                     " from the result iterator", true, found);
         }

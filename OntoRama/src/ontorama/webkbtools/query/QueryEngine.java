@@ -1,6 +1,8 @@
 package ontorama.webkbtools.query;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.datamodel.OntologyType;
@@ -8,14 +10,12 @@ import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.*;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Description: Query Engine will query Ontology Server with the given
@@ -48,7 +48,12 @@ public class QueryEngine implements QueryEngineInterface {
      * Holds Iterator returned from the Ontology Server
      * @see ontorama.webkbtools.datamodel.OntologyType
      */
-    private Collection typeRelativesCollection;
+    //private Collection typeRelativesCollection;
+
+    private ParserResult _parserResult;
+    private List _resultNodesList;
+    private List _resultEdgesList;
+
 
     /**
      * Query
@@ -114,13 +119,15 @@ public class QueryEngine implements QueryEngineInterface {
             queryResult = executeQuery(source, parser, queryUrl, newQuery);
         } else {
             r = sourceResult.getReader();
-            this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+            //this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+            _parserResult = parser.getResult(r);
             r.close();
-            String newTermName = checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+            String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
             if (!newTermName.equals(query.getQueryTypeName())) {
                 query = new Query(newTermName, query.getRelationLinksList());
             }
-            queryResult = new QueryResult(query, getQueryTypesList().iterator());
+            filterUnwantedEdges();
+            queryResult = new QueryResult(query, _resultNodesList, _resultEdgesList);
 
         }
         return queryResult;
@@ -142,13 +149,13 @@ public class QueryEngine implements QueryEngineInterface {
      * @todo  may not be a good idea to do this here, since identifiers with hashes
      * may be specific to WebKB. Maybe should do some checking in WebKB2Source.
      */
-    private String checkResultSetContainsSearchTerm(Collection resultSet, String termName)
+    private String checkResultSetContainsSearchTerm(List nodesList, String termName)
             throws NoSuchTypeInQueryResult {
         boolean found = false;
-        Iterator it = resultSet.iterator();
+        Iterator it = nodesList.iterator();
         String newTermName = termName;
         while (it.hasNext()) {
-            OntologyType cur = (OntologyType) it.next();
+            GraphNode cur = (GraphNode) it.next();
             String termIdentifierSuffix = "#" + termName;
             //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
             //System.out.println("fullName = " + cur.getFullName());
@@ -174,66 +181,109 @@ public class QueryEngine implements QueryEngineInterface {
 
     /**
      * get result: collection of OntologyTypes
-     * @return  collection of OntologyTypes, each having only relations we are
+     * Method will build list of nodes and list of edges, including only edges we are
      *  interested in (see this Class Description for more details).
      *  If iterator of wanted links is empty - assumption is that a user
-     *  asked for ALL available links.
+     *  asked for ALL available links/edges.
+     *
+     * @todo query should have as a links set not Integer list, but edge types list.
      */
-    private Collection getQueryTypesList() {
+    private void filterUnwantedEdges() {
+        List wantedLinks = this.query.getRelationLinksList();
         // iterator of wanted links (links we are interested in)
-        Iterator queryRelationLinks = this.query.getRelationLinksIterator();
+        Iterator queryRelationLinks = wantedLinks.iterator();
 
         // wanted links iterator is empty
         if (!queryRelationLinks.hasNext()) {
             System.out.println("query relation links iterator is empty, so no need to work on iterator");
-            return this.typeRelativesCollection;
+            _resultNodesList = _parserResult.getNodesList();
+            _resultEdgesList = _parserResult.getEdgesList();
+            return;
         }
 
-        // get a set of all available relation links
-        // copy them into allLinksCopy as otherwise once  we
-        // remove unwanted links - we will modify the static var
-        // in OntoramaConfig and this is not what we want to do.
-        Set allLinks = OntoramaConfig.getRelationLinksSet();
-        LinkedList allLinksCopy = new LinkedList();
-        Iterator allLinksIterator = allLinks.iterator();
-        while (allLinksIterator.hasNext()) {
-            RelationLinkDetails nextRelLink = (RelationLinkDetails) allLinksIterator.next();
-            allLinksCopy.add(nextRelLink);
+        List wantedLinksObjects = new LinkedList();
+        Iterator it = wantedLinks.iterator();
+        while (it.hasNext()) {
+            Integer i = (Integer) it.next();
+            RelationLinkDetails edgeType = OntoramaConfig.getRelationLinkDetails(i.intValue());
+            wantedLinksObjects.add(edgeType);
         }
 
-        // remove all wanted relations from the allLinks set so
-        // we end up with a list of unwanted relations
-        //allLinks.removeAll(query.getRelationLinksCollection());
-        allLinksCopy.removeAll(query.getRelationLinksCollection());
-        debug.message("QueryEngine", "getQueryTypesIterator()", "allLinks = " + OntoramaConfig.getRelationLinksSet());
-        debug.message("QueryEngine", "getQueryTypesIterator()", "unwantedLinksList = " + allLinksCopy);
-        Iterator unwantedLinks = allLinksCopy.iterator();
+        _resultNodesList = new LinkedList();
+        _resultEdgesList = new LinkedList();
+        List nodes = _parserResult.getNodesList();
 
-
-        // list to hold all updated types
-        LinkedList updatedTypeRelativesList = new LinkedList();
-
-        // iterate over each ontology type and remove all unwanted links
-        Iterator typeRelativesIterator = this.typeRelativesCollection.iterator();
-        while (typeRelativesIterator.hasNext()) {
-            OntologyType ontType = (OntologyTypeImplementation) typeRelativesIterator.next();
-            //System.out.println("*** ontType before link removed: " + ontType);
-            while (unwantedLinks.hasNext()) {
-                Integer relationLink = (Integer) unwantedLinks.next();
-                try {
-                    ontType.removeRelation(relationLink.intValue());
-                } catch (NoSuchRelationLinkException e) {
-                    // ignore it since we are removing this relation anyway
+        Iterator edgesIt = _parserResult.getEdgesList().iterator();
+        while (edgesIt.hasNext()) {
+            Edge curEdge = (Edge) edgesIt.next();
+            if (wantedLinksObjects.contains(curEdge)) {
+                _resultEdgesList.add(curEdge);
+                GraphNode fromNode = curEdge.getFromNode();
+                GraphNode toNode = curEdge.getToNode();
+                if (!_resultNodesList.contains(fromNode)) {
+                     _resultNodesList.add(fromNode);
+                    nodes.remove(fromNode);
+                }
+                if (!_resultNodesList.contains(toNode)) {
+                    _resultNodesList.add(toNode);
+                    nodes.remove(toNode);
                 }
             }
-            // get iterator of unwanted links again since we used it up above
-            unwantedLinks = allLinksCopy.iterator();
-            // add updated ontology type to the list
-            //System.out.println("*** ontType after link removed: " + ontType);
-            updatedTypeRelativesList.add(ontType);
         }
-        //System.out.println("result = " + updatedTypeRelativesList);
-        return updatedTypeRelativesList;
+        if (nodes.size() > 0) {
+            System.out.println("\n\n\nleft over nodes: " + nodes);
+        }
+
+
+
+
+
+//        // get a set of all available relation links
+//        // copy them into allLinksCopy as otherwise once  we
+//        // remove unwanted links - we will modify the static var
+//        // in OntoramaConfig and this is not what we want to do.
+//        Set allLinks = OntoramaConfig.getRelationLinksSet();
+//        LinkedList allLinksCopy = new LinkedList();
+//        Iterator allLinksIterator = allLinks.iterator();
+//        while (allLinksIterator.hasNext()) {
+//            RelationLinkDetails nextRelLink = (RelationLinkDetails) allLinksIterator.next();
+//            allLinksCopy.add(nextRelLink);
+//        }
+//
+//        // remove all wanted relations from the allLinks set so
+//        // we end up with a list of unwanted relations
+//        //allLinks.removeAll(query.getRelationLinksCollection());
+//        allLinksCopy.removeAll(query.getRelationLinksCollection());
+//        debug.message("QueryEngine", "getQueryTypesIterator()", "allLinks = " + OntoramaConfig.getRelationLinksSet());
+//        debug.message("QueryEngine", "getQueryTypesIterator()", "unwantedLinksList = " + allLinksCopy);
+//        Iterator unwantedLinks = allLinksCopy.iterator();
+//
+//
+//        // list to hold all updated types
+//        LinkedList updatedTypeRelativesList = new LinkedList();
+//
+//        // iterate over each ontology type and remove all unwanted links
+//        Iterator typeRelativesIterator = this.typeRelativesCollection.iterator();
+//
+//        while (typeRelativesIterator.hasNext()) {
+//            OntologyType ontType = (OntologyTypeImplementation) typeRelativesIterator.next();
+//            //System.out.println("*** ontType before link removed: " + ontType);
+//            while (unwantedLinks.hasNext()) {
+//                Integer relationLink = (Integer) unwantedLinks.next();
+//                try {
+//                    ontType.removeRelation(relationLink.intValue());
+//                } catch (NoSuchRelationLinkException e) {
+//                    // ignore it since we are removing this relation anyway
+//                }
+//            }
+//            // get iterator of unwanted links again since we used it up above
+//            unwantedLinks = allLinksCopy.iterator();
+//            // add updated ontology type to the list
+//            //System.out.println("*** ontType after link removed: " + ontType);
+//            updatedTypeRelativesList.add(ontType);
+//        }
+//        //System.out.println("result = " + updatedTypeRelativesList);
+//        return updatedTypeRelativesList;
     }
 
     /**

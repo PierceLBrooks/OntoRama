@@ -37,7 +37,7 @@ public class TestCgKbCsvParser extends TestCase {
         Reader r = sr.getReader();
 
         Parser parser = new CgKbCsvParser();
-        parser.getOntologyTypeCollection(r);
+        parser.getResult(r);
 
     }
 

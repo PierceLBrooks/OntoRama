@@ -15,16 +15,18 @@ public class NodeTypeImpl implements NodeType {
     private String _displayName;
     private Shape _displayShape;
     private Color _displayColor;
+    private boolean _forceUprightShape;
 
 	/**
 	 * The initialisation constructor.
 	 * 
 	 * Note that the shape should be centered around (0,0).
 	 */
-    public NodeTypeImpl(String displayName, Shape displayShape, Color displayColor) {
+    public NodeTypeImpl(String displayName, Shape displayShape, boolean forceUprightShape, Color displayColor) {
         _displayName = displayName;
         _displayShape = displayShape;
         _displayColor = displayColor;
+        _forceUprightShape = forceUprightShape;
     }
 
     public String getDisplayName() {
@@ -40,5 +42,8 @@ public class NodeTypeImpl implements NodeType {
     public Color getDisplayColor() {
         return _displayColor;
     }
-
+    
+    public boolean forceUprightShape() {
+        return _forceUprightShape;
+    }
 }

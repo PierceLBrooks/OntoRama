@@ -2,13 +2,13 @@ package ontorama.backends.p2p.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 
 
 import ontorama.backends.p2p.P2PBackend;
@@ -77,7 +78,6 @@ public class PeersPanel extends JPanel  implements GroupView {
                 _cardLayout.show(_cardPanel, groupPanel.getName());
                 
                 groupPanel.setVisible(true);
-                System.out.println("group panel list: " + groupPanel.listModel);
                 groupPanel.repaint();
                 repaint();
             }
@@ -132,19 +132,22 @@ public class PeersPanel extends JPanel  implements GroupView {
     public void addPeer (String peerId, String peerName, String groupId) {
     	System.out.println("addPeer, peerName = " + peerName + ", peerId = " + peerId + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
-        groupPanel.addPeer(peerId, peerName);
+        PeersJList peersList = groupPanel.getPeersList();
+		peersList.addPeer(new PeerObject(peerId, peerName));
         groupPanel.repaint();
         repaint();
     }
     
     public void addPeerInGlobalList (String peerId, String peerName) {
-		_globalGroupPanel.addPeer(peerId, peerName);
+		_globalGroupPanel.getPeersList().addPeer(new PeerObject(peerId, peerName));
+		//_globalGroupPanel.addPeer("lfldf", "ldjfdlskkfljddddslkdjlkjaldfkjlksjfsdf1111111111122222222222223333333333333444444444444455555555555556666666666666677777777777");
     }
 
     public void removePeer(String senderPeerID, String groupID) {
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
         if (groupPanel != null) {
-            groupPanel.removePeer(senderPeerID);
+			PeersJList peersList = groupPanel.getPeersList();
+			peersList.removePeer(senderPeerID);
         }
     }
 
@@ -153,7 +156,7 @@ public class PeersPanel extends JPanel  implements GroupView {
         while (enum.hasMoreElements()) {
 			String element = (String) enum.nextElement();
 			GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(element);
-			groupPanel.removePeer(senderPeerID);
+			groupPanel.getPeersList().removePeer(senderPeerID);
 		}
     }
 
@@ -175,13 +178,8 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     private class GroupPanel extends JPanel {
-        HashSet peersList = new HashSet();
-        DefaultListModel listModel = new DefaultListModel();
-        JList jlist;
-        Hashtable _peerIdToPeerNameMapping = new Hashtable();
+		PeersJList peersJList;
         String groupName;
-		JScrollPane scrollPanel;
-		Dimension scrollPanelSize;
 
         public GroupPanel(ItemReference group) {
 			this(group.getName());
@@ -190,70 +188,120 @@ public class PeersPanel extends JPanel  implements GroupView {
 		public GroupPanel(String groupName) {
 			super();
 			this.groupName = groupName;
-        	
 			setName(groupName);
-			
 			setBackground(Color.BLUE);
 
-			jlist = new JList(listModel);
+			peersJList = new PeersJList();
 
-			scrollPanel = new JScrollPane(jlist);
-			System.out.println("\npanel size = " + getSize() + 
-							", pref size = " + getPreferredSize() + 
-							", min size = " + getMinimumSize() + 
-							", max size = " + getMaximumSize());
-			System.out.println("\njllist size = " + jlist.getSize() + 
-							", pref size = " + jlist.getPreferredSize() + 
-							", min size = " + jlist.getMinimumSize() + 
-							", max size = " + jlist.getMaximumSize());
-
-			scrollPanelSize = scrollPanel.getPreferredSize();
-			System.out.println("\nscrollPanel size = " + scrollPanel.getSize() + 
-							", pref size = " + scrollPanel.getPreferredSize() + 
-							", min size = " + scrollPanel.getMinimumSize() + 
-							", max size = " + scrollPanel.getMaximumSize());
-			scrollPanel.setSize(scrollPanelSize);							
-			jlist.setSize(scrollPanelSize);
-			setPreferredSize(scrollPanelSize);
+			JScrollPane  scrollPanel = new JScrollPane(peersJList);
+					
+			scrollPanel.setBackground(Color.PINK);
+			scrollPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+			
+			System.out.println("\njllist prototype cell value = " + peersJList.getPrototypeCellValue());
+			
+			Dimension d = new Dimension(200, 400);
+			//setPreferredSize(d); 
+			
 			add(scrollPanel);
 		}
+		
+		public PeersJList getPeersList() {
+			return peersJList;
+		}
+    }
+    
+    private class PeersJList extends JList {
+		DefaultListModel listModel = new DefaultListModel();
+    	public PeersJList() {
+    		super();
+    		setModel(listModel);
+			setBackground(Color.YELLOW);
+			//setPrototypeCellValue("123456789123456789");
+			
+			setCellRenderer(new PeersListCellRenderer());
+    	}
 
-        public void addPeer (String peerID, String peerName) {
-        	System.out.println("PeersPanel::GroupPanel::addPeer, panel = " + groupName +
-							"\n\t peerName = " + peerName + ", peerId = " 
-							+ peerID );
-            if (!peersList.contains(peerID)) {
-                 peersList.add(peerID);
-                _peerIdToPeerNameMapping.put(peerID, peerName);
+		public void addPeer (PeerObject peer) {
+			if (findInList(peer.getPeerId()) == null) {
+				listModel.addElement(peer);
+				repaint();
+			}
+			else {
+				System.out.println("addPeer skipping peer " + peer.getPeerName() + ", listmodel = " + listModel);
+			}
+		}
 
-                listModel.addElement(peerName);
-                System.out.println("list model = " + listModel);
-                repaint();
-            }
-            else {
-            	System.out.println("addPeer skipping peer " + peerName + ", listmodel = " + listModel);
-            }
-        }
+		public void removePeer (String peerID) {
+			PeerObject peer = findInList(peerID);
+			if (peer != null) {
+				listModel.removeElement(peer);
+				repaint();
+			}
+		}
+		
+		private PeerObject findInList (String peerId) {
+			Enumeration e = listModel.elements();
+			while (e.hasMoreElements()) {
+				PeerObject curPeer = (PeerObject) e.nextElement();
+				if (peerId.equals(curPeer.getPeerId())) {
+					return curPeer;
+				}
+			}
+			return null;
+		}
+    	
+    }
+    
+    private class PeersListCellRenderer extends JLabel implements ListCellRenderer {
+		public PeersListCellRenderer() {
+			setOpaque(true);
+			setHorizontalAlignment(CENTER);
+			setVerticalAlignment(CENTER);
+		}
+		public Component getListCellRendererComponent(
+							JList list,	Object value,
+							int index, boolean isSelected,
+							boolean hasFocus) {
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+			if (value == null) {
+				return this;
+			}
+			PeerObject peerObj = (PeerObject) value;
+			setText(peerObj.getPeerName());
+			setToolTipText(peerObj.getPeerName());
+			return this;
+		}
+    }
+    
+    private class PeerObject {
+    	// @todo this class here is only so we can keep track of peer names in relation 
+    	// peer id's. ItemReference already does that - we should use it. For this to
+    	// happen we need to figure out if it is possible to either pass ItemReference id's 
+    	// from whoever gets that info from the network or if it is possible 
+    	// to pass ID's instead of strings.
 
-        public void removePeer (String peerID) {
-            String peerName = null;
-            peerName = (String) _peerIdToPeerNameMapping.remove(peerID);
-            if (peerName != null) {
-                listModel.removeElement(peerName);
-                peersList.remove(peerID);
-                repaint();
-            }
-        }
-        
-        public void repaint() {
-			super.repaint();
-        	if (scrollPanel != null) {
-				scrollPanel.setSize(scrollPanelSize);
-				jlist.setSize(scrollPanelSize);
-				setSize(scrollPanelSize);
-				System.out.println("\nrepaint(); scrollPanel size " + scrollPanel.getSize() + "\n");							
-        	}
-        }
-        
+		private String peerId;
+    	private String peerName;
+
+    	public PeerObject (String peerId, String peerName) {
+    		this.peerId = peerId;
+    		this.peerName = peerName;
+    	}
+    	
+		public String getPeerId() {
+			return peerId;
+		}
+
+		public String getPeerName() {
+			return peerName;
+		}
+
     }
 }

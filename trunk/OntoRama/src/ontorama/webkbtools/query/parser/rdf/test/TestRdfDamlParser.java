@@ -169,7 +169,7 @@ public class TestRdfDamlParser extends TestCase {
      */
     public void testResultSize() {
         // expecting 14 types in the result
-        assertEquals(14, parserResult.getNodesList().size());
+        assertEquals(32, parserResult.getNodesList().size());
     }
 
     /**
@@ -336,16 +336,29 @@ public class TestRdfDamlParser extends TestCase {
         testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_url), testNode_url, "test#Chair", 0);
     }
 
-    public void testTemporaryTest () {
-        System.out.println("\n\nNodes: ");
-        Iterator it = parserResult.getNodesList().iterator();
+    public void testNodeTypes () {
+        List nodesList = parserResult.getNodesList();
+        List conceptsList = new LinkedList();
+        List relationsList = new LinkedList();
+        Iterator it = nodesList.iterator();
         while (it.hasNext()) {
             Node cur = (Node) it.next();
-            System.out.println("node '" + cur.getName() + "', type = " + cur.getNodeType().getNodeType());
+            NodeType curNodeType = cur.getNodeType();
+            if (curNodeType.getNodeType().equals("concept")) {
+                conceptsList.add(cur);
+            }
+            else {
+                relationsList.add(cur);
+            }
         }
+        System.out.println("concepts list = " + conceptsList);
+        System.out.println("relations list = " + relationsList);
+        assertEquals("number of concept nodes ", 29, conceptsList.size());
+        assertEquals("number of relation nodes ", 3, relationsList.size());
+
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     protected void testingEdge (EdgeType edgeType, Node fromNode, String toNodeName,
                                        int expectedIteratorSize)

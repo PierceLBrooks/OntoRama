@@ -6,6 +6,8 @@ import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.DAML_OIL;
+import com.hp.hpl.jena.daml.DAMLClass;
+import com.hp.hpl.jena.daml.DAMLOntology;
 import ontorama.OntoramaConfig;
 import ontorama.model.*;
 import ontorama.ontologyConfig.RdfMapping;
@@ -45,7 +47,9 @@ public class RdfDamlParser implements Parser {
      */
     private String _rdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
-    /// @this definition doesnt work due to the schema namespace WebKB is using
+    private String _damlNamespace = null;
+
+    /// @todo this definition doesnt work due to the schema namespace WebKB is using
     //private static final String _rdfsNamespaceSuffix = "rdf-schema#";
     private static final String _rdfsNamespaceSuffix = "rdf-schema";
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
@@ -103,9 +107,10 @@ public class RdfDamlParser implements Parser {
             Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
             Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
 
-            System.out.println("running selector for all classes ");
+            Property damlComplementOfProperty = new PropertyImpl(_damlNamespace, "complementOf");
+            System.out.println("daml compelemtn of prop " + damlComplementOfProperty);
+
             resourceConceptNodeTypesList = runSelector(model, typeProperty, classResource);
-            System.out.println("running selector for all properties ");
             resourceRelationNodeTypesList = runSelector(model, typeProperty, propertyResource);
 
             // get Iterator of all subjects, then go through each of them
@@ -117,36 +122,39 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
-                    System.out.println("***" + s.getSubject() + ", " + s.getPredicate() + ", " + s.getObject());
+                    System.out.println("\n" + s);
+
+                    System.out.println("processing object " + s.getObject());
 
                     // @todo we are assuming the only properties that could connect concept and relation types
                     // is DAML_OIL.compelementOf, RDFS.domain and RDFS.range. Not sure if this is a fair assumption!
                     if (resourceConceptNodeTypesList.contains(s.getSubject())) {
-                        System.out.println("thinking about " + s.getObject());
-                        //if (s.getPredicate().equals(RDFS.subClassOf)) {
-                        if (s.getPredicate().equals(DAML_OIL.complementOf)) {
+                        if (s.getPredicate().equals(damlComplementOfProperty)) {
                             resourceRelationNodeTypesList.add(s.getObject());
-                            System.out.println("adding to relations list");
+                            System.out.println("1");
+                            System.out.println("relation");
                         }
                         else {
-                            System.out.println("adding to classes list");
                             if (!resourceConceptNodeTypesList.contains(s.getObject())) {
                                 resourceConceptNodeTypesList.add(s.getObject());
+                                System.out.println("concept");
+                                System.out.println("2");
                             }
                         }
                     }
                     if (resourceRelationNodeTypesList.contains(s.getSubject())) {
-                        System.out.println("thinking about " + s.getObject());
-                        //if ( (s.getPredicate().equals(DAML_OIL.complementOf))
+                        //if ( (s.getPredicate().equals(damlComplementOfProperty))
                         //                    || (s.getPredicate().equals(RDFS.domain))
                         //                    || (s.getPredicate().equals(RDFS.range)) ) {
                         if ( ! s.getPredicate().equals(RDFS.subPropertyOf)) {
                             resourceConceptNodeTypesList.add(s.getObject());
-                            System.out.println("adding to classes list");
+                            System.out.println("concept");
+                            System.out.println("3");
                         }
                         else {
                             resourceRelationNodeTypesList.add(s.getObject());
-                            System.out.println("adding to relations list");
+                            System.out.println("relation");
+                            System.out.println("4");
                         }
                     }
                 }
@@ -167,7 +175,6 @@ public class RdfDamlParser implements Parser {
                             continue;
                         }
                     }
-                    System.out.println("---" + s.getSubject() + ", " + s.getPredicate() + ", " + s.getObject());
                     processStatement(s);
                 }
             }
@@ -206,21 +213,31 @@ public class RdfDamlParser implements Parser {
                 //if (namespace.endsWith(_rdfsNamespaceSuffix)) {
                 _rdfsNamespace = namespace;
             }
+
+            /// @todo hacky way to find daml namespace, need better solution
+            /// assuming that daml namespace looks something like: http://www.daml.org/.../../daml-ont#
+            int damlIndex1 = namespace.toString().indexOf("daml");
+            int damlIndex2 = namespace.toString().lastIndexOf("daml");
+            if ((damlIndex1 > 0) && (damlIndex2 > 0) && (damlIndex1 != damlIndex2)) {
+                _damlNamespace = namespace;
+            }
         }
     }
 
     /**
      *
      */
-    private List runSelector(Model model, Property p, Object o) throws RDFException {
-        //Selector selectorClasses = new SelectorImpl(r, p, o);
-        //ResIterator it = model.listSubjects();
+    private List runSelector(Model model, Property p, Object o) throws RDFException, ParserException {
         LinkedList result = new LinkedList();
-        ResIterator it = model.listSubjectsWithProperty(p, o);
-        while (it.hasNext()) {
-            Resource res = it.next();
-            System.out.println("selector: adding to the list resource " + res);
-            result.add(res);
+
+        StmtIterator stIt = model.listStatements();
+        while (stIt.hasNext()) {
+            Statement next = stIt.next();
+            if (next.getPredicate().equals(p)) {
+                if (next.getObject().equals(o)) {
+                    result.add((Resource) next.getSubject());
+                }
+            }
         }
         return result;
     }
@@ -228,7 +245,7 @@ public class RdfDamlParser implements Parser {
     /**
      * Process RDF statement and create corresponding graph nodes.
      */
-    protected void processStatement(Statement st) throws NoSuchRelationLinkException {
+    protected void processStatement(Statement st) throws NoSuchRelationLinkException, ParserException {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
@@ -241,7 +258,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected Node doNodeMapping (RDFNode object) {
+    protected Node doNodeMapping (RDFNode object) throws ParserException {
         String nodeName = stripUri(object);
         Node node;
         if (_nodesHash.containsKey(nodeName)) {
@@ -257,8 +274,8 @@ public class RdfDamlParser implements Parser {
                 node.setNodeType(nodeTypeRelation);
             }
             else {
-                System.err.println("this resource '" + object + "' is neither class or property!");
-                System.exit(-1);
+                System.out.println("resourceConceptNodeTypesList = " + resourceConceptNodeTypesList);
+                throw new ParserException("RDF Resource '" + object + "'is neigher concept of property");
             }
             _nodesHash.put(nodeName, node);
         }

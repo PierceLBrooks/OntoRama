@@ -220,7 +220,6 @@ public class NodeImpl implements Cloneable, Node {
     }
 
     public void setNodeType(NodeType nodeType) {
-        System.out.println("set node type: node = " + this.getName() + " nodeType = " + nodeType);
         this.nodeType = nodeType;
     }
 

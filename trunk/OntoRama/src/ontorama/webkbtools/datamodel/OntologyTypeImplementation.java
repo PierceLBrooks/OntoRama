@@ -47,11 +47,25 @@ public class OntologyTypeImplementation implements OntologyType {
   String typeName;
 
   /**
+   * Full/Alternative name of this Ontology Type
+   */
+  String typeFullName;
+
+  /**
    * Create new OntologyTypeImplementation
    * @param typeName
    */
   public OntologyTypeImplementation(String typeName) {
+    this(typeName, typeName);
+  }
+
+  /**
+   * Create new OntologyTypeImplementation
+   * @param typeName, typeFullName
+   */
+  public OntologyTypeImplementation(String typeName, String typeFullName) {
     this.typeName = typeName;
+    this.typeFullName = typeFullName;
     initRelationshipTypes();
     initConceptProperties();
   }
@@ -201,6 +215,21 @@ public class OntologyTypeImplementation implements OntologyType {
   public String getName () {
     return typeName;
   }
+
+  /**
+   *
+   */
+  public void setFullName (String fullName) {
+    typeFullName = fullName;
+  }
+
+  /**
+   *
+   */
+  public String getFullName () {
+    return typeFullName;
+  }
+
 
   /**
    * toString method

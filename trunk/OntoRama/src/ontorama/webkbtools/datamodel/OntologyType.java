@@ -116,4 +116,16 @@ public interface OntologyType {
    */
   public String getName ();
 
+  /**
+   * set an alternative name for this type.
+   * For example, in RDF input, we would get something like: 'http://www.webkb.org/theKB.rdf/wn#Cat'
+   * as a full name for type 'wn#Cat'.
+   */
+   public void setFullName (String fullName);
+
+  /**
+   * get an alternative name for this type.
+   */
+  public String getFullName ();
+
 }

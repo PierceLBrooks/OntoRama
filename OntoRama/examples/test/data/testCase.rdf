@@ -6,28 +6,28 @@
 	xmlns:daml="http://www.daml.org/2000/10/daml-ont#" 
 	xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
 
-<rdfs:Class rdf:about="http://www.webkb.org/ontorama/chair">
-  <rdfs:label xml:lang="en">a chair</rdfs:label>
-  <rdfs:label xml:lang="en">a sit</rdfs:label>
+<rdfs:Class rdf:about="http://www.webkb.org/ontorama/test#Chair">
+  <rdfs:label xml:lang="en">chair</rdfs:label>
+  <rdfs:label xml:lang="en">sit</rdfs:label>
   <dc:Creator>nataliya@dstc.edu.au</dc:Creator>
   <rdfs:comment>test term 'chair'</rdfs:comment>
-  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/furniture"/>
-  <pm:part rdf:resource="http://www.webkb.org/ontorama/backrest"/>
-  <pm:part rdf:resource="http://www.webkb.org/ontorama/leg"/>
-  <pm:similar rdf:resource="http://www.webkb.org/ontorama/otherChairs"/>
-  <rdf:type rdf:resource="http://www.webkb.org/ontorama/myChair"/>
-  <pm:wnMember rdf:resource="http://www.webkb.org/ontorama/allChairs"/>
-  <pm:substance rdf:resource="http://www.webkb.org/ontorama/someSubstanceNode"/>
-  <daml:complementOf rdf:resource="http://www.webkb.org/ontorama/table"/>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/test#Furniture"/>
+  <pm:part rdf:resource="http://www.webkb.org/ontorama/test#Backrest"/>
+  <pm:part rdf:resource="http://www.webkb.org/ontorama/test#Leg"/>
+  <pm:similar rdf:resource="http://www.webkb.org/ontorama/test#OtherChairs"/>
+  <rdf:type rdf:resource="http://www.webkb.org/ontorama/test#MyChair"/>
+  <pm:wnMember rdf:resource="http://www.webkb.org/ontorama/test#AllChairs"/>
+  <pm:substance rdf:resource="http://www.webkb.org/ontorama/test#SomeSubstanceNode"/>
+  <daml:complementOf rdf:resource="http://www.webkb.org/ontorama/test#Table"/>
   <pm:url rdf:resource="http://www.webkb.org/ontorama"/>
-  <pm:location rdf:resource="http://www.webkb.org/ontorama/someLocation"/>
-  <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/someObject"/>
+  <pm:location rdf:resource="http://www.webkb.org/ontorama/test#SomeLocation"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#SomeObject"/>
 </rdfs:Class>
 
-<rdfs:Class rdf:about="http://www.webkb.org/ontorama/armchair">
-  <rdfs:label xml:lang="en">an armchair</rdfs:label>
+<rdfs:Class rdf:about="http://www.webkb.org/ontorama/test#Armchair">
+  <rdfs:label xml:lang="en">armchair</rdfs:label>
   <dc:Creator>nataliya@dstc.edu.au</dc:Creator>
   <rdfs:comment>test term 'armchair'</rdfs:comment>
-  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/chair"/>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/test#Chair"/>
 </rdfs:Class>
 </rdf:RDF>

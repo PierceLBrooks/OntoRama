@@ -165,8 +165,11 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 						</tr>
 					</table>
 				<!-- insert the footer -->
-				<xsl:if test="$feature.include.footer != '' ">
+				<xsl:if test="$feature.include.footer != '' ">					
+					<!--
 					<xsl:copy-of select="document($feature.include.footer)/footer/node()"></xsl:copy-of>
+					-->
+					<xsl:apply-templates select="." mode="footer"></xsl:apply-templates>
 				</xsl:if>
 			</body>
 		</html>
@@ -490,5 +493,59 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 				</xsl:otherwise>
 			</xsl:choose>
 		</td>
+	</xsl:template>
+	<xsl:template match="*" mode="footer">
+		<hr/>
+		<table align="center" border="0" class="footer">
+			<tr>
+				<td cellspacing="30" cellpadding="30">
+					<a href="http://www.dstc.edu.au">
+						<xsl:if test="//file[@id='dstcLogo']">
+							<div class="dstcLogo">
+								<img src="{//file[@id='dstcLogo']/@src}" border="0" alt="DSTC Logo"></img>
+							</div>
+						</xsl:if>
+					
+						<!--<img border="0" src="../img/dstc-crc.gif" width="85" height="107"/>-->
+					</a>			
+				</td>
+				<td width="40">
+					<xsl:text>&#32;</xsl:text>
+				</td>
+				<!--
+				<td cellspacing="30" cellpadding="30">
+					OntoRama footer here
+				</td>
+				-->
+				<td cellspacing="30" cellpadding="30">
+					<a href="http://www.int.gu.edu.au/kvo/">
+						<xsl:if test="//file[@id='kvoLogo']">
+							<div class="kvoLogo">
+								<img src="{//file[@id='kvoLogo']/@src}" border="0" alt="KVO Logo"></img>
+							</div>
+						</xsl:if>
+	
+						<!--<img border="0" src="../img/kvo-logo.gif" width="100" height="86"/>-->
+					</a>
+					<!--
+					<a href="http://jigsaw.w3.org/css-validator/check/referer">
+						<img border="0" src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" height="31" width="88"/>
+					</a>
+					-->
+				</td>
+				<td width="40">
+					<xsl:text>&#32;</xsl:text>
+				</td>
+
+				<td cellspacing="30" cellpadding="30">
+					<a href="http://xweb.sourceforge.net">
+					Made with XWeb
+					<!--
+						<img border="0" src="http://xweb.sourceforge.net/images/madewithxweb.png" alt="Made with XWeb" height="31" width="88"/>
+					-->
+					</a>
+				</td>
+			</tr>
+		</table>	
 	</xsl:template>
 </xsl:stylesheet>

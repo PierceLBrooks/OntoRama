@@ -9,10 +9,110 @@
 			Developer Documentation
 		</h1>
 		<ul>
-			<a href="#history">History Menu Behaviour</a>
+			<li>
+				<a href="#examples">Examples Menu</a>
+			</li>
+			<li>
+				<a href="#history">History Menu Behaviour</a>
+			</li>
 		</ul>
 		
-		<a name="history">History</a>
+		<h3><a name="examples">Examples Menu</a></h3>
+		<p>
+			Examples Menu allows  user to load different ontologies.
+			The majority of examples are WebKB2 output. There is a subsection of Menu called 'Web Examples' which contains the  
+			examples of ontologies found on the web.
+		</p>
+		<h4>Adding new examples.</h4>
+		<p>
+			All examples loaded by OntoRama are described in examplesConfig.xml file. Here is brief description of this file
+			Here is a sniplet of Ontorama Examples config file:
+		</p>
+		<pre>
+&lt;ontoramaExamples&gt;
+	&lt;example name="Ontorama Xml Test" root="root"&gt;
+		&lt;source relativeUri="examples/ontorama-test.xml"	sourcePackagePathSuffix="JarSource"/&gt;
+		&lt;queryOutputFormat&gt;XML&lt;/queryOutputFormat&gt;
+		&lt;parserPackagePathSuffix&gt;xml.XmlParserFull&lt;/parserPackagePathSuffix&gt;
+	&lt;/example&gt;
+	......
+	&lt;example name="International Movies Database" root="#IMdb"&gt;
+		&lt;source relativeUri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="JarSource"/&gt;
+		&lt;queryOutputFormat&gt;RDF&lt;/queryOutputFormat&gt;
+		&lt;parserPackagePathSuffix&gt;rdf.RdfDamlParser&lt;/parserPackagePathSuffix&gt;
+		&lt;displayMenu subfolder="Web Examples"/&gt;
+	&lt;/example&gt;			
+&lt;/ontoramaExamples&gt;
+		</pre>
+		<p>
+			Root Element: 'ontoramaExamples'.
+			Root Element can contain any number of 'example' elements.
+		</p>
+		<p>
+			Each 'example' element has following attributes:
+			<ul>
+				<li>
+					Name attribute: 'name'. Specifies a label that will appear for corresponding menu item in the
+					Examples menu
+				</li>
+				<li>
+					Root attribute: 'root'. Specifies root element of this ontology.
+				</li>
+			</ul>
+			Children of Example element:
+			<ul>
+				<li>
+					source element. Describes ontology source. Attibutes:
+						<ul>
+							<li>
+								relativeUri: specifies source/location of this ontology. This should be either:
+								<ol>
+									path relative to Class Loader
+								</ol>
+								<ol>
+									valid URL
+								</ol>
+							</li>
+							<li>
+								sourcePackagePathSuffix: name of class to use to parse this source.
+								<br/>
+								At the moment two available: JarSource and UrlSource.
+								<br/>
+								JarSource is used if application is packaged in the jar file and location 
+								of an example is relative to ClassLoader.
+								<br/>
+								UrlSource can be used for Web-based ontologies. (Some restrictions will apply 
+								in relation to Java Webstart. Possibly can only run ontologies that come from the
+								same host as the application. Have to CHECK and TEST this!!!!)
+							</li>
+						</ul>
+				</li>
+				<li>
+					queryOutputFormat element. Specifies what query output format to use, at the moment ths is 
+					not used. The intention of this property was to work with WebKB2 and be able to 
+					specify format of WebKB output.
+				</li>
+				<li>
+					parserPackagePathSuffix element. Specifies what parser to use for this ontology.
+					Available parsers at the moment: xml.XmlParserFull and rdf.RdfDamlParser.
+				</li>
+			</ul>
+		</p>
+		<h4>Location of examples files and examplesConfig.xml</h4>
+		<p>
+			Configuration file is located in the root directory of the executables.
+		</p>
+		<p> 
+			Distribution of Java Webstart includes 'examples' directory with all needed ontologies. This was done
+			so the demo prototype can be standalone and doesn't have to read files off the local drive (due to 
+			security restrictions of Java Webstart applications).
+		</p>
+		<p>
+			In any case examples are located in the directory 'examples' off the root directory of the executables.
+			In another words, in all cases (java webstart and running as an application by other means), examples
+			are located in 'examples' dir relative to ClassLoader.
+		</p>
+		<h3><a name="history">History</a></h3>
 		<p>
 			History feature is usefull if a user browsing multiple ontologies and multiple terms 
 			in those ontologies in one sesssion. This feature allows a user to 'jump' to terms he/she
@@ -36,6 +136,10 @@
 					If user clicks on an example that has been displayed before - it get's appended to the history.
 				</li>
 			</ul>
+		</p>
+		<p>
+			Back and Forward buttons are available in the tool bar and also in History Menu to simplify moving through 
+			the history items.
 		</p>
 		</body>
 </html>

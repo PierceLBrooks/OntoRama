@@ -25,9 +25,19 @@ import org.tockit.events.EventBroker;
 
 /**
  * Title:        OntoRama
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:      DSTC
+ * Description:  Description view will display any additional
+ * information for a focused node that is not displayed in 
+ * the graph/tree views, such as synonyms, creator, clones, etc.
+ * Currently there are a couple ways to specify what should 
+ * be displayed in the description panel:
+ * - edge types have an attribute displayInDescriptionWindow,
+ * if this attribute is set to be true - nodes related
+ * to focused node via edges of this type will be displayed
+ * in the description window.
+ * - some other properties can be hard coded into this class,
+ * we done so for clones and full url's for now.
+ *  
+ * Copyright:  Copyright (c) 2001 Company:      DSTC
  * @author
  * @version 1.0
  */
@@ -35,27 +45,29 @@ import org.tockit.events.EventBroker;
 public class DescriptionView extends JPanel implements GraphView {
 
     /**
-     * Keys - name of property
+     * Keys - name of edge type 
      * Values - panel
      */
     Hashtable _nodePropertiesPanels = new Hashtable();
+    
+    /**
+     * list edge type names so we know the order in which to 
+     * add them to the ui
+     */
+    List _edgeTypeNames = new LinkedList();
 
     /**
-     *
+     * string that will appear on the label corresponding to clones
      */
-    private ClonesPanel _clonesPanel;
-
     String _clonesLabelName = "Clones";
-
+    
+    /**
+     * string that will appear on the label corresponding to node identifier
+     */
     private String _fullUrlPropName = "Full Url ";
 
     /**
-     *
-     */
-    private NodePropertiesPanel _fullUrlPanel;
-
-    /**
-     *
+     * optimal dimension for all label names to fit in
      */
     private Dimension _propertyNameLabelsDimension;
 
@@ -63,7 +75,10 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private EventBroker _eventBroker;
-
+    
+    /**
+     * 
+     */
     private Graph _graph;
 
     /**
@@ -75,9 +90,6 @@ public class DescriptionView extends JPanel implements GraphView {
         new GraphViewFocusEventHandler(eventBroker, this);
 
         initPropertiesPanels();
-        _fullUrlPanel =
-                new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
-        _clonesPanel = new ClonesPanel(_clonesLabelName, _eventBroker);
 
         _propertyNameLabelsDimension = calcLabelSize();
         setLabelSizesForNodePropertiesPanels();
@@ -95,16 +107,21 @@ public class DescriptionView extends JPanel implements GraphView {
         rightSubPanel.setBorder(BorderFactory.createEtchedBorder());
 
         // add panels to the ui
-        Enumeration propPanelsEnum = _nodePropertiesPanels.keys();
-        while (propPanelsEnum.hasMoreElements()) {
-            String propName = (String) propPanelsEnum.nextElement();
+        Iterator edgeTypeNamesIterator = _edgeTypeNames.iterator();
+        int size = _nodePropertiesPanels.size();
+        int halfSize = size/2;
+        int count = 0;
+        while (edgeTypeNamesIterator.hasNext()) {
+        	String propName = (String) edgeTypeNamesIterator.next();
             JPanel propPanel = (JPanel) _nodePropertiesPanels.get(propName);
-            leftSubPanel.add(propPanel);
+            if (count < halfSize) {
+            	leftSubPanel.add(propPanel);
+            }
+            else {
+            	rightSubPanel.add(propPanel);
+            }
+            count++;
         }
-
-        rightSubPanel.add(_clonesPanel);
-        rightSubPanel.add(_fullUrlPanel);
-
         add(leftSubPanel);
         add(rightSubPanel);
     }
@@ -132,12 +149,18 @@ public class DescriptionView extends JPanel implements GraphView {
                 }
                 if (displayInfo.isDisplayInDescription()) {
                     _nodePropertiesPanels.put(edgeType.getName(), propPanel);
+                    _edgeTypeNames.add(edgeType.getName());
                 }
                 if (displayInfo.isDisplayReverseEdgeInDescription()) {
                     _nodePropertiesPanels.put(edgeType.getReverseEdgeName(), propPanel);
+                    _edgeTypeNames.add(edgeType.getReverseEdgeName());
                 }
             }
         }
+        _nodePropertiesPanels.put(_clonesLabelName, new ClonesPanel(_clonesLabelName, _eventBroker));
+        _edgeTypeNames.add(_clonesLabelName);
+    	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new LinkedList()));
+    	_edgeTypeNames.add(_fullUrlPropName);
     }
 
     /**
@@ -145,24 +168,13 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private int getMaxLabelWidth() {
         Iterator it = _nodePropertiesPanels.values().iterator();
-        //Enumeration e = labels.keys();
         int length = 0;
         while (it.hasNext()) {
             AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
-            //JLabel curLabel = curPanel.getPropNameLabel();
-            //JLabel curLabel = (JLabel) e.nextElement();
             int width = curPanel.getPropNameLabelWidth();
             if (width > length) {
                 length = width;
             }
-        }
-        int clonesWidth = _clonesPanel.getPropNameLabelWidth();
-        if (clonesWidth > length) {
-            length = clonesWidth;
-        }
-        int fullUrlWidth = _fullUrlPanel.getPropNameLabelWidth();
-        if (fullUrlWidth > length) {
-            length = fullUrlWidth;
         }
         return length;
     }
@@ -176,8 +188,6 @@ public class DescriptionView extends JPanel implements GraphView {
             AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
             curPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
         }
-        _clonesPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
-        _fullUrlPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
     }
 
     /**
@@ -205,7 +215,6 @@ public class DescriptionView extends JPanel implements GraphView {
                     (AbstractPropertiesPanel) _nodePropertiesPanels.get(propertyName);
             propPanel.clear();
         }
-        _clonesPanel.clear();
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -217,9 +226,9 @@ public class DescriptionView extends JPanel implements GraphView {
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String edgeName = (String) e.nextElement();
+        	AbstractPropertiesPanel propPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(edgeName);
+        	List value = new LinkedList();
             try {
-                AbstractPropertiesPanel propPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(edgeName);
-                List value = new LinkedList();
                 EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
                 if (displayInfo.isDisplayInDescription()) {
@@ -232,16 +241,27 @@ public class DescriptionView extends JPanel implements GraphView {
             } catch (NoSuchRelationLinkException exc) {
                 // this exception should have been caught when building the graph
                 // we are displaying, so it should be safe to ignore it here
-                System.err.println("NoSuchRelationLinkException exception: " + exc);
-                exc.printStackTrace();
+                // more then that - we are displaying 'fake' edges in this panel,
+                // such as clones and full url. so instead of throwing exception - 
+                // we know that we have to deal with these 'fake' edges.
+                // @todo sounds like a hack to me (see comments above)
+                if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName)) ) {
+                	if (edgeName.equals(_clonesLabelName)) {
+                		// @todo need a mapping from graph node to tree node
+                		// in order to find clones for given graph node.
+                		// or should pass tree to this view instead of a graph.
+                	}
+                	else {
+                		value.add(node.getIdentifier());
+                	}
+                	propPanel.update(value);
+                }
+                else {
+                	System.err.println("NoSuchRelationLinkException exception: " + exc);
+                	exc.printStackTrace();
+                }
             }
         }
-        // deal with clones
-        //_clonesPanel.update(node.getClones().iterator());
-
-        List fullUrlPropList = new LinkedList();
-        fullUrlPropList.add(node.getIdentifier());
-        _fullUrlPanel.update(fullUrlPropList);
     }
 
 

@@ -5,7 +5,6 @@ import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
-import ontorama.model.tree.TreeEdge;
 import ontorama.model.tree.TreeNodeImpl;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;

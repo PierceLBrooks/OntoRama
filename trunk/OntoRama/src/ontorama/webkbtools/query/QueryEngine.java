@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.util.Debug;
 
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -55,6 +56,11 @@ public class QueryEngine {
      * Query Result
      */
     private QueryResult queryResult;
+
+    /**
+     * debug
+     */
+    Debug debug = new Debug (OntoramaConfig.DEBUG);
 
 
     /**
@@ -111,8 +117,8 @@ public class QueryEngine {
         // we end up with a list of unwanted relations
         //allLinks.removeAll(query.getRelationLinksCollection());
         allLinksCopy.removeAll(query.getRelationLinksCollection());
-        System.out.println ("unwantedLinksList = " + allLinksCopy);
-        System.out.println ("allLinks = " + OntoramaConfig.getRelationLinksSet());
+        debug.message("QueryEngine","getQueryTypesIterator()","allLinks = " + OntoramaConfig.getRelationLinksSet());
+        debug.message("QueryEngine","getQueryTypesIterator()","unwantedLinksList = " + allLinksCopy);
         Iterator unwantedLinks = allLinksCopy.iterator();
 
 

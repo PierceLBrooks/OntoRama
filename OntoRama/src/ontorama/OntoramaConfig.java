@@ -316,14 +316,18 @@ public class OntoramaConfig {
 //    }
 
     /**
-     *
+     *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
      */
     public static EdgeType getRelationLinkDetails(String edgeName) throws NoSuchRelationLinkException {
+        System.out.println("edgeName = " + edgeName);
         EdgeType result = null;
         Iterator it = edgesConfig.keySet().iterator();
         while (it.hasNext()) {
             EdgeType edgeType = (EdgeType) it.next();
             if (edgeType.getName().equals(edgeName)) {
+                result = edgeType;
+            }
+            else if ( (edgeType.getReverseEdgeName() != null) && (edgeType.getReverseEdgeName().equals(edgeName)) ){
                 result = edgeType;
             }
         }

@@ -196,7 +196,7 @@ public class RdfWebkbParser extends RdfDamlParser {
             System.exit(-1);
         }
 
-        if (!synonyms.isEmpty()) {
+        if ( (synonyms != null) && (!synonyms.isEmpty())) {
             typeNameSuffix = (String) synonyms.iterator().next();
         } else {
             typeNameSuffix = reformatString(typeNameSuffix);

@@ -7,6 +7,7 @@ package ontorama.hyper.view.simple;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChangedObserver;
 import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;

@@ -18,6 +18,7 @@ import java.io.InputStream;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.MalformedURLException;
 
 import java.util.StringTokenizer;
 import java.util.List;
@@ -38,6 +39,7 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.datamodel.OntologyType;
@@ -54,6 +56,11 @@ import com.hp.hpl.jena.daml.common.*;
 
 public class WebKB2Source implements Source {
 
+  /**
+   *
+   */
+  private String uri;
+
     /**
      *
      */
@@ -65,73 +72,54 @@ public class WebKB2Source implements Source {
     private List docs = new LinkedList();
 
     /**
-     * map type name to corresponding reader
-     * keys - string, term name
-     * values - corresponding string holding the document
-     */
-    private Hashtable typeToReaderMap = new Hashtable();
-
-    /**
      * list of types extracted from the multiple readers
      */
     private List typesList = new LinkedList();
 
     /**
-     *  Get a Reader from given uri.
+     *  Get a Reader from given uri. If result is ambiguous - propmpt user
+     *  to make a choice and return new formulated query. If result is not
+     *  ambiguous - return reader.
      *  @param  uri - base uri for the WebKB cgi script
      *  @param  query - object Query holding details of a query we are executing
      *  @return reader
-     *  @throws Exception
+     *  @throws SourceException
      *
-     *
-     * @todo not using type to reader mapping - get rid of all occurences!
+     * @todo should throuw some specialised exceptions rather then a general exception!
      */
-    public Reader getReader (String uri, Query query) throws Exception {
+    public Reader getReader (String uri, Query query) throws SourceException {
         this.query = query;
+        this.uri = uri;
 
         String fullUri = uri + constructQueryString(query);
-        //String fullUri = uri;
-        Reader reader = executeWebkbQuery(fullUri);
+        Reader resultReader = null;
 
-        BufferedReader br = new BufferedReader( reader );
-        checkForMultiRdfDocuments(br);
-        if( docs.size() > 1 ) {
-            System.out.println("> > > > > multi documents found...");
-            getRootTypesFromStreams();
+        try {
+          Reader reader = executeWebkbQuery(fullUri);
 
-            Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-            //String selectedType = (String) typesList.get(0);
-            String selectedType = ( (OntologyType) typesList.get(0)).getName();
-            if (frames.length > 0) {
-              AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
-              selectedType = dialog.getSelected();
-            }
-            else {
-              AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, null);
-              selectedType = dialog.getSelected();
-            }
-            System.out.println("\n\n\nselectedType = " + selectedType);
-
-            String newTermName = selectedType;
-
-            Query newQuery = new Query(newTermName, query.getRelationLinksList());
-
-            // execute new query to webkb and return new reader
-            fullUri = uri + constructQueryString(newQuery);
-            Reader selectedReader = executeWebkbQuery(fullUri);
-
-            //String selectedDocument = (String) this.typeToReaderMap.get(selectedType);
-            //StringReader selectedReader = new StringReader(selectedDocument);
-            return selectedReader;
+          BufferedReader br = new BufferedReader( reader );
+          checkForMultiRdfDocuments(br);
+          if( resultIsAmbiguous() ) {
+            Query newQuery = processAmbiguousResultSet();
+            SourceResult sourceResult = new SourceResult(false, null, newQuery);
+          }
+          reader.close();
+          resultReader = getInputStreamReader(fullUri);
+          SourceResult sourceResult = new SourceResult (true, resultReader, null);
         }
-        reader.close();
-        return getInputStreamReader(fullUri);
+        catch (IOException ioExc) {
+          throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
+        }
+//        catch (MalformedURLException urlExc) {
+//          throw new SourceException("Url " + fullUri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage());
+//        }
+        return resultReader;
     }
 
     /**
      *
      */
-    private InputStreamReader getInputStreamReader(String uri) throws Exception {
+    private InputStreamReader getInputStreamReader(String uri) throws MalformedURLException, IOException {
         URL url = new URL (uri);
         URLConnection connection = url.openConnection();
         return new InputStreamReader(connection.getInputStream());
@@ -148,7 +136,7 @@ public class WebKB2Source implements Source {
     /**
      *
      */
-    private Reader executeWebkbQuery (String fullUrl) throws Exception {
+    private Reader executeWebkbQuery (String fullUrl) throws IOException {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("fullUrl = " + fullUrl);
         }
@@ -187,6 +175,42 @@ public class WebKB2Source implements Source {
         catch(IOException ioe){}
     }
 
+    /**
+     * deal with case when result is ambiguous: extract list of choices
+     * from the list of received documents and popup dialog box prompting
+     * user to make a choice.
+     */
+    private Query processAmbiguousResultSet () {
+      getRootTypesFromStreams();
+
+      Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
+      //String selectedType = (String) typesList.get(0);
+      String selectedType = ( (OntologyType) typesList.get(0)).getName();
+      if (frames.length > 0) {
+        AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
+        selectedType = dialog.getSelected();
+      }
+      else {
+        //AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, null);
+        //selectedType = dialog.getSelected();
+      }
+      System.out.println("\n\n\nselectedType = " + selectedType);
+
+      String newTermName = selectedType;
+
+      Query newQuery = new Query(newTermName, this.query.getRelationLinksList());
+      return newQuery;
+
+//      // execute new query to webkb and return new reader
+//      String fullUri = this.uri + constructQueryString(newQuery);
+//      //Reader selectedReader = executeWebkbQuery(fullUri);
+//
+//      //String selectedDocument = (String) this.typeToReaderMap.get(selectedType);
+//      //StringReader selectedReader = new StringReader(selectedDocument);
+//
+//      //return selectedReader;
+    }
+
 
     /**
      * Build list of top/root types extracted from the multiple documents,
@@ -204,7 +228,7 @@ public class WebKB2Source implements Source {
     private void getRootTypesFromStreams() {
       try {
 
-        System.out.println("Number of documents found = " + docs.size());
+        //System.out.println("Number of documents found = " + docs.size());
 
         //System.out.println("**********\n\n\n" + (String)docs.remove(0) + "\n\n\n***********");
 
@@ -212,21 +236,14 @@ public class WebKB2Source implements Source {
         while (it.hasNext()) {
           String nextDocStr = (String) it.next();
           StringReader curReader  = new StringReader(nextDocStr);
-          System.out.println("query term name = " + query.getQueryTypeName());
+          //System.out.println("query term name = " + query.getQueryTypeName());
           List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
           for (int i = 0; i < curTypesList.size(); i++) {
             OntologyType type = (OntologyType) curTypesList.get(i);
-//            String typeName = (String) curTypesList.get(i);
-//            if ( ! typesList.contains(typeName)) {
-//              typesList.add(typeName);
-//            }
-//            typeToReaderMap.put(typeName, nextDocStr);
-//          }
             if ( ! typesList.contains(type)) {
               //System.out.println ("adding type " + type.getName() + " to the big list");
               typesList.add(type);
             }
-            typeToReaderMap.put(type, nextDocStr);
           }
 
         }
@@ -258,6 +275,10 @@ public class WebKB2Source implements Source {
      * returned from webkb for each ambuguous choice.
      *
      * @todo  check if this assumption (above) is fair
+     *
+     * @todo  shouldn't hard code synonym property name, because if someone changes
+     * it in the config.xml file - the whole thing will crash without reasonable
+     * explanation. find a better way to do this!
      */
     private List getTypesListFromRdfStream (Reader reader, String termName)
                         throws ParserException, AccessControlException {
@@ -273,7 +294,7 @@ public class WebKB2Source implements Source {
           try {
             List synonyms = curType.getTypeProperty(synPropName);
             if (synonyms.contains(termName)) {
-              System.out.println("***FOUND: " + curType.getName());
+              //System.out.println("***FOUND: " + curType.getName());
               typeNamesList.add(curType);
             }
           }
@@ -283,39 +304,30 @@ public class WebKB2Source implements Source {
             System.exit(-1);
           }
         }
-//        try {
-//            Model model = new ModelMem();
-//            model.read(reader, "");
-//
-//            Property testProperty = new PropertyImpl("http://www.w3.org/TR/1999/PR-rdf-schema-19990303#label");
-//            ResIterator resIt = model.listSubjectsWithProperty(testProperty);
-//
-//            while (resIt.hasNext()) {
-//                Resource r = resIt.next();
-//                //System.out.println("\nresource = " + r);
-//                StmtIterator stIt = r.listProperties(testProperty);
-//                while (stIt.hasNext()) {
-//                    Statement s = stIt.next();
-//                    //System.out.println("\nstatement = " + s);
-//                    RDFNode object = s.getObject();
-//                    //System.out.println("\nobject = " + object.toString());
-//                    if (object.toString().equals(termName)) {
-//                      System.out.println("FOUND: " + r);
-//                      typeNamesList.add(r.toString());
-//                    }
-//                }
-//            }
-//        }
-//        catch (AccessControlException secExc) {
-//                throw secExc;
-//        }
-//        catch (RDFException e) {
-//            e.printStackTrace();
-//            throw new ParserException("Error in parsing RDF: " + e.getMessage());
-//        }
         return typeNamesList;
     }
 
+    /**
+     *
+     */
+    public boolean resultIsAmbiguous () {
+       if( docs.size() > 1 ) {
+        return true;
+       }
+       return false;
+    }
 
+    /**
+     *
+     */
+    public int getNumOfChoices () {
+      return typesList.size();
+    }
 
+    /**
+     *
+     */
+    public List getChoicesList () {
+      return typesList;
+    }
 }

@@ -110,7 +110,7 @@ public class AmbiguousChoiceDialog extends JDialog {
   }
 
   /**
-   *
+   * build a panel with radio buttons representing ontology types
    */
   private JPanel buildChoicePanel () {
     JPanel choiceButtonsPanel = new JPanel();
@@ -155,7 +155,7 @@ public class AmbiguousChoiceDialog extends JDialog {
   }
 
   /**
-   *
+   * close dialog window
    */
   public void closeDialog () {
     setVisible(false);
@@ -163,7 +163,8 @@ public class AmbiguousChoiceDialog extends JDialog {
 
 
   /**
-   *
+   * get text of selected button (which should correspond to the selected
+   * ontology type name)
    */
   public String getSelected () {
     //Object[] selectedObjects = group.getSelection().getSelectedObjects();

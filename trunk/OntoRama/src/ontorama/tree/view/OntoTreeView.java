@@ -32,6 +32,7 @@ public class OntoTreeView implements OntoNodeObserver {
 
     private JScrollPane treeView;
     private JTree tree;
+    private OntoTreeNode focusedNode;
 
     /**
      * Constructor
@@ -57,8 +58,10 @@ public class OntoTreeView implements OntoNodeObserver {
         this.tree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
                 OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
-                System.out.println("******** node " + node);
-                node.setFocus();
+                if ( !node.equals(focusedNode)) {
+                    System.out.println("******** node " + node);
+                    node.setFocus();
+                }
                 if (node == null) return;
             }
         });
@@ -90,6 +93,7 @@ public class OntoTreeView implements OntoNodeObserver {
     public void updateOntoTree (TreePath path) {
         this.tree.makeVisible(path);
         System.out.println("---OntoTreeView, method updateOntoTree for path" + path);
+        focusedNode = (OntoTreeNode) path.getLastPathComponent();
         this.tree.addSelectionPath(path);
     }
 

@@ -45,8 +45,7 @@ public class ChangePanel extends JPanel {
 			((DefaultTableCellRenderer) renderer_0).setToolTipText("Click to Select/Deselect");
 	    }
         
-		_table.setDefaultRenderer(_table.getColumnClass(1), new NodeEdgeColumnTableRenderer());
-		_table.setDefaultRenderer(_table.getColumnClass(2), new AssertColumnTableRenderer());
+		_table.setDefaultRenderer(Change.class, new ChangeCellRenderer());
         
               
         Dimension d = new Dimension(250, 400);
@@ -87,7 +86,7 @@ public class ChangePanel extends JPanel {
     class MyTableModel extends AbstractTableModel {
         private final static int columnsNum = 5;
 
-        String[] columnNames = {"","","Action","Details", "Peer"};
+        String[] columnNames = {"","","+/-","Details", "Peer"};
 
         List rowsList;
 
@@ -142,6 +141,9 @@ public class ChangePanel extends JPanel {
 				case 2 :
 					result = Change.class;
 					break;
+				case 3 :
+					result = Change.class;
+					break;
 				default :
 					result = String.class;
 					break;
@@ -178,17 +180,19 @@ public class ChangePanel extends JPanel {
 			row[0] = new Boolean(false);
 			row[1] = change;
 			row[2] = change;
+			row[3] = change;
 			
-			if (change instanceof NodeChange ) {
-				//row[1] = "node";
-				NodeChange nodeChange = (NodeChange) change;
-				row[3] = nodeChange.getNodeName();
-			}
-			else {
-				//row[1] = "edge";
-				EdgeChange edgeChange = (EdgeChange) change;
-				row[3] = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
-			}
+			
+//			if (change instanceof NodeChange ) {
+//				//row[1] = "node";
+//				NodeChange nodeChange = (NodeChange) change;
+//				row[3] = nodeChange.getNodeName();
+//			}
+//			else {
+//				//row[1] = "edge";
+//				EdgeChange edgeChange = (EdgeChange) change;
+//				row[3] = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
+//			}
 			row[4] = change.getPeer().getName();
 		}
 		
@@ -210,20 +214,51 @@ public class ChangePanel extends JPanel {
 		}
     }
     
-    private class NodeEdgeColumnTableRenderer extends JLabel implements TableCellRenderer  {
+    private class ChangeCellRenderer extends JLabel implements TableCellRenderer  {
 
 		public Component getTableCellRendererComponent(JTable table, Object value, 
 													boolean isSelected, boolean hasFocus, 
 													int row, int col) {
 
-			if (value instanceof NodeChange) {
-				setText("node");
-				setToolTipText("Node");
+			switch (col) {
+				case 1 :
+					if (value instanceof NodeChange) {
+						setText("node");
+						setToolTipText("Node");
+					}
+					else {
+						setText("edge");
+						setToolTipText("Edge");
+					}
+					break;
+				case 2 :
+					String action = ((Change) value).getAction();
+					if (action.equalsIgnoreCase(Change.ASSERT)) {
+						setText("+");
+						setToolTipText("Asserted");
+					}
+					else {
+						setText("-");
+						setToolTipText("Rejected");
+					}
+					break;
+				case 3:
+					String cellText = "";
+					if (value instanceof NodeChange ) {
+						NodeChange nodeChange = (NodeChange) value;
+						cellText = nodeChange.getNodeName();
+					}
+					else {
+						EdgeChange edgeChange = (EdgeChange) value;
+						cellText = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
+					}
+					setText(cellText);
+					setToolTipText(cellText);
+					break;
+				default :
+					break;
 			}
-			else {
-				setText("edge");
-				setToolTipText("Edge");
-			}
+			System.out.println("NodeEdgeColumnTableRenderer:: getTableCellRendererComponent for row " + row + " and col " + col);
 			return this;
 		}
     	
@@ -243,6 +278,7 @@ public class ChangePanel extends JPanel {
 				setText("-");
 				setToolTipText("Rejected");
 			}
+			System.out.println("AssertColumnTableRenderer:: getTableCellRendererComponent for row " + row + " and col " + col);
 			return this;
 		}
     	

@@ -16,12 +16,6 @@ public interface TreeNode {
     public Node getGraphNode ();
 
     /**
-     * set clones for this tree node
-     * @param clones - list of tree nodes
-     */
-    public void setClones (List clones);
-
-    /**
      * get clones list
      * @return list of tree nodes that are clones to this node
      */

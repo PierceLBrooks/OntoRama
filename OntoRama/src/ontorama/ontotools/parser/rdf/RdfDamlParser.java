@@ -177,6 +177,8 @@ public class RdfDamlParser implements Parser {
         } catch (AccessControlException secExc) {
             throw secExc;
         } catch (RDFException e) {
+        	System.err.println("\n\n!!!!!!!!!!!!!!!!!!!!\n");
+        	
         	System.err.println("\nRDFException: " + e.getMessage());
             e.printStackTrace();
             throw new ParserException("Error in parsing RDF: " + e.getMessage());

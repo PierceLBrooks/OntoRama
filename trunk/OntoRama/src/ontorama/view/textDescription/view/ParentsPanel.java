@@ -1,4 +1,4 @@
-package ontorama.textDescription.view;
+package ontorama.view.textDescription.view;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,7 +25,7 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
     }
 
     /**
-     * @see ontorama.textDescription.view.AbstractMultiValuesPanel#createPropertyComponent(ontorama.model.graph.Node)
+     * @see ontorama.view.textDescription.view.AbstractMultiValuesPanel#createPropertyComponent(ontorama.model.graph.Node)
      */
     protected JComponent createPropertyComponent(final ontorama.model.graph.Node node) {
         String labelText = "<html><font color=blue><u>" + node.getName() + "</u></font></html>";

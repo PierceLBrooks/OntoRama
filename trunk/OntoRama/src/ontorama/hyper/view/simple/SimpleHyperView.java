@@ -44,12 +44,12 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 150;
+    private static double springLength = 250;
 
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .01;
+    private double STIFFNESS = .7;
 
     /**
      * Determines strength of repulsion betweeen two nodes
@@ -88,7 +88,7 @@ public class SimpleHyperView  extends CanvasManager {
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-        layoutNodes( 250 );
+        layoutNodes( 500 );
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -242,16 +242,21 @@ public class SimpleHyperView  extends CanvasManager {
         }
     }
 
-    private double minNodeMove;
-
    /**
      * Use a spring algorithm to layout nodes.
      */
     public int layoutNodes( int iteration) {
         List queue = new LinkedList();
         int numOfItorations = 0;
-        minNodeMove = 1000;
+        double minNodeMove = 0;
+        double lastMinMove = 1000;
+        double minMoveDiff;
+        int count;
+        double sumOfAverageMoves;
+        System.out.println("Starting spring and force algorthms: ");
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
+            count = 0;
+            sumOfAverageMoves = 0;
             Iterator it = Edge.getOutboundEdgeNodes(root);
             while( it.hasNext() ) {
                 GraphNode node = (GraphNode)it.next();
@@ -259,24 +264,31 @@ public class SimpleHyperView  extends CanvasManager {
             }
             while( !queue.isEmpty() ) {
                 GraphNode cur = (GraphNode)queue.remove( 0 );
-                adjustPosition( cur );
+                sumOfAverageMoves += adjustPosition( cur );
+                count++;
                 it = Edge.getOutboundEdgeNodes(cur);
                 while( it.hasNext() ) {
                     GraphNode node = (GraphNode)it.next();
                     queue.add( node );
                 }
             }
+            lastMinMove = minNodeMove;
+            minNodeMove = sumOfAverageMoves/count;
+            minMoveDiff = lastMinMove - minNodeMove;
+            minMoveDiff = Math.abs(minMoveDiff);
+            System.out.print(".");
+//            System.out.println("* * * minMoveDiff: " + minMoveDiff);
             numOfItorations++;
-        }while( numOfItorations < iteration && minNodeMove > .05 );
+        }while( numOfItorations < iteration  && minMoveDiff > .00001 );
+        System.out.println("Iterated " + numOfItorations);
         return numOfItorations;
     }
 
     /**
      * Adjust the position of the node using spring algorithm.
      */
-    public void adjustPosition( GraphNode cur ) {
+    public double  adjustPosition( GraphNode cur ) {
         // calculate spring forces for edges to parents
-        //Iterator it = cur.getParents();
         double sumOfMoves = 0;
         int count = 0;
         double xMove = 0;
@@ -290,7 +302,7 @@ public class SimpleHyperView  extends CanvasManager {
             HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
             double vectorLength = curHyperNode.distance( curHyperNodeParent );
             if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
-                double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
+                double springlength = springLength;// / Math.sqrt(parent.getDepth() + 1);
                 double force = STIFFNESS * ( springlength - vectorLength ) / vectorLength;
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
@@ -347,10 +359,11 @@ public class SimpleHyperView  extends CanvasManager {
             }
         }
         double averageMove = sumOfMoves / count;
-//        System.out.println("averageMove: " + averageMove + " minNodeMove: " + minNodeMove);
-        if( averageMove < minNodeMove ) {
-            minNodeMove = averageMove;
-        }
+//        System.out.println("averageMove: " + averageMove);
+//        if( averageMove < minNodeMove && averageMove > .008) {
+//            minNodeMove = averageMove;
+//        }
+        return averageMove;
     }
 
     public void update(Graphics g) {

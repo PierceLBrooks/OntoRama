@@ -45,4 +45,5 @@ public class GroupException extends PeerGroupException {
 	public Exception getException() {
 		return this.e;
 	}
+	
 }

@@ -63,6 +63,8 @@ public class CommunicationGroup extends Communication {
 			pg = this.getGlobalPG().newGroup(null,implAdv, name,descr);
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
+			
+			System.out.println("\ncreated group PeerGroup pg = " + pg + ", group name = " + pg.getPeerGroupName());
 		} catch (PeerGroupException e) {
 			throw new GroupException(e,"Could not create a group");
 		} catch (Exception e) {
@@ -275,7 +277,7 @@ public class CommunicationGroup extends Communication {
 			SearchGroupResultElement groupRes = new SearchGroupResultElement (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
-			System.out.println("search groups returned: " + groupRes);
+			System.out.println("search groups returned: " + groupRes + ", group name = " + groupRes.getName());
 			result.add(groupRes);				
 		}
 

@@ -223,7 +223,7 @@ public class P2PSender{
 
         }
 
-/**
+	/**
     * Return all the groups the peer has joined
     *
     * @return a vector of IDs of group that have been joined
@@ -232,7 +232,27 @@ public class P2PSender{
     */
     public Vector joinedGroups(){
         return this.comm.getMemberOfGroups();
- }
+ 	}
+ 	
+ 	/**
+ 	 * a hack to get a vector of SearchGroupResultElements instead of
+ 	 * a vector of PeerGroups (needed in gui in order to be able 
+ 	 * to move between joined groups and search results without 
+ 	 * getting ClassCastException).
+ 	 */
+ 	public Vector getJoinedGroupsInSearchGroupResultFormat () {
+ 		Vector res = new Vector();
+ 		Enumeration e = joinedGroups().elements();
+ 		while (e.hasMoreElements()) {
+			PeerGroup pg = (PeerGroup) e.nextElement();
+			SearchGroupResultElement element = new SearchGroupResultElement(pg.getPeerGroupID(), 
+											pg.getPeerGroupName(), 
+											pg.getPeerGroupAdvertisement().getDescription());
+			res.add(element);
+			
+		}
+ 		return res;
+ 	}
 
 
 

@@ -1,0 +1,33 @@
+<ontoramaExamples>
+<!--
+        <example name="CADM: WebKB2 Interface" root="cadm#thing" >
+                <source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"
+                                isSourceDynamic="true"
+                                sourcePackagePathSuffix="WebKB2Source"/>
+                <queryOutputFormat>RDF</queryOutputFormat>
+                <parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+        </example>      
+
+        <example name="ADFP9: WebKB2 Interface" root="adfp9#_thing" >
+                <source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"
+                                isSourceDynamic="true"
+                                sourcePackagePathSuffix="WebKB2Source"/>
+                <queryOutputFormat>RDF</queryOutputFormat>
+                <parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+        </example>      
+-->
+
+	<example name="CADM" root="cadm#Thing" loadOnStart="yes" >
+		<source uri="examples/cadm_thing.rdf" 
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="ADFP9" root="adfp9#_thing">
+		<source uri="examples/adfp9_thing.rdf" 
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+
+</ontoramaExamples>

@@ -69,6 +69,11 @@ public class DescriptionView extends JPanel implements GraphView {
      * string that will appear on the label corresponding to node identifier
      */
     private String _fullUrlPropName = "Full Url ";
+    
+    /**
+     * 
+     */
+    private String _descriptionLabelName = "Description";
 
     /**
      * optimal dimension for all label names to fit in
@@ -183,6 +188,8 @@ public class DescriptionView extends JPanel implements GraphView {
         }
         _nodePropertiesPanels.put(_clonesLabelName, new ClonesPanel(_clonesLabelName, _eventBroker));
         _edgeTypeNames.add(_clonesLabelName);
+		_nodePropertiesPanels.put(_descriptionLabelName, new NodePropertiesPanel(_descriptionLabelName, new LinkedList()));
+		_edgeTypeNames.add(_descriptionLabelName);
     	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new LinkedList()));
     	_edgeTypeNames.add(_fullUrlPropName);
     }
@@ -269,9 +276,15 @@ public class DescriptionView extends JPanel implements GraphView {
                 // such as clones and full url. so instead of throwing exception - 
                 // we know that we have to deal with these 'fake' edges.
                 // @todo sounds like a hack to me (see comments above)
-                if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName)) ) {
+                if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName))
+                						|| (edgeName.equals(_descriptionLabelName)) ) {
                 	if (edgeName.equals(_clonesLabelName)) {
                 		// NodeClonesRequestEventHandler takes care of this
+                	}
+                	else if (edgeName.equals(_descriptionLabelName)) {
+						AbstractPropertiesPanel descrPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(_descriptionLabelName);
+						value.add(node.getDescription());
+						descrPanel.update(value);
                 	}
                 	else {
                 		value.add(node.getIdentifier());

@@ -86,7 +86,7 @@ public class TestP2PEdge extends TestCase {
      */
     protected void setUp() throws URISyntaxException {
     	
-    	_backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
+    	_backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackendImpl", null);
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");

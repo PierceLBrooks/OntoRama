@@ -83,6 +83,8 @@ public class RdfDamlParser implements Parser {
     private final String _predicateName_range = "range";
     private final String _predicateName_domain = "domain"; 
     private final String _predicateName_samePropertyAs = "samePropertyAs";
+    
+    private final String _predicateName_comment = "comment";
 
     /**
      * Constructor
@@ -315,6 +317,11 @@ public class RdfDamlParser implements Parser {
         //System.out.println(resource.toString() +  " -> " + predicate.toString() + " -> " + object.toString());
 
         Node subjectNode = doNodeMapping(resource);
+        
+		if (predicate.getLocalName().equalsIgnoreCase(_predicateName_comment)) {
+			subjectNode.setDescription(object.toString());
+		}
+        
         Node objectNode = doNodeMapping(object);
         
         if ((predicate.getLocalName().equals(_predicateName_subPropertyOf)) ||
@@ -389,6 +396,8 @@ public class RdfDamlParser implements Parser {
      *
      */
     protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
+    	
+    	
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
         boolean foundMapping = false;

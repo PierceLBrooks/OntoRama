@@ -52,18 +52,15 @@ http://www.gotomy.com/color.html
 			<relationType name="nounTypeOf"/>
 		</relation>
         <relation id="13">
-            <relationType name="description"/>
-        </relation>
-        <relation id="14">
             <relationType name="creator"/>
         </relation>
-        <relation id="15">
+        <relation id="14">
             <relationType name="synonym"/>
         </relation>
-        <relation id="16">
+        <relation id="15">
             <relationType name="relSignature1"/>
         </relation>
-        <relation id="17">
+        <relation id="16">
             <relationType name="relSignature2"/>
         </relation>
 	</ontology>
@@ -173,25 +170,20 @@ http://www.gotomy.com/color.html
         </relation>
         <relation id="13">
             <displayInDescriptionWindow>
-                <relationType name="description" displayLabel="Description"/>
+                <relationType name="creator" displayLabel="Creator"/>
             </displayInDescriptionWindow>
         </relation>
         <relation id="14">
             <displayInDescriptionWindow>
-                <relationType name="creator" displayLabel="Creator"/>
+                <relationType name="synonym" displayLabel="Synonym"/>
             </displayInDescriptionWindow>
         </relation>
         <relation id="15">
             <displayInDescriptionWindow>
-                <relationType name="synonym" displayLabel="Synonym"/>
-            </displayInDescriptionWindow>
-        </relation>
-        <relation id="16">
-            <displayInDescriptionWindow>
                 <relationType name="relSignature1" displayLabel="Range" queryOn="yes"/>
             </displayInDescriptionWindow>
         </relation>
-        <relation id="17">
+        <relation id="16">
             <displayInDescriptionWindow>
                 <relationType name="relSignature2" displayLabel="Domain" queryOn="yes"/>
             </displayInDescriptionWindow>
@@ -210,7 +202,6 @@ http://www.gotomy.com/color.html
         <map id="9" type="member" tag="wnMember"/>
         <map id="10" type="object" tag="wnObject"/>
         <map id="11" type="url" tag="url"/>
-        <map id="13" type="description" tag="comment"/>
         <map id="14" type="creator" tag="Creator"/>
         <map id="15" type="synonym" tag="label"/>
         <map id="16" type="relSignature1" tag="range"/>

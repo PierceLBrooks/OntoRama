@@ -34,6 +34,7 @@ public interface Node extends GeneralNode {
      * @return creatorUri
      */
     public URI getCreatorUri ();
+    
     /**
      * set creatorUri for this node.
      * @param creatorUri
@@ -43,5 +44,8 @@ public interface Node extends GeneralNode {
     public void setNodeType (NodeType nodeType);
 
     public NodeType getNodeType ();
+    
+    public void setDescription(String description);
+    public String getDescription();
 
 }

@@ -54,6 +54,8 @@ public class NodesListViewer extends JComboBox {
             }
         });
         setListSizeDependantProperties();
+        ListRenderer renderer = new ListRenderer();
+        setRenderer(renderer);
     }
 
     /**
@@ -95,8 +97,9 @@ public class NodesListViewer extends JComboBox {
         Font font = getFont();
         FontMetrics fontMetrics = getFontMetrics(font);
         int strWidth = fontMetrics.stringWidth(_defaultHeadingString);
-        int padding = 5;
-        Dimension d = new Dimension(strWidth + padding*2, fontMetrics.getHeight() + padding*2);
+        int paddingW = 30;
+        int paddingH = 5;
+        Dimension d = new Dimension(strWidth + paddingW*2, fontMetrics.getHeight() + paddingH*2);
         setPreferredSize(d);
         setMaximumSize(d);
     }
@@ -154,4 +157,27 @@ public class NodesListViewer extends JComboBox {
         }
         return nodeNamesList;
     }
+
+    class ListRenderer extends JLabel
+                           implements ListCellRenderer {
+        public ListRenderer() {
+            setHorizontalAlignment(LEFT);
+            setVerticalAlignment(CENTER);
+        }
+        public Component getListCellRendererComponent(
+                                        JList list,
+                                        Object value,
+                                        int index,
+                                        boolean isSelected,
+                                        boolean cellHasFocus) {
+
+
+            String valueStr = (String) value;
+            setText(valueStr);
+            setToolTipText(valueStr);
+            return this;
+        }
+    }
+
+
 }

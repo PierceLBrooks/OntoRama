@@ -34,6 +34,7 @@ import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
 import com.hp.hpl.mesa.rdf.jena.model.Resource;
 import com.hp.hpl.mesa.rdf.jena.model.Statement;
 import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
+import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 
 
 /**
@@ -60,6 +61,7 @@ public class RdfDamlParser implements Parser {
      *
      */
     private String _rdfsNamespace = null;
+    private String _correctedRdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
     private String _damlNamespace = null;
     private String _pmNamespace = null;
@@ -249,7 +251,6 @@ public class RdfDamlParser implements Parser {
     private boolean objectIsPropertyResource (Statement s) {
         Resource subject = s.getSubject();
         Property predicate = s.getPredicate();
-        Object object = s.getObject();
         if (resourceRelationNodeTypesList.contains(subject)) {
             String predicateLocalName = predicate.getLocalName();
             if (predicatesConnectingPropertyToProperty.contains(predicateLocalName)) {
@@ -276,6 +277,10 @@ public class RdfDamlParser implements Parser {
             if (index > 0) {
                 //if (namespace.endsWith(_rdfsNamespaceSuffix)) {
                 _rdfsNamespace = namespace;
+                /// @todo this a hack to handle older RDF schema namespaces, such as http://www.w3.org/TR/1999/PR-rdf-schema-19990303
+                /// for instance (WebKB is still using it). For now we just reassign it to the latest W3C schema.
+                /// To find full extent of the hack - search for usages of _correctedRdfsNamespace.
+                _correctedRdfsNamespace = RDFS.getURI();
             }
 
             /// @todo hacky way to find daml namespace, need better solution
@@ -291,7 +296,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    private List runSelector(Model model, Property p, Object o) throws RDFException, ParserException {
+    private List runSelector(Model model, Property p, Object o) throws RDFException  {
         LinkedList result = new LinkedList();
 
         StmtIterator stIt = model.listStatements();
@@ -299,7 +304,7 @@ public class RdfDamlParser implements Parser {
             Statement next = stIt.next();
             if (next.getPredicate().equals(p)) {
                 if (next.getObject().equals(o)) {
-                    result.add((Resource) next.getSubject());
+                    result.add( next.getSubject());
                 }
             }
         }
@@ -364,7 +369,11 @@ public class RdfDamlParser implements Parser {
                 if (predicate.getLocalName().endsWith(mappingTag)) {
                     String mappingType = rdfMapping.getType();
                     EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
-                    edgeType.setNamespace(predicate.getNameSpace());
+                    String edgeTypeNamespace = predicate.getNameSpace();
+                    if (edgeTypeNamespace.equalsIgnoreCase(_rdfsNamespace)) {
+                        edgeTypeNamespace = _correctedRdfsNamespace;
+                    }
+                    edgeType.setNamespace(edgeTypeNamespace);
                     try {
                         if (mappingType.equals(edgeType.getName())) {
                             addEdge(subjectNode, edgeType, objectNode);

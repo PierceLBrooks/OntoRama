@@ -23,10 +23,8 @@ import ontorama.ontotools.writer.ModelWriterException;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.Model;
-import com.hp.hpl.mesa.rdf.jena.model.Property;
-import com.hp.hpl.mesa.rdf.jena.model.RDFException;
-import com.hp.hpl.mesa.rdf.jena.model.Resource;
+import com.hp.hpl.mesa.rdf.jena.model.*;
+import org.w3c.rdf.vocabulary.rdf_schema_19990303.RDFS;
 
 /*
  * Created by IntelliJ IDEA.
@@ -60,6 +58,7 @@ public class RdfModelWriter implements ModelWriter {
         _nodeToResource = new Hashtable();
         _processedEdges = new LinkedList();
         _processedNodes = new LinkedList();
+        System.out.println("\n\nRDF MODEL WRITER for graph " + graph + "\n");
 
         try {
             _edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
@@ -90,13 +89,13 @@ public class RdfModelWriter implements ModelWriter {
 
         Matcher matcher = p.matcher(string);
         String result = matcher.replaceAll(replacementString);
+        System.out.println("writer result: " + result + "\n\n");
         out.write(result);
         return out;
     }
 
 
     protected Model toRDFModel() throws RDFException, NoSuchRelationLinkException {
-//        DAMLModel rdfModel = new DAMLModelImpl();
         Model rdfModel = new ModelMem();
 
 
@@ -104,7 +103,6 @@ public class RdfModelWriter implements ModelWriter {
         List edgesList = _graph.getEdgesList();
 
         writeEdges(edgesList, rdfModel);
-        //writeNodes(nodesList, rdfModel);
 
         return rdfModel;
     }

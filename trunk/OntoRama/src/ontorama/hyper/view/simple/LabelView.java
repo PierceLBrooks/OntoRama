@@ -72,6 +72,9 @@ public class LabelView extends CanvasItem{
     }
 
     public void draw( Graphics2D g2d ) {
+        if( !this.hyperNodeView.getVisible() ) {
+            return;
+        }
         double scale = hyperNodeView.getScale();
         if( scale < .1 ) {
             return;

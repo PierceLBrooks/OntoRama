@@ -42,7 +42,7 @@ public class SendMessageThread extends Thread{
 	*
 	* @param propType the type of propagation (if it is a propagataion)
 	* @param ownPeerID this peers id
-	* @param ownGroypID the id of the group
+	* @param ownGroupID the id of the group
 	* @param tag the tag for the message
 	* @param message the message to send
 	*/
@@ -62,7 +62,6 @@ public class SendMessageThread extends Thread{
 		Enumeration enum = this.comm.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
-			System.out.println("pg = " + pg);
 
             //Prepare a message to be sent
              Message msgToSend = this.createMsg(pg,
@@ -73,9 +72,7 @@ public class SendMessageThread extends Thread{
                                               message);
 
 	       	outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
-			System.out.println("SendMessageThread::SendMessagePropagate, outputPipe:" + outputPipe);
 			try {
-System.out.println("SendMessageThread::SendMessagePropagate, send a message:" + outputPipe);
 				outputPipe.send(msgToSend);
 			} catch (IOException e) {
 				//do nothing
@@ -243,8 +240,6 @@ System.out.println("SendMessageThread::SendMessagePropagate, send a message:" + 
 	 * @param ownPeerID this peers id
 	 * @param tag the tag for the message
 	 * @param message the message to send
-	 *  
-	 * @exception
 	 */
    	private Message createMsg(PeerGroup pg,
                               int propType,

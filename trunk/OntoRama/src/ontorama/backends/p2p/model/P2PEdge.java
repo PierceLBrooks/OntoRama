@@ -8,10 +8,12 @@
  */
 package ontorama.backends.p2p.model;
 
+import ontorama.model.graph.Edge;
+
 import java.net.URI;
 import java.util.Set;
 
-public interface P2PEdge extends ontorama.model.graph.Edge {
+public interface P2PEdge extends Edge {
     /**
      * Add an asserter for this edge. If the asserter is registered as a 
      * rejecter as well that is removed

@@ -92,7 +92,8 @@ public class P2PReciever implements P2PRecieverInterface{
     }
 
 	public void recieveSearchRequest(String senderPeerID, String query){
-		System.out.println("Recieved a search request, query:" + query);
+		System.out.println("P2PReciever::Recieved a search request, query:" + query);
+        System.out.println("P2PReciever::Passing this search request to backend:" + backend);
 		backend.searchRequest(senderPeerID, query);
 
     }

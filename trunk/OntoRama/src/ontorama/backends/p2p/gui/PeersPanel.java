@@ -57,7 +57,6 @@ public class PeersPanel extends JPanel {
                     return;
                 }
                 String selectedGroupId = (String) _groupNameToGroupIdMapping.get(selectedGroupName);
-System.out.println("PeersPanel, selectedGroupName:" + selectedGroupName + "(" + selectedGroupId + ")");
 
                 GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroupId);
                 _cardLayout.show(_cardPanel, groupPanel.getName());
@@ -106,7 +105,6 @@ System.out.println("PeersPanel, selectedGroupName:" + selectedGroupName + "(" + 
     }
 
     public void removePeerFromAllGroups(String senderPeerID) {
-System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
         //@todo implement should remove the id from every group, I don't think this method is called from the application (i.e. not generated when a peer logout)
     }
 
@@ -157,7 +155,6 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
                  peersList.add(peerID);
 
                 _peerIdToPeerNameMapping.put(peerID, peerName);
-                System.out.println("addPeer: peerName = " + peerName);
 
                 listModel.addElement(peerName);
                 repaint();

@@ -1,0 +1,74 @@
+<ontoramaExamples>
+	<example name="Ontorama Xml Test" root="root">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml"/>
+		<queryOutputFormat>XML</queryOutputFormat>
+		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
+	</example>
+	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/comms_comms_object-children.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Wordnet: cat" root="wn#Cat">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_cat.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Wordnet: feline" root="wn#Feline">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_feline.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Wordnet: carnivore" root="wn#Carnivore">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_carnivore.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Wordnet: tail" root="wn#Tail">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_tail.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Metanet" root="rdf-schema#Resource">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/metanet-2.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>
+	</example>
+	<example name="Wordnet: LexicalConcept" root="LexicalConcept">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/wordnet-20000620.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>
+	</example>
+	<example name="Core Communication" root="#Message">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/CoreCommunication.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>		
+	</example>
+	<example name="Schemas" root="dctype#Text">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/Schemas.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>
+	</example>
+	<example name="Technology Requirement" root="#TechnologyRequirement">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/technical.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>
+	</example>
+	<example name="Research Organisation" root="#ROOT_CLASS">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/ResearchOrganizations.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>		
+	</example>
+	<example name="International Movies Database" root="#IMdb">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/imdb.rdf"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>		
+	</example>
+</ontoramaExamples>

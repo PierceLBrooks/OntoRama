@@ -6,7 +6,7 @@
 		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 
-	<example name="KB cgi" root="net.sourceforge.toscanaj" loadOnStart="yes" >
+	<example name="KB cgi" root="net.sf.tj" loadOnStart="yes" >
 		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/KB/cgi_query_wrapper.pl"
 					sourcePackagePathSuffix="cgkb.CgKbSource"
 					isSourceDynamic="true" />

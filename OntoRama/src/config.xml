@@ -28,13 +28,13 @@
 			<relationType name="supertype" mappingSymbol="&gt;"/>
 			<display color="#0000ff"/>
 		</relation>
-		<relation id="2">
-			<relationType name="synonym"/>
-			<display color="#0000ff"/>
-		</relation>
 		<relation id="3">
 			<relationType name="instance" mappingSymbol=":" />
 			<relationType name="instanceOf" mappingSymbol="^" />
+			<display color="#0000ff"/>
+		</relation>
+		<relation id="2">
+			<relationType name="synonym"/>
 			<display color="#0000ff"/>
 		</relation>
 		<relation id="4">
@@ -65,11 +65,15 @@
 		<conceptProperty id="creator"/>
 	</ontology>
 	<rdfMapping>
-		<map id="1" type="supertype" tag="subClassOf"/>
-		<map id="2" type="synonym" tag="label"/>
-		<map id="4" type="PartOf" tag="part"/>
-		<map id="7" type="inclusive" tag="jointWith"/>
-		<map id="description" tag="comment"/>
-		<map id="creator" tag="Creator"/>
+		<relationLinks>
+			<map id="1" type="supertype" tag="subClassOf"/>
+			<map id="2" type="synonym" tag="label"/>
+			<map id="4" type="PartOf" tag="part"/>
+			<map id="7" type="inclusive" tag="jointWith"/>
+		</relationLinks>
+		<conceptProperties>
+			<map id="description" tag="comment"/>
+			<map id="creator" tag="Creator"/>
+		</conceptProperties>
 	</rdfMapping>
 </ontConfig>

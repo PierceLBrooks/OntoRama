@@ -15,6 +15,10 @@ public class TestPackage {
 
      public static Test suite() {
 
+//        System.out.println("loading config files for tests");
+//        OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
+//               "ontorama.properties","examples/test/data/testCase-config.xml");
+
          TestSuite suite = new TestSuite( "ontorama" );
 
          suite.addTest( ontorama.model.TestModelPackage.suite() );

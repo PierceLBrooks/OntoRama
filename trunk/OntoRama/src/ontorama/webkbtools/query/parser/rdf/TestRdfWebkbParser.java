@@ -9,6 +9,8 @@ import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
 
+import ontorama.util.TestingUtils;
+
 import ontorama.webkbtools.inputsource.*;
 import ontorama.webkbtools.datamodel.*;
 import ontorama.webkbtools.util.*;
@@ -43,8 +45,9 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
    */
   protected void setUp() throws ClassNotFoundException, IllegalAccessException,
                           InstantiationException, Exception, ParserException {
-    OntoramaConfig.loadAllConfig("examples/test/data/testCaseWebkb-examplesConfig.xml",
+    OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                "ontorama.properties","examples/test/data/testCase-config.xml");
+    OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
 
     Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
     Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();

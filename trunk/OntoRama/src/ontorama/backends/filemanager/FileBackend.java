@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.filemanager.gui.FileJMenu;
-import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
@@ -112,26 +111,23 @@ public class FileBackend implements Backend {
 		return _dataFormatsMapping;
 	}
 
-    public void loadFile(File file){
-        DataFormatMapping mapping = Util.getMappingForFile(_dataFormatsMapping, file);
-        System.out.println("FileBackend::loadFile, mapping = " + mapping);
-        
-        _filename = file.getAbsolutePath();
-
-        if ((mapping == null) || (mapping.getParserName() == null)) {
-        	/// @todo need to throw a 'parser not specified exception' here?
-        	ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no parser specified for this file type ");
-        	return;
-        }
-
-        _parserName = mapping.getParserName();
-        
-        _querySettings = new QuerySettings(_parserName, _filename);
+    public void loadFile(File file) {
+    	try {
+	    	_parserName = Util.getParserForFile(_dataFormatsMapping, file);
+	
+	        _filename = file.getAbsolutePath();
+	        
+	        _querySettings = new QuerySettings(_parserName, _filename);
+	    
+	    	System.out.println("FileBackend::parserName = " + _parserName);
+	       
+			GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
+			_eventBroker.processEvent(queryEvent);
+    	}
+    	catch (ParserNotSpecifiedException e) {
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no parser specified for this file type ");
+    	}
     
-    	System.out.println("FileBackend::parserName = " + _parserName);
-       
-       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
-       _eventBroker.processEvent(queryEvent);
     }
 
     public void saveFile(String filename){
@@ -139,25 +135,23 @@ public class FileBackend implements Backend {
             System.out.println("Saving file = " + filename);
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
-
-			DataFormatMapping mapping = Util.getMappingForFile(_dataFormatsMapping, file);
+            
+            String writerName = Util.getWriterForFile(_dataFormatsMapping, file);
 			
-			if ((mapping == null) || (mapping.getWriterName() == null)) {
-				/// @todo need exception here?
-				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no writer specified for this file type ");
-				return;
-			}
-			
-			
+			/// @todo not finished here with instantiating writer from writerName	
         	ModelWriter modelWriter = new RdfModelWriter();
 
-        	System.out.println("FileBackend:: writerName = " + mapping.getWriterName());
+        	System.out.println("FileBackend:: writerName = " + writerName);
 
             modelWriter.write(_graph, writer);
 
             writer.close();
 
-        } catch (Exception e) {
+        } 
+		catch (WriterNotSpecifiedException e) {
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());        	
+		}
+        catch (Exception e) {
              System.err.println("Error writing file");
              e.printStackTrace();
              ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error writing file", e.getMessage());

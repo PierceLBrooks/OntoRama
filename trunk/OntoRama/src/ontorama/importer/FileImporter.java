@@ -7,9 +7,9 @@ import org.tockit.events.EventBroker;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.backends.filemanager.ParserNotSpecifiedException;
 import ontorama.backends.filemanager.Util;
 import ontorama.backends.filemanager.gui.FileBackendFileFilter;
-import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Graph;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
@@ -46,20 +46,19 @@ public class FileImporter implements Importer {
 		int returnValue = fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			DataFormatMapping mapping = Util.getMappingForFile(OntoramaConfig.getDataFormatsMapping(),file);
-			System.out.println("FileImporter::loadFile, mapping = " + mapping);
-				
-			if ((mapping == null) || (mapping.getParserName() == null)) {
-				/// @todo need to throw a 'parser not specified exception' here?
-				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no parser specified for this file type ");
-				return;
+
+			String parserPackageName;
+			try {
+				parserPackageName = Util.getParserForFile(OntoramaConfig.getDataFormatsMapping(),file);
+				System.out.println("\nFileImporter::parserName = " + parserPackageName + "\n");
+//				GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
+//				_eventBroker.processEvent(queryEvent);
+				getResult(parserPackageName, file);
 			}
-	
-			String parserPackageName = mapping.getParserName();		
-			System.out.println("\nFileImporter::parserName = " + parserPackageName + "\n");
-//			GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
-//			_eventBroker.processEvent(queryEvent);
-			getResult(parserPackageName, file);
+			catch (ParserNotSpecifiedException e) {
+				e.printStackTrace();
+				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error reading file", e.getMessage());
+			}	
 		}
 	}
 

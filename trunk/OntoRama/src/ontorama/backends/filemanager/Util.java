@@ -39,14 +39,32 @@ public class Util {
 		return null;
 	}
 	
-	public static DataFormatMapping getMappingForFile (List dataFormatsMapping, File file) {
-		String filename = file.getAbsolutePath();
-		System.out.println("Util::getMappingForFile file = " + filename);
-		String extension = Util.getExtension(file);
-		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extension);
-		System.out.println("Util::getMappingForFile, mapping = " + mapping);
-		return mapping;
+	
+	public static String getParserForFile (List dataFormatsMapping, File file) 
+								throws ParserNotSpecifiedException {
+		String extention = Util.getExtension(file);
+		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);
+		if (mapping == null) {
+			throw new ParserNotSpecifiedException(extention);
+		}
+		if (mapping.getParserName() == null) {
+			throw new ParserNotSpecifiedException(extention);
+		}
+		return mapping.getParserName();
 	}
+	
 
+	public static String getWriterForFile (List dataFormatsMapping, File file) 
+								throws WriterNotSpecifiedException {
+		String extention = Util.getExtension(file);
+		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);
+		if (mapping == null) {
+			throw new WriterNotSpecifiedException(extention);
+		}
+		if (mapping.getWriterName() == null) {
+			throw new WriterNotSpecifiedException(extention);
+		}
+		return mapping.getWriterName();
+	}
 	
 }

@@ -9,9 +9,6 @@ import ontorama.hyper.model.HyperNode;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
-import org.apache.batik.dom.GenericDOMImplementation;
-import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
 import org.tockit.events.Event;
@@ -258,29 +255,6 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
         }
     }
 
-    /**
-     * Method to save the current hyper view to a svg file.
-     */
-    public void saveCanvasToFile(String filename) {
-        // Get a DOMImplementation
-        DOMImplementation domImpl =
-                GenericDOMImplementation.getDOMImplementation();
-        // Create an instance of org.w3c.dom.Document
-        Document document = domImpl.createDocument(null, "svg", null);
-        // Create an instance of the SVG Generator
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-        svgGenerator.setSVGCanvasSize(new Dimension(this.getWidth(), this.getHeight()));
-        paintComponent(svgGenerator);
-        boolean useCSS = true; // we want to use CSS style attribute
-        try {
-            OutputStream file = new FileOutputStream(testFileOutputPath + filename + ".svg");
-            Writer out = new OutputStreamWriter(file, "UTF-8");
-            svgGenerator.stream(out, useCSS);
-            out.close();
-        } catch (SVGGraphics2DIOException svge) {
-        } catch (IOException ioe) {
-        }
-    }
 
     /**
      * Temperary method to test spring and force algorthms

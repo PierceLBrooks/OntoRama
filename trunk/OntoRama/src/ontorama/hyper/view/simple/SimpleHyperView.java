@@ -813,6 +813,10 @@ public class SimpleHyperView extends Canvas implements GraphView {
             animationTime = 0;
         }
 
+        if (focusNode == null) {
+            return;
+        }
+
         moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
 
         repaint();

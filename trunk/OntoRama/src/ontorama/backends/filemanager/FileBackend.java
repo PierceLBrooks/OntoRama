@@ -32,7 +32,6 @@ import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.writer.ModelWriter;
-import ontorama.ontotools.writer.rdf.RdfModelWriter;
 
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
@@ -138,8 +137,7 @@ public class FileBackend implements Backend {
             
             String writerName = Util.getWriterForFile(_dataFormatsMapping, file);
 			
-			/// @todo not finished here with instantiating writer from writerName	
-        	ModelWriter modelWriter = new RdfModelWriter();
+			ModelWriter modelWriter = (ModelWriter) Class.forName(writerName).newInstance();
 
         	System.out.println("FileBackend:: writerName = " + writerName);
 

@@ -86,9 +86,6 @@ public class QueryEngine implements QueryEngineInterface {
         //String queryOutputFormat = OntoramaConfig.queryOutputFormat;
 
 //        if (OntoramaConfig.isSourceDynamic) {
-//          QueryStringConstructorInterface queryStrConstr =
-//            (QueryStringConstructorInterface) (Class.forName(OntoramaConfig.getQueryStringCostructorPackageName())).newInstance();
-//          queryUrl = queryUrl + queryStrConstr.getQueryString(query, queryOutputFormat);
 //        }
 
         Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
@@ -102,19 +99,6 @@ public class QueryEngine implements QueryEngineInterface {
 
         this.queryResult = executeQuery(source, parser, queryUrl, query);
         System.out.println("QueryEngine: got query result from executeQuery method");
-        //Reader r = source.getReader(queryUrl, query);
-//        Reader r = null;
-//        Query newQuery = null;
-//        SourceResult sourceResult = source.getSourceResult(queryUrl, query);
-//        if (sourceResult.queryWasSuccess()) {
-//          r = sourceResult.getReader();
-//          this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
-//          r.close();
-//          queryResult = new QueryResult(query, getQueryTypesList());
-//        }
-//        else {
-//          newQuery = sourceResult.getNewQuery();
-//        }
     }
 
     /**

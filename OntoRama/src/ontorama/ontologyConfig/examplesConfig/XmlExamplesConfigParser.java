@@ -115,11 +115,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract{
       Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
       //System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
       if ( ( isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true")) ) {
-        Attribute queryStringConstructorPackagePathSuffixAttr = sourceElement.getAttribute("queryStringConstructorPackagePathSuffix");
-        System.out.println("queryStringConstr attr = " + queryStringConstructorPackagePathSuffixAttr);
-        //checkCompulsoryAttr(queryStringConstructorPackagePathSuffixAttr, "queryStringConstructorPackagePathSuffix", "source");
         example.setIsSourceDynamic(true);
-        example.setQueryStringConstructorPackagePathSuffix(queryStringConstructorPackagePathSuffixAttr.getValue());
       }
 
       this.examplesList.add(example);

@@ -57,12 +57,12 @@ import com.hp.hpl.jena.daml.common.*;
 public class WebKB2Source implements Source {
 
   /**
-   *
+   * uri of WebKB cgi script
    */
   private String uri;
 
     /**
-     *
+     * query we want to post to webkb
      */
    private Query query;
 
@@ -77,41 +77,48 @@ public class WebKB2Source implements Source {
     private List typesList = new LinkedList();
 
     /**
-     *
-     */
-    private Query newQuery = null;
-
-    /**
      * holds string representing all reader data
      * returned from webkb query
      */
     private String readerString = "";
 
     /**
-     *
+     * Patterns to look  for if webkb query was unsuccessfull
      */
     private String webkbErorrStartPattern = "<br><b>";
     private String webkbErrorEndPattern = "</b><br>";
+
+    /**
+     * name of property 'Synonym'
+     *
+     * @todo  shouldn't hard code synonym property name, because if someone changes
+     * it in the config.xml file - the whole thing will crash without reasonable
+     * explanation. find a better way to do this!
+     */
+    private String synPropName = "Synonym";
 
     /**
      *  Get a SourceResult from given uri. First, get a reader and check ir.
      *  If result is ambiguous - propmpt user
      *  to make a choice and return new formulated query. If result is not
      *  ambiguous - return reader.
+     *
+     *  To check if webkb returned error, we check if there were RDF end of
+     *  element tags in the returned data (to see if we got RDF document back).
+     *  If not - we check for error patterns trying to extract the error message.
+     *
      *  @param  uri - base uri for the WebKB cgi script
      *  @param  query - object Query holding details of a query we are executing
      *  @return sourceResult
      *  @throws SourceException
-     *
-     * @todo should throuw some specialised exceptions rather then a general exception!
      */
     public SourceResult getSourceResult (String uri, Query query) throws SourceException {
         this.query = query;
         this.uri = uri;
 
+        // reinitialise all global vars
         this.docs = new LinkedList();
         this.typesList = new LinkedList();
-        this.newQuery = null;
         this.readerString = "";
 
         String fullUri = uri + constructQueryString(query);
@@ -124,8 +131,13 @@ public class WebKB2Source implements Source {
 
           br = new BufferedReader( reader );
 
+          // check for multiple documents. If the documents list
+          // size == 0, this means that we didn't find RDF documents
+          // in the reader. In this case - look for error message
           System.out.println("checking for multi documents");
           checkForMultiRdfDocuments(br);
+          //readerString = readStreamIntoString(br);
+          //checkForMultiRdfDocuments(readerString);
           System.out.println("docs size = " + docs.size());
           if (docs.size() == 0 ) {
             String webkbError = checkForWebkbErrors(readerString );
@@ -133,15 +145,11 @@ public class WebKB2Source implements Source {
           }
           if( resultIsAmbiguous() ) {
             System.out.println("\n\nresult is ambiguous");
-            this.newQuery = processAmbiguousResultSet();
-            return ( new SourceResult(false, null, this.newQuery));
+            Query newQuery = processAmbiguousResultSet();
+            return ( new SourceResult(false, null, newQuery));
           }
           reader.close();
           //resultReader = getInputStreamReader(fullUri);
-//          System.out.println("docs size = " + docs.size());
-//          System.out.println("*********************************");
-//          System.out.println((String) docs.get(0));
-//          System.out.println("*********************************");
           resultReader = new StringReader((String) docs.get(0));
 
         }
@@ -152,19 +160,11 @@ public class WebKB2Source implements Source {
           throw new SourceException("Error parsing returned RDF data, here is error provided by parser: " + parserExc.getMessage());
         }
         System.out.println("resultReader = " + resultReader);
-       return (new SourceResult (true, resultReader, null));
-       //return (new SourceResult (true, br, null));
+        return (new SourceResult (true, resultReader, null));
     }
 
     /**
-     * @todo this is a hack to avoid using SourceResult for now.
-     */
-    public Query getNewQuery () {
-      return this.newQuery;
-    }
-
-    /**
-     *
+     * Get a reader from given url
      */
     private InputStreamReader getInputStreamReader(String uri) throws MalformedURLException, IOException {
         URL url = new URL (uri);
@@ -173,7 +173,7 @@ public class WebKB2Source implements Source {
     }
 
     /**
-     *
+     * construct query string ready to use with webkb
      */
     private String constructQueryString (Query query) {
       WebkbQueryStringConstructor queryConstructor = new WebkbQueryStringConstructor();
@@ -181,7 +181,7 @@ public class WebKB2Source implements Source {
     }
 
     /**
-     *
+     * execute webkb query
      */
     private Reader executeWebkbQuery (String fullUrl) throws IOException {
         if (OntoramaConfig.DEBUG) {
@@ -194,14 +194,18 @@ public class WebKB2Source implements Source {
 
     /**
      * check for errors returned by webkb
+     *
+     * Check if EITHER of error patterns appear in the document,
+     * rather then if both of them have to appear. This is more
+     * flexible - if webkb is changes or some other error returns
+     * some slightly different patterns - we should still be able to
+     * catch it.
      */
     private String checkForWebkbErrors (String doc) {
-      System.out.println("doc str = " + doc);
+      //System.out.println("doc str = " + doc);
       String extractedErrorStr = doc;
       int startPatternInd = doc.indexOf(webkbErorrStartPattern);
       int endPatternInd = doc.indexOf(webkbErrorEndPattern);
-
-      System.out.println("\n\nstartPatternInd = " + startPatternInd + ", endPatternInd = " + endPatternInd);
 
       if (endPatternInd != -1 ) {
         extractedErrorStr = extractedErrorStr.substring(0, endPatternInd);
@@ -211,15 +215,55 @@ public class WebKB2Source implements Source {
         extractedErrorStr = extractedErrorStr.substring( webkbErorrStartPattern.length());
       }
 
-      System.out.println("extractedErrorStr = " + extractedErrorStr);
+      //System.out.println("extractedErrorStr = " + extractedErrorStr);
 
       return extractedErrorStr;
     }
 
+//    /**
+//     * Read document reader into a string
+//     *
+//     * @param br - buffered reader
+//     * @return string holding all data from the reader
+//     */
+//    private String readStreamIntoString (BufferedReader br) throws IOException {
+//      String result = "";
+//      String line = br.readLine();
+//      while (line != null) {
+//        System.out.print(".");
+//        result = result + line + "\n";
+//        //System.out.println("---" + line);
+//        line = br.readLine();
+//
+//      }
+//      return result;
+//    }
+//
+//    /**
+//     *
+//     */
+//    private void checkForMultiRdfDocuments (String docString) {
+//      String delim = "rdf:RDF";
+//      StringTokenizer st = new StringTokenizer(docString, delim);
+//      while (st.hasMoreTokens()) {
+//        String token = st.nextToken();
+//        String rdfDoc = token + delim;
+//        System.out.println("**********************************************");
+//        System.out.println(token);
+//        System.out.println("**********************************************");
+//
+//        docs.add(rdfDoc);
+//      }
+//    }
+
     /**
-     * Read RDF documents into list.
+     * Read RDF documents into list and build a string that
+     * will represent the whole document's data.
      * If the list contains more then one document, the query
-     * is ambugious. i.e "cat" can be (big_cat, Caterpillar, true_cat, etc)
+     * is ambugious. i.e "cat" can be (big_cat, Caterpillar, true_cat, etc).
+     *
+     * Result: docs - list of RDF documents
+     *         readerString - string holding all data from this reader
      *
      * @todo remove count and debugging print statement
      */
@@ -252,7 +296,7 @@ public class WebKB2Source implements Source {
     }
 
     /**
-     * deal with case when result is ambiguous: extract list of choices
+     * Deal with case when result is ambiguous: extract list of choices
      * from the list of received documents and popup dialog box prompting
      * user to make a choice.
      */
@@ -260,7 +304,6 @@ public class WebKB2Source implements Source {
       getRootTypesFromStreams();
 
       Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-      //String selectedType = (String) typesList.get(0);
       String selectedType = ( (OntologyType) typesList.get(0)).getName();
       if (frames.length > 0) {
         AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
@@ -289,24 +332,18 @@ public class WebKB2Source implements Source {
      *
      */
     private void getRootTypesFromStreams() throws ParserException {
-      //System.out.println("Number of documents found = " + docs.size());
-
-      //System.out.println("**********\n\n\n" + (String)docs.remove(0) + "\n\n\n***********");
 
       Iterator it = docs.iterator();
       while (it.hasNext()) {
         String nextDocStr = (String) it.next();
         StringReader curReader  = new StringReader(nextDocStr);
-        //System.out.println("query term name = " + query.getQueryTypeName());
         List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
         for (int i = 0; i < curTypesList.size(); i++) {
           OntologyType type = (OntologyType) curTypesList.get(i);
           if ( ! typesList.contains(type)) {
-            //System.out.println ("adding type " + type.getName() + " to the big list");
             typesList.add(type);
           }
         }
-
       }
     }
 
@@ -331,9 +368,6 @@ public class WebKB2Source implements Source {
      *
      * @todo  check if this assumption (above) is fair
      *
-     * @todo  shouldn't hard code synonym property name, because if someone changes
-     * it in the config.xml file - the whole thing will crash without reasonable
-     * explanation. find a better way to do this!
      */
     private List getTypesListFromRdfStream (Reader reader, String termName)
                         throws ParserException, AccessControlException {
@@ -345,7 +379,6 @@ public class WebKB2Source implements Source {
         Iterator typesIt = colOfTypes.iterator();
         while (typesIt.hasNext()) {
           OntologyType curType = (OntologyType) typesIt.next();
-          String synPropName = "Synonym";
           try {
             List synonyms = curType.getTypeProperty(synPropName);
             if (synonyms.contains(termName)) {

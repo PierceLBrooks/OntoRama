@@ -380,7 +380,6 @@ public class OntoramaConfig {
       setParserPackageName(example.getParserPackagePathSuffix());
       setSourcePackageName(example.getSourcePackagePathSuffix());
       OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
-      setQueryStringConstructorPackageName(example.getQueryStringConstructorPackagePathSuffix());
       OntoramaConfig.ontologyRoot = example.getRoot();
       OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
 

@@ -52,6 +52,11 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     private JButton _querySubmitButton;
     private JButton _queryStopButton;
     private JTextField _depthField;
+    private JLabel _depthLabel = new JLabel("depth: ");
+    
+    private static final String _queryFieldToolTip = "Type query term here";
+    private static final String _depthFieldToolTip = "Specify query depth (integer from 1 to 9). This feature is only available for Dynamic sources.";
+  
 
     /**
      *
@@ -70,7 +75,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     private LinkedList _wantedRelationLinks = new LinkedList ();
 
     //temp variable for creating svg image of hyper view
-    private TextField _imgNameField = new TextField("", 10);
+    //private TextField _imgNameField = new TextField("", 10);
 
     /**
      *
@@ -97,11 +102,11 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
         JPanel queryFieldPanel = new JPanel();
 
         _queryField = new JTextField(25);
-        _queryField.setToolTipText("Type query term here");
+        _queryField.setToolTipText(_queryFieldToolTip);
         _queryField.addActionListener(this);
 
 		_depthField = new JTextField(1);
-		_depthField.setToolTipText("Specify query depth (integer from 1 to 9)");
+		_depthField.setToolTipText(_depthFieldToolTip);
 		_depthField.addActionListener(this);
 		_depthField.addKeyListener(new KeyListener() {
 			public void keyPressed (KeyEvent ke) {
@@ -145,7 +150,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
 		queryFieldPanel.add(new JLabel("Search for: "));
         queryFieldPanel.add(_queryField);
         
-        queryFieldPanel.add(new JLabel("depth: "));
+        queryFieldPanel.add(_depthLabel);
         queryFieldPanel.add(_depthField);
 
         queryFieldPanel.add(_querySubmitButton);
@@ -180,6 +185,36 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     	return buildNewQuery();
     }
     
+    /**
+     * 
+     */
+    public void setQuery (Query query) {
+    	setQueryField(query.getQueryTypeName());
+    	setWantedRelationLinks(query.getRelationLinksList());
+    	if (query.getDepth() > 0 ) {
+    		setDepthField(query.getDepth());
+    	}
+    	else {
+    		_depthField.setText("");
+    	}
+    }
+    
+    /**
+     * 
+     */
+    public void enableDepth () {
+    	_depthLabel.setEnabled(true);
+    	_depthField.setEnabled(true);
+    }
+    
+    /**
+     * 
+     */
+    public void disableDepth() {
+    	_depthLabel.setEnabled(false);
+    	_depthField.setEnabled(false);
+    }
+    
 
     /**
      *
@@ -206,7 +241,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     /**
      * 
      */
-    public void setDepthField (int depth) {
+    private void setDepthField (int depth) {
     	_depthField.setText( String.valueOf(depth));
     }
 

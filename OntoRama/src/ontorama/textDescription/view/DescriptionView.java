@@ -275,7 +275,7 @@ public class DescriptionView extends JPanel implements GraphView {
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getFullName());
         _fullUrlPanel.update(fullUrlPropList);
-        _parentsPanel.update(_graph.getInboundEdgeNodes(node, _firstRelationLink));
+        _parentsPanel.update(_graph.getInboundEdgeNodes(node, _firstRelationLink).iterator());
     }
 
 

@@ -87,6 +87,8 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private EventBroker _eventBroker;
 
+    private Graph _graph;
+
     /**
      *
      */
@@ -134,13 +136,6 @@ public class DescriptionView extends JPanel implements GraphView {
         add(rightSubPanel);
     }
 
-
-    /**
-     *
-     */
-    public void setGraph(Graph graph) {
-
-    }
 
     /**
      *
@@ -262,6 +257,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     public void focus(GraphNode node) {
+        //System.out.println("description view: focus()");
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String propertyName = (String) e.nextElement();
@@ -285,6 +281,20 @@ public class DescriptionView extends JPanel implements GraphView {
 
         _parentsPanel.update(Edge.getInboundEdgeNodes(node, _firstRelationLink));
     }
+
+
+    public void setGraph (Graph graph) {
+        _graph = graph;
+    }
+
+    public Graph getGraph () {
+        return _graph;
+    }
+
+    public void repaint () {
+        super.repaint();
+    }
+
 
 
 }

@@ -160,6 +160,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     private double ELECTRIC_CHARGE = 10;
 
+    private Graph graph;
+
 
     /**
      *
@@ -290,6 +292,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Loads new ontology with top concept.
      */
     public void setGraph(Graph graph) {
+        this.graph = graph;
         // reset canvas variables
         this.resetCanvas();
         this.root = graph.getRootNode();
@@ -297,7 +300,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
             System.out.println("Root = null");
             return;
         }
-        makeHyperNodes(root);
+        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
+        while (topLevelNodes.hasNext()) {
+            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
+            makeHyperNodes(topLevelNode);
+        }
+//        makeHyperNodes(root);
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
         NodePlacementDetails rootNode = new NodePlacementDetails();
         rootNode.node = root;
@@ -1170,4 +1178,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
     }
 
+
+    public Graph getGraph () {
+        return this.graph;
+    }
+
+
+    public void repaint() {
+        super.repaint();
+    }
 }

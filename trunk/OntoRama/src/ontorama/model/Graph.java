@@ -410,7 +410,6 @@ public class Graph implements GraphInterface {
                 unconnectedEdges.add(curNode);
                 if (!_unconnectedNodes.contains(curNode)) {
                     _unconnectedNodes.add(curNode);
-                    System.out.println("unconnected node = " + curNode + ", num of children in the branch = " + curNode.getBranchNodesNum());
                 }
 
                 // get outbound edges for this node
@@ -442,7 +441,52 @@ public class Graph implements GraphInterface {
      * Set root node
      */
     public void setRoot(GraphNode rootNode) {
+        System.out.println("\n\n\n");
+        System.out.println("setRoot method for node = " + rootNode + ", current root = " + root);
+        boolean nodeIsInCurrentBranch = nodeIsInCurrentGivenBranch(this.root, rootNode);
+        System.out.println("setRoot method, nodeIsInCurrentBranch = " + nodeIsInCurrentBranch);
+
         root = rootNode;
+        System.out.println("\n\n\n");
+    }
+
+
+
+    /**
+     *
+     */
+    public GraphNode getBranchRootForNode (GraphNode node) {
+        Iterator it = _unconnectedNodes.iterator();
+        while (it.hasNext()) {
+            GraphNode branchRoot = (GraphNode) it.next();
+            if (nodeIsInCurrentGivenBranch(branchRoot,node)) {
+                return branchRoot;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     */
+    public boolean nodeIsInCurrentGivenBranch (GraphNode branchRoot, GraphNode node) {
+        List queue = new LinkedList();
+        queue.add(branchRoot);
+
+        while (!queue.isEmpty()) {
+            GraphNode curNode = (GraphNode) queue.remove(0);
+
+            if (curNode.equals(node)) {
+                return true;
+            }
+
+            Iterator it = Edge.getOutboundEdgeNodes(curNode);
+            while (it.hasNext()) {
+                GraphNode nextNode = (GraphNode) it.next();
+                queue.add(nextNode);
+            }
+        }
+        return false;
     }
 
     /**

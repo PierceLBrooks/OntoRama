@@ -106,7 +106,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private boolean isLeaf = false;
 
     private ontorama.model.graph.NodeType nodeType;
-    private Shape pathShape;
+    private Shape pathShape = new GeneralPath();
 
     /**
      * Returns the radius of the projection sphere.

@@ -5,6 +5,8 @@ import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 import javax.swing.*;
 import java.awt.*;
 
+import net.jxta.peergroup.PeerGroup;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
@@ -36,9 +38,16 @@ public class GroupNamesComboBoxRenderer extends JLabel  implements ListCellRende
         if (value == null) {
             return this;
         }
-        SearchGroupResultElement element = (SearchGroupResultElement) value;
-        setText(element.getName());
-        setToolTipText(element.getDescription());
+        /// @todo this if seems as a hack!
+        if (value instanceof  SearchGroupResultElement) {
+            SearchGroupResultElement element = (SearchGroupResultElement) value;
+            setText(element.getName());
+            setToolTipText(element.getDescription());
+        }
+        else {
+            PeerGroup peerGroup = (PeerGroup) value;
+            setText(peerGroup.getPeerGroupName());
+        }
         return this;
     }
 }

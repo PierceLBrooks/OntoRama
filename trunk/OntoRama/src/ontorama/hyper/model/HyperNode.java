@@ -53,6 +53,16 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
     }
 
     /**
+     * Tell all Hyper observers of change.
+     */
+    public void notifyChange() {
+        Iterator it = HyperObservers.iterator();
+        while( it.hasNext() ) {
+            HyperNodeObserver hno = (HyperNodeObserver)it.next();
+            hno.update( hno );
+        }
+    }
+    /**
      * Update method called from obserable (GraphNode)
      */
     public void update( Object obj ) {
@@ -102,18 +112,11 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
     }
 
     /**
-     * Recursive call to move all nodes..
+     * Move node position by offset.
      */
-     /*
     public void move( double x, double y ) {
         setLocation(position.getX() - x, position.getY() - y );
-        //Iterator it = children.iterator();
-        Iterator it = node.getChildrenIterator();
-        while( it.hasNext() ) {
-            HyperNode cur = (HyperNode)it.next();
-            cur.move( x, y );
-        }
-    }*/
+    }
 
     /**
      * Returns the distance to the other node.
@@ -124,21 +127,9 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
 
     public void setLocation(double x, double y ) {
         position.setLocation( x, y );
-        //node.notifyChange();
+        notifyChange();
     }
 
-    /*
-    public void draw( Graphics2D g2d) {
-      //Iterator it = children.iterator();
-      Iterator it = node.getChildrenIterator();
-      while( it.hasNext() ) {
-        HyperNode child = (HyperNode)it.next();
-        child.draw(g2d);
-      }
-      g2d.setColor(Color.blue);
-      g2d.fill( new Ellipse2D.Double(getX(), getY(), (double)(nodeRadius/2), (double)(nodeRadius/2)));
-
-    }*/
 
     public String toString() {
         return name;

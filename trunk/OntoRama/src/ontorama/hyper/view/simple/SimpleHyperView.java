@@ -24,6 +24,12 @@ public class SimpleHyperView  extends CanvasManager {
      */
     private static double springLength = 100;
 
+    public SimpleHyperView() {
+        this.addMouseListener( this );
+        this.addMouseMotionListener( this );
+        this.setDoubleBuffered( true );
+    }
+
     /**
      * Loads new ontology with top concept.
      */

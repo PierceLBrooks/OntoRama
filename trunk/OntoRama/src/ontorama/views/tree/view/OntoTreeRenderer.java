@@ -111,7 +111,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     protected String getToolTipText(Object value, EdgeType edgeType) {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        ontorama.model.tree.TreeNode node = treeNode.getModelTreeNode();
 
         if (edgeType == null) {
             result = result + "Node: " + treeNode.getModelTreeNode().getName();

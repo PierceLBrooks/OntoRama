@@ -47,11 +47,11 @@ public class TypeQueryImplementation extends TypeQueryBase {
             //System.exit(1);
             throw new Exception(io.getMessage());
         }
-        catch (Exception e) {
-            //System.err.println("Exception: " + e);
-            //System.exit(1);
-            throw new Exception(e.getMessage());
-        }
+//        catch (Exception e) {
+//            //System.err.println("Exception: " + e);
+//            //System.exit(1);
+//            throw new Exception(e.getMessage());
+//        }
         return iterator;
 
     }

@@ -59,6 +59,7 @@ public class ViewEventListener implements ViewEventObservable {
 				case 6:
 					break;
 				case 7:
+                                        System.out.println("SENDING QUERY EVENT for node " + node.getName());
 					cur.query (node);
 					break;
 			}

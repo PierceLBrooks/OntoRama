@@ -9,6 +9,7 @@ import java.util.Enumeration;
 //import java.awt.MenuBar;
 //import java.awt.Menu;
 //import java.awt.MenuItem;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import javax.swing.JRadioButton;
 
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.util.event.ViewEventListener;
 import ontorama.webkbtools.query.Query;
 
 
@@ -74,8 +76,21 @@ public class OntoRamaMenu {
   /**
    *
    */
-  public OntoRamaMenu (OntoRamaApp mainApp) {
+  private int maxHistoryItems = 10;
+
+  /**
+   *
+   */
+  ViewEventListener viewEventListener;
+
+
+  /**
+   *
+   */
+  public OntoRamaMenu (OntoRamaApp mainApp, ViewEventListener viewEventListener) {
     this.mainApp = mainApp;
+    this.viewEventListener = viewEventListener;
+
     this.examplesList = OntoramaConfig.getExamplesList();
     this.menuItemExampleMapping = new Hashtable();
     this.submenusMapping = new Hashtable();
@@ -210,7 +225,30 @@ public class OntoRamaMenu {
    */
   public void appendHistory (String termName, OntoramaExample example) {
 
+    int historyItemsCount = historyMenu.getMenuComponentCount();
+    Component[] historyItemsArray = historyMenu.getMenuComponents();
+
     String historyItemLabelName = termName + " (" + example.getName() + ") ";
+
+    // check if this there is already history menu item for this,
+    // in this case don't append it
+//    for (int i=0; i < historyItemsArray.length; i++ ){
+//      JCheckBoxMenuItem curMenuItem = (JCheckBoxMenuItem) historyItemsArray[i];
+//      if (curMenuItem.getText().equals(historyItemLabelName)) {
+//        System.out.println("history menu item already exists");
+//        //displayHistoryItem(curMenuItem);
+//        setSelectedMenuItem(menuItemHistoryMapping, curMenuItem);
+//        return;
+//      }
+//    }
+
+    if ((historyItemsCount > 0) && (historyItemsCount > maxHistoryItems)) {
+      // need to remove first item
+      JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) historyItemsArray[0];
+      System.out.println("first menu item = " + firstMenuItem.getText());
+      this.menuItemHistoryMapping.remove(firstMenuItem);
+      historyMenu.remove(0);
+    }
 
     HistoryElement historyElement = new HistoryElement(historyItemLabelName, termName, example);
 
@@ -239,10 +277,7 @@ public class OntoRamaMenu {
     if (!querySuccessfull) {
       return;
     }
-
-    appendHistory(example.getRoot(),example);
-
-
+    //appendHistory(example.getRoot(),example);
   }
 
 
@@ -252,6 +287,7 @@ public class OntoRamaMenu {
   public void displayHistoryItem (JCheckBoxMenuItem historyItem) {
     //System.out.println("displayHistoryItem for " + historyItem);
     HistoryElement historyElement = (HistoryElement) this.menuItemHistoryMapping.get(historyItem);
+
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
 
@@ -272,7 +308,6 @@ public class OntoRamaMenu {
       return;
     }
     setSelectedMenuItem(menuItemHistoryMapping, historyItem);
-
   }
 
   /**

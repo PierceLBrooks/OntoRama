@@ -48,11 +48,11 @@ public class ClonesPanel extends JPanel {
     int minPadding = 15;
 
     Hashtable buttonCloneMapping = new Hashtable();
-	
-	private ViewEventListener viewListener;
+
+    private ViewEventListener viewListener;
 
     public ClonesPanel (ViewEventListener viewListener) {
-		this.viewListener = viewListener;
+        this.viewListener = viewListener;
         //this.clones = clones;
 
         initLabels();
@@ -63,11 +63,13 @@ public class ClonesPanel extends JPanel {
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
         // add first label
         this.add(clonesNameLabel);
+
         // work out size of rigid area and set it
         //int curRigitAreaWidth = maxLeftLabelWidth - getLabelWidth(propNameLabel) + this.minPadding;
         int curRigitAreaWidth = this.minPadding;
         Dimension d = new Dimension(curRigitAreaWidth,0);
         this.add(Box.createRigidArea(d));
+
         // add second label
         clonesValuePanel.setLayout(new BoxLayout(clonesValuePanel, BoxLayout.X_AXIS));
         clonesValuePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -83,27 +85,37 @@ public class ClonesPanel extends JPanel {
     }
 
     public void update (Iterator clonesIterator) {
-        //System.out.println("ClonesPanel, method update");
+        System.out.println("ClonesPanel, method update");
         this.clones = clonesIterator;
         clonesValuePanel.removeAll();
-        clonesValuePanel.updateUI();
+        //clonesValuePanel.updateUI();
         this.buttonCloneMapping = new Hashtable();
         //String clonesString = "";
         while (clonesIterator.hasNext()) {
           GraphNode clone = (GraphNode) clonesIterator.next();
-          //System.out.println("clone = " + clone.getName());
+          System.out.println("clone = " + clone.getName());
           JButton button = new JButton();
+          //System.out.println("created new button");
           button.setText(clone.getName());
+          //System.out.println("button.setText");
           buttonCloneMapping.put(button,clone);
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GraphNode node = (GraphNode) buttonCloneMapping.get(e.getSource());
-				viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
+                viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
                 //node.hasFocus();
             }
           });
           clonesValuePanel.add(button);
+          //System.out.println("clonesValuePanel.add(button)");
         }
+        clonesValuePanel.repaint();
+        //this.repaint();
+    }
+
+    public void clear () {
+      clonesValuePanel.removeAll();
+      //clonesValuePanel.repaint();
     }
 
 }

@@ -74,6 +74,10 @@ public class NodePropertiesPanel extends JPanel {
         return this.propName;
     }
 
+    public void clear () {
+      propValueLabel.setText("");
+    }
+
     public void update (List propValueList) {
         setPropValue(propValueList);
     }

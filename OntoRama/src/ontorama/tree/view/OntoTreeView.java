@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.*;
 import java.awt.AWTEvent;
+import java.awt.Event;
 
 import ontorama.ontologyConfig.*;
 
@@ -370,15 +371,13 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
       //debug.message("mouseReleased");
     }
 
+    /**
+     *
+     */
     private void notifyMouseKeyEvent (KeyEvent keyEvent, MouseEvent mouseEvent, GraphNode graphNode) {
-      //System.out.println("notifyMouseKeyEvent, this.pressedKey = " + this.pressedKey + ", this.pressedMouseButton = " + this.pressedMouseButton);
-      System.out.println("notifyMouseKeyEvent, InputEvent.CTRL_MASK = " + InputEvent.CTRL_MASK + ", InputEvent.BUTTON1_MASK = " + InputEvent.BUTTON1_MASK);
       int keyEventCode = keyEvent.getModifiers();
       int mouseEventCode = mouseEvent.getModifiers();
-      int foo1 = ((InputEvent) keyEvent).getModifiers();
-      int foo2 = ((InputEvent) mouseEvent).getModifiers();
-      System.out.println("notifyMouseKeyEvent, keyEventCode = " + keyEventCode + ", mouseEventCode = " + mouseEventCode);
-      System.out.println("notifyMouseKeyEvent, foo1 = " + foo1 + ", foo2 = " + foo2);
+      System.out.println("notifyMouseKeyEvent, Event.META_MASK = " + Event.META_MASK + ", mouseEventCode = " + mouseEventCode);
       //if ((keyEventCode == InputEvent.CTRL_MASK) && (mouseEventCode == InputEvent.BUTTON1_MASK)) {
       if (keyEventCode == InputEvent.CTRL_MASK)  {
               this.viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_SINGLECLICK_KEY_CTRL);

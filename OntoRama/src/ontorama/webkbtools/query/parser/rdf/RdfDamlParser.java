@@ -60,33 +60,19 @@ public class RdfDamlParser implements Parser {
      *
      */
     public Iterator getOntologyTypeIterator(Reader reader) throws ParserException, AccessControlException {
-		System.out.println();
-		System.out.println();
-		System.out.println();
-
-		System.out.println("RDFDamlParser, method getOntologyTypeIterator");
         try {
-            //DAMLModelImpl model;
-
-            System.out.println("...will try to create rdf model DAMLModelImpl");
             // create an empty model
             //Model model = new ModelMem();
             //model = new DAMLModelImpl();
             Model model = new ModelMem();
-            System.out.println("...created rdf model, will call reader now");
             model.read(reader, "");
-            System.out.println("...called reader, will try to get iterator of subjects");
 
             // get Iterator of all subjects, then go through each of them
             // and get Iterator of statements. Process each statement
             ResIterator resIt = model.listSubjects();
 
-            System.out.println("... iterating");
-
             while (resIt.hasNext()) {
                 Resource r = resIt.next();
-                //System.out.println("----------------------------------------");
-                //System.out.println("resource: " + r);
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
@@ -181,7 +167,7 @@ public class RdfDamlParser implements Parser {
                 try {
                     if (conceptPropertiesDetails != null) {
                         // add this info as a property of ontology type
-                        subjectType.addTypeProperty(mappingId,object.toString());
+                        subjectType.addTypeProperty(mappingId,stripCarriageReturn(object.toString()));
                         //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = " + object.toString());
                     }
                     else {
@@ -196,12 +182,6 @@ public class RdfDamlParser implements Parser {
                 }
              }
         }
-//            if (predicate.getLocalName().endsWith("comment")) {
-//                subjectType.setDescription(object.toString());
-//            }
-//            else if (predicate.getLocalName().endsWith("Creator")) {
-//                subjectType.setCreator(object.toString());
-//            }
     }
 
     /**
@@ -245,6 +225,37 @@ public class RdfDamlParser implements Parser {
         }
         return ontType;
       }
+
+    /**
+     * Replace carriage returns and leading tabs in a string
+     * so when time comes to display it we don't get funny characters
+     * in the labels.
+     * For example: if we have a comment spanning over a few lines
+     * and formated to be indented in xml indentation fashion:
+     * we will end up will all these white spaces in the labels.
+     * The idea is: to break a string into lines, then remove all
+     * leading and trailing white spaces replacing them with a single
+     * space.
+     *
+     * @todo  there has to be a way to do this better
+     */
+    private String stripCarriageReturn (String inString) {
+      String resultString = "";
+      StringTokenizer stringTok = new StringTokenizer(inString, "\n");
+      while (stringTok.hasMoreTokens()) {
+        String nextTok = stringTok.nextToken();
+        // break up into words. This accounts for a fact that sometimes
+        // there are a few spaces grouped together. We want to remove them.
+        StringTokenizer spacesTok = new StringTokenizer(nextTok, " ");
+        while (spacesTok.hasMoreTokens()) {
+          String tok = spacesTok.nextToken();
+          //System.out.println ("--- " + tok);
+          resultString = resultString + " " + tok.trim();
+        }
+        //resultString = resultString + " " + nextTok.trim();
+      }
+      return resultString;
+    }
 
     public static void main (String args[]) {
         try {

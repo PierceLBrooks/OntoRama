@@ -26,6 +26,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.Timer;
+import javax.swing.border.*;
 import javax.swing.Action;
 
 import ontorama.OntoramaConfig;
@@ -89,6 +93,7 @@ public class OntoRamaApp extends JFrame {
      */
     private JSplitPane splitPane;
 
+
     /**
      * ontorama menus
      */
@@ -112,6 +117,14 @@ public class OntoRamaApp extends JFrame {
      *
      */
     private JMenuBar _menuBar;
+
+    /**
+     *
+     */
+    private JPanel _statusBar;
+    private JLabel _statusLabel;
+    private JProgressBar _progressBar;
+    private Timer _timer;
 
     /**
      * left side of split panel holds hyper view.
@@ -172,6 +185,7 @@ public class OntoRamaApp extends JFrame {
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
+
         /**
          * find preferred sizes for application window.
          */
@@ -180,6 +194,8 @@ public class OntoRamaApp extends JFrame {
         this.screenHeight = (int) screenSize.getHeight();
         this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
+
+        JPanel mainContentPanel = new JPanel(new BorderLayout());
 
         /**
          * create Menu Bar
@@ -191,9 +207,26 @@ public class OntoRamaApp extends JFrame {
          * create tool bar
          */
          buildBackForwardToolBar();
-//        _backForwardToolBar = new OntoRamaToolBar(this);
-        JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
-        combinedToolBarQueryPanel.add(_backForwardToolBar,BorderLayout.NORTH);
+
+        /**
+         * status bar
+         */
+        buildStatusBar();
+        setStatusLabel("status bar is here");
+//        _timer = new Timer(ONE_SECOND, new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//                _progressBar.setValue(task.getCurrent());
+//                taskOutput.append(task.getMessage() + newline);
+//                taskOutput.setCaretPosition(
+//                        taskOutput.getDocument().getLength());
+//                if (task.done()) {
+//                    Toolkit.getDefaultToolkit().beep();
+//                    _timer.stop();
+//                    startButton.setEnabled(true);
+//                    progressBar.setValue(progressBar.getMinimum());
+//                }
+//            }
+//        });
 
         /**
          * Create OntoTreeView
@@ -209,7 +242,8 @@ public class OntoRamaApp extends JFrame {
          * create a query panel
          */
         queryPanel = new QueryPanel(hyperView, viewListener, this);
-        combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
+        mainContentPanel.add(queryPanel, BorderLayout.NORTH);
+//        combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
 
         /** create description panel
          *  NOTE: description panel can't be created before hyper view and tree view
@@ -227,11 +261,19 @@ public class OntoRamaApp extends JFrame {
 
         //Add the split pane to this frame.
         //getContentPane().add(queryPanel,BorderLayout.NORTH);
-        getContentPane().add(combinedToolBarQueryPanel, BorderLayout.NORTH);
-        getContentPane().add(splitPane, BorderLayout.CENTER);
 
-        // Add description panel to this frame
-        getContentPane().add(descriptionViewScrollPanel,BorderLayout.SOUTH);
+        mainContentPanel.add(splitPane, BorderLayout.CENTER);
+        mainContentPanel.add(descriptionViewScrollPanel,BorderLayout.SOUTH);
+
+//        getContentPane().add(combinedToolBarQueryPanel, BorderLayout.NORTH);
+//        getContentPane().add(splitPane, BorderLayout.CENTER);
+//
+//        // Add description panel to this frame
+//        getContentPane().add(descriptionViewScrollPanel,BorderLayout.SOUTH);
+
+        getContentPane().add(_backForwardToolBar, BorderLayout.NORTH);
+        getContentPane().add(mainContentPanel, BorderLayout.CENTER);
+        getContentPane().add(_statusBar, BorderLayout.SOUTH);
 
         pack();
         setSize(appWidth,appHeight);
@@ -522,6 +564,28 @@ public class OntoRamaApp extends JFrame {
     private void showErrorDialog (String message) {
       ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, this);
     }
+
+    /**
+     *
+     */
+    private void buildStatusBar () {
+      _statusBar = new JPanel(new BorderLayout());
+
+      _statusLabel = new JLabel();
+      _progressBar = new JProgressBar();
+
+      _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
+      _statusBar.add(_statusLabel, BorderLayout.WEST);
+      _statusBar.add(_progressBar, BorderLayout.EAST);
+    }
+
+    /**
+     *
+     */
+    private void setStatusLabel (String statusMessage) {
+      _statusLabel.setText(statusMessage);
+    }
+
 
 
     /**

@@ -6,9 +6,10 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model;
+package ontorama.ui.controller;
 
 import ontorama.model.ViewQuery;
+import ontorama.model.GeneralNode;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.events.QueryEvent;
 import ontorama.ui.events.QueryStartEvent;
@@ -16,12 +17,10 @@ import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
-public class ViewQueryEventHandler implements EventBrokerListener {
-    private ViewQuery queryView;
+public class QueryEventHandler implements EventBrokerListener {
     private EventBroker eventBroker;
 
-    public ViewQueryEventHandler(EventBroker eventBroker, ViewQuery query) {
-        this.queryView = query;
+    public QueryEventHandler(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
         this.eventBroker.subscribe(this, QueryEvent.class, GeneralNode.class);
     }

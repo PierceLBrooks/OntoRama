@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemEvent.java,v 1.1 2002-08-01 04:53:39 johang Exp $
+ * $Id: CanvasItemEvent.java,v 1.2 2002-08-02 09:30:19 pbecker Exp $
  */
 package org.tockit.canvas.events;
 
@@ -15,12 +15,15 @@ import org.tockit.events.Event;
  */
 abstract public class CanvasItemEvent implements Event {
     private CanvasItem item;
+    private int modifiers;
 
     /**
-     * Creates a new event for an item.
+     * Creates a new event for an item with a specific set of keyboard and mouse modifiers
+     * used.
      */
-    public CanvasItemEvent(CanvasItem item) {
+    public CanvasItemEvent(CanvasItem item, int modifiers) {
         this.item = item;
+        this.modifiers = modifiers;
     }
 
     /**
@@ -35,5 +38,12 @@ abstract public class CanvasItemEvent implements Event {
      */
     public Object getSubject() {
         return item;
+    }
+
+    /**
+     * Returns the keyboard and mouse modifiers used at the time the event was caused.
+     */
+    public int getModifiers() {
+        return modifiers;
     }
 }

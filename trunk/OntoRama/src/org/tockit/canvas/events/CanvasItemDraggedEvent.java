@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemDraggedEvent.java,v 1.1 2002-08-01 04:53:39 johang Exp $
+ * $Id: CanvasItemDraggedEvent.java,v 1.2 2002-08-02 09:30:19 pbecker Exp $
  */
 package org.tockit.canvas.events;
 
@@ -26,9 +26,10 @@ public class CanvasItemDraggedEvent extends CanvasItemEvent {
     /**
      * Creates a new event.
      */
-    public CanvasItemDraggedEvent(CanvasItem item, Point2D canvasFromPosition, Point2D awtFromPosition,
+    public CanvasItemDraggedEvent(CanvasItem item, int modifiers,
+                                  Point2D canvasFromPosition, Point2D awtFromPosition,
                                   Point2D canvasToPosition, Point2D awtToPosition) {
-        super(item);
+        super(item, modifiers);
         this.canvasFromPosition = canvasFromPosition;
         this.awtFromPosition = awtFromPosition;
         this.canvasToPosition = canvasToPosition;

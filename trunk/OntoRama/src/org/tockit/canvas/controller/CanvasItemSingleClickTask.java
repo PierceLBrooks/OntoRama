@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasItemSingleClickTask.java,v 1.1 2002-08-01 04:53:36 johang Exp $
+ * $Id: CanvasItemSingleClickTask.java,v 1.2 2002-08-02 09:30:18 pbecker Exp $
  */
 package org.tockit.canvas.controller;
 
@@ -25,15 +25,18 @@ class CanvasItemSingleClickTask extends TimerTask {
     private Point2D canvasPosition;
     private Point2D awtPosition;
 
+    private int modifiers;
+
     private EventBroker context;
 
     /**
      * Creates a new task for sending a message.
      */
-    public CanvasItemSingleClickTask(CanvasItem target,
+    public CanvasItemSingleClickTask(CanvasItem target, int modifiers,
                                      Point2D canvasPosition, Point2D awtPosition,
                                      EventBroker context) {
         this.target = target;
+        this.modifiers = modifiers;
         this.canvasPosition = canvasPosition;
         this.awtPosition = awtPosition;
         this.context = context;
@@ -43,6 +46,7 @@ class CanvasItemSingleClickTask extends TimerTask {
      * Sends the message.
      */
     public void run() {
-        context.processEvent(new CanvasItemSelectedEvent(target, this.canvasPosition, this.awtPosition));
+        context.processEvent(new CanvasItemSelectedEvent(target, modifiers,
+                                                         this.canvasPosition, this.awtPosition));
     }
 }

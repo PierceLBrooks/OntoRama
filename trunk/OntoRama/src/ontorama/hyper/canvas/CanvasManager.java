@@ -50,6 +50,7 @@ public class CanvasManager extends JComponent
             eventBroker.processEvent(
                     new CanvasItemSelectedEvent(
                             hyperNodeView,
+                            0,
                             new Point2D.Double(0.0, 0.0),
                             new Point2D.Double(0.0, 0.0))
             );
@@ -263,8 +264,7 @@ public class CanvasManager extends JComponent
                 System.out.println("CanvasManager is sending DoubleClick");
                 System.out.println();
                 System.out.println();
-
-                eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, null, null));
+                eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, 0, null, null));
             }
             repaint();
         }

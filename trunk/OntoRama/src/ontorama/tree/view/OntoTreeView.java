@@ -34,9 +34,8 @@ import java.util.Iterator;
  */
 
 public class OntoTreeView extends JScrollPane implements KeyListener, MouseListener,
-        TreeSelectionListener, GraphView, GraphQuery {
+        TreeSelectionListener, GraphView {
 
-    private JScrollPane treeView;
     private JTree tree;
     //private OntoTreeNode focusedNode;
 
@@ -50,10 +49,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     private int pressedMouseButton = -1;
     private KeyEvent curKeyEvent = null;
     private MouseEvent curMouseEvent = null;
-    private GraphNode curGraphNode = null;
-
-    private boolean cancelExpand = true;
-    private boolean cancelCollapse = true;
 
     /**
      * Constructor
@@ -63,7 +58,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
-        new GraphViewQueryEventHandler(eventBroker, this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -160,7 +154,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.curKeyEvent = null;
         System.out.println("... key event = " + e.getModifiers());
         if (this.KEY_IS_PRESSED) {
-            notifyMouseKeyEvent(e, this.curMouseEvent, this.curGraphNode);
+            notifyMouseKeyEvent(e, this.curMouseEvent);
             
             return;
         }
@@ -206,24 +200,17 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         */
 
         int selRow = tree.getRowForLocation(e.getX(), e.getY());
-        //System.out.println("mousePressed, selRow = " + selRow);
-        TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-        if (selPath == null) {
-            // mouse clicked not on a node, but somewhere else in the tree view
-            return;
+        if (selRow == -1) {
+        	return;
         }
-        //System.out.println("mousePressed, selPath = " + selPath);
-        OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
-        GraphNode graphNode = treeNode.getGraphNode();
-        this.curGraphNode = graphNode;
-        if (selRow != -1) {
-            if (e.getClickCount() == 1) {
-                debug.message("mousePressed, single click,  row=" + selRow);
-                if (this.KEY_IS_PRESSED) {
-                    notifyMouseKeyEvent(this.curKeyEvent, e, graphNode);
-                } else {
-                    eventBroker.processEvent(new NodeSelectedEvent(graphNode));
-                }
+        if (e.getClickCount() == 1) {
+            debug.message("mousePressed, single click,  row=" + selRow);
+            if (this.KEY_IS_PRESSED) {
+                notifyMouseKeyEvent(this.curKeyEvent, e);
+            } else {
+				GraphNode graphNode = getGraphNodeFromMouseEvent(e);
+				if (graphNode == null ) return;                	
+                eventBroker.processEvent(new NodeSelectedEvent(graphNode));
             }
         }
     }
@@ -256,22 +243,49 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.pressedMouseButton = -1;
         this.MOUSE_IS_PRESSED = false;
         this.curMouseEvent = null;
-        this.curGraphNode = null;
+        //this.curGraphNode = null;
         //debug.message("mouseReleased");
     }
 
     /**
      *
      */
-    private void notifyMouseKeyEvent(KeyEvent keyEvent, MouseEvent mouseEvent, GraphNode graphNode) {
+    private void notifyMouseKeyEvent(KeyEvent keyEvent, MouseEvent mouseEvent) {
+		GraphNode graphNode = getGraphNodeFromMouseEvent(mouseEvent);
+		if (graphNode == null ) return;
+    	
         int keyEventCode = keyEvent.getModifiers();
         int mouseEventCode = mouseEvent.getModifiers();
         System.out.println("notifyMouseKeyEvent, Event.META_MASK = " + Event.META_MASK + ", mouseEventCode = " + mouseEventCode);
         //if ((keyEventCode == InputEvent.CTRL_MASK) && (mouseEventCode == InputEvent.BUTTON1_MASK)) {
         if (keyEventCode == InputEvent.CTRL_MASK) {
-            eventBroker.processEvent(new QueryEvent(this.curGraphNode));
+            eventBroker.processEvent(new QueryEvent(graphNode));
         }
     }
+    
+    
+    /**
+     * 
+     */
+    private GraphNode getGraphNodeFromMouseEvent (MouseEvent mouseEvent) {
+        TreePath selPath = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());
+        if (selPath == null) {
+            // mouse clicked not on a node, but somewhere else in the tree view
+            return null;
+        }
+		return  getGraphNodeFromTreePath(selPath);
+    }
+   
+    
+
+	/**
+	 * 
+	 */
+	private GraphNode getGraphNodeFromTreePath(TreePath selPath) {
+		OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
+		GraphNode graphNode = treeNode.getGraphNode();
+		return graphNode;
+	}
 
     //////////////////////////ViewEventObserver interface implementation////////////////
 
@@ -280,7 +294,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      */
     public void focus(GraphNode node) {
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
-        System.out.println("FOCUS: ontotreenode = " + node);
+        System.out.println("FOCUS: ontotreenode = " + node.getName());
         //if (treeNode == null) {
         //        return;
         //}
@@ -289,12 +303,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.tree.scrollPathToVisible(path);
     }
 
-    /**
-     *
-     */
-    public void query(GraphNode node) {
-        //System.out.println("******* treeView got QUERY for node " + node.getName());
-    }
 
 }
 

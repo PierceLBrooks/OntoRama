@@ -54,7 +54,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Used if setProjection(double) is called to determine the focal depth.
      */
-    private static double relativeFocus = .8;
+    public static double relativeFocus = .8;
 
     /**
      * The focal depth. Set to 10% more than sphereRadius.
@@ -458,4 +458,13 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     public String toString() {
         return "Node view for " + this.model.getName();
     }
+
+	public static double getRelativeFocus() {
+		return relativeFocus;
+	}
+
+	public static void setRelativeFocus(double d) {
+		relativeFocus = d;
+		focalDepth = sphereRadius * relativeFocus;
+	}
 }

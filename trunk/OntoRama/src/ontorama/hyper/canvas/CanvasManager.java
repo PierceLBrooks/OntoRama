@@ -71,6 +71,12 @@ public class CanvasManager extends JComponent
     private HyperNode focusNode = null;
 
     /**
+     * Stores the hyperNodeView that is having its
+     * Edge highlighted back to the root node.
+     */
+    private HyperNodeView currentHighlightedView = null;
+
+    /**
      * Stores the LabelView that is selected.
      */
     private static LabelView labelView = null;
@@ -278,8 +284,6 @@ public class CanvasManager extends JComponent
         repaint();
     }
 
-    private HyperNodeView currentHighlightedView = null;
-
     public void mouseMoved(MouseEvent e) {
         Iterator it = canvasItems.iterator();
         double minDist = this.getWidth();
@@ -302,7 +306,7 @@ public class CanvasManager extends JComponent
         if(  closestNode != null && !closestNode.equals( currentHighlightedView )) {
             currentHighlightedView = closestNode;
             closestNode.setHighlightEdge( true );
-            highlightEdge( closestNode.getGraphNode() );
+            this.highlightEdge( closestNode.getGraphNode() );
             repaint();
         }
     }
@@ -314,27 +318,11 @@ public class CanvasManager extends JComponent
         Iterator it = Edge.getInboundEdgeNodes( node );
         while( it.hasNext() ) {
             GraphNode cur = (GraphNode)it.next();
-            HyperNodeView hyperNode = this.getHyperNodeView( cur );
-            if( hyperNode != null ) {
-                hyperNode.setHighlightEdge( true );
-                highlightEdge( cur );
+            HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
+            if( hyperNodeView != null ) {
+                hyperNodeView.setHighlightEdge( true );
+                this.highlightEdge( cur );
             }
         }
-    }
-
-    /**
-     * Method to find a HyperNodeView for a GraphNode.
-     */
-    private HyperNodeView getHyperNodeView( GraphNode gn ) {
-        Iterator it = canvasItems.iterator();
-        while( it.hasNext() ) {
-            CanvasItem cur = (CanvasItem)it.next();
-            if( cur instanceof HyperNodeView ) {
-                if( ((HyperNodeView)cur).getGraphNode().equals( gn ) ) {
-                    return (HyperNodeView)cur;
-                }
-            }
-        }
-        return null;
     }
  }

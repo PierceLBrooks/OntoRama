@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<website baseURL="http://www.webkb.org/ontorama" sourceDir="content" targetDir="output">
+<website baseURL="http://www.ontorama.org" sourceDir="content" targetDir="output">
 <!--<website baseURL="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/web" sourceDir="content" targetDir="output">-->
 	<structure>
 		<section name="Home" title="Home" sourceDir="home" targetDir="home" type="home">
@@ -49,7 +49,7 @@
 			<file sourceFile="img/dl-javawebstart3.jpe" targetFile="img/dl-javawebstart3.jpe" type="copy"/>
 			<file sourceFile="img/dstcLogo.png" targetFile="img/dstcLogo.png" type="copy" id="dstcLogo"/>
 			<file sourceFile="img/kvo-logo.gif" targetFile="img/kvo-logo.gif" type="copy" id="kvoLogo"/>
-        <file sourceFile="img/xwebbutton.png" targetFile="img/xwebbutton.gif" type="copy" id="xwebLogo"/>
+            <file sourceFile="img/xwebbutton.png" targetFile="img/xwebbutton.png" type="copy" id="xwebLogo"/>
 			<file sourceFile="img/OntoramaLogo.jpg" targetFile="img/OntoramaLogo.jpg" type="copy"/>
 			<file sourceFile="img/ontorama-screenshot.png" targetFile="img/ontorama-screenshot.png" type="copy"/>
 		</structure>

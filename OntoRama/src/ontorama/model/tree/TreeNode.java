@@ -3,6 +3,7 @@ package ontorama.model.tree;
 import java.util.List;
 
 import ontorama.model.graph.NodeType;
+import ontorama.model.GeneralNode;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,10 +12,8 @@ import ontorama.model.graph.NodeType;
  * Time: 2:03:36 PM
  * To change this template use Options | File Templates.
  */
-public interface TreeNode {
-	
-	public String getName();
-	
+public interface TreeNode extends GeneralNode {
+
 	public NodeType getNodeType();
 
     /**
@@ -28,9 +27,9 @@ public interface TreeNode {
      * @param cloneNode
      */
     public void addClone (TreeNode cloneNode);
-    
+
     /**
-     * check if node is a clone to a given node 
+     * check if node is a clone to a given node
      * @return true if nodes are clones
      */
     public boolean isClone (TreeNode node);
@@ -45,10 +44,10 @@ public interface TreeNode {
     public void addChild (TreeNode childNode, TreeEdge childEdge);
     public void removeChild(TreeNode childNode, TreeEdge childEdge);
 
- 
+
  	public void setParent(TreeNode parent);
  	public TreeNode getParent();
-    
+
 	/**
 	 * Returns the distance to the root node.
 	 * @return node depth
@@ -62,5 +61,5 @@ public interface TreeNode {
 	 * @todo should be in the hyper model since it is only used there
 	 *	 */
 	public void setDepth(int depth);
-    
+
 }

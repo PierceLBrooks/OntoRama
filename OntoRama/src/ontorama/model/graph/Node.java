@@ -6,15 +6,12 @@
  */
 package ontorama.model.graph;
 
+import ontorama.model.GeneralNode;
+
 import java.net.URI;
 import java.util.List;
 
-public interface Node {
-    /**
-     * Return GraphNodes name/title.
-     * @return name
-     */
-    public String getName();
+public interface Node extends GeneralNode {
 
     /**
      * set node name

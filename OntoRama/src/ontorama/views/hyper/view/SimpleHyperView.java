@@ -102,7 +102,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Determines strength of repulsion betweeen two nodes
      */
     private double ELECTRIC_CHARGE = 10;
-    
+
     public Projection projection = null;
 
     /**
@@ -138,11 +138,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		rootNode.node = _root;
 		rootNode.numOfLeaves = getLeafNodeTotal(_root);
 		weightedRadialLayout(rootNode, 0);
-		System.out.println("Running radial layout...");
 		long start = System.currentTimeMillis();
 		long end = System.currentTimeMillis();
 		end = System.currentTimeMillis();
-		System.out.println("Time taken: " + ((end - start)) + "ms");
 
 		addCanvasItem(SimpleHyperView.sphereView);
 		addLinesToHyperNodeViews(hypernodeviews, _root);
@@ -444,7 +442,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         double y = Math.sin(drawAngle) * radius;
         HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         hn.setLocation(x, y);
-        
+
         List childrenList = (rootNode.node).getChildren();
 
         double numOfOutboundNodes = childrenList.size();

@@ -23,6 +23,7 @@ import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
 import ontorama.model.tree.view.TreeView;
+import ontorama.model.QueryEvent;
 import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;
@@ -114,8 +115,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      * @param   e - TreeSelectionEvent
      */
     public void valueChanged(TreeSelectionEvent e) {
-        OntoTreeNode node = (OntoTreeNode) _treeView.getLastSelectedPathComponent();
-        return;
+        //OntoTreeNode node = (OntoTreeNode) _treeView.getLastSelectedPathComponent();
+        //return;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -154,8 +155,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         //                InputEvent.ALT_DOWN_MASK | InputEvent.ALT_DOWN_MASK
         //                | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
         if ( e.getModifiersEx() == onmask) {
-//            _eventBroker.processEvent(new QueryEvent(graphNode));
             System.out.println("query for modelNode = " + modelNode);
+            _eventBroker.processEvent(new QueryEvent(modelNode));
             return;
         }
     }

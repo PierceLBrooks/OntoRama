@@ -6,9 +6,8 @@
  * To change template for new interface use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.graph.view;
+package ontorama.model;
 
-
-public interface GraphQuery {
-    public void query(ontorama.model.graph.Node node);
+public interface ViewQuery {
+    public void query(String node);
 }

@@ -8,9 +8,12 @@
  */
 package ontorama.model.graph.view;
 
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
+
 
 public interface GraphView  {
-    public void focus(ontorama.model.graph.Node node);
-    public void setGraph(ontorama.model.graph.Graph graph);
+    public void focus(Node node);
+    public void setGraph(Graph graph);
     public void repaint();
 }

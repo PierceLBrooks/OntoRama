@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.LinkedList;
 
 import ontorama.model.graph.*;
-import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
  * User: nataliya
@@ -28,7 +27,7 @@ public class TreeImpl implements Tree {
      * @param graphRootNode
      * @throws NoSuchRelationLinkException
      */
-    public TreeImpl (Graph graph, Node graphRootNode) throws NoSuchRelationLinkException {
+    public TreeImpl (Graph graph, Node graphRootNode) {
         _graph = graph;
         _graphRootNode = graphRootNode;
         buildTree(graphRootNode);

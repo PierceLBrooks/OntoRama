@@ -101,9 +101,9 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        ontorama.model.graph.EdgeType edge = treeNode.getRelLink();
+        ontorama.model.graph.EdgeType edge = treeNode.getEdgeType();
 
-        ontorama.model.graph.NodeType nodeType = treeNode.getGraphNode().getNodeType();
+        ontorama.model.graph.NodeType nodeType = treeNode.getModelTreeNode().getGraphNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
@@ -115,13 +115,13 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
             }
         }
 
-        String nodeTextStr = treeNode.getGraphNode().getName();
+        String nodeTextStr = treeNode.getModelTreeNode().getGraphNode().getName();
 
         // @todo shouldn't hardcode string 'relation' here.
         if (nodeType.getNodeType().equals("relation")) {
             String sign1 = null;
             String sign2 = null;
-            Iterator it = this.graph.getOutboundEdges(treeNode.getGraphNode()).iterator();
+            Iterator it = this.graph.getOutboundEdges(treeNode.getModelTreeNode().getGraphNode()).iterator();
             while (it.hasNext()) {
                 ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
                 ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
@@ -167,7 +167,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(image);
-        } else if (treeNode.getGraphNode().hasClones()) {
+        } else if (treeNode.getModelTreeNode().getGraphNode().hasClones()) {
             Icon icon = getIcon(edge, image, true);
             setIcon(icon);
         } else {
@@ -202,7 +202,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     protected String getToolTipText(Object value, ontorama.model.graph.EdgeType edgeType) {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        ontorama.model.graph.Node node = treeNode.getGraphNode();
+        ontorama.model.graph.Node node = treeNode.getModelTreeNode().getGraphNode();
         ontorama.model.graph.NodeType nodeType = node.getNodeType();
 //        if (nodeType == null) {
 //            result = "???";
@@ -212,7 +212,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 //        }
 
         if (edgeType == null) {
-            result = result + "Node: " + treeNode.getGraphNode().getName();
+            result = result + "Node: " + treeNode.getModelTreeNode().getGraphNode().getName();
         }
         else {
             String edgeTypeName = edgeType.getName();

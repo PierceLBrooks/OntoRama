@@ -18,9 +18,12 @@ import ontorama.webkbtools.query.Query;
 public class TestWebkbQueryStringConstructor extends TestCase {
 
   private String expectedQueryString;
+  private String expectedQueryStringWithDepth;
 
   private Query query;
   private String queryOutputFormat;
+  
+  private Query queryWithDepth;
 
   /**
    *
@@ -34,9 +37,13 @@ public class TestWebkbQueryStringConstructor extends TestCase {
    */
   protected void setUp() {
     expectedQueryString = "?term=wn%23cat&recursLink=%3E&format=RDF&noHTML";
+    expectedQueryStringWithDepth = "?term=wn%23cat&recursLink=%3E&format=RDF&depth=3&noHTML";
 
     query = new Query("wn#cat");
     queryOutputFormat = "RDF";
+    
+    queryWithDepth = new Query("wn#cat");
+    queryWithDepth.setDepth(3);
   }
 
   /**
@@ -47,6 +54,16 @@ public class TestWebkbQueryStringConstructor extends TestCase {
     String returnedQueryString = queryStringConstructor.getQueryString(query, queryOutputFormat);
 
     assertEquals("query string", expectedQueryString, returnedQueryString);
+  }
+  
+  /**
+   * 
+   */
+  public void testGetQueryStringWithDepth () {
+    WebkbQueryStringConstructor queryStringConstructor = new WebkbQueryStringConstructor();
+    String returnedQueryString = queryStringConstructor.getQueryString(queryWithDepth, queryOutputFormat);
+
+    assertEquals("query string", expectedQueryStringWithDepth, returnedQueryString); 	
   }
 
 

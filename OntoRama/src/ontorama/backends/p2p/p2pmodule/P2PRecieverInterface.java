@@ -1,5 +1,7 @@
 package ontorama.backends.p2p.p2pmodule;
 
+import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
+
 /**
  * This interface handles the P2P communication between OntoRama and 
  * the P2P protocol. 
@@ -15,7 +17,7 @@ package ontorama.backends.p2p.p2pmodule;
 
 public interface P2PRecieverInterface {
 	
-	public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel);
+	public void recievePropagateCommand(int TAG, PeerItemReference senderPeer, String senderGroupID, String internalModel);
 	
 	public void recieveLogoutCommand(String senderPeerID);
 	

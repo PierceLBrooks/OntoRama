@@ -18,7 +18,7 @@ import org.tockit.events.EventBrokerListener;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 
@@ -51,7 +51,7 @@ public class LeaveGroupDialog extends JDialog {
         super(parent, _title, true);
         _p2pBackend = p2pBackend;
         
-        _p2pBackend.getEventBroker().subscribe(new LocalGroupJoinedEventHandler(this), GroupJoinedEvent.class, ItemReference.class);
+        _p2pBackend.getEventBroker().subscribe(new LocalGroupJoinedEventHandler(this), GroupJoinedEvent.class, GroupItemReference.class);
 
         Vector foundGroups = new Vector();
         try {
@@ -75,7 +75,7 @@ public class LeaveGroupDialog extends JDialog {
         
     	okButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			ItemReference groupToLeave = groupsPanel.getGroupChooser().getSelectedGroup();
+    			GroupItemReference groupToLeave = groupsPanel.getGroupChooser().getSelectedGroup();
     			if (groupToLeave == null) {
     				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "Please choose a group you wish to leave");
     			}

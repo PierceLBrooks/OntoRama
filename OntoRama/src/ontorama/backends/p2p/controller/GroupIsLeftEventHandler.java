@@ -7,7 +7,7 @@
 package ontorama.backends.p2p.controller;
 
 import ontorama.backends.p2p.gui.GroupView;
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
@@ -31,7 +31,7 @@ public class GroupIsLeftEventHandler implements EventBrokerListener {
 	 * @see org.tockit.events.EventBrokerListener#processEvent(org.tockit.events.Event)
 	 */
 	public void processEvent(Event event) {
-		ItemReference groupElement = (ItemReference) event.getSubject(); 
+		GroupItemReference groupElement = (GroupItemReference) event.getSubject(); 
 		System.out.println("GroupIsLeftEventHandler::processEvent for group " + groupElement);
 		_groupView.removeGroup(groupElement);
 	}

@@ -24,7 +24,7 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.NewGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 /*
  * Created by IntelliJ IDEA.
@@ -65,7 +65,7 @@ public class JoinGroupDialog extends JDialog {
 
         _p2pBackend = p2pBackend;
         _p2pBackend.getEventBroker().subscribe(new LocalGroupJoinedEventHandler(this), 
-        							GroupJoinedEvent.class, ItemReference.class);
+        							GroupJoinedEvent.class, GroupItemReference.class);
                
         Vector foundGroups = new Vector();
         try {
@@ -135,9 +135,9 @@ public class JoinGroupDialog extends JDialog {
      * @todo quite a mess, think how to refactor.
      */
     private boolean verifyInputCorrect () {
-        ItemReference groupToJoin;
+        GroupItemReference groupToJoin;
         if (_tabbedPanel.getSelectedComponent().equals(_existingGroupPanel) ) {
-            groupToJoin = (ItemReference) _existingGroupPanel.getGroupChooser().getSelectedGroup();
+            groupToJoin = (GroupItemReference) _existingGroupPanel.getGroupChooser().getSelectedGroup();
             if (groupToJoin == null) {
                 return false;
             }
@@ -147,7 +147,7 @@ public class JoinGroupDialog extends JDialog {
         if (_tabbedPanel.getSelectedComponent().equals(_newGroupPanel)) {
             String input = _newGroupNameField.getText();
             if (DialogUtil.textInputIsValid(this, input, "name")) {
-				NewGroupEvent newGroupEvent = new NewGroupEvent(new ItemReference(null, input, _newGroupDescrField.getText()));
+				NewGroupEvent newGroupEvent = new NewGroupEvent(new GroupItemReference(null, input, _newGroupDescrField.getText()));
 				_p2pBackend.getEventBroker().processEvent(newGroupEvent);
                 return true;
             }

@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import ontorama.backends.p2p.p2pprotocol.PeerObject;
+import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
 
 /**
  * Renderer for a list displaying peers.
@@ -34,9 +34,9 @@ public class PeersListCellRenderer extends JLabel implements ListCellRenderer {
 		if (value == null) {
 			return this;
 		}
-		PeerObject peerObj = (PeerObject) value;
-		setText(peerObj.getPeerName());
-		setToolTipText("Peer name: " + peerObj.getPeerName() + ", peer id: " + peerObj.getPeerId());
+		PeerItemReference peerObj = (PeerItemReference) value;
+		setText(peerObj.getName());
+		setToolTipText("Peer name: " + peerObj.getName() + ", peer id: " + peerObj.getID());
 		return this;
 	}
 }

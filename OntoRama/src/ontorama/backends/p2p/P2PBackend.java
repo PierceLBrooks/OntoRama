@@ -36,7 +36,7 @@ import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
 import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.EdgeType;
@@ -192,22 +192,22 @@ public class P2PBackend implements Peer2PeerBackend {
         
         
 		_eventBroker.subscribe(new GroupJoinedEventHandler(this.mainPanel.getPeerPanel()), 
-											GroupJoinedEvent.class, ItemReference.class);        
+											GroupJoinedEvent.class, GroupItemReference.class);        
 		_eventBroker.subscribe(new GroupJoinedEventHandler(this.mainPanel.getGroupsPanel()), 
-											GroupJoinedEvent.class, ItemReference.class);  
+											GroupJoinedEvent.class, GroupItemReference.class);  
 
     	_eventBroker.subscribe(new GroupIsLeftEventHandler(this.mainPanel.getPeerPanel()),
-    										GroupIsLeftEvent.class, ItemReference.class);
+    										GroupIsLeftEvent.class, GroupItemReference.class);
     	_eventBroker.subscribe(new GroupIsLeftEventHandler(this.mainPanel.getGroupsPanel()),
-    										GroupIsLeftEvent.class, ItemReference.class);
+    										GroupIsLeftEvent.class, GroupItemReference.class);
 
 											
 		_eventBroker.subscribe(new JoinGroupEventHandler(this.sender), 
-											JoinGroupEvent.class, ItemReference.class);
+											JoinGroupEvent.class, GroupItemReference.class);
 		_eventBroker.subscribe(new NewGroupEventHandler(this.sender),
-											NewGroupEvent.class, ItemReference.class);																						      
+											NewGroupEvent.class, GroupItemReference.class);																						      
     	_eventBroker.subscribe(new LeaveGroupEventHandler(this.sender),
-    										LeaveGroupEvent.class, ItemReference.class);
+    										LeaveGroupEvent.class, GroupItemReference.class);
     }
 
     /**

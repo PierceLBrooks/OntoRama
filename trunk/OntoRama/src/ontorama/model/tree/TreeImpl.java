@@ -83,6 +83,7 @@ public class TreeImpl implements Tree {
         TreeEdge treeEdge = new TreeEdgeImpl(graphEdge, toNode);
         _edges.add(treeEdge);
     	fromNode.addChild(treeEdge);
+    	toNode.setParent(fromNode);
         return treeEdge;
     }
 

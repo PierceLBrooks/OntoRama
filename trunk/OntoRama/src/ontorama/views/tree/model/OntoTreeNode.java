@@ -157,14 +157,11 @@ public class OntoTreeNode implements TreeNode {
      * @return parent TreeNode
      */
     public TreeNode getParent() {
-//        List inboundEdges = OntoTreeModel.graph.getInboundEdgesDisplayedInGraph(this._treeNode);
-//        Iterator it = inboundEdges.iterator();
-//        if (it.hasNext()) {
-//            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
-//            ontorama.model.graph.Node inboundNode = edge.getFromNode();
-//            return (OntoTreeBuilder.getTreeNode(inboundNode));
-//        }
-        return null;
+		ontorama.model.tree.TreeNode modelNodeParent = _treeNode.getParent();
+		if (modelNodeParent != null ) {
+        	return OntoTreeBuilder.getTreeNode(modelNodeParent);
+		}
+		return null;
     }
 
     /**

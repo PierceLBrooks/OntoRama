@@ -54,9 +54,11 @@ public class TestTreeNode  extends TestCase{
         Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
         _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
         _treeNode.addChild(_childEdge1);
+        _childNode1.setParent(_treeNode);
         Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
         _childEdge2 = new TreeEdgeImpl(edge2, _childNode2);
         _treeNode.addChild(_childEdge2);
+        _childNode2.setParent(_treeNode);
     }
 
     public void testGetGraphNode () {
@@ -83,6 +85,10 @@ public class TestTreeNode  extends TestCase{
         assertEquals("number of children for _treeNode ", 2, children.size());
         assertEquals("expecting to find edge in children list ", true, children.contains(_childEdge1));
         assertEquals("expecting ro find edge in children list ", true, children.contains(_childEdge2));
+    }
+    
+    public void testGetParent() {
+    	assertEquals("parent for node _childNode1 ", _treeNode, _childNode1.getParent());
     }
     
 }

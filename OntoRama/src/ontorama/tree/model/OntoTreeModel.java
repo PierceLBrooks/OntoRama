@@ -1,4 +1,4 @@
-package ontorama.view.tree.model;
+package ontorama.views.tree.model;
 
 import java.util.Iterator;
 

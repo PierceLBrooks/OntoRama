@@ -1,4 +1,4 @@
-package ontorama.view.textDescription.view;
+package ontorama.views.textDescription.view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

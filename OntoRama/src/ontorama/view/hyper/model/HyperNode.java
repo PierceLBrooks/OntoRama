@@ -1,4 +1,4 @@
-package ontorama.view.hyper.model;
+package ontorama.views.hyper.model;
 
 /**
  * HyperNode represents a concept in the hyperbolic model

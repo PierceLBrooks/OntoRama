@@ -1,4 +1,4 @@
-package ontorama.view.hyper.model;
+package ontorama.views.hyper.model;
 
 /**
  * PositionChangedObservable is part of the MVC pattern for

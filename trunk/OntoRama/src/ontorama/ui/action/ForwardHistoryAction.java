@@ -4,11 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JMenuItem;
 
 import ontorama.ui.HistoryMenu;
-import ontorama.ui.events.DisplayHistoryItemEvent;
-import org.tockit.events.EventBroker;
 
 /**
  * <p>Title: </p>
@@ -28,13 +25,13 @@ public class ForwardHistoryAction extends AbstractAction {
     //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
     //private static final String ACCELERATOR_KEY="ALT+Right";
 
-    private EventBroker _eventBroker;
+    private HistoryMenu _historyMenu;
 
     /**
      *
      */
-    public ForwardHistoryAction(EventBroker eventBroker) {
-        _eventBroker = eventBroker;
+    public ForwardHistoryAction(HistoryMenu historyMenu) {
+        _historyMenu = historyMenu;
         putValue(Action.NAME, NAME_COPY);
         putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
         putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
@@ -45,10 +42,6 @@ public class ForwardHistoryAction extends AbstractAction {
      *
      */
     public void actionPerformed(ActionEvent parm1) {
-        int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
-        int forwardInd = indexOfCur + 1;
-    	JMenuItem forwardItem = HistoryMenu.getMenuItem(forwardInd);
-        System.out.println("___action: forward");
-        _eventBroker.processEvent(new DisplayHistoryItemEvent(forwardItem));
+		_historyMenu.displayNextHistoryItem();
     }
 }

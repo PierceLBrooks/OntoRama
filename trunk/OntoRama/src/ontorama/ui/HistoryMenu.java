@@ -18,13 +18,10 @@ import javax.swing.KeyStroke;
 
 import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
-import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventBrokerListener;
-import org.tockit.events.Event;
 
 /**
  * <p>Title: </p>
@@ -72,19 +69,6 @@ public class HistoryMenu extends JMenu {
     
     private Backend _backend = OntoramaConfig.getBackend();
 
-    private class DisplayHistoryItemEventHandler implements EventBrokerListener {
-        public void processEvent (Event event) {
-            JMenuItem menuItem = (JMenuItem) event.getSubject();
-        	JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
-            HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
-            // get graph for this query and load it into app
-            //_eventBroker.processEvent(new HistoryQueryStartEvent(historyElement));
-            historyElement.displayElement();
-            //enableBackForwardButtons();
-        }
-    }
-
-
     /**
      */
     public HistoryMenu(EventBroker eventBroker) {
@@ -92,11 +76,10 @@ public class HistoryMenu extends JMenu {
         _eventBroker = eventBroker;
         _menuItemHistoryMapping = new Hashtable();
         _historyItems = new LinkedList();
-        _backAction = new BackHistoryAction(_eventBroker);
-        _forwardAction = new ForwardHistoryAction(_eventBroker);
+        _backAction = new BackHistoryAction(this);
+        _forwardAction = new ForwardHistoryAction(this);
         _buttonGroup = new ButtonGroup();
 
-        _eventBroker.subscribe(new DisplayHistoryItemEventHandler(), DisplayHistoryItemEvent.class, JMenuItem.class);
 
         setMnemonic(KeyEvent.VK_H);
         buildHistoryMenu();
@@ -171,7 +154,7 @@ public class HistoryMenu extends JMenu {
 		historyItem.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) e.getSource();
-		        _eventBroker.processEvent(new DisplayHistoryItemEvent(historyItem));
+		        displayHistoryItem(historyItem);
 		    }
 		});
 		add(historyItem);
@@ -193,7 +176,7 @@ public class HistoryMenu extends JMenu {
     /**
      *
      */
-    public static JRadioButtonMenuItem getMenuItem(int index) {
+    public JRadioButtonMenuItem getMenuItem(int index) {
         return (JRadioButtonMenuItem) _historyItems.get(index);
     }
 
@@ -205,7 +188,7 @@ public class HistoryMenu extends JMenu {
      *        if there is more then one items selected - return
      *        the first one.
      */
-    private static JRadioButtonMenuItem getSelectedHistoryMenuItem() {
+    private JRadioButtonMenuItem getSelectedHistoryMenuItem() {
         Enumeration e = _menuItemHistoryMapping.keys();
         while (e.hasMoreElements()) {
             JRadioButtonMenuItem cur = (JRadioButtonMenuItem) e.nextElement();
@@ -219,7 +202,7 @@ public class HistoryMenu extends JMenu {
     /**
      *
      */
-    public static int getIndexOfSelectedHistoryMenuItem() {
+    public int getIndexOfSelectedHistoryMenuItem() {
         JRadioButtonMenuItem curSelectedItem = getSelectedHistoryMenuItem();
         if (curSelectedItem == null) {
             return (-1);
@@ -243,4 +226,30 @@ public class HistoryMenu extends JMenu {
             _forwardAction.setEnabled(true);
         }
     }
+    
+    private void displayHistoryItemForGivenItemIndex (int menuItemIndex) {
+		JMenuItem menuItem = getMenuItem(menuItemIndex);
+		displayHistoryItem(menuItem);
+    }
+
+	public void displayPreviousHistoryItem () {
+		int indexOfCur = getIndexOfSelectedHistoryMenuItem();
+		JMenuItem menuItem = getMenuItem(indexOfCur - 1);
+		displayHistoryItem(menuItem);
+	}
+    
+	public void displayNextHistoryItem () {
+		int indexOfCur = getIndexOfSelectedHistoryMenuItem();
+		JMenuItem menuItem = getMenuItem(indexOfCur + 1);
+		displayHistoryItem(menuItem);
+	}
+ 
+ 	private void displayHistoryItem (JMenuItem menuItem) {
+		JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
+		HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+		historyElement.displayElement();
+		enableBackForwardButtons();
+	}
+    
+
 }

@@ -61,7 +61,7 @@ public class FileBackend implements Backend{
             // totally faked query and query result.
             QueryResult queryResult = new QueryResult(new Query(), ontoramaGraph.getNodesList(), ontoramaGraph.getEdgesList());
             try {
-                System.out.println("creating new p2p graph");
+                System.out.println("FileBackend: creating new p2p graph");
                 graph = new P2PGraphImpl(queryResult);
             }
             catch (NoSuchRelationLinkException e) {

@@ -1,0 +1,8 @@
+<ontoramaExamples>
+	<example name="test webkb: cat" root="cat" loadOnStart="yes" >
+		<source uri="http://meganesia.int.gu.edu.au/~nataliya/testWebkb-AmbuguousCase-cat.rdf" 
+					sourcePackagePathSuffix="UrlSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+	</example>
+</ontoramaExamples>

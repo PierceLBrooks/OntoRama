@@ -1,6 +1,7 @@
 package ontorama.model;
 
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.model.util.GraphModificationException;
 
 import java.util.List;
 
@@ -64,10 +65,10 @@ public interface Graph {
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType);
 
     public void removeEdge(Edge remEdge);
-    public void addEdge(Edge edge);
-    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException;
+    public void addEdge(Edge edge) throws GraphModificationException ;
+    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException;
 
-    public void addNode (Node node);
+    public void addNode (Node node)  throws GraphModificationException;
 
     public void removeNode (Node node);
 

@@ -1,6 +1,10 @@
 package ontorama.model;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;
+import ontorama.model.util.NodeAlreadyExistsException;
+import ontorama.model.util.GraphModificationException;
+import ontorama.model.util.EdgeAlreadyExistsException;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
@@ -254,7 +258,6 @@ public class GraphImpl implements Graph {
         Iterator curOutEdges = getOutboundEdges(node).iterator();
         while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
-            EdgeType edgeType = curEdge.getEdgeType();
             Node toNode = curEdge.getToNode();
             if (toNode == root) {
                 // don't remove parents of root node
@@ -370,7 +373,7 @@ public class GraphImpl implements Graph {
      * @throws  NoSuchRelationLinkException
      */
     private void convertIntoTree(Node root)
-            throws NoSuchRelationLinkException{
+            throws NoSuchRelationLinkException {
         LinkedList queue = new LinkedList();
 
         queue.add(root);
@@ -394,43 +397,52 @@ public class GraphImpl implements Graph {
                 if (inboundEdgesList.size() <= 1) {
                     continue;
                 }
-                Iterator inboundEdges = inboundEdgesList.iterator();
+                cloneInboundEdges(inboundEdgesList, curEdge, curNode);
 
-                // do not need to clone all edges - only need to clone (edges - 1), otherwise will
-                // end up with too many clones.
-                if (inboundEdges.hasNext()) {
-                    inboundEdges.next();
-                }
-
-                List edgesToCloneQueue = new LinkedList();
-                while (inboundEdges.hasNext()) {
-                    Edge edge = (Edge) inboundEdges.next();
-                    EdgeType edgeType = edge.getEdgeType();
-                    if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                        edgesToCloneQueue.add(curEdge);
-                    }
-                }
-
-                while (! edgesToCloneQueue.isEmpty()) {
-                    // clone the node
-                    if (_topLevelUnconnectedNodes.contains(curNode)) {
-                        continue;
-                    }
-
-                    Node cloneNode = curNode.makeClone();
-                    _graphNodes.add(cloneNode);
-
-                    Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
-                    Edge newEdge = new EdgeImpl(
-                            edgeToClone.getFromNode(),
-                            cloneNode,
-                            edgeToClone.getEdgeType());
-                    addEdge(newEdge);
-                    removeEdge(edgeToClone);
-                    // copy/clone all structure below
-                    deepCopy(curNode, cloneNode);
-                }
             }
+        }
+    }
+
+    private void cloneInboundEdges(List inboundEdgesList, Edge curEdge, Node curNode) throws NoSuchRelationLinkException {
+        Iterator inboundEdges = inboundEdgesList.iterator();
+
+        // do not need to clone all edges - only need to clone (edges - 1), otherwise will
+        // end up with too many clones.
+        if (inboundEdges.hasNext()) {
+            inboundEdges.next();
+        }
+
+        List edgesToCloneQueue = new LinkedList();
+        while (inboundEdges.hasNext()) {
+            Edge edge = (Edge) inboundEdges.next();
+            EdgeType edgeType = edge.getEdgeType();
+            if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+                edgesToCloneQueue.add(curEdge);
+            }
+        }
+
+        while (! edgesToCloneQueue.isEmpty()) {
+            // clone the node
+            if (_topLevelUnconnectedNodes.contains(curNode)) {
+                continue;
+            }
+
+            Node cloneNode = curNode.makeClone();
+            _graphNodes.add(cloneNode);
+
+            Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
+            Edge newEdge = new EdgeImpl(
+                    edgeToClone.getFromNode(),
+                    cloneNode,
+                    edgeToClone.getEdgeType());
+            try {
+                addEdge(newEdge);
+            }
+            catch (GraphModificationException e) {
+            }
+            removeEdge(edgeToClone);
+            // copy/clone all structure below
+            deepCopy(curNode, cloneNode);
         }
     }
 
@@ -453,7 +465,11 @@ public class GraphImpl implements Graph {
             Node toNode = curEdge.getToNode();
             Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
-            addEdge(newEdge);
+            try {
+                addEdge(newEdge);
+            }
+            catch (GraphModificationException e) {
+            }
             EdgeType edgeType = curEdge.getEdgeType();
             if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                 continue;
@@ -463,7 +479,7 @@ public class GraphImpl implements Graph {
     }
 
 
-    public void addEdge(Edge edge) {
+    public void addEdge(Edge edge) throws GraphModificationException {
         boolean isInList = false;
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
@@ -475,32 +491,57 @@ public class GraphImpl implements Graph {
                 isInList = true;
             }
         }
+        if (isInList) {
+            throw new EdgeAlreadyExistsException(edge);
+        }
         if (!isInList) {
             _graphEdges.add(edge);
         }
     }
 
     /**
-     * @todo need some error checking
      * @param fromNode
      * @param toNode
      * @param edgeType
      */
-    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
-        addNode(fromNode);
-        addNode(toNode);
+    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException {
         Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
         addEdge(newEdge);
+        addNode(fromNode);
+        addNode(toNode);
+        if (fromNode.hasClones()) {
+            Iterator clonesIt = fromNode.getClones().iterator();
+            while (clonesIt.hasNext()) {
+                Node clone = (Node) clonesIt.next();
+                Node toNodeClone = toNode.makeClone();
+                Edge newEdgeForClone = new EdgeImpl(clone, toNodeClone, edgeType);
+                addEdge(newEdgeForClone);
+            }
+        }
+        // check if toNode has multiple parents after adding new edge
+        List inboundEdgesForToNode = getInboundEdges(toNode);
+        if (inboundEdgesForToNode.size() > 1) {
+
+        }
+
     }
 
     /**
-     * @todo need some error checking
+     * Add a node to the graph.
+     * For the moment we don't allow to add unconnected nodes.
      * @param node
+     * @todo error checking seems a bit stupid ;) maybe don't need this exception at all?...
      */
-    public void addNode (Node node) {
-        if (!_graphNodes.contains(node)) {
-            _graphNodes.add(node);
+    public void addNode (Node node) throws GraphModificationException {
+        List inboundEdges = getInboundEdges(node);
+        List outboundEdges = getOutboundEdges(node);
+        if ( (inboundEdges.size() == 0) && (outboundEdges.size() == 0) ) {
+            throw new AddUnconnectedNodeIsDisallowedException(node);
         }
+        if (_graphNodes.contains(node)) {
+            throw new NodeAlreadyExistsException(node);
+        }
+        _graphNodes.add(node);
     }
 
     /**

@@ -22,9 +22,44 @@ non-transitive:
 <ontConfig>
 	<ontology>
 		<relation id="1">
-			<relationType name="is-in" mappingSymbol="!is-a"/>
-			<relationType name="in" mappingSymbol="is-a"/>
-			<display color="#33CCFF" symbol="is-in"/>
+			<relationType name="in" mappingSymbol="in"/>
+			<display color="#33CCFF" symbol="in"/>
+		</relation>
+		<relation id="2">
+			<relationType name="is" mappingSymbol="is"/>
+			<display color="#FF99CC" symbol="is"/>
+		</relation>
+		<relation id="3">
+			<relationType name="return" mappingSymbol="r"/>
+			<display color="#FFCC99" symbol="r"/>
+		</relation>
+		<relation id="4">
+			<relationType name="extends" mappingSymbol="e"/>
+			<display color="#00FFCC" symbol="e"/>
+		</relation>
+		<relation id="5">
+			<relationType name="calls" mappingSymbol="c"/>
+			<display color="#C0C0C0" symbol="c"/>
+		</relation>
+		<relation id="6">
+			<relationType name="name" mappingSymbol="n"/>
+			<display color="#FF3366" symbol="n"/>
+		</relation>
+		<relation id="7">
+			<relationType name="scope" mappingSymbol="s"/>
+			<display color="#008080" symbol="s"/>
+		</relation>
+		<relation id="8">
+			<relationType name="has-param" mappingSymbol="p"/>
+			<display color="#FFFFCC" symbol="p"/>
+		</relation>
+		<relation id="9">
+			<relationType name="implements" mappingSymbol="i"/>
+			<display color="#FA8072" symbol="i"/>
+		</relation>
+		<relation id="10">
+			<relationType name="throws" mappingSymbol="t"/>
+			<display color="#708090" symbol="t"/>
 		</relation>
 	</ontology>
 

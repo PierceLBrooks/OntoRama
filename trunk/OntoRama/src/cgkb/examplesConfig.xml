@@ -1,9 +1,17 @@
 <ontoramaExamples>
-	<example name="csv" root="net.sourceforge.toscanaj" loadOnStart="yes" >
+	<example name="KB test file" root="net.sourceforge.toscanaj" loadOnStart="yes" >
 		<source uri="examples/cgkb/test1.csv" 
 					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>CSV</queryOutputFormat>
 		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
+
+	<example name="KB cgi" root="net.sourceforge.toscanaj.gui" loadOnStart="yes" >
+		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/test/query.pl" 
+					sourcePackagePathSuffix="cgkb.CgKbSource"/>
+		<queryOutputFormat>CSV</queryOutputFormat>
+		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+	</example>
+
 
 </ontoramaExamples>

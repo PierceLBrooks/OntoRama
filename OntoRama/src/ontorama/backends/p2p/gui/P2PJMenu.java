@@ -16,6 +16,7 @@ import javax.swing.Action;
 import javax.swing.JMenu;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.action.ActionGroupSearch;
 import ontorama.backends.p2p.gui.action.ActionJoinGroup;
 import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
@@ -51,9 +52,9 @@ public class P2PJMenu extends JMenu {
         add(_enableP2PAction);
         addSeparator();
 
-//        _searchAction = new ActionGroupSearch("Group search", _p2pSender);
-//        add(_searchAction);
-//        addSeparator();
+        _searchAction = new ActionGroupSearch("Group search", _p2pSender);
+        add(_searchAction);
+        addSeparator();
 
         _joinGroupAction = new ActionJoinGroup("Join Group", _p2pSender);
         add(_joinGroupAction);

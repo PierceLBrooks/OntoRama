@@ -55,7 +55,9 @@ public class CommunicationInit extends Communication {
 			//create and start the default JXTA Platform and NetPeerGroup
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			this.setGlobalPlatform(PeerGroupFactory.newPlatform());
-			this.setGlobalPG(PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform()));
+			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform());
+			System.out.println("\ninitJxtaTopGroup() pg = " + pg);
+			this.setGlobalPG(pg);
 			}
 		catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");

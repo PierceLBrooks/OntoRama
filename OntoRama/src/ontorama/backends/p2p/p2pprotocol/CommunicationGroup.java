@@ -265,15 +265,18 @@ public class CommunicationGroup extends Communication {
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
 		}
-										
+		
+		System.out.println("returned from group search");
 													
 		while (enum.hasMoreElements()) {
 			//found at least one adv
 			//populate SearchGroupResult from incoming advertisments
 			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
-			result.add(new SearchGroupResultElement(pgAdv.getPeerGroupID(),
-					  								 pgAdv.getName(),
-					  								 pgAdv.getDescription()));				
+			SearchGroupResultElement groupRes = new SearchGroupResultElement (
+												pgAdv.getPeerGroupID(),
+												pgAdv.getName(), pgAdv.getDescription());
+			System.out.println("search groups returned: " + groupRes);
+			result.add(groupRes);				
 		}
 
 		return result;

@@ -130,16 +130,8 @@ public class OntoramaConfig {
 	 */
 	public static boolean EDIT_ENABLED;
 
-
-    /**
-     *
-     */
     private static JarSource streamReader = new JarSource();;
 
-
-    /**
-     *
-     */
     private static Properties properties = new Properties();
 
     private static List backends = new LinkedList();
@@ -170,9 +162,6 @@ public class OntoramaConfig {
         System.out.println("--------- end of config--------------");
     }
 
-    /**
-     *
-     */
     private static void fatalExit(String message, Exception e) {
         new ErrorPopupMessage(message, null);
         System.err.println("Exception: " + e);
@@ -180,9 +169,6 @@ public class OntoramaConfig {
         System.exit(1);
     }
 
-    /**
-     *
-     */
     public static void loadAllConfig(String examplesConfigLocation,
                                      String propertiesFileLocation, String configFileLocation) {
 
@@ -207,9 +193,6 @@ public class OntoramaConfig {
         }
     }
 
-    /**
-     * load examples
-     */
     private static void loadExamples(String examplesConfigLocation)
             throws SourceException, ConfigParserException, IOException {
         // loading examples
@@ -247,9 +230,6 @@ public class OntoramaConfig {
 
     }
 
-    /**
-     * load Config
-     */
     private static void loadConfiguration(String configFileLocation)
                                         throws SourceException, ConfigParserException, IOException {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
@@ -265,16 +245,14 @@ public class OntoramaConfig {
     }
 
 
-    /**
-     *
-     */
     public static HashSet getEdgeTypesSet() {
         List allRelations = getEdgeTypesList();
         return new HashSet(allRelations);
     }
 
     /**
-     *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
+     * @todo shouldn't just return edgeType for reversed name - user doesn't
+     * have a way to know that we switched direction here
      */
     public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
         EdgeType result = null;
@@ -294,16 +272,10 @@ public class OntoramaConfig {
         return result;
     }
 
-    /**
-     *
-     */
     public static List getRelationRdfMapping() {
         return relationRdfMapping;
     }
 
-    /**
-     *
-     */
     public static List getExamplesList() {
         return examplesList;
     }
@@ -323,8 +295,6 @@ public class OntoramaConfig {
 
     /**
      * @todo this approach is a hack to make distillery work. need to rethink whole process
-     * @param root
-     * @param url
      */
     public static void overrideExampleRootAndUrl (String root, String url) {
         OntoramaConfig.sourceUri = url;
@@ -334,38 +304,23 @@ public class OntoramaConfig {
         OntoramaConfig.mainExample.setRelativeUri(url);
     }
 
-    /**
-     *
-     */
     public static String getParserPackageName() {
         return parserPackageName;
     }
 
-    /**
-     *
-     */
     public static void setParserPackageName(String parserPackagePathSuffixStr) {
         parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
     }
 
-    /**
-     *
-     */
     public static String getSourcePackageName() {
         return sourcePackageName;
     }
 
 
-    /**
-     *
-     */
     public static void setSourcePackageName(String sourcePackagePathSuffixStr) {
         sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
     }
 
-    /**
-     *
-     */
     public static OntoramaExample getCurrentExample() {
         return OntoramaConfig.mainExample;
     }
@@ -375,9 +330,6 @@ public class OntoramaConfig {
     }
 
 
-    /**
-     *
-     */
     public static ClassLoader getClassLoader() {
         return OntoramaConfig.classLoader;
     }
@@ -440,10 +392,8 @@ public class OntoramaConfig {
     }
 
     /**
-     *
-     * @param nodeTypesList
-     * @return
-     * @todo this method is a temp hack untill node types display info can be put into the config file.
+     * @todo this method is a temp hack untill node types display info can be
+     * put into the config file.
      */
     private static Hashtable buildNodeTypeDisplayMapping (List nodeTypesList) {
         Hashtable result = new Hashtable();

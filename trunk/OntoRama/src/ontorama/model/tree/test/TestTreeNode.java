@@ -1,10 +1,13 @@
 package ontorama.model.tree.test;
 
 import junit.framework.TestCase;
-import ontorama.model.graph.NodeImpl;
-import ontorama.model.graph.Node;
+import ontorama.model.graph.*;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
+import ontorama.model.tree.TreeEdge;
+import ontorama.model.tree.TreeEdgeImpl;
+import ontorama.OntoramaConfig;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -21,18 +24,38 @@ public class TestTreeNode  extends TestCase{
     Node _graphNode;
     TreeNode _treeNode;
     TreeNode _cloneNode;
+    TreeEdge _childEdge1;
+    TreeEdge _childEdge2;
 
     public TestTreeNode(String name) {
         super(name);
     }
 
-    public void setUp () {
+    public void setUp () throws NoSuchRelationLinkException {
         _graphNode = new NodeImpl("node");
         _treeNode = new TreeNodeImpl(_graphNode);
 
         //Node graphNode2 = new NodeImpl("node2");
         _cloneNode = new TreeNodeImpl(_graphNode);
         _treeNode.addClone(_cloneNode);
+
+        Node childGraphNode1 = new NodeImpl("child1");
+        Node childGraphNode2 = new NodeImpl("child2");
+        TreeNode childNode1 = new TreeNodeImpl(childGraphNode1);
+        TreeNode childNode2 = new TreeNodeImpl(childGraphNode2);
+        List edgeTypes = OntoramaConfig.getEdgeTypesList();
+        if (edgeTypes.size() < 2) {
+            System.err.println("expecting at least 2 edge types to be configured");
+            System.exit(-1);
+        }
+        EdgeType et1 = (EdgeType) edgeTypes.get(0);
+        EdgeType et2 = (EdgeType) edgeTypes.get(1);
+        Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
+        _childEdge1 = new TreeEdgeImpl(edge1, childNode1);
+        _treeNode.addChild(_childEdge1);
+        Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
+        _childEdge2 = new TreeEdgeImpl(edge2, childNode2);
+        _treeNode.addChild(_childEdge2);
     }
 
     public void testGetGraphNode () {
@@ -54,13 +77,10 @@ public class TestTreeNode  extends TestCase{
         assertEquals("number of clones for node ", 2, clones.size());
     }
 
-    public void testSetClones () {
-        TreeNode clone1 = new TreeNodeImpl(_graphNode);
-        TreeNode clone2 = new TreeNodeImpl (_graphNode);
-        List clonesList  = new LinkedList();
-        clonesList.add(clone1);
-        clonesList.add(clone2);
-        _treeNode.setClones(clonesList);
+    public void testChildren () {
+        List children = _treeNode.getChildren();
+        assertEquals("number of children for _treeNode ", 2, children.size());
+        assertEquals("expecting to find edge in children list ", true, children.contains(_childEdge1));
+        assertEquals("expecting ro find edge in children list ", true, children.contains(_childEdge2));
     }
-
 }

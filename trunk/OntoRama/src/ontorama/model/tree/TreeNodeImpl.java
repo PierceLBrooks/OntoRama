@@ -58,10 +58,6 @@ public class TreeNodeImpl implements TreeNode {
         return _clones;
     }
 
-    public void setChildren(List childEdges) {
-        _childEdges = childEdges;
-    }
-
     public List getChildren() {
         return _childEdges;
     }

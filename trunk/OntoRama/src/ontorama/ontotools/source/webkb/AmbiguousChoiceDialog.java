@@ -56,14 +56,6 @@ public class AmbiguousChoiceDialog extends JDialog {
     private String topLabelStr = "Search term is ambiguous...Please choose one of the following ";
 
     /**
-     * name of property used in tool tips
-     * @todo think of a way not to hard code property name here, because if it is
-     * changed in the config.xml - we simply silently loose this feature. Or think
-     * of a way to inform about this (where catching NoSuchPropertyException)
-     */
-    private String descrPropName = "Description";
-
-    /**
      * Create a dialog that will display all choices and propmt user
      * to make a selection.
      * @param typesList - list holding all alternative ontology types
@@ -106,6 +98,7 @@ public class AmbiguousChoiceDialog extends JDialog {
         for (int i = 0; i < numChoices; i++) {
             Node node= (Node) choiceList.get(i);
             JButton curButton = new JButton(node.getName());
+            curButton.setToolTipText(node.getDescription());
             buttons[i] = curButton;
             if (i == 0) {
                 curButton.setSelected(true);

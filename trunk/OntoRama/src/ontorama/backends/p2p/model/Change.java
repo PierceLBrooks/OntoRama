@@ -11,10 +11,13 @@ import ontorama.backends.p2p.PeerItemReference;
  * Created on 7/03/2003
  */
 public abstract class Change {
+
+	public static final String ASSERT = "assert";
+	public static final String REJECT = "reject";
+
 	protected PeerItemReference _peer;
 	protected String _action;
 	protected String _initiatorUri;
-
 	
 	public String getAction() {
 		return _action;

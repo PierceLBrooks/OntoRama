@@ -32,6 +32,8 @@ import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.model.*;
 import ontorama.backends.p2p.p2pmodule.P2PReciever;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.p2pmodule.XmlMessageCreatorException;
+import ontorama.backends.p2p.p2pmodule.XmlMessageProcessor;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
@@ -44,6 +46,7 @@ import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.model.graph.events.GraphChangedEvent;
 import ontorama.model.graph.events.GraphNodeAddedEvent;
 import ontorama.ontotools.*;
@@ -311,10 +314,24 @@ public class P2PBackend implements Peer2PeerBackend {
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
         try {
-			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-             	"New relation from: "
-             	+ edge.getFromNode().getIdentifier()
-             	+ " to: " + edge.getToNode().getIdentifier() + " of type: " + edge.getEdgeType());
+			String asserterStr = "";
+			if (asserter == null) {
+				asserterStr = _defaultUserUri;
+			}
+			else {
+				asserterStr = asserter.toString();
+			}
+//			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
+//             	"New relation from: "
+//             	+ edge.getFromNode().getIdentifier()
+//             	+ " to: " + edge.getToNode().getIdentifier() + " of type: " + edge.getEdgeType());
+
+			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
+										edge.getToNode().getIdentifier(), 
+										edge.getEdgeType().getName(), 
+										Change.ASSERT, asserterStr);
+			String message = XmlMessageProcessor.createMessage(edgeChange);
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 
 			this.graph.assertEdge(edge, asserter);
         } catch (GroupExceptionThread e) {
@@ -325,6 +342,12 @@ public class P2PBackend implements Peer2PeerBackend {
 		} catch (NoSuchRelationLinkException e) {
 			throw e;
         }
+		catch (XmlMessageCreatorException e) {
+			// @todo not sure what to do with this exception
+			e.printStackTrace();
+		}
+        
+        
 
       }
 
@@ -341,16 +364,30 @@ public class P2PBackend implements Peer2PeerBackend {
                 asserterStr = asserter.toString();
             }
             System.out.println("\n\nP2PBackend::assertNode sending propagate for node " + node.getName());
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-             		"New node was added: "
-             		+ node.getIdentifier()
-             		+ " by : " + asserterStr);
+//             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
+//             		"New node was added: "
+//             		+ node.getIdentifier()
+//             		+ " by : " + asserterStr);
+             
+             NodeType nodeType = node.getNodeType();
+             if (nodeType == null) {
+             	// @todo a hack here for node type. Need to fix where adding nodes.
+             	nodeType = OntoramaConfig.UNKNOWN_TYPE;
+             }
+             System.out.println("node = " + node + ", nodeType = " + nodeType);
+             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.toString(), Change.ASSERT, asserterStr);
+             String message = XmlMessageProcessor.createMessage(nodeChange);
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 			this.graph.assertNode(node,asserter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertConcept()");
                e.printStackTrace();
 		} catch (GraphModificationException e) {
 			throw e;
+		}
+		catch (XmlMessageCreatorException e) {
+			// @todo not sure what to do with this exception
+			e.printStackTrace();
 		}
       }
 

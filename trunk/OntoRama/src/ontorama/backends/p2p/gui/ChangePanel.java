@@ -17,6 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import ontorama.backends.p2p.model.Change;
+import ontorama.backends.p2p.model.EdgeChange;
+import ontorama.backends.p2p.model.NodeChange;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
@@ -71,8 +75,8 @@ public class ChangePanel extends JPanel {
         add(buttonsPanel);
     }
 
-    public void addChange (String changeStr, String peerName) {
-        _myModel.addRow(new Change(changeStr , peerName));
+    public void addChange (Change change) {
+        _myModel.addRow(change);
         repaint();
     }
 
@@ -85,7 +89,7 @@ public class ChangePanel extends JPanel {
         private final static int rowsNum = 10;
         private final static int columnsNum = 5;
 
-        String[] columnNames = {"","","","Change", "Peer"};
+        String[] columnNames = {"","","Action","Details", "Peer"};
 
         List rowsList = new LinkedList();
 
@@ -113,6 +117,7 @@ public class ChangePanel extends JPanel {
                 rowsList.remove(0);
                 rowsList.add(newRow);
             }
+            repaint();
         }
 
         private int findEmptyRow () {
@@ -148,24 +153,6 @@ public class ChangePanel extends JPanel {
                 return new String();
             }
             return tableRow.getValueAt(col);
-//            switch (col) {
-//				case 1 :
-//					//col 1
-//					break;
-//				case 2 :
-//					//col 2
-//					break;
-//				case 3 :
-//					//col 3
-//					break;
-//				case 4 :
-//					result = change.getChange();
-//					break;
-//				default :
-//					result = change.getPeerName();
-//					break;
-//			}
-//            return result;
         }
 
         public Class getColumnClass(int c) {
@@ -217,34 +204,35 @@ public class ChangePanel extends JPanel {
 			JCheckBox checkbox = new JCheckBox();
 			_checkboxesButtonGroup.add(checkbox);
 			_checkboxToChangeMapping.put(checkbox, change);
-			 
+					 
 			row[0] = checkbox;
-			row[1] = change.getChange();
-			row[2] = change.getChange();
-			row[3] = change.getChange();
-			row[4] = change.getPeerName();
+			
+			row[2] = change.getAction();
+			
+			if (change instanceof NodeChange ) {
+				row[1] = "node";
+				NodeChange nodeChange = (NodeChange) change;
+				row[3] = nodeChange.getNodeName();
+			}
+			else {
+				row[1] = "edge";
+				EdgeChange edgeChange = (EdgeChange) change;
+				row[3] = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
+			}
+			row[4] = change.getPeer().getName();
 		}
 		
 		public Object getValueAt (int col) {
 			return row[col];
 		}
-    }
-
-    private class Change {
-        private String _change;
-        private String _peerName;
-
-        public Change (String change, String peerName) {
-            _change = change;
-            _peerName = peerName;
-        }
-
-        public String getChange() {
-            return _change;
-        }
-
-        public String getPeerName() {
-            return _peerName;
-        }
+		
+		public String toString() {
+			String res = "Row: ";
+			for (int i = 0; i < row.length; i++) {
+				Object element = row[i];
+				res = res + element + ", ";
+			}
+			return res;
+		}
     }
 }

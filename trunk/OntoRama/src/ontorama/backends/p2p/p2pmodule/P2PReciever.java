@@ -7,6 +7,7 @@ import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
+import ontorama.backends.p2p.model.Change;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
@@ -148,7 +149,20 @@ public class P2PReciever implements P2PRecieverInterface{
 	}
 	
 	private void processModelChange (String modelChange, PeerItemReference senderPeer) {
-		//Add the change to the panel showing made changes		
-		changes.addChange(modelChange, senderPeer.getName());
+		
+		try {
+			Change change = XmlMessageProcessor.parseXmlMessage(modelChange);
+			System.out.println("\n\nrecieved change type " + change.getAction());
+
+			change.setPeer(senderPeer);
+			
+			//Add the change to the panel showing made changes		
+			changes.addChange(change);
+		}
+		catch (XmlMessageParserException e) {
+			// @todo not sure what to do with exception here.
+			e.printStackTrace();
+		}
+		
 	}
 }

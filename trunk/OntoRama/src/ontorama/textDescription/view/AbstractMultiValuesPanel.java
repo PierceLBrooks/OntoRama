@@ -1,7 +1,6 @@
 package ontorama.textDescription.view;
 
 import ontorama.model.GraphNode;
-import ontorama.util.event.ViewEventListener;
 import org.tockit.events.EventBroker;
 
 import javax.swing.*;
@@ -18,8 +17,6 @@ import java.util.Iterator;
  */
 public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
     protected JPanel _propValuePanel = new JPanel();
-
-    protected ViewEventListener _viewListener;
 
     protected EventBroker _eventBroker;
 
@@ -46,8 +43,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * should create GUI component required and implement
      * action listener for this component.
      */
-    public AbstractMultiValuesPanel(String propName, ViewEventListener viewListener, EventBroker eventBroker) {
-        _viewListener = viewListener;
+    public AbstractMultiValuesPanel(String propName,EventBroker eventBroker) {
         _eventBroker = eventBroker;
 
         _propNameLabel.setText(propName);

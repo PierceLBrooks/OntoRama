@@ -9,8 +9,6 @@ import ontorama.hyper.model.HyperNode;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
-import ontorama.util.event.ViewEventListener;
-import ontorama.util.event.ViewEventObserver;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
@@ -31,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class SimpleHyperView extends CanvasManager implements GraphView, ViewEventObserver {
+public class SimpleHyperView extends CanvasManager implements GraphView {
 
     private class NodeSelectedEventTransformer implements EventListener {
         private EventBroker eventBroker;

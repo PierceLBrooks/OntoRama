@@ -8,7 +8,6 @@ import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.textDescription.view.DescriptionView;
 import ontorama.tree.view.OntoTreeView;
 import ontorama.util.Debug;
-import ontorama.util.event.ViewEventListener;
 import ontorama.view.action.*;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -136,11 +135,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private int _appWindowPercent = 95;
 
     /**
-     * view listener
-     */
-    private ViewEventListener _viewListener = new ViewEventListener();
-
-    /**
      * nodes list viewer, used to show unconnected nodes
      */
     private NodesListViewer _listViewer;
@@ -194,7 +188,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
          *  because then a view that is created after description panel doesn't
          *  display clones for the first time a user clicks on a clone in one of the views
          */
-        _descriptionViewPanel = new DescriptionView(_viewListener, eventBroker);
+        _descriptionViewPanel = new DescriptionView(eventBroker);
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.add(_queryPanel, BorderLayout.NORTH);

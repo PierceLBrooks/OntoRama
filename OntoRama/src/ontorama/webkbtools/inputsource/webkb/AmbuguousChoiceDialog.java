@@ -12,13 +12,19 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.JFrame;
 import javax.swing.JRootPane;
+import javax.swing.ToolTipManager;
 import java.beans.*; //Property change stuff
 import java.awt.*;
 import java.awt.event.*;
 
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.Collection;
+
+import ontorama.webkbtools.datamodel.*;
+import ontorama.webkbtools.util.*;
 
 /**
  * <p>Title: </p>
@@ -33,12 +39,17 @@ public class AmbuguousChoiceDialog extends JDialog {
 
   private List choiceList;
   private int numChoices;
+  private ButtonGroup group;
 
-  public AmbuguousChoiceDialog(List choiceList) {
-    this.choiceList = choiceList;
+  private JRadioButton selectedButton;
+
+  public AmbuguousChoiceDialog(List typesList, Frame frame) {
+    super(frame, "title here");
+
+    this.choiceList = typesList;
     this.numChoices = choiceList.size();
 
-    System.out.println ("choice list = " + choiceList);
+    //System.out.println ("choice list = " + choiceList);
     JRootPane rootPane = getRootPane();
     Container contentPane = rootPane.getContentPane();
 
@@ -47,6 +58,7 @@ public class AmbuguousChoiceDialog extends JDialog {
     contentPane.add(choicesPanel);
 
     setModal(true);
+    setLocationRelativeTo(frame);
     pack();
     setVisible(true);
   }
@@ -56,18 +68,22 @@ public class AmbuguousChoiceDialog extends JDialog {
    */
   private JPanel buildChoicePanel () {
     JRadioButton[] radioButtons = new JRadioButton[choiceList.size()];
-    ButtonGroup group = new ButtonGroup();
+    group = new ButtonGroup();
 
     for (int i = 0; i < numChoices; i++) {
-      JRadioButton curButton = new JRadioButton( (String) choiceList.get(i));
+      OntologyType curType = (OntologyType) choiceList.get(i);
+      //JRadioButton curButton = new JRadioButton( (String) choiceList.get(i));
+      JRadioButton curButton = new JRadioButton( curType.getName());
       radioButtons[i] = curButton;
       if (i == 0) {
         curButton.setSelected(true);
+        selectedButton = curButton;
       }
       curButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
           JRadioButton selected = (JRadioButton) ae.getSource();
-          System.out.println("button action: " + selected);
+          //System.out.println("button action: " + selected);
+          selectedButton = selected;
         }
       });
       group.add(curButton);
@@ -86,9 +102,36 @@ public class AmbuguousChoiceDialog extends JDialog {
     JPanel pane = new JPanel();
     pane.setLayout(new BorderLayout());
     pane.add(box, BorderLayout.NORTH);
-    pane.add(new JButton("OK"), BorderLayout.SOUTH);
+
+    JButton okButton = new JButton("OK");
+    okButton.addActionListener(new ActionListener () {
+      public void actionPerformed (ActionEvent ae) {
+        closeDialog();
+      }
+    });
+    pane.add(okButton, BorderLayout.SOUTH);
 
     return pane;
   }
+
+  /**
+   *
+   */
+  public void closeDialog () {
+    setVisible(false);
+  }
+
+
+  /**
+   *
+   */
+  public String getSelected () {
+    //Object[] selectedObjects = group.getSelection().getSelectedObjects();
+    //System.out.println("\n\n\nselectedObjects  = " + selectedObjects);
+    //JRadioButton selectedButton = (JRadioButton) selectedObjects[0];
+    System.out.println("\n\n\nselectedButton = " + selectedButton.getText());
+    return selectedButton.getText();
+  }
+
 
 }

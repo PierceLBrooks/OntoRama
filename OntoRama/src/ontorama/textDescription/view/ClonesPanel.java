@@ -45,7 +45,7 @@ public class ClonesPanel extends JPanel {
     Iterator clones;
     JLabel clonesNameLabel = new JLabel();
     JPanel clonesValuePanel = new JPanel();
-    int minPadding = 15;
+    int minPadding = 30;
 
     Hashtable buttonCloneMapping = new Hashtable();
 
@@ -70,7 +70,7 @@ public class ClonesPanel extends JPanel {
         Dimension d = new Dimension(curRigitAreaWidth,0);
         this.add(Box.createRigidArea(d));
 
-        // add second label
+        // add second panel
         clonesValuePanel.setLayout(new BoxLayout(clonesValuePanel, BoxLayout.X_AXIS));
         clonesValuePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(clonesValuePanel);
@@ -84,8 +84,13 @@ public class ClonesPanel extends JPanel {
         clonesNameLabel.setText(this.clonesNameString);
     }
 
+    public void setNameLabelSize (Dimension d) {
+      this.clonesNameLabel.setPreferredSize(d);
+      this.clonesNameLabel.setMinimumSize(d);
+    }
+
     public void update (Iterator clonesIterator) {
-        System.out.println("ClonesPanel, method update");
+        //System.out.println("ClonesPanel, method update");
         this.clones = clonesIterator;
         clonesValuePanel.removeAll();
         // need updateUI, otherwise it seems that when a user clicks
@@ -108,6 +113,7 @@ public class ClonesPanel extends JPanel {
           });
           clonesValuePanel.add(button);
         }
+        clonesValuePanel.update(clonesValuePanel.getGraphics());
         //clonesValuePanel.repaint();
         //this.repaint();
     }

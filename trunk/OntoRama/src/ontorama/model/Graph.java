@@ -34,7 +34,7 @@ public class Graph implements GraphInterface {
     /**
      * debug vars
      */
-    Debug debug = new Debug(true);
+    Debug debug = new Debug(false);
 
     /**
      * Create a Graph with given root
@@ -136,7 +136,7 @@ public class Graph implements GraphInterface {
                     Iterator it = Edge.getInboundEdges(curNode);
                     while (it.hasNext()) {
                       Edge edge = (Edge) it.next();
-                      System.out.println("edge from " + edge.getFromNode() + ", type = " + edge.getType());
+                      //System.out.println("edge from " + edge.getFromNode() + ", type = " + edge.getType());
                     }
                     isTree = false;
                 }
@@ -301,12 +301,15 @@ public class Graph implements GraphInterface {
                 Enumeration e = conceptPropertiesConfig.keys();
                 while (e.hasMoreElements()) {
                     String propName = (String) e.nextElement();
-                    String propValue = (String) nextQueueNode.getProperty(propName);
-                    if (propValue != null) {
-                        resultStr = resultStr + tab + tab + tab + "<" + propName + ">";
-                        resultStr = resultStr + propValue;
-                        resultStr = resultStr + "</" + propName + ">";
-                        resultStr = resultStr + "\n";
+                    System.out.println("nextQueueNode = " + nextQueueNode.getName() + ", propName = " + propName);
+                    System.out.println("\tpropValue = " + nextQueueNode.getProperty(propName));
+                    Iterator propValueIterator = nextQueueNode.getProperty(propName).iterator();
+                    while (propValueIterator.hasNext()) {
+                      String curPropValue = (String) propValueIterator.next();
+                      resultStr = resultStr + tab + tab + tab + "<" + propName + ">";
+                      resultStr = resultStr + curPropValue;
+                      resultStr = resultStr + "</" + propName + ">";
+                      resultStr = resultStr + "\n";
                     }
                 }
                 resultStr = resultStr + tab + tab + "</conceptType>";

@@ -103,7 +103,12 @@ public class DescriptionView extends JPanel implements NodeObserver  {
       }
 
       String propertyName = keyLabel.getText();
-      valueLabel.setText( node.getProperty(propertyName));
+      String propertyValue = "";
+      Iterator propertyValueIterator = node.getProperty(propertyName).iterator();
+      while (propertyValueIterator.hasNext()) {
+        propertyValue = propertyValue + (String) propertyValueIterator.next() + " ";
+      }
+      valueLabel.setText( propertyValue);
     }
 
   }

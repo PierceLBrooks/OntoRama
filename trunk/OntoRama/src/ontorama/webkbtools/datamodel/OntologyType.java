@@ -12,6 +12,7 @@ package ontorama.webkbtools.datamodel;
  */
 
 import java.util.Iterator;
+import java.util.List;
 
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.NoSuchPropertyException;
@@ -55,7 +56,7 @@ public interface OntologyType {
     /**
      *
      */
-     public String getTypeProperty (String propertyName) throws NoSuchPropertyException;
+     public List getTypeProperty (String propertyName) throws NoSuchPropertyException;
 
 //  /**
 //   * Sets the type description

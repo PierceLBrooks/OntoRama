@@ -94,7 +94,8 @@ public class RdfDamlParser implements Parser {
         //System.out.println("predicate = " + predicate + ", resource = " + resourceName + ", object = " + objectName);
 
         OntologyType subjectType = getOntTypeByName(resourceName);
-        OntologyType objectType = getOntTypeByName(objectName);
+        //System.out.println("created subjectType = " + subjectType.getName());
+
 
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
@@ -113,6 +114,9 @@ public class RdfDamlParser implements Parser {
                 //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
 
                 try {
+                  OntologyType objectType = getOntTypeByName(objectName);
+                  //System.out.println("created objectType = " + objectType.getName());
+
                     if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
                         //System.out.println("case 1");
                         subjectType.addRelationType(objectType,mappingId);

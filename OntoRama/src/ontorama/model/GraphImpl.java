@@ -27,12 +27,6 @@ import java.util.*;
  */
 public class GraphImpl implements Graph {
 
-//    /**
-//     * Hold processed nodes (nodes created for Graph)
-//     * Keys - node names, values - node objects
-//     */
-//    private Hashtable processedNodes = new Hashtable();
-
     /**
      * root node
      */
@@ -48,19 +42,18 @@ public class GraphImpl implements Graph {
      */
     private List _graphNodes;
 
+    /**
+     * list holding all _graphEdges
+     */
+    public List _graphEdges = new LinkedList();
 
     private List _nodesToRemove = new LinkedList();
     private List _edgesToRemove = new LinkedList();
-
 
     /**
      *
      */
     Debug debug = new Debug(false);
-    /**
-     * list holding all _graphEdges
-     */
-    public List _graphEdges = new LinkedList();
 
     /**
      * Build Graph from given QueryResult.
@@ -275,6 +268,7 @@ public class GraphImpl implements Graph {
         Iterator curOutEdges = getOutboundEdges(node).iterator();
         while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
+            EdgeType edgeType = curEdge.getEdgeType();
             Node toNode = curEdge.getToNode();
             if (toNode == root) {
                 // don't remove parents of root node

@@ -219,10 +219,10 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
       TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
       if(selRow != -1) {
          if(e.getClickCount() == 1) {
-             //debug.message("mousePressed, single click,  row=" + selRow);
+             debug.message("mousePressed, single click,  row=" + selRow);
          }
          else if(e.getClickCount() == 2) {
-             //debug.message("mousePressed, double click,  row=" + selRow);
+             debug.message("mousePressed, double click,  row=" + selRow);
          }
       }
     }

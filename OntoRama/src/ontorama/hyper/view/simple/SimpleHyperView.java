@@ -92,10 +92,10 @@ public class SimpleHyperView  extends CanvasManager {
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
 
         // (Math.PI * 2) is the number of radians in a circle
-//        basicLayout(root, Math.PI * 2, 0);
+        basicLayout(root, Math.PI * 2, 0);
 
         System.out.println("Running radial layout...");
-        radialLayout(root, Math.PI * 2, 0);
+//        radialLayout(root, Math.PI * 2, 0);
 //        //if( runSpringForceAlgorithms == true ) {
         long start = System.currentTimeMillis();
 //        layoutNodes( 100 );

@@ -145,6 +145,13 @@ public class CanvasManager extends JComponent
                 CanvasItem cur = (CanvasItem)it.next();
                 cur.draw(g2d);
             }
+            if( this.focusNode == null ) {
+                return;
+            }
+            if( this.focusNode.hasClones() ) {
+                HyperNodeView focusHyperNode = (HyperNodeView)this.hypernodeviews.get( this.focusNode.getGraphNode() );
+                focusHyperNode.showClones( g2d, hypernodeviews );
+            }
         }
         catch(java.util.ConcurrentModificationException e){drawNodes( g2d );}
     }
@@ -255,6 +262,11 @@ public class CanvasManager extends JComponent
                 this.doubleClickTimer.schedule( new CanvasItemSingleClicked( hyperNodeView ),  300 );
             } else if( e.getClickCount() == 2 ){
                 this.doubleClickTimer.cancel();
+                int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( hyperNodeView.getGraphNode()));
+                // don't fold if leaf node
+                if( numOfLeaves == 0 ) {
+                    return;
+                }
                 boolean foldedState = hyperNodeView.getFolded();
                 hyperNodeView.setFolded( !foldedState);
                 setFolded( foldedState,  hyperNodeView.getGraphNode() );
@@ -294,6 +306,7 @@ public class CanvasManager extends JComponent
         double x = e.getX();
         double y = e.getY();
         labelView = null;
+        this.focusNode = null;
         if(dragmode == false) {
             double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
             if( dragedAmount > DRAG ) {
@@ -340,6 +353,7 @@ public class CanvasManager extends JComponent
     public void focusChanged( Object obj ){
         focusNode = (HyperNode)obj;
         // set focused node label to selected
+        testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( focusNode.getGraphNode()) );
         setLabelSelected( (HyperNodeView)(hypernodeviews.get(focusNode.getGraphNode()) ) );
         //place the label last in the list so that it gets drawn last.
         // calculate the length of the animation as a function of the distance
@@ -349,6 +363,41 @@ public class CanvasManager extends JComponent
         lengthOfAnimation = (long)(distance*1.5);
         animationTime = System.currentTimeMillis();
         repaint();
+    }
+
+    /**
+     * When node gets focus.
+     * Test if node is visible, if not find folded node and unfold.
+     * If node is folded, unfold.
+     */
+    private void testIfVisibleOrFolded( HyperNodeView hyperNodeView ) {
+        // test if visible, if not find folded node.
+        if( !hyperNodeView.getVisible() ) {
+            System.out.println(hyperNodeView.getName() + " is not visible");
+            unfoldNodes( hyperNodeView );
+        }
+    }
+
+    /**
+     * Unfold nodes back to root node.
+     */
+    private void unfoldNodes( HyperNodeView hyperNodeView ) {
+//        if( hyperNodeView.getFolded() ) {
+//            setFolded( true, hyperNodeView.getGraphNode() );
+//            hyperNodeView.setFolded( false );
+//        }
+        Iterator it = Edge.getInboundEdgeNodes( hyperNodeView.getGraphNode());
+        while(it.hasNext()) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView curHyperNode = (HyperNodeView)hypernodeviews.get(cur);
+            if( !curHyperNode.getVisible() ) {
+                unfoldNodes( curHyperNode );
+            }
+            if( curHyperNode.getFolded() ) {
+                setFolded( true, cur );
+                curHyperNode.setFolded( false );
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) {

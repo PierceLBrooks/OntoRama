@@ -42,6 +42,10 @@
 			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 		</section>
 		-->
+		
+		<directory sourceDir="schemas" targetDir="schemas">
+			<file sourceFile="ontoramaXml.xsd" targetFile="ontoramaXml.xsd" type="copy"/>
+		</directory>
 
 		<file sourceFile="ontoramaStyle.css" targetFile="ontoramaStyle.css" type="copy" id="style"/>
 			<file sourceFile="img/OntoramaLogo-smaller.jpg" targetFile="img/OntoramaLogo-smaller.jpg" type="copy" id="firstLogo"/>

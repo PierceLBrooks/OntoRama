@@ -1,0 +1,90 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:ontoP2P="http://www.kvocentral.com/ontoP2P#"
+	xmlns:dc="http://purl.org/metadata/dublin_core#”">
+
+	<ontoP2P:Node rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail" >
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+		<ontoP2P:asserted>Henrik</ontoP2P:asserted>
+		<ontoP2P:rejected>John Doe</ontoP2P:rejected>
+	</ontoP2P:Node>
+	<ontoP2P:Node rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail" >
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+		<ontoP2P:asserted>Henrik</ontoP2P:asserted>
+		<ontoP2P:rejected>John Doe</ontoP2P:rejected>
+	</ontoP2P:Node>
+
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail</rdf:subject>
+		<rdf:predicate>rdfs:label</rdf:predicate>
+		<rdf:object>Bobtail</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail</rdf:subject>
+		<rdf:predicate>rdfs:label</rdf:predicate>
+		<rdf:object>bob</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail</rdf:subject>
+		<rdf:predicate>rdfs:label</rdf:predicate>
+		<rdf:object>dock</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail</rdf:subject>
+		<rdf:predicate>dc:creator</rdf:predicate>
+		<rdf:object>http://www.cogsci.princeton.edu/~wn/</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail</rdf:subject>
+		<rdf:predicate>rdfs:comment</rdf:predicate>
+		<rdf:object> a short or shortened tail of certain animals</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+
+
+
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:subject>
+		<rdf:predicate>rdfs:label</rdf:predicate>
+		<rdf:object>tail</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:subject>
+		<rdf:predicate>dc:creator</rdf:predicate>
+		<rdf:object>http://www.cogsci.princeton.edu/~wn/</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:subject>
+		<rdf:predicate>rdfs:comment</rdf:predicate>
+		<rdf:object>the posterior part of the body of a vertebrate especially when elongated and extending beyond the trunk or main part of the body 
+		</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:subject>
+		<rdf:predicate>pm:part</rdf:predicate>
+		<rdf:object>http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+	<rdf:Description>
+		<rdf:subject>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:subject>
+		<rdf:predicate>rdfs:subClassOf</rdf:predicate>
+		<rdf:object>http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth</rdf:object>
+		<rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement</rdf:type>  
+		<ontoP2P:asserted>Johan</ontoP2P:asserted>
+	</rdf:Description>
+</rdf:RDF>

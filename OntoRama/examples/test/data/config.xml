@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ontConfig>
+	<ontology>
+		<relation id="1">
+			<relationType name="subtype" mappingSymbol="&lt;"/>
+			<relationType name="supertype" mappingSymbol="&gt;"/>
+			<display color="#33CCFF" symbol="&lt;"/>
+		</relation>
+		<relation id="2">
+			<relationType name="instance" mappingSymbol=":"/>
+			<relationType name="instanceOf" mappingSymbol="^"/>
+			<display color="#FF99CC" symbol=":"/>
+		</relation>
+		<relation id="3">
+			<relationType name="part" mappingSymbol="p"/>
+			<relationType name="partOf" mappingSymbol="P"/>
+			<display color="#00FFCC" symbol="p"/>
+		</relation>
+		<relation id="4">
+			<relationType name="member" mappingSymbol="m"/>
+			<relationType name="memberOf" mappingSymbol="M"/>
+			<display color="#FFFFCC" symbol="m"/>
+		</relation>
+		<relation id="5">
+			<relationType name="substance" mappingSymbol="s"/>
+			<relationType name="substanceOf" mappingSymbol="S"/>
+			<display color="#C0C0C0" symbol="s"/>
+		</relation>
+		<relation id="6">
+			<relationType name="inclusion"/>
+			<display color="#9999FF" symbol="i"/>
+		</relation>
+		<relation id="7">
+			<relationType name="exclusion"/>
+			<display color="#9999FF" symbol="e"/>
+		</relation>
+		<conceptProperty id="Description"/>
+		<conceptProperty id="Creator"/>
+		<conceptProperty id="Synonym"/>
+	</ontology>
+	<rdfMapping>
+		<relationLinks>
+			<map id="1" type="supertype" tag="subClassOf"/>
+			<map id="3" type="part" tag="part"/>
+			<map id="6" type="inclusive" tag="jointWith"/>
+		</relationLinks>
+		<conceptProperties>
+			<map id="Description" tag="comment"/>
+			<map id="Creator" tag="Creator"/>
+			<map id="Synonym" tag="label"/>
+		</conceptProperties>
+	</rdfMapping>
+</ontConfig>

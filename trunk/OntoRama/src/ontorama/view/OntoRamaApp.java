@@ -3,15 +3,16 @@ package ontorama.view;
 
 import java.net.URL;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Iterator;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.BorderLayout;
 
-import javax.swing.JTree;
-//import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -21,11 +22,6 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-
-
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.LinkedList;
 
 import ontorama.OntoramaConfig;
 
@@ -66,8 +62,6 @@ public class OntoRamaApp extends JFrame {
      */
     private String termName;
 
-    //temp variable for creating svg image of hyper view
-    private TextField imgNameField = new TextField("", 10);
 
     /**
      * graphBuilder
@@ -170,36 +164,36 @@ public class OntoRamaApp extends JFrame {
         this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
+        // Create HyperView
+        hyperView = new SimpleHyperView();
+        hyperView.setGraph(graph);
+        hyperView.saveCanvasToFile( "hyperView" );
+
+
         // create a query panel
-        queryPanel = new QueryPanel();
+        queryPanel = new QueryPanel(hyperView);
         queryPanel.setQueryField(termName);
         queryPanel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println ("---actionListener for queryPanel");
+
+                List wantedLinks = queryPanel.getWantedRelationLinks();
+                Iterator it = wantedLinks.iterator();
+                while (it.hasNext()) {
+                  Integer relLink = (Integer) it.next();
+                  System.out.println("--wanted link: " + relLink);
+                }
+                //Query query = new Query (termName, wantedLinks);
+
+
+
                 //graphBuilder = new GraphBuilder(queryField.getText());
                 //graph = graphBuilder.getGraph();
                 // update views
             }
         } );
-        JButton makeSVG = new JButton("Run Spring and force test");
-        makeSVG.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent a) {
-                testSpringAndForceAlgorthms();
-            }});
-        queryPanel.add( makeSVG );
 
-        queryPanel.add( this.imgNameField );
-        JButton snapshot = new JButton("Take snap shot");
-        snapshot.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent a) {
-                takeSnapshot();
-            }});
-        queryPanel.add( snapshot );
 
-        // Create HyperView
-        hyperView = new SimpleHyperView();
-        hyperView.setGraph(graph);
-        hyperView.saveCanvasToFile( "hyperView" );
 
         // Create OntoTreeView
         treeView = (new OntoTreeView(graph)).getTreeViewPanel();
@@ -209,21 +203,6 @@ public class OntoRamaApp extends JFrame {
         splitPane.setLeftComponent(hyperView);
         splitPane.setRightComponent(treeView);
         splitPane.setOneTouchExpandable(true);
-//        int splitPaneWidth = appWidth;
-//        int splitPaneHeight = (appHeight * 70)/100;
-//
-//        int rigthPanelWidthPercent = 100 - leftSplitPanelWidthPercent;
-//        int leftPanelWidth = (appWidth *leftSplitPanelWidthPercent)/100;
-//        int rigthPanelWidth = (appWidth * leftSplitPanelWidthPercent)/100;
-//
-//        hyperView.setPreferredSize(new Dimension(leftPanelWidth - 5, splitPaneHeight - 5));
-//        treeViewPanel.setPreferredSize(new Dimension(rigthPanelWidth - 5, splitPaneHeight - 5));
-//        splitPane.setLeftComponent(hyperView);
-//        splitPane.setRightComponent(treeViewPanel);
-//        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
-//        splitPane.setOneTouchExpandable(true);
-//        splitPane.setDividerLocation(leftPanelWidth);
-
 
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph);
@@ -260,33 +239,27 @@ public class OntoRamaApp extends JFrame {
         if (this.dividerBarLocation != currentDividerBarLocation) {
             System.out.println("*****this.dividerBarLocation != currentDividerBarLocation: " + this.dividerBarLocation + ", " + currentDividerBarLocation);
         }
-            double scale = (double) curAppWidth/(double) this.appWidth;
-            //System.out.println("scale = " + scale);
-            //System.out.println("lastAppWidth * scale = " + ((double) this.appWidth * scale));
-            //System.out.println("new divider bar scale = " + ( (double) this.leftSplitPanelWidthPercent * scale));
+        double scale = (double) curAppWidth/(double) this.appWidth;
 
-            double scaledDividerLocation = ((double) this.dividerBarLocation * scale);
-            System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
-            System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
-            int newLeftPanelPercent = (currentDividerBarLocation * 100) / this.appWidth;
-            System.out.println("newLeftPanelPercent = " + newLeftPanelPercent);
-            double scaledDividerPercent = (scaledDividerLocation * 100) / curAppWidth;
-            System.out.println("scaled percent = " + scaledDividerPercent);
-            System.out.println("calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
-        //if ( ( (newLeftPanelPercent - this.leftSplitPanelWidthPercent) > 3) || ((this.leftSplitPanelWidthPercent - newLeftPanelPercent) > 3) ){
-            if ( ((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)-scaledDividerLocation) > 25) ||
-                     ((scaledDividerLocation- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
-                    System.out.println("newLeftPanelPercent = " + newLeftPanelPercent + ", calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
-            if ( ((newLeftPanelPercent - scaledDividerPercent) > 10) || ((scaledDividerPercent - newLeftPanelPercent) > 10) ) {
-                this.leftSplitPanelWidthPercent = newLeftPanelPercent;
-            }
+        double scaledDividerLocation = ((double) this.dividerBarLocation * scale);
+        //System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
+        //System.out.println("current divider bar location = " + currentDividerBarLocation + ", scaled location = " + scaledDividerLocation);
+        int newLeftPanelPercent = (currentDividerBarLocation * 100) / this.appWidth;
+        //System.out.println("newLeftPanelPercent = " + newLeftPanelPercent);
+        double scaledDividerPercent = (scaledDividerLocation * 100) / curAppWidth;
+        //System.out.println("scaled percent = " + scaledDividerPercent);
+        //System.out.println("calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
+        if ( ((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)-scaledDividerLocation) > 25) ||
+                 ((scaledDividerLocation- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
+          //System.out.println("newLeftPanelPercent = " + newLeftPanelPercent + ", calculated new divider position: " + calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent));
+          if ( ((newLeftPanelPercent - scaledDividerPercent) > 10) || ((scaledDividerPercent - newLeftPanelPercent) > 10) ) {
+              this.leftSplitPanelWidthPercent = newLeftPanelPercent;
+          }
         }
-        System.out.println("this.leftSplitPanelWidthPercent = " + this.leftSplitPanelWidthPercent);
-
+        //System.out.println("this.leftSplitPanelWidthPercent = " + this.leftSplitPanelWidthPercent);
         setSplitPanelSizes(curAppWidth, curAppHeight);
         this.appWidth = curAppWidth;
         this.appHeight = curAppHeight;
-
     }
 
     /**
@@ -328,31 +301,8 @@ public class OntoRamaApp extends JFrame {
       return new Point(xDiff/4, yDiff/4);
     }
 
-    /**
-     * Method to test layouting usin spring and force algorthms
-     */
-    private void testSpringAndForceAlgorthms() {
-        for( int i = 0; i < 300; i++) {
-            //generate spring length values between 50 - 250;
-            double springLength = (Math.random() * 200) + 51;
-            //generate stiffness values between 0 - .99999
-            double stiffness = Math.random();
-            //generate electric_charge values between 0 - 1000;
-            double electric_charge = (Math.random() * 1000) + 1;
-            hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
-            hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
-        }
-        System.out.println("Test Finished...");
-    }
 
-    /**
-     * Temp method to take a snap shot of hyper view
-     */
-    private void takeSnapshot() {
-        if( !this.imgNameField.getText().equals("") ) {
-            hyperView.saveCanvasToFile( this.imgNameField.getText());
-        }
-    }
+
 
     /**
      * main

@@ -10,11 +10,15 @@
 			<entry name="Documentation" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 			<entry name="Introduction" sourceFile="intro.xhtml" targetFile="intro.html" type="XHTML"/>
 			<entry name="Configuration" sourceFile="config.xhtml" targetFile="config.html" type="XHTML"/>
-			<!--<entry name="Future Plans" sourceFile="plans.xhtml"
-			targetFile="plans.html" type="XHTML"/>-->
+			<entry name="Future Plans" sourceFile="plans.xhtml"	targetFile="plans.html" type="XHTML"/>
 			<entry name="Menus Behaviour" sourceFile="menus.xhtml" targetFile="menus.html" type="XHTML"/>
+			<entry name="Adding Ontology Server" sourceFile="add_ont_server.xhtml" targetFile="add_ont_server.xhtml" type="XHTML"/>
 			<entry name="WebKB Notes" sourceFile="webkbNotes.xhtml" targetFile="webkbNotes.html" type="XHTML"/>
+			<file sourceFile="webkb-rdf-mappings.txt" targetFile="webkb-rdf-mappings.txt" type="copy"/>
 			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>
+			<file sourceFile="img/package_webkbtools.png" targetFile="img/package_webkbtools.png" type="copy"/>
+			<file sourceFile="img/query-engine-message-passing.png" targetFile="img/query-engine-message-passing.png" type="copy"/>
+
 		</section>
 		<section name="Demo" title="Demo" sourceDir="demo" targetDir="demo" type="demo">
 			<entry name="Demo" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
@@ -22,9 +26,11 @@
 		<section name="Links" title="Resources" sourceDir="links" targetDir="links" type="links">
 			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 		</section>
+		<!--
 		<section name="Plans" title="Future Plans" sourceDir="plans" targetDir="plans" type="plans">
 			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 		</section>
+		-->
 
 		<file sourceFile="ontoramaStyle.css" targetFile="ontoramaStyle.css" type="copy" id="style"/>
 			<file sourceFile="img/OntoramaLogo-smaller.jpg" targetFile="img/OntoramaLogo-smaller.jpg" type="copy" id="firstLogo"/>

@@ -168,7 +168,7 @@ public class Graph implements GraphInterface {
           processOntologyType(ot,termName);
           count++;
       }
-      System.out.println("\n\n processed " + count + " types");
+      System.out.println("\n\n Graph: processed " + count + " types");
     }
 
     /**

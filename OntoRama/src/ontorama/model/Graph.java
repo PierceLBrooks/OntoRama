@@ -30,16 +30,6 @@ import java.util.*;
  */
 public class Graph implements GraphInterface {
 
-//    /**
-//     * Graph
-//     */
-//    private Graph graph = null;
-
-//    /**
-//     * Hold a set of available relation links
-//     */
-//    private Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
-
     /**
      * Hold a list of processed ontology types (ontology types that have
      * been converted into nodes already)
@@ -128,7 +118,7 @@ public class Graph implements GraphInterface {
             System.out.println("\n\nunconnectedNodes = " + _unconnectedNodes);
 
             // clean up
-            //removeUnconnectedEdges();
+            removeUnconnectedEdges();
 
             debug.message("graph , root = " + root);
 
@@ -317,78 +307,44 @@ public class Graph implements GraphInterface {
         }
         debug.message("number of Edges = " + Edge.edges.size());
         debug.message("root = " + root);
+        listUnconnectedEdgesAndNodes();
     }
 
     /**
      * Remove all edges that are 'hanging in space' (edges that don't
      * have any parents).
-     * @todo  does it need to be recusive?
-     * @todo  if not making this recursive - is there a better way to do this?
-     *        Recursive may not work because we are trying to get rid of
-     *        'hanging' nodes, which by definition don't have parents.
-     *        this means that we can't get to them via recursion anyway.
      */
     private void cleanUpEdges() {
         Iterator unconnectedEdges = listUnconnectedEdgesAndNodes().iterator();
         while (unconnectedEdges.hasNext()) {
             Edge cur = (Edge) unconnectedEdges.next();
+            //System.out.println("removing edge = " + cur);
             Edge.removeEdge(cur);
         }
-
-//		Iterator allNodes = processedNodes.values().iterator();
-//		while (allNodes.hasNext()) {
-//			GraphNode curNode = (GraphNode) allNodes.next();
-//
-//			if (curNode == root) {
-//				continue;
-//			}
-//
-//			// get inbound nodes (parents) and check how many there is.
-//			// If there is no parents - this node is not attached
-//			// to anything, hence - 'hanging node'
-//			Iterator inboundNodes = Edge.getInboundEdges(curNode);
-//			if (Edge.getIteratorSize(inboundNodes) == 0) {
-//				// get outbound edges for this node and remove them
-//				Iterator curOutEdges = Edge.getOutboundEdges(curNode);
-//				while (curOutEdges.hasNext()) {
-//					Edge curEdge = (Edge) curOutEdges.next();
-//					if (curEdge.getToNode() == root) {
-//						// don't remove parents of root node
-//						continue;
-//					}
-//					Edge.removeEdge(curEdge);
-//				}
-//			}
-//		}
+        Iterator unconnectedNodesIt = _unconnectedNodes.iterator();
+        while (unconnectedNodesIt.hasNext()) {
+            GraphNode curNode = (GraphNode) unconnectedNodesIt.next();
+            _allNodes.remove(curNode);
+        }
     }
 
     /**
      */
     private List listUnconnectedEdgesAndNodes() {
+        _unconnectedNodes = new LinkedList();
         List unconnectedEdges = new LinkedList();
 
-        Iterator allNodes = processedNodes.values().iterator();
+//        Iterator allNodes = processedNodes.values().iterator();
+        Iterator allNodes = _allNodes.iterator();
         while (allNodes.hasNext()) {
             GraphNode curNode = (GraphNode) allNodes.next();
-
-//			if (curNode == root) {
-//				continue;
-//			}
 
             // get inbound nodes (parents) and check how many there is.
             // If there is no parents - this node is not attached
             // to anything, hence - 'hanging node'
             Iterator inboundNodes = Edge.getInboundEdges(curNode);
 
-//			System.out.println("node = " + curNode);
-//			Iterator it = Edge.getInboundEdges(curNode);
-//			while (it.hasNext()) {
-//				System.out.println("\tinbound edge = " + (Edge) it.next());
-//			}
-//
-
             if (!inboundNodes.hasNext()) {
-                unconnectedEdges.add(curNode);
                 if (!_unconnectedNodes.contains(curNode)) {
                     _unconnectedNodes.add(curNode);
                 }
@@ -401,6 +357,7 @@ public class Graph implements GraphInterface {
                         // don't remove parents of root node
                         continue;
                     }
+                    unconnectedEdges.add(curEdge);
                     //Edge.removeEdge(curEdge);
                     //System.out.println("unconnected Edge = " + curEdge);
                 }

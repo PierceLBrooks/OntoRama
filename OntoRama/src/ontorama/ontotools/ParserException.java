@@ -10,16 +10,16 @@ package ontorama.ontotools;
  */
 
 
-public class ParserException extends Exception {
-    private String errorMsg = null;
+public class ParserException extends QueryFailedException {
+
+//	public ParserException(String message, Throwable originalException) {
+//		super("Parser failed " + message, originalException);
+//	}
 
     public ParserException(String message) {
-        errorMsg = "\nParser failed:\n";
-        errorMsg = errorMsg + message;
+    	super("Parser failed " + message);
     }
-
-    public String getMessage() {
-        return errorMsg;
-    }
+    
+    
 
 }

@@ -9,7 +9,7 @@ package ontorama.model.graph;
  * @version 1.0
  */
 
-public class NoTypeFoundInResultSetException extends Exception {
+public class NoTypeFoundInResultSetException extends InvalidArgumentException {
 
     public NoTypeFoundInResultSetException(String termName) {
         super("term '" + termName + "' not found in Query Result Set");

@@ -8,11 +8,13 @@ import javax.swing.JMenu;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphCyclesDisallowedException;
-import ontorama.model.graph.GraphModificationException;
-import ontorama.model.graph.NoTypeFoundInResultSetException;
+import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
+import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchTypeInQueryResult;
+import ontorama.ontotools.QueryFailedException;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryResult;
 
 import org.tockit.events.EventBroker;
@@ -37,7 +39,9 @@ public interface Backend {
 	
 	public Edge createEdge (Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException;
 	
-	public Graph createGraph (QueryResult qr, EventBroker eb) throws GraphModificationException, NoSuchRelationLinkException, NoTypeFoundInResultSetException, GraphCyclesDisallowedException;
+	public Graph createGraph (QueryResult qr, EventBroker eb) throws InvalidArgumentException;
+	
+	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
 	
 	public Collection getDataFormats();
 	

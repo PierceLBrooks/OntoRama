@@ -71,10 +71,10 @@ public class CgKbSource implements Source {
             }
             catch ( MalformedURLException mue) {
                 throw new SourceException("Source Url " + url +
-                " is malformed");
+                " is malformed", mue);
             }
             catch ( IOException ioe) {
-                throw new SourceException("Couldn't retrieve data from source " + fullUrl);
+                throw new SourceException("Couldn't retrieve data from source " + fullUrl, ioe);
             }
             allReadersString = allReadersString + readerString;
         }

@@ -10,8 +10,7 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
-import ontorama.ontotools.ParserException;
-import ontorama.ontotools.SourceException;
+import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.source.Source;
@@ -43,21 +42,20 @@ import ontorama.util.Debug;
  * @see ontorama.ontotools.query.Query
  */
 
-public class QueryEngine implements QueryEngineInterface {
+public class QueryEngine {
 
     private ParserResult _parserResult;
     private List _resultNodesList;
     private List _resultEdgesList;
 
-    /**
-     * Query
-     */
-    private Query query;
+	private Parser parser;
+	private Source source;
+	private String sourceUri;
 
     /**
      * Query Result
      */
-    private QueryResult queryResult;
+//    private QueryResult queryResult;
 
 
     /**
@@ -69,46 +67,54 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      * Execute a query to OntologyServer and get a query resul
      */
-    public QueryEngine (Query query, String sourcePackageName, String parserPackageName, String ontologySourceUri)
-                                                    throws ParserException, IOException,
-                                                    ClassNotFoundException, InstantiationException,
-                                                    IllegalAccessException, SourceException,
-                                                    NoSuchTypeInQueryResult, CancelledQueryException {
-        this.query = query;
-        Parser parser = (Parser) (Class.forName(parserPackageName)).newInstance();
-        Source source = (Source) (Class.forName(sourcePackageName).newInstance());
-        this.queryResult = executeQuery(source, parser, ontologySourceUri, query);
+    public QueryEngine (String sourcePackageName, String parserPackageName, String ontologySourceUri)
+                                                    throws QueryFailedException {
+        this.sourceUri = ontologySourceUri;
+        try {
+	        this.parser = (Parser) (Class.forName(parserPackageName)).newInstance();
+	        this.source = (Source) (Class.forName(sourcePackageName).newInstance());
+        }
+        catch (IllegalAccessException e) {
+        	throw new QueryFailedException("Couldn't intstantiate Parser or Source", e);
+        }
+        catch (ClassNotFoundException e) {
+        	throw new QueryFailedException("Couldn't find class you specified to use as Parser or Source in configuration file ", e);
+        }
+        catch (InstantiationException e) {
+        	throw new QueryFailedException("Couldn't intstantiate Parser or Source", e);
+        }
     }
 
     /**
      *
      */
-    private QueryResult executeQuery(Source source, Parser parser, String queryUrl, Query query)
-            throws NoSuchTypeInQueryResult, SourceException,
-            ParserException, IOException, CancelledQueryException {
-        QueryResult queryResult = null;
-        Reader r = null;
-        Query newQuery = null;
-
-        SourceResult sourceResult = source.getSourceResult(queryUrl, query);
-        if (!sourceResult.queryWasSuccess()) {
-            newQuery = sourceResult.getNewQuery();
-            queryResult = executeQuery(source, parser, queryUrl, newQuery);
-        } else {
-            r = sourceResult.getReader();
-            //this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
-            _parserResult = parser.getResult(r);
-            r.close();
-            if (query.getQueryTypeName()!= null) {
-                String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
-                if (!newTermName.equals(query.getQueryTypeName())) {
-                    //query = new Query(newTermName, query.getRelationLinksList());
-                    query.setQueryTypeName(newTermName);
-                }
-            }
-            filterUnwantedEdges();
-            queryResult = new QueryResult(query, _resultNodesList, _resultEdgesList);
-
+    private QueryResult executeQuery(Query query) throws NoSuchTypeInQueryResult, 
+    											QueryFailedException, CancelledQueryException {
+    	QueryResult queryResult = null;
+        try {
+	        Reader r = null;
+	        Query newQuery = null;
+	
+	        SourceResult sourceResult = source.getSourceResult(this.sourceUri, query);
+	        if (!sourceResult.queryWasSuccess()) {
+	            newQuery = sourceResult.getNewQuery();
+	            queryResult = executeQuery(newQuery);
+	        } else {
+	            r = sourceResult.getReader();
+	            //this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+	            _parserResult = parser.getResult(r);
+	            r.close();
+	            if (query.getQueryTypeName()!= null) {
+	                String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
+	                if (!newTermName.equals(query.getQueryTypeName())) {
+	                    query.setQueryTypeName(newTermName);
+	                }
+	            }
+	            filterUnwantedEdges(query);
+	            queryResult = new QueryResult(query, _resultNodesList, _resultEdgesList);
+	        }
+        } catch (IOException e) {
+        	throw new QueryFailedException(e.getMessage(), e);
         }
         return queryResult;
     }
@@ -163,8 +169,8 @@ public class QueryEngine implements QueryEngineInterface {
      *
      * @todo query should have as a links set not Integer list, but edge types list.
      */
-    private void filterUnwantedEdges() {
-        List wantedLinks = this.query.getRelationLinksList();
+    private void filterUnwantedEdges(Query query) {
+        List wantedLinks = query.getRelationLinksList();
         // iterator of wanted links (links we are interested in)
         Iterator queryRelationLinks = wantedLinks.iterator();
 
@@ -207,8 +213,9 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      *
      */
-    public QueryResult getQueryResult() {
-        return (this.queryResult);
+    public QueryResult getQueryResult(Query query) throws QueryFailedException, CancelledQueryException,
+    														NoSuchTypeInQueryResult {
+    	return executeQuery(query);
     }
 
 }

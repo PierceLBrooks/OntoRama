@@ -137,9 +137,9 @@ public class WebKB2Source implements Source {
             //resultReader = new StringReader((String) docs.get(0));
             resultReader = executeWebkbQuery(constructQueryUrl(uri, query));
         } catch (IOException ioExc) {
-            throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
+            throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage(), ioExc);
         } catch (ParserException parserExc) {
-            throw new SourceException("Error parsing returned RDF data, here is error provided by parser: " + parserExc.getMessage());
+            throw new SourceException("Error parsing returned RDF data, here is error provided by parser: " + parserExc.getMessage(), parserExc);
         } catch (InterruptedException intExc) {
             throw new CancelledQueryException();
         }

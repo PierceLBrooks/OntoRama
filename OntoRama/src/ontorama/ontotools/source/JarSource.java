@@ -103,9 +103,9 @@ public class JarSource implements Source {
                 System.exit(-1);
             }
         } catch (IOException ioExc) {
-            throw new SourceException("Couldn't read input data source for " + resourceName + ", error: " + ioExc.getMessage());
+            throw new SourceException("Couldn't read input data source for " + resourceName + ", error: " + ioExc.getMessage(), ioExc);
         } catch (NullPointerException npe) {
-            throw new SourceException("Coudn't load resource for " + resourceName + ", please check if resource exists at this location");
+            throw new SourceException("Coudn't load resource for " + resourceName + ", please check if resource exists at this location", npe);
         }
         return resultStream;
     }

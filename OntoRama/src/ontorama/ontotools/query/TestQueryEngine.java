@@ -13,7 +13,6 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.ParserException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
 
 /**
@@ -35,18 +34,12 @@ public class TestQueryEngine extends TestCase {
 	String sourceUri = "examples/test/data/testCase.rdf";
 	private String queryTerm = "test#Chair";
     private List relationLinksList;
+    
+    private QueryEngine queryEngine;
 
     private Query query1;
-//    private QueryEngine queryEngine1;
-//    private QueryResult queryResult1;
-//    private List queryResultNodesList1;
-//	private List queryResultEdgesList1;
 
     private Query query2;
-//    private QueryEngine queryEngine2;
-//    private QueryResult queryResult2;
-//    private List queryResultEdgesList2;
-//	private List queryResultNodesList2;
 
     private Node testNode_chair;
 
@@ -98,6 +91,8 @@ public class TestQueryEngine extends TestCase {
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance));
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member));
         
+    	queryEngine = new QueryEngine(sourcePackageName, parserPackageName, sourceUri);
+        
         query1 = new Query(queryTerm, sourcePackageName, parserPackageName, sourceUri);
 
         query2 = new Query(queryTerm, relationLinksList, sourcePackageName, parserPackageName, sourceUri);
@@ -114,17 +109,15 @@ public class TestQueryEngine extends TestCase {
      */
 	public void testNothing () {
 		try {
-			QueryEngine queryEngine1 = new QueryEngine(query1, sourcePackageName, parserPackageName, sourceUri);
-		} catch (ParserException e) { } 
-		catch (Exception e) { }
+			queryEngine.getQueryResult(query1);
+		} catch (Exception e) { } 
 	}
 
     /**
      *
      */
     public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException, Exception {
-    	QueryEngine queryEngine1 = new QueryEngine(query1, sourcePackageName, parserPackageName, sourceUri);
-    	QueryResult queryResult1 = queryEngine1.getQueryResult();
+    	QueryResult queryResult1 = queryEngine.getQueryResult(query1);
     	List queryResultNodesList1 = queryResult1.getNodesList();
     	List queryResultEdgesList1 = queryResult1.getEdgesList();
         assertEquals("size of query result nodes list for query1", 35, queryResultNodesList1.size());
@@ -150,8 +143,7 @@ public class TestQueryEngine extends TestCase {
      * support unconnected graphs. The real test here - is number of edges.
      */
     public void testGetQueryResultForQuery2() throws NoSuchRelationLinkException, Exception {
-    	QueryEngine queryEngine2 = new QueryEngine(query2, sourcePackageName, parserPackageName, sourceUri);
-    	QueryResult queryResult2 = queryEngine2.getQueryResult();
+    	QueryResult queryResult2 = queryEngine.getQueryResult(query2);
     	List queryResultNodesList2 = queryResult2.getNodesList();
     	List queryResultEdgesList2 = queryResult2.getEdgesList();
         assertEquals("size of query result nodes list for query2", 35, queryResultNodesList2.size());

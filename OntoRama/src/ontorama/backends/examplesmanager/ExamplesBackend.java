@@ -16,15 +16,17 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphCyclesDisallowedException;
 import ontorama.model.graph.GraphImpl;
-import ontorama.model.graph.GraphModificationException;
-import ontorama.model.graph.NoTypeFoundInResultSetException;
+import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
+import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchTypeInQueryResult;
+import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorPopupMessage;
 import ontorama.ui.OntoRamaApp;
@@ -199,9 +201,7 @@ public class ExamplesBackend implements Backend {
 	/**
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
 	 */
-	public Graph createGraph(QueryResult qr, EventBroker eb)
-										throws	GraphModificationException,	NoSuchRelationLinkException,
-										NoTypeFoundInResultSetException, GraphCyclesDisallowedException {
+	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException {
 		Graph res = new GraphImpl(qr, eb);
 		return res;
 	}
@@ -216,6 +216,17 @@ public class ExamplesBackend implements Backend {
 
         // get graph for this query and load it into app
         _eventBroker.processEvent(new QueryStartEvent(query));
+	}
+
+	/**
+	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
+	 */
+	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
+		QueryEngine queryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
+
+		QueryResult queryResult = queryEngine.getQueryResult(query);
+		
+		return null;
 	}
 
 }

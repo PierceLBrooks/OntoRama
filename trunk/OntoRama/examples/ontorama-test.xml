@@ -142,6 +142,7 @@
 		<relationLink name="subtype" from="branch2_root" to="branch2_node4"/>
 
 		<relationLink name="subtype" from="node4" to="branch2_node4"/>
+		<relationLink name="subtype" from="branch2_node2" to="branch2_node4"/>
 
 		<relationLink name="subtype" from="branch2_node1" to="branch2_node1.1"/>
 		<relationLink name="subtype" from="branch2_node2" to="branch2_node2.1"/>

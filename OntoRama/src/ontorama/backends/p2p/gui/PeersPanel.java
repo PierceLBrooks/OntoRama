@@ -2,7 +2,6 @@ package ontorama.backends.p2p.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
 
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.renderer.*;
 import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 
@@ -251,57 +250,5 @@ public class PeersPanel extends JPanel  implements GroupView {
 			return null;
 		}
     	
-    }
-    
-    private class PeersListCellRenderer extends JLabel implements ListCellRenderer {
-		public PeersListCellRenderer() {
-			setOpaque(true);
-			setHorizontalAlignment(CENTER);
-			setVerticalAlignment(CENTER);
-		}
-		public Component getListCellRendererComponent(
-							JList list,	Object value,
-							int index, boolean isSelected,
-							boolean hasFocus) {
-			if (isSelected) {
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			} else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-			}
-			if (value == null) {
-				return this;
-			}
-			PeerObject peerObj = (PeerObject) value;
-			setText(peerObj.getPeerName());
-			setToolTipText(peerObj.getPeerName());
-			return this;
-		}
-    }
-    
-    private class PeerObject {
-    	// @todo this class here is only so we can keep track of peer names in relation 
-    	// peer id's. ItemReference already does that - we should use it. For this to
-    	// happen we need to figure out if it is possible to either pass ItemReference id's 
-    	// from whoever gets that info from the network or if it is possible 
-    	// to pass ID's instead of strings.
-
-		private String peerId;
-    	private String peerName;
-
-    	public PeerObject (String peerId, String peerName) {
-    		this.peerId = peerId;
-    		this.peerName = peerName;
-    	}
-    	
-		public String getPeerId() {
-			return peerId;
-		}
-
-		public String getPeerName() {
-			return peerName;
-		}
-
     }
 }

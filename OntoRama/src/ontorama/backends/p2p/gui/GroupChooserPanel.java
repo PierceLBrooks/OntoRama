@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ontorama.backends.p2p.gui.renderer.*;
 import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 /*

@@ -84,7 +84,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      * Constructor
      */
-    public OntoTreeView(Graph graph, ViewEventListener viewListener)  {
+    public OntoTreeView(ViewEventListener viewListener)  {
         super();
 
         this.viewListener = viewListener;

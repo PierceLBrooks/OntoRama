@@ -279,15 +279,6 @@ public class XmlParserFull implements Parser {
             if (cur.equals(edge)) {
             	return true;
             }
-            Node fromNode = cur.getFromNode();
-            Node toNode = cur.getToNode();
-            if (edge.getFromNode().getName().equals(fromNode.getName())) {
-                if (edge.getToNode().getName().equals(toNode.getName())) {
-                    if (edge.getEdgeType().getName().equals(cur.getEdgeType().getName())) {
-                        return true;
-                    }
-                }
-            }
         }
         return false;
     }

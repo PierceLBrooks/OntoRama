@@ -62,15 +62,15 @@ public class LabelView extends CanvasItem {
     }
 
     public Rectangle2D getCanvasBounds(Graphics2D g2d) {
-        if (!this.hyperNodeView.getVisible()) {
-            return null;
-        }
+    	double x = hyperNodeView.getProjectedX();
+    	double y = hyperNodeView.getProjectedY();
+    	if (!this.hyperNodeView.getVisible()) {
+    		return new Rectangle2D.Double(x,y,0,0);
+    	}
 
         g2d.setFont(getFontToDisplay(hyperNodeView.getScale()));
         FontMetrics fm = g2d.getFontMetrics();
         String label = getContentString();
-        double x = hyperNodeView.getProjectedX();
-        double y = hyperNodeView.getProjectedY();
         double labelWidth = fm.stringWidth(label);
         labelWidth = labelWidth + fm.getLeading() + fm.getDescent();
         double labelHeight = fm.getHeight();
@@ -136,12 +136,11 @@ public class LabelView extends CanvasItem {
     }
 
     public void draw(Graphics2D g2d) {
+    	if (!this.hyperNodeView.getVisible()) {
+    		return;
+    	}
 
         Rectangle2D rect = getCanvasBounds(g2d);
-
-        if (rect == null) {
-            return;
-        }
         double scale = hyperNodeView.getScale();
         if (scale < .1) {
             return;

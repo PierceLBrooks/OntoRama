@@ -6,11 +6,9 @@ import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 
 /**
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Dec 4, 2002
- * Time: 1:45:39 PM
- * To change this template use Options | File Templates.
+ * Event indicating that we are ready to start QueryEngineThread.
+ * 
+ * @author	nataliya
  */
 public class QueryEngineThreadStartEvent implements Event {
     protected QueryEngine subject;

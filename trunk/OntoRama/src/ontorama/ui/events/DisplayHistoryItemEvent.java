@@ -5,11 +5,14 @@ import org.tockit.events.Event;
 import javax.swing.*;
 
 /**
- * Created by IntelliJ IDEA.
+ * This event is used to notify all interested parties that
+ * history item should be displayed for given menu item.
+ * Normally HistoryMenu will emit this event when one of
+ * it's items is selected or when one of Back/Forward buttons
+ * is pressed.
+ *  
  * User: nataliya
  * Date: Dec 9, 2002
- * Time: 10:45:46 AM
- * To change this template use Options | File Templates.
  */
 public class DisplayHistoryItemEvent implements Event {
     protected JMenuItem subject;

@@ -295,13 +295,13 @@ public class GraphNode implements Cloneable {
        String str = "";
        str = str + "GraphNode: " + this.getName() + "\n";
        str = str + "\t" + "inbound nodes: " + "\n";
-       Iterator inboundNodes = Edge.getInboundEdgeNodes(this);
+       Iterator inboundNodes = EdgeImpl.getInboundEdgeNodes(this);
        while (inboundNodes.hasNext()) {
            GraphNode node = (GraphNode) inboundNodes.next();
            str = str + "\t\t" + node.getName();
        }
        str = str + "\t" + "outbound nodes: " + "\n";
-       Iterator outboundNodes = Edge.getOutboundEdgeNodes(this);
+       Iterator outboundNodes = EdgeImpl.getOutboundEdgeNodes(this);
        while (outboundNodes.hasNext()) {
            GraphNode node = (GraphNode) outboundNodes.next();
            str = str + "\t\t" + node.getName();

@@ -91,6 +91,27 @@ public class QueryEngine implements QueryEngineInterface {
     }
 
     /**
+     * alternative constructor allowing to bypass config manager's settings and specify where to find
+     * all needed packages.
+     * @todo probably don't need this, just added this in order to refactor p2p backend. consider removing later (
+     * probably need better backends schema allowing to set config for each backend).
+     * @param sourcePackageName
+     * @param parserPackageName
+     * @param ontologySourceUri
+     * @param query
+     */
+    public QueryEngine (String sourcePackageName, String parserPackageName, String ontologySourceUri, Query query)
+                                                    throws ParserException, IOException,
+                                                    ClassNotFoundException, InstantiationException,
+                                                    IllegalAccessException, SourceException,
+                                                    NoSuchTypeInQueryResult, CancelledQueryException {
+        this.query = query;
+        Parser parser = (Parser) (Class.forName(parserPackageName)).newInstance();
+        Source source = (Source) (Class.forName(sourcePackageName).newInstance());
+        this.queryResult = executeQuery(source, parser, ontologySourceUri, query);
+    }
+
+    /**
      *
      */
     private QueryResult executeQuery(Source source, Parser parser, String queryUrl, Query query)

@@ -14,26 +14,12 @@ import java.util.List;
 
 public class QueryResult {
 
-    /**
-     *
-     */
     Iterator ontologyTypesIterator;
 
-    /**
-     *
-     */
     Query query;
 
     List nodes;
     List edges;
-
-//    /**
-//     *
-//     */
-//    public QueryResult(Query query, Iterator ontologyTypesIterator) {
-//        this.ontologyTypesIterator = ontologyTypesIterator;
-//        this.query = query;
-//    }
 
     /**
      *
@@ -53,13 +39,6 @@ public class QueryResult {
     public Query getQuery() {
         return this.query;
     }
-
-//    /**
-//     *
-//     */
-//    public Iterator getOntologyTypesIterator() {
-//        return this.ontologyTypesIterator;
-//    }
 
     /**
      * Get list of returned graph nodes
@@ -85,6 +64,4 @@ public class QueryResult {
         str = " for query term = " + query.getQueryTypeName();
         return str;
     }
-
-
 }

@@ -3,8 +3,8 @@
  * Description:
  * Copyright:		Copyright (c) 2002
  * Company:			DSTC
- * @author:		johang
- * @version:		1.0, 2:08:27 PM
+ * @author		johang
+ * @version		1.0, 2:08:27 PM
  */
 package ontorama.backends.p2p.test;
 
@@ -46,25 +46,25 @@ public class TestP2PBackend {
 	}
 
 	public void test1(){
-        try {
-            RdfDamlParser parser = new RdfDamlParser();
-            String filename = "d:/temp/wn_tail.rdf";
-            System.out.println();
-            System.out.println("filename = " + filename);
-            Reader reader = new FileReader(filename);
-			ParserResult parserResult = parser.getResult(reader);
-
-			P2PGraph graph = new P2PGraphImpl();
-			graph.add(parserResult);
-
-	        ModelWriter modelWriter = new RdfModelWriter();
-	        Writer writer = new PrintWriter(System.out);
-	        modelWriter.write(graph, writer);
-
-        } catch (Exception e) {
-            System.out.println("Failed: " + e);
-            System.exit(-1);
-        }
+//        try {
+//            RdfDamlParser parser = new RdfDamlParser();
+//            String filename = "d:/temp/wn_tail.rdf";
+//            System.out.println();
+//            System.out.println("filename = " + filename);
+//            Reader reader = new FileReader(filename);
+//			ParserResult parserResult = parser.getResult(reader);
+//
+//			P2PGraph graph = new P2PGraphImpl();
+//			graph.add(0);
+//
+//	        ModelWriter modelWriter = new RdfModelWriter();
+//	        Writer writer = new PrintWriter(System.out);
+//	        modelWriter.write(graph, writer);
+//
+//        } catch (Exception e) {
+//            System.out.println("Failed: " + e);
+//            System.exit(-1);
+//        }
 	}
 
 	public void test2() {

@@ -15,7 +15,6 @@ public class ParserResult {
     List nodes;
     List edges;
 
-
     /**
      *
      * @param nodes list of graph nodes

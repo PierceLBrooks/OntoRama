@@ -14,13 +14,15 @@ import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryResult;
 
 public interface P2PGraph extends ontorama.model.graph.Graph {
 	public P2PGraph search(Query query);
+
 	/**
-	 * Adds a parsser result to the graph
+	 * Adds a query result to the graph
 	 */
-	public void add(ParserResult parserResult)
+	public void add(QueryResult queryResult)
 		throws GraphModificationException, NoSuchRelationLinkException ;
 
     /**

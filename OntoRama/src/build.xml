@@ -21,19 +21,19 @@
   	<pathelement location="${deploy.home}/"/>
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
-	<!--<pathelement path="${lib.home}/jena.jar/"/>-->
 	<pathelement path="${lib.home}/jenaOntorama.jar/"/>
 	<pathelement path="${lib.home}/junit.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
-	<!--<pathelement path="${lib.home}/rdffilter.jar/"/>-->
-	<!--<pathelement path="${lib.home}/aelfred.jar/"/>-->
-	<pathelement path="${lib.home}/sax2beta.jar/"/>
+    <pathelement path="${lib.home}/event.jar/"/>
+    <pathelement path="${lib.home}/canvas.jar/"/>
+      <!--
 	<pathelement path="${lib.home}/batik-awt-util.jar/"/>
 	<pathelement path="${lib.home}/batik-dom.jar/"/>
 	<pathelement path="${lib.home}/batik-svggen.jar/"/>
 	<pathelement path="${lib.home}/batik-util.jar/"/>
 	<pathelement path="${lib.home}/batik-xml.jar/"/>
 	<pathelement path="${lib.home}/mockobjects.jar/"/>
+    -->
 	<!--
 	<pathelement path="${lib.home}/concurrent-1.3.0.jar/"/>
 	<pathelement path="${lib.home}/db3-3-11.jar/"/>

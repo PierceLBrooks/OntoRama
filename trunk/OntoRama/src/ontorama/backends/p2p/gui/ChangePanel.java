@@ -70,6 +70,11 @@ public class ChangePanel extends JPanel {
         acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				List selectedChanges = getChangesForSelectedRows();
+				Iterator it = selectedChanges.iterator();
+				while (it.hasNext()) {
+					Change element = (Change) it.next();
+					
+				}
 			}
         });
         

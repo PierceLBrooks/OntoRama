@@ -6,8 +6,10 @@ import java.util.Hashtable;
 import java.util.List;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
 
@@ -95,9 +97,15 @@ public class P2PReciever implements P2PRecieverInterface{
             Reader intModel = new StringReader(result);
             RdfDamlParser parser = new RdfDamlParser();
             ParserResult parserResult = parser.getResult(intModel);
-			backend.getExtendedGraph().add(parserResult.getNodesList(),parserResult.getEdgesList());
+			backend.getP2PGraph().add(parserResult);
 
         } catch (ParserException e) {
+            System.err.println("Error in receiveSearchResponse");
+            e.printStackTrace();
+		} catch (GraphModificationException e) {
+            System.err.println("Error in receiveSearchResponse");
+            e.printStackTrace();
+		} catch (NoSuchRelationLinkException e) {
             System.err.println("Error in receiveSearchResponse");
             e.printStackTrace();
         }
@@ -122,11 +130,17 @@ public class P2PReciever implements P2PRecieverInterface{
 			Reader intModel = new StringReader(internalModel);
 			RdfDamlParser parser = new RdfDamlParser();
 			ParserResult parserResult = parser.getResult(intModel);
-			backend.getExtendedGraph().add(parserResult.getNodesList(),parserResult.getEdgesList());
+			backend.getP2PGraph().add(parserResult);
 			
-			} catch (ParserException e) {
-            	System.err.println("An error accured");
-                e.printStackTrace();
-			}  
-		}
+		} catch (ParserException e) {
+        	System.err.println("An error accured");
+            e.printStackTrace();
+		} catch (GraphModificationException e) {
+        	System.err.println("An error accured");
+            e.printStackTrace();
+		} catch (NoSuchRelationLinkException e) {
+        	System.err.println("An error accured");
+            e.printStackTrace();
+		}  
 	}
+}

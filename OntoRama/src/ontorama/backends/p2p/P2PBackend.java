@@ -4,6 +4,7 @@ package ontorama.backends.p2p;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URI;
 import java.util.Enumeration;
 
 import java.util.LinkedList;
@@ -11,11 +12,12 @@ import java.util.List;
 import java.util.Vector;
 
 import ontorama.backends.Backend;
-import ontorama.backends.ExtendedGraph;
-import ontorama.backends.GraphNode;
 import ontorama.backends.Menu;
-import ontorama.backends.NoSuchGraphNodeException;
 import ontorama.backends.OntoRamaBackend;
+import ontorama.backends.p2p.model.P2PEdge;
+import ontorama.backends.p2p.model.P2PGraph;
+import ontorama.backends.p2p.model.P2PGraphImpl;
+import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.p2pmodule.ChangePanel;
 import ontorama.backends.p2p.p2pmodule.P2PReciever;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
@@ -24,6 +26,7 @@ import ontorama.backends.p2p.p2pprotocol.CommunicationProtocolJxta;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
+import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
@@ -39,7 +42,7 @@ import ontorama.webkbtools.util.ParserException;
  * Window>Preferences>Java>Code Generation.
  */
 public class P2PBackend implements Backend{
-    private ExtendedGraph graph = null;
+    private P2PGraph graph = null;
     private P2PSender sender = null;
     private OntoRamaBackend ontoRama = null;
     public List panels = null;
@@ -47,7 +50,7 @@ public class P2PBackend implements Backend{
 
 //Constructor 
     public P2PBackend(OntoRamaBackend ontoRama){
-        this.graph = new ExtendedGraph();     
+        this.graph = new P2PGraphImpl();     
         this.ontoRama = ontoRama;
         this.panels = new LinkedList();
         this.panels.add(0, new PeersPanel(this));
@@ -69,7 +72,7 @@ public class P2PBackend implements Backend{
     
     public void searchRequest(String senderPeerID, String query){
         //First search in the model in this P2P module
-        ExtendedGraph resultGraphP2P;
+        P2PGraph resultGraphP2P;
         try {
                List relationLinks = (List) new LinkedList();
                relationLinks.add(new Integer(1));
@@ -78,28 +81,26 @@ public class P2PBackend implements Backend{
                relationLinks.add(new Integer(7));
                Query tmpQuery = new Query(query, relationLinks);
                
-               resultGraphP2P = this.getExtendedGraph().search(tmpQuery);
+               resultGraphP2P = ((P2PGraphImpl) this.getP2PGraph()).search(tmpQuery);
                //TODO should be toRdf instead
                String rdfResultGraph;
                rdfResultGraph = resultGraphP2P.toRDFString();
                sender.sendSearchResponse(senderPeerID, rdfResultGraph);
           
                //TODO should be toRdf instead 
-               ExtendedGraph resultGraphOntoRama = this.ontoRama.search(tmpQuery);
+               P2PGraph resultGraphOntoRama = this.ontoRama.search(tmpQuery);
                String rdfResultOntoRama = resultGraphOntoRama.toRDFString();
                sender.sendSearchResponse(senderPeerID, rdfResultOntoRama);
         } catch (GroupExceptionThread e) {
               System.err.println("An error accured in SearchRequest");
               e.printStackTrace(); 
         }   
-        
-        
     }
     
-    public ExtendedGraph search(Query query){
+    public P2PGraph search(Query query) {
        //Emtpy the previus graph model and set it to what ontoRama returns
        //TODO this should be used when everything is working
-       this.setExtendedGraph(this.ontoRama.search(query));
+       this.setP2PGraph(this.ontoRama.search(query));
        ((ChangePanel) this.getPanels().get(1)).empty();
        //Ask the other peers what they got
          try {
@@ -109,99 +110,111 @@ public class P2PBackend implements Backend{
                     RdfDamlParser parser = new RdfDamlParser();
                     SearchResultElement resultElement = (SearchResultElement) enum.nextElement();   
                     Reader resultPart = new StringReader(resultElement.getResultText()); 
-                    ParserResult parserResult = parser.getResult(resultPart);
-                    this.graph.add(parserResult.getNodesList(),parserResult.getEdgesList());
+                    ParserResult parserResult;
+					parserResult = parser.getResult(resultPart);
+					this.graph.add(parserResult);
 			  } 
             
             //Let the responses arrive for a while and then return the new graph
-          	  this.graph.setRoot(query.getQueryTypeName());  
-			} catch (NoSuchGraphNodeException e) {
-				System.err.println("Could not find the root node");
-				e.printStackTrace();
-			} catch (ParserException e) {
-              System.err.println("An error accured in search()");
-              e.printStackTrace();
 			} catch (GroupExceptionThread e) {
               System.err.println("An error accured in search()");
               e.printStackTrace();   
 			} catch (IOException e) {
 				System.err.println("An error accured in search()");
             	e.printStackTrace();   
+			} catch (ParserException e) {
+				System.err.println("An error accured in search()");
+            	e.printStackTrace();   
+			} catch (GraphModificationException e) {
+				System.err.println("An error accured in search()");
+            	e.printStackTrace();   
+			} catch (NoSuchRelationLinkException e) {
+				System.err.println("An error accured in search()");
+            	e.printStackTrace();   
 			} 
-       return this.getExtendedGraph();
+       return this.getP2PGraph();
      }
     
 
 
-    public void assertRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation){
+    public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
         try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, "New relation from: " +
-             fromNode.getFullName() + " to: " + toNode.getFullName() + " of type: " + edgeType);
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
+             	"New relation from: " 
+             	+ edge.getFromNode().getName() 
+             	+ " to: " + edge.getToNode().getName() + " of type: " + edge.getEdgeType());
  
+			this.graph.assertEdge(edge, asserter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertRelation()");
                e.printStackTrace(); 
+		} catch (GraphModificationException e) {
+			throw e;
+		} catch (NoSuchRelationLinkException e) {
+			throw e;
         }
-        this.graph.addEdge(fromNode.getFullName(), toNode.getFullName(), edgeType,nameSpaceForRelation);
+		
       }
     
 
 
 
-    public void assertConcept(GraphNode fromNode, GraphNode node, int edgeType,String nameSpaceForRelation){
+    public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
         try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, "New concept: " + node.getFullName() +
-              " was added to: " + fromNode.getFullName() + " of type: " + edgeType);
- 
+             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
+             		"New node was added: " 
+             		+ node.getName() 
+             		+ " by : " + asserter.toString());
+			this.graph.assertNode(node,asserter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertConcept()");
                e.printStackTrace(); 
-        }
-
-        this.graph.addNode(node);
-        //System.out.println("Add edge from " + fromUri + " to: " + node.getFullName());
-        this.graph.addEdge(fromNode.getFullName(), node.getFullName(), edgeType,nameSpaceForRelation);    
+		} catch (GraphModificationException e) {
+			throw e;
+		}
       }
     
 
+    public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
+        try {
+             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
+             		"New node was rejected: " 
+             		+ node.getName() 
+             		+ " by : " + rejecter.toString());
+			this.graph.rejectNode(node,rejecter);
+        } catch (GroupExceptionThread e) {
+               System.err.println("An error accured in assertConcept()");
+               e.printStackTrace(); 
+		} catch (GraphModificationException e) {
+			throw e;
+		}
+      }
 
-    public void rejectRelation(GraphNode fromNode, GraphNode toNode, int edgeType,String nameSpaceForRelation){
-           try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, "Rejected relation from " +
-             fromNode.getFullName() + " to " + toNode.getFullName() + " with type: " + edgeType);
- 
+
+    public void rejectEdge(P2PEdge edge, URI rejecter) throws GraphModificationException, NoSuchRelationLinkException{
+		try {
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, 
+             		"Rejected relation from " 
+             		+ edge.getFromNode().getName() + " to " 
+             		+ edge.getToNode().getName() 
+             		+ " with type: " + edge.getEdgeType());
+			this.graph.rejectEdge(edge,rejecter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in rejectRelation()");
                e.printStackTrace(); 
+		} catch (GraphModificationException e) {
+			throw e;
+		} catch (NoSuchRelationLinkException e) {
+			throw e;
         }
-        this.graph.rejectEdge(fromNode.getFullName(), toNode.getFullName(), edgeType,nameSpaceForRelation);
     }
   
-  
-  
-  
-    public void updateConcept(GraphNode node){
-        try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEUPDATE, null, "Updated node: " 
-             + node.getFullName());
- 
-        } catch (GroupExceptionThread e) {
-               System.err.println("An error accured in updateConcept()");
-               e.printStackTrace(); 
-        }
- 
-         this.graph.updateNode(node);
     
-    }
- 
- 
- 
-    
-    public ExtendedGraph getExtendedGraph(){
+    public P2PGraph getP2PGraph(){
         return this.graph;    
     }
     
-    public void setExtendedGraph(ExtendedGraph graph){
+    public void setP2PGraph(P2PGraph graph){
         this.graph = graph;
     }
     
@@ -210,11 +223,6 @@ public class P2PBackend implements Backend{
         
     }
  
- 
- 
- 
-    
-    
     public List getPanels(){
              return this.panels;
     }
@@ -226,9 +234,5 @@ public class P2PBackend implements Backend{
     public String showGraph(){
 		return this.graph.toRDFString();
     }
-
-   	public List searchRejectedEdges() {
-		return this.graph.getRejectedEdges();	
-	}
 
 }

@@ -15,11 +15,11 @@ import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.filemanager.FileMenu;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PMenu;
+import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.p2pmodule.ChangePanel;
 import ontorama.backends.p2p.p2pmodule.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * @author henrika
@@ -104,7 +104,7 @@ public class VirtualOntoRama {
 							relationLinks.add(new Integer(2));
 							relationLinks.add(new Integer(4));
 							relationLinks.add(new Integer(7));
-	                        ExtendedGraph extGraph = p2pBackend.search(new Query(lineIn,relationLinks));
+	                        P2PGraph extGraph = p2pBackend.search(new Query(lineIn,relationLinks));
 	                        String ontology = extGraph.toRDFString();
 	                        System.err.println("Result of the search:");
 	                        System.err.println(ontology);
@@ -171,93 +171,94 @@ public class VirtualOntoRama {
 
 
 	private void getPopupMenu() {
-		char charIn;
-
-		System.out.println("----------------------");
-		System.out.println("Popup menu");
-        System.out.println("a => Assert Concept");     
-        System.out.println("b => Assert Relation");
-        System.out.println("");
-        System.out.println("c => Reject Relation"); 
-        System.out.println("");
-        System.out.println("d => Assert Property");
-        System.out.println("");
-        System.out.println("f => Hide menu"); 
-        System.out.print(">");
-
-		charIn = readChar();      
-		String fromURI;
-		String toURI;
-		GraphNode toNode;
-		String fullName;
-		String property;
-		String propertyValue;
-		int relationType;
-		String relNamespace;
-		LinkedList list = new LinkedList();
-		String propertyNamespace;
-		String defaultNamespace = "http://www.w3.org/TR/1999/PR-rdf-schema-19990303#";
-        switch(charIn) {
-			case 'a' :  
-				System.out.println("Assert Concept");
-				
-				fromURI = this.getInput("Give from URI","");
-				fullName = this.getInput("URI for the new node","");
-				toNode = new GraphNode(fullName,fullName);
-				this.allNodes.put(toNode.getFullName(),toNode);
-				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
-				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
-
-				p2pBackend.assertConcept((GraphNode) this.allNodes.get(fromURI), toNode, relationType,relNamespace);
-				fileBackend.assertConcept((GraphNode) this.allNodes.get(fromURI), toNode, relationType,relNamespace);
-				break;
-
-			case 'd' :  
-				System.out.println("Assert Property");
-				toURI = this.getInput("URI to add property to","");
-				property = this.getInput("Property name","");
-				propertyNamespace = this.getInput("Namespace for " + property,"http://purl.org/metadata/dublin_core#");
-				propertyValue = this.getInput(property + " value","");
-				list = new LinkedList();
-				list.add(propertyValue);
-				try {
-					if (this.allNodes.containsKey(toURI)) {
-						toNode = (GraphNode) this.allNodes.get(toURI);
-						toNode.setProperty(property,propertyNamespace,list);
-						p2pBackend.updateConcept(toNode);	
-						fileBackend.updateConcept(toNode);
-					} else {
-						System.err.println("The node URI could not be found");	
-					}
-				} catch (NoSuchRelationLinkException e) {
-					System.out.println("No such property could be found");					
-				}
-				break;
-			case 'b' :  
-				System.out.println("Assert Relation");
-				
-				fromURI = this.getInput("Give from URI","");
-				toURI = this.getInput("Give to URI","");				
-				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
-				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
-			
-				p2pBackend.assertRelation((GraphNode) this.allNodes.get(fromURI), (GraphNode) this.allNodes.get(toURI),relationType,relNamespace);
-				fileBackend.assertRelation((GraphNode) this.allNodes.get(fromURI), (GraphNode) this.allNodes.get(toURI),relationType,relNamespace);
-				break;
-			case 'c' :  
-				System.out.println("Reject Relation");
-				
-				fromURI = this.getInput("Give from URI","");
-				toURI = this.getInput("Give to URI","");				
-				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
-				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
-
-				p2pBackend.rejectRelation((GraphNode) this.allNodes.get(fromURI), (GraphNode) this.allNodes.get(toURI),relationType, relNamespace);
-				fileBackend.rejectRelation((GraphNode) this.allNodes.get(fromURI), (GraphNode) this.allNodes.get(toURI),relationType, relNamespace);
-				break;
-			case 'f' :  
-				break;
-        }
+//		char charIn;
+//
+//		System.out.println("----------------------");
+//		System.out.println("Popup menu");
+//        System.out.println("a => Assert Concept");     
+//        System.out.println("b => Assert Relation");
+//        System.out.println("");
+//        System.out.println("c => Reject Relation"); 
+//        System.out.println("");
+//        System.out.println("d => Assert Property");
+//        System.out.println("");
+//        System.out.println("f => Hide menu"); 
+//        System.out.print(">");
+//
+//		charIn = readChar();      
+//		String fromURI;
+//		String toURI;
+//		P2PNode toNode;
+//		String fullName;
+//		String property;
+//		String propertyValue;
+//		int relationType;
+//		String relNamespace;
+//		LinkedList list = new LinkedList();
+//		String propertyNamespace;
+//		String defaultNamespace = "http://www.w3.org/TR/1999/PR-rdf-schema-19990303#";
+//		URI creator = new URI("ontoMailto:someone@ontorama.org");
+//        switch(charIn) {
+//			case 'a' :  
+//				System.out.println("Assert Concept");
+//				
+//				fromURI = this.getInput("Give from URI","");
+//				fullName = this.getInput("URI for the new node","");
+//				toNode = new P2PNodeImpl(fullName, creator,null);
+//				this.allNodes.put(toNode.getName(),toNode);
+//				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
+//				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
+//
+//				p2pBackend.assertConcept((P2PNode) this.allNodes.get(fromURI), toNode, relationType,relNamespace);
+//				fileBackend.assertConcept((P2PNode) this.allNodes.get(fromURI), toNode, relationType,relNamespace);
+//				break;
+//
+//			case 'd' :  
+//				System.out.println("Assert Property");
+//				toURI = this.getInput("URI to add property to","");
+//				property = this.getInput("Property name","");
+//				propertyNamespace = this.getInput("Namespace for " + property,"http://purl.org/metadata/dublin_core#");
+//				propertyValue = this.getInput(property + " value","");
+//				list = new LinkedList();
+//				list.add(propertyValue);
+//				try {
+//					if (this.allNodes.containsKey(toURI)) {
+//						toNode = (P2PNode) this.allNodes.get(toURI);
+//						toNode.setProperty(property,propertyNamespace,list);
+//						p2pBackend.updateConcept(toNode);	
+//						fileBackend.updateConcept(toNode);
+//					} else {
+//						System.err.println("The node URI could not be found");	
+//					}
+//				} catch (NoSuchRelationLinkException e) {
+//					System.out.println("No such property could be found");					
+//				}
+//				break;
+//			case 'b' :  
+//				System.out.println("Assert Relation");
+//				
+//				fromURI = this.getInput("Give from URI","");
+//				toURI = this.getInput("Give to URI","");				
+//				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
+//				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
+//			
+//				p2pBackend.assertRelation((P2PNode) this.allNodes.get(fromURI), (P2PNode) this.allNodes.get(toURI),relationType,relNamespace);
+//				fileBackend.assertRelation((P2PNode) this.allNodes.get(fromURI), (P2PNode) this.allNodes.get(toURI),relationType,relNamespace);
+//				break;
+//			case 'c' :  
+//				System.out.println("Reject Relation");
+//				
+//				fromURI = this.getInput("Give from URI","");
+//				toURI = this.getInput("Give to URI","");				
+//				relationType = new Integer(this.getInput("The relation type [1/2/4/7]","")).intValue();
+//				relNamespace = this.getInput("Name space for the relation",defaultNamespace);
+//
+//				p2pBackend.rejectRelation((P2PNode) this.allNodes.get(fromURI), (P2PNode) this.allNodes.get(toURI),relationType, relNamespace);
+//				fileBackend.rejectRelation((P2PNode) this.allNodes.get(fromURI), (P2PNode) this.allNodes.get(toURI),relationType, relNamespace);
+//				break;
+//			case 'f' :  
+//				break;
+//        }
 	}		
 	
 	private String getInput(String text,String defaultText) {

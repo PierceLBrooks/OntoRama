@@ -205,9 +205,20 @@ public class OntologyTypeImplementation implements OntologyType {
    * toString method
    */
   public String toString () {
-    String str = "name: " + typeName + ", relations: ";
+    String str = "NAME: " + typeName ;
     try {
+      Enumeration conceptProperties = OntoramaConfig.getConceptPropertiesTable().keys();
+      str = str + "; PROPERTIES: ";
+      while (conceptProperties.hasMoreElements()) {
+        String propName = (String) conceptProperties.nextElement();
+        List cur = this.getTypeProperty(propName);
+        str = str + propName + ": " + cur;
+        if (conceptProperties.hasMoreElements()) {
+          str = str + ", ";
+        }
+      }
       Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
+      str = str + "; RELATIONS: ";
       while (relLinks.hasNext()) {
           Integer relLink = (Integer) relLinks.next();
           Iterator relatedTypes = this.getIterator(relLink.intValue());
@@ -225,6 +236,11 @@ public class OntologyTypeImplementation implements OntologyType {
       System.err.println("NoSuchRelationLinkException: " + e.getMessage());
       System.exit(1);
     }
+    catch (NoSuchPropertyException e1) {
+      System.err.println("NoSuchPropertyException: " + e1.getMessage());
+      System.exit(1);
+    }
+
     return str;
   }
 }

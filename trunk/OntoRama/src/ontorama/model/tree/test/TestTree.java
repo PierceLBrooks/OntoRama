@@ -6,7 +6,6 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
-import ontorama.backends.Backend;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -27,8 +26,6 @@ import java.util.Iterator;
  */
 public class TestTree extends TestCase{
 	
-	private Backend _backend;
-
     EdgeType _edgeType1;
     EdgeType _edgeType2;
     EdgeType _edgeType3;
@@ -44,35 +41,33 @@ public class TestTree extends TestCase{
     }
 
     public void setUp () throws GraphModificationException, NoSuchRelationLinkException, NoTypeFoundInResultSetException {
-    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(_backend);
     	
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();
         _nodeType1 = OntoramaConfig.CONCEPT_TYPE;
-        Node node1 = _backend.createNode("node1", "node1");
+        Node node1 = new NodeImpl("node1", "node1");
         node1.setNodeType(_nodeType1);
-        Node node2 = _backend.createNode("node2", "node2");
+        Node node2 = new NodeImpl("node2", "node2");
         node2.setNodeType(_nodeType1);
-        Node node3 = _backend.createNode("node3", "node3");
+        Node node3 = new NodeImpl("node3", "node3");
         node3.setNodeType(_nodeType1);
-        Node node4 = _backend.createNode("node4", "node4");
+        Node node4 = new NodeImpl("node4", "node4");
         node4.setNodeType(_nodeType1);
-        Node node5 = _backend.createNode("node5", "node5");
+        Node node5 = new NodeImpl("node5", "node5");
         node5.setNodeType(_nodeType1);
-        Node node6 = _backend.createNode("node6","node6");
+        Node node6 = new NodeImpl("node6","node6");
         node6.setNodeType(_nodeType1);
-        _node7 = _backend.createNode("node7", "node7");
+        _node7 = new NodeImpl("node7", "node7");
         _node7.setNodeType(_nodeType1);
-        Node node8 = _backend.createNode("node8", "node8");
+        Node node8 = new NodeImpl("node8", "node8");
         node8.setNodeType(_nodeType1);
-        Node node9 = _backend.createNode("node9", "node9");
+        Node node9 = new NodeImpl("node9", "node9");
         node9.setNodeType(_nodeType1);
-        Node node10 = _backend.createNode("node10", "node10");
+        Node node10 = new NodeImpl("node10", "node10");
         node10.setNodeType(_nodeType1);
-        Node node11 = _backend.createNode("node11", "node11");
+        Node node11 = new NodeImpl("node11", "node11");
         node11.setNodeType(_nodeType1);
-        Node node12 = _backend.createNode("node12", "node12");
+        Node node12 = new NodeImpl("node12", "node12");
         node12.setNodeType(_nodeType1);
         graphNodesList.add(node1);
         graphNodesList.add(node2);
@@ -95,19 +90,19 @@ public class TestTree extends TestCase{
         _edgeType1 = (EdgeType) edgesTypesList.get(0);
         _edgeType2 = (EdgeType) edgesTypesList.get(1);
         _edgeType3 = (EdgeType) edgesTypesList.get(2);
-        Edge e1_2 = _backend.createEdge(node1, node2, _edgeType1);
-        Edge e1_3 = _backend.createEdge(node1, node3, _edgeType1);
-        Edge e1_4 = _backend.createEdge(node1, node4, _edgeType2);
-        Edge e2_9 = _backend.createEdge(node2, node9, _edgeType1);
-        Edge e2_10 = _backend.createEdge(node2, node10, _edgeType2);
-        Edge e10_7 = _backend.createEdge(node10, _node7, _edgeType1);
-        Edge e3_5 = _backend.createEdge(node3, node5, _edgeType1);
-        Edge e4_11 = _backend.createEdge(node4, node11, _edgeType1);
-        Edge e4_6 = _backend.createEdge(node4, node6, _edgeType1);
-        Edge e5_6 = _backend.createEdge(node5, node6, _edgeType1);
-        Edge e11_12 = _backend.createEdge(node11, node12, _edgeType1);
-        Edge e6_7 = _backend.createEdge(node6, _node7, _edgeType1);
-        Edge e6_8 = _backend.createEdge(node6, node8, _edgeType2);
+        Edge e1_2 = new EdgeImpl(node1, node2, _edgeType1);
+        Edge e1_3 = new EdgeImpl(node1, node3, _edgeType1);
+        Edge e1_4 = new EdgeImpl(node1, node4, _edgeType2);
+        Edge e2_9 = new EdgeImpl(node2, node9, _edgeType1);
+        Edge e2_10 = new EdgeImpl(node2, node10, _edgeType2);
+        Edge e10_7 = new EdgeImpl(node10, _node7, _edgeType1);
+        Edge e3_5 = new EdgeImpl(node3, node5, _edgeType1);
+        Edge e4_11 = new EdgeImpl(node4, node11, _edgeType1);
+        Edge e4_6 = new EdgeImpl(node4, node6, _edgeType1);
+        Edge e5_6 = new EdgeImpl(node5, node6, _edgeType1);
+        Edge e11_12 = new EdgeImpl(node11, node12, _edgeType1);
+        Edge e6_7 = new EdgeImpl(node6, _node7, _edgeType1);
+        Edge e6_8 = new EdgeImpl(node6, node8, _edgeType2);
         graphEdgesList.add(e1_2);
         graphEdgesList.add(e1_3);
         graphEdgesList.add(e1_4);
@@ -196,7 +191,7 @@ public class TestTree extends TestCase{
     public void testAddNode () throws TreeModificationException {
         int originalNodeCount = countNumOfNodes();
 
-        Node newNode = _backend.createNode("newNode", "newNode");
+        Node newNode = new NodeImpl("newNode", "newNode");
         TreeNode newTreeNode = new TreeNodeImpl(newNode);
         TreeNode node9 = getNodeByName("node9");
         _tree.addNode(newTreeNode, node9, _edgeType1);
@@ -207,7 +202,7 @@ public class TestTree extends TestCase{
 	public void testAddNodeToClone ()  throws TreeModificationException {
 		int originalNodeCount = countNumOfNodes();
 		
-		Node newNode = _backend.createNode("newNode", "newNode");
+		Node newNode = new NodeImpl("newNode", "newNode");
 		TreeNode newTreeNode = new TreeNodeImpl(newNode);
 		TreeNode node7 = getNodeByName("node7");
 		_tree.addNode(newTreeNode, node7, _edgeType1);

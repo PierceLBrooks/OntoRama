@@ -1,7 +1,6 @@
 package ontorama.model.tree.test;
 
 import junit.framework.TestCase;
-import ontorama.backends.Backend;
 import ontorama.model.graph.*;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
@@ -21,8 +20,6 @@ import java.util.List;
  */
 public class TestTreeNode  extends TestCase{
 	
-	private Backend _backend;
-
     Node _graphNode;
     TreeNode _treeNode;
     TreeNode _cloneNode;
@@ -36,18 +33,16 @@ public class TestTreeNode  extends TestCase{
     }
 
     public void setUp () throws NoSuchRelationLinkException {
-    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(_backend);
     	
-        _graphNode = _backend.createNode("node", "node");
+        _graphNode = new NodeImpl("node", "node");
         _treeNode = new TreeNodeImpl(_graphNode);
 
-        //Node graphNode2 = _backend.createNode("node2");
+        //Node graphNode2 = new NodeImpl("node2");
         _cloneNode = new TreeNodeImpl(_graphNode);
         _treeNode.addClone(_cloneNode);
 
-        Node childGraphNode1 = _backend.createNode("child1", "child1");
-        Node childGraphNode2 = _backend.createNode("child2", "child2");
+        Node childGraphNode1 = new NodeImpl("child1", "child1");
+        Node childGraphNode2 = new NodeImpl("child2", "child2");
         _childNode1 = new TreeNodeImpl(childGraphNode1);
         _childNode2 = new TreeNodeImpl(childGraphNode2);
         List edgeTypes = OntoramaConfig.getEdgeTypesList();
@@ -57,11 +52,11 @@ public class TestTreeNode  extends TestCase{
         }
         EdgeType et1 = (EdgeType) edgeTypes.get(0);
         EdgeType et2 = (EdgeType) edgeTypes.get(1);
-        Edge edge1 = _backend.createEdge(_graphNode, childGraphNode1, et1);
+        Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
         _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
         _treeNode.addChild(_childNode1, _childEdge1);
         _childNode1.setParent(_treeNode);
-        Edge edge2 = _backend.createEdge(_graphNode, childGraphNode2, et2);
+        Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
         _childEdge2 = new TreeEdgeImpl(edge2, _childNode2);
         _treeNode.addChild(_childNode2, _childEdge2);
         _childNode2.setParent(_treeNode);

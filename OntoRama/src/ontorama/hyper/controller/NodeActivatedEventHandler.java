@@ -30,7 +30,6 @@ public class NodeActivatedEventHandler implements EventListener {
 
     public void processEvent(Event e) {
         HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-        //System.out.println("processEvent: NodeActivated: " + nodeView);
         eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
         simpleHyperView.toggleFold(nodeView.getGraphNode());
     }

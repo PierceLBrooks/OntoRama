@@ -317,17 +317,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
         updateProjection();
         g2d.setColor(fadeColor);
-        if (!isLeaf && this.getFolded()) {
-            g2d.fillRect((int) (projectedX - viewRadius),
-                    (int) (projectedY - viewRadius),
-                    (int) (viewRadius * 2),
-                    (int) (viewRadius * 2));
-            return;
-        }
         nodeShape.setFrame(projectedX - viewRadius,
                 projectedY - viewRadius,
                 viewRadius * 2, viewRadius * 2);
-        g2d.fill(nodeShape);
+        if (!isLeaf && this.getFolded()) {
+            g2d.fill(nodeShape.getBounds2D());
+        } else {
+            g2d.fill(nodeShape);
+        }
     }
 
     private void calculateFadedColor() {

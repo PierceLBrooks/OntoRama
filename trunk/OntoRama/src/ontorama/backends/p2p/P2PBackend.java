@@ -141,8 +141,8 @@ public class P2PBackend implements Backend{
         try {
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
              	"New relation from: " 
-             	+ edge.getFromNode().getName() 
-             	+ " to: " + edge.getToNode().getName() + " of type: " + edge.getEdgeType());
+             	+ edge.getFromNode().getIdentifier() 
+             	+ " to: " + edge.getToNode().getIdentifier() + " of type: " + edge.getEdgeType());
  
 			this.graph.assertEdge(edge, asserter);
         } catch (GroupExceptionThread e) {
@@ -163,7 +163,7 @@ public class P2PBackend implements Backend{
         try {
              this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
              		"New node was added: " 
-             		+ node.getName() 
+             		+ node.getIdentifier() 
              		+ " by : " + asserter.toString());
 			this.graph.assertNode(node,asserter);
         } catch (GroupExceptionThread e) {
@@ -179,7 +179,7 @@ public class P2PBackend implements Backend{
         try {
              this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
              		"New node was rejected: " 
-             		+ node.getName() 
+             		+ node.getIdentifier() 
              		+ " by : " + rejecter.toString());
 			this.graph.rejectNode(node,rejecter);
         } catch (GroupExceptionThread e) {
@@ -195,8 +195,8 @@ public class P2PBackend implements Backend{
 		try {
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, 
              		"Rejected relation from " 
-             		+ edge.getFromNode().getName() + " to " 
-             		+ edge.getToNode().getName() 
+             		+ edge.getFromNode().getIdentifier() + " to " 
+             		+ edge.getToNode().getIdentifier() 
              		+ " with type: " + edge.getEdgeType());
 			this.graph.rejectEdge(edge,rejecter);
         } catch (GroupExceptionThread e) {

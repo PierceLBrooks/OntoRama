@@ -62,8 +62,8 @@ public class TestP2PNode extends TestCase {
      * test method getName()
      */
     public void testGetName() {
-        assertEquals("node1 name", "node1", node1.getName());
-        assertEquals("node2 name", "node2", node2.getName());
+        assertEquals("node1 name", "node1", node1.getIdentifier());
+        assertEquals("node2 name", "node2", node2.getIdentifier());
     }
 
     /**
@@ -175,7 +175,7 @@ public class TestP2PNode extends TestCase {
     public static boolean graphNodeNameIsInIterator(String name, Iterator it) {
         while (it.hasNext()) {
             P2PNode cur = (P2PNode) it.next();
-            if (name.equals(cur.getName())) {
+            if (name.equals(cur.getIdentifier())) {
                 return true;
             }
         }

@@ -48,11 +48,13 @@ public class RdfDamlParser implements Parser {
     private String _rdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
     private String _damlNamespace = null;
+    private String _pmNamespace = null;
 
     /// @todo this definition doesnt work due to the schema namespace WebKB is using
     //private static final String _rdfsNamespaceSuffix = "rdf-schema#";
     private static final String _rdfsNamespaceSuffix = "rdf-schema";
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
+    private static final String _pmNamespaceSuffix = "pm#";
 
 
     private static NodeType nodeTypeConcept;
@@ -65,12 +67,16 @@ public class RdfDamlParser implements Parser {
     private List resourceConceptNodeTypesList;
     private List resourceRelationNodeTypesList;
 
+    private List predicatesConnectingPropertyToProperty;
+
     /**
      * Constructor
      */
     public RdfDamlParser() {
         _nodesHash = new Hashtable();
         _edgesList = new LinkedList();
+
+        predicatesConnectingPropertyToProperty = new LinkedList();
 
         /// @todo a bit of a hack to get node types we need - should be more dynamic, and mapped to rdf tags.
         List nodeTypesList = OntoramaConfig.getNodeTypesList();
@@ -88,6 +94,48 @@ public class RdfDamlParser implements Parser {
 
 
     /**
+     * Considerations for sorting out rdfs:Classes from rdf:Properties
+     * as in RDFS Specification 1.0:
+     * section 2.2.3
+     * When a schema defines a new class, the resource representing that class must have an rdf:type property
+     * whose value is the resource rdfs:Class.
+     * section 2.3
+     * every RDF model [...] includes core properties. These are instances of the rdf:Property class and
+     * provide a mechanism for expressing relationships between classes and their instances or superclasses.
+     * section 2.3.2
+     * ... Only instances of rdfs:Class can have the rdfs:subClassOf property and the property value
+     * is always of rdf:type rdfs:Class. A class may be a subclass of more then one class.
+     * section 3.1.3 (rdfs:range)
+     * An instance of ConstrainedProperty (rdfs:domain and and rdfs:range) that is used to indicate the (clas(es))
+     * that the values of a property must me members of. The value of range property is alwsys a Class.
+     * ... The rdfs:domain of rdfs:range is the class rdf:Property. This indicates that the range property
+     * applies to resources that are themselves properties.
+     * The rdfs:range of rdfs:range is the class rdfs:Class. This indicates that any resurce that is the value of
+     * a range property will be a class.
+     * section 3.1.4 (rdfs:domain)
+     * ... The rdfs:domain of rdfs:domain is the class rdf:Property. This indicates that the domain property is
+     * used on resources that are properties.
+     * The rdfs:range of rdfsLdomain is the class rdfs:Class. This indicates that any resource taht is the
+     * value of a domain property will be a class.
+     *
+     *
+     * what this all means (at leas what I think it means ;)
+     * To find classes:
+     * - look for all resources declared as Classes
+     * - look for all objects that have predicate subClassOf
+     * - objects from statements with predicate rdfs:domain or rdfs:range are Classes
+     *
+     * To find properties:
+     * - look for all resources declared as Properties
+     * - look for all objects that have predicate subPropertyOf
+     * - subjects from statements with predicate rdfs:domain or rdfs:range are Properties
+     *
+     * other resources:
+     * - rdfs:comment ?
+     * - rdfs:label ?
+     * - pm:part, pm:memberOf, etc - if subject of statement if a Class, consider object Class, the same
+     * subject Property.
+     * - daml:complementOf for now the same as above.
      *
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
@@ -99,68 +147,19 @@ public class RdfDamlParser implements Parser {
             model.read(reader, "");
 
             findNamespaces(model);
+            
+            /// @todo this list should be built on basis of xml config file
+            predicatesConnectingPropertyToProperty.add("subPropertyOf");
+            predicatesConnectingPropertyToProperty.add("similar");
+            predicatesConnectingPropertyToProperty.add("part");
+            predicatesConnectingPropertyToProperty.add("substance");
+            predicatesConnectingPropertyToProperty.add("complementOf");
+            predicatesConnectingPropertyToProperty.add("wnMember");
+            predicatesConnectingPropertyToProperty.add("wnObject");
+            
+            sortResourcesIntoClassesAndProperties(model);
 
-            /// @todo following is an  attempt to classify rdf objects into Classes
-            // and Properties. This may not work very well for some rdf files.
-            Property typeProperty = new PropertyImpl(_rdfSyntaxTypeNamespace, "type");
-
-            Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
-            Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
-
-            Property damlComplementOfProperty = new PropertyImpl(_damlNamespace, "complementOf");
-            System.out.println("daml compelemtn of prop " + damlComplementOfProperty);
-
-            resourceConceptNodeTypesList = runSelector(model, typeProperty, classResource);
-            resourceRelationNodeTypesList = runSelector(model, typeProperty, propertyResource);
-
-            // get Iterator of all subjects, then go through each of them
-            // and get Iterator of statements. Process each statement
             ResIterator resIt = model.listSubjects();
-
-            while (resIt.hasNext()) {
-                Resource r = resIt.next();
-                StmtIterator stIt = r.listProperties();
-                while (stIt.hasNext()) {
-                    Statement s = stIt.next();
-                    System.out.println("\n" + s);
-
-                    System.out.println("processing object " + s.getObject());
-
-                    // @todo we are assuming the only properties that could connect concept and relation types
-                    // is DAML_OIL.compelementOf, RDFS.domain and RDFS.range. Not sure if this is a fair assumption!
-                    if (resourceConceptNodeTypesList.contains(s.getSubject())) {
-                        if (s.getPredicate().equals(damlComplementOfProperty)) {
-                            resourceRelationNodeTypesList.add(s.getObject());
-                            System.out.println("1");
-                            System.out.println("relation");
-                        }
-                        else {
-                            if (!resourceConceptNodeTypesList.contains(s.getObject())) {
-                                resourceConceptNodeTypesList.add(s.getObject());
-                                System.out.println("concept");
-                                System.out.println("2");
-                            }
-                        }
-                    }
-                    if (resourceRelationNodeTypesList.contains(s.getSubject())) {
-                        //if ( (s.getPredicate().equals(damlComplementOfProperty))
-                        //                    || (s.getPredicate().equals(RDFS.domain))
-                        //                    || (s.getPredicate().equals(RDFS.range)) ) {
-                        if ( ! s.getPredicate().equals(RDFS.subPropertyOf)) {
-                            resourceConceptNodeTypesList.add(s.getObject());
-                            System.out.println("concept");
-                            System.out.println("3");
-                        }
-                        else {
-                            resourceRelationNodeTypesList.add(s.getObject());
-                            System.out.println("relation");
-                            System.out.println("4");
-                        }
-                    }
-                }
-            }
-
-            resIt = model.listSubjects();
 
             while (resIt.hasNext()) {
                 Resource r = resIt.next();
@@ -193,7 +192,56 @@ public class RdfDamlParser implements Parser {
         ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
         return result;
     }
+    
+	private void sortResourcesIntoClassesAndProperties (Model model) throws RDFException, ParserException {
+        /// @todo following is an  attempt to classify rdf objects into Classes
+        // and Properties. This may not work very well for some rdf files.
+        Property typeProperty = new PropertyImpl(_rdfSyntaxTypeNamespace, "type");
 
+        Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
+        Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
+
+        Property damlComplementOfProperty = new PropertyImpl(_damlNamespace, "complementOf");
+
+        resourceConceptNodeTypesList = runSelector(model, typeProperty, classResource);
+        resourceRelationNodeTypesList = runSelector(model, typeProperty, propertyResource);
+
+        // get Iterator of all subjects, then go through each of them
+        // and get Iterator of statements. Process each statement
+        ResIterator resIt = model.listSubjects();
+
+        while (resIt.hasNext()) {
+            Resource r = resIt.next();
+            StmtIterator stIt = r.listProperties();
+            while (stIt.hasNext()) {
+                Statement s = stIt.next();
+                if (objectIsPropertyResource(s)) {
+                	resourceRelationNodeTypesList.add(s.getObject());
+                }
+                else {
+                	resourceConceptNodeTypesList.add(s.getObject());
+                }
+            }
+        }
+	}    
+
+    /**
+     *
+     * @param s
+     * @return
+     */
+    private boolean objectIsPropertyResource (Statement s) {
+        Resource subject = s.getSubject();
+        Property predicate = s.getPredicate();
+        Object object = s.getObject();
+        if (resourceRelationNodeTypesList.contains(subject)) {
+            String predicateLocalName = predicate.getLocalName();
+            if (predicatesConnectingPropertyToProperty.contains(predicateLocalName)) {
+            	return true;
+            }
+        }
+        return false;
+    }
 
     /**
      *
@@ -265,6 +313,9 @@ public class RdfDamlParser implements Parser {
             node = (Node) _nodesHash.get(nodeName);
         } else {
             node = new NodeImpl(nodeName, object.toString());
+            if ((resourceRelationNodeTypesList.contains(object)) && (resourceConceptNodeTypesList.contains(object)) ) {
+            	System.out.println("node " + node.getName() + " is CLASS and PROPERTY");
+            }
             if (resourceConceptNodeTypesList.contains(object)) {
                 // set node type to be concept node type
                 node.setNodeType(nodeTypeConcept);

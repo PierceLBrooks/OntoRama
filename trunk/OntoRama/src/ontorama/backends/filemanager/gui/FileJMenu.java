@@ -54,7 +54,7 @@ public class FileJMenu extends JMenu {
     private void openFile () {
         int returnValue = _fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            _fileBackend.loadFile(_fileChooser.getSelectedFile().getAbsolutePath());
+            _fileBackend.loadFile(_fileChooser.getSelectedFile());
         }
     }
 

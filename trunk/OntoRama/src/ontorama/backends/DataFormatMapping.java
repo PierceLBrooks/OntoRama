@@ -71,5 +71,5 @@ public class DataFormatMapping {
 	public String getWriterName() {
 		return _writerName;
 	}
-
+	
 }

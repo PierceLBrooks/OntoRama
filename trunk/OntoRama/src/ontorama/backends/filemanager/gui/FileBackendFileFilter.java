@@ -8,6 +8,7 @@ import javax.swing.filechooser.FileFilter;
 
 import ontorama.backends.DataFormatMapping;
 import ontorama.backends.filemanager.FileBackend;
+import ontorama.backends.filemanager.Util;
 
 /**
  * @author nataliya
@@ -35,7 +36,7 @@ public class FileBackendFileFilter extends FileFilter {
 			return true;
 		}
 		
-		String extension = getExtension(file);
+		String extension = Util.getExtension(file);
 		if (extension == null) {
 			return false;
 		}
@@ -58,19 +59,5 @@ public class FileBackendFileFilter extends FileFilter {
 		return _filterDescription;
 	}
 
-
-	/**
-	 * Get the extension of a file.
-	 */
-	private String getExtension(File f) {
-		String ext = null;
-		String s = f.getName();
-		int i = s.lastIndexOf('.');
-	
-		if (i > 0 &&  i < s.length() - 1) {
-			ext = s.substring(i+1).toLowerCase();
-		}
-		return ext;
-}
 
 }

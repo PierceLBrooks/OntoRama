@@ -6,7 +6,6 @@
 		<xsd:annotation>
 			<xsd:documentation>
 				Top level element
-				
 			</xsd:documentation>
 		 </xsd:annotation>
 		<xsd:complexType>

@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:ontoP2P="http://www.kvocentral.com/ontoP2P#"
 	xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
 	xmlns:dc="http://purl.org/metadata/dublin_core#">
+
 
 	<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail">
 		<ontoP2P:asserted>Johan</ontoP2P:asserted>
@@ -9,7 +11,8 @@
 		<ontoP2P:rejected>John Doe</ontoP2P:rejected>
 		<rdfs:label xml:lang="en">tail</rdfs:label>
 		<dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-		<rdfs:comment>the posterior part of the body of a vertebrate especially when elongated and extending beyond the trunk or main part of the body
+		<rdfs:comment>
+            the posterior part of the body of a vertebrate especially when elongated and extending beyond the trunk or main part of the body
 		</rdfs:comment>
 		<rdfs:subClassOf rdf:parseType="Resource">
 			<rdf:value>http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth</rdf:value>
@@ -35,6 +38,3 @@
 		</rdfs:subClassOf>
 	</rdfs:Class>
 </rdf:RDF>
-
-
-

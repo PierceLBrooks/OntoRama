@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.util.Iterator;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.LinkedList;
 
 
@@ -36,32 +37,58 @@ public class SimpleHyperView  extends CanvasManager {
     public void setGraph( Graph graph ) {
         //Add HyperNodes to hashtabel stored in CanvasManager
         hypernodes = new Hashtable();
+        //temporary map HyperNodeViews to GraphNode to build LineViews
+        Hashtable hypernodeviews = new Hashtable();
         canvasItems.clear();
         Iterator it = graph.iterator();
         while( it.hasNext() ) {
             GraphNode gn = (GraphNode)it.next();
             HyperNode hn = new HyperNode( gn );
+            hn.addFocusChangedObserver( this );
+            HyperNodeView hnv = new HyperNodeView( hn );
+            //canvasItems.add( hnv );
             hypernodes.put( gn, hn );
+            hypernodeviews.put( gn, hnv );
         }
         GraphNode root = graph.getRootNode();
         if( root == null ) {
             System.out.println("Root = null");
             return;
         }
+        //add lines to canvas manager.
+        addLinesToHyperNodeViews( hypernodeviews, root );
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-        //Add observers to HyperNodes
-        it = hypernodes.values().iterator();
+        //Add HyperNodeViews to canvas manager.
+        it = hypernodeviews.values().iterator();
         while( it.hasNext() ) {
-            HyperNode node = (HyperNode)it.next();
-            HyperNodeView hnv = new HyperNodeView( node );
-            //node.addHyperObserver( hnv );
-            // add focus changed observers
-            node.addFocusChangedObserver( this );
+            HyperNodeView hnv = (HyperNodeView)it.next();
             canvasItems.add( hnv );
         }
-
         repaint();
+    }
+
+    /**
+     * Add lines to join HyperNodeViews.
+     *
+     * ///TODO lines should eventually represent the binary relationship
+     * between nodes.
+     */
+    private void addLinesToHyperNodeViews( Hashtable hypernodeviews, GraphNode root ) {
+        List queue = new LinkedList();
+        queue.add( root );
+        while( !queue.isEmpty() ) {
+            GraphNode curGraphNode = (GraphNode)queue.remove(0);
+            HyperNodeView curHyperNode = (HyperNodeView)hypernodeviews.get( curGraphNode );
+            Iterator children = curGraphNode.getChildrenIterator();
+            while( children.hasNext() ) {
+                GraphNode childGraphNode = (GraphNode)children.next();
+                HyperNodeView childHyperNode = (HyperNodeView)hypernodeviews.get( childGraphNode );
+                canvasItems.add( new LineView( curHyperNode, childHyperNode ) );
+                queue.add( childGraphNode );
+            }
+        }
+
     }
 
     /**

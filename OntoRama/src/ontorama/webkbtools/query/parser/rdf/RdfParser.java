@@ -201,8 +201,12 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         // also add rdfSubject as a parent for rdfObject
         objectType = getOntTypeByName(rdfObject);
         try {
-            subjectType.addRelationType(objectType, OntoramaConfig.SUPERTYPE);
-            objectType.addRelationType(subjectType, OntoramaConfig.SUBTYPE);
+            if ( !subjectType.isRelationType(objectType, OntoramaConfig.SUPERTYPE)) {
+              subjectType.addRelationType(objectType, OntoramaConfig.SUPERTYPE);
+            }
+            if ( !objectType.isRelationType(subjectType, OntoramaConfig.SUBTYPE)) {
+              objectType.addRelationType(subjectType, OntoramaConfig.SUBTYPE);
+            }
         }
         catch (NoSuchRelationLinkException e) {
             System.err.println("NoSuchRelationLinkException: " + e.getMessage());

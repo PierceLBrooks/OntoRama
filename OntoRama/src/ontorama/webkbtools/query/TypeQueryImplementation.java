@@ -23,9 +23,9 @@ public class TypeQueryImplementation extends TypeQueryBase {
    /**
     * Get Iterator of All iterators of types related to given type
     * @todo    think what should happen with ParserException
+    * @todo   formulate and execute query to webkb and return Reader
     */
     public Iterator getTypeRelative(String termName) {
-        // TODO: formulate and execute query to webkb and return Reader
         Iterator iterator = null;
 
         try {

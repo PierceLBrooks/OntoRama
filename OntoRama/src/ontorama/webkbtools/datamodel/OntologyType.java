@@ -47,6 +47,15 @@ public interface OntologyType {
   public void setDescription(String description);
 
   /**
+   * Check if given type is already listed with given relation link
+   * @param ontologyType, relationLink
+   * @return true if type ontologyType is listed in this type with
+   *          relation link relationLink
+   * @throws    NoSuchRelationLinkException
+   */
+  public boolean isRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException ;
+
+  /**
    * gets the type description
    */
   public String getDescription();

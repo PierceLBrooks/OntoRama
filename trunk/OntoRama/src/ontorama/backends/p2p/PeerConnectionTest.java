@@ -14,6 +14,7 @@ import net.jxta.peergroup.PeerGroupFactory;
 import net.jxta.protocol.DiscoveryResponseMsg;
 import net.jxta.protocol.PeerAdvertisement;
 
+
 /**
  * @author nataliya
  *

@@ -5,6 +5,7 @@ import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
+import ontorama.hyper.controller.NodeSelectedEventTransformer;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
@@ -24,24 +25,6 @@ import java.util.List;
 
 
 public class SimpleHyperView extends Canvas implements GraphView {
-
-    /**
-     *
-     */
-    private class NodeSelectedEventTransformer implements EventListener {
-        private EventBroker eventBroker;
-
-        public NodeSelectedEventTransformer(EventBroker eventBroker) {
-            this.eventBroker = eventBroker;
-            eventBroker.subscribe(this, CanvasItemSelectedEvent.class, HyperNodeView.class);
-        }
-
-        public void processEvent(Event e) {
-            HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-            eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
-            System.out.println("processEvent: NodeSelected: " + nodeView);
-        }
-    }
 
     /**
      *
@@ -86,7 +69,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             CanvasItemPointedEvent pointedEvent = (CanvasItemPointedEvent) e;
             System.out.println("processEvent: NodePointed: " + nodeView);
-            highlightPathToRoot(pointedEvent);
+            highlightNodePathToRoot(nodeView);
+            //highlightPathToRoot(pointedEvent);
         }
     }
 
@@ -919,7 +903,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Move all the nodes by an offset x and y.
      */
-    private void moveCanvasItems(double x, double y) {
+    public static void moveCanvasItems(double x, double y) {
         Iterator it = this.hypernodes.values().iterator();
         while (it.hasNext()) {
             HyperNode hn = (HyperNode) it.next();
@@ -1149,35 +1133,31 @@ public class SimpleHyperView extends Canvas implements GraphView {
         while (it.hasNext()) {
             CanvasItem cur = (CanvasItem) it.next();
             if (cur instanceof HyperNodeView) {
+                HyperNodeView curNodeView = (HyperNodeView) cur;
+
 //                double curX = e.getX() - getSize().width / 2;
 //                double curY = e.getY() - getSize().height / 2;
-                double curX = pointedEvent.getCanvasPosition().getX() - getSize().width / 2;
-                double curY = pointedEvent.getCanvasPosition().getY() - getSize().height / 2;
-                curX = curX * (1 / canvasScale);
-                curY = curY * (1 / canvasScale);
-
-                dist = Math.sqrt(curX * curX + curY * curY);
-
+//                curX = curX * (1 / canvasScale);
+//                curY = curY * (1 / canvasScale);
 //                dist = ((HyperNodeView) cur).distance(curX, curY);
 
-                /// @todo work out how above commented out line should work...
-                // attempt to make it work is commented out below.
+                double curX = pointedEvent.getCanvasPosition().getX() - curNodeView.getProjectedX();
+                double curY = pointedEvent.getCanvasPosition().getY() - curNodeView.getProjectedY();
+                curX = curX * (1 / canvasScale);
+                curY = curY * (1 / canvasScale);
+                dist = Math.sqrt(curX * curX + curY * curY);
 
-//                HyperNodeView curNodeView = (HyperNodeView) cur;
-//                GraphNode curGraphNode = curNodeView.getGraphNode();
-//                HyperNode curHyperNode = (HyperNode) hypernodes.get(curGraphNode);
-//                dist = curHyperNode.distance(curX, curY);
-
-                System.out.println("dist = " + dist + ", minDist = " + minDist);
+                //System.out.println("dist = " + dist + ", minDist = " + minDist + ", curNodeView = " + curNodeView);
                 if (dist < minDist) {
                     minDist = dist;
-                    closestNode = (HyperNodeView) cur;
+                    closestNode = curNodeView;
                 }
             }
         }
         if (closestNode == null ) {
             return;
         }
+        System.out.println("\t closestNode  =  " + closestNode);
         highlightNodePathToRoot(closestNode);
     }
 

@@ -72,7 +72,7 @@
 		<displayMenu subfolder="Web Examples"/>
 	</example>
 	<example name="Technology Requirement" root="#TechnologyRequirement">
-		<source relativeUri="test/web-examples/technical.rdf"
+		<source relativeUri="examples/web-examples/technical.rdf"
 				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
@@ -92,4 +92,13 @@
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>		
 	</example>
+	<!--
+	<example name="Elephants (export from Oiled)" root="animal">
+		<source relativeUri="examples/web-examples/elephants-export.rdfs"
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Web Examples"/>		
+	</example>
+	-->
 </ontoramaExamples>

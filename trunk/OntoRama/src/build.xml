@@ -82,7 +82,8 @@
 			classpathref="project.class.path"/>
   </target>
 
-  <target name="run" depends="compile">
+  <!--<target name="run" depends="compile">-->
+  <target name="run">
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
   </target>
 

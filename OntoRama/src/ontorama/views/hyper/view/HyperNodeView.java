@@ -288,6 +288,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         if (!this.isVisible) {
             return;
         }
+        
         updateProjection();
         g2d.setColor(fadeColor);
         double x = model.getX();
@@ -295,10 +296,10 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
 
 		NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(nodeType);
         Shape displayShape = displayInfo.getShape();
-        AffineTransform oldTransform = g2d.getTransform();
         if(!displayInfo.forceUprightShape()) {
-        	Point2D projectedPos = projection.project(x,y);
-        	g2d.rotate(Math.atan2(projectedPos.getX(), -projectedPos.getY()), projectedPos.getX(), projectedPos.getY());
+            Point2D projectedPos = projection.project(x,y);
+            AffineTransform transform = AffineTransform.getRotateInstance(Math.atan2(projectedPos.getX(), -projectedPos.getY()));
+            displayShape = transform.createTransformedShape(displayShape);
         }        		
         
         projectedShape = projection.project(displayShape, x, y);
@@ -311,8 +312,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         	g2d.draw(projectedShape);
             g2d.fill(projectedShape);
         }
-        
-        g2d.setTransform(oldTransform);
     }
 
     private void calculateFadedColor() {

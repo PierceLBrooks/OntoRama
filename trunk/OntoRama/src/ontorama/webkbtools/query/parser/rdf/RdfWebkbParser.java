@@ -32,7 +32,10 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
 
 /**
  * <p>Title: </p>
- * <p>Description: </p>
+ * <p>Description:
+ * WebkbRdfParser - should behave the same way as RdfDamlParser except for
+ * the treatment of relation link 'uri'.
+ * </p>
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
  * @author nataliya
@@ -42,65 +45,38 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
 public class RdfWebkbParser extends RdfDamlParser {
 
     /**
+     * add relation link to type corresponding to given resource
+     * In WebKB case we need to be aware of relation link 'url' -
+     * it doesn't need uri to be stripped
      *
+     * Assumptions: in case of 'url' relation link we are assuming that
+     * one of the types is created already!
+     * @todo  check if the assumption is safe!
      */
-    protected void doRelationLinksMapping (Resource resource, Property predicate, RDFNode object) {
-      String resourceName = stripUri(resource);
-      String objectName = stripUri(object);
-      OntologyType subjectType = getOntTypeByName(resourceName);
+    protected void addRelationLinkToType (RDFNode fromTypeResource, int relLinkId,
+                            RDFNode toTypeResource, String linkName)
+                            throws NoSuchRelationLinkException {
+      String fromTypeName = stripUri(fromTypeResource);
+      String toTypeName = stripUri(toTypeResource);
 
-      List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
-      Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
-      while ( ontologyRelationRdfMappingIterator.hasNext() ) {
-          RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
-          String mappingTag = rdfMapping.getRdfTag();
-          //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
-          if (predicate.getLocalName().endsWith(mappingTag)) {
-              int mappingId = rdfMapping.getId();
-              //System.out.println("MATCHED mappingTag = " + mappingTag);
-              String mappingType = rdfMapping.getType();
-              RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+      OntologyType fromType = null;
+      OntologyType toType = null;
 
-              //System.out.println("mappingType = " + mappingType);
-              //System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
-              //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
-
-              try {
-                OntologyType objectType = null;
-                if (mappingType.endsWith("url")) {
-                  objectType = getOntTypeByName(object.toString());
-                }
-                else {
-                  objectType = getOntTypeByName(objectName);
-                }
-                //System.out.println("created objectType = " + objectType.getName());
-
-                  if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
-                      //System.out.println("case 1");
-                      subjectType.addRelationType(objectType,mappingId);
-                      //System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
-                  }
-                  else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
-                      //System.out.println("case 2");
-                      objectType.addRelationType(subjectType, mappingId);
-                      //System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
-                  }
-                  else {
-                      // ERROR
-                      // throw exception here
-                      //System.out.println("case 3");
-                      System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                      java.awt.Toolkit.getDefaultToolkit().beep();
-                      System.exit(-1);
-                  }
-              }
-              catch (NoSuchRelationLinkException e) {
-                  System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-                  System.exit(-1);
-              }
-          }
+      if (linkName.equals("url")) {
+        if (ontTypeExists(fromTypeName)) {
+          toType = getOntTypeByName(toTypeResource.toString());
+          fromType = getOntTypeByName(fromTypeName);
+        }
+        else {
+          fromType = getOntTypeByName(fromTypeResource.toString());
+          toType = getOntTypeByName(toTypeName);
+        }
       }
-
+      else {
+        fromType = getOntTypeByName(fromTypeName);
+        toType = getOntTypeByName(toTypeName);
+      }
+      //System.out.println("relLink = " + linkName + ", fromType = " + fromType + ", toType = " + toType);
+      fromType.addRelationType(toType,relLinkId);
     }
-
 }

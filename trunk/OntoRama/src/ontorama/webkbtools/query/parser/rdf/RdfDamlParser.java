@@ -102,30 +102,9 @@ public class RdfDamlParser implements Parser {
      * user wants to specify resource uri for something, he/she will end up with only last component of it.
      */
     protected void processStatement (Statement st) {
-      //System.out.println("RdfDamlParser processStatement()");
-//      System.out.println("predicate = '" + predicate + "', resource = '" + resource + "', object = '" + object + "'");
-//      System.out.println("\tpredicate: getLocalName() = " + predicate.getLocalName() + ", getNamespace() = " + predicate.getNameSpace() + ", getURI = " + predicate.getURI());
-//      System.out.println("\tresource: getLocalName() = " + resource.getLocalName() + ", getNamespace() = " + resource.getNameSpace() + ", getURI = " + resource.getURI());
-//      if (object instanceof Resource) {
-//        System.out.println ("\tobject is Resource");
-//      }
-//      else if (object instanceof Literal) {
-//        System.out.println ("\tobject is Literal");
-//      }
-//      else {
-//        System.out.println ("\tobject is unknown");
-//      }
-
       Property predicate = st.getPredicate();
       Resource resource = st.getSubject();
-
-      //String resourceName = stripUri(resource);
-
       RDFNode object = st.getObject();
-
-      //String objectName = stripUri(object);
-
-      //System.out.println("predicate = '" + predicate + "', resource = '" + resourceName + "', object = '" + object + "'");
 
       doConceptPropertiesMapping(resource, predicate, object);
       doRelationLinksMapping(resource, predicate, object);
@@ -135,11 +114,6 @@ public class RdfDamlParser implements Parser {
      *
      */
     protected void doRelationLinksMapping (Resource resource, Property predicate, RDFNode object) {
-      String resourceName = stripUri(resource);
-      String objectName = stripUri(object);
-
-      OntologyType subjectType = getOntTypeByName(resourceName);
-
       List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
       Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
       while ( ontologyRelationRdfMappingIterator.hasNext() ) {
@@ -157,18 +131,16 @@ public class RdfDamlParser implements Parser {
               //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
 
               try {
-                OntologyType objectType = getOntTypeByName(objectName);
-                //System.out.println("created objectType = " + objectType.getName());
 
                   if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
                       //System.out.println("case 1");
-                      subjectType.addRelationType(objectType,mappingId);
-                      //System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
+                      addRelationLinkToType(resource, mappingId, object, relLinkDetails.getLinkName());
+                      //subjectType.addRelationType(objectType,mappingId);
                   }
                   else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
                       //System.out.println("case 2");
-                      objectType.addRelationType(subjectType, mappingId);
-                      //System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
+                      addRelationLinkToType(object, mappingId, resource, relLinkDetails.getLinkName());
+                      //objectType.addRelationType(subjectType, mappingId);
                   }
                   else {
                       // ERROR
@@ -185,16 +157,41 @@ public class RdfDamlParser implements Parser {
               }
           }
       }
+    }
 
+    /**
+     *
+     */
+    protected void addRelationLinkToType (RDFNode fromTypeResource, int relLinkId,
+                            RDFNode toTypeResource, String linkName)
+                            throws NoSuchRelationLinkException {
+      String fromTypeName = stripUri(fromTypeResource);
+      String toTypeName = stripUri(toTypeResource);
+
+      OntologyType fromType = getOntTypeByName(fromTypeName);
+      OntologyType toType = getOntTypeByName(toTypeName);
+
+      fromType.addRelationType(toType,relLinkId);
+    }
+
+    /**
+     *
+     */
+    protected void addConceptTypeProperty (RDFNode ontTypeResource, String propName,
+                            RDFNode propValueResource)
+                            throws NoSuchPropertyException {
+
+      //
+      String resourceName = stripUri(ontTypeResource);
+      String propValueName = stripUri(propValueResource);
+      OntologyType ontType = getOntTypeByName(resourceName);
+      ontType.addTypeProperty(propName, stripCarriageReturn(propValueName));
     }
 
     /**
      *
      */
     protected void doConceptPropertiesMapping (Resource resource, Property predicate, RDFNode object) {
-      String resourceName = stripUri(resource);
-      String objectName = stripUri(object);
-      OntologyType subjectType = getOntTypeByName(resourceName);
       Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
       Enumeration e = conceptPropertiesRdfMapping.elements();
       while (e.hasMoreElements()) {
@@ -210,9 +207,7 @@ public class RdfDamlParser implements Parser {
               try {
                   if (conceptPropertiesDetails != null) {
                       // add this info as a property of ontology type
-                      //subjectType.addTypeProperty(mappingId,stripCarriageReturn(object.toString()));
-                      subjectType.addTypeProperty(mappingId,stripCarriageReturn(objectName));
-                      //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = '" + stripCarriageReturn(object.toString()) + "'");
+                      addConceptTypeProperty(resource, mappingId, object);
                   }
                   else {
                      // ERROR
@@ -250,6 +245,18 @@ public class RdfDamlParser implements Parser {
         return rdfNode.toString();
 
      }
+
+    /**
+     * Return true if ontology type with given name is already created
+     * @param ontTypeName
+     * @return boolean
+     */
+    protected boolean ontTypeExists (String ontTypeName) {
+      if (ontHash.containsKey(ontTypeName)) {
+        return true;
+      }
+      return false;
+    }
 
     /**
      * Get OntologyType for given name. If this OntologyType is already created -

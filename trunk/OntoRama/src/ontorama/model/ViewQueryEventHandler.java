@@ -29,13 +29,7 @@ public class ViewQueryEventHandler implements EventBrokerListener {
     public void processEvent(Event e) {
         GeneralNode node = (GeneralNode) e.getSubject();
         Query query = new Query(node.getName());
-        System.out.println("\n\nGraphViewQueryEventHandler for queryView = " + this.queryView);
-        //this.queryView.query(node.getName());
-        // start QueryStartEvent
+        //System.out.println("\n\nGraphViewQueryEventHandler for queryView = " + this.queryView);
         this.eventBroker.processEvent(new QueryStartEvent(query));
-        // ontoramaApp shoudl listen for QueryStartEvent and update ui
-        // once thread is finished it should send QueryEndEvent
-        // ontoramaApp should listen for QueryEndEvent and update ui
-        // then there is no need for queryViews
     }
 }

@@ -100,7 +100,6 @@ public class Query {
      */
     public void setDepth(int depth) {
         _depth = depth;
-        System.out.println("created new query: " + this.toString());
     }
 
     /**

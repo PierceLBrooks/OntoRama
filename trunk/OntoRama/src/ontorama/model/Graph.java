@@ -6,7 +6,7 @@ import ontorama.model.util.GraphModificationException;
 import java.util.List;
 
 /**
- *
+ * @todo it might be a pretty good idea to put factory methods for nodes and edges on this interface.
  */
 
 public interface Graph {
@@ -14,6 +14,8 @@ public interface Graph {
     /**
      * Returns root node of the tree.
      * The tree is modified from acyclic graph
+     *
+     * @todo this seems to be a leftover from the code before we did support forests.
      */
     public Node getRootNode();
 
@@ -45,6 +47,7 @@ public interface Graph {
     public List getOutboundEdges(Node node);
     public List getInboundEdges (Node node);
 
+    /// @todo isn't this more like getInboundEdgesByType ? Same for the outbound version?
     public List getInboundEdgeNodes (Node node, EdgeType relLink);
     public List getOutboundEdgeNodes (Node node, EdgeType relLink);
 
@@ -66,6 +69,7 @@ public interface Graph {
 
     public void removeEdge(Edge remEdge);
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException ;
+    /// @todo do we really need this method?
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException;
 
     public void addNode (Node node)  throws GraphModificationException;

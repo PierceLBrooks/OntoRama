@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.6 2002-12-03 07:22:21 nataliya Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.7 2003-03-31 04:57:08 nataliya Exp $
  */
 package ontorama.views.hyper.controller;
 
@@ -42,7 +42,7 @@ public class NewRelatedNodeCreator {
         dialog = pane.createDialog(view, "New Node");
     }
 
-    public TreeNode createNewRelatedNode() {
+    public TreeNode createNewRelatedNode() throws TreeModificationException {
         dialog.show();
         String newNodeName = textField.getText();
         
@@ -50,14 +50,7 @@ public class NewRelatedNodeCreator {
         
         Tree tree = view.getTree();
         
-        try {
-        	tree.addNode(newTreeNode, treeNode, this.edgeType);
-        }
-        catch (TreeModificationException e ) {
-            /// @todo what to do here? Do we get this?
-            e.printStackTrace();
-            return null;
-        }
+    	tree.addNode(newTreeNode, treeNode, this.edgeType);
         return newTreeNode;
     }
     

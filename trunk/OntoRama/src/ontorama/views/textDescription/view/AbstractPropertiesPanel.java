@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.LayoutManager;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Box;
@@ -44,10 +43,12 @@ public abstract class AbstractPropertiesPanel extends JPanel {
      *
      */
     protected void layoutFirstComponent() {
+    	
         // create and set layout
         LayoutManager curLayout = new BoxLayout(this, BoxLayout.X_AXIS);
         setLayout(curLayout);
         setAlignmentX(Component.LEFT_ALIGNMENT);
+        
         // add first label
         add(_propNameLabel);
 
@@ -93,6 +94,10 @@ public abstract class AbstractPropertiesPanel extends JPanel {
      */
     public abstract void clear();
 
+	/**
+	 * Update values panel with the given list of values.
+	 * @param valuesList
+	 */
     public abstract void update(List valuesList);
 
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import ontorama.model.graph.Node;
 import ontorama.model.graph.events.NodeSelectedEvent;
 import org.tockit.events.EventBroker;
 
@@ -23,7 +24,7 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
         super(propName, eventBroker);
     }
 
-    protected JComponent createPropertyComponent(final ontorama.model.graph.Node graphNode) {
+    protected JComponent createPropertyComponent(final Node graphNode) {
         JButton button = new JButton();
         button.setText(graphNode.getName());
         button.addActionListener(new ActionListener() {

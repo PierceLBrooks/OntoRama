@@ -5,9 +5,7 @@ import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.events.QueryStartEvent;
-import ontorama.ui.events.QueryNodeEvent;
 import ontorama.ui.events.GeneralQueryEvent;
-import ontorama.model.GeneralNode;
 
 /**
  * Created by IntelliJ IDEA.

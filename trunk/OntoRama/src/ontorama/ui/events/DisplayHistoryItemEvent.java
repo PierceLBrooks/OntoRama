@@ -1,8 +1,6 @@
 package ontorama.ui.events;
 
 import org.tockit.events.Event;
-import ontorama.ontotools.query.Query;
-import ontorama.ui.HistoryElement;
 
 import javax.swing.*;
 

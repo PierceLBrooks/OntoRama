@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;

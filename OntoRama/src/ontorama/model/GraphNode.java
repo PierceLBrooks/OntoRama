@@ -73,7 +73,7 @@ public class GraphNode implements Cloneable, NodeObservable {
         Iterator it = observers.iterator();
         while(it.hasNext()) {
             NodeObserver cur = (NodeObserver) it.next();
-            cur.update( cur );
+            cur.update( cur, this );
         }
     }
 

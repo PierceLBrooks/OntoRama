@@ -5,7 +5,6 @@ package ontorama.hyper.view.simple;
  * This layer simple enables labels to be drawn last.
  */
 
-import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.canvas.CanvasManager;
 import ontorama.hyper.view.simple.HyperNodeView;
 
@@ -17,6 +16,9 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Point2D;
+
+import org.tockit.canvas.CanvasItem;
 
 public class LabelView extends CanvasItem{
 
@@ -60,6 +62,31 @@ public class LabelView extends CanvasItem{
         return this.hyperNodeView == hyperNodeView;
     }
 
+    public boolean containsPoint(Point2D point) {
+        return false;
+    }
+
+    public Rectangle2D getCanvasBounds(Graphics2D g2d) {
+        if( !this.hyperNodeView.getVisible() ) {
+            return null;
+        }
+
+        g2d.setFont( getFontToDisplay( hyperNodeView.getScale() ) );
+        FontMetrics fm = g2d.getFontMetrics();
+        String label = this.hyperNodeView.getName();
+        double x = hyperNodeView.getProjectedX();
+        double y = hyperNodeView.getProjectedY();
+        double labelWidth = fm.stringWidth( label );
+        labelWidth = labelWidth + fm.getLeading() + fm.getDescent();
+        double labelHeight = fm.getHeight();
+        double xPos = x - labelWidth/2;
+        double yPos = y - labelHeight/2;
+
+        Rectangle2D retVal = new Rectangle2D.Double(xPos, yPos, labelWidth, labelHeight);
+
+        return retVal;
+    }
+
     /**
      * Get the font size to display.
      */
@@ -72,33 +99,32 @@ public class LabelView extends CanvasItem{
     }
 
     public void draw( Graphics2D g2d ) {
-        if( !this.hyperNodeView.getVisible() ) {
+
+        Rectangle2D rect = getCanvasBounds(g2d);
+
+        if( rect == null ) {
             return;
         }
         double scale = hyperNodeView.getScale();
         if( scale < .1 ) {
             return;
         }
-        g2d.setFont( getFontToDisplay( scale ) );
-        FontMetrics fm = g2d.getFontMetrics();
-        String label = this.hyperNodeView.getName();
-        double x = hyperNodeView.getProjectedX();
-        double y = hyperNodeView.getProjectedY();
-        double labelWidth = fm.stringWidth( label );
-        labelWidth = labelWidth + fm.getLeading() + fm.getDescent();
-        double labelHeight = fm.getHeight();
-        double xPos = x - labelWidth/2;
-        double yPos = y - labelHeight/2;
+
         if( !(CanvasManager.getSelectedLabelView() == this) ) {
             AlphaComposite myAlpha = AlphaComposite.getInstance( AlphaComposite.SRC_OVER,0.6f);
             g2d.setComposite(myAlpha);
         }
+        double xPos = rect.getX();
+        double yPos = rect.getY();
+        double labelWidth = rect.getWidth();
+        double labelHeight = rect.getHeight();
+        RoundRectangle2D.Double roundRect = new RoundRectangle2D.Double( xPos, yPos, labelWidth, labelHeight, 8, 8 );
         g2d.setColor( Color.white);
-        g2d.fill( new RoundRectangle2D.Double( xPos, yPos, labelWidth, labelHeight, 8, 8 ) );
+        g2d.fill( roundRect );
         g2d.setComposite(AlphaComposite.SrcOver);
         g2d.setColor( hyperNodeView.getNodeFadeColor() );
-        g2d.draw( new RoundRectangle2D.Double( xPos, yPos, labelWidth, labelHeight, 8, 8 ) );
+        g2d.draw( roundRect );
         g2d.setColor( Color.black );
-        g2d.drawString( this.hyperNodeView.getName(), (int)(xPos ), (int)(y + labelHeight/4));
+        g2d.drawString( this.hyperNodeView.getName(), (int)(xPos ), (int)(hyperNodeView.getProjectedY() + labelHeight/4));
     }
 }

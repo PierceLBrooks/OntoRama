@@ -6,7 +6,6 @@ package ontorama.hyper.view.simple;
  * represent the relationship type between the two nodes.
  */
 
-import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -15,8 +14,13 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.util.Iterator;
 
-public class HyperEdgeView extends CanvasItem{
+import org.tockit.canvas.CanvasItem;
+
+public class HyperEdgeView extends CanvasItem {
 
     /**
      * Store from NodeView.
@@ -28,12 +32,12 @@ public class HyperEdgeView extends CanvasItem{
      */
     private HyperNodeView to;
 
+
+
     /**
      * Store the relation type for this edge
      */
     private int relLink;
-
-    private Line2D edgeView = new Line2D.Double( 0,0,0,0 );
 
     public HyperEdgeView( HyperNodeView from, HyperNodeView to, int relLink ) {
         this.from = from;
@@ -68,13 +72,23 @@ public class HyperEdgeView extends CanvasItem{
         } else {
             g2d.setColor( Color.lightGray );
         }
-        edgeView.setLine( from.getProjectedX(),
+        g2d.draw( new Line2D.Double( from.getProjectedX(),
                           from.getProjectedY(),
                           to.getProjectedX(),
-                          to.getProjectedY() );
-        g2d.draw( edgeView );
+                          to.getProjectedY() ) );
 
         g2d.drawImage( iconImg.getImage(), (int)imgX, (int)imgY, (int)imgW, (int)imgH, iconImg.getImageObserver());
+    }
+
+    public boolean containsPoint(Point2D point) {
+        return false;
+    }
+
+    public Rectangle2D getCanvasBounds(Graphics2D g) {
+        return new Rectangle2D.Double(from.getProjectedX(),
+                          from.getProjectedY(),
+                          to.getProjectedX() - from.getProjectedX(),
+                          to.getProjectedY() - from.getProjectedY());
     }
 
     public String toString() {

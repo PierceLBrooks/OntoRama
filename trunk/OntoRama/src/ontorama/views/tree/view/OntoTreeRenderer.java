@@ -86,39 +86,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         String nodeTextStr = treeNode.getModelTreeNode().getName();
 
-        if (nodeType == OntoramaConfig.RELATION_TYPE) {
-            String sign1 = null;
-            String sign2 = null;
-            Iterator it = treeNode.getModelTreeNode().getChildren().iterator();
-            while (it.hasNext()) {
-            	TreeNode curNode = (TreeNode) it.next();
-                TreeEdge curEdge = treeNode.getModelTreeNode().getEdge(curNode);
-                EdgeType edgeType = curEdge.getEdgeType();
-                // @todo again hardcoding relation name - if config.xml file changes - this won't work.
-                // probably need RelationNode to fix this.
-                if (edgeType.getName().equals("relSignature1")) {
-                    sign1 = curEdge.getToNode().getName();
-                }
-                if (edgeType.getName().equals("relSignature2")) {
-                    sign2 = curEdge.getToNode().getName();
-                }
-            }
-            nodeTextStr = nodeTextStr + " (";
-            if (sign1 == null ) {
-                nodeTextStr = nodeTextStr + "*";
-            }
-            else {
-                nodeTextStr = nodeTextStr + sign1;
-            }
-            nodeTextStr = nodeTextStr + ", ";
-            if (sign2 == null ) {
-                nodeTextStr = nodeTextStr + "*";
-            }
-            else {
-                nodeTextStr = nodeTextStr + sign2;
-            }
-            nodeTextStr = nodeTextStr + ")";
-        }
         setText(nodeTextStr);
 
         setToolTipText(getToolTipText(value, edge));

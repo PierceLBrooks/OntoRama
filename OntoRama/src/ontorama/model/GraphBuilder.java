@@ -62,9 +62,11 @@ public class GraphBuilder {
                       //parseTypeToNode(ot,OntoramaConfig.SUBTYPE);
                       parseTypeToNode(ot,1);
 
+
                       //parseTypeToNode(ot,OntoramaConfig.SUPERTYPE);
 
                       makeEdges(ot,termName);
+
                 //}
               //parseTypeToEdge(ot);
 
@@ -176,7 +178,7 @@ public class GraphBuilder {
      * Read nodes into hashtable
      */
     private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException {
-        //System.out.println("---" + ot);
+        System.out.println("--parseTypeToNode--" + ot + ", relLink = " + relLink);
 
         // find node with name
         String nodeName = ot.getName();
@@ -193,6 +195,7 @@ public class GraphBuilder {
         Iterator it = ot.getIterator(relLink);
         while(it.hasNext()) {
             OntologyType child = (OntologyType) it.next();
+            System.out.println("........................child = " + child);
 
             // find node with name of child
             nodeName = child.getName();

@@ -211,28 +211,32 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         //System.out.println("mappingTag = " + mappingTag);
 
         if (rdfPredicate.endsWith(mappingTag)) {
-            //System.out.println("MATCH");
+            System.out.println("MATCHED mappingTag = " + mappingTag);
             int mappingId = rdfMapping.getId();
             String mappingType = rdfMapping.getType();
             RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
 
+            System.out.println("mappingType = " + mappingType);
+            System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
+            System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
+
             try {
 
                 if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
-                    //System.out.println("case 1");
+                    System.out.println("case 1");
                     objectType.addRelationType(subjectType, mappingId);
-                    System.out.println(objectType + " -> " + subjectType + ", rel = " + mappingId);
+                    System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
                 }
                 else if ( mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
                     // reverse
-                    //System.out.println("case 2");
+                    System.out.println("case 2");
                     subjectType.addRelationType(objectType,mappingId);
-                    System.out.println(subjectType + " -> " + objectType + ", rel = " + mappingId);
+                    System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
                 }
                 else {
                     // ERROR
                     // throw exception here
-                    //System.out.println("case 3");
+                    System.out.println("case 3");
 
                 }
             }

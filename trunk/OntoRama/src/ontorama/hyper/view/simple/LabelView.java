@@ -103,7 +103,7 @@ public class LabelView extends CanvasItem {
             return;
         }
 
-        if (!(CanvasManager.getSelectedLabelView() == this)) {
+        if (!(SimpleHyperView.getSelectedLabelView() == this)) {
             AlphaComposite myAlpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f);
             g2d.setComposite(myAlpha);
         }

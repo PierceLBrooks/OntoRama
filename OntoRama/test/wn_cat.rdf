@@ -5,472 +5,148 @@
          xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
 
 
-<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Feline">
-  <rdfs:label xml:lang="en">feline</rdfs:label>
-  <rdfs:label xml:lang="en">felid</rdfs:label>
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat">
+  <rdfs:label xml:lang="en">cat</rdfs:label>
+  <rdfs:label xml:lang="en">domestic_cat</rdfs:label>
+  <rdfs:label xml:lang="en">house_cat</rdfs:label>
+  <rdfs:label xml:lang="en">Felis_domesticus</rdfs:label>
+  <rdfs:label xml:lang="en">Felis_catus</rdfs:label>
   <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-  <rdfs:comment>any of various lithe-bodied round-headed fissiped mammals many with retractile claws</rdfs:comment>
-  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Carnivore"/>
-  <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Paw"/>
+  <rdfs:comment>any domesticated member of the genus Felis</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/>
 </rdfs:Class>
 
-   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat">
-     <rdfs:label xml:lang="en">true_cat</rdfs:label>
-     <rdfs:label xml:lang="en">cat</rdfs:label>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Kitty">
+     <rdfs:label xml:lang="en">kitty</rdfs:label>
+     <rdfs:label xml:lang="en">kitty-cat</rdfs:label>
+     <rdfs:label xml:lang="en">puss</rdfs:label>
+     <rdfs:label xml:lang="en">pussy</rdfs:label>
+     <rdfs:label xml:lang="en">pussycat</rdfs:label>
      <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-     <rdfs:comment>feline mammal usually having thick soft fur and being unable to roar; domestic cats; wildcats</rdfs:comment>
-     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Feline"/>
+     <rdfs:comment>informal terms</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
    </rdfs:Class>
 
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat">
-        <rdfs:label xml:lang="en">cat</rdfs:label>
-        <rdfs:label xml:lang="en">domestic_cat</rdfs:label>
-        <rdfs:label xml:lang="en">house_cat</rdfs:label>
-        <rdfs:label xml:lang="en">Felis_domesticus</rdfs:label>
-        <rdfs:label xml:lang="en">Felis_catus</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>any domesticated member of the genus Felis</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/>
-      </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Kitty">
-           <rdfs:label xml:lang="en">kitty</rdfs:label>
-           <rdfs:label xml:lang="en">kitty-cat</rdfs:label>
-           <rdfs:label xml:lang="en">puss</rdfs:label>
-           <rdfs:label xml:lang="en">pussy</rdfs:label>
-           <rdfs:label xml:lang="en">pussycat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>informal terms</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Mouser">
-           <rdfs:label xml:lang="en">mouser</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a cat proficient at mousing</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#AlleyCat">
-           <rdfs:label xml:lang="en">alley_cat</rdfs:label>
-           <rdfs:label xml:lang="en">stray</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>homeless cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tom">
-           <rdfs:label xml:lang="en">tom</rdfs:label>
-           <rdfs:label xml:lang="en">tomcat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>male cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tabby_2">
-           <rdfs:label xml:lang="en">tabby</rdfs:label>
-           <rdfs:label xml:lang="en">queen</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>female cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tabby">
-           <rdfs:label xml:lang="en">tabby</rdfs:label>
-           <rdfs:label xml:lang="en">tabby_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a cat with a gray or tawny coat mottled with black</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TigerCat_2">
-           <rdfs:label xml:lang="en">tiger_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a cat having a striped coat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tortoiseshell_3">
-           <rdfs:label xml:lang="en">tortoiseshell</rdfs:label>
-           <rdfs:label xml:lang="en">tortoiseshell-cat</rdfs:label>
-           <rdfs:label xml:lang="en">calico_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a cat having black and cream and yellowish markings</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#PersianCat">
-           <rdfs:label xml:lang="en">Persian_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a long-haired breed of cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Angora_3">
-           <rdfs:label xml:lang="en">Angora</rdfs:label>
-           <rdfs:label xml:lang="en">Angora_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a long-haired breed similar to the Persian cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SiameseCat">
-           <rdfs:label xml:lang="en">Siamese_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Siamese</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a slender short-haired blue-eyed breed of cat having a pale coat with dark ears paws face and tail tip</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BluePointSiamese">
-              <rdfs:label xml:lang="en">blue_point_Siamese</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>Siamese cat having a bluish cream body and dark gray points</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#SiameseCat"/>
-            </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BurmeseCat">
-           <rdfs:label xml:lang="en">Burmese_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a short-haired breed with body similar to the Siamese cat but having a solid dark brown or gray coat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#EgyptianCat">
-           <rdfs:label xml:lang="en">Egyptian_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a domestic cat of Egypt</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#MalteseCat">
-           <rdfs:label xml:lang="en">Maltese_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a short-haired bluish-gray cat breed</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Abyssinian">
-           <rdfs:label xml:lang="en">Abyssinian</rdfs:label>
-           <rdfs:label xml:lang="en">Abyssinian_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a small slender short-haired breed of African origin having brownish fur with a reddish undercoat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#ManxCat">
-           <rdfs:label xml:lang="en">Manx_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a short-haired tailless breed of cat believed to originate on the Isle of Man</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
-         </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat">
-        <rdfs:label xml:lang="en">wildcat</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>any small or medium-sized cat resembling the domestic cat and living in the wild</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/>
-      </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SandCat">
-           <rdfs:label xml:lang="en">sand_cat</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a desert-dwelling wildcat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#EuropeanWildcat">
-           <rdfs:label xml:lang="en">European_wildcat</rdfs:label>
-           <rdfs:label xml:lang="en">catamountain</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_silvestris</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>bushy-tailed European wildcat resembling the domestic tabby and regarded as the ancestor of the domestic cat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cougar">
-           <rdfs:label xml:lang="en">cougar</rdfs:label>
-           <rdfs:label xml:lang="en">puma</rdfs:label>
-           <rdfs:label xml:lang="en">catamount</rdfs:label>
-           <rdfs:label xml:lang="en">mountain_lion</rdfs:label>
-           <rdfs:label xml:lang="en">painter</rdfs:label>
-           <rdfs:label xml:lang="en">panther</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_concolor</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>large American feline resembling a lion</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Ocelot">
-           <rdfs:label xml:lang="en">ocelot</rdfs:label>
-           <rdfs:label xml:lang="en">panther_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_pardalis</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>nocturnal wildcat of Central and South America having a dark-spotted buff-brown coat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Jaguarundi">
-           <rdfs:label xml:lang="en">jaguarundi</rdfs:label>
-           <rdfs:label xml:lang="en">jaguarundi_cat</rdfs:label>
-           <rdfs:label xml:lang="en">jaguarondi</rdfs:label>
-           <rdfs:label xml:lang="en">eyra</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_yagouaroundi</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>long-bodied long-tailed tropical American wildcat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#KaffirCat">
-           <rdfs:label xml:lang="en">kaffir_cat</rdfs:label>
-           <rdfs:label xml:lang="en">caffer_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_ocreata</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>widely distributed wildcat of Africa and Asia Minor</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#JungleCat">
-           <rdfs:label xml:lang="en">jungle_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_chaus</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>small Asiatic wildcat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Serval">
-           <rdfs:label xml:lang="en">serval</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_serval</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>slender long-legged African wildcat having large untufted ears and tawny black-spotted coat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#LeopardCat">
-           <rdfs:label xml:lang="en">leopard_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_bengalensis</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>small spotted wildcat of southern Asia and Malaysia</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TigerCat">
-           <rdfs:label xml:lang="en">tiger_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_tigrina</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>medium-sized wildcat of Central and South America having a dark-striped coat</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Margay">
-           <rdfs:label xml:lang="en">margay</rdfs:label>
-           <rdfs:label xml:lang="en">margay_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_wiedi</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>small spotted wildcat found from Texas to Brazil</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Manul">
-           <rdfs:label xml:lang="en">manul</rdfs:label>
-           <rdfs:label xml:lang="en">Pallas's_cat</rdfs:label>
-           <rdfs:label xml:lang="en">Felis_manul</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>small wildcat of the mountains of Siberia Tibet and Mongolia</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx">
-           <rdfs:label xml:lang="en">lynx</rdfs:label>
-           <rdfs:label xml:lang="en">catamount</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>short-tailed wildcats with usually tufted ears; valued for their fur</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Wildcat"/>
-         </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#CommonLynx">
-              <rdfs:label xml:lang="en">common_lynx</rdfs:label>
-              <rdfs:label xml:lang="en">Lynx_lynx</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>of northern Eurasia</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx"/>
-            </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#CanadaLynx">
-              <rdfs:label xml:lang="en">Canada_lynx</rdfs:label>
-              <rdfs:label xml:lang="en">Lynx_canadensis</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>of northern North America</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx"/>
-            </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobcat">
-              <rdfs:label xml:lang="en">bobcat</rdfs:label>
-              <rdfs:label xml:lang="en">bay_lynx</rdfs:label>
-              <rdfs:label xml:lang="en">Lynx_rufus</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>small lynx of North America</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx"/>
-            </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SpottedLynx">
-              <rdfs:label xml:lang="en">spotted_lynx</rdfs:label>
-              <rdfs:label xml:lang="en">Lynx_pardina</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>of southern Europe</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx"/>
-            </rdfs:Class>
-
-            <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Caracal">
-              <rdfs:label xml:lang="en">caracal</rdfs:label>
-              <rdfs:label xml:lang="en">desert_lynx</rdfs:label>
-              <rdfs:label xml:lang="en">Lynx_caracal</rdfs:label>
-              <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-              <rdfs:comment>of deserts of northern Africa and southern Asia</rdfs:comment>
-              <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lynx"/>
-            </rdfs:Class>
-
-   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat">
-     <rdfs:label xml:lang="en">big_cat</rdfs:label>
-     <rdfs:label xml:lang="en">cat</rdfs:label>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Mouser">
+     <rdfs:label xml:lang="en">mouser</rdfs:label>
      <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-     <rdfs:comment>any of several large cats typically able to roar and living in the wild</rdfs:comment>
-     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Feline"/>
+     <rdfs:comment>a cat proficient at mousing</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
    </rdfs:Class>
 
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Leopard">
-        <rdfs:label xml:lang="en">leopard</rdfs:label>
-        <rdfs:label xml:lang="en">Panthera_pardus</rdfs:label>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#AlleyCat">
+     <rdfs:label xml:lang="en">alley_cat</rdfs:label>
+     <rdfs:label xml:lang="en">stray</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>homeless cat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tom">
+     <rdfs:label xml:lang="en">tom</rdfs:label>
+     <rdfs:label xml:lang="en">tomcat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>male cat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tabby_2">
+     <rdfs:label xml:lang="en">tabby</rdfs:label>
+     <rdfs:label xml:lang="en">queen</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>female cat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tabby">
+     <rdfs:label xml:lang="en">tabby</rdfs:label>
+     <rdfs:label xml:lang="en">tabby_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a cat with a gray or tawny coat mottled with black</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TigerCat_2">
+     <rdfs:label xml:lang="en">tiger_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a cat having a striped coat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tortoiseshell_3">
+     <rdfs:label xml:lang="en">tortoiseshell</rdfs:label>
+     <rdfs:label xml:lang="en">tortoiseshell-cat</rdfs:label>
+     <rdfs:label xml:lang="en">calico_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a cat having black and cream and yellowish markings</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#PersianCat">
+     <rdfs:label xml:lang="en">Persian_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a long-haired breed of cat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Angora_3">
+     <rdfs:label xml:lang="en">Angora</rdfs:label>
+     <rdfs:label xml:lang="en">Angora_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a long-haired breed similar to the Persian cat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SiameseCat">
+     <rdfs:label xml:lang="en">Siamese_cat</rdfs:label>
+     <rdfs:label xml:lang="en">Siamese</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a slender short-haired blue-eyed breed of cat having a pale coat with dark ears paws face and tail tip</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BluePointSiamese">
+        <rdfs:label xml:lang="en">blue_point_Siamese</rdfs:label>
         <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>large feline of African and Asian forests usually having a tawny coat with black spots</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-        <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#LeopardPelt"/>
+        <rdfs:comment>Siamese cat having a bluish cream body and dark gray points</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#SiameseCat"/>
       </rdfs:Class>
 
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Leopardess">
-           <rdfs:label xml:lang="en">leopardess</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>female leopard</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Leopard"/>
-         </rdfs:Class>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BurmeseCat">
+     <rdfs:label xml:lang="en">Burmese_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a short-haired breed with body similar to the Siamese cat but having a solid dark brown or gray coat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
 
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Panther">
-           <rdfs:label xml:lang="en">panther</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a leopard in the black color phase</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Leopard"/>
-         </rdfs:Class>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#EgyptianCat">
+     <rdfs:label xml:lang="en">Egyptian_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a domestic cat of Egypt</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
 
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SnowLeopard">
-        <rdfs:label xml:lang="en">snow_leopard</rdfs:label>
-        <rdfs:label xml:lang="en">ounce</rdfs:label>
-        <rdfs:label xml:lang="en">Panthera_uncia</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>large feline of upland central Asia having long thick whitish fur</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#MalteseCat">
+     <rdfs:label xml:lang="en">Maltese_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a short-haired bluish-gray cat breed</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
 
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Jaguar">
-        <rdfs:label xml:lang="en">jaguar</rdfs:label>
-        <rdfs:label xml:lang="en">panther</rdfs:label>
-        <rdfs:label xml:lang="en">Panthera_onca</rdfs:label>
-        <rdfs:label xml:lang="en">Felis_onca</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>a large spotted feline of tropical America similar to the leopard; in some classifications considered a member of the genus Felis</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Abyssinian">
+     <rdfs:label xml:lang="en">Abyssinian</rdfs:label>
+     <rdfs:label xml:lang="en">Abyssinian_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a small slender short-haired breed of African origin having brownish fur with a reddish undercoat</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
 
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lion">
-        <rdfs:label xml:lang="en">lion</rdfs:label>
-        <rdfs:label xml:lang="en">king_of_beasts</rdfs:label>
-        <rdfs:label xml:lang="en">Panthera_leo</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>large gregarious predatory feline of Africa and India having a tawny coat with a shaggy mane in the male</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-        <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Mane"/>
-      </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lioness">
-           <rdfs:label xml:lang="en">lioness</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a female lion</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lion"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lionet">
-           <rdfs:label xml:lang="en">lionet</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a small or young lion</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lion"/>
-         </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tiger_2">
-        <rdfs:label xml:lang="en">tiger</rdfs:label>
-        <rdfs:label xml:lang="en">Panthera_tigris</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>large feline of forests in most of Asia having a tawny coat with black stripes; endangered</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BengalTiger">
-           <rdfs:label xml:lang="en">Bengal_tiger</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>southern short-haired tiger</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tiger_2"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tigress">
-           <rdfs:label xml:lang="en">tigress</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>a female tiger</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tiger_2"/>
-         </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Liger">
-        <rdfs:label xml:lang="en">liger</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>offspring of a male lion and a female tiger</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tiglon">
-        <rdfs:label xml:lang="en">tiglon</rdfs:label>
-        <rdfs:label xml:lang="en">tigon</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>offspring of a male tiger and a female lion</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cheetah">
-        <rdfs:label xml:lang="en">cheetah</rdfs:label>
-        <rdfs:label xml:lang="en">chetah</rdfs:label>
-        <rdfs:label xml:lang="en">Acinonyx_jubatus</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>long-legged spotted cat of Africa and southwestern Asia having nonretractile claws; the swiftest mammal; can be trained to run down game</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
-
-      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Saber-toothedTiger">
-        <rdfs:label xml:lang="en">saber-toothed_tiger</rdfs:label>
-        <rdfs:label xml:lang="en">sabertooth</rdfs:label>
-        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-        <rdfs:comment>any of many extinct cats of the Old and New Worlds having long swordlike upper canine teeth; from the Oligocene through the Pleistocene</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BigCat"/>
-      </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SmiledonCalifornicus">
-           <rdfs:label xml:lang="en">Smiledon_californicus</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>North American sabertooth; culmination of sabertooth development</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Saber-toothedTiger"/>
-         </rdfs:Class>
-
-         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#FalseSaber-toothedTiger">
-           <rdfs:label xml:lang="en">false_saber-toothed_tiger</rdfs:label>
-           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-           <rdfs:comment>North American cat of the Miocene and Pliocene; much earlier and less specialized than members of the genus Smiledon</rdfs:comment>
-           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Saber-toothedTiger"/>
-         </rdfs:Class>
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#ManxCat">
+     <rdfs:label xml:lang="en">Manx_cat</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a short-haired tailless breed of cat believed to originate on the Isle of Man</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"/>
+   </rdfs:Class>
 
 
 </rdf:RDF>

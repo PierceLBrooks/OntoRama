@@ -71,28 +71,22 @@
 		<relationLink name="supertype" from="node6" to="root"/>
 		<relationLink name="synonym" from="root" to="syn1"/>
 		<relationLink name="part" from="root" to="part1"/>
-		
 		<relationLink name="subtype" from="node1" to="node1.1"/>
 		<relationLink name="subtype" from="node1" to="node1.2"/>
-		
 		<relationLink name="subtype" from="node2" to="node2.1"/>
 		<relationLink name="subtype" from="node2" to="node2.2"/>
 		<relationLink name="synonym" from="node2.2" to="syn2.2.1"/>
 		<relationLink name="member" from="node2" to="member2.2.1"/>
 		<relationLink name="subtype" from="node2" to="node3.2"/>
-		
 		<relationLink name="subtype" from="node3" to="node3.1"/>
 		<relationLink name="subtype" from="node3" to="node3.2"/>
 		<relationLink name="subtype" from="node3" to="node3.3"/>
-
 		<relationLink name="subtype" from="node3.2" to="node3.2.1"/>
 		<relationLink name="subtype" from="node3.2" to="node3.2.2"/>
 		<relationLink name="subtype" from="node3.2" to="node3.2.3"/>
-
-		<relationLink name="subtype" from="node3.2" to="syn3.2.1"/>
-		<relationLink name="subtype" from="node3.2" to="syn3.2.2"/>
-		<relationLink name="subtype" from="node3.2" to="syn3.2.3"/>
-
+		<relationLink name="synonym" from="node3.2" to="syn3.2.1"/>
+		<relationLink name="synonym" from="node3.2" to="syn3.2.2"/>
+		<relationLink name="synonym" from="node3.2" to="syn3.2.3"/>
 		<relationLink name="subtype" from="node4" to="node4.1"/>
 		<relationLink name="subtype" from="node4" to="node4.2"/>
 		<relationLink name="subtype" from="node4" to="node4.3"/>
@@ -102,11 +96,9 @@
 		<relationLink name="subtype" from="node4" to="node4.7"/>
 		<relationLink name="subtype" from="node4" to="node4.8"/>
 		<relationLink name="subtype" from="node4" to="node4.9"/>
-
 		<relationLink name="subtype" from="node4.6" to="node4.6.1"/>
 		<relationLink name="subtype" from="node4.6" to="node4.6.2"/>
 		<relationLink name="subtype" from="node4.6" to="node4.6.3"/>
 		<relationLink name="subtype" from="node4.6" to="node4.1"/>
-
 	</relationLinks>
 </ontology>

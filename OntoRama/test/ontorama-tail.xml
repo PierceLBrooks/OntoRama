@@ -1,0 +1,80 @@
+<ontology top='wn#Tail'>
+	<conceptTypes>
+		<conceptType name='wn#Tail'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>the posterior part of the body of a vertebrate especially when elongated and extending beyond the trunk or main part of the body</description>
+		</conceptType>
+		<conceptType name='wn#Dock_4'>
+		</conceptType>
+		<conceptType name='tail'>
+		</conceptType>
+		<conceptType name='wn#Bobtail'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a short or shortened tail of certain animals</description>
+		</conceptType>
+		<conceptType name='wn#Oxtail'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>the skinned tail of cattle; used especially for soups</description>
+		</conceptType>
+		<conceptType name='wn#Fluke_3'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>either of the two lobes of the tail of a cetacean</description>
+		</conceptType>
+		<conceptType name='wn#Scut'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a short erect tail</description>
+		</conceptType>
+		<conceptType name='wn#CaudalAppendage'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>tail especially of a mammal posterior to and above the anus</description>
+		</conceptType>
+		<conceptType name='wn#Flag_5'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a conspicuously marked or shaped tail</description>
+		</conceptType>
+		<conceptType name='wn#Uropygium'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>posterior part of a bird's body from which the tail feathers grow</description>
+		</conceptType>
+		<conceptType name='bobtail'>
+		</conceptType>
+		<conceptType name='bob'>
+		</conceptType>
+		<conceptType name='dock'>
+		</conceptType>
+		<conceptType name='oxtail'>
+		</conceptType>
+		<conceptType name='fluke'>
+		</conceptType>
+		<conceptType name='scut'>
+		</conceptType>
+		<conceptType name='caudal_appendage'>
+		</conceptType>
+		<conceptType name='flag'>
+		</conceptType>
+		<conceptType name='uropygium'>
+		</conceptType>
+	</conceptTypes>
+	<relationLinks>	
+		<relationLink name='synonym' from='wn#Uropygium' to='uropygium'/>
+		<relationLink name='synonym' from='wn#Scut' to='scut'/>
+		<relationLink name='synonym' from='wn#Fluke_3' to='fluke'/>
+		<relationLink name='part' from='wn#Tail' to='wn#Dock_4'/>
+		<relationLink name='synonym' from='wn#Tail' to='tail'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Bobtail'/>
+		<relationLink name='synonym' from='wn#Bobtail' to='bobtail'/>
+		<relationLink name='synonym' from='wn#Bobtail' to='bob'/>
+		<relationLink name='synonym' from='wn#Bobtail' to='dock'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Oxtail'/>
+		<relationLink name='synonym' from='wn#Oxtail' to='oxtail'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Fluke_3'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Scut'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#CaudalAppendage'/>
+		<relationLink name='synonym' from='wn#CaudalAppendage' to='caudal_appendage'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Flag_5'/>
+		<relationLink name='synonym' from='wn#Flag_5' to='flag'/>
+		<relationLink name='subtype' from='wn#Tail' to='wn#Uropygium'/>
+		<relationLink name='subtype' from='wn#Outgrowth' to='wn#Tail'/>
+	</relationLinks>
+
+</ontology>

@@ -35,7 +35,7 @@ public class HyperNode implements  PositionChaingedObservable {
     /**
      * Store node radius.
      */
-    private double nodeRadius = 5;
+    private double nodeRadius = 15;
 
 
     /**
@@ -151,7 +151,7 @@ public class HyperNode implements  PositionChaingedObservable {
 	*/
 
     /**
-     * Move node position by offset.
+     * Move node position by offset x and y.
      */
     public void move( double x, double y ) {
         setLocation(position.getX() - x, position.getY() - y );

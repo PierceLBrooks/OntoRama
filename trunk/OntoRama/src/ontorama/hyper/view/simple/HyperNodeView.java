@@ -38,12 +38,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * The radius of the sphere we project upon.
      */
-    private static double sphereRadius = 150;
+    private static double sphereRadius = 300;
 
     /**
      * Used if setProjection(double) is called to determine the focal depth.
      */
-    private static double relativeFocus = .6;
+    private static double relativeFocus = .8;
 
     /**
      * The focal depth. Set to 10% more than sphereRadius.
@@ -173,16 +173,36 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     }
 
     /**
-     * Project the model coordinates into the hyperbolic plana.
+     * Project the model coordinates into the hyperbolic plane.
+     *
+     * x and y are the new coordinates int the euclidean plane.
      */
     public void project( double x, double y ) {
-        //double x = model.getX();
-        //double y = model.getY();
         double length = Math.sqrt( x*x + y*y + focalDepth*focalDepth );
         double scale = sphereRadius / length;
         projectedX = scale * x;
         projectedY = scale * y;
         depth = (1-scale) * focalDepth;
+
+//     **************************** new code *****************************
+        // start hyperbolic projection using Poincaré disc model
+        // complex3
+//        double conjugateX = x;
+//        double conjugateY = -y;
+//        double mu1 = (x * conjugateX) - (y * conjugateY);
+//        double mu2 = (x * conjugateY) + (y * conjugateX);
+//        double mi1 = 1d - mu1;//(1-mu1)
+//        double mi2 = 0d - mu2;//(0-mu2)
+//        //end
+//        double abs = mi1*mi1 + mi2*mi2;
+//        double div1 = (x * mi1 + y * mi2) / (abs);
+//        double div2 = (y * mi1 - x * mi2) / (abs);
+//        // now enlarge to screen coordinates
+
+//        double abs2 = Math.sqrt(div1*div1 + div2*div2);
+
+//        projectedX = div1;
+//        projectedY = div2;
     }
 
     /**

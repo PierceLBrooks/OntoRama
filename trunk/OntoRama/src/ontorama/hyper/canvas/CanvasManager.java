@@ -12,6 +12,7 @@ import ontorama.hyper.view.simple.LabelView;
 import javax.swing.JComponent;
 
 import java.awt.Graphics2D;
+import java.awt.Event;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -85,6 +86,21 @@ public class CanvasManager extends JComponent
     private long animationTime = 0;
 
     /**
+     * Set hyper view in scrole mode.
+     */
+    private static final int TRANSLATION = 2;
+
+    /**
+     * set hyper view in rotation mode.
+     */
+    private static final int ROTATION = 1;
+
+    /**
+     * Store hype view mode (TRANSLATION or ROTATION)
+     */
+    private int hyperViewMode = TRANSLATION;
+
+    /**
      * draw nodes and lines.
      */
     protected void drawNodes( Graphics2D g2d ) {
@@ -95,9 +111,6 @@ public class CanvasManager extends JComponent
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
-//            if( noLabels && cur instanceof LabelView ) {
-//                continue;
-//            }
             cur.draw(g2d);
         }
     }
@@ -113,6 +126,17 @@ public class CanvasManager extends JComponent
         }
         moveCanvasItems( focusNode.getX() * animDist, focusNode.getY() * animDist );
         repaint();
+    }
+
+    /**
+     * Rotate node about the center (0, 0) by angle passed.
+     */
+    protected void rotateNodes( double angle ) {
+        Iterator it = this.hypernodes.values().iterator();
+        while( it.hasNext() ) {
+            HyperNode hn = (HyperNode)it.next();
+            hn.rotate( angle );
+        }
     }
 
     public void mouseClicked( MouseEvent e ) {
@@ -167,6 +191,12 @@ public class CanvasManager extends JComponent
     }
 
     public void mousePressed( MouseEvent e ) {
+        if((e.getModifiers() & Event.META_MASK) != 0) {
+			hyperViewMode = ROTATION;
+		}
+		else {
+			hyperViewMode = TRANSLATION;
+		}
         lastPoint.setLocation( e.getPoint() );
     }
 
@@ -197,10 +227,21 @@ public class CanvasManager extends JComponent
                 return;
             }
         }
-        double xDif = (lpx - x);
-        double yDif = (lpy - y);
+        if( hyperViewMode == this.TRANSLATION ) {
+            double xDif = (lpx - x);
+            double yDif = (lpy - y);
+            moveCanvasItems( xDif, yDif );
+        } else {
+            // get x's and y's in cartesian coordinates
+            double curX = x - getSize().width/2;
+            double curY = y - getSize().height/2;
+            double lastX = lpx - getSize().width/2;
+            double lastY = lpy - getSize().height/2;
+            // calculate angle of rotation
+            double angle =  Math.atan2( lastX, lastY ) - Math.atan2( curX, curY );
+            this.rotateNodes( angle );
+        }
         lastPoint.setLocation( x, y );
-        moveCanvasItems( xDif, yDif );
         repaint();
     }
 

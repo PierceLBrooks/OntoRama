@@ -155,6 +155,17 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     }
 
     /**
+     * Rotate node about the center (0, 0) by angle passed.
+     */
+    public void rotate( double angle ) {
+        double nodeAngle = Math.atan2( this.getX(), this.getY() ) + angle*-1;
+        double r = this.getPosition().distance(0,0);
+        double x = r * Math.sin(nodeAngle);
+        double y = r * Math.cos(nodeAngle);
+        setLocation( x,  y );
+    }
+
+    /**
      * Returns the distance to the other node.
      */
     public double distance(HyperNode other) {
@@ -170,7 +181,6 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
         position.setLocation( x, y );
         notifyPositionMoved( x, y);
     }
-
 
     public String toString() {
         return this.graphNode.getName();

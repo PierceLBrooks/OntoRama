@@ -126,6 +126,23 @@ public class Edge {
     public static void removeAllEdges() {
       Edge.edges.clear();
     }
+    
+    /**
+     * 
+     */
+    public static Edge getEdge (GraphNode fromNode, GraphNode toNode, int relLink) {
+    	Iterator it = Edge.getOutboundEdges(fromNode, relLink);
+    	//Iterator it = Edge.getOutboundEdgeNodes(fromNode, relLink);
+    	while (it.hasNext()) {
+    		Edge curEdge = (Edge) it.next();
+    		//GraphNode curNode = (GraphNode) it.next();
+    		GraphNode curNode = curEdge.getToNode();
+    		if (curNode.equals(toNode)) {
+    			return curEdge;
+    		}
+    	}
+    	return null;
+    }
 
      /**
       *

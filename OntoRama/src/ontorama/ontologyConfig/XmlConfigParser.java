@@ -1,5 +1,6 @@
 package ontorama.ontologyConfig;
 
+
 import ontorama.OntoramaConfig;
 import ontorama.model.*;
 import ontorama.util.Debug;
@@ -24,20 +25,6 @@ import java.awt.*;
 public class XmlConfigParser extends XmlParserAbstract {
 
     private static Hashtable edgesConfig;
-
-    /**
-     * Holds defined conceptProperties details. This list can be referred to
-     * whenever we need to find out what details are available for each concept
-     * type.
-     */
-    private static Hashtable conceptPropertiesConfig;
-
-    /**
-     * Holds mapping for concept properties. Keys of this hashtable should
-     * correspond to list conceptPropertiesConfig, Values are rdf mappings for
-     * the property.
-     */
-    private static Hashtable conceptPropertiesMapping;
 
     /**
      *
@@ -98,8 +85,6 @@ public class XmlConfigParser extends XmlParserAbstract {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlConfigParser");
         }
-        conceptPropertiesConfig = new Hashtable();
-        conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
         edgesConfig = new Hashtable();
 
@@ -128,13 +113,6 @@ public class XmlConfigParser extends XmlParserAbstract {
             e.printStackTrace();
             System.exit(-1);
         }
-    }
-
-    /**
-     *
-     */
-    public static Hashtable getConceptPropertiesTable() {
-        return conceptPropertiesConfig;
     }
 
     public Hashtable getDisplayInfo () {
@@ -215,11 +193,8 @@ public class XmlConfigParser extends XmlParserAbstract {
             }
         }
         if (displayInDescriptionWinElement != null) {
-
+            processDisplayInDescriptionWind(displayInDescriptionWinElement, edgeType, result);
         }
-
-
-
         return result;
     }
 
@@ -266,7 +241,24 @@ public class XmlConfigParser extends XmlParserAbstract {
 
     private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, EdgeType edgeType, EdgeTypeDisplayInfo result)
                                             throws ConfigParserException {
-
+        List relationTypeElementsList = displayInDescriptionWinElement.getChildren(relationTypeElementName);
+        Iterator it = relationTypeElementsList.iterator();
+        while (it.hasNext())  {
+            Element relationTypeElement = (Element) it.next();
+            Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
+            checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
+            Attribute labelAttr = relationTypeElement.getAttribute(displayLabelAttributeName);
+            checkCompulsoryAttr(labelAttr, displayLabelAttributeName, relationTypeElementName);
+            String name = nameAttr.getValue();
+            if (edgeType.getName().equals(name)) {
+                result.setDisplayInDescription(true);
+                result.setDisplayLabel(labelAttr.getValue());
+            }
+            if ( (edgeType.getReverseEdgeName() != null) &&  (edgeType.getReverseEdgeName().equals(name)) ) {
+                result.setDisplayReverseEdgeInDescription(true);
+                result.setDisplayLabel(labelAttr.getValue());
+            }
+        }
     }
 
     private Attribute getAttributeForGivenRelationName (List relationTypeElementsList, String relName,
@@ -342,39 +334,4 @@ public class XmlConfigParser extends XmlParserAbstract {
         return this.relationRdfMappingList;
     }
 
-    /**
-     *
-     */
-    public Hashtable getConceptPropertiesRdfMappingTable() {
-        return this.conceptPropertiesMapping;
-    }
-
-
-    /**
-     *
-     */
-    /*
-   private void checkCompulsoryAttr (Attribute attr, String attrName, String elementName)
-                                   throws ConfigParserException {
-       if ( attr == null) {
-           throw new ConfigParserException("Missing compulsory Attribute '" + attrName + "' in Element '" + elementName + "'");
-       }
-       if ( attr.getValue().trim().equals("")) {
-           throw new ConfigParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
-       }
-   }
-   */
-
-    /**
-     * Print Concept Properties Mapping. Usefull for debugging
-     */
-    public void printConceptPropertiesRdfMapping() {
-        Enumeration e = conceptPropertiesMapping.keys();
-        System.out.println("conceptProperties size: " + conceptPropertiesMapping.size() + ", conceptPropertiesMapping: ");
-        while (e.hasMoreElements()) {
-            String curKey = (String) e.nextElement();
-            ConceptPropertiesMapping curValue = (ConceptPropertiesMapping) conceptPropertiesMapping.get(curKey);
-            System.out.println("key = " + curKey + ", mapping = " + curValue.getRdfTag());
-        }
-    }
 }

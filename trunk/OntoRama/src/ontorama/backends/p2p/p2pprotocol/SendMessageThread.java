@@ -62,6 +62,7 @@ public class SendMessageThread extends Thread{
 		Enumeration enum = this.comm.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
+			System.out.println("pg = " + pg);
 
             //Prepare a message to be sent
              Message msgToSend = this.createMsg(pg,
@@ -72,12 +73,14 @@ public class SendMessageThread extends Thread{
                                               message);
 
 	       	outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
+			System.out.println("SendMessageThread::SendMessagePropagate, outputPipe:" + outputPipe);
 			try {
 System.out.println("SendMessageThread::SendMessagePropagate, send a message:" + outputPipe);
 				outputPipe.send(msgToSend);
 			} catch (IOException e) {
 				//do nothing
 				this.anyErrors = true;
+				e.printStackTrace();
 			}
 		}
     }

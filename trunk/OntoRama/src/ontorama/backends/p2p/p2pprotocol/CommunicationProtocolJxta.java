@@ -135,6 +135,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	*/
 	public void sendPropagate(int TAG, String recieverID, String internalModel) throws GroupExceptionThread {
 		try {
+			System.out.println("CommunicationProtocolJxta sending message, TAG = " + TAG);
 			communicationSender.sendMessage(TAG,
 											recieverID,
 											communicationSender.getPeerIDasString(),

@@ -38,8 +38,6 @@ public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATELEAVEGROUP = 6;
 
     P2PBackend backend = null;
-//    PeersPanel activePeers = null;
-//    ChangePanel changes = null;
     PeersPanel activePeers = null;
     ChangePanel changes = null;
     Hashtable idMapping = null;
@@ -55,28 +53,34 @@ public class P2PReciever implements P2PRecieverInterface{
     public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
             switch (TAG){
                     case P2PReciever.TAGPROPAGATEINIT:
+                    	System.err.println("P2PReciever.TAGPROPAGATEINIT");
                           this.recieveInit(senderPeerID,senderPeerID, senderGroupID,internalModel);
                           break;
 
                     case P2PReciever.TAGPROPAGATEDELETE:
+		            	System.err.println("P2PReciever.TAGPROPAGATEDELETE");
                         //Add the change to the panel showing made changes
                         changes.addChange(internalModel, senderPeerName);
                         break;
 
                     case P2PReciever.TAGPROPAGATEUPDATE:
+            			System.err.println("P2PReciever.TAGPROPAGATEUPDATE");                    
                         //Add the change to the panel showing made changes
                         changes.addChange(internalModel, senderPeerName);
                         break;
 
                     case P2PReciever.TAGPROPAGATEADD:
+            			System.err.println("P2PReciever.TAGPROPAGATEADD");                    
                         //Add the change to the panel showing made changes
                         changes.addChange(internalModel, senderPeerName);
                         break;
                 case P2PReciever.TAGPROPAGATELEAVEGROUP:
+	            	System.err.println("P2PReciever.TAGPROPAGATELEAVEGROUP");
                     //Remove the peer from the group
                     activePeers.removePeer(senderPeerID,internalModel);
                     break;
                     case P2PReciever.TAGPROPAGATEJOINGROUP:
+		            	System.err.println("P2PReciever.TAGPROPAGATEJOINGROUP");            
                          this.recieveJoinGroup(senderPeerID, senderPeerName, internalModel);
                     break;
             }
@@ -113,9 +117,14 @@ public class P2PReciever implements P2PRecieverInterface{
         }
 
     }
-
+    
+    /**
+     * Add the new peer to the panel showing peers and groups
+     * @param senderPeerID
+     * @param senderPeerName
+     * @param groupID
+     */
     private void recieveJoinGroup(String senderPeerID, String senderPeerName, String groupID){
-       //Add the new peer to the panel showing peers and groups
        this.activePeers.addPeer(senderPeerID, senderPeerName, groupID);
     }
 

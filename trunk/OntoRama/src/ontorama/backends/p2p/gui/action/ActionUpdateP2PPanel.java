@@ -1,5 +1,7 @@
 package ontorama.backends.p2p.gui.action;
 
+import ontorama.backends.p2p.p2pmodule.P2PSender;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -11,12 +13,17 @@ import java.awt.event.ActionEvent;
  * To change this template use Options | File Templates.
  */
 public class ActionUpdateP2PPanel extends AbstractAction {
-    public ActionUpdateP2PPanel(String name) {
+    private P2PSender _p2pSender;
+
+    public ActionUpdateP2PPanel(String name, P2PSender p2pSender) {
         super(name);
+        _p2pSender = p2pSender;
     }
 
     public void actionPerformed(ActionEvent e) {
         System.out.println("...action updatePanel");
+
+        _p2pSender.peerDiscovery();
     }
 
 }

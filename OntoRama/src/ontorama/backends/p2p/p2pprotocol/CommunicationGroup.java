@@ -347,7 +347,7 @@ public class CommunicationGroup  {
        		
 		//Get the group the the peer answering the question belongs to. 
 //		pg = getPeerGroup(groupIDasString);
-		pg = this.comm.getPeerGroup(groupIDasString);
+		pg = getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
 		DiscoveryService discServ1 = pg.getDiscoveryService();

@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
@@ -22,7 +23,11 @@ import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 public class CommunicationProtocolJxta implements CommunicationProtocol {
 //	private CommunicationGroup communicationGroup = null;
-	private Communication communicationGroup = null;
+	
+	private CommunicationGroup communicationGroup = null;
+	
+	private Communication comm;
+	
 	private CommunicationInit communicationInit = null;
 	private CommunicationSender communicationSender = null;
 
@@ -37,7 +42,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 */
 	public CommunicationProtocolJxta (P2PRecieverInterface recieverObject) throws GroupExceptionInit {
 //		communicationGroup = new CommunicationGroup(this);
-		communicationGroup = new Communication();
+		comm = new Communication();
+		communicationGroup = new CommunicationGroup(comm);
 		communicationInit = new CommunicationInit(this);
 		communicationSender = new CommunicationSender(this);	
 		
@@ -299,7 +305,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			communicationSender.flushPeerAdvertisement(groupIDasString,"");
 			//Flush the peer advertisement remotely
-			PeerGroup pg = communicationSender.getPeerGroup(groupIDasString);
+//			PeerGroup pg = communicationSender.getPeerGroup(groupIDasString);
+			PeerGroup pg = communicationGroup.getPeerGroup(groupIDasString);
 			String peerIDasString = pg.getPeerAdvertisement().getID().toString();
 
 			System.err.println("CommProt::callFlush(" + pg.toString() +";" + peerIDasString);
@@ -369,6 +376,17 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
         
         return new Vector(this.communicationGroup.memberOfGroupsByValues());   
         
+        
+        
     }
+    
+    
+    /// added while refactoring 4.03.03
+	protected Enumeration memberOfGroupsEnumeration () {
+		return communicationGroup.memberOfGroupsEnumeration();
+	}    
+	protected PeerGroup getPeerGroup(String groupIDasString) {
+		return communicationGroup.getPeerGroup(groupIDasString);
+	}
        
 }

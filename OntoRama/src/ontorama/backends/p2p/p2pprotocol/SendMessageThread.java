@@ -27,9 +27,11 @@ import net.jxta.protocol.PipeAdvertisement;
 public class SendMessageThread extends Thread{
 	boolean anyErrors = false;
    	private CommunicationSender comm = null;
+   	private CommunicationProtocolJxta commProt;
    
-	public SendMessageThread(CommunicationSender comm) {
+	public SendMessageThread(CommunicationSender comm, CommunicationProtocolJxta commProt) {
 		this.comm = comm;	
+		this.commProt = commProt;
 	} 
     
    // The threads run method
@@ -54,7 +56,7 @@ public class SendMessageThread extends Thread{
 				        
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.comm.memberOfGroupsEnumeration();
+		Enumeration enum = this.commProt.memberOfGroupsEnumeration();
 		while (enum.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) enum.nextElement();
 			sendMessageToPeerGroup(	pg,	propType, ownPeerID, ownGroupID,tag,message);
@@ -95,7 +97,7 @@ public class SendMessageThread extends Thread{
 
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.comm.memberOfGroupsEnumeration();
+		Enumeration enum = this.commProt.memberOfGroupsEnumeration();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
 	        discoveryService = pg.getDiscoveryService();
@@ -148,7 +150,7 @@ public class SendMessageThread extends Thread{
 	     }catch (IOException e) {
                     //Couldn't find a host to a given Adv.
          }finally {
-			enum = this.comm.memberOfGroupsEnumeration();
+			enum = this.commProt.memberOfGroupsEnumeration();
 			while (enum.hasMoreElements()) {
 				pg = (PeerGroup) enum.nextElement();
 		        discoveryService = pg.getDiscoveryService();	

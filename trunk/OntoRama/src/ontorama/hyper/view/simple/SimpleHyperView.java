@@ -121,24 +121,24 @@ public class SimpleHyperView  extends CanvasManager {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = ( Graphics2D )g;
-        java.awt.Paint oldPaint = g2d.getPaint();
+        //java.awt.Paint oldPaint = g2d.getPaint();
         g2d.setColor(new Color( 222, 222, 222 ));
         g2d.fillRect(0, 0, getWidth(), getHeight() );
         int width = this.getSize().width;
         int height = getSize().height;
         g2d.translate( width/2, height/2 );
-        g2d.setColor(new Color( 244, 244, 244 ));
         double sphereRadius = HyperNodeView.getSphereRadius();
         double sphereSize = 2 * sphereRadius;
-        // set the current scalling factor
         if( width < height ) {
             canvasScale = width/sphereSize;
         } else {
             canvasScale = height/sphereSize;
         }
+        // set the current scalling factor
         g2d.scale( canvasScale, canvasScale );
+        g2d.setColor(new Color( 244, 244, 244 ));
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
         drawNodes( g2d );
-        g2d.setPaint(oldPaint);
+        //g2d.setPaint(oldPaint);
     }
 }

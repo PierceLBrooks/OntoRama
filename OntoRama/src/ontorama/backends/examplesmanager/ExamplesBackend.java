@@ -179,15 +179,6 @@ public class ExamplesBackend implements Backend {
 	}
 	
 	/**
-	 * @todo this approach is a hack to make distillery work. need to rethink whole process
-	 */
-	public void overrideExampleRootAndUrl (String root, String url) {
-		System.out.println("Overriden sourceUri = " + url + ", root = " + root);
-		_curExample.setRoot(root);
-		_curExample.setRelativeUri(url);
-	}
-	
-	/**
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
 	 */
 	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException {

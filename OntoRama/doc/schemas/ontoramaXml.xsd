@@ -2,7 +2,6 @@
 <!--Schema for validation of XML input for OntoRama application -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2000/10/XMLSchema" elementFormDefault="qualified">
 
-
 	<xsd:element name="ontology">
 		<xsd:annotation>
 			<xsd:documentation>

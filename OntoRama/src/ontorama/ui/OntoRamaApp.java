@@ -6,7 +6,6 @@ import java.awt.Frame;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -51,12 +49,11 @@ import ontorama.views.tree.view.OntoTreeView;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
-import org.tockit.events.LoggingEventListener;
 
 /**
  * Main Application class. This class starts OntoRama application.
  */
-public class OntoRamaApp extends JFrame implements ActionListener {
+public class OntoRamaApp extends JFrame {
     
     /**
      * holds hyper view 
@@ -112,13 +109,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * status bar
      */
 	private StatusBar _statusBar = new StatusBar();
-    private Timer _timer;
-
-    /**
-     * holds thread that will do all the work: querying ont server
-     * and building graph
-     */
-    private ThreadWorker _worker;
 
     /**
      * holds current query
@@ -126,15 +116,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private Query _query;
 
     /**
-     *
+     * previous successfull query
      */
     private Query _lastQuery = null;
 
     /**
-     * currently displayed graph
+     * currently displayed tree
      */
-    private static Graph _graph;
-
     private static Tree _tree;
     
    /**
@@ -154,19 +142,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private static EventBroker _viewsEventBroker;
 
     private Projection projection = new SphericalProjection(300, 0.8);
-
-    /**
-     * timer interval - interval for swing timer thread to check for
-     * progress on worker thread and update status and progress bar.
-     */
-    private static final int TIMER_INTERVAL = 100;
-    
+   
     private String CONFIGURATION_SECTION_NAME = "MainWindow";
 
     private class ViewUpdateHandler implements EventBrokerListener {
         public void processEvent(Event e) {
-            //TreeImpl tree = (TreeImpl) e.getSubject();
-            updateViews();
+            TreeImpl tree = (TreeImpl) e.getSubject();
+            updateViews(tree.getGraph());
         }
     }
     
@@ -177,11 +159,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			Query query = e.getQuery();
 			_lastQuery = _query;
 			_query = query;
-			_worker = new QueryEngineThread(queryEngine, _query, _viewsEventBroker);
-			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
-			_worker.start();
-			_timer.start();
 			_statusBar.startProgressBar("Getting data from data source");
+			QueryEngineThread worker = new QueryEngineThread(queryEngine, _query, _viewsEventBroker);
+			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
+			worker.start();
 			_queryPanel.enableStopQueryAction(true);
 		}
 	}
@@ -192,23 +173,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			_statusBar.stopProgressBar();
             _queryPanel.enableStopQueryAction(false);
             _queryPanel.enableQueryActions(true);
-            _modelEventBroker.subscribe(
-                _viewsEventBroker,
-                TreeChangedEvent.class,
-                Object.class);
-			_modelEventBroker.subscribe(
-				_viewsEventBroker,
-				QueryEngineThreadStartEvent.class,
-				Object.class);
-            _graph = graph;
-            _tree =
-                new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
+            _modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
+            _tree = new TreeImpl(graph, graph.getRootNode(), _modelEventBroker);
             _modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
-            _viewsEventBroker.subscribe(
-                new ViewUpdateHandler(),
-                TreeChangedEvent.class,
-                Tree.class);
-            updateViews();
+            _viewsEventBroker.subscribe( new ViewUpdateHandler(), TreeChangedEvent.class, Tree.class);
+            updateViews(graph);
         }
     }
 
@@ -245,9 +214,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private class QueryIsFinishedEventHandler implements EventBrokerListener {
 		public void processEvent(Event event) {
 			QueryResult queryResult = (QueryResult) event.getSubject();
-			_worker = new GraphCreatorThread(queryResult, _modelEventBroker);
-			_worker.start();
-			_timer.restart();
+			_statusBar.startProgressBar("Building data model");
+			GraphCreatorThread worker = new GraphCreatorThread(queryResult, _modelEventBroker, _viewsEventBroker);
+			worker.start();
 		}
 	}
 
@@ -265,30 +234,26 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         // only views are using this event
         new QueryNodeEventHandler(_viewsEventBroker);
 
-        _modelEventBroker.subscribe(
-				            new QueryStartEventHandler(_modelEventBroker),
-				            QueryStartEvent.class,
-				            Object.class);
 		_viewsEventBroker.subscribe(
 							new QueryStartEventHandler(_viewsEventBroker),
 							QueryStartEvent.class,
 							Object.class);
 
-
+		_viewsEventBroker.subscribe(
+							new QueryEngineThreadStartEventHandler(),
+							QueryEngineThreadStartEvent.class,
+							Object.class);
+							
+		_viewsEventBroker.subscribe(
+							new QueryIsFinishedEventHandler(),
+							QueryIsFinishedEvent.class,
+							Object.class);
 
         _modelEventBroker.subscribe(
 				            new GraphIsLoadedEventHandler(),
 				            GraphIsLoadedEvent.class,
 				            Object.class);
-        _viewsEventBroker.subscribe(
-				            new GraphIsLoadedEventHandler(),
-				            GraphIsLoadedEvent.class,
-				            Object.class);
 
-        _modelEventBroker.subscribe(
-				            new UpdateViewsWithQueryCancelledEventHandler(),
-							UpdateViewsWithQueryCancelledEvent.class,
-				            Query.class);
         _viewsEventBroker.subscribe(
 				            new UpdateViewsWithQueryCancelledEventHandler(),
 							UpdateViewsWithQueryCancelledEvent.class,
@@ -305,30 +270,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							Object.class,
 							System.out);
 
-		_modelEventBroker.subscribe(
-							new PutThinkingCapOnEventHandler(),
-							PutThinkingCapOnEvent.class,
-							Object.class);
-		_modelEventBroker.subscribe(
-							new TakeThinkingCapOffEventHandler(),
-							TakeThinkingCapOffEvent.class,
-							Object.class);
-							
-		_viewsEventBroker.subscribe(
-							new QueryIsFinishedEventHandler(),
-							QueryIsFinishedEvent.class,
-							Object.class);
-
-		_modelEventBroker.subscribe(
-							new QueryEngineThreadStartEventHandler(),
-							QueryEngineThreadStartEvent.class,
-							Object.class);
-		_viewsEventBroker.subscribe(
-							new QueryEngineThreadStartEventHandler(),
-							QueryEngineThreadStartEvent.class,
-							Object.class);
-
-        _timer = new Timer(TIMER_INTERVAL, this);
         initBackend();
         _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         _splitPane.setResizeWeight(_leftSplitPanelWidthPercent / 100.0);
@@ -338,13 +279,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _listViewer = new NodesListViewer(_viewsEventBroker);
 
         buildToolBar();
-
-        new LoggingEventListener(
-				            _modelEventBroker,
-				            QueryCancelledEvent.class,
-				            Object.class,
-				            System.out);
-
 
         _descriptionViewPanel = new DescriptionView(_viewsEventBroker);
         _queryPanel = new QueryPanel(_viewsEventBroker);
@@ -412,7 +346,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
 		System.out.println("\nOntoRamaApp::initBackend passing event broker " + _modelEventBroker + "\n");
-		backend.setEventBroker(_modelEventBroker);
+		backend.setEventBroker(_viewsEventBroker);
     }
 
     /**
@@ -511,35 +445,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
     }
 
-    /**
-     * actionPerformed for the timer action.
-     * This method will wait untill worker thread is finished and
-     * subsequently graph is build and then display it. While
-     * waiting - update progress bar.
-     */
-    public void actionPerformed(ActionEvent evt) {
-        _statusBar.setStatusLabel(_worker.getMessage());
-		if (_worker.isStopped()) {
-			_timer.stop();
-			_modelEventBroker.processEvent(new QueryCancelledEvent(_query));
-			return;
-		}
-		if (_worker.done()) {
-			_timer.stop();
-        	if (_worker instanceof QueryEngineThread) {
-//                QueryResult qr = (QueryResult) _worker.getResult();
-//                _viewsEventBroker.processEvent(new QueryIsFinishedEvent(qr));
-			} else if (_worker instanceof GraphCreatorThread) { 				
-//				Graph graph = (Graph) _worker.getResult();
-//				_modelEventBroker.processEvent(new GraphIsLoadedEvent(graph));
-			}
-        }
-    }
-
-    private void updateViews() {
-        setGraphInViews(_graph);
+    private void updateViews(Graph graph) {
+        setGraphInViews(graph);
         _descriptionViewPanel.clear();
-        _descriptionViewPanel.focus(_graph.getRootNode());
+        _descriptionViewPanel.focus(graph.getRootNode());
         _hyperView.repaint();
         _treeView.repaint();
         _splitPane.repaint();
@@ -588,7 +497,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             usage =
                 usage
                     + "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml] ";
-            usage = usage + "[ontologyRoot ontologyURL]";
             usage =
                 usage
                     + "To use default OntoRama settings - no need for command line arguments\n";

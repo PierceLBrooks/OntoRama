@@ -17,7 +17,6 @@ public class QueryEngineThreadStartEvent implements Event {
     public QueryEngineThreadStartEvent(QueryEngine subject, Query query) {
         this.subject = subject;
         this.query = query;
-        System.out.println("QueryEngineThreadStartEvent");
     }
 
     public Object getSubject() {

@@ -104,12 +104,12 @@ public class ExamplesBackend implements Backend {
 	public JPanel getPanel() {
 		return null;
 	}
-
+	
 	/**
 	 * @see ontorama.backends.Backend#setEventBroker(org.tockit.events.EventBroker)
 	 */
-	public void setEventBroker(EventBroker eventBroker) {
-		_eventBroker = eventBroker;
+	public void setEventBroker(EventBroker viewsEventBroker) {
+		_eventBroker = viewsEventBroker;
         _eventBroker.subscribe(new QueryCancelledEventHandler(),QueryCancelledEvent.class,Query.class);
         _eventBroker.subscribe(new GraphIsLoadedEventHandler(),GraphIsLoadedEvent.class,Object.class);
 	}

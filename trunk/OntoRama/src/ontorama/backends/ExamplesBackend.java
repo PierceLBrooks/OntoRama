@@ -19,7 +19,7 @@ import org.tockit.events.EventBroker;
  * This is backend to be used by test cases.
  * @author nataliya
  */
-public class TestingBackend implements Backend {
+public class ExamplesBackend implements Backend {
 	
 	private List _dataFormats = OntoramaConfig.getDataFormatsMapping();
 
@@ -27,7 +27,7 @@ public class TestingBackend implements Backend {
 	/**
 	 * Constructor for TestingBackend.
 	 */
-	public TestingBackend() {
+	public ExamplesBackend() {
 	}
 
 	/**

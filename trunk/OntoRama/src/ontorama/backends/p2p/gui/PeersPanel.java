@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 
 
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 
 /*
@@ -48,7 +48,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     
     private P2PBackend _p2pBackend;
     
-    private GroupReferenceElement _globalGroupReferenceElement;
+    private ItemReference _globalGroupReferenceElement;
     
     public PeersPanel(P2PBackend backend) {
         super();
@@ -63,7 +63,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 
         _comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                GroupReferenceElement selectedGroup = (GroupReferenceElement) _comboBox.getSelectedItem();
+                ItemReference selectedGroup = (ItemReference) _comboBox.getSelectedItem();
                 if (selectedGroup == null) {
                     return;
                 }
@@ -109,7 +109,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
 
-	public void addGroup(GroupReferenceElement groupReferenceElement) {
+	public void addGroup(ItemReference groupReferenceElement) {
 		String groupId = groupReferenceElement.getID().toString();
         if (!_groupToPanelMapping.containsKey(groupId)) {
         	_groupsComboBoxModel.addElement(groupReferenceElement);
@@ -144,7 +144,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 		}
     }
 
-    public void removeGroup(GroupReferenceElement groupRefElement) {
+    public void removeGroup(ItemReference groupRefElement) {
     	String groupID = groupRefElement.getID().toString();
 
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
@@ -167,9 +167,9 @@ public class PeersPanel extends JPanel  implements GroupView {
         DefaultListModel listModel = new DefaultListModel();
         JList jlist;
         Hashtable _peerIdToPeerNameMapping = new Hashtable();
-        GroupReferenceElement group;
+        ItemReference group;
 
-        public GroupPanel(GroupReferenceElement group) {
+        public GroupPanel(ItemReference group) {
         	this.group =  group;
             setName(group.getName().toString());
 

@@ -25,7 +25,7 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
 import ontorama.backends.p2p.events.NewGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 
@@ -84,7 +84,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 				if (! DialogUtil.textInputIsValid(OntoRamaApp.getMainFrame(), input, "name")) {
 					return;
 				}
-				GroupReferenceElement newGroupRefElement = new GroupReferenceElement(null, input, newGroupDescrField.getText());
+				ItemReference newGroupRefElement = new ItemReference(null, input, newGroupDescrField.getText());
 				_p2pBackend.getEventBroker().processEvent(new NewGroupEvent(newGroupRefElement));
 			}
 		});
@@ -135,7 +135,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		JButton leaveGroupButton = new JButton(">>"); 
 		leaveGroupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				GroupReferenceElement groupToLeave = joinedGroupsList.getSelectedGroup();
+				ItemReference groupToLeave = joinedGroupsList.getSelectedGroup();
 				if (groupToLeave == null) {
 					ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error",
 										"Please choose a group you would like to leave");
@@ -149,7 +149,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		JButton joinGroupButton = new JButton("<<");
 		joinGroupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				GroupReferenceElement groupToJoin = allGroupsList.getSelectedGroup();
+				ItemReference groupToJoin = allGroupsList.getSelectedGroup();
 				if (groupToJoin == null) {
 					ErrorDialog.showError(OntoRamaApp.getMainFrame(),"Error",
 							"Please choose a group you would like to join");
@@ -206,7 +206,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		
 		Enumeration e = foundGroups.elements();
 		while (e.hasMoreElements()) {
-			GroupReferenceElement cur = (GroupReferenceElement) e.nextElement();
+			ItemReference cur = (ItemReference) e.nextElement();
 			if (groupsListContainsGroup(_allGroupsListModel, cur)) {
 				continue;
 			}
@@ -222,7 +222,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
 		Enumeration e = joinedGroups.elements();
 		while (e.hasMoreElements()) {
-			GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
+			ItemReference element = (ItemReference) e.nextElement();
 			System.out.println("joined group: " + element.getName() + ", ref = " + element);
 			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
 				continue;
@@ -235,10 +235,10 @@ public class GroupsPanel extends JPanel implements GroupView {
 
 	}
 	
-	private boolean groupsListContainsGroup (DefaultListModel list, GroupReferenceElement group) {
+	private boolean groupsListContainsGroup (DefaultListModel list, ItemReference group) {
 		Enumeration e = list.elements();
 		while (e.hasMoreElements()) {
-			GroupReferenceElement cur = (GroupReferenceElement) e.nextElement();
+			ItemReference cur = (ItemReference) e.nextElement();
 			if (cur.getID().equals(group.getID())) {
 				return true;
 			}
@@ -268,7 +268,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	/* (non-Javadoc)
 	 * @see ontorama.backends.p2p.gui.GroupView#addGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
 	 */
-	public void addGroup(GroupReferenceElement groupReferenceElement) {
+	public void addGroup(ItemReference groupReferenceElement) {
 		System.out.println("GroupsPanel::addGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
 		if (! groupsListContainsGroup(_joinedGroupsListModel, groupReferenceElement)) {
 			_joinedGroupsListModel.addElement(groupReferenceElement);
@@ -282,7 +282,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	/**
 	 * @see ontorama.backends.p2p.gui.GroupView#removeGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
 	 */
-	public void removeGroup(GroupReferenceElement groupReferenceElement) {
+	public void removeGroup(ItemReference groupReferenceElement) {
 		System.out.println("GroupsPanel::removeGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
 		if (! groupsListContainsGroup(_allGroupsListModel, groupReferenceElement)) {
 			_allGroupsListModel.addElement(groupReferenceElement);

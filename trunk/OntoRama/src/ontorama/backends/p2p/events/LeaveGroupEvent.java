@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.events;
 
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 import org.tockit.events.Event;
 
 /**
@@ -8,9 +8,9 @@ import org.tockit.events.Event;
  */
 public class LeaveGroupEvent implements Event {
 	
-	private GroupReferenceElement _groupRefElement;
+	private ItemReference _groupRefElement;
 	
-	public LeaveGroupEvent (GroupReferenceElement subject) {
+	public LeaveGroupEvent (ItemReference subject) {
 		_groupRefElement = subject;
 	}
 

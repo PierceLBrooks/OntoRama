@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 
 /**
  * This interface will be used to implement any GUI components that will be
@@ -9,5 +9,5 @@ import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
  * @author nataliya
  */
 public interface GroupChooser {
-	public GroupReferenceElement getSelectedGroup ();
+	public ItemReference getSelectedGroup ();
 }

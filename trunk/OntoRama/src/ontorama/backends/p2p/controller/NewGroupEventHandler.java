@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.backends.p2p.p2pprotocol.ItemReference;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 
@@ -23,7 +23,7 @@ public class NewGroupEventHandler implements EventBrokerListener{
 	}
 	
 	public void processEvent(Event event) {
-		GroupReferenceElement newGroupRefElement = (GroupReferenceElement) event.getSubject();
+		ItemReference newGroupRefElement = (ItemReference) event.getSubject();
 		try {
 			_sender.sendCreateGroup(newGroupRefElement.getName(),newGroupRefElement.getDescription());
 			Vector resVector = _sender.sendSearchGroup("Name",newGroupRefElement.getName());
@@ -31,7 +31,7 @@ public class NewGroupEventHandler implements EventBrokerListener{
 			if ( resVector.isEmpty()) {
 				return;
 			}
-			GroupReferenceElement groupToJoin = (GroupReferenceElement) resVector.firstElement();
+			ItemReference groupToJoin = (ItemReference) resVector.firstElement();
 			_sender.sendJoinGroup((PeerGroupID) groupToJoin.getID());
 		}
 		catch (Exception e) {

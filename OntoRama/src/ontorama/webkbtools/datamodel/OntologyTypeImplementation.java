@@ -4,7 +4,7 @@ package ontorama.webkbtools.datamodel;
 
 /**
  * Copyright:    Copyright DSTC (c) 2001
- * Company:
+ * Company: DSTC
  * @author
  * @version 1.0
  */
@@ -45,16 +45,6 @@ public class OntologyTypeImplementation implements OntologyType {
    * Name of this Ontology Type.
    */
   String typeName;
-
-  /**
-   * Description for this Ontology Type.
-   */
-  //String typeDescription;
-
-  /**
-   * Creator for this Ontology Type
-   */
-   //private String typeCreator;
 
   /**
    * Create new OntologyTypeImplementation
@@ -124,12 +114,32 @@ public class OntologyTypeImplementation implements OntologyType {
   /**
    *
    */
-    public void removeRelation (int relationLink) throws NoSuchRelationLinkException {
-        if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
-            throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
+  public void removeRelation (int relationLink) throws NoSuchRelationLinkException {
+      if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
+          throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
+      }
+      relationshipTypes[relationLink] = new LinkedList();
+  }
+
+  /**
+   *
+   */
+  public void removeRelation (OntologyType type, int relationLink) throws NoSuchRelationLinkException {
+      if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
+          throw new NoSuchRelationLinkException(relationLink, OntoramaConfig.MAXTYPELINK);
+      }
+      Iterator it = this.getIterator(relationLink);
+      LinkedList result = new LinkedList();
+      while (it.hasNext()) {
+        OntologyType cur = (OntologyType) it.next();
+        if (cur.equals(type)) {
+          // remove this one
+          continue;
         }
-        relationshipTypes[relationLink] = new LinkedList();
-    }
+        result.add(cur);
+      }
+      relationshipTypes[relationLink] = result;
+  }
 
   /**
    * Check if given type is already listed with given relation link

@@ -120,6 +120,10 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
         }
     }
 
+    /**
+     * @todo    Renderer should be in a standalone class
+     * @todo    clean up methods, remove unneeded variables
+     */
     private class MyRenderer extends DefaultTreeCellRenderer {
         //ImageIcon tutorialIcon;
         Color color1 = Color.gray;
@@ -142,27 +146,29 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
                             tree, value, sel,
                             expanded, leaf, row,
                             hasFocus);
-            setBackgroundNonSelectionColor(isChild(value));
-            setBackgroundSelectionColor(isChild(value));
+            RelationLinkDetails relLinkDetails = getRelLinkDetails(value);
+            //setBackgroundNonSelectionColor(isChild(relLinkDetails));
+            //setBackgroundSelectionColor(isChild(relLinkDetails));
 
-            setIcon(getIcon(value));
+            setIcon(getIcon(relLinkDetails));
 
             return this;
         }
 
-        protected Color isChild (Object value) {
+        private RelationLinkDetails getRelLinkDetails (Object value) {
             OntoTreeNode treeNode = (OntoTreeNode) value;
             int relLink = treeNode.getRelLink();
             RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
+            return relLinkDetails;
+        }
+
+        protected Color isChild (RelationLinkDetails relLinkDetails) {
             Color color = relLinkDetails.getDisplayColor();
             return color;
 
         }
 
-        protected Icon getIcon (Object value) {
-            OntoTreeNode treeNode = (OntoTreeNode) value;
-            int relLink = treeNode.getRelLink();
-            RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
+        protected Icon getIcon (RelationLinkDetails relLinkDetails) {
             Image image = relLinkDetails.getDisplayImage();
             Icon icon = new ImageIcon(image);
 

@@ -50,28 +50,28 @@ public class OntoramaConfig {
      * IMPORTANT: If any new relationLinks are added - make sure
      * MAXTYPELINK is changed
      */
-	public static final int SUPERTYPE = 0;
-	public static final int SUBTYPE = 1;
-	public static final int PARTOF = 2;
-	public static final int HASAPART = 3;
-	public static final int MEMBEROF = 4;
-	public static final int HASAMEMBER = 5;
-	public static final int SYNONYMTYPE = 6;
-	public static final int INSTANCEOF = 7;
-	public static final int HASAINSTANCE = 8;
-	public static final int SUBSTANCEOF = 9;
-	public static final int HASASUBSTANCE = 10;
-	public static final int INCLUSIVETYPE =11;
-	public static final int EXCLUSIVETYPE = 12;
+    public static final int SUPERTYPE = 0;
+    public static final int SUBTYPE = 1;
+    public static final int PARTOF = 2;
+    public static final int HASAPART = 3;
+    public static final int MEMBEROF = 4;
+    public static final int HASAMEMBER = 5;
+    public static final int SYNONYMTYPE = 6;
+    public static final int INSTANCEOF = 7;
+    public static final int HASAINSTANCE = 8;
+    public static final int SUBSTANCEOF = 9;
+    public static final int HASASUBSTANCE = 10;
+    public static final int INCLUSIVETYPE =11;
+    public static final int EXCLUSIVETYPE = 12;
     /**
      * consider to have a property typeCreator rather then relationLink CREATOR
      */
-	public static final int CREATOR = 13;
+    public static final int CREATOR = 13;
 
     /**
      * Max value for realtionLinks.
      */
-	public static final int MAXTYPELINK = 13;
+    public static final int MAXTYPELINK = 13;
 
     /**
      * debug
@@ -85,9 +85,10 @@ public class OntoramaConfig {
      static {
 
         Properties properties = new Properties();
+        //Properties properties = new Properties(System.getProperties());
         try {
-          FileInputStream propertiesFileIn = new FileInputStream ("D:/pbecker/projects/OntoRama/src/ontorama.properties");
-          //FileInputStream propertiesFileIn = new FileInputStream ("../src/ontorama.properties");
+          FileInputStream propertiesFileIn = new FileInputStream ("./classes/ontorama.properties");
+
           properties.load(propertiesFileIn);
 
           sourceUri = properties.getProperty("sourceUri");

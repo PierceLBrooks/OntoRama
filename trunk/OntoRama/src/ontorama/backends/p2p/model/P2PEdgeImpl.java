@@ -38,6 +38,8 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      */
 	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
 		super(fromNode,toNode,edgeType);
+        this.asserters = new HashSet();
+        this.rejecters = new HashSet();
 	}
 
 

@@ -12,15 +12,18 @@
         <p>
            OntoRama is an ontology browser application. See figure below depicting OntoRama showing
            Communicatons ontology.
-           In this document we will use folowing terms:
        </p>
+        <img src="img/ontorama-small.png" alt="OntoRama Screen Shot"/>
+        <p>
+            In this document we will use folowing terms:
+        </p>
        <p>
-           <b>Ontology Type</b> is a concept or relation type. Ontology Type is
+           <b>Ontology Type</b> is a concept or relation type. Ontology Types are
            visualised by <b>Nodes</b>.
        </p>
         <p>
            <b>Relation Link</b> is a relation between two ontology types.
-           Visualisation cooresponding to a relation link is an <b>Edge</b>
+           Visualisation corresponding to a relation link is an <b>Edge</b>
             (or line between nodes).
         </p>
         <p>
@@ -28,11 +31,10 @@
             static files <b>Static</b> and ontologies that are loaded from a Knowledge Base
             or Ontology Server <b>Dynamic Ontologies</b>.
         </p>
-        <img src="img/ontorama-small.png" alt="OntoRama Screen Shot"/>
-        <h3>Applicatin Window</h3>
+        <h3>Application Window</h3>
         <p>
             Once OntoRama is loaded, you are presented with the program window divided into
-            few areas. You will see Menu Bar and Tool Bar customary for most applications.
+            a few areas. You will see Menu Bar and Tool Bar customary for most applications.
             The biggest area of the application window is commited to ontology visualisations.
             Above the visualisation area you will see a Query Panel
             [...TODO: should find a better name, rather then Query Panel....]
@@ -43,11 +45,9 @@
             The Panel consist of a list of available relation links, query field, optional depth
             field, Get button and Cancel button.
             Each relation link has a corresponding image and a checkbox used to filter out unwanted
-            relation links.
-            Query Field can be used to type in a term you would like to display. While you
+            relation links. Query Field can be used to type in a term you would like to display. While you
             are browsing an ontology you will notice that Query Field will have a value
-            of current focused node.
-            Depth is used to filter amount of hierarchy levels you would like to display. This
+            of the current focused node. Depth parameter is used to filter amount of hierarchy levels you would like to display. This
             parameter is only available for dynamic ontologies.
         </p>
         <p>
@@ -58,13 +58,12 @@
         <h3>Ontology Visualisation</h3>
         <p>
             Ontology is modeled as a graph with nodes and edges. Nodes correspond to ontology types and
-            represented by colored circles in OntoRama. Edges(lines) connecting nodes visualise relation links
+            are represented by colored circles in OntoRama. Edges(lines) connecting nodes visualise relation links
             connecting ontology types. There could be a number of different relations between nodes, to
-            distinguish between them, each edge has an identifier image attached to it. In the image above
+            distinguish between them, each edge has an identifier image attached to it. In the OntoRama screenshot above
             you can see edges represented by blue rectangles with "&lt;" character. These edges correspond to
             relaton 'subtype'. Similary, you can see green rectangle with "p" character, this edge is for 'part'
-            relation. Full set of relation available for this ontology is seen in the top part of the application window.
-            [....IMG with some explanations - pointers to toolbars and relation links, etc....]
+            relation. Full set of relation links available for this ontology is seen in the top part of the application window.
         </p>
         <p>
             The main area of the application window is divided into two parts:
@@ -86,8 +85,9 @@
             Once we come across a node with more then one parent, we clone this node and it's
             entire substructure,  thus, ontology will become a hierarchy or a tree.
             You can distinguish cloned nodes from other nodes by
-            color - they are red. Once one of cloned nodes is clicked on, you can navigate to it's clone by
-            pressing on clone button in the Description Window.
+            color - they are red. Once one of cloned nodes is clicked, you can navigate to its clone by
+            pressing on clone button in the Description Window. Additionally, HyperView will draw a line
+            between cloned nodes so you can get a sense of where in the structure other clones are located.
         </p>
         <img src="img/ontorama-small-clones.png" alt="OntoRama Screen Shot showing cloned nodes"/>
         <h3>Queries</h3>
@@ -121,7 +121,7 @@
         <h3>Unconnected Nodes</h3>
         <p>
             Not all ontologies are strict hierarchies with a root node at the top. Some ontologies
-            are somewhat disconnected - including a number of hierarchies, each having a top node.
+            are somewhat disconnected - such an ontology may include a number of hierarchies, each having a top node.
             These ontologies can be represented by a forest of trees (as opposed to a tree).
             You can browse more then one tree of this forest by using pull-down menu called "Unconnected Nodes"
             located in the toolbar. Once you select one of the items in the menu - corresponding
@@ -138,7 +138,7 @@
         </p>
         <ul>
             <li>
-                <b>WebKB2 Interface</b>. This entry loads a section of ontology from
+                WebKB2 Interface. This entry loads a section of ontology from
                 WebKB2 Knowledge Base. WebKB2 Ontology contains thousands of types, OntoRama
                 acts as a graphic interface for the Ontology. This is Dynamic Ontology and you
                 can browse down the structure via selecting nodes and searching for them or

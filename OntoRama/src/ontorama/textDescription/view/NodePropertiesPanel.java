@@ -1,5 +1,6 @@
 package ontorama.textDescription.view;
 
+import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
@@ -69,8 +70,17 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
 			propertyValue =
 				propertyValue + (String) propValueIterator.next() + " ";
 		}
+		int propValueLength = propertyValue.length();
+
 		_propValueLabel.setText(propertyValue);
+		
+//		int trancateSize = 100;
+//		if (propertyValue.length() > trancateSize) {
+//			String trancatedPropValue = propertyValue.substring(0, trancateSize);
+//			trancatedPropValue = trancatedPropValue + "...";
+//			_propValueLabel.setText(trancatedPropValue);
+//		}
 		_propValueLabel.setToolTipText(propertyValue);
 	}
-
+	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.ontotools.parser.Parser;
@@ -32,7 +33,9 @@ public class TestRdfP2pParser extends TestCase {
         super(name);
     }
     protected void setUp() throws Exception {
-        System.out.println("\nsetUp method");
+    	
+    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
+    	OntoramaConfig.activateBackend(backend);
 
         OntoramaConfig.loadAllConfig("examples/test/p2p/examplesConfig.xml",
                 "ontorama.properties", "examples/test/p2p/config.xml");

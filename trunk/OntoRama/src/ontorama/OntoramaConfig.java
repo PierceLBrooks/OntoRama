@@ -2,6 +2,7 @@
 package ontorama;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -14,11 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
@@ -35,6 +31,9 @@ import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ui.ErrorPopupMessage;
 import ontorama.util.SVG2Shape;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 
 
 /**
@@ -172,20 +171,8 @@ public class OntoramaConfig {
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
         buildNodeTypes();
         
-        try {
-        	_defaultBackend = (Backend) Class.forName("ontorama.backends.TestingBackend").newInstance();
-        	OntoramaConfig.activateBackend(_defaultBackend);
-        }
-        catch (ClassNotFoundException e) {
-        	e.printStackTrace();
-        }
-        catch (InstantiationException e) {
-        	e.printStackTrace();
-        }
-        catch (IllegalAccessException e) {
-        	e.printStackTrace();
-        }
-        
+    	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.TestingBackend", null);
+    	OntoramaConfig.activateBackend(_defaultBackend);
         
         System.out.println("--------- end of config--------------");
     }
@@ -424,6 +411,41 @@ public class OntoramaConfig {
 
 	public static Backend getBackend () {
 		return OntoramaConfig._activeBackend;
+	}
+
+	public static Backend instantiateBackend(String backendName, Frame parentFrame) {
+		try {
+			Backend backend = (Backend) Class.forName(backendName).newInstance();
+			OntoramaConfig.activateBackend(backend);
+			System.out.println("OntoramaConfig::instantiateBackend: " + backend);
+			return backend;
+		} catch (ClassNotFoundException e) {
+		    e.printStackTrace();
+		    new ErrorPopupMessage(
+		        "Couldn't find class for backendName " + backendName,
+		        parentFrame);
+		} catch (InstantiationException instExc) {
+		    instExc.printStackTrace();
+		    new ErrorPopupMessage(
+		        "Couldn't instantiate backendName " + backendName,
+		        parentFrame);
+		} catch (IllegalAccessException illegalAccExc) {
+		    illegalAccExc.printStackTrace();
+		    new ErrorPopupMessage(
+		        "Couldn't load backend "
+		            + backendName
+		            + " (Illegal Access Exception)",
+		        parentFrame);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    new ErrorPopupMessage(
+		        "Couldn't load backend "
+		            + backendName
+		            + ": "
+		            + e.getMessage(),
+		        parentFrame);
+		}
+		return null;
 	}
 }
 

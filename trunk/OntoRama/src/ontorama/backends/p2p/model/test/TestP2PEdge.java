@@ -9,10 +9,10 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
@@ -31,6 +31,8 @@ import ontorama.ontotools.NoSuchRelationLinkException;
  */
 
 public class TestP2PEdge extends TestCase {
+	
+	private Backend _backend;
 
     private P2PNode node1;
     private P2PNode node2;
@@ -84,16 +86,25 @@ public class TestP2PEdge extends TestCase {
      *
      */
     protected void setUp() throws URISyntaxException {
+    	
+    	_backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
+    	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
 
 
-        node1 = new P2PNodeImpl("node1",creatorUri1,null);
-        node2 = new P2PNodeImpl("node2",creatorUri1,null);
-        node3 = new P2PNodeImpl("node3",creatorUri1,null);
-        node4 = new P2PNodeImpl("node4",null,creatorUri2);
-        node5 = new P2PNodeImpl("node5",null,creatorUri2);
-        node6 = new P2PNodeImpl("node6",null,creatorUri2);
+        node1 = (P2PNode) _backend.createNode("node1", "node1");
+        node1.addAssertion(creatorUri1);
+        node2 = (P2PNode) _backend.createNode("node2", "node2");
+        node2.addAssertion(creatorUri1);
+        node3 = (P2PNode) _backend.createNode("node3", "node3");
+        node3.addAssertion(creatorUri1);
+        node4 = (P2PNode) _backend.createNode("node4", "node4");
+        node4.addRejection(creatorUri2);
+        node5 = (P2PNode) _backend.createNode("node5", "node5");
+        node5.addRejection(creatorUri2);
+        node6 = (P2PNode) _backend.createNode("node6", "node6");
+        node6.addRejection(creatorUri2);
 
         try {
             edge1 = new P2PEdgeImpl(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype),creatorUri1,null);

@@ -388,35 +388,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	new ErrorPopupMessage("No backends specified in ontorama.properties", this);
         	return;
         }
-        try {
-        	OntoramaConfig.activateBackend((Backend) Class.forName(backendName).newInstance());
-        	OntoramaConfig.getBackend().setEventBroker(_modelEventBroker);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            new ErrorPopupMessage(
-                "Couldn't find class for backendName " + backendName,
-                this);
-        } catch (InstantiationException instExc) {
-            instExc.printStackTrace();
-            new ErrorPopupMessage(
-                "Couldn't instantiate backendName " + backendName,
-                this);
-        } catch (IllegalAccessException illegalAccExc) {
-            illegalAccExc.printStackTrace();
-            new ErrorPopupMessage(
-                "Couldn't load backend "
-                    + backendName
-                    + " (Illegal Access Exception)",
-                this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new ErrorPopupMessage(
-                "Couldn't load backend "
-                    + backendName
-                    + ": "
-                    + e.getMessage(),
-                this);
-        }
+		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
+		backend.setEventBroker(_modelEventBroker);
     }
 
     /**

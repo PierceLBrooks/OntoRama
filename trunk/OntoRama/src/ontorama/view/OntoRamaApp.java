@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.border.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.Action;
 
 import ontorama.OntoramaConfig;

@@ -10,10 +10,12 @@ import javax.swing.JToolBar;
 import javax.swing.ImageIcon;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.AbstractButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.TextField;
 import java.awt.Image;
 
@@ -42,11 +44,14 @@ import ontorama.util.event.ViewEventObserver;
  * will be used to query Ontology Server (using GraphBuilder)
  *
  */
-public class QueryPanel extends JPanel implements ViewEventObserver {
+public class QueryPanel extends JPanel implements ViewEventObserver, ActionListener {
+	
+	private int _depth = -1;
 
     private JTextField _queryField;
     private JButton _querySubmitButton;
     private JButton _queryStopButton;
+    private JTextField _depthField;
 
     /**
      *
@@ -78,7 +83,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     private OntoRamaApp _ontoRamaApp;
 
     /**
-     * @todo  constructor doesn't need parameter hyperView, this is just temporary.Remove later!!!
      * @todo  maybe OntoRamaApp shouldn't be a parameter in constructor
      *        (this is done for executing queries). Better way to do this is to follow
      *        Observer Pattern
@@ -92,55 +96,96 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
 
         JPanel queryFieldPanel = new JPanel();
 
-        // create a query panel
         _queryField = new JTextField(25);
-        _queryField.addActionListener(new ActionListener() {
-          public void actionPerformed (ActionEvent ae) {
-            //(e.getKeyCode() == KeyEvent.VK_ENTER)
-            _querySubmitButton.doClick();
-          }
-        });
+        _queryField.setToolTipText("Type query term here");
+        _queryField.addActionListener(this);
 
-        //_querySubmitButton = new JButton("Get");
-        QueryAction queryAction = new QueryAction();
-        _querySubmitButton = new JButton(queryAction);
+		_depthField = new JTextField(1);
+		_depthField.setToolTipText("Specify query depth (integer from 1 to 9)");
+		_depthField.addActionListener(this);
+		_depthField.addKeyListener(new KeyListener() {
+			public void keyPressed (KeyEvent ke) {
+			}
+			public void keyTyped (KeyEvent ke) {
+			}
+			public void keyReleased (KeyEvent ke) {
+				//System.out.println("key char = " + ke.getKeyChar() + ", isDigit = " + Character.isDigit(ke.getKeyChar()) );
+				if ( ( ! Character.isDigit(ke.getKeyChar()) ) && ( ! Character.isLetter(ke.getKeyChar()) ) ){
+					return;
+				}
+				int depth = -1;
+		    	try {
+		    		depth = (new Integer(_depthField.getText())).intValue();
+		    	}
+		    	catch (NumberFormatException nfe) {
+		    		_ontoRamaApp.showErrorDialog("Please use integers to specify depth");
+		    		_depthField.selectAll();
+		    	}
+				if (depth > 4) {
+					_ontoRamaApp.showErrorDialog("Please choose smaller integers " + 
+					"for depth setting. " + 
+					"Large setting for this parameter may result in long load times");
+		    		_depthField.selectAll();
+				}
+				_depth = depth;
+			}
+		});
 
-        //StopQueryAction stopQueryAction = new StopQueryAction(_ontoRamaApp);
+        _querySubmitButton = new JButton(new QueryAction());
         _queryStopButton = new JButton(_ontoRamaApp._stopQueryAction);
 
+//		ImageIcon leftButtonIcon = new ImageIcon("images/right.gif");
+//		JButton newButton = new JButton("Test button", leftButtonIcon);
+//		newButton.setMnemonic(KeyEvent.VK_T);
+//		newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+//        newButton.setHorizontalTextPosition(AbstractButton.CENTER);
+//        newButton.setLabel("test button label");
+//		//newButton.setEnabled(false);
+
+		queryFieldPanel.add(new JLabel("Search for: "));
         queryFieldPanel.add(_queryField);
+        
+        queryFieldPanel.add(new JLabel("depth: "));
+        queryFieldPanel.add(_depthField);
+
         queryFieldPanel.add(_querySubmitButton);
         queryFieldPanel.add(_queryStopButton);
+//        queryFieldPanel.add(newButton);
 
         setLayout(new BorderLayout());
 
         buildRelationLinksQueryPanel();
         add(_relationLinksPanel,BorderLayout.NORTH);
 
-//        JButton makeSVG = new JButton("Run Spring and force test");
-//        makeSVG.addActionListener( new ActionListener() {
-//            public void actionPerformed(ActionEvent a) {
-//                testSpringAndForceAlgorthms();
-//            }});
-//        queryFieldPanel.add(makeSVG);
-//
-//        queryFieldPanel.add( this.imgNameField );
-//        JButton snapshot = new JButton("Take snap shot");
-//        snapshot.addActionListener( new ActionListener() {
-//            public void actionPerformed(ActionEvent a) {
-//                takeSnapshot();
-//            }});
-//        queryFieldPanel.add(snapshot);
-
-
         add(queryFieldPanel, BorderLayout.CENTER);
     }
+    
+    /**
+     * implementation of action performed
+     */
+    public void actionPerformed (ActionEvent ae) {
+    	
+    	if (ae.getSource() == _queryField) {
+    		_querySubmitButton.doClick();
+    	}
+    	if  (ae.getSource() == _depthField) {
+    		_querySubmitButton.doClick();
+    	}
+    }
+    
+    /**
+     * 
+     */
+    public Query getQuery () {
+    	return buildNewQuery();
+    }
+    
 
     /**
      *
      */
-    public String getQueryField () {
-        return _queryField.getText();
+    private String getQueryField () {
+    	return _queryField.getText();
     }
 
     /**
@@ -149,18 +194,33 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     public void setQueryField (String queryString) {
         _queryField.setText(queryString);
     }
+    
+    /**
+     * 
+     */
+    private int getDepthField () {
+		return _depth;
+		//return (new Integer(_depthField.getText())).intValue();
+    }
+    
+    /**
+     * 
+     */
+    public void setDepthField (int depth) {
+    	_depthField.setText( String.valueOf(depth));
+    }
 
     /**
      *
      */
-    public List getWantedRelationLinks () {
+    private List getWantedRelationLinks () {
       return _wantedRelationLinks;
     }
 
     /**
      *
      */
-    public void setWantedRelationLinks (List wantedLinks) {
+    private void setWantedRelationLinks (List wantedLinks) {
       Enumeration enum = _relationLinksCheckBoxes.keys();
       while (enum.hasMoreElements()) {
         JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
@@ -289,6 +349,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     private Query buildNewQuery () {
       //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
       Query query = new Query (_queryField.getText(), _wantedRelationLinks);
+      query.setDepth(getDepthField());
       return query;
     }
 
@@ -300,6 +361,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       _ontoRamaApp.executeQuery(newQuery);
       _ontoRamaApp.appendHistoryMenu(newQuery);
     }
+    
 
 
     //////////////////////////ViewEventObserver interface implementation////////////////

@@ -64,23 +64,25 @@ public class GraphImpl implements Graph {
     /**
      * @todo EventBroker object should be passed into constructor and not created locally.
      */
-    EventBroker eventBroker = new EventBroker();
+    EventBroker _eventBroker;
 
     /**
      * @todo should go away once we have external broker
      */
     public EventBroker getEventBroker() {
-        return eventBroker;
+        return _eventBroker;
     }
 
     /**
      * Constructor for GraphImpl
      */
-    public GraphImpl() {
+    public GraphImpl(EventBroker eventBroker) {
         debug.message(
                 "******************* GraphBuilder constructor start *******************");
         _topLevelUnconnectedNodes = new LinkedList();
         _graphNodes = new LinkedList();
+        _eventBroker = eventBroker;
+        System.out.println("graph impl. event broker: " + _eventBroker);
         debug.message(
                 "******************* GraphBuilder constructor end *******************");
     }
@@ -115,14 +117,16 @@ public class GraphImpl implements Graph {
      *        root node. (this is good solution for static ontologies, but not so for
      *        webkb ontology (remember ontology viewer for hibkb)).
      */
-    public GraphImpl(QueryResult queryResult)
+    public GraphImpl(QueryResult queryResult, EventBroker eventBroker)
             throws
             NoSuchRelationLinkException,
             NoTypeFoundInResultSetException {
+        this(eventBroker);
         debug.message(
                 "******************* GraphBuilder constructor start *******************");
-        _topLevelUnconnectedNodes = new LinkedList();
-        _graphNodes = new LinkedList();
+//        _topLevelUnconnectedNodes = new LinkedList();
+//        _graphNodes = new LinkedList();
+//        _eventBroker = eventBroker;
         // remove all _graphEdges before building new set of _graphEdges
         removeAllEdges();
 
@@ -523,7 +527,7 @@ public class GraphImpl implements Graph {
         Node fromNode = edge.getFromNode();
         Node toNode = edge.getToNode();
         addNodesForNewEdge(fromNode, toNode);
-        eventBroker.processEvent(new EdgeAddedEvent(this,edge));
+        _eventBroker.processEvent(new EdgeAddedEvent(this,edge));
     }
 
     /**
@@ -588,7 +592,7 @@ public class GraphImpl implements Graph {
             throw new NodeAlreadyExistsException(node);
         }
         _graphNodes.add(node);
-        eventBroker.processEvent(new NodeAddedEvent(this, node));
+        _eventBroker.processEvent(new NodeAddedEvent(this, node));
     }
 
     /**
@@ -596,7 +600,7 @@ public class GraphImpl implements Graph {
      */
     public void removeEdge(Edge remEdge) {
         _graphEdges.remove(remEdge);
-        eventBroker.processEvent(new EdgeRemovedEvent(this, remEdge));
+        _eventBroker.processEvent(new EdgeRemovedEvent(this, remEdge));
     }
 
     /**
@@ -605,7 +609,7 @@ public class GraphImpl implements Graph {
     public void removeAllEdges() {
         _graphEdges.clear();
         /// @todo do we want to sent one event each time? Or maybe a specific one?
-        eventBroker.processEvent(new GraphReducedEvent(this));
+        _eventBroker.processEvent(new GraphReducedEvent(this));
     }
 
     /**
@@ -629,7 +633,7 @@ public class GraphImpl implements Graph {
             Edge edge = (Edge) iterator.next();
             removeEdge(edge);
         }
-        eventBroker.processEvent(new NodeRemovedEvent(this, node));
+        _eventBroker.processEvent(new NodeRemovedEvent(this, node));
     }
 
     public List getEdgesList() {

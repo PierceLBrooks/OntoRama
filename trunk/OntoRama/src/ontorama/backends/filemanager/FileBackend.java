@@ -27,6 +27,8 @@ import ontorama.webkbtools.util.ParserException;
 
 import javax.swing.*;
 
+import org.tockit.events.EventBroker;
+
 
 /**
  * @author henrika
@@ -39,13 +41,19 @@ import javax.swing.*;
 public class FileBackend implements Backend{
     private P2PGraph graph = null;
     private List panels = null;
-    
+    private EventBroker eventBroker;
+
     public FileBackend(){
+        System.out.println("file backend constructor");
             this.graph = new P2PGraphImpl();
             //We don't have any panels to this backend
             this.panels = new LinkedList();
     }
-       
+
+    public void setEventBroker(EventBroker eventBroker) {
+        this.eventBroker = eventBroker;
+    }
+
     public P2PGraph search(Query query){
             return this.graph.search(query);
     }

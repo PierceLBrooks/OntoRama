@@ -27,6 +27,7 @@ import ontorama.backends.p2p.p2pprotocol.GroupExceptionInit;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
 import ontorama.backends.p2p.p2pprotocol.SearchResultElement;
 import ontorama.backends.p2p.gui.P2PJMenu;
+import ontorama.backends.p2p.controller.NodeAddedEventHandler;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -35,6 +36,8 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
 import javax.swing.*;
+
+import org.tockit.events.EventBroker;
 
 /**
  * @author henrika
@@ -50,14 +53,18 @@ public class P2PBackend implements Backend{
     //private BackendSearch ontoRama = null;
     public List panels = null;
 
+    private EventBroker _eventBroker;
 
-//Constructor 
+    private static final String _defaultUserUri = "mailto:dummyUser@p2p.ontorama.org";
+
+
+//Constructor
     public P2PBackend(){
         this.graph = new P2PGraphImpl();     
         this.panels = new LinkedList();
         this.panels.add(0, new PeersPanel(this));
         this.panels.add(1, new ChangePanel());
-     
+
         try {
                 CommunicationProtocolJxta tmpComm = new CommunicationProtocolJxta(new P2PReciever(this));
                 this.sender = new P2PSender(tmpComm, this);
@@ -71,8 +78,14 @@ public class P2PBackend implements Backend{
         }
      
       }
-    
-    public void searchRequest(String senderPeerID, String query){
+
+    public void setEventBroker(EventBroker eventBroker) {
+        _eventBroker = eventBroker;
+        new NodeAddedEventHandler(_eventBroker, this);
+        System.out.println("p2p event broker: " + _eventBroker);
+    }
+
+   public void searchRequest(String senderPeerID, String query){
         //First search in the model in this P2P module
         P2PGraph resultGraphP2P;
         try {
@@ -163,10 +176,17 @@ public class P2PBackend implements Backend{
 
     public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
         try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
+            String asserterStr = "";
+            if (asserter == null) {
+                asserterStr = _defaultUserUri;
+            }
+            else {
+                asserterStr = asserter.toString();
+            }
+             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
              		"New node was added: " 
              		+ node.getIdentifier() 
-             		+ " by : " + asserter.toString());
+             		+ " by : " + asserterStr);
 			this.graph.assertNode(node,asserter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertConcept()");
@@ -179,10 +199,17 @@ public class P2PBackend implements Backend{
 
     public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
         try {
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, 
+            String rejectorStr = "";
+            if (rejecter == null) {
+                rejectorStr = _defaultUserUri;
+            }
+            else {
+                rejectorStr = rejecter.toString();
+            }
+             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
              		"New node was rejected: " 
              		+ node.getIdentifier() 
-             		+ " by : " + rejecter.toString());
+             		+ " by : " + rejectorStr);
 			this.graph.rejectNode(node,rejecter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertConcept()");

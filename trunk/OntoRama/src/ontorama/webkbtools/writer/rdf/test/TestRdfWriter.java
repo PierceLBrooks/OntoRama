@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 
+import org.tockit.events.EventBroker;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
@@ -79,7 +81,7 @@ public class TestRdfWriter extends TestCase {
         _testEdgesList = new LinkedList();
         _testNodesList = new LinkedList();
 
-        _graph = new GraphImpl();
+        _graph = new GraphImpl(new EventBroker());
         _chair = new NodeImpl(_chairName, _ontoramaNamespace + _chairName);
         _armchair = new NodeImpl(_armchairName, _ontoramaNamespace + _armchairName);
         _furniture = new NodeImpl(_furnitureName, _ontoramaNamespace + _furnitureName);

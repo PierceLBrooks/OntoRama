@@ -95,10 +95,16 @@ public class EdgeImpl implements Edge {
 
     public String toString() {
         String str = "Edge from '" + this.fromNode + "' to '";
-        str = str + this.toNode + "', edgeType = " + edgeType.getName();
+        str = str + this.toNode + "', edgeType = " + edgeType.getName() + "(URI:" + edgeType.getNamespace() + ")";
         str = str + ", creatorUri = " + this.creatorUri;
         return str;
     }
 
+    public void setToNode(Node node) {
+               this.toNode = node;
+        }
 
+    public void setFromNode(Node node) {
+           this.fromNode = node;
+    }
 }

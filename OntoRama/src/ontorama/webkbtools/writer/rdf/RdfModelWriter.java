@@ -5,6 +5,7 @@ import ontorama.webkbtools.writer.ModelWriterException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.*;
 import ontorama.OntoramaConfig;
+import ontorama.backends.p2p.model.P2PNode;
 import ontorama.ontologyConfig.RdfMapping;
 
 import java.io.Writer;
@@ -64,7 +65,6 @@ public class RdfModelWriter implements ModelWriter {
             Model rdfModel = toRDFModel();
             //PrettyWriter pr = new PrettyWriter();
             //pr.write(rdfModel, out, null);
-
             writeModel(rdfModel, out);
             //rdfModel.write(out);
         } catch (RDFException rdfExc) {
@@ -150,12 +150,12 @@ public class RdfModelWriter implements ModelWriter {
 
     protected SimpleTriple writeEdgeIntoModel(Edge curEdge, Model rdfModel) throws RDFException {
         SimpleTriple result = null;
-        Node fromNode = curEdge.getFromNode();
+        P2PNode fromNode = (P2PNode) curEdge.getFromNode();
         EdgeType edgeType = curEdge.getEdgeType();
         Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
         RdfMapping rdfMapping = (RdfMapping) _edgeTypesToRdfMapping.get(edgeType);
         if (rdfMapping.getType().equals(edgeType.getName()) ) {
-            Node toNode = curEdge.getToNode();
+            P2PNode toNode = (P2PNode) curEdge.getToNode();
             result =  new SimpleTriple (curEdge.getFromNode(), predicate, curEdge.getToNode());
             _processedNodes.add(fromNode);
         }
@@ -170,7 +170,9 @@ public class RdfModelWriter implements ModelWriter {
         RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
         String rdfTag = (String) rdfMapping.getRdfTags().get(0);
         System.out.println("edgeType namespace = " + edgeType.getNamespace() + ", rdfTag = " + rdfTag);
-        Property predicate = new PropertyImpl(edgeType.getNamespace() + rdfTag);
+        Property predicate;
+        String text = edgeType.getNamespace() + rdfTag;
+        predicate = new PropertyImpl(text);
         return predicate;
     }
 

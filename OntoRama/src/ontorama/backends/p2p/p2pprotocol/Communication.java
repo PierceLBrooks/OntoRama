@@ -12,6 +12,7 @@ import net.jxta.peergroup.PeerGroupID;
 import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
 import net.jxta.pipe.OutputPipe;
+import net.jxta.pipe.InputPipe;
 
 /**
  * This base class handles the common P2P functionality.
@@ -34,8 +35,13 @@ public class Communication {
 	//Keeps track of which group this peer belongs to
 	private static Hashtable memberOfGroups = null;
 	//The pipe advertisement
-	private static Hashtable pipeAdvertisement = null;	
-	
+	private static Hashtable outputPropagatePipe = null;
+
+    //The pipe
+    private static Hashtable inputPropagatePipe = null;
+
+    //The pipe
+    private static Hashtable inputPipeAdvertisement = null;
 
 	//Used by sendSearchGroup
 	public final static String SEARCHGROUPNAME = "Name";
@@ -46,10 +52,13 @@ public class Communication {
 	public final static int TAGPROPAGATE = 3;
 	public final static int TAGSEARCHRESPONSE = 4;
   	public final static int TAGFLUSHPEER = 5;
-  	
-	public Communication() {
+
+
+    public Communication() {
 		this.setMemberOfGroups(new Hashtable());
-		this.pipeAdvertisement = new Hashtable();
+		this.inputPipeAdvertisement = new Hashtable();
+        outputPropagatePipe = new Hashtable();
+        inputPropagatePipe = new Hashtable();
 	}
 
 
@@ -153,8 +162,8 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*
 	*/
-	protected void setPipeAdvertisement(PeerGroupID groupID,PipeAdvertisement obj)  {
-		this.pipeAdvertisement.put(groupID,obj);
+	protected void setInputPipeAdvertisement(PeerGroupID groupID,PipeAdvertisement obj)  {
+		this.inputPipeAdvertisement.put(groupID,obj);
 	}
 	
 
@@ -167,8 +176,8 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*
 	*/
-	protected PipeAdvertisement getPipeAdvertisement(PeerGroupID groupID)  {
-		return (PipeAdvertisement) this.pipeAdvertisement.get(groupID);
+	protected PipeAdvertisement getInputPipeAdvertisement(PeerGroupID groupID)  {
+		return (PipeAdvertisement) this.inputPipeAdvertisement.get(groupID);
 	}
 
 
@@ -181,8 +190,8 @@ public class Communication {
     * @version P2P-OntoRama 1.0.0
     *
     */
-    protected void setOutputPipe(PeerGroupID groupID,OutputPipe obj)  {
-        this.pipeAdvertisement.put(groupID,obj);
+    protected void setOutputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
+        this.outputPropagatePipe.put(groupID,obj);
     }
 
 
@@ -195,8 +204,35 @@ public class Communication {
     * @version P2P-OntoRama 1.0.0
     *
     */
-    protected OutputPipe getOutputPipe(PeerGroupID groupID)  {
-        return (OutputPipe) this.pipeAdvertisement.get(groupID);
+    protected OutputPipe getOutputPropagatePipe(PeerGroupID groupID)  {
+        return (OutputPipe) this.outputPropagatePipe.get(groupID);
+    }
+
+    /**
+    * Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+    * from other peers.
+    *
+    * @param obj the pipe advertisement to set
+    *
+    * @version P2P-OntoRama 1.0.0
+    *
+    */
+    protected void setinputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
+        this.inputPropagatePipe.put(groupID,obj);
+    }
+
+
+    /**
+    * Gets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+    * from other peers.
+    *
+    * @return the pipe advertisement
+    *
+    * @version P2P-OntoRama 1.0.0
+    *
+    */
+    protected InputPipe getInputPropagatePipe(PeerGroupID groupID)  {
+        return (InputPipe) this.inputPropagatePipe.get(groupID);
     }
 
 	/**

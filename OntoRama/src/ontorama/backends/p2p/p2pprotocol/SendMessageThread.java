@@ -71,7 +71,7 @@ public class SendMessageThread extends Thread{
                                               tag,
                                               message);
 
-	       	outputPipe = this.comm.getOutputPipe(pg.getPeerGroupID());
+	       	outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
 			try {
 System.out.println("SendMessageThread::SendMessagePropagate, send a message:" + outputPipe);
 				outputPipe.send(msgToSend);

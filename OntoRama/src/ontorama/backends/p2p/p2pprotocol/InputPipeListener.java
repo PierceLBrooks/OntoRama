@@ -56,7 +56,7 @@ public class InputPipeListener implements PipeMsgListener {
 
         //check to see if the message is sent for us
         if ((senderPeerIDStr != null) && var != null) {
-            System.err.println("We have recieved a message with TAG, senderPeerID:" + var + "," + senderPeerIDStr);
+            System.err.println("We have recieved a message with TAG, senderPeerID:" + var + "," + senderPeerIDStr + " Body:" + message.getString("Body"));
 
             //Only process messages that this peer has not sent
             if (!(senderPeerIDStr.equals(

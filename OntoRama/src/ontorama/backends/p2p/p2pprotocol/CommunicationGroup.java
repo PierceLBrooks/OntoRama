@@ -207,7 +207,7 @@ public class CommunicationGroup extends Communication {
 			//this.getMemberOfGroups().remove(groupIDasString);
 			
 			//remove the inputpipe by flushing it from local cache
-			pipeAdv = this.getPipeAdvertisement(pg.getPeerGroupID());
+			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
 			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), discServ.ADV);
 							
 		} catch (PeerGroupException e) {

@@ -37,8 +37,7 @@ public class SearchPanel extends JPanel {
                 }
                 else {
                     Query tmpQuery = new Query(searchTerm);
-
-
+                    tmpQuery.setDepth(2);
                     BackendSearch.search(tmpQuery);
                 }
             }

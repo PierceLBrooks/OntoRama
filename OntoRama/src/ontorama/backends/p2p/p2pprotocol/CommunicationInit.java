@@ -115,7 +115,7 @@ System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputP
 			discServ.remotePublish(pipeAdvert,DiscoveryService.ADV);
 					
 			//SEts the PipeAdvertisement
-			this.setOutputPipe(pg.getPeerGroupID(),outputPipe);
+			this.setOutputPropagatePipe(pg.getPeerGroupID(),outputPipe);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -165,7 +165,7 @@ System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputP
 									DiscoveryService.ADV,
 									30*1000);
 									
-			this.setPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);			
+			this.setInputPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();

@@ -25,6 +25,12 @@ public interface P2PGraph extends Graph {
 		throws GraphModificationException, NoSuchRelationLinkException ;
 
     /**
+     * Adds a graph to the graph
+     */
+    public void add(P2PGraph graph)
+        throws GraphModificationException, NoSuchRelationLinkException ;
+
+    /**
      * Assert a node.
      * 
      * @param p2pnode to assert

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ontorama.model.NodeImpl;
+import ontorama.model.Node;
 
 /**
  * Basic P2PNodeImpl for ontology viewers.
@@ -40,6 +41,22 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
 		this.asserters = new HashSet();
 		this.rejecters = new HashSet();
 	}
+
+    /**
+         * Create a new P2PNodeImpl with given name and fullName
+         *
+         * @param node
+         */
+        public P2PNodeImpl(Node node) {
+            super(node.getName(),node.getIdentifier());
+            this.setCreatorUri(node.getCreatorUri());
+            this.setNodeType(node.getNodeType());
+            this.setDepth(node.getDepth());
+            this.setFoldState(node.getFoldedState());
+            this.addClones(node.getClones());
+            this.asserters = new HashSet();
+            this.rejecters = new HashSet();
+        }
 
 
     /**

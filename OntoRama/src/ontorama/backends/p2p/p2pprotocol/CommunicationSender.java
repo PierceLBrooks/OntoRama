@@ -130,9 +130,10 @@ public class CommunicationSender extends Communication {
                             mimeType, 
                             this.getGlobalPG().getPeerID().toString().getBytes()));
 
-		PipeAdvertisement pipeAdv = this.getPipeAdvertisement(
+		PipeAdvertisement pipeAdv = this.getInputPipeAdvertisement(
 										this.getGlobalPG().getPeerGroupID());
-		                                                                                           
+        System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
+
          queryTobeSent.addElement(
           queryTobeSent.newMessageElement(
                             "SenderPipeID", 
@@ -145,66 +146,28 @@ public class CommunicationSender extends Communication {
                         mimeType, 
                         query.getBytes()));
 
-        /*        
-        inputpipeDiscoveryListener = new InputpipeDiscoveryListener(
-        								queryTobeSent,
-        								this,
-        								this.getGlobalPG());
-       
-        
-        discoveryService = this.getGlobalPG().getDiscoveryService();    
-       
-        //Add the listener that will be invoked when a response from the query will be resived
-        discoveryService.addDiscoveryListener(inputpipeDiscoveryListener);
-        */
-     
+
         Enumeration enum = this.getMemberOfGroups().elements();
         while (enum.hasMoreElements()) {
             PeerGroup pg = (PeerGroup) enum.nextElement();
             discoveryService = pg.getDiscoveryService();
 
-            //System.err.println("We are trying to send to group: " + pg.getPeerGroupName());
-            /*
-            inputpipeDiscoveryListener = new InputpipeDiscoveryListener(msgToSend,this.comm,pg);
-            //Add the listener that will be invoked when a response from the query will be resived
-            discoveryService.addDiscoveryListener(inputpipeDiscoveryListener);
-              */
-            //Ask other peers for inputpipes with or without a species peerID  
-            discoveryService.getRemoteAdvertisements(null,
-                                                 DiscoveryService.ADV,
-                                                 "Name",
-                                                 "InputPipe",
-                                                 100);
-         try{
-             Thread.sleep(3*1000);
-             Enumeration adverts;
-                adverts = discoveryService.getLocalAdvertisements(DiscoveryService.ADV,
-                                                                  "Name",
-                                                                  "InputPipe");
-               PipeService pipeService = pg.getPipeService();                   
-          while(adverts.hasMoreElements()){
-             try {  
-                    PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement();
-                    System.out.println("Trying to send to peer " + tmpAdv.getPipeID());                    
-                   //Create a OutputPipe  
-                   OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv, 1*1000);
-                                                
-                   //Send message through new pipe and close pipe
-                   tmpOutputPipe.send(queryTobeSent);
-                   tmpOutputPipe.close();
-               
-              } catch (IOException e) {
-                    //Couldn't find a host to a given Adv.                 
-              }             
-          }                         
-            Thread.sleep(7*1000);
+            try {
+                OutputPipe pipe = (OutputPipe) this.getOutputPropagatePipe(pg.getPeerGroupID());
+                pipe.send(queryTobeSent);
+            }
+            catch (IOException e) {
+                         //Couldn't find a host to a given Adv
+            }
+        }
+        try {
+
+            Thread.sleep(15*1000);
   
-         }catch (IOException e) {
          }catch (InterruptedException e) {
 			 throw new GroupExceptionThread(e, "The thread was interrupted");
          }      
-      }
-      return this.getSearchResult();
+          return this.getSearchResult();
     }
 
 

@@ -140,11 +140,13 @@ public class OntoramaConfig {
     public static boolean DEBUG;
 
     /**
+     *
+     */
+    private static Properties properties = new Properties();
+
+    /**
      * Values of vars that are set here should be read from
      * java properties file.
-     * @todo    check if we should read conceptPropeties details from xml config file????...
-     * if answer is 'yes', then OntologyType and GraphNode should be changed as they have
-     * description and creator hardcoded.
      */
      static {
         System.out.println("---------config--------------");
@@ -158,57 +160,8 @@ public class OntoramaConfig {
             System.exit(-1);
         }
 
-        Properties properties = new Properties();
-        try {
+        loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
 
-
-          // loading examples
-          System.out.println("loading examples");
-          //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
-          InputStream examplesConfigStream = getInputStreamFromResource("examplesConfig.xml");
-          XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
-          examplesList = examplesConfig.getExamplesList();
-          mainExample = examplesConfig.getMainExample();
-
-          // overwrite sourceUri, ontologyRoot, etc
-          ///@todo  fix this later!!!
-          setCurrentExample(mainExample);
-
-          //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
-          InputStream propertiesFileIn = getInputStreamFromResource("ontorama.properties");
-          properties.load(propertiesFileIn);
-          DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
-          //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
-          InputStream configInStream = getInputStreamFromResource("config.xml");
-
-          XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
-          allRelationsArray = xmlConfig.getRelationLinksArray();
-          MAXTYPELINK = allRelationsArray.length;
-          relationLinksSet = buildRelationLinksSet (allRelationsArray);
-          relationRdfMapping = xmlConfig.getRelationRdfMappingList();
-
-          conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
-          conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
-        }
-        catch (IOException ioe) {
-          System.err.println("Unable to read xml configuration file");
-          System.err.println("IOException: " + ioe);
-          System.exit(1);
-        }
-        catch ( ConfigParserException cpe ) {
-            System.err.println("ConfigParserException: " + cpe.getMessage());
-            System.exit(-1);
-        }
-        catch ( ArrayIndexOutOfBoundsException arrayExc ) {
-            System.err.println("Please make sure relation id's in xml config are ordered from 1 to Max number");
-            System.err.println("ArrayIndexOutOfBoundsException: " + arrayExc);
-            System.exit(-1);
-        }
-        catch (Exception e) {
-          System.err.println("Unable to read properties file in");
-          System.err.println("Exception: " + e);
-          System.exit(1);
-        }
 //        System.out.println("---------config--------------");
 //        System.out.println("sourceUri = " + sourceUri);
 //        System.out.println("ontologyRoot = " + ontologyRoot);
@@ -218,6 +171,88 @@ public class OntoramaConfig {
 //        System.out.println("sourcePackageName = " + sourcePackageName);
         System.out.println("--------- end of config--------------");
     }
+
+    /**
+     *
+     */
+    private static void fatalExit (String message, Exception e) {
+      System.err.println(message);
+      System.err.println("Exception: " + e);
+      System.exit(1);
+    }
+
+    /**
+     *
+     */
+    public static void loadAllConfig (String examplesConfigLocation,
+                      String propertiesFileLocation, String configFileLocation) {
+        try {
+          loadExamples(examplesConfigLocation);
+          loadPropertiesFile(propertiesFileLocation);
+          loadConfiguration(configFileLocation);
+        }
+        catch (IOException ioe) {
+          fatalExit("Unable to read xml configuration file, IOException", ioe);
+        }
+        catch ( ConfigParserException cpe ) {
+          fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
+        }
+        catch ( ArrayIndexOutOfBoundsException arrayExc ) {
+          fatalExit("Please make sure relation id's in xml config are ordered from 1 to Max number, ArrayIndexOutOfBoundsException",
+                    arrayExc);
+        }
+        catch (Exception e) {
+          fatalExit("Unable to read properties file in", e);
+        }
+    }
+
+    /**
+     * load examples
+     */
+    private static void loadExamples (String examplesConfigLocation)
+                            throws IOException, ConfigParserException {
+        // loading examples
+        System.out.println("loading examples");
+        //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
+        InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
+        XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
+        examplesList = examplesConfig.getExamplesList();
+        mainExample = examplesConfig.getMainExample();
+
+        // overwrite sourceUri, ontologyRoot, etc
+        ///@todo  fix this later!!!
+        setCurrentExample(mainExample);
+    }
+
+    /**
+     * load properties from ontorama.properties file
+     */
+    private static void loadPropertiesFile (String propertiesFileLocation)
+                            throws IOException {
+        //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
+        InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
+        properties.load(propertiesFileIn);
+        DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
+    }
+
+    /**
+     * load Config
+     */
+    private static void loadConfiguration (String configFileLocation)
+                            throws IOException, ConfigParserException {
+        //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
+        InputStream configInStream = getInputStreamFromResource(configFileLocation);
+
+        XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
+        allRelationsArray = xmlConfig.getRelationLinksArray();
+        MAXTYPELINK = allRelationsArray.length;
+        relationLinksSet = buildRelationLinksSet (allRelationsArray);
+        relationRdfMapping = xmlConfig.getRelationRdfMappingList();
+
+        conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
+        conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
+    }
+
 
 
     /**

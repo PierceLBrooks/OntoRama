@@ -1,7 +1,7 @@
 /*
  * $id$
  */
-package ontorama.hyper.controller;
+package ontorama.view.hyper.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +15,8 @@ import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.NodeSelectedEvent;
-import ontorama.hyper.view.simple.HyperNodeView;
-import ontorama.hyper.view.simple.SimpleHyperView;
+import ontorama.view.hyper.view.simple.HyperNodeView;
+import ontorama.view.hyper.view.simple.SimpleHyperView;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;

@@ -1,4 +1,4 @@
-package ontorama.hyper.view.simple;
+package ontorama.view.hyper.view.simple;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

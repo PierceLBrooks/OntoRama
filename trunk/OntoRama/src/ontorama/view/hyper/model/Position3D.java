@@ -1,4 +1,4 @@
-package ontorama.hyper.model;
+package ontorama.view.hyper.model;
 
 /**
  * Position3D holds the 3 dimension nodes position.

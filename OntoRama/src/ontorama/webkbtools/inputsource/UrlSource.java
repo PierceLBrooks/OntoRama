@@ -26,7 +26,8 @@ public class UrlSource implements Source {
      *  Get a SourceResult from given uri.
      *  @param  uri  this object specified resource file
      *  @return sourceResult
-     *  @throws SourceException, CancelledQueryException
+     *  @throws SourceException
+     *  @throws CancelledQueryException
      *
      *  @todo implement if needed: throw CancelledQueryException
      */
@@ -39,7 +40,7 @@ public class UrlSource implements Source {
      *  Get a Reader from given uri.
      *  @param  uri  this object specified resource file
      *  @return reader
-     *  @throws Exception
+     *  @throws SourceException
      */
     private Reader getReader(String uri, Query query) throws SourceException {
         if (OntoramaConfig.DEBUG) {

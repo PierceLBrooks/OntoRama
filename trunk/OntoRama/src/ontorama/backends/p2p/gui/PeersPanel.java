@@ -113,7 +113,6 @@ public class PeersPanel extends JPanel  implements GroupView {
         add(new JLabel("All active peers:"));
         add(tempGlobalGroupPanel);
         add(refreshButton);
-
     }
 
 
@@ -139,7 +138,6 @@ public class PeersPanel extends JPanel  implements GroupView {
     
     public void addPeerInGlobalList (String peerId, String peerName) {
 		_globalGroupPanel.getPeersList().addPeer(new PeerObject(peerId, peerName));
-		//_globalGroupPanel.addPeer("lfldf", "ldjfdlskkfljddddslkdjlkjaldfkjlksjfsdf1111111111122222222222223333333333333444444444444455555555555556666666666666677777777777");
     }
 
     public void removePeer(String senderPeerID, String groupID) {
@@ -187,21 +185,17 @@ public class PeersPanel extends JPanel  implements GroupView {
 		public GroupPanel(String groupName) {
 			super();
 			this.groupName = groupName;
-			setName(groupName);
-			setBackground(Color.BLUE);
 
+			setName(groupName);
 			peersJList = new PeersJList();
 
-			JScrollPane  scrollPanel = new JScrollPane(peersJList);
-					
-			scrollPanel.setBackground(Color.PINK);
+			Dimension d = new Dimension(200, 200);
+
+			JScrollPane  scrollPanel = new JScrollPane(peersJList);				
 			scrollPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+			scrollPanel.setPreferredSize(d); 
 			
-			System.out.println("\njllist prototype cell value = " + peersJList.getPrototypeCellValue());
-			
-			Dimension d = new Dimension(200, 400);
-			//setPreferredSize(d); 
-			
+			setPreferredSize(d);
 			add(scrollPanel);
 		}
 		
@@ -216,7 +210,12 @@ public class PeersPanel extends JPanel  implements GroupView {
     		super();
     		setModel(listModel);
 			setBackground(Color.YELLOW);
-			//setPrototypeCellValue("123456789123456789");
+			
+			//String prototypeCellValueStr = "";
+			//for (int i = 0; i < 40; i++) {
+			//	prototypeCellValueStr = prototypeCellValueStr + "a";
+			//}
+			//setPrototypeCellValue(new PeerObject("peerId", prototypeCellValueStr));
 			
 			setCellRenderer(new PeersListCellRenderer());
     	}

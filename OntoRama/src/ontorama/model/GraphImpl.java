@@ -46,8 +46,8 @@ public class GraphImpl implements Graph {
      */
     public List _graphEdges = new LinkedList();
 
-//    private List _edgesToDisplayInGraph = new LinkedList();
-//    private List _edgesToDisplayInDescription = new LinkedList();
+    private List _edgesToDisplayInGraph = new LinkedList();
+    private List _edgesToDisplayInDescription = new LinkedList();
 
     private List _nodesToRemove = new LinkedList();
     private List _edgesToRemove = new LinkedList();
@@ -137,17 +137,18 @@ public class GraphImpl implements Graph {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
 
-//        Iterator edgesIt = edgesList.iterator();
-//        while (edgesIt.hasNext()) {
-//            Edge edge = (Edge) edgesIt.next();
-//            EdgeType edgeType = edge.getEdgeType();
-//            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-//                _edgesToDisplayInGraph.add(edge);
-//            }
-//            else {
-//                _edgesToDisplayInDescription.add(edge);
-//            }
-//        }
+        Iterator edgesIt = edgesList.iterator();
+        while (edgesIt.hasNext()) {
+            Edge edge = (Edge) edgesIt.next();
+            EdgeType edgeType = edge.getEdgeType();
+            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+                _edgesToDisplayInGraph.add(edge);
+            }
+            else {
+                _edgesToDisplayInDescription.add(edge);
+            }
+        }
+        System.out.println("\n\n\n _edgesToDisplayInGraph size = " + _edgesToDisplayInGraph.size());
 
 //        Iterator it = edgesList.iterator();
 //        while (it.hasNext()) {
@@ -428,7 +429,8 @@ public class GraphImpl implements Graph {
                     _graphNodes.add(cloneNode);
 
                     Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
-                    System.out.println("edge = " + edgeToClone + ", edgetype = " + edgeToClone.getEdgeType());
+                    System.out.println("\n\nedge = " + edgeToClone + ", edgetype = " + edgeToClone.getEdgeType());
+                    System.out.println("\t _edgesToDisplayInGraph contains this edge: " + _edgesToDisplayInGraph.contains(edgeToClone));
                     Edge newEdge = new EdgeImpl(
                             edgeToClone.getFromNode(),
                             cloneNode,
@@ -803,6 +805,32 @@ public class GraphImpl implements Graph {
             outboundNode.setDepth(depth + 1);
             calculateDepths(outboundNode, depth + 1);
         }
+    }
+
+    public List getOutboundEdgesDisplayedInGraph (Node node) {
+        List result = new LinkedList();
+        Iterator it = getOutboundEdges(node).iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            EdgeType edgeType = edge.getEdgeType();
+            if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph())  {
+                result.add(edge);
+            }
+        }
+        return result;
+    }
+
+    public List getInboundEdgesDisplayedInGraph (Node node) {
+        List result = new LinkedList();
+        Iterator it =  getInboundEdges(node).iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            EdgeType edgeType = edge.getEdgeType();
+            if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph())  {
+                result.add(edge);
+            }
+        }
+        return result;
     }
 
 }

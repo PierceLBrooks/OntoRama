@@ -1,10 +1,13 @@
 package ontorama.tree.model;
 
 import ontorama.model.*;
+import ontorama.OntoramaConfig;
 
 import javax.swing.tree.TreeNode;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Enumeration;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
@@ -41,17 +44,20 @@ public class OntoTreeBuilder {
      *
      */
     private void processNode (Node topGraphNode) {
-        Iterator outboundEdges = graph.getOutboundEdges(topGraphNode).iterator();
+        List outboundEdgesList = graph.getOutboundEdgesDisplayedInGraph(topGraphNode);
+        Iterator outboundEdges =outboundEdgesList.iterator();
 
-        // take care of a case when we only have one node and no _graphEdges
-        if (!outboundEdges.hasNext()) {
-            OntoTreeNode ontoTreeNode = new OntoTreeNode(topGraphNode);
-            ontoHash.put(topGraphNode, ontoTreeNode);
-        }
-
+        int countRootGraphEdges = 0;
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
-            graphNodeToOntoTreeNode(topGraphNode, edge.getEdgeType());
+            EdgeType edgeType = edge.getEdgeType();
+            graphNodeToOntoTreeNode(topGraphNode, edgeType);
+            countRootGraphEdges++;
+        }
+        // take care of a case when we only have one node and no _graphEdges
+        if (countRootGraphEdges == 0) {
+            OntoTreeNode ontoTreeNode = new OntoTreeNode(topGraphNode);
+            ontoHash.put(topGraphNode, ontoTreeNode);
         }
 
     }
@@ -59,16 +65,18 @@ public class OntoTreeBuilder {
     /**
      * Convert each Node to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode(Node top, EdgeType relLinkType) {
+    private void graphNodeToOntoTreeNode(Node top, EdgeType edgeType) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
-        ontoTreeNode.setRelLink(relLinkType);
+        ontoTreeNode.setRelLink(edgeType);
         ontoHash.put(top, ontoTreeNode);
 
-        Iterator outboundEdges = graph.getOutboundEdges(top).iterator();
+        Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(top).iterator();
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
+            EdgeType curEdgeType = edge.getEdgeType();
+
             Node toGraphNode = edge.getToNode();
-            graphNodeToOntoTreeNode(toGraphNode, edge.getEdgeType());
+            graphNodeToOntoTreeNode(toGraphNode, curEdgeType);
         }
     }
 

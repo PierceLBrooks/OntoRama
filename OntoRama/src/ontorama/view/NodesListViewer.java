@@ -50,7 +50,6 @@ public class NodesListViewer extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 GraphNode selectedNode =
                         (GraphNode) _nodesList.getSelectedValue();
-                System.out.println("selected node = " + selectedNode);
                 _mainApp.resetGraphRoot(selectedNode);
             }
         });

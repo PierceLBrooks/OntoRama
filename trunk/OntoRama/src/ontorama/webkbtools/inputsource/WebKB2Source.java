@@ -70,7 +70,7 @@ public class WebKB2Source implements Source {
      * query we want to post to webkb
      */
    private Query query;
-   
+
     /**
      * List used to hold multi RDF document.
      */
@@ -131,7 +131,14 @@ public class WebKB2Source implements Source {
         this.typesList = new LinkedList();
         this.readerString = "";
 
-        String fullUri = uri + constructQueryString(query);
+        int queryDepth = query.getDepth();
+
+        Query testQuery = query;
+        testQuery.setDepth(1);
+        String fullUri = constructQueryUrl(uri, testQuery);
+        query.setDepth(queryDepth);
+
+
         Reader resultReader = null;
         BufferedReader br = null;
 
@@ -153,7 +160,8 @@ public class WebKB2Source implements Source {
             return ( new SourceResult(false, null, newQuery));
           }
           reader.close();
-          resultReader = new StringReader((String) docs.get(0));
+          //resultReader = new StringReader((String) docs.get(0));
+          resultReader = executeWebkbQuery(constructQueryUrl(uri, query));
         }
         catch (IOException ioExc) {
           throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
@@ -180,9 +188,10 @@ public class WebKB2Source implements Source {
     /**
      * construct query string ready to use with webkb
      */
-    private String constructQueryString (Query query) {
+    private String constructQueryUrl (String uri,Query query) {
       WebkbQueryStringConstructor queryConstructor = new WebkbQueryStringConstructor();
-      return queryConstructor.getQueryString(query, OntoramaConfig.queryOutputFormat);
+      String resultUrl = uri + queryConstructor.getQueryString(query, OntoramaConfig.queryOutputFormat);
+      return resultUrl;
     }
 
     /**

@@ -2,6 +2,7 @@ package ontorama.ontologyConfig;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -80,7 +81,7 @@ public class XmlConfigParser {
      * @todo    read in contents of tag conceptProperty and deal with them
      *
      */
-    public XmlConfigParser(InputStream in) throws ConfigParserException {
+    public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
 		System.out.println("XmlConfigParser");
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
@@ -88,8 +89,28 @@ public class XmlConfigParser {
 
         try {
             SAXBuilder builder = new SAXBuilder();
+            System.out.println("moo");
+
+//            BufferedReader inReader = new BufferedReader (new InputStreamReader(in));
+//            if (inReader == null) {
+//              System.out.println("ohoh - inReader is null :(");
+//            }
+//            String s;
+//            while ( ( s = inReader.readLine()) != null ) {
+//              System.out.println(s);
+//            }
+//            if (in == null) {
+//              System.out.println("ohoh - in stream is null :(");
+//            }
+
+            System.out.println("moooooooo");
+
+
             Document doc = builder.build(in);
+            System.out.println("moo");
+
             Element rootEl = doc.getRootElement();
+            System.out.println("rootEl name = " + rootEl.getName());
 
             Element ontologyEl = rootEl.getChild("ontology");
             Element rdfMappingEl = rootEl.getChild("rdfMapping");
@@ -136,7 +157,7 @@ public class XmlConfigParser {
         while (relationElementsIterator.hasNext()) {
             Element relationElement = (Element) relationElementsIterator.next();
             Attribute idAttr = relationElement.getAttribute("id");
-			
+
             checkCompulsoryAttr(idAttr, "id", "relation");
 
             List relationTypeElementsList = relationElement.getChildren("relationType");
@@ -231,7 +252,7 @@ public class XmlConfigParser {
      *
      */
     public List getRelationRdfMappingList () {
-		return this.relationRdfMappingList;		
+		return this.relationRdfMappingList;
     }
 
     /**

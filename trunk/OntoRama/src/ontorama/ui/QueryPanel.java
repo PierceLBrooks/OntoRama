@@ -29,6 +29,7 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
 import ontorama.ui.action.StopQueryAction;
 import ontorama.ui.action.QueryAction;
+import ontorama.ui.events.ErrorEvent;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -97,14 +98,13 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
                 try {
                     depth = (new Integer(_depthField.getText())).intValue();
                 } catch (NumberFormatException nfe) {
-                	/// @todo instead of calling error dialog on static - should use event broker for this
-                    OntoRamaApp.showErrorDialog("Please use integers to specify depth");
+                    _eventBroker.processEvent(new ErrorEvent("Please use integers to specify depth"));
                     _depthField.selectAll();
                 }
                 if (depth > 4) {
-                    OntoRamaApp.showErrorDialog("Please choose smaller integers " +
+                    _eventBroker.processEvent(new ErrorEvent("Please choose smaller integers " +
                             "for depth setting. " +
-                            "Large setting for this parameter may result in long load times");
+                            "Large setting for this parameter may result in long load times"));
                     _depthField.selectAll();
                 }
                 _depth = depth;

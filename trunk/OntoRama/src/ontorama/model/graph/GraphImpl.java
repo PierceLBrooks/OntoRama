@@ -18,6 +18,7 @@ import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.OntoRamaApp;
+import ontorama.ui.events.ErrorEvent;
 import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 
@@ -205,7 +206,7 @@ public class GraphImpl implements Graph {
             //removeEdge(reversedEdge);
 
             System.err.println("\n\n" + message);
-            OntoRamaApp.showErrorDialog(message);
+            _eventBroker.processEvent(new ErrorEvent(message));
         }
         return edgesToRemove;
     }

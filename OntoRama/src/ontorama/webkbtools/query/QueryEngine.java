@@ -95,12 +95,26 @@ public class QueryEngine {
         }
 
         // get a set of all available relation links
+        // copy them into allLinksCopy as otherwise once  we
+        // remove unwanted links - we will modify the static var
+        // in OntoramaConfig and this is not what we want to do.
         Set allLinks = OntoramaConfig.getRelationLinksSet();
+        LinkedList allLinksCopy = new LinkedList();
+        Iterator allLinksIterator = allLinks.iterator();
+        while (allLinksIterator.hasNext()) {
+          Integer nextRelLink = (Integer) allLinksIterator.next();
+          allLinksCopy.add(nextRelLink);
+        }
 
         // remove all wanted relations from the allLinks set so
         // we end up with a list of unwanted relations
-        allLinks.removeAll(query.getRelationLinksCollection());
-        Iterator unwantedLinks = allLinks.iterator();
+        //allLinks.removeAll(query.getRelationLinksCollection());
+        allLinksCopy.removeAll(query.getRelationLinksCollection());
+        System.out.println ("allLinksCopy = " + allLinksCopy);
+        System.out.println ("allLinks = " + OntoramaConfig.getRelationLinksSet());
+        Iterator unwantedLinks = allLinksCopy.iterator();
+        System.out.println ("unwantedLinksList = " + unwantedLinks);
+
 
         // list to hold all updated types
         LinkedList updatedTypeRelativesList = new LinkedList();
@@ -108,6 +122,7 @@ public class QueryEngine {
         // iterate over each ontology type and remove all unwanted links
         while (this.typeRelativesIterator.hasNext()) {
             OntologyType ontType = (OntologyTypeImplementation) this.typeRelativesIterator.next();
+            //System.out.println("*** ontType before link removed: " + ontType);
             while (unwantedLinks.hasNext()) {
                 Integer relationLink = (Integer) unwantedLinks.next();
                 try {
@@ -118,8 +133,9 @@ public class QueryEngine {
                 }
             }
             // get iterator of unwanted links again since we used it up above
-            unwantedLinks = allLinks.iterator();
+            unwantedLinks = allLinksCopy.iterator();
             // add updated ontology type to the list
+            //System.out.println("*** ontType after link removed: " + ontType);
             updatedTypeRelativesList.add(ontType);
         }
         return updatedTypeRelativesList.iterator();

@@ -70,6 +70,14 @@ public class Query {
     }
 
     /**
+     * Get Relation types list
+     * @return relationLinks List
+     */
+    public List getRelationLinksList () {
+        return this.relationLinks;
+    }
+
+    /**
      *
      */
     public Collection getRelationLinksCollection () {

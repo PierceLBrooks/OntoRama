@@ -22,13 +22,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import org.tockit.canvas.CanvasItem;
 
@@ -70,17 +64,17 @@ public class CanvasManager extends JComponent
     /**
      * Hold the mapping of HyperNode to GraphNodes
      */
-    protected Hashtable hypernodes = null;
+    protected Hashtable hypernodes = new Hashtable();
 
     /**
      * Holds the mapping of HyperNodeView to GraphNodes
      */
-     protected Hashtable hypernodeviews = null;
+    protected Hashtable hypernodeviews = new Hashtable();
 
     /**
      * Store the hyper view canvas items.
      */
-    protected List canvasItems = null;
+    private List canvasItems = new ArrayList();
 
     /**
      * Hosds the constant value to determine if we are in drag mode.
@@ -135,9 +129,6 @@ public class CanvasManager extends JComponent
      * stage). Should be a better way to fix this  (nataliya)
      */
     protected void drawNodes( Graphics2D g2d ) {
-        if (canvasItems == null) {
-          return;
-        }
         if(lengthOfAnimation > 0) {
             animate();
         }
@@ -155,7 +146,13 @@ public class CanvasManager extends JComponent
                 focusHyperNode.showClones( g2d, hypernodeviews );
             }
         }
-        catch(java.util.ConcurrentModificationException e){drawNodes( g2d );}
+        catch(java.util.ConcurrentModificationException e) {
+            drawNodes( g2d );
+        }
+    }
+
+    public void addCanvasItem(CanvasItem item) {
+        this.canvasItems.add(item);
     }
 
     protected void animate() {
@@ -403,9 +400,6 @@ public class CanvasManager extends JComponent
         if( dragmode ) {
             return;
         }
-        if( canvasItems == null) {
-            return;
-        }
         Iterator it = canvasItems.iterator();
         double minDist = this.getWidth();
         double dist = 0;
@@ -454,9 +448,9 @@ public class CanvasManager extends JComponent
      */
     protected void resetCanvas() {
         this.canvasScale = 1;
-        //this.hypernodes = null;
-        //this.hypernodeviews = null;
-        //this.canvasItems = null;
+        this.canvasItems.clear();
+        this.hypernodes.clear();
+        this.hypernodeviews.clear();
         this.dragmode = false;
         this.focusNode = null;
         this.currentHighlightedView = null;

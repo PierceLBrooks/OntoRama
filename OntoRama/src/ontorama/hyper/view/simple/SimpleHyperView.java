@@ -84,15 +84,7 @@ public class SimpleHyperView  extends CanvasManager  {
     public void setGraph( Graph graph ) {
         // reset canvas variables
         this.resetCanvas();
-        // create a new linked list for canvas items
-        this.canvasItems = new LinkedList();
-        //Add HyperNodes to hashtabel stored in CanvasManager
-        this.hypernodes = new Hashtable();
-        //Map HyperNodeViews to GraphNode to build LineViews
-        this.hypernodeviews = new Hashtable();
-        //canvasItems.clear();
         this.root = graph.getRootNode();
-//        System.out.println("root = " + root);
         if( root == null ) {
             System.out.println("Root = null");
             return;
@@ -128,13 +120,13 @@ public class SimpleHyperView  extends CanvasManager  {
         Iterator it = hypernodeviews.values().iterator();
         while( it.hasNext() ) {
             HyperNodeView hnv = (HyperNodeView)it.next();
-            canvasItems.add( hnv );
+            addCanvasItem( hnv );
         }
         //Add HyperNodeViews labels canvas manager.
         it = hypernodeviews.values().iterator();
         while( it.hasNext() ) {
             HyperNodeView hnv = (HyperNodeView)it.next();
-            canvasItems.add( new LabelView( hnv ) );
+            addCanvasItem( new LabelView( hnv ) );
         }
         setLeafNodes();
         repaint();
@@ -256,7 +248,7 @@ public class SimpleHyperView  extends CanvasManager  {
                 GraphNode outboundGraphNode = edge.getToNode();
                 HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
                 //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);
-                canvasItems.add(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView,edgeType) );
+                addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView,edgeType) );
                 queue.add( outboundGraphNode );
             }
         }

@@ -186,14 +186,15 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
-        doConceptPropertiesMapping1(resource, predicate, object);
-        doRelationLinksMapping1(resource, predicate, object);
+        //System.out.println("statement: " + resource.toString() + ", " + predicate.toString() + ", " + object.toString());
+        doNodePropertiesMapping(resource, predicate, object);
+        doEdgesMapping(resource, predicate, object);
     }
 
     /**
      *
      */
-    protected void doRelationLinksMapping1(Resource resource, Property predicate, RDFNode object) {
+    protected void doEdgesMapping(Resource resource, Property predicate, RDFNode object) {
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
         while (ontologyRelationRdfMappingIterator.hasNext()) {
@@ -260,7 +261,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected void doConceptPropertiesMapping1(Resource resource, Property predicate, RDFNode object) {
+    protected void doNodePropertiesMapping(Resource resource, Property predicate, RDFNode object) {
         Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
         Enumeration e = conceptPropertiesRdfMapping.elements();
         while (e.hasMoreElements()) {
@@ -331,14 +332,15 @@ public class RdfDamlParser implements Parser {
      */
     public GraphNode getGraphNodeByName(String nodeName,
                                         String fullNodeName) {
-        GraphNode node = null;
+        GraphNode node;
         if (_nodesHash.containsKey(nodeName)) {
             node = (GraphNode) _nodesHash.get(nodeName);
+            return node;
         } else {
             node = new GraphNode(nodeName, fullNodeName);
             _nodesHash.put(nodeName, node);
+            return node;
         }
-        return node;
     }
 
     /**

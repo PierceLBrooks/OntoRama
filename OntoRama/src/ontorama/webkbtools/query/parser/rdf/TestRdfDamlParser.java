@@ -175,6 +175,21 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
+    public void testEdgesForNullNodes () {
+        Iterator edgesIt = parserResult.getEdgesList().iterator();
+        while (edgesIt.hasNext()) {
+            Edge edge = (Edge) edgesIt.next();
+            GraphNode fromNode = edge.getFromNode();
+            GraphNode toNode = edge.getToNode();
+            assertEquals("edge node should never be null", false, (fromNode == null));
+            assertEquals("edge node should never be null", false, (toNode == null));
+        }
+
+    }
+
+    /**
+     *
+     */
     public void testFullName() {
         String message = "full name of the ontology type";
         assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testNode_chair.getFullName());

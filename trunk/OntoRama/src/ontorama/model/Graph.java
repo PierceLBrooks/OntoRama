@@ -37,23 +37,10 @@ public interface Graph {
      */
     public boolean nodeIsInGivenBranch(Node rootNode, Node node);
 
-    public void registerEdge(Edge edge);
-
-
     public List getEdgesList ();
 
-
     public List getOutboundEdges(Node node);
-
     public List getInboundEdges (Node node);
-
-    public List getOutboundEdgeNodesList(Node node);
-
-    public List getInboundEdgeNodesList(Node node);
-
-    public List getOutboundEdgeNodes(Node node);
-
-    public List getInboundEdgeNodes (Node node);
 
     public List getInboundEdgeNodes (Node node, EdgeType relLink);
     public List getOutboundEdgeNodes (Node node, EdgeType relLink);
@@ -71,5 +58,9 @@ public interface Graph {
      * @return
      */
     public List getInboundEdgesDisplayedInGraph (Node node);
+
+    public void removeEdge(Edge remEdge);
+    public void addEdge(Edge edge);
+
 
 }

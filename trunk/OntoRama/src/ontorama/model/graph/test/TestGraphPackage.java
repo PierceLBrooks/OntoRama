@@ -15,6 +15,11 @@ import junit.framework.TestSuite;
 
 public class TestGraphPackage extends TestCase {
 
+	public static final String edgeName_subtype = "subtype";
+	public static final String edgeName_similar = "similar";
+	public static final String edgeName_reverse = "reverse";
+	
+
     public TestGraphPackage(String name) {
         super(name);
     }

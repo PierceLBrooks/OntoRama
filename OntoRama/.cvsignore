@@ -8,3 +8,5 @@ doc
 uml
 .jpx
 .jpx.*
+*~
+.dfPackage

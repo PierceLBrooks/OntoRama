@@ -157,12 +157,12 @@ public class GraphImpl implements Graph {
     }
 
 
-    private void checkForCycle (EdgeIterface oneWayEdge) {
+    private void checkForCycle (Edge oneWayEdge) {
         GraphNode fromNode = oneWayEdge.getFromNode();
         GraphNode toNode = oneWayEdge.getToNode();
         RelationLinkDetails relLinkType = oneWayEdge.getEdgeType();
 
-        EdgeIterface reversedEdge = getEdge(toNode, fromNode, relLinkType);
+        Edge reversedEdge = getEdge(toNode, fromNode, relLinkType);
         if ((oneWayEdge != null) || (reversedEdge != null)) {
             String message = "Relation links: ";
             message = message + "edge: " + fromNode + " -> " + toNode + " , edgeType = " + relLinkType;
@@ -199,7 +199,7 @@ public class GraphImpl implements Graph {
     private void removeUnconnectedEdges() {
         Iterator it = _edgesToRemove.iterator();
         while (it.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) it.next();
+            Edge curEdge = (Edge) it.next();
             removeEdge(curEdge);
         }
     }
@@ -269,7 +269,7 @@ public class GraphImpl implements Graph {
 
         Iterator curOutEdges = getOutboundEdges(node);
         while (curOutEdges.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) curOutEdges.next();
+            Edge curEdge = (Edge) curOutEdges.next();
 //            System.out.println("\toutbound edge: " + curEdge);
             GraphNode toNode = curEdge.getToNode();
             if (toNode == root) {
@@ -443,8 +443,8 @@ public class GraphImpl implements Graph {
                     // remove edge from curNode to a NodeParent with this rel edgeType
                     Iterator it = getInboundEdges(curNode);
                     if (it.hasNext()) {
-                        EdgeIterface firstEdge = (EdgeIterface) it.next();
-                        EdgeIterface newEdge = new EdgeImpl(
+                        Edge firstEdge = (Edge) it.next();
+                        Edge newEdge = new EdgeImpl(
                                 firstEdge.getFromNode(),
                                 cloneNode,
                                 firstEdge.getEdgeType());
@@ -476,10 +476,10 @@ public class GraphImpl implements Graph {
         Iterator outboundEdgesIterator = getOutboundEdges(node);
 
         while (outboundEdgesIterator.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) outboundEdgesIterator.next();
+            Edge curEdge = (Edge) outboundEdgesIterator.next();
             GraphNode toNode = curEdge.getToNode();
             GraphNode cloneToNode = toNode.makeClone();
-            EdgeIterface newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
+            Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
             registerEdge(newEdge);
             deepCopy(toNode, cloneToNode);
         }
@@ -572,7 +572,7 @@ public class GraphImpl implements Graph {
 
         Iterator edgesIterator = _graphEdges.iterator();
         while (edgesIterator.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) edgesIterator.next();
+            Edge curEdge = (Edge) edgesIterator.next();
             GraphNode fromNode = curEdge.getFromNode();
             GraphNode toNode = curEdge.getToNode();
             RelationLinkDetails relLinkDetails = curEdge.getEdgeType();
@@ -592,11 +592,11 @@ public class GraphImpl implements Graph {
     /**
      * @todo    think where this method should leave....
      */
-    public void registerEdge(EdgeIterface edge) {
+    public void registerEdge(Edge edge) {
         boolean isInList = false;
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
-            EdgeIterface cur = (EdgeIterface) it.next();
+            Edge cur = (Edge) it.next();
             if ((edge.getFromNode().equals(cur.getFromNode())) &&
                     (edge.getToNode().equals(cur.getToNode())) &&
                     (edge.getEdgeType() == cur.getEdgeType())) {
@@ -613,7 +613,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public void removeEdge(EdgeIterface remEdge) {
+    public void removeEdge(Edge remEdge) {
         _graphEdges.remove(remEdge);
     }
 
@@ -631,11 +631,11 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public EdgeIterface getEdge(GraphNode fromNode, GraphNode toNode, RelationLinkDetails edgeType) {
+    public Edge getEdge(GraphNode fromNode, GraphNode toNode, RelationLinkDetails edgeType) {
         Iterator it = getOutboundEdges(fromNode, edgeType);
         //Iterator it = EdgeImpl.getOutboundEdgeNodes(fromNode, relLink);
         while (it.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) it.next();
+            Edge curEdge = (Edge) it.next();
             //GraphNode curNode = (GraphNode) it.next();
             GraphNode curNode = curEdge.getToNode();
             if (curNode.equals(toNode)) {
@@ -691,7 +691,7 @@ public class GraphImpl implements Graph {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {
-            EdgeIterface cur = (EdgeIterface) nodeEdgesIt.next();
+            Edge cur = (Edge) nodeEdgesIt.next();
             if (cur.getEdgeType() == relationType) {
                 result.add(cur);
             }
@@ -872,7 +872,7 @@ public class GraphImpl implements Graph {
     public void printAllEdges() {
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
-            EdgeIterface edge = (EdgeIterface) it.next();
+            Edge edge = (Edge) it.next();
             System.out.println(edge);
         }
     }

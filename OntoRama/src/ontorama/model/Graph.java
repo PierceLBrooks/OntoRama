@@ -41,7 +41,7 @@ public interface Graph {
      */
     public boolean nodeIsInGivenBranch(GraphNode rootNode, GraphNode node);
 
-    public void registerEdge(EdgeIterface edge);
+    public void registerEdge(Edge edge);
 
 
     public List getEdgesList ();

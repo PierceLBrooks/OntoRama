@@ -3,7 +3,7 @@ package ontorama.webkbtools.query.parser.rdf;
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.TestingUtils;
@@ -178,7 +178,7 @@ public class TestRdfDamlParser extends TestCase {
     public void testEdgesForNullNodes () {
         Iterator edgesIt = parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            EdgeIterface edge = (EdgeIterface) edgesIt.next();
+            Edge edge = (Edge) edgesIt.next();
             GraphNode fromNode = edge.getFromNode();
             GraphNode toNode = edge.getToNode();
             assertEquals("edge node should never be null", false, (fromNode == null));
@@ -375,7 +375,7 @@ public class TestRdfDamlParser extends TestCase {
         if (edges.isEmpty()) {
             return;
         }
-        EdgeIterface firstEdge = (EdgeIterface) edges.get(0);
+        Edge firstEdge = (Edge) edges.get(0);
         GraphNode toNode = firstEdge.getToNode();
         String message2 = "related node (edge type: " + edgeType + "):" + toNodeName + ")";
         assertEquals(message2, toNodeName, toNode.getName());
@@ -401,7 +401,7 @@ public class TestRdfDamlParser extends TestCase {
         List allEdges = parserResult.getEdgesList();
         Iterator it = allEdges.iterator();
         while (it.hasNext()) {
-            EdgeIterface edge = (EdgeIterface) it.next();
+            Edge edge = (Edge) it.next();
             if ( (edge.getFromNode().equals(fromNode)) && (edge.getEdgeType().equals(edgeType))  ){
                 GraphNode toNode = edge.getToNode();
                 if (toNode.getName().equals(toNodeName)) {

@@ -10,7 +10,7 @@ package ontorama.model;
 
 import ontorama.ontologyConfig.RelationLinkDetails;
 
-public interface EdgeIterface {
+public interface Edge {
     GraphNode getFromNode();
 
     GraphNode getToNode();

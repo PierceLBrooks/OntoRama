@@ -8,7 +8,7 @@ import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import ontorama.OntoramaConfig;
 import ontorama.model.EdgeImpl;
 import ontorama.model.GraphNode;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.ConceptPropertiesMapping;
 import ontorama.ontologyConfig.RdfMapping;
@@ -232,7 +232,7 @@ public class RdfDamlParser implements Parser {
         GraphNode fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
         GraphNode toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
 
-        EdgeIterface newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
         _edgesList.add(newEdge);
     }
 

@@ -2,7 +2,7 @@ package ontorama.webkbtools.query;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.util.Debug;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
@@ -193,7 +193,7 @@ public class QueryEngine implements QueryEngineInterface {
 
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            EdgeIterface curEdge = (EdgeIterface) edgesIt.next();
+            Edge curEdge = (Edge) edgesIt.next();
             if (wantedLinks.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
                 GraphNode fromNode = curEdge.getFromNode();

@@ -6,7 +6,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.GraphNode;
 import ontorama.model.EdgeImpl;
 import ontorama.model.GraphImpl;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
@@ -36,13 +36,13 @@ public class TestEdge extends TestCase {
     private GraphNode node5;
     private GraphNode node6;
 
-    private EdgeIterface edge1;
-    private EdgeIterface edge2;
-    private EdgeIterface edge3;
-    private EdgeIterface edge4;
-    private EdgeIterface edge5;
-    private EdgeIterface edge6;
-    private EdgeIterface edge7;
+    private Edge edge1;
+    private Edge edge2;
+    private Edge edge3;
+    private Edge edge4;
+    private Edge edge5;
+    private Edge edge6;
+    private Edge edge7;
 
     private Set relLinksSet;
 

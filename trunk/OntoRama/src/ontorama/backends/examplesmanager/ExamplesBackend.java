@@ -46,8 +46,6 @@ import org.tockit.events.EventBrokerListener;
  */
 public class ExamplesBackend implements Backend {
 	
-	private List _dataFormats = OntoramaConfig.getDataFormatsMapping();
-
 	private List _examples = new LinkedList();
 	
 	private OntoramaExample _curExample;

@@ -25,6 +25,8 @@ public class NewGroupAction extends AbstractAction {
 
 	public NewGroupAction (Component parent, JTextField newGroupNameField, 
 							JTextField newGroupDescrField, P2PBackend p2pBackend) {
+								
+		super("Create group");								
 		_parent = parent;
 		_newGroupNameField = newGroupNameField;
 		_newGroupDescrField = newGroupDescrField;

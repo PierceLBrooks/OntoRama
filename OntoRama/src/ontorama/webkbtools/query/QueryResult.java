@@ -38,7 +38,7 @@ public class QueryResult {
      *
      * @param query original query
      * @param nodes list of graph nodes
-     * @param edges list of graph edges
+     * @param edges list of graph _graphEdges
      */
     public QueryResult(Query query, List nodes, List edges) {
         this.nodes = nodes;
@@ -69,8 +69,8 @@ public class QueryResult {
     }
 
     /**
-     * Get list of returned graph edges
-     * @return edges list
+     * Get list of returned graph _graphEdges
+     * @return _graphEdges list
      */
     public List getEdgesList () {
         return this.edges;

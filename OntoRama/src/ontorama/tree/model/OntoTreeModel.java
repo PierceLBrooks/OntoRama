@@ -22,8 +22,10 @@ public class OntoTreeModel implements TreeModel {
 
     /**
      * Graph that is a base for this OntoTreeModel
+     * @todo don't like to have graph available to other classes. Problem is that
+     * OntoTreeNode needs access to methods in graph to get edges.
      */
-    private Graph graph;
+    protected static Graph graph;
 
     /**
      * OntoTreeBuilder object that will hold references
@@ -76,7 +78,6 @@ public class OntoTreeModel implements TreeModel {
 
     /**
      * Returns Iterator of OntoTreeNodes
-     * @param   -
      * @return  Iterator of OntoTreeNodes
      */
     public Iterator getOntoTreeIterator() {
@@ -88,7 +89,6 @@ public class OntoTreeModel implements TreeModel {
 
     /**
      * Returns the root of the tree. Returns null only if the tree has no nodes.
-     * @param
      * @return the root of the tree
      */
     public Object getRoot() {
@@ -155,7 +155,7 @@ public class OntoTreeModel implements TreeModel {
         // get value if object in the tree path
         // assuming that its still old value there
         // this assumption may be WRONG!?
-        Object oldValue = (Object) path.getLastPathComponent();
+        Object oldValue =  path.getLastPathComponent();
         if (oldValue.equals(newValue)) {
             // post treeNodesChanged event
         }
@@ -170,8 +170,7 @@ public class OntoTreeModel implements TreeModel {
 
     /**
      * Adds a listener for the TreeModelEvent posted after the tree changes.
-     * @param  1 - the listener to add
-     * @see  removeTreeModelListener(javax.swing.event.TreeModelListener)
+     * @param  l - the listener to add
      */
     public void addTreeModelListener(TreeModelListener l) {
         //System.out.println("OntoTreeModel, method addTreeModelListener");
@@ -180,7 +179,6 @@ public class OntoTreeModel implements TreeModel {
     /**
      * Removes a listener previously added with addTreeModelListener().
      * @param l - the listener to remove
-     * @see addTreeModelListener(javax.swing.event.TreeModelListener)
      */
     public void removeTreeModelListener(TreeModelListener l) {
         //System.out.println("OntoTreeModel, method removeTreeModelListener");

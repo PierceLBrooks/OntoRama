@@ -143,7 +143,7 @@ public class RdfWebkbParser extends RdfDamlParser {
             //System.out.println("updated edge = " + curEdge);
         }
 
-        // this is just in case we had some nodes not attached to edges.
+        // this is just in case we had some nodes not attached to _graphEdges.
         Iterator nodesIterator = _nodesList.iterator();
         while (nodesIterator.hasNext()) {
             GraphNode curNode = (GraphNode) nodesIterator.next();

@@ -179,10 +179,10 @@ public class QueryEngine implements QueryEngineInterface {
 
     /**
      * get result: collection of OntologyTypes
-     * Method will build list of nodes and list of edges, including only edges we are
+     * Method will build list of nodes and list of _graphEdges, including only _graphEdges we are
      *  interested in (see this Class Description for more details).
      *  If iterator of wanted links is empty - assumption is that a user
-     *  asked for ALL available links/edges.
+     *  asked for ALL available links/_graphEdges.
      *
      * @todo query should have as a links set not Integer list, but edge types list.
      */
@@ -199,15 +199,7 @@ public class QueryEngine implements QueryEngineInterface {
             return;
         }
 
-        List wantedLinksObjects = new LinkedList();
-        Iterator it = wantedLinks.iterator();
-        while (it.hasNext()) {
-            Integer i = (Integer) it.next();
-            RelationLinkDetails edgeType = OntoramaConfig.getRelationLinkDetails(i.intValue());
-            wantedLinksObjects.add(edgeType);
-        }
         System.out.println("wantedLinks: " + wantedLinks);
-        System.out.println("wantedLinksObjects: " + wantedLinksObjects);
 
         _resultNodesList = new LinkedList();
         _resultEdgesList = new LinkedList();
@@ -216,7 +208,9 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
             Edge curEdge = (Edge) edgesIt.next();
-            if (wantedLinksObjects.contains(curEdge.getEdgeType())) {
+            System.out.println("curEdge = " + curEdge);
+            if (wantedLinks.contains(curEdge.getEdgeType())) {
+                System.out.println("want this edge");
                 _resultEdgesList.add(curEdge);
                 GraphNode fromNode = curEdge.getFromNode();
                 GraphNode toNode = curEdge.getToNode();

@@ -3,6 +3,7 @@ package ontorama.conf;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +15,10 @@ import java.util.List;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.EdgeTypeImpl;
+import ontorama.ontotools.source.JarSource;
 import ontorama.util.Debug;
+import ontorama.util.SVG2Shape;
+
 import org.jdom.Attribute;
 import org.jdom.DataConversionException;
 import org.jdom.Document;
@@ -35,6 +39,9 @@ public class XmlConfigParser extends XmlParserAbstract {
 
     private static Hashtable edgesConfig;
     private List edgesOrdering;
+    private NodeTypeDisplayInfo conceptShape = null;
+    private NodeTypeDisplayInfo relationShape = null;
+    private JarSource streamReader = new JarSource();;
 
     /**
      *
@@ -105,7 +112,11 @@ public class XmlConfigParser extends XmlParserAbstract {
 
             _rootElement = doc.getRootElement();
 
-            parse();
+            parseRelations();
+            
+            conceptShape = parseDisplayShape("conceptShape", "concept");
+            relationShape = parseDisplayShape("relationShape", "relation");
+            
             Element rdfMappingEl = _rootElement.getChild(rdfMappingElementName);
             if (rdfMappingEl != null) {
                 parseRelationRdfMappingElement(rdfMappingEl);
@@ -116,12 +127,65 @@ public class XmlConfigParser extends XmlParserAbstract {
             System.exit(-1);
         }
     }
+    
+    private NodeTypeDisplayInfo parseDisplayShape(String shapeElementName, String displayName) throws ConfigParserException {
+        Element shapeElement = _rootElement.getChild(shapeElementName);
+    	if(shapeElement != null) {
+    	    String normalColorCode = shapeElement.getAttributeValue("color");
+    	    if(normalColorCode == null) {
+    	        throw new ConfigParserException("Could not find 'color' attribute on '" + shapeElementName + "'");
+    	    }
+    	    Color normalColor = Color.decode(normalColorCode);
+    	    if(normalColor == null) {
+    	        throw new ConfigParserException("Could not decode 'color' attribute on '" + shapeElementName + "'");
+    	    }
+    	    String cloneColorCode = shapeElement.getAttributeValue("cloneColor");
+    	    if(cloneColorCode == null) {
+    	        throw new ConfigParserException("Could not find 'cloneColor' attribute on '" + shapeElementName + "'");
+    	    }
+    	    Color cloneColor = Color.decode(cloneColorCode);
+    	    if(cloneColor == null) {
+    	        throw new ConfigParserException("Could not decode 'cloneColor' attribute on '" + shapeElementName + "'");
+    	    }
+    	    String imageFileName = shapeElement.getAttributeValue("imageFile");
+    	    if(imageFileName == null) {
+    	        throw new ConfigParserException("Could not find 'imageFile' attribute on '" + shapeElementName + "'");
+    	    }
+    	    String widthString = shapeElement.getAttributeValue("width");
+    	    if(widthString == null) {
+    	        throw new ConfigParserException("Could not find 'width' attribute on '" + shapeElementName + "'");
+    	    }
+    	    int width = Integer.parseInt(widthString);
+    	    String heightString = shapeElement.getAttributeValue("height");
+    	    if(heightString == null) {
+    	        throw new ConfigParserException("Could not find 'height' attribute on '" + shapeElementName + "'");
+    	    }
+    	    boolean forceUpright = true;
+    	    String forceUprightString = shapeElement.getAttributeValue("forceUpright");
+    	    if( (forceUprightString == null) || (!forceUprightString.equalsIgnoreCase("true")) ) {
+    	    	forceUpright = false;
+    	    }
+    	    int height = Integer.parseInt(heightString);
+    	    Shape shape;
+    	    try {
+    	        SAXBuilder builder = new SAXBuilder(false);
+
+    	        Document doc = builder.build(streamReader.getInputStreamFromResource(imageFileName));
+    	        Element svgElem = doc.getRootElement();
+    	        shape = SVG2Shape.importShape(svgElem, width, height);
+    	    } catch (Exception e) {
+    	        throw new ConfigParserException("Could not import the shape file found on 'conceptShape'");
+    	    }
+    	    return new NodeTypeDisplayInfo(displayName, shape, forceUpright ,normalColor, cloneColor);
+    	}
+    	return null;
+    }
 
     public Hashtable getDisplayInfo () {
         return edgesConfig;
     }
 
-    private void parse () throws ConfigParserException {
+    private void parseRelations () throws ConfigParserException {
         Element ontologyElement = _rootElement.getChild(ontologyElementName);
         List relationElementsList = ontologyElement.getChildren(relationElementName);
         if (relationElementsList.size() == 0) {
@@ -341,5 +405,12 @@ public class XmlConfigParser extends XmlParserAbstract {
     public List getEdgesOrdering() {
         return this.edgesOrdering;
     }
-
+    
+    public NodeTypeDisplayInfo getConceptShape() {
+    	return this.conceptShape;
+    }
+    
+    public NodeTypeDisplayInfo getRelationShape() {
+        return this.relationShape;
+    }
 }

@@ -1,4 +1,4 @@
-package ontorama.test.webkbtools.datamodel;
+package ontorama.webkbtools.datamodel;
 
 import junit.framework.*;
 
@@ -6,10 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.test.IteratorUtil;
+import ontorama.util.IteratorUtil;
 
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 

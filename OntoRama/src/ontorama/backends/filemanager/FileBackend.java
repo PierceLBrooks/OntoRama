@@ -12,8 +12,8 @@ import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.backends.DataFormatMapping;
 import ontorama.backends.filemanager.gui.FileJMenu;
+import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;

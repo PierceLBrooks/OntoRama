@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JMenu;
 
+import ontorama.conf.*;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;

@@ -18,16 +18,23 @@ public class P2PJMenu extends JMenu {
 
     private P2PBackend _p2pBackend;
 
+    private static boolean p2pEnabled = false;
+
     private static final String _menuName = "P2P";
 
     private Action _searchAction;
+    private Action _enableP2PAction;
 
     public P2PJMenu (P2PBackend p2pBackend) {
         super();
         _p2pBackend = p2pBackend;
         setText(_menuName);
 
+        _enableP2PAction = new ActionEnableP2P("Start P2P");
         _searchAction = new ActionSearch("Group search");
+
+        add(_enableP2PAction);
+        addSeparator();
 
         add(_searchAction);
         addSeparator();
@@ -72,6 +79,17 @@ public class P2PJMenu extends JMenu {
         addSeparator();
     }
 
+    private class ActionEnableP2P extends AbstractAction {
+        public ActionEnableP2P(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            _p2pBackend = new P2PBackend(null);
+        }
+
+    }
+
     private class ActionSearch extends AbstractAction {
         public ActionSearch(String name) {
             super(name);
@@ -90,4 +108,6 @@ public class P2PJMenu extends JMenu {
             }
         }
     }
+
+
 }

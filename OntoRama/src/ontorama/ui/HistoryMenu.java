@@ -13,7 +13,7 @@ import ontorama.OntoramaConfig;
 import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
-import ontorama.model.QueryStartEvent;
+import ontorama.ui.events.QueryStartEvent;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;

@@ -1,20 +1,19 @@
-package ontorama.model;
+package ontorama.ui.events;
 
 import org.tockit.events.Event;
-
-import ontorama.model.graph.Graph;
+import ontorama.ontotools.query.Query;
 
 /**
  * Created by IntelliJ IDEA.
  * User: nataliya
  * Date: Dec 4, 2002
- * Time: 2:35:29 PM
+ * Time: 1:45:39 PM
  * To change this template use Options | File Templates.
  */
-public class QueryEndEvent implements Event {
-    protected Graph subject;
+public class QueryStartEvent implements Event {
+    protected Query subject;
 
-    public QueryEndEvent(Graph subject) {
+    public QueryStartEvent(Query subject) {
         this.subject = subject;
     }
 

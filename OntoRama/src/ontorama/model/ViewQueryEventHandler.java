@@ -10,6 +10,8 @@ package ontorama.model;
 
 import ontorama.model.ViewQuery;
 import ontorama.ontotools.query.Query;
+import ontorama.ui.events.QueryEvent;
+import ontorama.ui.events.QueryStartEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;

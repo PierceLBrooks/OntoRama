@@ -23,7 +23,7 @@ import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
 import ontorama.model.tree.view.TreeView;
-import ontorama.model.QueryEvent;
+import ontorama.ui.events.QueryEvent;
 import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;

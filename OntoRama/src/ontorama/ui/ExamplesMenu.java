@@ -12,7 +12,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.QueryStartEvent;
+import ontorama.ui.events.QueryStartEvent;
 import ontorama.ontotools.query.Query;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import org.tockit.events.EventBroker;

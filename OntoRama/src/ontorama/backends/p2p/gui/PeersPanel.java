@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.gui;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -191,22 +192,29 @@ public class PeersPanel extends JPanel  implements GroupView {
 			this.groupName = groupName;
         	
 			setName(groupName);
+			
+			setBackground(Color.BLUE);
 
 			jlist = new JList(listModel);
 
 			scrollPanel = new JScrollPane(jlist);
+			System.out.println("\npanel size = " + getSize() + 
+							", pref size = " + getPreferredSize() + 
+							", min size = " + getMinimumSize() + 
+							", max size = " + getMaximumSize());
 			System.out.println("\njllist size = " + jlist.getSize() + 
 							", pref size = " + jlist.getPreferredSize() + 
 							", min size = " + jlist.getMinimumSize() + 
 							", max size = " + jlist.getMaximumSize());
-			jlist.setSize(jlist.getPreferredSize());
 
 			scrollPanelSize = scrollPanel.getPreferredSize();
 			System.out.println("\nscrollPanel size = " + scrollPanel.getSize() + 
 							", pref size = " + scrollPanel.getPreferredSize() + 
 							", min size = " + scrollPanel.getMinimumSize() + 
 							", max size = " + scrollPanel.getMaximumSize());
-			scrollPanel.setSize(scrollPanel.getPreferredSize());							
+			scrollPanel.setSize(scrollPanelSize);							
+			jlist.setSize(scrollPanelSize);
+			setPreferredSize(scrollPanelSize);
 			add(scrollPanel);
 		}
 
@@ -237,13 +245,15 @@ public class PeersPanel extends JPanel  implements GroupView {
             }
         }
         
-//        public void repaint() {
-//			super.repaint();
-//        	if (scrollPanel != null) {
-//				scrollPanel.setSize(scrollPanelSize);
-//				System.out.println("\nrepaint(); scrollPanel size " + scrollPanel.getSize() + "\n");							
-//        	}
-//        }
+        public void repaint() {
+			super.repaint();
+        	if (scrollPanel != null) {
+				scrollPanel.setSize(scrollPanelSize);
+				jlist.setSize(scrollPanelSize);
+				setSize(scrollPanelSize);
+				System.out.println("\nrepaint(); scrollPanel size " + scrollPanel.getSize() + "\n");							
+        	}
+        }
         
     }
 }

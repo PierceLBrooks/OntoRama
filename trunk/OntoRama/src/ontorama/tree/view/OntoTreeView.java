@@ -112,7 +112,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      * Implementation of valueChanged needed for interface
      * implementation of TreeSelectionListener.
      * Overriten here so we can control single mouse clicks behaviour ourselves.
-     * @param   TreeSelectionEvent e
+     * @param   e - TreeSelectionEvent
      */
     public void valueChanged(TreeSelectionEvent e) {
         OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();

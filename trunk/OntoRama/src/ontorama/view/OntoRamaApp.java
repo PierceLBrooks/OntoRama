@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -136,10 +137,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private int _appWindowPercent = 95;
 
+
+    private int _mainSplitPaneWidth ;
+    private int _mainSplitPaneHeight;
+
     /**
      * nodes list viewer, used to show unconnected nodes
      */
     private NodesListViewer _listViewer;
+
+
 
     /**
      * debugging
@@ -183,7 +190,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _treeView = new OntoTreeView(eventBroker);
         _hyperView = new SimpleHyperView(eventBroker);
 
-        addComponentsToScrollPanel(_hyperView, _treeView);
+        _listViewer = new NodesListViewer(this, new LinkedList());
+
+        JSplitPane  treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        treeSubSplitPane.add(_treeView);
+        treeSubSplitPane.add(_listViewer);
+
+//        addComponentsToScrollPanel(_hyperView, _treeView);
+        addComponentsToScrollPanel(_hyperView, treeSubSplitPane);
+        setVerticalSplitPanelSizes(treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 80);
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.add(_queryPanel, BorderLayout.NORTH);
@@ -279,23 +295,49 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private void setSplitPanelSizes(int applicationWidth, int applicationHeigth) {
 
-        int _splitPaneWidth = applicationWidth;
-        int _splitPaneHeight = (applicationHeigth * 70) / 100;
+        _mainSplitPaneWidth = applicationWidth;
+        _mainSplitPaneHeight = (applicationHeigth * 70) / 100;
 
         int dividerBarWidth = _splitPane.getDividerSize();
 
         int leftPanelWidth = calculateLeftPanelWidth(applicationWidth, this._leftSplitPanelWidthPercent);
         int rigthPanelWidth = applicationWidth - leftPanelWidth;
 
-        _hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, _splitPaneHeight));
-        _treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, _splitPaneHeight));
+        _hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, _mainSplitPaneHeight));
+        _treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, _mainSplitPaneHeight));
 
-        _splitPane.setPreferredSize(new Dimension(_splitPaneWidth, _splitPaneHeight));
+        _splitPane.setPreferredSize(new Dimension(_mainSplitPaneWidth, _mainSplitPaneHeight));
 
         _dividerBarLocation = leftPanelWidth;
 
         _splitPane.setDividerLocation(_dividerBarLocation);
     }
+
+    /**
+     *
+     */
+    private void setVerticalSplitPanelSizes (  JSplitPane splitPane,
+                                     JComponent topComponent,
+                                     JComponent bottomComponent,
+                                     int totalComponentWidth,
+                                     int totalComponentHeight,
+                                     int topComponentHeightPercentage) {
+
+        int topPanelHeight = (totalComponentHeight * topComponentHeightPercentage)/100;
+        int bottomPaneHeight = totalComponentHeight - topPanelHeight - splitPane.getDividerSize();
+
+        System.out.println("total width = " + totalComponentWidth + ", total height = " + totalComponentHeight  +
+                ", topPanelHeight = " + topPanelHeight + ", bottomPanelHeight = " + bottomPaneHeight);
+        topComponent.setPreferredSize(new Dimension(totalComponentWidth, topPanelHeight));
+        bottomComponent.setPreferredSize(new Dimension(totalComponentWidth, bottomPaneHeight));
+        splitPane.setPreferredSize(new Dimension(totalComponentWidth, totalComponentHeight));
+        splitPane.setDividerLocation(topPanelHeight);
+
+
+
+    }
+
+
 
     /**
      * get position for center of the screen
@@ -374,7 +416,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
             _graph = graph;
             updateViews();
-            showUnconnectedNodes();
+//            showUnconnectedNodes();
         }
     }
 
@@ -427,6 +469,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _treeView.setGraph(graph);
         _queryPanel.setGraph(graph);
         _descriptionViewPanel.setGraph(graph);
+
+        List testList = new LinkedList();
+        testList.add(graph.getRootNode());
+        _listViewer.setNodesList(testList);
     }
 
 
@@ -507,27 +553,27 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         return false;
     }
 
-    /**
-     *
-     */
-    private void showUnconnectedNodes() {
-        List unconnectedNodes = _graph.getUnconnectedNodesList();
-        if (unconnectedNodes.size() != 0) {
-            closeUnconnectedNodesView();
-            _listViewer = new NodesListViewer(this, unconnectedNodes);
-            _listViewer.showList(true);
-        }
-    }
-
-    /**
-     *
-     */
-    private void closeUnconnectedNodesView() {
-        if (_listViewer != null) {
-            _listViewer.dispose();
-            _listViewer = null;
-        }
-    }
+//    /**
+//     *
+//     */
+//    private void showUnconnectedNodes() {
+//        List unconnectedNodes = _graph.getUnconnectedNodesList();
+//        if (unconnectedNodes.size() != 0) {
+//            closeUnconnectedNodesView();
+//            _listViewer = new NodesListViewer(this, unconnectedNodes);
+//            _listViewer.showList(true);
+//        }
+//    }
+//
+//    /**
+//     *
+//     */
+//    private void closeUnconnectedNodesView() {
+//        if (_listViewer != null) {
+//            _listViewer.dispose();
+//            _listViewer = null;
+//        }
+//    }
 
     /**
      *

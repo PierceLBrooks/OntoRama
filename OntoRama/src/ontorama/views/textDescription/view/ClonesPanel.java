@@ -1,14 +1,16 @@
 package ontorama.views.textDescription.view;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
-import ontorama.model.graph.Node;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 
@@ -22,10 +24,20 @@ import org.tockit.events.EventBroker;
  * @author
  * @version 1.0
  */
-public class ClonesPanel extends AbstractMultiValuesPanel {
+public class ClonesPanel extends AbstractPropertiesPanel {
+	private JPanel _propValuePanel = new JPanel();
+	private EventBroker _eventBroker;
 
     public ClonesPanel(String propName, EventBroker eventBroker) {
-        super(propName, eventBroker);
+		_eventBroker = eventBroker;
+		_propNameLabel.setText(propName);
+
+		layoutFirstComponent();
+
+		// add second panel
+		_propValuePanel.setLayout(new BoxLayout(_propValuePanel, BoxLayout.X_AXIS));
+		_propValuePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(_propValuePanel);
     }
 
 	/**
@@ -50,22 +62,6 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
 		repaint();
 	}
 
-	/**
-	 * @todo hack, see createPropertyComponent(TreeNode) for more info
-	 */
-	protected JComponent createPropertyComponent(Node graphNode) {
-		return null;
-	}
-
-	/**
-	 * @todo hack because we needed a metod taking tree node as an argument
-	 * not sure what is the best way to fix it, one possibility is to change
-	 * super class to have different argument in the method. another possibility
-	 * is to have this class not extending super class (this may break some
-	 * things in DescriptionView because we will need to take out clones panel
-	 * from the hashtable as hashtable expects to store AbstractPropertiesPanels
-	 * as values.)
-	 */
     protected JComponent createPropertyComponent(final TreeNode treeNode) {
         JButton button = new JButton();
         button.setText(treeNode.getName());
@@ -76,6 +72,11 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
         });
         return (JComponent) button;
     }
+    
+	public void clear() {
+		_propValuePanel.removeAll();
+	}
+    
 
 }
 

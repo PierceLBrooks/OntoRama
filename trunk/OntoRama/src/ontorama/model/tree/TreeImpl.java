@@ -16,6 +16,7 @@ import ontorama.OntoramaConfig;
 public class TreeImpl implements Tree {
 
     private Graph _graph;
+    private Node _graphRootNode;
     private TreeNode _root;
 
     private List _nodes = new LinkedList();
@@ -30,6 +31,7 @@ public class TreeImpl implements Tree {
      */
     public TreeImpl (Graph graph, Node graphRootNode) throws NoSuchRelationLinkException {
         _graph = graph;
+        _graphRootNode = graphRootNode;
         buildTree(graphRootNode);
     }
 
@@ -45,21 +47,38 @@ public class TreeImpl implements Tree {
         return _edges;
     }
 
-    private void buildTree (Node graphRootNode) {
-        _root = addTreeNode(graphRootNode);
-        // get outbound edges, create tree node/edge for each graph node/edge component
-        List queue = new LinkedList();
-        queue.add(graphRootNode);
-        while (!queue.isEmpty()) {
-            Node curGraphNode = (Node) queue.remove(0);
-            Iterator outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(curGraphNode).iterator();
-            while (outboundEdges.hasNext()) {
-                Edge curGraphEdge = (Edge) outboundEdges.next();
-                addTreeEdge (curGraphEdge);
-                queue.add(curGraphEdge.getToNode());
-            }
-        }
+//    private void buildTree (Node graphRootNode) {
+//        _root = addTreeNode(graphRootNode);
+//        // get outbound edges, create tree node/edge for each graph node/edge component
+//        List queue = new LinkedList();
+//        queue.add(graphRootNode);
+//        while (!queue.isEmpty()) {
+//            Node curGraphNode = (Node) queue.remove(0);
+//            Iterator outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(curGraphNode).iterator();
+//            while (outboundEdges.hasNext()) {
+//                Edge curGraphEdge = (Edge) outboundEdges.next();
+//                TreeEdge curEdge = addTreeEdge (curGraphEdge);
+//
+//                queue.add(curGraphEdge.getToNode());
+//            }
+//        }
+//    }
 
+    private void buildTree (Node topGraphNode) {
+//        System.out.println("buildTree for graph node " + topGraphNode);
+        _root = addTreeNode(topGraphNode);
+        traverseBuild(topGraphNode, _root);
+    }
+
+    private void traverseBuild (Node topGraphNode, TreeNode topTreeNode ) {
+        Iterator outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(topGraphNode).iterator();
+        while (outboundEdges.hasNext()) {
+            Edge curGraphEdge = (Edge) outboundEdges.next();
+            TreeNode toNode = addTreeNode (curGraphEdge.getToNode());
+            TreeEdge curEdge = addTreeEdge (curGraphEdge, toNode);
+            topTreeNode.addChild(curEdge);
+            traverseBuild(curGraphEdge.getToNode(), toNode);
+        }
     }
 
     private TreeNode addTreeNode (Node graphNode) {
@@ -73,15 +92,14 @@ public class TreeImpl implements Tree {
             if (cur.getGraphNode().equals(treeNode.getGraphNode())) {
                     cur.addClone(treeNode);
                     treeNode.addClone(cur);
-                    System.out.println("node " + treeNode + " and " + cur + " should be clones");
             }
         }
         _nodes.add(treeNode);
         return treeNode;
     }
 
-    private TreeEdge addTreeEdge (Edge graphEdge) {
-        TreeNode toNode = addTreeNode (graphEdge.getToNode());
+    private TreeEdge addTreeEdge (Edge graphEdge, TreeNode toNode) {
+        //TreeNode toNode = addTreeNode (graphEdge.getToNode());
         if (toNode.getParent() != null) {
             /// @todo handle error with an exception
             System.err.println("tree node " + toNode + " already has a parent!");

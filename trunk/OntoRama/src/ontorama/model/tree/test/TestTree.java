@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.TreeEdge;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -162,6 +163,39 @@ public class TestTree extends TestCase{
                                     treeNode.getGraphNode(), curClone.getGraphNode());
         }
     }
+
+    public void testTraversal () {
+        TreeNode rootNode = _tree.getRootNode();
+        List q = new LinkedList();
+        q.add(rootNode);
+
+        int treeDepth = 0;
+        int branchDepth = 0;
+        Iterator topLevelChildren = rootNode.getChildren().iterator();
+        while (topLevelChildren.hasNext()) {
+            TreeEdge curEdge = (TreeEdge) topLevelChildren.next();
+            TreeNode child = curEdge.getToNode();
+            branchDepth = calcBranchDepth(1, child);
+            if (branchDepth > treeDepth) {
+                treeDepth = branchDepth;
+            }
+        }
+        assertEquals("branchDepth of the tree should be ", 4, treeDepth);
+    }
+
+    private int calcBranchDepth (int depth, TreeNode top) {
+        Iterator children = top.getChildren().iterator();
+        if (children.hasNext()) {
+            depth++;
+        }
+        while (children.hasNext()) {
+            TreeEdge curEdge = (TreeEdge) children.next();
+            TreeNode toNode = curEdge.getToNode();
+            depth = calcBranchDepth(depth, toNode);
+        }
+        return depth;
+    }
+
 
 
     private TreeNode getNodeByName (String nodeName) {

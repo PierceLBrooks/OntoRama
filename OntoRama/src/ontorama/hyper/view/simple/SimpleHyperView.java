@@ -109,7 +109,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     public void focus(GraphNode graphNode) {
         if ((focusNode != null) && (graphNode.equals(focusNode.getGraphNode())) ) {
-            System.out.println("FOCUS node " + graphNode + " is already focused, don't have to do anything");
+            //System.out.println("FOCUS node " + graphNode + " is already focused, don't have to do anything");
             return;
         }
         animationTime = System.currentTimeMillis();

@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GroupSearchDialog extends JDialog {
-    private JList list;
 
     private static final String _title = "Group Search";
 
@@ -35,7 +34,6 @@ public class GroupSearchDialog extends JDialog {
     public GroupSearchDialog (Frame parent) {
         super(parent, _title, true);
 
-
         JButton cancelButton = new JButton("Cancel");
         final JButton okButton = new JButton("OK");
 
@@ -48,37 +46,53 @@ public class GroupSearchDialog extends JDialog {
 
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (_nameButton.isSelected()) {
-                    System.out.println("name button is selected");
-                    if (textInputIsValid(_nameField.getText(), " name ")) {
-                        _cancelled = false;
-                        _value = _nameField.getText();
-                        _selectedOption = GroupSearchDialog.OPTION_NAME;
-                        showDialog(false);
-                    }
-                }
-                else if (_descriptionButton.isSelected()) {
-                    System.out.println("description button is selected");
-                    if (textInputIsValid(_descriptionField.getText(), " description ")) {
-                        _cancelled = false;
-                        _value = _descriptionField.getText();
-                        _selectedOption = GroupSearchDialog.OPTION_DESCR;
-                        showDialog(false);
-                    }
-                }
-                else if (_allGroupsButton.isSelected()) {
-                    System.out.println("all groups button is selected");
-                    _cancelled = false;
-                    _selectedOption = GroupSearchDialog.OPTION_ALL;
+                if (verifyAllFieldsInputIsCorrect()) {
+                   _cancelled = false;
                     showDialog(false);
                 }
             }
         });
-        getRootPane().setDefaultButton(okButton);
 
+        JPanel mainContentPanel = buildMainContentPanel();
+        JPanel topPanel = buildTopDescriptionPanel();
+        JPanel buttonPanel = buildButtonsPanel(okButton, cancelButton);
+
+        Container contentPane = getContentPane();
+        contentPane.add(topPanel, BorderLayout.NORTH);
+        contentPane.add(mainContentPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
+
+        pack();
+        DialogUtil.centerDialog(parent, this);
+    }
+
+    private JPanel buildButtonsPanel(final JButton okButton, JButton cancelButton) {
+        JPanel buttonPanel = new JPanel();
+        getRootPane().setDefaultButton(okButton);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(okButton);
+        return buttonPanel;
+    }
+
+    private JPanel buildTopDescriptionPanel() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+        /// @todo put meaninfull text into the label
+        JLabel label1 = new JLabel("Search for P2P groups ");
+        topPanel.add(label1);
+        return topPanel;
+    }
+
+    private JPanel buildMainContentPanel() {
+        _allGroupsButton = new JRadioButton("All Groups");
+        _allGroupsButton.setSelected(true);
         _nameButton = new JRadioButton("Name");
         _descriptionButton = new JRadioButton("Description");
-        _allGroupsButton = new JRadioButton("All Groups");
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(_allGroupsButton);
@@ -93,6 +107,7 @@ public class GroupSearchDialog extends JDialog {
             public void keyPressed(KeyEvent e) {}
             public void keyReleased(KeyEvent e) {}
         } );
+
         _descriptionField = new JTextField();
         _descriptionField.addKeyListener(new KeyListener() {
            public void keyTyped (KeyEvent e) {
@@ -102,39 +117,40 @@ public class GroupSearchDialog extends JDialog {
             public void keyReleased(KeyEvent e) {}
         });
 
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        /// @todo put meaninfull text into the label
-        JLabel label1 = new JLabel("Search for ... ");
-        JLabel label2 = new JLabel("TODO: put something meaninfull here)...");
-        topPanel.add(label1);
-        topPanel.add(label2);
-
         JPanel mainContentPanel = new JPanel(new GridLayout(3,2));
+        mainContentPanel.add(_allGroupsButton);
+        mainContentPanel.add(new JLabel());
+
         mainContentPanel.add(_nameButton);
         mainContentPanel.add(_nameField);
 
         mainContentPanel.add(_descriptionButton);
         mainContentPanel.add(_descriptionField);
 
-        mainContentPanel.add(_allGroupsButton);
+        return mainContentPanel;
 
+    }
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPanel.add(okButton);
-
-        Container contentPane = getContentPane();
-        contentPane.add(topPanel, BorderLayout.NORTH);
-        contentPane.add(mainContentPanel, BorderLayout.CENTER);
-        contentPane.add(buttonPanel, BorderLayout.SOUTH);
-
-        pack();
-        DialogUtil.centerDialog(parent, this);
+    private boolean verifyAllFieldsInputIsCorrect () {
+        if (_nameButton.isSelected()) {
+            if (textInputIsValid(_nameField.getText(), " name ")) {
+                _value = _nameField.getText();
+                _selectedOption = GroupSearchDialog.OPTION_NAME;
+                return true;
+            }
+        }
+        else if (_descriptionButton.isSelected()) {
+            if (textInputIsValid(_descriptionField.getText(), " description ")) {
+                _value = _descriptionField.getText();
+                _selectedOption = GroupSearchDialog.OPTION_DESCR;
+                return true;
+            }
+        }
+        else if (_allGroupsButton.isSelected()) {
+            _selectedOption = GroupSearchDialog.OPTION_ALL;
+            return true;
+        }
+        return false;
     }
 
     private void showDialog (boolean isVisible) {
@@ -143,10 +159,6 @@ public class GroupSearchDialog extends JDialog {
 
     public String getValue() {
         return _value;
-    }
-
-    private void setValue(String value) {
-        _value = value;
     }
 
     private boolean textInputIsValid (String text, String promptName) {

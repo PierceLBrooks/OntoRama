@@ -1,4 +1,4 @@
-package ontorama.model.graph.controller;
+package ontorama.model.graph.events;
 
 import org.tockit.events.Event;
 

@@ -3,8 +3,6 @@ package ontorama.backends.p2p.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ontorama.model.graph.test.TestGraphPackage;
-import ontorama.model.tree.test.TestTreePackage;
 import ontorama.backends.p2p.model.test.TestP2PModelPackage;
 
 /**

@@ -11,6 +11,8 @@ import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
+import ontorama.ontotools.query.QueryResult;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.parser.rdf.RdfDamlParser;
 
@@ -101,14 +103,10 @@ public class P2PReciever implements P2PRecieverInterface{
     public void recieveSearchResponse(String senderPeerID,String result){
         try {
             //Parse the input recieved from the new peer
-            Reader intModel = new StringReader(result);
-            RdfDamlParser parser = new RdfDamlParser();
-            ParserResult parserResult = parser.getResult(intModel);
-			backend.getP2PGraph().add(parserResult);
-
-        } catch (ParserException e) {
-            System.err.println("Error in recieveSearchResponse");
-            e.printStackTrace();
+            //RdfDamlParser parser = new RdfDamlParser();
+            /// @todo shouldn't have empty query here
+            QueryResult qr = P2PBackend.getQueryResult(result, new Query());
+			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
             System.err.println("Error in recieveSearchResponse");
             e.printStackTrace();
@@ -137,14 +135,10 @@ public class P2PReciever implements P2PRecieverInterface{
 			activePeers.addPeer(senderPeerID, senderPeerName, senderGroupID);
 
 			//Parse the input recieved from the new peer
-			Reader intModel = new StringReader(internalModel);
-			RdfDamlParser parser = new RdfDamlParser();
-			ParserResult parserResult = parser.getResult(intModel);
-			backend.getP2PGraph().add(parserResult);
-
-		} catch (ParserException e) {
-        	System.err.println("An error accured");
-            e.printStackTrace();
+			//RdfDamlParser parser = new RdfDamlParser();
+            /// @todo shouldn't have empty query here
+            QueryResult qr = P2PBackend.getQueryResult(internalModel, new Query());
+			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
         	System.err.println("An error accured");
             e.printStackTrace();

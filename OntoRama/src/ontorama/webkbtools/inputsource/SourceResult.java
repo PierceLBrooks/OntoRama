@@ -67,4 +67,17 @@ public class SourceResult {
   public Query getNewQuery () {
     return this.query;
   }
+
+  /**
+   *
+   */
+  public String toString() {
+    String str = "Source Result";
+
+    str = str + ": queryIsSuccess = " + queryIsSuccess;
+    str = str + ", reader = " + reader;
+    str = str + ", query = " + query;
+
+    return str;
+  }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-	xmlns:ont="http://www.ontorama.org/ont"
-  	targetNamespace="http://www.ontorama.org/ont"
+  	targetNamespace="http://kvo.itee.uq.edu.au/~nataliya/ont"
+  	xmlns="http://kvo.itee.uq.edu.au/~nataliya/ont"
 	elementFormDefault="qualified">
 
 	<!--Schema for validation of XML input for OntoRama application -->
@@ -33,7 +33,7 @@
 				<xsd:element name="relationship" minOccurs="0" maxOccurs="unbounded">
 					<xsd:complexType>
 						<xsd:attribute name="type" use="required" type="xsd:string"/>
-						<xsd:attribute name="to" use="required"  type="ont:ontologyType" />
+						<xsd:attribute name="to" use="required"  type="xsd:string" />
 					</xsd:complexType>
 				</xsd:element>
 		</xsd:sequence>
@@ -54,4 +54,14 @@
 			</xsd:extension>	
 		</xsd:complexContent>
 	</xsd:complexType>
+	
+	<!--
+	<xsd:element name="relationship" minOccurs="0" maxOccurs="unbounded">
+		<xsd:complexType>
+			<xsd:attribute name="type" use="required" type="xsd:string"/>
+			<xsd:attribute name="to" use="required"  type="ont:ontologyType" />
+		</xsd:complexType>
+	</xsd:element>
+	-->
+	
 </xsd:schema>

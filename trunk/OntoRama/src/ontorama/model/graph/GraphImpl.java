@@ -13,7 +13,6 @@ import ontorama.model.graph.events.GraphNodeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
-import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 
 /**
@@ -54,11 +53,6 @@ public class GraphImpl implements Graph {
      */
     private List _graphEdges = new LinkedList();
 
-    /**
-     *
-     */
-    Debug debug = new Debug(false);
-
     EventBroker _eventBroker;
 
     private String termName;
@@ -67,13 +61,9 @@ public class GraphImpl implements Graph {
      * Constructor for GraphImpl
      */
     public GraphImpl(EventBroker eventBroker) {
-        debug.message(
-                "******************* GraphBuilder constructor start *******************");
         _topLevelUnconnectedNodes = new LinkedList();
         _graphNodes = new LinkedList();
         _eventBroker = eventBroker;
-        debug.message(
-                "******************* GraphBuilder constructor end *******************");
     }
 
     /**
@@ -105,14 +95,10 @@ public class GraphImpl implements Graph {
     public GraphImpl(QueryResult queryResult, EventBroker eventBroker) throws InvalidArgumentException {
        	this(eventBroker);
        	try{
-	        debug.message(
-	                "******************* GraphBuilder constructor start *******************");
-	
 	        termName = queryResult.getQuery().getQueryTypeName();
 	        List nodesList = queryResult.getNodesList();
 	        List edgesList = queryResult.getEdgesList();
 
-	
 	        buildGraph( nodesList, edgesList);
 	        if (termName == null) {
 	            root = findRootNode();
@@ -123,8 +109,6 @@ public class GraphImpl implements Graph {
 	                throw new NoTypeFoundInResultSetException(termName);
 	            }
 	        }
-	        debug.message(
-	                "******************* GraphBuilder constructor end *******************");
        	} catch (GraphCyclesDisallowedException e) {
        		throw new InvalidArgumentException("Cyclic structure in query result", e);
        	}
@@ -284,10 +268,7 @@ public class GraphImpl implements Graph {
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
-            /// @todo we might want to implement equality here
-            if ((edge.getFromNode().equals(cur.getFromNode())) &&
-                    (edge.getToNode().equals(cur.getToNode())) &&
-                    (edge.getEdgeType() == cur.getEdgeType())) {
+            if (edge.equals(cur)) {
                 // this edge is already registered
                 throw new EdgeAlreadyExistsException(edge);
             }

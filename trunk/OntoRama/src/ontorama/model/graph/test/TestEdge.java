@@ -69,6 +69,8 @@ public class TestEdge extends TestCase {
 
     private URI creatorUri1;
     private URI creatorUri2;
+    
+    private Edge equityTestEdge;
 
 
     /**
@@ -96,6 +98,7 @@ public class TestEdge extends TestCase {
         node6 = new NodeImpl("node6", "node6");
 
         try {
+			equityTestEdge = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
@@ -200,6 +203,11 @@ public class TestEdge extends TestCase {
         URI creatorUri = new URI("http://onotrama.org/user/");
         edge3.setCreatorUri(creatorUri);
         assertEquals("creatorUri for edge3", creatorUri, edge3.getCreatorUri());
+    }
+    
+    public void testEquity () {
+    	assertEquals("edge should be equal to edge1", true, edge1.equals(equityTestEdge));
+		assertEquals("edge should not be equal to edge7", false, edge7.equals(equityTestEdge));
     }
 
     //////////////******* Helper methods ********////////////////////

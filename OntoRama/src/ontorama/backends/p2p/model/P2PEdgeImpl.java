@@ -4,9 +4,6 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**

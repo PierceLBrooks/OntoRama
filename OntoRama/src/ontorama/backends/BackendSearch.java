@@ -6,9 +6,9 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.model.graph.GraphModificationException;
-import ontorama.ui.OntoRamaApp;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
+import ontorama.ui.OntoRamaApp;
 
 
 /**

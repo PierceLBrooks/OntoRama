@@ -25,17 +25,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.Node;
-import ontorama.ui.OntoRamaApp;
-import ontorama.ontotools.source.webkb.AmbiguousChoiceDialog;
-import ontorama.ontotools.source.webkb.WebkbQueryStringConstructor;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.parser.rdf.RdfWebkbParser;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.parser.rdf.RdfWebkbParser;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.source.webkb.AmbiguousChoiceDialog;
+import ontorama.ontotools.source.webkb.WebkbQueryStringConstructor;
+import ontorama.ui.OntoRamaApp;
 
 
 public class WebKB2Source implements Source {

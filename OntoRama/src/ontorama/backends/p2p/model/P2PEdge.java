@@ -11,8 +11,6 @@ package ontorama.backends.p2p.model;
 import java.net.URI;
 import java.util.Set;
 
-import ontorama.model.graph.Edge;
-
 public interface P2PEdge extends ontorama.model.graph.Edge {
     /**
      * Add an asserter for this edge. If the asserter is registered as a 

@@ -3,7 +3,6 @@ package ontorama.model.graph;
 import java.net.URI;
 
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.model.graph.Edge;
 
 /**
  * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.

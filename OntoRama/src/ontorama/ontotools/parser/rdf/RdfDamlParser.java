@@ -10,17 +10,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
-import ontorama.model.graph.NodeType;
 import ontorama.conf.RdfMapping;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
 
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;

@@ -1,6 +1,5 @@
 package ontorama.model.graph.controller;
 
-import ontorama.model.graph.Graph;
 import org.tockit.events.Event;
 
 /*

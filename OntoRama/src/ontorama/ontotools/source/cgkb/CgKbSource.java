@@ -22,13 +22,12 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import ontorama.model.graph.EdgeType;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
 import ontorama.ontotools.source.UrlQueryStringConstructor;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.CancelledQueryException;
-import ontorama.ontotools.SourceException;
 
 public class CgKbSource implements Source {
 

@@ -19,11 +19,6 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeType;
 import ontorama.conf.ImageMaker;
 import ontorama.views.tree.model.OntoTreeNode;
 

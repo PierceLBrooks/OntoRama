@@ -14,13 +14,11 @@ import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
 import ontorama.conf.RdfMapping;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
 
 import com.hp.hpl.jena.rdf.query.QueryResults;
 import com.hp.hpl.jena.rdf.query.ResultBinding;

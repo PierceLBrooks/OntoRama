@@ -15,7 +15,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.EdgeType;
 import org.tockit.canvas.CanvasItem;
 
 public class HyperEdgeView extends CanvasItem {

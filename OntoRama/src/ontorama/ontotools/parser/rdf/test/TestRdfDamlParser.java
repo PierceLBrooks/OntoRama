@@ -9,22 +9,18 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeType;
 import ontorama.conf.examplesConfig.OntoramaExample;
-import ontorama.util.TestingUtils;
-import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.source.Source;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.source.Source;
+import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>

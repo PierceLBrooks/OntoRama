@@ -8,12 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
+import ontorama.ontotools.parser.ParserResult;
 
 /**
  * <p>Title: </p>

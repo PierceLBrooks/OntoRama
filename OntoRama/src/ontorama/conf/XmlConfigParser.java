@@ -12,8 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.EdgeTypeImpl;
 import ontorama.util.Debug;
 import org.jdom.Attribute;
 import org.jdom.DataConversionException;

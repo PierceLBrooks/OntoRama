@@ -5,9 +5,9 @@ import java.security.AccessControlException;
 import java.util.Collection;
 import java.util.Iterator;
 
+import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.ParserException;
 
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;

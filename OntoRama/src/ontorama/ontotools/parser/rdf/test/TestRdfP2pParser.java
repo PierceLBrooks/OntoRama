@@ -9,12 +9,12 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.util.TestingUtils;
-import ontorama.ontotools.source.Source;
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.parser.rdf.RdfP2pParser;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.source.Source;
+import ontorama.util.TestingUtils;
 
 /*
  * Created by IntelliJ IDEA.

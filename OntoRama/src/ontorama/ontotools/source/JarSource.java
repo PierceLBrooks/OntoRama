@@ -10,9 +10,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 
 /**
  * <p>Title: </p>

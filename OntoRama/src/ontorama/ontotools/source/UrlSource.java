@@ -17,9 +17,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 
 public class UrlSource implements Source {
     /**

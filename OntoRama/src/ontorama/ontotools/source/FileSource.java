@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 
 /*
  * Created by IntelliJ IDEA.

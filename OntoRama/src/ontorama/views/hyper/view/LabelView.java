@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import org.tockit.canvas.CanvasItem;
-import ontorama.views.hyper.view.HyperNodeView;
 
 /**
  * For now labels are just drawn on top of nodes.

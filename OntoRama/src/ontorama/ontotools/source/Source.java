@@ -9,9 +9,9 @@ package ontorama.ontotools.source;
  * @version 1.0
  */
 
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
 
 /**
  * Model a Data Source.

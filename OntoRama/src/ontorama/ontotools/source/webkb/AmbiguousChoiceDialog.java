@@ -15,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import ontorama.model.graph.Node;
-
 /**
  * <p>Title: </p>
  * <p>Description: </p>

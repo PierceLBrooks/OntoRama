@@ -5,9 +5,6 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
-
 /**
  * Basic P2PNodeImpl for ontology viewers.
  *

@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph;
 
-import ontorama.model.graph.EdgeType;
 
 public class EdgeTypeImpl implements EdgeType {
 

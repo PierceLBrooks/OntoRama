@@ -6,9 +6,6 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
-
 /**
  * <p>Title: </p>
  * <p>Description: </p>

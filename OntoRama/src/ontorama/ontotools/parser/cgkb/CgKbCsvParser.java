@@ -19,19 +19,14 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.ParserException;
 
 public class CgKbCsvParser implements Parser {
 

@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import ontorama.model.graph.controller.NodeSelectedEvent;
-import ontorama.model.graph.Node;
 import org.tockit.events.EventBroker;
 
 /**

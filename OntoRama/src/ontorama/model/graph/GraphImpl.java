@@ -15,14 +15,10 @@ import ontorama.model.graph.events.EdgeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.model.graph.events.NodeAddedEvent;
 import ontorama.model.graph.events.NodeRemovedEvent;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.util.Debug;
-import ontorama.ui.OntoRamaApp;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
+import ontorama.ui.OntoRamaApp;
+import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 
 /**

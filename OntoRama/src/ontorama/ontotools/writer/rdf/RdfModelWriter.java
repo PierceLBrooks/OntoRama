@@ -12,10 +12,6 @@ import java.util.regex.Pattern;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
 import ontorama.conf.RdfMapping;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.writer.ModelWriter;

@@ -6,11 +6,6 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
-
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
  * with given GraphNodes. This object is point of reference

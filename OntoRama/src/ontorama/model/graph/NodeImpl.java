@@ -1,8 +1,6 @@
 package ontorama.model.graph;
 
 
-import ontorama.model.graph.Node;
-
 import java.net.URI;
 import java.util.Iterator;
 import java.util.LinkedList;

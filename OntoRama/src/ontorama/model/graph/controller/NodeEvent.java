@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph.controller;
 
-import ontorama.model.graph.Node;
 import org.tockit.events.Event;
 
 public class NodeEvent implements Event {

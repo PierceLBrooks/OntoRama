@@ -11,8 +11,6 @@ package ontorama.backends.p2p.model;
 import java.net.URI;
 import java.util.Set;
 
-import ontorama.model.graph.Node;
-
 public interface P2PNode extends ontorama.model.graph.Node {
 
 

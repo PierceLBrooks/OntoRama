@@ -8,8 +8,6 @@
  */
 package ontorama.model.graph.controller;
 
-import ontorama.model.graph.Node;
-import ontorama.model.graph.controller.NodeEvent;
 
 public class QueryEvent extends NodeEvent {
     public QueryEvent(ontorama.model.graph.Node subject) {

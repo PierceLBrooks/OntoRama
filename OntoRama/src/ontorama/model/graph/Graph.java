@@ -2,8 +2,6 @@ package ontorama.model.graph;
 
 import java.util.List;
 
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**

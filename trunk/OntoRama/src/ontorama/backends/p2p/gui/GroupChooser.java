@@ -61,7 +61,7 @@ public class GroupChooser extends JPanel {
         }
 
         _nameChooser = new JComboBox(foundGroups);
-        _nameChooser.setRenderer(new NameComboBoxRenderer());
+        _nameChooser.setRenderer(new GroupNamesComboBoxRenderer());
 
         _nameChooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -72,7 +72,7 @@ public class GroupChooser extends JPanel {
 
 
         _descriptionChooser = new JComboBox(new Vector());
-        _descriptionChooser.setRenderer(new DescriptionComboBoxRenderer());
+        _descriptionChooser.setRenderer(new GroupDescriptionsComboBoxRenderer());
 
         _descriptionChooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -102,63 +102,4 @@ public class GroupChooser extends JPanel {
     public SearchGroupResultElement getValue () {
         return _value;
     }
-
-    class NameComboBoxRenderer extends JLabel  implements ListCellRenderer {
-        public NameComboBoxRenderer() {
-            setOpaque(true);
-            setHorizontalAlignment(CENTER);
-            setVerticalAlignment(CENTER);
-        }
-        public Component getListCellRendererComponent(
-                                            JList list,
-                                            Object value,
-                                            int index,
-                                            boolean isSelected,
-                                            boolean cellHasFocus) {
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-            if (value == null) {
-                return this;
-            }
-            SearchGroupResultElement element = (SearchGroupResultElement) value;
-            setText(element.getName());
-            setToolTipText(element.getDescription());
-            return this;
-        }
-    }
-
-    class DescriptionComboBoxRenderer extends JLabel  implements ListCellRenderer {
-        public DescriptionComboBoxRenderer() {
-            setOpaque(true);
-            setHorizontalAlignment(CENTER);
-            setVerticalAlignment(CENTER);
-        }
-        public Component getListCellRendererComponent(
-                                            JList list,
-                                            Object value,
-                                            int index,
-                                            boolean isSelected,
-                                            boolean cellHasFocus) {
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-            if (value == null) {
-                return this;
-            }
-            SearchGroupResultElement element = (SearchGroupResultElement) value;
-            setText(element.getDescription());
-            setToolTipText(element.getName());
-            return this;
-        }
-    }
-
 }

@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.cgi;
+package ontorama.webkbtools.inputsource.webkb;
 
 import java.util.Iterator;
 
@@ -14,7 +14,7 @@ import ontorama.webkbtools.query.Query;
  * Company: DSTC
  * @version 1.0
  */
-public class WebkbQueryStringConstructor implements QueryStringConstructorInterface {
+public class WebkbQueryStringConstructor  {
 
   /**
    * Get query string for given query

@@ -111,7 +111,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
 
     public HyperNodeView(HyperNode model) {
         this.model = model;
-        model.addPositionChaingedObserver(this);
+        model.addPositionChangedObserver(this);
         updateProjection();
         if (model.hasClones()) {
             nodeColor = Color.red;

@@ -12,12 +12,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HyperNode implements PositionChaingedObservable {
+public class HyperNode implements PositionChangedObservable {
 
     /**
      * Store all the Hyper observers
      */
-    private List positionChaingedObserver = new LinkedList();
+    private List positionChangedObserver = new LinkedList();
 
     /**
      * Store focus observer.
@@ -61,15 +61,15 @@ public class HyperNode implements PositionChaingedObservable {
     /**
      * Add a Hyper observer.
      */
-    public void addPositionChaingedObserver(Object obj) {
-        positionChaingedObserver.add(obj);
+    public void addPositionChangedObserver(PositionChangedObserver observer) {
+        positionChangedObserver.add(observer);
     }
 
     /**
      * Tell all Hyper observers of change.
      */
     public void notifyPositionMoved() {
-        Iterator it = positionChaingedObserver.iterator();
+        Iterator it = positionChangedObserver.iterator();
         while (it.hasNext()) {
             PositionChangedObserver hno = (PositionChangedObserver) it.next();
             hno.positionChanged();

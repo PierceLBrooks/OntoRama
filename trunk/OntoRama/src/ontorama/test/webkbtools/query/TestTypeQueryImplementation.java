@@ -39,7 +39,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 public class TestTypeQueryImplementation extends TestCase {
 
-  private Query query;
+  private String queryTerm;
 
   private TypeQuery typeQuery;
 
@@ -57,7 +57,7 @@ public class TestTypeQueryImplementation extends TestCase {
    */
   protected void setUp() throws Exception {
 
-    query = new Query(OntoramaConfig.ontologyRoot);
+    queryTerm = OntoramaConfig.ontologyRoot;
 
     typeQuery = new TypeQueryImplementation();
 
@@ -127,12 +127,12 @@ public class TestTypeQueryImplementation extends TestCase {
    */
   public void testGetTypeRelative () throws Exception {
 
-    int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(query));
+    int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(queryTerm));
     int expectedIteratorSize = expectedTypesList.size();
 
     assertEquals(expectedIteratorSize, queryIteratorSize);
 
-    Iterator queryIterator = typeQuery.getTypeRelative(query);
+    Iterator queryIterator = typeQuery.getTypeRelative(queryTerm);
 
     while (queryIterator.hasNext()) {
       OntologyType cur = (OntologyType) queryIterator.next();

@@ -10,6 +10,10 @@ package ontorama.hyper.view.simple;
 import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.view.simple.HyperNodeView;
 
+import ontorama.ontologyConfig.RelationLinkDetails;
+
+import javax.swing.ImageIcon;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -38,11 +42,32 @@ public class HyperEdgeView extends CanvasItem{
     }
 
     public void draw ( Graphics2D  g2d ) {
+        RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
+        ImageIcon iconImg = relLinkDetails.getDisplayIcon();
+        double x1 = from.getProjectedX();
+        double y1 = from.getProjectedY();
+        double x2 = to.getProjectedX();
+        double y2 = to.getProjectedY();
+        double xDiff = x2 - x1;
+        double yDiff = y2 - y1;
+        double nodeViewRadius = to.getViewRadius();
+        double distancebetweenTwoNodes = Math.sqrt( ( x2 - x1) * ( x2 - x1) + ( y2 - y1) * ( y2 - y1) );
+        double viewScale = to.getScale();
+        double imgW = iconImg.getIconWidth() * viewScale;
+        double imgH = iconImg.getIconHeight() * viewScale;
+        double imgHyp = Math.sqrt( imgW * imgW + imgH * imgH);
+        double scale = (nodeViewRadius + imgHyp) / distancebetweenTwoNodes;
+        double imgX = x2 - ( xDiff * scale);
+        double imgY = y2 - ( yDiff * scale);
+
+
         g2d.setColor( Color.lightGray );
         g2d.draw( new Line2D.Double(    from.getProjectedX(),
                                         from.getProjectedY(),
                                         to.getProjectedX(),
                                         to.getProjectedY() ) );
+
+        g2d.drawImage( iconImg.getImage(), (int)imgX, (int)imgY, (int)imgW, (int)imgH, iconImg.getImageObserver());
     }
 
     public String toString() {

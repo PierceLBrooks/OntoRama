@@ -78,10 +78,7 @@ public class ExamplesMenu extends JMenu {
         OntoramaExample example = (OntoramaExample) _menuItemExampleMapping.get(menuItem);
 
         //boolean querySuccessfull = _ontoramaMenu.executeQuery(example.getRoot(), example, menuItem);
-        boolean querySuccessfull = _mainApp.executeQueryForGivenExample(example.getRoot(), example);
-        if (!querySuccessfull) {
-            return;
-        }
+        _mainApp.executeQueryForGivenExample(example.getRoot(), example);
         // append history
         _mainApp.appendHistoryForGivenExample(example.getRoot(), example);
 

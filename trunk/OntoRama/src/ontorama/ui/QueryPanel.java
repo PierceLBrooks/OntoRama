@@ -344,9 +344,9 @@ public class QueryPanel extends JPanel implements ActionListener, ViewQuery, Gra
      *
      */
     protected void doQuery() {
-        Query newQuery = buildNewQuery();
-        _ontoRamaApp.executeQuery(newQuery);
-        _ontoRamaApp.appendHistoryMenu(newQuery);
+//        Query newQuery = buildNewQuery();
+//        _ontoRamaApp.executeQuery(newQuery);
+//        _ontoRamaApp.appendHistoryMenu(newQuery);
     }
 
 

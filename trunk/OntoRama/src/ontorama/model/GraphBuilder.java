@@ -86,7 +86,15 @@ public class GraphBuilder {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
               makeEdges(ot,termName);
           }
+          System.out.println("edgeRoot = " + edgeRoot);
+
+          if (! processedNodes.containsKey(termName)) {
+             throw new NoTypeFoundInResultSetException(termName);
+           }
+
           graph = new Graph( edgeRoot );
+
+
         }
         catch (NoSuchRelationLinkException e) {
             throw e;

@@ -11,9 +11,9 @@ package ontorama.model.graph.controller;
 import ontorama.model.graph.view.GraphQuery;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
-public class GraphViewQueryEventHandler implements EventListener {
+public class GraphViewQueryEventHandler implements EventBrokerListener {
     private GraphQuery graphQuery;
 
     public GraphViewQueryEventHandler(EventBroker eventBroker, GraphQuery graphQuery) {

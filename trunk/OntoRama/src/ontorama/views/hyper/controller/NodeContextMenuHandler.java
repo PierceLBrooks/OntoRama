@@ -21,12 +21,12 @@ import ontorama.views.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
 /**
  *
  */
-public class NodeContextMenuHandler implements EventListener {
+public class NodeContextMenuHandler implements EventBrokerListener {
     private SimpleHyperView simpleHyperView;
     private EventBroker eventBroker;
 

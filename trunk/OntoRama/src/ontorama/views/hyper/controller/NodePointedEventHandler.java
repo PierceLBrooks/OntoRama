@@ -13,9 +13,9 @@ import ontorama.views.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemPointedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
-public class NodePointedEventHandler implements EventListener {
+public class NodePointedEventHandler implements EventBrokerListener {
     private SimpleHyperView simpleHyperView;
 
     public NodePointedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {

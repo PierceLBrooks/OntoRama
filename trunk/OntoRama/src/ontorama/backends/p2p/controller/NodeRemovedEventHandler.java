@@ -7,7 +7,7 @@ import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.events.NodeRemovedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
 /*
  * Created by IntelliJ IDEA.
@@ -16,7 +16,7 @@ import org.tockit.events.EventListener;
  * Time: 10:35:53 AM
  * To change this template use Options | File Templates.
  */
-public class NodeRemovedEventHandler implements EventListener {
+public class NodeRemovedEventHandler implements EventBrokerListener {
     private EventBroker _eventBroker;
     private P2PBackend _p2pBackend;
 

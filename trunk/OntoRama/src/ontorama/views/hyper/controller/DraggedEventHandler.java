@@ -13,9 +13,9 @@ import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemDraggedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
-import org.tockit.events.EventListener;
+import org.tockit.events.EventBrokerListener;
 
-public class DraggedEventHandler implements EventListener {
+public class DraggedEventHandler implements EventBrokerListener {
     private SimpleHyperView simpleHyperView;
 
     public DraggedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {

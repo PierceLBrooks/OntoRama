@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import javax.swing.filechooser.FileFilter;
 
-import ontorama.backends.filemanager.FileBackend;
 import ontorama.backends.filemanager.Util;
 import ontorama.conf.DataFormatMapping;
 
@@ -23,8 +22,8 @@ public class FileBackendFileFilter extends FileFilter {
 	/**
 	 * Constructor for FileBackendFileFilter.
 	 */
-	public FileBackendFileFilter(FileBackend fileBackend) {
-		_dataFormatsMapping = fileBackend.getDataFormats();
+	public FileBackendFileFilter(Collection dataFormatsMapping) {
+		_dataFormatsMapping = dataFormatsMapping;
 	}
 
 	/**

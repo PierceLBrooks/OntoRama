@@ -32,3 +32,4 @@
   <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/test#Chair"/>
 </rdfs:Class>
 </rdf:RDF>
+

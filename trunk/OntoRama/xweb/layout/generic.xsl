@@ -220,7 +220,9 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 		   <xsl:text />&lt;<xsl:value-of select="name()" />
 		   <xsl:for-each select="@*">
 		      <xsl:text> </xsl:text>
-		      <xsl:value-of select="name()" />="<xsl:value-of select="." />"<xsl:text />
+		      <xsl:value-of select="name()" />
+			  <xsl:text>= "</xsl:text>
+			  <xsl:value-of select="." />"<xsl:text />
 		   </xsl:for-each>
 		   <xsl:choose>
 		      <xsl:when test="* or normalize-space(.)">

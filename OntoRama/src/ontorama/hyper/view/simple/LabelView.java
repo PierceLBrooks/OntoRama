@@ -5,7 +5,6 @@ package ontorama.hyper.view.simple;
  * This layer simple enables labels to be drawn last.
  */
 
-import ontorama.hyper.canvas.CanvasManager;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;

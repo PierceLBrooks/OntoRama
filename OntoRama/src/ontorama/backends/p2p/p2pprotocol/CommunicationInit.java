@@ -3,6 +3,8 @@ package ontorama.backends.p2p.p2pprotocol;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
+
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
@@ -25,9 +27,19 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-//public class CommunicationInit extends Communication {
 public class CommunicationInit {
-	private CommunicationProtocolJxta commProt = null;
+
+	// The p2p platform
+	private PeerGroup globalP2PPlatform;
+	
+	// The top p2p group
+	private PeerGroup globalP2PGroup;
+	
+	//Object to use for receiving messages
+	P2PRecieverInterface reciever;	
+	
+	
+	private CommunicationProtocolJxta commProt;
 
     private Hashtable inputPipes = null;
     
@@ -39,8 +51,9 @@ public class CommunicationInit {
     * toRama 1.0.0
     *
     */     
-	public CommunicationInit(CommunicationProtocolJxta commProt) {
+	public CommunicationInit(CommunicationProtocolJxta commProt, P2PRecieverInterface reciever) {
 		this.commProt = commProt;
+		this.reciever = reciever;
         this.inputPipes = new Hashtable();
 	}
 	
@@ -54,13 +67,16 @@ public class CommunicationInit {
 		try {
 			//create and start the default JXTA Platform and NetPeerGroup
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
-			PeerGroup newPeerGroup = PeerGroupFactory.newPlatform();
-			System.out.println("newPeerGroup: name = " + newPeerGroup.getPeerGroupName() + ", id = " + newPeerGroup.getPeerGroupID());
-			this.commProt.setGlobalPlatform(newPeerGroup);
-			System.out.println("getGlobalPlatform(): name  = " + this.commProt.getGlobalPlatform().getPeerGroupName() + ", id = " + this.commProt.getGlobalPlatform().getPeerGroupID());
-			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.commProt.getGlobalPlatform());
-			System.out.println("pg: name =  " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
-			this.commProt.setGlobalPG(pg);
+			this.globalP2PPlatform = PeerGroupFactory.newPlatform();
+
+			System.out.println("globalP2PPlatform: name = " + this.globalP2PPlatform.getPeerGroupName() + ", id = " + this.globalP2PPlatform.getPeerGroupID());
+
+			this.globalP2PGroup = PeerGroupFactory.newNetPeerGroup(this.globalP2PPlatform);
+
+			System.out.println("pg: name =  " + this.globalP2PGroup.getPeerGroupName() + ", id = " + this.globalP2PGroup.getPeerGroupID());
+			
+			startInputPipeEndpoint(this.globalP2PGroup);
+			startPropagatePipeEndpoint(this.globalP2PGroup);
 		} catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
 		} catch (ClassNotFoundException e) {
@@ -102,7 +118,7 @@ public class CommunicationInit {
 		try {
 			//Create a listerner to listen for incomming messages to a pipe
 			pipeMessageListener = new InputPipeListener(this.commProt,
-														commProt.getRecieverObject());
+														this.reciever);
 
 			//Create a new inputPipe from adverisement and pipeMessageListerner
 			this.inputPipes.put(pg.getPeerGroupID(),pipeService.createInputPipe(pipeAdvert,pipeMessageListener));
@@ -115,7 +131,7 @@ public class CommunicationInit {
 			discServ.remotePublish(pipeAdvert,DiscoveryService.ADV);
 					
 			//SEts the PipeAdvertisement
-			this.commProt.setOutputPropagatePipe(pg.getPeerGroupID(),outputPipe);
+			this.commProt.addOutputPropagatePipe(pg.getPeerGroupID(),outputPipe);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -149,7 +165,7 @@ public class CommunicationInit {
 		try {
 			//Create a listerner to listen for incomming messages to a pipe
 			pipeMessageListener = new InputPipeListener(this.commProt,
-														commProt.getRecieverObject());
+														this.reciever);
 	
 			//Create a new inputPipe from adverisement and pipeMessageListerner
 			pipeService.createInputPipe(pipeAdvert,pipeMessageListener);	
@@ -164,12 +180,16 @@ public class CommunicationInit {
 									DiscoveryService.ADV,
 									30*1000);
 									
-			this.commProt.setInputPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
+			this.commProt.addInputPipeAdvertisement(pg.getPeerGroupID(),pipeAdvert);
 			
 		} catch (IOException e) {
 			throw (GroupExceptionInit) e.fillInStackTrace();
 		}
 		return pipeAdvert;
 
-	}	                                                                                                                                                           
+	}	
+	
+	public PeerGroup getGlobalPG () {
+		return this.globalP2PGroup;
+	}
 }

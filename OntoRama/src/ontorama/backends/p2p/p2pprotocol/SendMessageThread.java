@@ -54,7 +54,7 @@ public class SendMessageThread extends Thread{
 				        
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.commProt.memberOfGroupsEnumeration();
+		Enumeration enum = this.commProt.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			PeerGroup pg = (PeerGroup) enum.nextElement();
 			sendMessageToPeerGroup(	pg,	propType, ownPeerID, ownGroupID,tag,message);
@@ -95,7 +95,7 @@ public class SendMessageThread extends Thread{
 
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.commProt.memberOfGroupsEnumeration();
+		Enumeration enum = this.commProt.getMemberOfGroups().elements();
 		while (enum.hasMoreElements()) {
 			pg = (PeerGroup) enum.nextElement();
 	        discoveryService = pg.getDiscoveryService();
@@ -148,7 +148,7 @@ public class SendMessageThread extends Thread{
 	     }catch (IOException e) {
                     //Couldn't find a host to a given Adv.
          }finally {
-			enum = this.commProt.memberOfGroupsEnumeration();
+			enum = this.commProt.getMemberOfGroups().elements();
 			while (enum.hasMoreElements()) {
 				pg = (PeerGroup) enum.nextElement();
 		        discoveryService = pg.getDiscoveryService();	

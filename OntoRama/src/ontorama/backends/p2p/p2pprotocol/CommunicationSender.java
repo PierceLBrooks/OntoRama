@@ -108,7 +108,7 @@ public class CommunicationSender  {
 
   		MimeMediaType mimeType = new MimeMediaType("text/xml");
         Message queryTobeSent = null; 
-        this.commProt.setSearchResult(new Vector());   
+        this.commProt.clearSearchResult();   
   
          //Build the message that is going to be sent
          queryTobeSent = this.commProt.getGlobalPG().getPipeService().createMessage();
@@ -143,7 +143,7 @@ public class CommunicationSender  {
         System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
 
 
-        Enumeration enum = this.commProt.memberOfGroupsEnumeration();
+        Enumeration enum = this.commProt.getMemberOfGroups().elements();
         while (enum.hasMoreElements()) {
             PeerGroup pg = (PeerGroup) enum.nextElement();
             discoveryService = pg.getDiscoveryService();
@@ -181,18 +181,17 @@ public class CommunicationSender  {
 		//Use the GroupMember object to keep track of which group we are 
 		//in at the moment. Call callFlushPeerAdvertisement for every group 
 		//in this object.
-		Enumeration enum = this.commProt.memberOfGroupsEnumeration();
-		PeerGroupID groupID = null;
+		Enumeration enum = this.commProt.getMemberOfGroups().elements();
 		
 		while (enum.hasMoreElements()) {
-				groupID = ((PeerGroup) enum.nextElement()).getPeerGroupID();	
-				try {
-					commProt.callFlushPeerAdvertisementFrom(groupID.toString());
-				} catch (GroupExceptionFlush e) {
-					throw (GroupExceptionFlush) e.fillInStackTrace();
-				} catch (GroupExceptionThread e) {
-					throw (GroupExceptionThread) e.fillInStackTrace();
-				}
+			PeerGroupID groupID = ((PeerGroup) enum.nextElement()).getPeerGroupID();	
+			try {
+				commProt.callFlushPeerAdvertisementFrom(groupID.toString());
+			} catch (GroupExceptionFlush e) {
+				throw (GroupExceptionFlush) e.fillInStackTrace();
+			} catch (GroupExceptionThread e) {
+				throw (GroupExceptionThread) e.fillInStackTrace();
+			}
 		}
 	}
 	

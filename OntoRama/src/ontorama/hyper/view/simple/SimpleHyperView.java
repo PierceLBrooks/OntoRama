@@ -39,7 +39,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             eventBroker.processEvent(new NodeSelectedEvent(nodeView.getGraphNode()));
-            System.out.println("processEvent: NodeSelected");
+            System.out.println("processEvent: NodeSelected: " + nodeView);
         }
     }
 
@@ -53,7 +53,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-            System.out.println("processEvent for " + nodeView);
+            System.out.println("processEvent: NodeActivated: " + nodeView);
             toggleFold(nodeView.getGraphNode());
         }
     }
@@ -70,6 +70,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
             CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
             dragNode(nodeView, draggedEvent);
+            System.out.println("processEvent: NodeDragged: " + nodeView);
         }
     }
 
@@ -83,6 +84,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+            System.out.println("processEvent: NodePointed: " + nodeView);
             highlightEdge(nodeView.getGraphNode());
         }
     }
@@ -177,8 +179,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     public void focus(GraphNode graphNode) {
         animationTime = System.currentTimeMillis();
-        System.out.println("Hyper View FOCUS: node = " + graphNode.getName());
-        System.out.println();
         //focusChanged(node);
         focusNode = (HyperNode) this.hypernodes.get(graphNode);
         // set focused node label to selected
@@ -194,9 +194,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         moveCanvasItems(focusNode.getX(), focusNode.getY());
         repaint();
-
-
-        System.out.println();
     }
 
     /**

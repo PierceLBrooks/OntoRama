@@ -311,6 +311,8 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
+        
+        //System.out.println(resource.toString() +  " -> " + predicate.toString() + " -> " + object.toString());
 
         Node subjectNode = doNodeMapping(resource);
         Node objectNode = doNodeMapping(object);

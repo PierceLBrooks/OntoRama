@@ -1,0 +1,202 @@
+<ontology top='wn#Cat'>
+	<conceptTypes>
+		<conceptType name='wn#Cat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>any domesticated member of the genus Felis</description>
+		</conceptType>
+		<conceptType name='cat'>
+		</conceptType>
+		<conceptType name='domestic_cat'>
+		</conceptType>
+		<conceptType name='house_cat'>
+		</conceptType>
+		<conceptType name='Felis_domesticus'>
+		</conceptType>
+		<conceptType name='Felis_catus'>
+		</conceptType>
+		<conceptType name='wn#Tom'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>male cat</description>
+		</conceptType>
+		<conceptType name='wn#MalteseCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a short-haired bluish-gray cat breed</description>
+		</conceptType>
+		<conceptType name='wn#Kitty'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>informal terms</description>
+		</conceptType>
+		<conceptType name='wn#SiameseCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a slender short-haired blue-eyed breed of cat having a pale coat with dark ears paws face and tail tip</description>
+		</conceptType>
+		<conceptType name='wn#Mouser'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a cat proficient at mousing</description>
+		</conceptType>
+		<conceptType name='wn#AlleyCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>homeless cat</description>
+		</conceptType>
+		<conceptType name='wn#TigerCat_2'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a cat having a striped coat</description>
+		</conceptType>
+		<conceptType name='wn#ManxCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a short-haired tailless breed of cat believed to originate on the Isle of Man</description>
+		</conceptType>
+		<conceptType name='wn#Tabby'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a cat with a gray or tawny coat mottled with black</description>
+		</conceptType>
+		<conceptType name='wn#PersianCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a long-haired breed of cat</description>
+		</conceptType>
+		<conceptType name='wn#Tortoiseshell_3'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a cat having black and cream and yellowish markings</description>
+		</conceptType>
+		<conceptType name='wn#EgyptianCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a domestic cat of Egypt</description>
+		</conceptType>
+		<conceptType name='wn#Angora_3'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a long-haired breed similar to the Persian cat</description>
+		</conceptType>
+		<conceptType name='wn#BurmeseCat'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a short-haired breed with body similar to the Siamese cat but having a solid dark brown or gray coat</description>
+		</conceptType>
+		<conceptType name='wn#Abyssinian'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>a small slender short-haired breed of African origin having brownish fur with a reddish undercoat</description>
+		</conceptType>
+		<conceptType name='wn#Tabby_2'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>female cat</description>
+		</conceptType>
+		<conceptType name='tom'>
+		</conceptType>
+		<conceptType name='tomcat'>
+		</conceptType>
+		<conceptType name='Maltese_cat'>
+		</conceptType>
+		<conceptType name='kitty'>
+		</conceptType>
+		<conceptType name='kitty-cat'>
+		</conceptType>
+		<conceptType name='puss'>
+		</conceptType>
+		<conceptType name='pussy'>
+		</conceptType>
+		<conceptType name='pussycat'>
+		</conceptType>
+		<conceptType name='Siamese_cat'>
+		</conceptType>
+		<conceptType name='Siamese'>
+		</conceptType>
+		<conceptType name='wn#BluePointSiamese'>
+			<creator>http://www.cogsci.princeton.edu/~wn/</creator>
+			<description>Siamese cat having a bluish cream body and dark gray points</description>
+		</conceptType>
+		<conceptType name='mouser'>
+		</conceptType>
+		<conceptType name='alley_cat'>
+		</conceptType>
+		<conceptType name='stray'>
+		</conceptType>
+		<conceptType name='tiger_cat'>
+		</conceptType>
+		<conceptType name='Manx_cat'>
+		</conceptType>
+		<conceptType name='tabby_cat'>
+		</conceptType>
+		<conceptType name='tabby'>
+		</conceptType>
+		<conceptType name='Persian_cat'>
+		</conceptType>
+		<conceptType name='tortoiseshell'>
+		</conceptType>
+		<conceptType name='tortoiseshell-cat'>
+		</conceptType>
+		<conceptType name='calico_cat'>
+		</conceptType>
+		<conceptType name='Egyptian_cat'>
+		</conceptType>
+		<conceptType name='Angora'>
+		</conceptType>
+		<conceptType name='Angora_cat'>
+		</conceptType>
+		<conceptType name='Burmese_cat'>
+		</conceptType>
+		<conceptType name='Abyssinian'>
+		</conceptType>
+		<conceptType name='Abyssinian_cat'>
+		</conceptType>
+		<conceptType name='tabby'>
+		</conceptType>
+		<conceptType name='queen'>
+		</conceptType>
+		<conceptType name='blue_point_Siamese'>
+		</conceptType>
+	</conceptTypes>
+	<relationLinks>	
+		<relationLink name='synonym' from='wn#Abyssinian' to='Abyssinian'/>
+		<relationLink name='synonym' from='wn#Abyssinian' to='Abyssinian_cat'/>
+		<relationLink name='synonym' from='wn#BurmeseCat' to='Burmese_cat'/>
+		<relationLink name='synonym' from='wn#ManxCat' to='Manx_cat'/>
+		<relationLink name='synonym' from='wn#Tortoiseshell_3' to='tortoiseshell'/>
+		<relationLink name='synonym' from='wn#Tortoiseshell_3' to='tortoiseshell-cat'/>
+		<relationLink name='synonym' from='wn#Tortoiseshell_3' to='calico_cat'/>
+		<relationLink name='synonym' from='wn#PersianCat' to='Persian_cat'/>
+		<relationLink name='synonym' from='wn#AlleyCat' to='alley_cat'/>
+		<relationLink name='synonym' from='wn#AlleyCat' to='stray'/>
+		<relationLink name='synonym' from='wn#EgyptianCat' to='Egyptian_cat'/>
+		<relationLink name='synonym' from='wn#Cat' to='cat'/>
+		<relationLink name='synonym' from='wn#Cat' to='domestic_cat'/>
+		<relationLink name='synonym' from='wn#Cat' to='house_cat'/>
+		<relationLink name='synonym' from='wn#Cat' to='Felis_domesticus'/>
+		<relationLink name='synonym' from='wn#Cat' to='Felis_catus'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Tom'/>
+		<relationLink name='synonym' from='wn#Tom' to='tom'/>
+		<relationLink name='synonym' from='wn#Tom' to='tomcat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#MalteseCat'/>
+		<relationLink name='synonym' from='wn#MalteseCat' to='Maltese_cat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Kitty'/>
+		<relationLink name='synonym' from='wn#Kitty' to='kitty'/>
+		<relationLink name='synonym' from='wn#Kitty' to='kitty-cat'/>
+		<relationLink name='synonym' from='wn#Kitty' to='puss'/>
+		<relationLink name='synonym' from='wn#Kitty' to='pussy'/>
+		<relationLink name='synonym' from='wn#Kitty' to='pussycat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#SiameseCat'/>
+		<relationLink name='synonym' from='wn#SiameseCat' to='Siamese_cat'/>
+		<relationLink name='synonym' from='wn#SiameseCat' to='Siamese'/>
+		<relationLink name='subtype' from='wn#SiameseCat' to='wn#BluePointSiamese'/>
+		<relationLink name='synonym' from='wn#BluePointSiamese' to='blue_point_Siamese'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Mouser'/>
+		<relationLink name='synonym' from='wn#Mouser' to='mouser'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#AlleyCat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#TigerCat_2'/>
+		<relationLink name='synonym' from='wn#TigerCat_2' to='tiger_cat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#ManxCat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Tabby'/>
+		<relationLink name='synonym' from='wn#Tabby' to='tabby_cat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#PersianCat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Tortoiseshell_3'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#EgyptianCat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Angora_3'/>
+		<relationLink name='synonym' from='wn#Angora_3' to='Angora'/>
+		<relationLink name='synonym' from='wn#Angora_3' to='Angora_cat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#BurmeseCat'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Abyssinian'/>
+		<relationLink name='subtype' from='wn#Cat' to='wn#Tabby_2'/>
+		<relationLink name='synonym' from='wn#Tabby_2' to='tabby'/>
+		<relationLink name='synonym' from='wn#Tabby_2' to='queen'/>
+		<relationLink name='subtype' from='wn#TrueCat' to='wn#Cat'/>
+		<relationLink name='synonym' from='wn#Tabby' to='tabby'/>
+	</relationLinks>
+
+</ontology>

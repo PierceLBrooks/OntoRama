@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  	targetNamespace="http://www.ontorama.org"
+  	xmlns="http://www.ontorama.org"
+	elementFormDefault="qualified">
+
+	<!--Schema for validation of XML input for OntoRama application -->
+	<!-- W3C validation site: http://www.w3.org/2001/03/webdata/xsv -->
+
+	<xsd:element name="ontology">
+		<xsd:annotation>
+			<xsd:documentation>
+				Top level element
+			</xsd:documentation>
+		 </xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="conceptType" maxOccurs="unbounded" type="ontologyType"/>
+				<xsd:element name="relationType" maxOccurs="unbounded" type="relationType"/>
+			</xsd:sequence>
+			<xsd:attribute name="top" type="xsd:string" use="required"/>
+		</xsd:complexType>
+		<xsd:key name="ontologyTypeName">
+		  <xsd:selector xpath="./conceptType|./relationType" /> 
+  		  <xsd:field xpath="@name" /> 
+  		</xsd:key>
+		<xsd:keyref name="relationshipToOntologyType" refer="ontologyTypeName">
+			<xsd:selector xpath="./conceptType/relationship|./relationType/relationship" /> 
+  			<xsd:field xpath="@to" /> 
+  		</xsd:keyref>
+	</xsd:element>
+
+	<xsd:complexType name="ontologyType">
+		<xsd:annotation>
+			<xsd:documentation>
+				this type models an ontology type, used as it is for conceptType and extended for relationType
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+				<xsd:element name="description" minOccurs="0" maxOccurs="1"  type="xsd:string"/>
+				<xsd:element name="synonym" minOccurs="0" maxOccurs="unbounded" type="xsd:string"/>
+				<xsd:element name="relationship" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:attribute name="type" use="required" type="xsd:string"/>
+						<xsd:attribute name="to" use="required"  type="xsd:string" />
+					</xsd:complexType>
+				</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string"/>
+		<xsd:attribute name="creator" type="xsd:string"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="relationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Extension of ontologyType with two added attributes representing relation type signature.	
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ontologyType">
+				<xsd:attribute name="domain" type="xsd:string"/>
+				<xsd:attribute name="range" type="xsd:string"/>
+			</xsd:extension>	
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!--
+	<xsd:element name="relationship" minOccurs="0" maxOccurs="unbounded">
+		<xsd:complexType>
+			<xsd:attribute name="type" use="required" type="xsd:string"/>
+			<xsd:attribute name="to" use="required"  type="ont:ontologyType" />
+		</xsd:complexType>
+	</xsd:element>
+	-->
+	
+</xsd:schema>

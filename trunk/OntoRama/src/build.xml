@@ -43,6 +43,13 @@
   <target name="prepare">
     <mkdir  dir="${deploy.home}"/>
     <mkdir  dir="${javadoc.home}"/>
+    <copy   todir="${deploy.home}">
+      <fileset dir="${src.home}" includes="**/*.properties"/>
+      <fileset dir="${src.home}" includes="**/config.xml"/>
+      <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
+      <fileset dir="${src.home}" includes="MANIFEST.MF"/>
+	</copy>
+	
   </target>
 
   <target name="clean">
@@ -62,12 +69,6 @@
 		<src path="${src.home}"/>
 		<classpath refid="project.class.path"/>
     </javac>
-    <copy   todir="${deploy.home}">
-      <fileset dir="${src.home}" includes="**/*.properties"/>
-      <fileset dir="${src.home}" includes="**/config.xml"/>
-      <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
-      <fileset dir="${src.home}" includes="MANIFEST.MF"/>
-	</copy>
   </target>
 
   <target name="jar" depends="compile">

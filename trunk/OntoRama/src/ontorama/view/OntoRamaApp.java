@@ -446,6 +446,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	private void updateViews(Graph graph) {
+		
+		
 		_hyperView.setGraph(graph);
 		_treeView.setGraph(graph);
 		//_queryPanel.setQueryField(graph.getRootNode().getName());
@@ -464,6 +466,39 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		enableDisableDynamicFields();
 
 		repaint();
+
+		List unconnectedNodes = graph.getUnconnectedNodesList();
+		if (unconnectedNodes.size() != 0) {
+			
+			//Custom button text
+			Object[] options = new Object[4];
+
+
+			
+			int count = 0;
+			Iterator it = unconnectedNodes.iterator();
+			while ((it.hasNext()) && (count < 4)) {
+				GraphNode node = (GraphNode) it.next();
+				System.out.println("count = " + count + ", value = " + node.getName());
+				options[count]=node;
+				count++;
+			}
+//			JOptionPane optionPane = new JOptionPane(
+			int n = JOptionPane.showOptionDialog(this,
+			    "Would you like some green eggs? ",
+			    "unconnected nodes",
+			    JOptionPane.YES_NO_CANCEL_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,
+			    options,
+			    options[0]);
+			System.out.println("\noption chosen: " + n);
+			if (n != -1) {
+				graph.setRoot((GraphNode) options[n]);
+				updateViews(graph);
+			}
+		}
+
 	}
 	
 	/**

@@ -82,7 +82,14 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
-                    //System.out.println(s);
+                    System.out.println(s);
+                    if (s.getPredicate().toString().endsWith("rdf-syntax-ns#type")) {
+                    	if ( (s.getObject().toString().endsWith("rdf-syntax-ns#Property"))
+                    			|| (s.getObject().toString().endsWith("#Class")) ) {
+                    		System.out.println("skipping statement...");
+                    		continue;
+	                   	}
+                	}
                     processStatement(s);
                 }
             }

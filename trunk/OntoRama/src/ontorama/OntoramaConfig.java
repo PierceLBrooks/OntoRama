@@ -86,6 +86,13 @@ public class OntoramaConfig {
     private static RelationLinkDetails[] allRelationsArray;
 
     /**
+     * Holds defined conceptProperties details. This list can be referred to
+     * whenever we need to find out what details are available for each concept
+     * type.
+     */
+    private static List conceptPropertiesDetails;
+
+    /**
      *
      */
     private static HashSet relationLinksSet;
@@ -94,6 +101,13 @@ public class OntoramaConfig {
      *
      */
     private static List relationRdfMapping;
+
+    /**
+     * Holds mapping for concept properties. Keys of this hashtable should
+     * correspond to list conceptPropertiesConfig, Values are rdf mappings for
+     * the property.
+     */
+     private static Hashtable conceptPropertiesRdfMapping;
 
 
     /**
@@ -148,6 +162,10 @@ public class OntoramaConfig {
             MAXTYPELINK = allRelationsArray.length;
             relationLinksSet = buildRelationLinksSet (allRelationsArray);
             relationRdfMapping = xmlConfig.getRelationRdfMappingList();
+
+            conceptPropertiesDetails = xmlConfig.getConceptPropertiesList();
+            conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
+            //xmlConfig.printConceptPropertiesRdfMapping();
         }
         catch (IOException ioe) {
           System.err.println("Unable to read xml configuration file");
@@ -165,6 +183,7 @@ public class OntoramaConfig {
         }
         System.out.println("---------config--------------");
         System.out.println("sourceUri = " + sourceUri);
+        System.out.println("ontologyRoot = " + ontologyRoot);
         System.out.println("queryOutputFormat = " + queryOutputFormat);
         System.out.println("DEBUG = " + DEBUG);
         System.out.println("parserPackageName = " + parserPackageName);

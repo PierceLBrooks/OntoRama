@@ -13,7 +13,7 @@ package ontorama.webkbtools.query.parser.xml;
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
 import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
@@ -160,7 +160,7 @@ public class XmlParserFull implements Parser {
                 throw new ParserException("conceptType " + toAttr.getValue() + " is not declared in conceptTypes section");
             }
             debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
-            EdgeIterface edge = null;
+            Edge edge = null;
             for (int i = 0; i < relationLinksConfigArray.length; i++) {
                 if (relationLinksConfigArray[i] == null) {
                     continue;

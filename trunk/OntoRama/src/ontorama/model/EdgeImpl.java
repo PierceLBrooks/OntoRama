@@ -10,7 +10,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
  * @version 1.0
  */
 
-public class EdgeImpl implements EdgeIterface {
+public class EdgeImpl implements Edge {
 
     /**
      * inboundNode

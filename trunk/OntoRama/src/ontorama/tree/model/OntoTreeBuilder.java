@@ -2,7 +2,7 @@ package ontorama.tree.model;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
-import ontorama.model.EdgeIterface;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
@@ -53,7 +53,7 @@ public class OntoTreeBuilder {
         }
 
         while (outboundEdges.hasNext()) {
-            EdgeIterface edge = (EdgeIterface) outboundEdges.next();
+            Edge edge = (Edge) outboundEdges.next();
             graphNodeToOntoTreeNode(topGraphNode, edge.getEdgeType());
         }
 
@@ -69,7 +69,7 @@ public class OntoTreeBuilder {
 
         Iterator outboundEdges = graph.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
-            EdgeIterface edge = (EdgeIterface) outboundEdges.next();
+            Edge edge = (Edge) outboundEdges.next();
             GraphNode toGraphNode = edge.getToNode();
             graphNodeToOntoTreeNode(toGraphNode, edge.getEdgeType());
         }

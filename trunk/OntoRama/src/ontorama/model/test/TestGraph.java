@@ -67,8 +67,8 @@ public class TestGraph extends TestCase {
         GraphNode tmpNode1 = new GraphNode("tmpNode1");
         GraphNode tmpNode2 = new GraphNode("tmpNode2");
         GraphNode tmpNode3 = new GraphNode("tmpNode3");
-        EdgeIterface tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
-        EdgeIterface tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
 
 
         // create queryResult
@@ -102,12 +102,12 @@ public class TestGraph extends TestCase {
         _nodesList.add(gn6);
         _nodesList.add(gn7);
 
-        EdgeIterface e = new EdgeImpl(gn, gn1, OntoramaConfig.getRelationLinkDetails()[1]);
-        EdgeIterface e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getRelationLinkDetails()[2]);
-        EdgeIterface e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getRelationLinkDetails()[1]);
-        EdgeIterface e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails()[2]);
-        EdgeIterface e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getRelationLinkDetails()[1]);
-        EdgeIterface e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e = new EdgeImpl(gn, gn1, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getRelationLinkDetails()[2]);
+        Edge e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails()[2]);
+        Edge e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getRelationLinkDetails()[1]);
         _edgesList.add(e);
         _edgesList.add(e1);
         _edgesList.add(e2);
@@ -178,7 +178,7 @@ public class TestGraph extends TestCase {
 
         Iterator outboundEdges = graph.getOutboundEdges(node1);
         while (outboundEdges.hasNext()) {
-            EdgeIterface cur = (EdgeIterface) outboundEdges.next();
+            Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
                 // should be edge to node1.1 with type 1
                 assertEquals(OntoramaConfig.getRelationLinkDetails()[1], cur.getEdgeType());
@@ -198,7 +198,7 @@ public class TestGraph extends TestCase {
         assertEquals("inbound _graphEdges for node1", 1, graph.getInboundEdgeNodesList(node1).size());
 
         if (inboundEdges.hasNext()) {
-            EdgeIterface inEdge = (EdgeIterface) inboundEdges.next();
+            Edge inEdge = (Edge) inboundEdges.next();
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
             assertEquals(OntoramaConfig.getRelationLinkDetails()[1], inEdge.getEdgeType());

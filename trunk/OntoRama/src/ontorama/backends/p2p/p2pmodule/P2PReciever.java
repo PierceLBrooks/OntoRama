@@ -11,8 +11,8 @@ import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.parser.rdf.RdfDamlParser;
 
 
 /**

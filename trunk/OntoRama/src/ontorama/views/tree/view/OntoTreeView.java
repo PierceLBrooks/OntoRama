@@ -17,16 +17,14 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.controller.NodeSelectedEvent;
 import ontorama.model.graph.controller.QueryEvent;
-import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
+import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeBuilder;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;
-import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 
 

@@ -7,12 +7,9 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.util.TestingUtils;
-import ontorama.ontotools.TestWebkbtoolsPackage;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>

@@ -7,8 +7,6 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
 import ontorama.util.Debug;
 
 /**

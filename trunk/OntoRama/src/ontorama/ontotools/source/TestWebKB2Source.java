@@ -7,11 +7,10 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Node;
-import ontorama.util.TestingUtils;
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
+import ontorama.ontotools.query.Query;
+import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>

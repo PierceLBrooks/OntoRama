@@ -2,8 +2,6 @@ package ontorama.ontotools.writer;
 
 import java.io.Writer;
 
-import ontorama.model.graph.Graph;
-
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya

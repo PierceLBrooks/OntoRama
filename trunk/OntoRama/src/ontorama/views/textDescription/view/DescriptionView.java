@@ -14,12 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import ontorama.OntoramaConfig;
+import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
-import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 

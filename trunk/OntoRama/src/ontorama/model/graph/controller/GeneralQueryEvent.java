@@ -8,8 +8,8 @@
  */
 package ontorama.model.graph.controller;
 
-import org.tockit.events.Event;
 import ontorama.ontotools.query.Query;
+import org.tockit.events.Event;
 
 public class GeneralQueryEvent implements Event {
 

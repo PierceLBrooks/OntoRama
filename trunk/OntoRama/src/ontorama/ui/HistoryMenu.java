@@ -13,8 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontotools.query.Query;
 import ontorama.conf.examplesConfig.OntoramaExample;
+import ontorama.ontotools.query.Query;
 
 /**
  * <p>Title: </p>

@@ -9,11 +9,6 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**

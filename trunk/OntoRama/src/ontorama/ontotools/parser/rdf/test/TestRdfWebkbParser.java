@@ -3,14 +3,14 @@ package ontorama.ontotools.parser.rdf.test;
 import java.io.Reader;
 
 import ontorama.OntoramaConfig;
-import ontorama.util.TestingUtils;
-import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.source.Source;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
-import ontorama.ontotools.parser.rdf.RdfWebkbParser;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.ontotools.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.parser.rdf.RdfWebkbParser;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.source.Source;
+import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>

@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import ontorama.model.graph.Node;
-
 /**
  *
  * Class responsible for building a panel to display concept/node

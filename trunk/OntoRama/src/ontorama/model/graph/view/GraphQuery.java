@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph.view;
 
-import ontorama.model.graph.Node;
 
 public interface GraphQuery {
     public void query(ontorama.model.graph.Node node);

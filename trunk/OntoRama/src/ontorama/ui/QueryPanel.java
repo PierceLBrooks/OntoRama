@@ -24,14 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontotools.query.Query;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.controller.GraphViewQueryEventHandler;
 import ontorama.model.graph.view.GraphQuery;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.Node;
+import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
 /**

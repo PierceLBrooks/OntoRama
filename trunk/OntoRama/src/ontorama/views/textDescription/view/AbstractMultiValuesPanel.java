@@ -7,7 +7,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import ontorama.model.graph.Node;
 import org.tockit.events.EventBroker;
 
 /**

@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.model.graph.Node;
-
 public class HyperNode implements PositionChangedObservable {
 
     /**

@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph;
 
-import ontorama.model.graph.NodeType;
 
 
 public class NodeTypeImpl implements NodeType {

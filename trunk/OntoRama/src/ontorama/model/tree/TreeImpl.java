@@ -1,7 +1,7 @@
 package ontorama.model.tree;
 
-import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 
 /**
  * Created by IntelliJ IDEA.

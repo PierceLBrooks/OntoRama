@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import ontorama.model.graph.controller.QueryEvent;
-import ontorama.model.graph.Node;
 import org.tockit.events.EventBroker;
 
 /**

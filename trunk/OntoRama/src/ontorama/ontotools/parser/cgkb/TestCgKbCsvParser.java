@@ -13,12 +13,12 @@ import java.io.Reader;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.parser.ParserResult;
+import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.parser.Parser;
-import ontorama.ontotools.parser.ParserResult;
 
 public class TestCgKbCsvParser extends TestCase {
 

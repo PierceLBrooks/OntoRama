@@ -8,7 +8,6 @@
  */
 package ontorama.model.graph;
 
-import ontorama.model.graph.Node;
 
 public class AddUnconnectedNodeIsDisallowedException extends GraphModificationException  {
     public AddUnconnectedNodeIsDisallowedException (ontorama.model.graph.Node node) {

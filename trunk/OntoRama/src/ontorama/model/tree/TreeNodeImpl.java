@@ -1,10 +1,9 @@
 package ontorama.model.tree;
 
-import ontorama.model.graph.Node;
-
-import java.util.List;
 import java.util.LinkedList;
-import java.util.Iterator;
+import java.util.List;
+
+import ontorama.model.graph.Node;
 
 /**
  * Created by IntelliJ IDEA.

@@ -185,7 +185,14 @@ public class P2PSender {
     
     public void peerDiscoveryForGlobalGroup ()  {
     	try {
-			this.commProt.sendSearchAllPeers();
+			Enumeration e = this.commProt.sendSearchAllPeers().elements();
+			
+			System.out.println("\n\nPeer Discovery returned for global net group ");
+			while (e.hasMoreElements()){
+				ItemReference element = (ItemReference) e.nextElement();
+				System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
+				this.peersPanel.addPeerInGlobalList(element.getID().toString(), element.getName());
+			}
 		}
 		catch (GroupExceptionThread e) {
 			// TODO Auto-generated catch block
@@ -195,27 +202,6 @@ public class P2PSender {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		Vector result;
-//		try {
-//			DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
-//			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
-//											null,null,	10);
-//			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
-//													null,null);
-//			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
-//			while (e.hasMoreElements()){
-//				Object obj = e.nextElement();
-//				System.out.println("obj = " + obj);
-//				PeerAdvertisement cur = (PeerAdvertisement) obj;
-//			  	ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
-//			  	System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
-//			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
-//			}
-//		}
-//		catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
     }
 
     /**

@@ -491,8 +491,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	/* (non-Javadoc)
 	 * @see ontorama.backends.p2p.p2pprotocol.CommunicationProtocol#sendSearchAllPeers()
 	 */
-	public void sendSearchAllPeers() throws GroupExceptionThread, IOException {
-		this.communicationGroup.peerDiscoveryForGlobalGroup();
+	public Vector sendSearchAllPeers() throws GroupExceptionThread, IOException {
+		return this.communicationGroup.peerDiscoveryForGlobalGroup();
 	}
 
 }

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.events.EdgeAddedEvent;
-import ontorama.model.events.EdgeRemovedEvent;
-import ontorama.model.events.GraphReducedEvent;
-import ontorama.model.events.NodeAddedEvent;
-import ontorama.model.events.NodeRemovedEvent;
+import ontorama.model.graph.events.EdgeAddedEvent;
+import ontorama.model.graph.events.EdgeRemovedEvent;
+import ontorama.model.graph.events.GraphReducedEvent;
+import ontorama.model.graph.events.NodeAddedEvent;
+import ontorama.model.graph.events.NodeRemovedEvent;
 import ontorama.model.util.EdgeAlreadyExistsException;
 import ontorama.model.util.GraphModificationException;
 import ontorama.model.util.NodeAlreadyExistsException;

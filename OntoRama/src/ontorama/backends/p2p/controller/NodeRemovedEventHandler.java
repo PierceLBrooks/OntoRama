@@ -5,7 +5,7 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
-import ontorama.model.events.NodeRemovedEvent;
+import ontorama.model.graph.events.NodeRemovedEvent;
 import ontorama.model.util.GraphModificationException;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

@@ -3,8 +3,10 @@
   <property name="app.name"       value="OntoRama"/>
   <property name="src.home"   value="${basedir}/src"/>
   <property name="lib.home"   value="${basedir}/lib"/>
-  <property name="classes.home"   value="${basedir}/classes"/>
+  <property name="deploy.home"   value="${basedir}/deploy"/>
   <property name="javadoc.home"   value="${basedir}/doc/api"/>
+  <property name="examples.dir.name"   value="examples"/>
+  <property name="examples.home"   value="${basedir}/${examples.dir.name}"/>
   <property name="jar.file"	value="${basedir}/OntoRama.jar"/>
   <property name="jenaJar.file"	value="${basedir}/jenaOntorama.jar"/>
   <property name="deploy.webstart"	value="${basedir}/deployWebstart"/>
@@ -13,7 +15,7 @@
   
   <!-- Set Classpath -->
   <path id="project.class.path">
-  	<pathelement location="${classes.home}/"/>
+  	<pathelement location="${deploy.home}/"/>
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
 	<!--<pathelement path="${lib.home}/jena.jar/"/>-->
@@ -39,32 +41,37 @@
   
   <!--<target name="prepare" depends="clean">-->
   <target name="prepare">
-    <mkdir  dir="${classes.home}"/>
+    <mkdir  dir="${deploy.home}"/>
     <mkdir  dir="${javadoc.home}"/>
   </target>
 
   <target name="clean">
-	<delete file="${jar.file}"/>
-    <delete dir="${classes.home}"/>
+    <delete dir="${deploy.home}"/>
 	<!--<delete dir="${javadoc.home}"/>-->
-  </target>
+	<delete file="${jar.file}"/>
+	</target>
 
+  <target name="copyExamples">
+    <copy   todir="${deploy.home}/${examples.dir.name}">
+      <fileset dir="${examples.home}"/>
+	</copy>  
+  </target>
   
-  <target name="compile" depends="prepare">
-    <javac destdir="${classes.home}"  debug="on" optimize="off"	deprecation="off">
+  <target name="compile" depends="prepare,copyExamples">
+    <javac destdir="${deploy.home}"  debug="on" optimize="off"	deprecation="off">
 		<src path="${src.home}"/>
 		<classpath refid="project.class.path"/>
     </javac>
-    <copy   todir="${classes.home}">
+    <copy   todir="${deploy.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
       <fileset dir="${src.home}" includes="**/config.xml"/>
       <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
       <fileset dir="${src.home}" includes="MANIFEST.MF"/>
-	  </copy>
+	</copy>
   </target>
 
   <target name="jar" depends="compile">
-    <jar jarfile="${jar.file}" basedir="${classes.home}" manifest="${classes.home}/MANIFEST.MF"/>
+    <jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${src.home}/MANIFEST.MF"/>
   </target>
 
 
@@ -75,12 +82,10 @@
 			classpathref="project.class.path"/>
   </target>
 
-  <!--<target name="run" depends="jar">-->
   <target name="run" depends="compile">
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
   </target>
 
-  <!--<target name="runJar" depends="jar">-->
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
   </target>
@@ -103,7 +108,7 @@
   
   <!--
     <target name="compiletests" depends="JUNIT,compile">
-        <javac srcdir="${src.home}/ontorama/test" destdir="${classes.home}/ontorama/testcases">
+        <javac srcdir="${src.home}/ontorama/test" destdir="${deploy.home}/ontorama/testcases">
 			<classpath refid="project.class.path"/>
 			<src path="${src.home}"/>
             <include name="**/*.java"/>
@@ -122,13 +127,13 @@
   <!-- targets for rebuilding jena library -->
   <!--
   <target name="jenaCompile" depends="prepare">
-  	<mkdir  dir="${classes.home}/com"/>
-	<mkdir  dir="${classes.home}/jena"/>
-    <javac destdir="${classes.home}/com"  debug="on" optimize="off"	deprecation="off">
+  	<mkdir  dir="${deploy.home}/com"/>
+	<mkdir  dir="${deploy.home}/jena"/>
+    <javac destdir="${deploy.home}/com"  debug="on" optimize="off"	deprecation="off">
 		<src path="${src.home}/com"/>
 		<classpath refid="project.class.path"/>
     </javac>
-	<javac destdir="${classes.home}/jena"  debug="on" optimize="off"	deprecation="off">
+	<javac destdir="${deploy.home}/jena"  debug="on" optimize="off"	deprecation="off">
 		<src path="${src.home}/jena"/>
 		<classpath refid="project.class.path"/>
     </javac>
@@ -137,7 +142,7 @@
   
   <target name="jenaJar">
   	
-  	<jar jarfile="${jenaJar.file}" basedir="${classes.home}" 
+  	<jar jarfile="${jenaJar.file}" basedir="${deploy.home}" 
 		 includes="com/**,jena/**" excludes="ontorama*,package*,config.xml*,MANIFEST*,ontorama.properties"/>
 	
   </target>

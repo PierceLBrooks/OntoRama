@@ -59,19 +59,19 @@ public class P2PReciever implements P2PRecieverInterface{
                     case P2PReciever.TAGPROPAGATEDELETE:
 		            	System.err.println("\nP2PReciever.TAGPROPAGATEDELETE");
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeer.getName());
+                        processModelChange(internalModel, senderPeer);
                         break;
 
                     case P2PReciever.TAGPROPAGATEUPDATE:
             			System.err.println("\nP2PReciever.TAGPROPAGATEUPDATE");                    
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeer.getName());
+                        processModelChange(internalModel, senderPeer);
                         break;
 
                     case P2PReciever.TAGPROPAGATEADD:
             			System.err.println("\nP2PReciever.TAGPROPAGATEADD");                    
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeer.getName());
+                        processModelChange(internalModel, senderPeer);
                         break;
                 case P2PReciever.TAGPROPAGATELEAVEGROUP:
 	            	System.err.println("\nP2PReciever.TAGPROPAGATELEAVEGROUP");
@@ -145,5 +145,10 @@ public class P2PReciever implements P2PRecieverInterface{
         	System.err.println("An error accured");
             e.printStackTrace();
 		}
+	}
+	
+	private void processModelChange (String modelChange, PeerItemReference senderPeer) {
+		//Add the change to the panel showing made changes		
+		changes.addChange(modelChange, senderPeer.getName());
 	}
 }

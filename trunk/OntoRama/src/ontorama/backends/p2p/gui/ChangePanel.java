@@ -1,8 +1,17 @@
 package ontorama.backends.p2p.gui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,18 +29,46 @@ public class ChangePanel extends JPanel {
 
     MyTableModel _myModel;
     JTable _table;
+    
+    protected ButtonGroup _checkboxesButtonGroup = new ButtonGroup();
+    
+    /**
+     * keys - checkbox, values - change obj
+     */
+    protected Hashtable _checkboxToChangeMapping = new Hashtable();
 
     public ChangePanel() {
         super();
 
         _myModel = new MyTableModel();
         _table = new JTable(_myModel);
-        //_table.setPreferredScrollableViewportSize(new Dimension(200, 300));
+        
+        Dimension d = new Dimension(250, 400);
+        
+        //_table.setPreferredScrollableViewportSize(d);
 
-        //Create the scroll pane and add the _table to it.
         JScrollPane scrollPane = new JScrollPane(_table);
+        scrollPane.setPreferredSize(d);
+        
+        JButton acceptButton = new JButton("Accept");
+        acceptButton.setToolTipText("Accept these changes and add them to your model");
+        acceptButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Enumeration e = _checkboxesButtonGroup.getElements();
+				while (e.hasMoreElements()) {
+					JCheckBox checkbox = (JCheckBox) e.nextElement();
+					Change change = (Change) _checkboxToChangeMapping.get(checkbox);
+					System.out.println("selected: " + change);
+				}
+			}
+        });
+        
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        buttonsPanel.add(acceptButton);
+        
 
         add(scrollPane);
+        add(buttonsPanel);
     }
 
     public void addChange (String changeStr, String peerName) {
@@ -46,41 +83,42 @@ public class ChangePanel extends JPanel {
 
     class MyTableModel extends AbstractTableModel {
         private final static int rowsNum = 10;
-        private final static int columnsNum = 2;
+        private final static int columnsNum = 5;
 
-        String[] columnNames = {"Change", "Peer"};
+        String[] columnNames = {"","","","Change", "Peer"};
 
-        List changesList = new LinkedList();
+        List rowsList = new LinkedList();
 
         public MyTableModel () {
             // initialise
             for (int i = 0; i < rowsNum; i++) {
-                changesList.add(null);
+                rowsList.add(null);
             }
         }
 
         public void clearTable () {
-            changesList = new LinkedList();
+            rowsList = new LinkedList();
             for (int i = 0; i < rowsNum; i++) {
-                changesList.add(null);
+                rowsList.add(null);
             }
         }
 
         public void addRow (Change change) {
+        	TableRow newRow = new TableRow(change);
             int emptyRowNum = findEmptyRow();
             if (emptyRowNum < rowsNum) {
-                changesList.set(emptyRowNum, change);
+                rowsList.set(emptyRowNum, newRow);
             }
             else {
-                changesList.remove(0);
-                changesList.add(change);
+                rowsList.remove(0);
+                rowsList.add(newRow);
             }
         }
 
         private int findEmptyRow () {
             for (int i = 0; i < rowsNum; i++) {
-                Change change = getValueAt(i);
-                if (change == null) {
+                TableRow curRow = getValueAt(i);
+                if (curRow == null) {
                     return i;
                 }
             }
@@ -88,9 +126,8 @@ public class ChangePanel extends JPanel {
         }
 
 
-        public Change getValueAt(int row) {
-            Change change = (Change) changesList.get(row);
-            return change;
+        public TableRow getValueAt(int row) {
+            return  (TableRow) rowsList.get(row);
         }
 
         public int getColumnCount() {
@@ -106,18 +143,52 @@ public class ChangePanel extends JPanel {
         }
 
         public Object getValueAt(int row, int col) {
-            Change change = (Change) changesList.get(row);
-            if (change == null) {
+            TableRow tableRow = (TableRow) rowsList.get(row);
+            if (tableRow == null) {
                 return new String();
             }
-            if (col < 1 ) {
-                return change.getChange();
-            }
-            return change.getPeerName();
+            return tableRow.getValueAt(col);
+//            switch (col) {
+//				case 1 :
+//					//col 1
+//					break;
+//				case 2 :
+//					//col 2
+//					break;
+//				case 3 :
+//					//col 3
+//					break;
+//				case 4 :
+//					result = change.getChange();
+//					break;
+//				default :
+//					result = change.getPeerName();
+//					break;
+//			}
+//            return result;
         }
 
         public Class getColumnClass(int c) {
-            return String.class;
+			Class result = null;
+			switch (c) {
+			  case 1 :
+				  result = JCheckBox.class;
+				  break;
+			  case 2 :
+				  result = String.class;
+				  break;
+			  case 3 :
+				  result = String.class;
+				  break;
+			  case 4 :
+				  result = String.class;
+				  break;
+			  default :
+				  result = String.class;
+				  break;
+		  	}
+
+            return result;
         }
 
         /*
@@ -135,8 +206,29 @@ public class ChangePanel extends JPanel {
             return true;
         }
     }
-
-
+    
+    private class TableRow {
+    	private Change _change;
+    	Object[] row = new Object[5];
+    	
+		public TableRow(Change change) {
+			_change = change;
+			
+			JCheckBox checkbox = new JCheckBox();
+			_checkboxesButtonGroup.add(checkbox);
+			_checkboxToChangeMapping.put(checkbox, change);
+			 
+			row[0] = checkbox;
+			row[1] = change.getChange();
+			row[2] = change.getChange();
+			row[3] = change.getChange();
+			row[4] = change.getPeerName();
+		}
+		
+		public Object getValueAt (int col) {
+			return row[col];
+		}
+    }
 
     private class Change {
         private String _change;

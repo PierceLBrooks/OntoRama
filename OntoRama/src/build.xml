@@ -99,6 +99,13 @@
   	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
   </target>
 
+
+    <target name="runCgkb">
+        <java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path">
+            <arg line="cgkb/config.xml ontorama.properties cgkb/examplesConfig.xml"/>
+        </java>
+    </target>
+
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
   </target>

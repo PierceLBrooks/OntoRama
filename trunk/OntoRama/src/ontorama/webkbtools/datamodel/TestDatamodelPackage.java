@@ -1,4 +1,4 @@
-package ontorama.test.webkbtools.datamodel;
+package ontorama.webkbtools.datamodel;
 
 import junit.framework.*;
 

@@ -13,8 +13,13 @@ import ontorama.model.NodeTypeInterface;
 import java.awt.*;
 
 public class NodeType implements NodeTypeInterface {
-    private String _nodeTypeName = "Concept Type";
-    private Color _displayColor = Color.blue;
+    private String _nodeTypeName;
+    private Color _displayColor;
+
+    public NodeType (String typeName, Color displayColor) {
+        _nodeTypeName = typeName;
+        _displayColor = displayColor;
+    }
 
     public String getNodeType() {
         return _nodeTypeName;

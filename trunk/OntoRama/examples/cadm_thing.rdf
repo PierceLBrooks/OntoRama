@@ -1,0 +1,1091 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+         xmlns:dc="http://purl.org/metadata/dublin_core#"
+         xmlns:daml="http://www.daml.org/2000/10/daml-ont#"
+         xmlns:pm="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#">
+
+
+<rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing">
+  <rdfs:label xml:lang="en">thing</rdfs:label>
+  <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+  <rdfs:comment>CADM top concept type</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#DomainObject"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action">
+     <rdfs:label xml:lang="en">action</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:comment>an activity</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PlannedAction">
+        <rdfs:label xml:lang="en">planned_action</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Project">
+           <rdfs:label xml:lang="en">project</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PlannedAction"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Task"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AnalysisProcess"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AnalysisProcess">
+           <rdfs:label xml:lang="en">analysis_process</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PlannedAction"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Project"/>
+         </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task">
+     <rdfs:label xml:lang="en">task</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period">
+     <rdfs:label xml:lang="en">period</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#TimePeriod"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document">
+     <rdfs:label xml:lang="en">document</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification">
+     <rdfs:label xml:lang="en">specification</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Spec"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement">
+        <rdfs:label xml:lang="en">agreement</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Understanding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Standard">
+           <rdfs:label xml:lang="en">standard</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution">
+        <rdfs:label xml:lang="en">specification_and_solution</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Solution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Guidance">
+           <rdfs:label xml:lang="en">guidance</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ProjectAnalysisResult"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AnalysisProcessResult"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Requirement">
+              <rdfs:label xml:lang="en">requirement</rdfs:label>
+              <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Guidance"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InfoExchRequirement">
+                 <rdfs:label xml:lang="en">info_exch_requirement</rdfs:label>
+                 <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Requirement"/>
+                 <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ExchangeNeedLineReq"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ExchangeNeedLineReq">
+                 <rdfs:label xml:lang="en">exchange_need_line_req</rdfs:label>
+                 <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Requirement"/>
+                 <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InfoExchRequirement"/>
+               </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ProjectAnalysisResult">
+           <rdfs:label xml:lang="en">project_analysis_result</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Guidance"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AnalysisProcessResult"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AnalysisProcessResult">
+           <rdfs:label xml:lang="en">analysis_process_result</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Guidance"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ProjectAnalysisResult"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture">
+        <rdfs:label xml:lang="en">architecture</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SystemArchitecture">
+           <rdfs:label xml:lang="en">system_architecture</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalArchitecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnicalArchitecture"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalArchitecture">
+           <rdfs:label xml:lang="en">operational_architecture</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SystemArchitecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnicalArchitecture"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnicalArchitecture">
+           <rdfs:label xml:lang="en">technical_architecture</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SystemArchitecture"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalArchitecture"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding">
+        <rdfs:label xml:lang="en">architecture_finding</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/kads#Finding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureIssue">
+           <rdfs:label xml:lang="en">architecture_issue</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureConstraint"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureInpact"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureRecommendation"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureConstraint">
+           <rdfs:label xml:lang="en">architecture_constraint</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureIssue"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureInpact"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureRecommendation"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureInpact">
+           <rdfs:label xml:lang="en">architecture_inpact</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureIssue"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureConstraint"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureRecommendation"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureRecommendation">
+           <rdfs:label xml:lang="en">architecture_recommendation</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureIssue"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureConstraint"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureInpact"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset">
+        <rdfs:label xml:lang="en">information_asset</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ConceptualDataModel">
+           <rdfs:label xml:lang="en">conceptual_data_model</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActivityModel"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActivityModel">
+           <rdfs:label xml:lang="en">activity_model</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ConceptualDataModel"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan">
+        <rdfs:label xml:lang="en">plan</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System">
+        <rdfs:label xml:lang="en">system</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile">
+        <rdfs:label xml:lang="en">standard_profile</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission">
+        <rdfs:label xml:lang="en">mission</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea">
+        <rdfs:label xml:lang="en">mission_area</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Area.topic"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea">
+        <rdfs:label xml:lang="en">functional_area</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Area.topic"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#OperationalScenario">
+        <rdfs:label xml:lang="en">operational_scenario</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Agreement"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SpecificationAndSolution"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Architecture"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureFinding"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#InformationAsset"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Plan"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#System"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StandardProfile"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Mission"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MissionArea"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#FunctionalArea"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization">
+     <rdfs:label xml:lang="en">organization</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Organisation"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology">
+     <rdfs:label xml:lang="en">technology</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue">
+     <rdfs:label xml:lang="en">technology_issue</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Issue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability">
+     <rdfs:label xml:lang="en">capability</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Capableness"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility">
+     <rdfs:label xml:lang="en">facility</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Facility.services"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association">
+     <rdfs:label xml:lang="en">association</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Association.relation"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem">
+     <rdfs:label xml:lang="en">materiel_item</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Item"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#EquipmentType">
+        <rdfs:label xml:lang="en">equipment_type</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SoftwareItem"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SoftwareItem">
+        <rdfs:label xml:lang="en">software_item</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#EquipmentType"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node">
+     <rdfs:label xml:lang="en">node</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Node.electronicComputer"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network">
+     <rdfs:label xml:lang="en">network</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#ComputerNetwork"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+     <pm:part rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity">
+     <rdfs:label xml:lang="en">quantity</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Measure"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#UnitCostAmount">
+        <rdfs:label xml:lang="en">unit_cost_amount</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NominalUsersQuantity"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NominalUsersQuantity">
+        <rdfs:label xml:lang="en">nominal_users_quantity</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#UnitCostAmount"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date">
+     <rdfs:label xml:lang="en">date</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ApprovalDate">
+        <rdfs:label xml:lang="en">approval_date</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PublicationDate"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CompletionDate"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PublicationDate">
+        <rdfs:label xml:lang="en">publication_date</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ApprovalDate"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CompletionDate"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CompletionDate">
+        <rdfs:label xml:lang="en">completion_date</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ApprovalDate"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PublicationDate"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name">
+     <rdfs:label xml:lang="en">name</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AbbreviatedName">
+        <rdfs:label xml:lang="en">abbreviated_name</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NotationName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#VersionName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Acronym"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NotationName">
+        <rdfs:label xml:lang="en">notation_name</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AbbreviatedName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#VersionName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Acronym"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#VersionName">
+        <rdfs:label xml:lang="en">version_name</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AbbreviatedName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NotationName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Acronym"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Acronym">
+        <rdfs:label xml:lang="en">acronym</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#AbbreviatedName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#NotationName"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#VersionName"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code">
+     <rdfs:label xml:lang="en">code</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Code"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode">
+        <rdfs:label xml:lang="en">document_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SecurityClassificationCode">
+           <rdfs:label xml:lang="en">security_classification_code</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoutingCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CaveatedSecurityId"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoutingCode">
+           <rdfs:label xml:lang="en">routing_code</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SecurityClassificationCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CaveatedSecurityId"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#CaveatedSecurityId">
+           <rdfs:label xml:lang="en">caveated_security_id</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#SecurityClassificationCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoutingCode"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode">
+        <rdfs:label xml:lang="en">action_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionVerbCode">
+           <rdfs:label xml:lang="en">action_verb_code</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PriorityCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StatusCode"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PriorityCode">
+           <rdfs:label xml:lang="en">priority_code</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionVerbCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StatusCode"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#StatusCode">
+           <rdfs:label xml:lang="en">status_code</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionVerbCode"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PriorityCode"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode">
+        <rdfs:label xml:lang="en">view_type_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode">
+        <rdfs:label xml:lang="en">time_frame_type_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode">
+        <rdfs:label xml:lang="en">role_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ModeCode">
+        <rdfs:label xml:lang="en">mode_code</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DocumentCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ActionCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ViewTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TimeFrameTypeCode"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#RoleCode"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText">
+     <rdfs:label xml:lang="en">descr_text</rdfs:label>
+     <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#String"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#ThingThatCanBeSeenAsARelation"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Action"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Task"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Period"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Document"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Specification"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Organization"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Technology"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#TechnologyIssue"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Capability"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Facility"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Association"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#MaterielItem"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Node"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Network"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Quantity"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Date"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Name"/>
+     <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#Code"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PurposeDescr">
+        <rdfs:label xml:lang="en">purpose_descr</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureDescr"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ExplanationText"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureDescr">
+        <rdfs:label xml:lang="en">architecture_descr</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PurposeDescr"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ExplanationText"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ObjectiveText">
+           <rdfs:label xml:lang="en">objective_text</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureDescr"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ScopeText"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ScopeText">
+           <rdfs:label xml:lang="en">scope_text</rdfs:label>
+           <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureDescr"/>
+           <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ObjectiveText"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ExplanationText">
+        <rdfs:label xml:lang="en">explanation_text</rdfs:label>
+        <dc:Creator>http://www.c3i.osd.mil/org/cio/i3/AWG_Digital_Library/AnxBCDGH_Nov98.doc</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#DescrText"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#PurposeDescr"/>
+        <daml:disjointWith rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/cadm#ArchitectureDescr"/>
+      </rdfs:Class>
+
+
+
+</rdf:RDF>

@@ -1,0 +1,1909 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+         xmlns:dc="http://purl.org/metadata/dublin_core#"
+         xmlns:daml="http://www.daml.org/2000/10/daml-ont#"
+         xmlns:pm="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#">
+
+
+<rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing">
+  <rdfs:label xml:lang="en">_thing</rdfs:label>
+  <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+  <rdfs:comment>ADFP 9 top concept type</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#DomainObject"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_situation">
+     <rdfs:label xml:lang="en">_situation</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#SituationPlayingSomeRole"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_state">
+        <rdfs:label xml:lang="en">_state</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_situation"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_degree">
+           <rdfs:label xml:lang="en">_degree</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_state"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Degree.state"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CulminatingPoint">
+              <rdfs:label xml:lang="en">culminating_point</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>A culminating point is the point in time and location where a force will no longer be stronger than the enemy and risk losing the initiative. This may be due to reduced combat power, attrition, logistics, dwindling national will or other factors. To be successful, the operations must achieve its objectives before reaching its culminating point.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_degree"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DPT">
+              <rdfs:label xml:lang="en">DPT</rdfs:label>
+              <rdfs:label xml:lang="en">decision_point</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Decision points (DPT) are points in time and space at which a commander must make a decision in order to influence the operation in a particular target area of interest (TAI). DPTs must be offset from the point where the action has to take place, in order to allow sufficient lead-time for action to be initiated.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_degree"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TACON">
+              <rdfs:label xml:lang="en">TACON</rdfs:label>
+              <rdfs:label xml:lang="en">tactical_control</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>A force assigned to a commander under tactical control allows local direction and control of movements or manoeuvres necessary to accomplished missions or tasks as directed by the assigning higher commander.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_degree"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commandStatus">
+           <rdfs:label xml:lang="en">_command_status</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_state"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Command.status"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPCOMD">
+              <rdfs:label xml:lang="en">OPCOMD</rdfs:label>
+              <rdfs:label xml:lang="en">operational_command</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>This is the highest degree of authority which can be assigned to the commander of a joint force operation and is usually retained for the duration of the operation or campaign. It would be normal for the national military strategic authority to place assigned forces under operational command of a national commander who will then have the requisite authority to assign, deploy or reassign forces. For ADF operations, operational command may be delegated to a subordinate commander and will normally include responsibility for administration and logistics.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commandStatus"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPCON">
+              <rdfs:label xml:lang="en">OPCON</rdfs:label>
+              <rdfs:label xml:lang="en">operational_control</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>This degree of command gives a nominated commander the authority to direct forces assigned to achieve a specific mission within agreed limitations, usually related to function, time or location. The commander may delegate operational and tactical control to another commander but does not have the authority to assign separate employment to components of the formation or units concerned. It does not include responsibility for administration or logistics.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commandStatus"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TACOMD">
+              <rdfs:label xml:lang="en">TACOMD</rdfs:label>
+              <rdfs:label xml:lang="en">tactical_command</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>This degree of command allows a commander to assign tasks to forces under his command for the accomplishment of the mission assigned by higher authority. The commander may delegate tactical control of the asset.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commandStatus"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#End-state">
+           <rdfs:label xml:lang="en">end-state</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>End-state is identified at the national and military levels as follows: a. the national end-state is the set of desired conditions, incorporating the elements of national power that will achieve the national objectives; b. the military end-state is the set of desired conditions beyond which the use of military force is no longer required to achieve national objectives.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_state"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#State"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process">
+        <rdfs:label xml:lang="en">_process</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_situation"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#ProcessPlayingARole"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning">
+           <rdfs:label xml:lang="en">_planning</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Planning"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CampaignPlanning">
+              <rdfs:label xml:lang="en">campaign_planning</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Campaign planning integrates both deliberate and immediate planning processes and seeks to orchestrate the ways for tactical means to achieve strategic ends.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DeliberatePlanning">
+              <rdfs:label xml:lang="en">deliberate_planning</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>The start of a process for the development of considered military strategic guidance for the employment of the Australian Defence Force (ADF), to achieve an end-state, in support of Government national strategy. The process is generally free of time constraints. It relies on a mix of assumption-based planning against current strategic guidance and future analysis to account for possible future strategic environments.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ImmediatePlanning">
+              <rdfs:label xml:lang="en">immediate_planning</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>The time-sensitive planning for the employment of assigned forces and resources that occurs in response to a developing situation that may result in military operations. This planning is informed by the products of deliberate planning, with assumptions and projections replaced with facts as the situation unfolds.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JIPB">
+              <rdfs:label xml:lang="en">JIPB</rdfs:label>
+              <rdfs:label xml:lang="en">joint_intelligence_preparation_of_the_battlespace</rdfs:label>
+              <rdfs:label xml:lang="en">Joint_Intelligence_Preparation_of_the_Battlefield</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Joint intelligence preparation of the battlespace (JIPB) is a systematic, dynamic process for analysing the threat and the environment, considered in the dimensions of space and time. It is designed to support staff planning and prepare the foundations for informed military decision making. JIPB is a processing medium with which intelligence staff provide an assessment of environmental effects on operations and an estimate of adversary capability and intent.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASSPP">
+              <rdfs:label xml:lang="en">ASSPP</rdfs:label>
+              <rdfs:label xml:lang="en">Assistant_Secretary_Strategic_Policy_Planning</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Department of Defence</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#STRAPP">
+              <rdfs:label xml:lang="en">STRAPP</rdfs:label>
+              <rdfs:label xml:lang="en">Strategic_Planning_Process</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation">
+           <rdfs:label xml:lang="en">_operation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Operation"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CoalitionOperation">
+              <rdfs:label xml:lang="en">coalition_operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>An operation conducted by forces of two or more nations, which may not be allies, acting together for the accomplishment of a single mission.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CombinedOperation">
+                 <rdfs:label xml:lang="en">combined_operation</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:comment>An operation conducted by forces of two or more allied nations acting together for the accomplishment of a single mission.</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CoalitionOperation"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#IO">
+              <rdfs:label xml:lang="en">IO</rdfs:label>
+              <rdfs:label xml:lang="en">information_operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Actions taken to defend and enhance one's own information and information systems and to affect adversary information, including the information itself.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MSO">
+              <rdfs:label xml:lang="en">MSO</rdfs:label>
+              <rdfs:label xml:lang="en">military_support_operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>The use of military forces for purposes other than combat operations usually associated with war.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Operation">
+              <rdfs:label xml:lang="en">operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>A military action or the carrying out of a strategic, tactical, Service, training or administrative military mission; the process of carrying on combat, including movement, supply, attack, defence and manoeuvres needed to gain the objectives of any battle or campaign.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PeaceOperation">
+              <rdfs:label xml:lang="en">peace_operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Peace operations encompass all types of operations designed to assist a diplomatic peace process.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PeaceEnforcement">
+                 <rdfs:label xml:lang="en">peace_enforcement</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:comment>Peace enforcement is the coercive use of civil and military sanctions and collective security actions by legitimate, international intervention forces, to assist diplomatic efforts to restore peace between belligerents, at least one of whom does not consent to that intervention.</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Enforcement"/>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PeaceOperation"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Peacekeeping">
+                 <rdfs:label xml:lang="en">peacekeeping</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:comment>Peacekeeping is a non-coercive instrument of diplomacy where a legitimate force, which may comprise civil and military elements, is employed with the consent of the belligerent parties in an impartial, non-combatant manner, to implement conflict resolution arrangements or assist humanitarian aid operations.</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PeaceOperation"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Peacemaking">
+                 <rdfs:label xml:lang="en">peacemaking</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:comment>Peacemaking is diplomatic action to bring hostile parties to a negotiated agreement through such peaceful means as those foreseen under chapter VI of the UN Charter.</rdfs:comment>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PeaceOperation"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#IO">
+              <rdfs:label xml:lang="en">IO</rdfs:label>
+              <rdfs:label xml:lang="en">information_operation</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Actions taken to defend and enhance one's own information and information systems and to affect adversary information, including the information itself.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_operation"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COA">
+           <rdfs:label xml:lang="en">COA</rdfs:label>
+           <rdfs:label xml:lang="en">course_of_action</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#CourseOfAction"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#ThreatCOA">
+              <rdfs:label xml:lang="en">threat_COA</rdfs:label>
+              <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COA"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#OwnCOA">
+              <rdfs:label xml:lang="en">own_COA</rdfs:label>
+              <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COA"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Administration">
+           <rdfs:label xml:lang="en">administration</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>The management and execution of all military matters not included in tactics and strategy, primarily in the field of logistics and personnel management.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Administration"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Campaign">
+           <rdfs:label xml:lang="en">campaign</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A controlled series of simultaneous or sequential operations designed to achieve an operational commander's objective, normally within a given time or space.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#MilitaryCampaign"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Counterintelligence">
+           <rdfs:label xml:lang="en">counterintelligence</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>That aspect of intelligence devoted to identifying, assessing and counteracting the threats to security posed by hostile intelligence activities and organisations or individuals engaged in covert activity such as espionage, sabotage, subversion or terrorism.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Counterintelligence"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DecisivePoints">
+           <rdfs:label xml:lang="en">decisive_points</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A major event that is a precondition to the successful disruption or negation of a centre of gravity of either combatant. A decisive point is created normally by successfully attacking or neutralising a critical vulnerability. Operational level planning aims to exploit an enemy s critical vulnerabilities in a sequence or matrix of decisive points known as lines of operation.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Event"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DirectSupport">
+           <rdfs:label xml:lang="en">direct_support</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>The support provided by a unit not attached or under command of the supporting unit or formation, but required to give priority to the support required by that unit or formation.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Support"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JointExercise">
+           <rdfs:label xml:lang="en">joint_exercise</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A joint exercise is an exercise, which is planned and conducted by elements of two or more Australian Services.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Exercise"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AME">
+           <rdfs:label xml:lang="en">AME</rdfs:label>
+           <rdfs:label xml:lang="en">aeromedical_evacuation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EMA">
+           <rdfs:label xml:lang="en">EMA</rdfs:label>
+           <rdfs:label xml:lang="en">Emergency_Management_Australia</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EW">
+           <rdfs:label xml:lang="en">EW</rdfs:label>
+           <rdfs:label xml:lang="en">electronic_warfare</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#War.militaryAction"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JMAP">
+           <rdfs:label xml:lang="en">JMAP</rdfs:label>
+           <rdfs:label xml:lang="en">joint_military_appreciation_process</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NGS">
+           <rdfs:label xml:lang="en">NGS</rdfs:label>
+           <rdfs:label xml:lang="en">naval_gunfire_support</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Support"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SAE">
+           <rdfs:label xml:lang="en">SAE</rdfs:label>
+           <rdfs:label xml:lang="en">Services_assisted_evacuation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SPE">
+           <rdfs:label xml:lang="en">SPE</rdfs:label>
+           <rdfs:label xml:lang="en">Services_protected_evacuation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#MissionAnalysis">
+           <rdfs:label xml:lang="en">mission_analysis</rdfs:label>
+           <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#COAdevelopment">
+           <rdfs:label xml:lang="en">COA_development</rdfs:label>
+           <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#COAanalysis">
+           <rdfs:label xml:lang="en">COA_analysis</rdfs:label>
+           <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#Decision">
+           <rdfs:label xml:lang="en">decision</rdfs:label>
+           <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+         </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement">
+     <rdfs:label xml:lang="en">_descriptive_element</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/pm#DescriptionContent"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan">
+        <rdfs:label xml:lang="en">_plan</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Plan"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ContingencyPlan">
+           <rdfs:label xml:lang="en">contingency_plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A plan for contingencies which can reasonably be anticipated in an area of responsibility.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ACP">
+              <rdfs:label xml:lang="en">ACP</rdfs:label>
+              <rdfs:label xml:lang="en">Australian_Contingency_Plan</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ContingencyPlan"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#LinesOfOperation">
+           <rdfs:label xml:lang="en">lines_of_operation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>Lines of operation describe how military force is applied in time and space through decisive points on the path to the enemy s centre of gravity.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPINST">
+           <rdfs:label xml:lang="en">OPINST</rdfs:label>
+           <rdfs:label xml:lang="en">operational_instruction</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>An operation instruction indicates the commander s intention and possibly the overall plan but leaves the detailed course of action to the subordinate commander.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OperationalLevelOfConflict">
+           <rdfs:label xml:lang="en">operational_level_of_conflict</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>The operational level of conflict is concerned with the planning and conduct of campaigns. It is at this level that military strategy is implemented by assigning missions, tasks and resources to tactical operations.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPPLAN">
+           <rdfs:label xml:lang="en">OPPLAN</rdfs:label>
+           <rdfs:label xml:lang="en">operation_plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A plan for a single or series of connected operations to be carried out simultaneously or in succession. It is usually based upon stated assumptions and is the form of directive employed by higher authority to permit subordinate commanders to prepare supporting plans and orders. The designation plan is usually used instead of 'order' in preparing for operations well in advance. An operation plan may be put into effect at a prescribed time, or on signal, and then becomes the operation order.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SupportingPlan">
+           <rdfs:label xml:lang="en">supporting_plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A plan, complementing the main plan, which provides detailed information concerning specialised and discrete aspects of an operation. Supporting plans may cover areas such as communications, electronic warfare, movement, administration, public information, intelligence collection, etc. Subordinate formation or unit plans may also be incorporated as supporting plans.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ANZCP">
+           <rdfs:label xml:lang="en">ANZCP</rdfs:label>
+           <rdfs:label xml:lang="en">Australia_New_Zealand_Combined_Plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AOP">
+           <rdfs:label xml:lang="en">AOP</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Defence_Force_Operational_Plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASP">
+           <rdfs:label xml:lang="en">ASP</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Strategic_Plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ISP">
+           <rdfs:label xml:lang="en">ISP</rdfs:label>
+           <rdfs:label xml:lang="en">intelligence_support_plan</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_plan"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement">
+        <rdfs:label xml:lang="en">_statement</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Statement"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Commander'sIntent">
+           <rdfs:label xml:lang="en">commander's_intent</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A formal statement, usually in the concept of operations or general outline of orders, given to provide clear direction of the commander s intentions.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ConceptOfOperations">
+           <rdfs:label xml:lang="en">concept_of_operations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A clear and concise statement of the line of action chosen by a commander in order to accomplish the mission.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order">
+           <rdfs:label xml:lang="en">_order</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Directive"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Adminord">
+              <rdfs:label xml:lang="en">adminord</rdfs:label>
+              <rdfs:label xml:lang="en">administrative_order</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>An order covering traffic, supply, maintenance, evacuation, personnel and other administrative details.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Decree"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NoticeToExecute">
+              <rdfs:label xml:lang="en">notice_to_execute</rdfs:label>
+              <rdfs:label xml:lang="en">notice_to_executive</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>"notice_to_executive (x)" is: 1. a term used at the strategic level to advise the time from the issue of an authorisation to deploy outside Australia to when allocated ADF elements can be expected to conduct operations at (x), a specified geographic location. Notice to Execute (x) is used for: a. strategic planning to advise Government when the ADF can be expected to commence operations; and b. to provide strategic guidance for Commander Australian Theatre to make the necessary operational preparations. c. If an operation involves more than one task, a specific Notice to Execute may be directed for each task. Notice to Execute (x) will be based on the prevailing strategic objectives, and may be adjusted as a contingency develops. Notice to Execute is not used at the operational or tactical levels.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Directive">
+              <rdfs:label xml:lang="en">directive</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Either: a. a military communication in which policy is established or a specific action is ordered; b. a plan issued with a view to putting it into effect when so directed, or in the event that a stated contingency arises; or c. broadly speaking, any communication which initiates or governs action, conduct or procedure.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPORD">
+              <rdfs:label xml:lang="en">OPORD</rdfs:label>
+              <rdfs:label xml:lang="en">operation_order</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>A directive, usually formal, issued by a commander to subordinate commanders for the purpose of effecting the coordinated execution of an operation.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#WNGO">
+              <rdfs:label xml:lang="en">WNGO</rdfs:label>
+              <rdfs:label xml:lang="en">warning_order</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>A preliminary notice of an order or action which is to follow.</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Admininst">
+              <rdfs:label xml:lang="en">admininst</rdfs:label>
+              <rdfs:label xml:lang="en">administrative_instruction</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ALERTO">
+              <rdfs:label xml:lang="en">ALERTO</rdfs:label>
+              <rdfs:label xml:lang="en">alert_order</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EXECUTEO">
+              <rdfs:label xml:lang="en">EXECUTEO</rdfs:label>
+              <rdfs:label xml:lang="en">execute_order</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NTM">
+              <rdfs:label xml:lang="en">NTM</rdfs:label>
+              <rdfs:label xml:lang="en">notice_to_move</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ORBAT">
+              <rdfs:label xml:lang="en">ORBAT</rdfs:label>
+              <rdfs:label xml:lang="en">order_of_battle</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_order"/>
+            </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AMPD">
+           <rdfs:label xml:lang="en">AMPD</rdfs:label>
+           <rdfs:label xml:lang="en">ANZUS_Military_Policy_Document</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#APM">
+           <rdfs:label xml:lang="en">APM</rdfs:label>
+           <rdfs:label xml:lang="en">ANZUS_Planning_Manual</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CABSUB">
+           <rdfs:label xml:lang="en">CABSUB</rdfs:label>
+           <rdfs:label xml:lang="en">Cabinet_Submission</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#FPDA">
+           <rdfs:label xml:lang="en">FPDA</rdfs:label>
+           <rdfs:label xml:lang="en">Five_Power_Defence_Arrangements</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_statement"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target">
+        <rdfs:label xml:lang="en">_target</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Area.topic"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EA">
+           <rdfs:label xml:lang="en">EA</rdfs:label>
+           <rdfs:label xml:lang="en">engagement_area</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A target area of interest, where action has been planned to reduce the effect of an adversary s combat power.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HighValueTarget">
+           <rdfs:label xml:lang="en">high_value_target</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>High value target are those assets, which are likely to be required for the completion of the enemy commander s mission.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NAI">
+           <rdfs:label xml:lang="en">NAI</rdfs:label>
+           <rdfs:label xml:lang="en">named_area_of_interest</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A NAI is an aspect which will confirm or deny enemy intentions. It serves to focus attention on areas where the enemy must appear for a particular course of action. NAIs provide an objective basis for the employment of intelligence gathering assets.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TAI">
+           <rdfs:label xml:lang="en">TAI</rdfs:label>
+           <rdfs:label xml:lang="en">target_area_of_interest</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A TAI is an area where a commander can influence the battle by destroying, delaying or disrupting the enemy.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#StrategicObjective">
+           <rdfs:label xml:lang="en">strategic_objective</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_target"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Objective"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CCIR">
+        <rdfs:label xml:lang="en">CCIR</rdfs:label>
+        <rdfs:label xml:lang="en">commander's_critical_information_requirements</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>The critical information that the commander needs to make a decision. Commanders Critical Information Requirements (CCIR) will normally be identified during the war gaming process and they relate to decision points, target area of interest and named area of interest. Timely answers to CCIR assist the commander to enter the decision cycle ahead of the adversary commander, thus improving the probability of gaining or retaining the initiative.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Data"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DecisionSupportOverlay">
+        <rdfs:label xml:lang="en">decision_support_overlay</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DirectiveControl">
+        <rdfs:label xml:lang="en">directive_control</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>A philosophy of command and a system for conducting operations in which subordinates are given clear direction by the superior on their intentions that is the result required, a task, the resources and any constraints. It includes the freedom to decide how to achieve the required result.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Method"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EssentialElementsOfFriendlyInformation">
+        <rdfs:label xml:lang="en">essential_elements_of_friendly_information</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>Those elements of friendly information which, if known by an adversary, would compromise friendly plans or operations through indicators of dispositions, capabilities and intentions.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Info"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Mandate">
+        <rdfs:label xml:lang="en">mandate</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>The terms of a United Nations Security Council or United Nations General Assembly authorisation.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Mandate"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OperationalObjective">
+        <rdfs:label xml:lang="en">operational_objective</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>These are the objectives that need to be achieved in the campaign to reach the military strategic end-state. Correct assessment of operational objectives is crucial to success at the operational level.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Objective"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#LOAC">
+        <rdfs:label xml:lang="en">LOAC</rdfs:label>
+        <rdfs:label xml:lang="en">Law_of_armed_conflict</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Law"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MGI">
+        <rdfs:label xml:lang="en">MGI</rdfs:label>
+        <rdfs:label xml:lang="en">Military_Geographic_Information</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Info"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PI">
+        <rdfs:label xml:lang="en">PI</rdfs:label>
+        <rdfs:label xml:lang="en">public_information</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Info"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MOU">
+        <rdfs:label xml:lang="en">MOU</rdfs:label>
+        <rdfs:label xml:lang="en">memorandum_of_understanding</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MSE">
+        <rdfs:label xml:lang="en">MSE</rdfs:label>
+        <rdfs:label xml:lang="en">Military_Strategic_Estimate</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SME">
+        <rdfs:label xml:lang="en">SME</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Military_Estimate</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MSPG">
+        <rdfs:label xml:lang="en">MSPG</rdfs:label>
+        <rdfs:label xml:lang="en">Military_Strategic_Planning_Guidance</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NATPOL">
+        <rdfs:label xml:lang="en">NATPOL</rdfs:label>
+        <rdfs:label xml:lang="en">national_policy</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ROE">
+        <rdfs:label xml:lang="en">ROE</rdfs:label>
+        <rdfs:label xml:lang="en">rules_of_engagement</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SOFA">
+        <rdfs:label xml:lang="en">SOFA</rdfs:label>
+        <rdfs:label xml:lang="en">status_of_forces_agreement</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SOP">
+        <rdfs:label xml:lang="en">SOP</rdfs:label>
+        <rdfs:label xml:lang="en">standing_operating_procedures</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_descriptiveElement"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group">
+     <rdfs:label xml:lang="en">_group</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Group"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce">
+        <rdfs:label xml:lang="en">_task_force</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#TaskForce"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AssignedForces">
+           <rdfs:label xml:lang="en">assigned_forces</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>Forces-in-being which have been placed under the operational command or operational control of a commander.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JF">
+           <rdfs:label xml:lang="en">JF</rdfs:label>
+           <rdfs:label xml:lang="en">joint_force</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A general term applied to a force which is composed of significant elements of Navy, Army and Air Force, or two or more of these Services, operating under a single commander who is in turn directly responsible to the Chief of the Defence Force.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NationalContingent">
+           <rdfs:label xml:lang="en">national_contingent</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>National forces of one or more Services including civilian personnel, under the command of a single national commander, which are committed to United Nations or other internationally organised operations.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ObserverMission">
+           <rdfs:label xml:lang="en">observer_mission</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>A group of military and/or civilian personnel with supporting elements established by a United Nations mandate to supervise and/or observe and report on the observance of a truce or other agreement.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASC">
+           <rdfs:label xml:lang="en">ASC</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Contingent</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>used in a United Nations context</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AUSMIMPS">
+           <rdfs:label xml:lang="en">AUSMIMPS</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Standard_Materiel_Issue_and_Movement_Priority_System</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COMASC">
+           <rdfs:label xml:lang="en">COMASC</rdfs:label>
+           <rdfs:label xml:lang="en">Commander_Australian_Contingent</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>used in a United Nations context</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COMDSF">
+           <rdfs:label xml:lang="en">COMDSF</rdfs:label>
+           <rdfs:label xml:lang="en">Commander_Special_Forces</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#FEG">
+           <rdfs:label xml:lang="en">FEG</rdfs:label>
+           <rdfs:label xml:lang="en">force_element_group</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#IDETF">
+           <rdfs:label xml:lang="en">IDETF</rdfs:label>
+           <rdfs:label xml:lang="en">Interdepartmental_Emergency_Task_Force</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SASR">
+           <rdfs:label xml:lang="en">SASR</rdfs:label>
+           <rdfs:label xml:lang="en">Special_Air_Service_Regiment</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SF">
+           <rdfs:label xml:lang="en">SF</rdfs:label>
+           <rdfs:label xml:lang="en">special_forces</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNF">
+           <rdfs:label xml:lang="en">UNF</rdfs:label>
+           <rdfs:label xml:lang="en">United_Nations_Force</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system">
+        <rdfs:label xml:lang="en">_system</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#System"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ACAMS">
+           <rdfs:label xml:lang="en">ACAMS</rdfs:label>
+           <rdfs:label xml:lang="en">ANZUS_Crisis_Action_Management_System</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Battlespace">
+           <rdfs:label xml:lang="en">battlespace</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:comment>The battlespace includes all aspects of the environment that are encompassed by the area of influence and the area of interest. This includes the operational environment (oceanic, continental, littoral and electronic) and those relevant aspects of society, politics, culture, religion and economy.</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DEFCOMNET">
+           <rdfs:label xml:lang="en">DEFCOMNET</rdfs:label>
+           <rdfs:label xml:lang="en">Defence_Communications_Network</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Network.system"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#LofC">
+           <rdfs:label xml:lang="en">LofC</rdfs:label>
+           <rdfs:label xml:lang="en">lines_of_communication</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NCMM">
+           <rdfs:label xml:lang="en">NCMM</rdfs:label>
+           <rdfs:label xml:lang="en">National_Crisis_Management_Machinery</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_system"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department">
+        <rdfs:label xml:lang="en">_department</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Department"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ADFCPMG">
+           <rdfs:label xml:lang="en">ADFCPMG</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Defence_Force_Collection_Planning_Management_Group</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CEOI">
+           <rdfs:label xml:lang="en">CEOI</rdfs:label>
+           <rdfs:label xml:lang="en">Communications_Electronic_Operating_Instructions</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COMASCRP">
+           <rdfs:label xml:lang="en">COMASCRP</rdfs:label>
+           <rdfs:label xml:lang="en">Commander_Australian_Contingent_Reconnaissance_Party</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DFAT">
+           <rdfs:label xml:lang="en">DFAT</rdfs:label>
+           <rdfs:label xml:lang="en">Department_of_Foreign_Affairs_and_Trade</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DOD">
+           <rdfs:label xml:lang="en">DOD</rdfs:label>
+           <rdfs:label xml:lang="en">Department_of_Defence</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PM_and_C">
+           <rdfs:label xml:lang="en">PM_and_C</rdfs:label>
+           <rdfs:label xml:lang="en">Department_of_Prime_Minister_and_Cabinet</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#PR">
+           <rdfs:label xml:lang="en">PR</rdfs:label>
+           <rdfs:label xml:lang="en">public_relations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_department"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre">
+        <rdfs:label xml:lang="en">_centre</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ADFCC">
+           <rdfs:label xml:lang="en">ADFCC</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Defence_Force_Command_Centre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EHC">
+           <rdfs:label xml:lang="en">EHC</rdfs:label>
+           <rdfs:label xml:lang="en">evacuee_handling_centre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JEWCC">
+           <rdfs:label xml:lang="en">JEWCC</rdfs:label>
+           <rdfs:label xml:lang="en">joint_electronic_warfare_coordination_centre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JMCC">
+           <rdfs:label xml:lang="en">JMCC</rdfs:label>
+           <rdfs:label xml:lang="en">joint_movement_coordination_centre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JOC">
+           <rdfs:label xml:lang="en">JOC</rdfs:label>
+           <rdfs:label xml:lang="en">joint_operations_centre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ONA">
+           <rdfs:label xml:lang="en">ONA</rdfs:label>
+           <rdfs:label xml:lang="en">Office_of_National_Assessments</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command">
+        <rdfs:label xml:lang="en">_command</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Command.militaryUnit"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#C2">
+           <rdfs:label xml:lang="en">C2</rdfs:label>
+           <rdfs:label xml:lang="en">command_and_control</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#C3">
+           <rdfs:label xml:lang="en">C3</rdfs:label>
+           <rdfs:label xml:lang="en">command_control_and_communications</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COMNORCOM">
+           <rdfs:label xml:lang="en">COMNORCOM</rdfs:label>
+           <rdfs:label xml:lang="en">Commander_Northern_Command</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HQNORCOM">
+           <rdfs:label xml:lang="en">HQNORCOM</rdfs:label>
+           <rdfs:label xml:lang="en">Headquarters_Northern_Command</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NCA">
+           <rdfs:label xml:lang="en">NCA</rdfs:label>
+           <rdfs:label xml:lang="en">national_command_authority</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_command"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters">
+        <rdfs:label xml:lang="en">_headquarters</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Headquarters"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ADHQ">
+           <rdfs:label xml:lang="en">ADHQ</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Defence_Headquarters</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CFHQ">
+           <rdfs:label xml:lang="en">CFHQ</rdfs:label>
+           <rdfs:label xml:lang="en">combined_force_headquarters</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HQ1JMOVGP">
+           <rdfs:label xml:lang="en">HQ1JMOVGP</rdfs:label>
+           <rdfs:label xml:lang="en">Headquarters_1_Joint_Movements_Group</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HQASC">
+           <rdfs:label xml:lang="en">HQASC</rdfs:label>
+           <rdfs:label xml:lang="en">Headquarters_Australian_Contingent</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HQSO">
+           <rdfs:label xml:lang="en">HQSO</rdfs:label>
+           <rdfs:label xml:lang="en">Headquarters_Special_Operations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFHQ">
+           <rdfs:label xml:lang="en">JFHQ</rdfs:label>
+           <rdfs:label xml:lang="en">joint_force_headquarters</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNHQ">
+           <rdfs:label xml:lang="en">UNHQ</rdfs:label>
+           <rdfs:label xml:lang="en">United_Nations_Headquarters</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee">
+        <rdfs:label xml:lang="en">_committee</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Committee"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASCC">
+           <rdfs:label xml:lang="en">ASCC</rdfs:label>
+           <rdfs:label xml:lang="en">Air_Standardisation_Coordinating_Committee</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASCRP">
+           <rdfs:label xml:lang="en">ASCRP</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Contingent_Reconnaissance_Party</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COSC">
+           <rdfs:label xml:lang="en">COSC</rdfs:label>
+           <rdfs:label xml:lang="en">Chiefs_of_Staff_Committee</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CPG">
+           <rdfs:label xml:lang="en">CPG</rdfs:label>
+           <rdfs:label xml:lang="en">commander's_planning_group</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DSD">
+           <rdfs:label xml:lang="en">DSD</rdfs:label>
+           <rdfs:label xml:lang="en">Defence_Signals_Directorate</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#IDC">
+           <rdfs:label xml:lang="en">IDC</rdfs:label>
+           <rdfs:label xml:lang="en">Interdepartmental_Committee</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JSLPC">
+           <rdfs:label xml:lang="en">JSLPC</rdfs:label>
+           <rdfs:label xml:lang="en">joint_services_local_planning_committee</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NSCC">
+           <rdfs:label xml:lang="en">NSCC</rdfs:label>
+           <rdfs:label xml:lang="en">National_Security_Committee_of_Cabinet</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SCNS">
+           <rdfs:label xml:lang="en">SCNS</rdfs:label>
+           <rdfs:label xml:lang="en">Secretaries_Committee_on_National_Security</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_organization">
+        <rdfs:label xml:lang="en">_organization</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Organization"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DIO">
+           <rdfs:label xml:lang="en">DIO</rdfs:label>
+           <rdfs:label xml:lang="en">Defence-Intelligence_Organisation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_organization"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#NATO">
+           <rdfs:label xml:lang="en">NATO</rdfs:label>
+           <rdfs:label xml:lang="en">North_Atlantic_Treaty_Organisation</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_organization"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UN">
+           <rdfs:label xml:lang="en">UN</rdfs:label>
+           <rdfs:label xml:lang="en">United_Nations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_organization"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_division">
+        <rdfs:label xml:lang="en">_division</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Division.administrativeUnit"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#IPDIV">
+           <rdfs:label xml:lang="en">IPDIV</rdfs:label>
+           <rdfs:label xml:lang="en">International_Policy_Division</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_division"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#OPSDIV">
+           <rdfs:label xml:lang="en">OPSDIV</rdfs:label>
+           <rdfs:label xml:lang="en">Operations_Division</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_division"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#RFPDIV">
+           <rdfs:label xml:lang="en">RFPDIV</rdfs:label>
+           <rdfs:label xml:lang="en">Resources_and_Financial_Programs_Division</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_division"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Mil">
+        <rdfs:label xml:lang="en">mil</rdfs:label>
+        <rdfs:label xml:lang="en">military</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Military"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ABCA">
+           <rdfs:label xml:lang="en">ABCA</rdfs:label>
+           <rdfs:label xml:lang="en">American_British_Canadian_and_Australian_armies</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Mil"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ADF">
+           <rdfs:label xml:lang="en">ADF</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Defence_Force</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Mil"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JEPG">
+        <rdfs:label xml:lang="en">JEPG</rdfs:label>
+        <rdfs:label xml:lang="en">Joint_Exercise_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JHPG">
+        <rdfs:label xml:lang="en">JHPG</rdfs:label>
+        <rdfs:label xml:lang="en">joint_health_planning_group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JIS">
+        <rdfs:label xml:lang="en">JIS</rdfs:label>
+        <rdfs:label xml:lang="en">joint_intelligence_staff</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MILREPS">
+        <rdfs:label xml:lang="en">MILREPS</rdfs:label>
+        <rdfs:label xml:lang="en">ANZUS_military_representatives</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#Opconcepts">
+        <rdfs:label xml:lang="en">opconcepts</rdfs:label>
+        <rdfs:label xml:lang="en">operational_concepts</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SCG">
+        <rdfs:label xml:lang="en">SCG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Command_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SIPG">
+        <rdfs:label xml:lang="en">SIPG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Intelligence_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SLPG">
+        <rdfs:label xml:lang="en">SLPG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Logistics_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SPG">
+        <rdfs:label xml:lang="en">SPG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SPCG">
+        <rdfs:label xml:lang="en">SPCG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Policy_Coordination_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SWG">
+        <rdfs:label xml:lang="en">SWG</rdfs:label>
+        <rdfs:label xml:lang="en">Strategic_Watch_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TLPG">
+        <rdfs:label xml:lang="en">TLPG</rdfs:label>
+        <rdfs:label xml:lang="en">Theatre_Logistics_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TIPG">
+        <rdfs:label xml:lang="en">TIPG</rdfs:label>
+        <rdfs:label xml:lang="en">Theatre_Intelligence_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#TPG">
+        <rdfs:label xml:lang="en">TPG</rdfs:label>
+        <rdfs:label xml:lang="en">Theatre_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNFOS">
+        <rdfs:label xml:lang="en">UNFOS</rdfs:label>
+        <rdfs:label xml:lang="en">United_Nations_Field_Operations_Service</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNHCR">
+        <rdfs:label xml:lang="en">UNHCR</rdfs:label>
+        <rdfs:label xml:lang="en">United_Nations_High_Commission_for_Refugees</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNMOG">
+        <rdfs:label xml:lang="en">UNMOG</rdfs:label>
+        <rdfs:label xml:lang="en">United_Nations_Military_Observer_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNSC">
+        <rdfs:label xml:lang="en">UNSC</rdfs:label>
+        <rdfs:label xml:lang="en">United_Nations_Security_Council</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_spatialEntity">
+     <rdfs:label xml:lang="en">_spatial_entity</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location">
+        <rdfs:label xml:lang="en">_location</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_spatialEntity"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Location"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ANZUS">
+           <rdfs:label xml:lang="en">ANZUS</rdfs:label>
+           <rdfs:label xml:lang="en">Australia_New_Zealand_United_States</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#AO">
+           <rdfs:label xml:lang="en">AO</rdfs:label>
+           <rdfs:label xml:lang="en">area_of_operations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASA">
+           <rdfs:label xml:lang="en">ASA</rdfs:label>
+           <rdfs:label xml:lang="en">Australian_Support_Area</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COMAST">
+           <rdfs:label xml:lang="en">COMAST</rdfs:label>
+           <rdfs:label xml:lang="en">Commander_Australian_Theatre</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#EAA">
+           <rdfs:label xml:lang="en">EAA</rdfs:label>
+           <rdfs:label xml:lang="en">evacuee_assembly_area</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#FMB">
+           <rdfs:label xml:lang="en">FMB</rdfs:label>
+           <rdfs:label xml:lang="en">forward_mounting_base</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFAO">
+           <rdfs:label xml:lang="en">JFAO</rdfs:label>
+           <rdfs:label xml:lang="en">joint_force_area_of_operations</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#POE">
+           <rdfs:label xml:lang="en">POE</rdfs:label>
+           <rdfs:label xml:lang="en">point_of_entry</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_physicalEntity">
+        <rdfs:label xml:lang="en">_physical_entity</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_spatialEntity"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person">
+           <rdfs:label xml:lang="en">_person</rdfs:label>
+           <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_physicalEntity"/>
+           <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Person"/>
+         </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander">
+              <rdfs:label xml:lang="en">_commander</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Commander"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CDF">
+                 <rdfs:label xml:lang="en">CDF</rdfs:label>
+                 <rdfs:label xml:lang="en">Chief_of_the_Defence_Force</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CFC">
+                 <rdfs:label xml:lang="en">CFC</rdfs:label>
+                 <rdfs:label xml:lang="en">combined_forces_commander</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CINCPAC">
+                 <rdfs:label xml:lang="en">CINCPAC</rdfs:label>
+                 <rdfs:label xml:lang="en">Commander-in-Chief_Pacific</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFC">
+                 <rdfs:label xml:lang="en">JFC</rdfs:label>
+                 <rdfs:label xml:lang="en">joint_force_commander</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNFC">
+                 <rdfs:label xml:lang="en">UNFC</rdfs:label>
+                 <rdfs:label xml:lang="en">United_Nations_Force_Commander</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director">
+              <rdfs:label xml:lang="en">_director</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Director"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DDIO">
+                 <rdfs:label xml:lang="en">DDIO</rdfs:label>
+                 <rdfs:label xml:lang="en">Director_Defence_Intelligence_Organisation</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGDFLS">
+                 <rdfs:label xml:lang="en">DGDFLS</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Defence_Force_Legal_Services</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGIO">
+                 <rdfs:label xml:lang="en">DGIO</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Intelligence_Operations</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGJOP">
+                 <rdfs:label xml:lang="en">DGJOP</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Joint_Operations_and_Plans</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGMS">
+                 <rdfs:label xml:lang="en">DGMS</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Military_Strategy</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGPI">
+                 <rdfs:label xml:lang="en">DGPI</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Public_Information</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DGSC">
+                 <rdfs:label xml:lang="en">DGSC</rdfs:label>
+                 <rdfs:label xml:lang="en">Director-General_Service_Conditions</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DJLOP">
+                 <rdfs:label xml:lang="en">DJLOP</rdfs:label>
+                 <rdfs:label xml:lang="en">Director_Joint_Logistics_Operations_and_Plans</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DJOPS">
+                 <rdfs:label xml:lang="en">DJOPS</rdfs:label>
+                 <rdfs:label xml:lang="en">Director_Joint_Operations</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DJP">
+                 <rdfs:label xml:lang="en">DJP</rdfs:label>
+                 <rdfs:label xml:lang="en">Director_Joint_Plans</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_director"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head">
+              <rdfs:label xml:lang="en">_head</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HIP">
+                 <rdfs:label xml:lang="en">HIP</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_of_International_Policy_Division</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HRFP">
+                 <rdfs:label xml:lang="en">HRFP</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_Resource_and_Financial_Programs</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HDPE">
+                 <rdfs:label xml:lang="en">HDPE</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_Defence_Personnel_Executive</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HOM">
+                 <rdfs:label xml:lang="en">HOM</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_of_Mission</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HSCD">
+                 <rdfs:label xml:lang="en">HSCD</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_Strategic_Command_Division</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#HSPP">
+                 <rdfs:label xml:lang="en">HSPP</rdfs:label>
+                 <rdfs:label xml:lang="en">Head_Strategic_Policy_and_Plans_Division</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_head"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_officer">
+              <rdfs:label xml:lang="en">_officer</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#MilitaryOfficer"/>
+            </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DFLO">
+                 <rdfs:label xml:lang="en">DFLO</rdfs:label>
+                 <rdfs:label xml:lang="en">Defence_Force_liaison_officer</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_officer"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#LO">
+                 <rdfs:label xml:lang="en">LO</rdfs:label>
+                 <rdfs:label xml:lang="en">liaison_officer</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_officer"/>
+               </rdfs:Class>
+
+               <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SHO">
+                 <rdfs:label xml:lang="en">SHO</rdfs:label>
+                 <rdfs:label xml:lang="en">senior_health_officer</rdfs:label>
+                 <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+                 <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_officer"/>
+               </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#ASLEG">
+              <rdfs:label xml:lang="en">ASLEG</rdfs:label>
+              <rdfs:label xml:lang="en">Assistant_Secretary_Legal</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>Department of Defence</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DA">
+              <rdfs:label xml:lang="en">DA</rdfs:label>
+              <rdfs:label xml:lang="en">Defence_Attache/Defence_Adviser</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#DEPSECS_and_I">
+              <rdfs:label xml:lang="en">DEPSEC_S_and_I</rdfs:label>
+              <rdfs:label xml:lang="en">Deputy_Secretary_Strategic_and_Intelligence</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#MINDEF">
+              <rdfs:label xml:lang="en">MINDEF</rdfs:label>
+              <rdfs:label xml:lang="en">Minister_for_Defence</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#SG">
+              <rdfs:label xml:lang="en">SG</rdfs:label>
+              <rdfs:label xml:lang="en">Secretary_General</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:comment>United_Nations</rdfs:comment>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNSG">
+              <rdfs:label xml:lang="en">UNSG</rdfs:label>
+              <rdfs:label xml:lang="en">United_Nations_Secretary_General</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+            <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#VCDF">
+              <rdfs:label xml:lang="en">VCDF</rdfs:label>
+              <rdfs:label xml:lang="en">Vice_Chief_of_the_Defence_Force</rdfs:label>
+              <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+              <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_person"/>
+            </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#COG">
+     <rdfs:label xml:lang="en">COG</rdfs:label>
+     <rdfs:label xml:lang="en">centre_of_gravity</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:comment>That characteristic, capability or locality from which a military force, nation or alliance derives its freedom of action, strength or will to fight at that level of conflict. The centre of gravity at each level of conflict may consist of a number of key elements.</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CV">
+     <rdfs:label xml:lang="en">CV</rdfs:label>
+     <rdfs:label xml:lang="en">critical_vulnerabilities</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:comment>A characteristic or key element of a force that if destroyed, captured or neutralised will significantly undermine the fighting capability of the force and its centre of gravity. A critical vulnerability is not necessarily a weakness but any source of strength or power that is capable of being attacked or neutralised. A successful attack on a critical vulnerability should aim to achieve a decisive point in an operation or campaign. A force may have a number of critical vulnerabilities.</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Vulnerability"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#ThreatCV">
+        <rdfs:label xml:lang="en">threat_CV</rdfs:label>
+        <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CV"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/zhang#OwnCV">
+        <rdfs:label xml:lang="en">own_CV</rdfs:label>
+        <dc:Creator>http://www.dodccrp.org/2000ICCRTS/cd/papers/Track2/017.pdf</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#CV"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J">
+     <rdfs:label xml:lang="en">J</rdfs:label>
+     <rdfs:label xml:lang="en">joint</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:comment>Connotes activities, operations, organisations, etc in which elements of more than one Service of the same nation participate (when all Services are not involved, the participating Services shall be identified, eg Joint Army Navy).</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JointExercise">
+        <rdfs:label xml:lang="en">joint_exercise</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>A joint exercise is an exercise, which is planned and conducted by elements of two or more Australian Services.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Exercise"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JF">
+        <rdfs:label xml:lang="en">JF</rdfs:label>
+        <rdfs:label xml:lang="en">joint_force</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>A general term applied to a force which is composed of significant elements of Navy, Army and Air Force, or two or more of these Services, operating under a single commander who is in turn directly responsible to the Chief of the Defence Force.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_taskForce"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JIPB">
+        <rdfs:label xml:lang="en">JIPB</rdfs:label>
+        <rdfs:label xml:lang="en">joint_intelligence_preparation_of_the_battlespace</rdfs:label>
+        <rdfs:label xml:lang="en">Joint_Intelligence_Preparation_of_the_Battlefield</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:comment>Joint intelligence preparation of the battlespace (JIPB) is a systematic, dynamic process for analysing the threat and the environment, considered in the dimensions of space and time. It is designed to support staff planning and prepare the foundations for informed military decision making. JIPB is a processing medium with which intelligence staff provide an assessment of environmental effects on operations and an estimate of adversary capability and intent.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_planning"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JEPG">
+        <rdfs:label xml:lang="en">JEPG</rdfs:label>
+        <rdfs:label xml:lang="en">Joint_Exercise_Planning_Group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JEWCC">
+        <rdfs:label xml:lang="en">JEWCC</rdfs:label>
+        <rdfs:label xml:lang="en">joint_electronic_warfare_coordination_centre</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFAO">
+        <rdfs:label xml:lang="en">JFAO</rdfs:label>
+        <rdfs:label xml:lang="en">joint_force_area_of_operations</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_location"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFC">
+        <rdfs:label xml:lang="en">JFC</rdfs:label>
+        <rdfs:label xml:lang="en">joint_force_commander</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_commander"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JFHQ">
+        <rdfs:label xml:lang="en">JFHQ</rdfs:label>
+        <rdfs:label xml:lang="en">joint_force_headquarters</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_headquarters"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JHPG">
+        <rdfs:label xml:lang="en">JHPG</rdfs:label>
+        <rdfs:label xml:lang="en">joint_health_planning_group</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JIS">
+        <rdfs:label xml:lang="en">JIS</rdfs:label>
+        <rdfs:label xml:lang="en">joint_intelligence_staff</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_group"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JMAP">
+        <rdfs:label xml:lang="en">JMAP</rdfs:label>
+        <rdfs:label xml:lang="en">joint_military_appreciation_process</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_process"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JMCC">
+        <rdfs:label xml:lang="en">JMCC</rdfs:label>
+        <rdfs:label xml:lang="en">joint_movement_coordination_centre</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JOC">
+        <rdfs:label xml:lang="en">JOC</rdfs:label>
+        <rdfs:label xml:lang="en">joint_operations_centre</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_centre"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#JSLPC">
+        <rdfs:label xml:lang="en">JSLPC</rdfs:label>
+        <rdfs:label xml:lang="en">joint_services_local_planning_committee</rdfs:label>
+        <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_committee"/>
+        <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#J"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#UNFCE">
+     <rdfs:label xml:lang="en">UNFCE</rdfs:label>
+     <rdfs:label xml:lang="en">United_Nations_Force_Communications_Element</rdfs:label>
+     <dc:Creator>http://www.webkb.org/kb/adfp9.html</dc:Creator>
+     <rdfs:subClassOf rdf:resource="http://www.itee.uq.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/adfp9#_thing"/>
+   </rdfs:Class>
+
+
+
+</rdf:RDF>

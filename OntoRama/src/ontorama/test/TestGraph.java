@@ -127,7 +127,7 @@ public class TestGraph extends TestCase {
   /**
    * test graph root
    */
-  public void testGraphRoot () {
+  public void testGraphRoot () throws NoSuchPropertyException {
     GraphNode rootNode = graph.getRootNode();
     assertEquals("root", rootNode.getName());
     List propList = rootNode.getProperty(typePropertyName);
@@ -148,7 +148,7 @@ public class TestGraph extends TestCase {
   /**
    * test properties, clones and depth for node1
    */
-  public void testNode1 () {
+  public void testNode1 () throws NoSuchPropertyException {
     List propList = node1.getProperty(typePropertyName);
     assertEquals("description property for node1",node1Descr, propList.get(0));
     assertEquals("depth of node1", 1, node1.getDepth());

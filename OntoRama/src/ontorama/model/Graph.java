@@ -99,7 +99,6 @@ public class Graph implements GraphInterface {
      * @throws  NoSuchRelationLinkException
      * @throws  NoTypeFoundInResultSetException
      * @throws  NoSuchPropertyException
-     * @todo  should never return null!!! need to introduce exception chain up to the parser??
      * @todo  maybe we shouldn't remove non-connected edges, but attach them to artafficial
      *        root node. (this is good solution for static ontologies, but not so for
      *        webkb ontology (remember ontology viewer for hibkb)).
@@ -346,9 +345,10 @@ public class Graph implements GraphInterface {
      * Convert Graph into Tree by cloning nodes with duplicate parents (inbound edges)
      *
      * @param   GraphNode root
-     * @throws  NoSuchRelationLinkException
+     * @throws  NoSuchRelationLinkException, NoSuchPropertyException
      */
-    private void convertIntoTree (GraphNode root) throws NoSuchRelationLinkException {
+    private void convertIntoTree (GraphNode root) throws
+                NoSuchRelationLinkException, NoSuchPropertyException {
         LinkedList queue = new LinkedList();
         boolean isTree = true;
 
@@ -405,9 +405,10 @@ public class Graph implements GraphInterface {
      *
      * @param   node    original node
      * @param   cloneNode   copy node that needs all outbound edges filled in
-     * @throws   NoSuchRelationLinkException
+     * @throws   NoSuchRelationLinkException, NoSuchPropertyException
      */
-    private void deepCopy (GraphNode node, GraphNode cloneNode ) throws NoSuchRelationLinkException {
+    private void deepCopy (GraphNode node, GraphNode cloneNode ) throws
+                        NoSuchRelationLinkException, NoSuchPropertyException {
 
         Iterator outboundEdgesIterator = Edge.getOutboundEdges(node);
 
@@ -440,7 +441,7 @@ public class Graph implements GraphInterface {
     /**
      * Print Graph into XML tree
      */
-    public String printXml () {
+    public String printXml () throws NoSuchPropertyException {
         String resultStr = "<ontology top='" + this.root.getName() + "'>";
         resultStr = resultStr + "\n";
         resultStr = resultStr + printXmlConceptTypesEl();
@@ -455,7 +456,7 @@ public class Graph implements GraphInterface {
     /**
      * Print all nodes into xml sniplet
      */
-    private String printXmlConceptTypesEl () {
+    private String printXmlConceptTypesEl () throws NoSuchPropertyException {
         String tab = "\t";
         String resultStr = tab + "<conceptTypes>";
         resultStr = resultStr + "\n";

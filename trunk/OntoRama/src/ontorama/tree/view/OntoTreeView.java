@@ -280,7 +280,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      */
     public void focus(GraphNode node) {
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
-        //System.out.println("FOCUS: ontotreenode = " + node.getName());
+        System.out.println("FOCUS: ontotreenode = " + node);
         //if (treeNode == null) {
         //        return;
         //}

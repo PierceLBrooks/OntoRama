@@ -1,6 +1,6 @@
 package ontorama.textDescription.view;
 
-import ontorama.controller.NodeSelectedEvent;
+import ontorama.controller.QueryEvent;
 import ontorama.model.GraphNode;
 import org.tockit.events.EventBroker;
 
@@ -31,7 +31,7 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
         label.setToolTipText("Click to browse to this term");
         label.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                _eventBroker.processEvent(new NodeSelectedEvent(node));
+                _eventBroker.processEvent(new QueryEvent(node));
             }
         });
 

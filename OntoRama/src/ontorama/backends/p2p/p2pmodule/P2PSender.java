@@ -183,20 +183,29 @@ public class P2PSender{
     /**
     * Is called to do searches for at other peers. The methods sends out a search request and
     * then waits for 20 seconds to get responses
+    */
+    public void peerDiscovery (){
+        Enumeration enum = this.joinedGroups().elements();
+        this.peersPanel.clear();
+        String groupName = null;
+        while (enum.hasMoreElements()){
+            groupName = ((PeerGroup) enum.nextElement()).getPeerGroupName();
+            this.peerDiscovery(groupName);
+        }
+    }
+
+    /**
+    * Is called to do searches for at other peers. The methods sends out a search request and
+    * then waits for 20 seconds to get responses
     *
-    * @param groupIDasString a string with the peer group id for the group to send a peer discovery in
-    * @return a vector of SearchGroupResultElement
-    * @exception
-    *
-    * @version P2P-OntoRama 1.0.0
+    * @param groupName a string with the peer group id for the group to send a peer discovery in
     */
     public void peerDiscovery (String groupName){
-    	 try {
+        try {
               Vector searchGroupResult = this.comm.sendSearchGroup("Name",groupName);
               Enumeration tmpEnumernation = searchGroupResult.elements();
               if (tmpEnumernation.hasMoreElements()) {
                   SearchGroupResultElement searchGroupResultElement = (SearchGroupResultElement)tmpEnumernation.nextElement();
-                  System.err.println("Peer discovery in " + searchGroupResultElement.getName() + " (ID:" + searchGroupResultElement.getID()+ "):");
                   String tmpGroupID = searchGroupResultElement.getID().toString();
                   this.peersPanel.addGroup(tmpGroupID, groupName);
 

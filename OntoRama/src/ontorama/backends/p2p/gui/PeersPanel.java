@@ -46,11 +46,12 @@ public class PeersPanel extends JPanel {
                     return;
                 }
                 String selectedGroupId = (String) _groupNameToGroupIdMapping.get(selectedGroupName);
-                System.out.println("PeersPanel, selectedGroupName" + selectedGroupName);
+System.out.println("PeersPanel, selectedGroupName:" + selectedGroupName + "(" + selectedGroupId + ")");
 
                 GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(selectedGroupId);
                 _cardLayout.show(_cardPanel, groupPanel.getName());
                 groupPanel.setVisible(true);
+                repaint();
             }
         });
 
@@ -69,8 +70,8 @@ public class PeersPanel extends JPanel {
     }
 
     public void addGroup(String groupId, String groupName) {
-        System.out.println("Peer Panel::add group" + groupId + "," + groupName);
         if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
+System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
             _groupsVector.add(groupName);
             GroupPanel groupPanel = new GroupPanel(groupId);
             _cardLayout.addLayoutComponent(groupPanel, groupId);
@@ -94,6 +95,13 @@ public class PeersPanel extends JPanel {
         /// @todo implement
     }
 
+    public void clear() {
+        _groupToPanelMapping.clear();
+        _groupNameToGroupIdMapping.clear();
+        _groupsVector.clear();
+        repaint();
+    }
+
     private class GroupPanel extends JPanel {
         Vector peersList;
         JList jlist;
@@ -109,6 +117,7 @@ public class PeersPanel extends JPanel {
 
         public void addPeer (String name) {
             peersList.add(name);
+System.out.println("PeersPanel::GroupPanel::AddPeer" + name + "(peers in list after add:" + peersList + ")");
             jlist.setListData(peersList);
             repaint();
         }

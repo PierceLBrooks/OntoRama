@@ -55,7 +55,7 @@ public class P2PJMenu extends JMenu {
         add(_leaveGroupAction);
         addSeparator();
 
-        _updatePanelAction = new ActionUpdateP2PPanel("Update P2P Panel");
+        _updatePanelAction = new ActionUpdateP2PPanel("Update Peer Panel",_p2pSender);
         add(_updatePanelAction);
 
         _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel");

@@ -10,7 +10,7 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
-import ontorama.model.graph.GraphNode;
+import ontorama.model.GraphNode;
 
 /**
  * Basic GraphNode for ontology viewers.

@@ -6,7 +6,7 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.ontotools.inputsource.cgkb;
+package ontorama.ontotools.source.cgkb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import ontorama.model.graph.EdgeType;
-import ontorama.ontotools.inputsource.Source;
-import ontorama.ontotools.inputsource.SourceResult;
-import ontorama.ontotools.inputsource.UrlQueryStringConstructor;
+import ontorama.ontotools.source.Source;
+import ontorama.ontotools.source.SourceResult;
+import ontorama.ontotools.source.UrlQueryStringConstructor;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;

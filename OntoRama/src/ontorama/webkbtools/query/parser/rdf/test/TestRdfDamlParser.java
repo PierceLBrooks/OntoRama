@@ -16,7 +16,7 @@ import ontorama.model.graph.NodeType;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.util.TestingUtils;
 import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.source.Source;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.parser.Parser;
 import ontorama.ontotools.query.parser.ParserResult;

@@ -13,9 +13,9 @@ import java.io.Reader;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontotools.inputsource.JarSource;
-import ontorama.ontotools.inputsource.Source;
-import ontorama.ontotools.inputsource.SourceResult;
+import ontorama.ontotools.source.JarSource;
+import ontorama.ontotools.source.Source;
+import ontorama.ontotools.source.SourceResult;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.parser.Parser;
 import ontorama.ontotools.query.parser.ParserResult;

@@ -17,7 +17,7 @@ import junit.framework.TestSuite;
  *
  * No tests for:
  * - all interfaces
- * - package inputsource
+ * - package source
  * - package util
  *
  */
@@ -48,7 +48,7 @@ public class TestWebkbtoolsPackage extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.ontotools");
 
-        suite.addTest(ontorama.ontotools.inputsource.TestSourcePackage.suite());
+        suite.addTest(ontorama.ontotools.source.TestSourcePackage.suite());
         suite.addTest(ontorama.ontotools.query.TestQueryPackage.suite());
         suite.addTest(ontorama.ontotools.writer.test.TestWriterPackage.suite());
 

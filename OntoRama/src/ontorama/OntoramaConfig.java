@@ -22,7 +22,7 @@ import ontorama.conf.XmlConfigParser;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
 import ontorama.ui.ErrorPopupMessage;
-import ontorama.ontotools.inputsource.JarSource;
+import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
 
@@ -76,7 +76,7 @@ public class OntoramaConfig {
     /**
      * where to find source package
      */
-    private static final String sourcePackagePathPrefix = "ontorama.ontotools.inputsource";
+    private static final String sourcePackagePathPrefix = "ontorama.ontotools.source";
 
 
     private static Hashtable edgesConfig;

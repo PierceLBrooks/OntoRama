@@ -1,4 +1,4 @@
-package ontorama.ontotools.inputsource;
+package ontorama.ontotools.source;
 
 import java.util.Iterator;
 import java.util.LinkedList;

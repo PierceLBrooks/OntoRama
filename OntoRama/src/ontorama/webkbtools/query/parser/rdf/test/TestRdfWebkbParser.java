@@ -5,7 +5,7 @@ import java.io.Reader;
 import ontorama.OntoramaConfig;
 import ontorama.util.TestingUtils;
 import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.source.Source;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.query.parser.rdf.RdfWebkbParser;

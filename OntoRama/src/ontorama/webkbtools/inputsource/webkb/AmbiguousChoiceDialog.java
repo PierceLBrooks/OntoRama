@@ -1,4 +1,4 @@
-package ontorama.ontotools.inputsource.webkb;
+package ontorama.ontotools.source.webkb;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

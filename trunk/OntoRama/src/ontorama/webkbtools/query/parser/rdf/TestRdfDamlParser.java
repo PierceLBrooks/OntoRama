@@ -72,7 +72,7 @@ public class TestRdfDamlParser extends TestCase {
      *
      */
     protected void setUp() throws Exception {
-        //System.out.println("\nsetUp method");
+        System.out.println("\nsetUp method");
 
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");

@@ -6,9 +6,8 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
 import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 
 /**
  * <p>Title: </p>
@@ -26,8 +25,6 @@ import ontorama.model.graph.Node;
 
 public class TestNode extends TestCase {
 	
-	private Backend _backend;
-
     private Node node1;
     private Node node2;
     private Node node3;
@@ -51,14 +48,12 @@ public class TestNode extends TestCase {
      *
      */
     protected void setUp() throws URISyntaxException {
-    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(_backend);    	
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
-        node1 = _backend.createNode("node1", nodeIdentifier1);
-        node2 = _backend.createNode("node2", "node2");
-        node3 = _backend.createNode("node3", "node3");
+        node1 = new NodeImpl("node1", nodeIdentifier1);
+        node2 = new NodeImpl("node2", "node2");
+        node3 = new NodeImpl("node3", "node3");
 
         node1.setCreatorUri(creatorUri1);
         node2.setCreatorUri(creatorUri2);

@@ -282,10 +282,19 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-        g2.fill(circle);
+        int x[] = {0, 0, width};
+        int y[] = {0, height -1, height -1};
+        Polygon polygon = new Polygon(x, y, 3);
+        g2.fill(polygon);
         g2.setColor(Color.black);
-        g2.draw(circle);
+        g2.draw(polygon);
+
+
+
+//        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+//        g2.fill(circle);
+//        g2.setColor(Color.black);
+//        g2.draw(circle);
 
         return (new ImageIcon(image));
     }

@@ -11,6 +11,7 @@ import ontorama.model.EdgeImpl;
 import ontorama.model.Node;
 import ontorama.model.NodeType;
 import ontorama.ontologyConfig.NodeTypeDisplayInfo;
+import ontorama.OntoramaConfig;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;
@@ -88,7 +89,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Create 2D object for node representation.
      */
-    private Ellipse2D nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
+    private Shape nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
 
     /**
      * Hold the percentage increase for cloned node rind
@@ -100,6 +101,8 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      *  Store if node is a leaf node
      */
     private boolean isLeaf = false;
+
+    private NodeType nodeType;
 
     /**
      * Returns the radius of the projection sphere.
@@ -113,14 +116,21 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private double depth = 0;
 
-    public HyperNodeView(HyperNode model, NodeTypeDisplayInfo displayInfo) {
+    public HyperNodeView(HyperNode model, NodeType nodeType) {
         this.model = model;
+        this.nodeType = nodeType;
         model.addPositionChangedObserver(this);
         updateProjection();
+        NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(this.nodeType);
         if (model.hasClones()) {
             nodeColor = Color.red;
         } else {
             nodeColor = displayInfo.getColor();
+            nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
+            /// @todo hardcoded node type name here
+            //if (nodeType.getNodeType().equals("relation")) {
+                nodeShape = new Polygon();
+            //}
         }
     }
 
@@ -320,9 +330,18 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
         updateProjection();
         g2d.setColor(fadeColor);
-        nodeShape.setFrame(projectedX - viewRadius,
-                projectedY - viewRadius,
-                viewRadius * 2, viewRadius * 2);
+        /// @todo a hack to get different node shapes
+        if (nodeShape instanceof Polygon) {
+            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
+            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + viewRadius));
+            ((Polygon) nodeShape).addPoint( (int) (projectedX + viewRadius), (int) (projectedY + viewRadius));
+        }
+        else {
+            ((Ellipse2D) nodeShape).setFrame(projectedX - viewRadius,
+                    projectedY - viewRadius,
+                    viewRadius * 2, viewRadius * 2);
+        }
+
         if (!isLeaf && this.getFolded()) {
             g2d.fill(nodeShape.getBounds2D());
         } else {
@@ -386,9 +405,21 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     public void showClone(Graphics2D g2d) {
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
-        nodeShape.setFrame(projectedX - ringRadius,
-                projectedY - ringRadius,
-                ringRadius * 2, ringRadius * 2);
+        /// @todo a hack to get different node shapes
+        if (nodeShape instanceof Polygon) {
+            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
+            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + ringRadius));
+            ((Polygon) nodeShape).addPoint( (int) (projectedX + ringRadius), (int) (projectedY + ringRadius));
+        }
+        else {
+            ((Ellipse2D) nodeShape).setFrame(projectedX - ringRadius,
+                    projectedY - ringRadius,
+                    ringRadius * 2, ringRadius * 2);
+        }
+
+//        nodeShape.setFrame(projectedX - ringRadius,
+//                projectedY - ringRadius,
+//                ringRadius * 2, ringRadius * 2);
         g2d.draw(nodeShape);
     }
 

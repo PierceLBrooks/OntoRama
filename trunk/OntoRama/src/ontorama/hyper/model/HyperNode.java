@@ -2,7 +2,8 @@ package ontorama.hyper.model;
 
 /**
  * HyperNode represents a concept in the hyperbolic model
- * HyperNode wraps around a GrapNode. Commutation between different
+ * HyperNode wraps around a GrapNode. Communication between different
+ * HyperNode wraps around a GrapNode. Communication between different
  * views is via GrapNode hasFocus() method.
  */
 

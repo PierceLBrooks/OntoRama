@@ -85,6 +85,15 @@ public class OntoramaConfig {
 	 */
 	public static boolean EDIT_ENABLED;
 	
+	/**
+	 * flag to determine whether or not we are running webstart
+	 * if yes - this means we can't use import from file and
+	 * proxy settings menus.
+	 * @todo find out if there is a way to find out on runtime rather then
+	 * setting in properties file.
+	 */
+	public static boolean RUNING_WEBSTART;
+	
     public static JarSource streamReader = new JarSource();;
 
     private static Properties properties = new Properties();
@@ -185,6 +194,7 @@ public class OntoramaConfig {
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
+		RUNING_WEBSTART = (new Boolean(properties.getProperty("RUNING_WEBSTART"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
         backendName = properties.getProperty("backend");
     }

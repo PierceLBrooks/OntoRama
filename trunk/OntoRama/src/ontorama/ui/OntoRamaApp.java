@@ -369,12 +369,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        ConfigurationManager.restorePlacement(CONFIGURATION_SECTION_NAME, this, new Rectangle(10, 10, 
-                                                                                              (int)screenSize.getWidth() - 20,
-                                                                                              (int)screenSize.getHeight() - 20));
-        int divPos = ConfigurationManager.fetchInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", (int) (this.getWidth() * 0.65) );
-        _splitPane.setDividerLocation(divPos);
-
+        Rectangle rect = new Rectangle(10, 10, (int)screenSize.getWidth() - 20, (int)screenSize.getHeight() - 20);
+        if (! OntoramaConfig.RUNING_WEBSTART) {
+	        ConfigurationManager.restorePlacement(CONFIGURATION_SECTION_NAME, this, rect);
+	        int divPos = ConfigurationManager.fetchInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", (int) (this.getWidth() * 0.65) );
+	        _splitPane.setDividerLocation(divPos);
+		}
+		this.setBounds(rect);
         setVisible(true);
     }
 
@@ -448,27 +449,29 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _fileMenu.setMnemonic(KeyEvent.VK_F);
                
                
-        JMenu importMenu = new JMenu("Import");
-    	Action fileImportAction = new AbstractAction("from file backend...") {
-    		public void actionPerformed(ActionEvent e) {
-    			FileImporter importer = new FileImporter(_modelEventBroker);
-    			importer.doImport();
-    		}
-    	};
-    	importMenu.add(fileImportAction);
-    	
-    	
-    	Action proxySettingsMenuAction = new AbstractAction("Configure proxy settings") {
-    		public void actionPerformed(ActionEvent e) {
-    			new ProxySettingsDialog(OntoRamaApp.getMainFrame(), "Cofigure Proxies", true);
-    		}
-    	};
-    	
-    	
-    	
-    	_fileMenu.add(importMenu);
-
-    	_fileMenu.add(proxySettingsMenuAction);
+		if (!OntoramaConfig.RUNING_WEBSTART) {               
+	        JMenu importMenu = new JMenu("Import");
+	    	Action fileImportAction = new AbstractAction("from file backend...") {
+	    		public void actionPerformed(ActionEvent e) {
+	    			FileImporter importer = new FileImporter(_modelEventBroker);
+	    			importer.doImport();
+	    		}
+	    	};
+	    	importMenu.add(fileImportAction);
+	    	
+	    	
+	    	Action proxySettingsMenuAction = new AbstractAction("Configure proxy settings") {
+	    		public void actionPerformed(ActionEvent e) {
+	    			new ProxySettingsDialog(OntoRamaApp.getMainFrame(), "Cofigure Proxies", true);
+	    		}
+	    	};
+	    	
+	    	
+	    	
+	    	_fileMenu.add(importMenu);
+	
+	    	_fileMenu.add(proxySettingsMenuAction);
+		}
         
         _fileMenu.add(_exitAction);
 
@@ -586,9 +589,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 
     protected void closeWindow() {
-    	ConfigurationManager.storePlacement(CONFIGURATION_SECTION_NAME, this);
-    	ConfigurationManager.storeInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", _splitPane.getDividerLocation());
-    	ConfigurationManager.saveConfiguration();
+    	if (! OntoramaConfig.RUNING_WEBSTART) {
+			ConfigurationManager.storePlacement(CONFIGURATION_SECTION_NAME, this);
+			ConfigurationManager.storeInt(CONFIGURATION_SECTION_NAME, "mainDividerPos", _splitPane.getDividerLocation());
+			ConfigurationManager.saveConfiguration();
+    	}
         System.exit(0);
     }
 

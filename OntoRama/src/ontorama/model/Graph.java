@@ -188,6 +188,7 @@ public class Graph implements GraphInterface {
 
 		while (ontIterator.hasNext()) {
 			OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
+			//System.out.println("ot = " + ot.toString());
 			processOntologyType(ot, termName);
 			count++;
 		}
@@ -212,6 +213,7 @@ public class Graph implements GraphInterface {
 		debug.message("----processing ot = " + ot);
 		if (node == null) {
 			node = new GraphNode(ot.getName());
+			node.setFullName(ot.getFullName());
 			processedNodes.put(ot.getName(), node);
 		}
 		debug.message("\t corresponding node = " + node);
@@ -241,6 +243,7 @@ public class Graph implements GraphInterface {
 					(GraphNode) processedNodes.get(relatedType.getName());
 				if (relNode == null) {
 					relNode = new GraphNode(relatedType.getName());
+					relNode.setFullName(relatedType.getFullName());
 					processedNodes.put(relatedType.getName(), relNode);
 				}
 				Edge oneWayEdge = Edge.getEdge(node, relNode, relLink.intValue());

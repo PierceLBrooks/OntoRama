@@ -201,10 +201,10 @@ public class NodesListViewer extends JComboBox {
                 if (nodeType != null) {
                     ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
                     setIcon(image);
+                    setToolTipText(nodeType.getNodeType());
                 }
                 else {
                     setIcon(_noImage);
-                    setToolTipText(nodeType.getNodeType());
                 }
             }
             return this;

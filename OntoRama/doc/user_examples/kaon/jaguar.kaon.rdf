@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	     xmlns:kaon="http://kaon.semanticweb.org/2001/11/kaon-lexical#"
+         xmlns:test="test:"
+>
+
+<!-- hierarcy of status symbols -->
+<rdfs:Class rdf:about="test:status_symbol">
+    <rdfs:subClassOf rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#Root"/>
+</rdfs:Class>
+
+<!-- hierarcy of persons -->
+<rdfs:Class rdf:about="test:person">
+    <rdfs:subClassOf rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#Root"/>
+</rdfs:Class>
+
+<!-- hierarchy of cars -->
+<rdfs:Class rdf:about="test:car">
+    <rdfs:subClassOf rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:personal_car">
+    <rdfs:subClassOf rdf:resource="test:car"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:jaguar_car">
+    <rdfs:subClassOf rdf:resource="test:personal_car"/>
+    <rdfs:subClassOf rdf:resource="test:status_symbol"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:BMW">
+    <rdfs:subClassOf rdf:resource="test:personal_car"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:truck">
+    <rdfs:subClassOf rdf:resource="test:car"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:MANN">
+    <rdfs:subClassOf rdf:resource="test:truck"/>
+</rdfs:Class>
+
+<!-- hierarchy of animals -->
+<rdfs:Class rdf:about="test:animal">
+    <rdfs:subClassOf rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:cat">
+    <rdfs:subClassOf rdf:resource="test:animal"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:jaguar_cat">
+    <rdfs:subClassOf rdf:resource="test:cat"/>
+</rdfs:Class>
+<rdfs:Class rdf:about="test:persian_cat">
+    <rdfs:subClassOf rdf:resource="test:cat"/>
+</rdfs:Class>
+
+<!-- properties of status symbols -->
+<rdf:Property rdf:about="test:friends_without_it">
+	<rdfs:domain rdf:resource="test:status_symbol"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<!-- properties of cars and cats -->
+<rdf:Property rdf:about="test:color">
+	<rdfs:domain rdf:resource="test:car"/>
+	<rdfs:domain rdf:resource="test:cat"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<!-- properties of cars only -->
+<rdf:Property rdf:about="test:wheels_no">
+	<rdfs:domain rdf:resource="test:car"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</rdf:Property>
+
+<!-- properties between cars and cats -->
+<rdf:Property rdf:about="test:runs_over">
+	<rdfs:domain rdf:resource="test:car"/>
+	<rdfs:range rdf:resource="test:cat"/>
+</rdf:Property>
+
+<!-- properties between persons and cats -->
+<rdf:Property rdf:about="test:owns">
+	<rdfs:domain rdf:resource="test:person"/>
+	<rdfs:range rdf:resource="test:cat"/>
+</rdf:Property>
+
+<!-- subrelations of runs_over -->
+<rdf:Property rdf:about="test:BMW_runs_over_cat">
+    <rdfs:subPropertyOf rdf:resource="test:runs_over"/>
+	<rdfs:domain rdf:resource="test:BMW"/>
+	<rdfs:range rdf:resource="test:cat"/>
+</rdf:Property>
+<rdf:Property rdf:about="test:BMW_runs_over_jaguar">
+    <rdfs:subPropertyOf rdf:resource="test:BMW_runs_over_cat"/>
+	<rdfs:domain rdf:resource="test:BMW"/>
+	<rdfs:range rdf:resource="test:jaguar_cat"/>
+</rdf:Property>
+
+<!-- relation with no domain and no range -->
+<rdf:Property rdf:about="test:no_domain_no_range"/>
+
+<!-- INSTANCES -->
+<test:jaguar_car rdf:about="test:jaguar_car_1">
+    <test:color>pink</test:color>
+    <test:wheels_no>6</test:wheels_no>
+    <test:runs_over rdf:resource="test:Garfield"/>
+    <test:runs_over rdf:resource="test:Silvester"/>
+</test:jaguar_car>
+
+<test:jaguar_car rdf:about="test:jaguar_car_2">
+    <test:color>red</test:color>
+    <test:wheels_no>3</test:wheels_no>
+    <test:runs_over rdf:resource="test:Silvester"/>
+</test:jaguar_car>
+
+<test:persian_cat rdf:about="test:Garfield">
+    <rdf:type rdf:resource="test:status_symbol"/>
+    <test:color>orange</test:color>
+</test:persian_cat>
+
+<test:persian_cat rdf:about="test:Silvester">
+    <test:color>black</test:color>
+</test:persian_cat>
+
+<test:persian_cat rdf:about="test:Nermal"/>
+
+<!-- lexical entries for some things -->
+<kaon:Label rdf:about="test:jaguar_label_en">
+    <kaon:references rdf:resource="test:jaguar_car"/>
+    <kaon:references rdf:resource="test:jaguar_cat"/>
+    <kaon:references rdf:resource="test:jaguar_car_1"/>
+    <kaon:value>Jaguar</kaon:value>
+    <kaon:inLanguage rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#en"/>
+</kaon:Label>
+
+<kaon:Label rdf:about="test:jaguar_label_de">
+    <kaon:references rdf:resource="test:jaguar_car"/>
+    <kaon:references rdf:resource="test:jaguar_cat"/>
+    <kaon:references rdf:resource="test:jaguar_car_1"/>
+    <kaon:value>Jaguar auf Deutsch</kaon:value>
+    <kaon:inLanguage rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#de"/>
+</kaon:Label>
+
+<kaon:Label rdf:about="test:Garfield_label_en">
+    <kaon:references rdf:resource="test:Garfield"/>
+    <kaon:value>Garfield</kaon:value>
+    <kaon:inLanguage rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#en"/>
+</kaon:Label>
+
+<kaon:Stem rdf:about="test:car_stem_en">
+    <kaon:references rdf:resource="test:jaguar_car"/>
+    <kaon:references rdf:resource="test:car"/>
+    <kaon:value>Car Stem</kaon:value>
+    <test:misc>Misc Stem attribute</test:misc>
+    <test:ref rdf:resource="test:Garfield"/>
+    <kaon:inLanguage rdf:resource="http://kaon.semanticweb.org/2001/11/kaon-lexical#en"/>
+</kaon:Stem>
+
+</rdf:RDF>

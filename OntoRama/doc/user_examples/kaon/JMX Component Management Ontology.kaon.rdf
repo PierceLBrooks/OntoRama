@@ -1,0 +1,654 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY kaon 'http://kaon.semanticweb.org/2001/11/kaon-lexical#'>
+    <!ENTITY a 'http://kaon.semanticweb.org/kaon/server/component#'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+]>
+
+<?include-rdf logicalURI="http://kaon.semanticweb.org/2001/11/kaon-root" physicalURI="jar:file:/C:/Dateien/Code/ontolift/lib/kaonapi.jar!/edu/unika/aifb/kaon/api/res/kaon-root.xml"?>
+<?include-rdf logicalURI="http://kaon.semanticweb.org/2001/11/kaon-lexical" physicalURI="jar:file:/C:/Dateien/Code/ontolift/lib/kaonapi.jar!/edu/unika/aifb/kaon/api/res/kaon-lexical.xml"?>
+
+<?model-attribute key="OIModel.version" value="206"?>
+
+<rdf:RDF xml:base="http://kaon.semanticweb.org/kaon/server/component"
+    xmlns:kaon="&kaon;"
+    xmlns:a="&a;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;">
+
+<kaon:Label rdf:ID="1043844707202-152962675"
+    kaon:value="CodeArchive">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#CodeArchive"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043844727501-1111608546"
+    kaon:value="JARArchive">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#JARArchive"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043844740149-160522560"
+    kaon:value="physicalURL">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#physicalURL"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043844916442-1602185348">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#physicalURL"/>
+    <kaon:value>This attribute refers to the physical URL where the code archive may be downloaded. A code archive may have several Download locations. The server will try to contact one after another until it finds a working URL. This behaviour is not deterministic and does not rely on any kind of order.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043844953466-660556820"
+    kaon:value="versionTag">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#versionTag"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043844972483-2066463120">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#versionTag"/>
+    <kaon:value>The version tag only informative. This might later be replaced by some more elaborate system. </kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043845168415-658996300"
+    kaon:value="ProgramingLanguage">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#ProgrammingLanguage"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043845231135-452005234"
+    kaon:value="hasCompiler">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasCompiler"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043845261639-1342593960"
+    kaon:value="Program">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Program"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043845393949-2146036255"
+    kaon:value="systemCall">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#systemCall"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043845467425-1525154702">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#systemCall"/>
+    <kaon:value>This attribute is the call required to execute the program on the system</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043845559587-1918703255"
+    kaon:value="previousVersion">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#previousVersion"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043845583672-1458682689"
+    kaon:value="VersionedEntity">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#VersionedEntity"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043845804910-1254787047">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#previousVersion"/>
+    <kaon:value> previous Version must  have the same the same type and a smaller version number</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043845968665-1606507583"
+    kaon:value="forProgrammingLanguage">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#forProgrammingLanguage"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043846077862-1258117124"
+    kaon:value="Java">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Java"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043846186669-1305907470"
+    kaon:value="Component">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Component"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848595433-348170102"
+    kaon:value="Artifact">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Artifact"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848639706-1836380396"
+    kaon:value="Producer">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Producer"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848855176-1075851590"
+    kaon:value="producedBy">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#producedBy"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848932998-386152335"
+    kaon:value="Person">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Person"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848944234-874727176"
+    kaon:value="Project">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Project"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043848955450-320648971"
+    kaon:value="Company">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Company"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043849087370-1786807977"
+    kaon:value="n Artifact is something that is produced by some Producer">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Artifact"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043849111905-83314038"
+    kaon:value="hasHomePage">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasHomePage"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043849144772-1467206432"
+    kaon:value="he Homepage of the Artifact">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasHomePage"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043849212290-2052720082"
+    kaon:value="hasClassName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasClassName"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043849277293-1995247743">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasClassName"/>
+    <kaon:value>The value of this attribute must be the string representation of the class that provides the implementation of the component</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043849531318-1181431384"
+    kaon:value="hasSerializedObject">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasSerializedObject"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043849628188-938804307">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasSerializedObject"/>
+    <kaon:value>his optional attribute represents the name of the URL that links to the serialized state of the component. It is ignored if the file is not found.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043849804691-1618632214"
+    kaon:value="requiresArchives">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#requiresArchives"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043850174323-1206314457"
+    kaon:value="domainName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#domainName"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043850392166-1171113637">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#domainName"/>
+    <kaon:value>he value of this attribute specifies the domainName of the component. It is equivalent to namespaces, if this attribute is omitted the Component is assigned the default domain-name. The value of this property may not be JMImplementation</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043850429980-228182960"
+    kaon:value="ComponentName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#ComponentName"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043850546909-728376404">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#ComponentName"/>
+    <kaon:value>Every Component must have a ComponentName. No two MBeans may be represented by the same ComponentName. A ComponentName. This means that the list of key properties must be unique within the domainName</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043850616178-243345470"
+    kaon:value="hasComponentName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasComponentName"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043850652931-693913666"
+    kaon:value="equired to be unique for Each Component ">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasComponentName"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043850685628-2066611033"
+    kaon:value="KeyValuePair">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#KeyValuePair"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043850761527-1726717875"
+    kaon:value=" Key Value Pair is the local part  of a ComponentName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#KeyValuePair"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043850797739-713541220"
+    kaon:value="isPartOf">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#isPartOf"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043850866829-526191546"
+    kaon:value="Whole">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#EntityWithParts"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043850918213-1738426726"
+    kaon:value="A Whole is an entity with Parts is something that has parts">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#EntityWithParts"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043851061338-943386879"
+    kaon:value="Part">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Part"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043851212726-1851168717"
+    kaon:value="hasPart">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasPart"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043851276097-1750079424"
+    kaon:value="hasKeyValuePairs">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasKeyValuePairs"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043851341521-1316316543"
+    kaon:value="key">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#key"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043851379225-385215640"
+    kaon:value="This attribute specifies the key value of a KeyValuePair">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#key"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043851392184-1070476676"
+    kaon:value="value">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#value"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043851415317-94234717"
+    kaon:value="This attribute specifies the value of a KeyValuePair">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#value"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043852691422-621005683"
+    kaon:value="ConstructorArgument">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Argument"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043852710540-453212238">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Argument"/>
+    <kaon:value>A ConstructorArgument is a triple (key, type, value) that is passed to a component while the construction. </kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043852987929-61962741"
+    kaon:value="hasConstructorArguments">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#hasConstructorArguments"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043853470993-1492284881"
+    kaon:value="type">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#type"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043853575914-2000079188">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#type"/>
+    <kaon:value>The value of the type attibute must correspond to the name of a fundamental Java Datatype (boolean, byte, char, short, int, long, float or type) or one of the java.lang. wrapper types for such fundamental data types (e.g. Boolean)</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043854389474-548030849"
+    kaon:value="Relation">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Relation"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043854437213-322797650">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Relation"/>
+    <kaon:value>A current association between MBeans that satisfies a given relation type. A relation can only be created and modified such that the roles of its defined type are always respected. A relation can also have properties and methods that operate on its MBeans.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043854463190-1545049748"
+    kaon:value="Role">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Role"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043854509867-1609095052"
+    kaon:value="RelationType">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#RelationType"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043854520062-659936874"
+    kaon:value="defines">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#defines"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043854604343-639759139">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#RelationType"/>
+    <kaon:value>A relation type provides information about the roles it contains, such as their multiplicity, and the class name of Components that satisfy the role.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043854708813-564903338"
+    kaon:value="roleName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleName"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043854769450-754222230"
+    kaon:value="isComposedOf">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#isComposedOf"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043854843998-961373323"
+    kaon:value="he list ">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#isComposedOf"/>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043854925955-1462500344"
+    kaon:value="roleValue">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#contains"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043855134846-1166544807"
+    kaon:value="satisfies">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#satisfies"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043855232847-564859185">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#contains"/>
+    <kaon:value>The list ofcomponents  that currently satisfies a given role in a relation. The role value must at all times conform to its corresponding role information.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043856093965-985567638"
+    kaon:value="RoleInfo">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#RoleInfo"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043856116247-1928519359">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#RoleInfo"/>
+    <kaon:value>The role information provides a metadata description of a role. It specifies: n The name of the role. n The multiplicity of the role, expressed as a single closed interval between the minimum and maximum number of MBeans that can be referenced in that role.The role information provides a metadata description of a role. It specifies: n The name of the role. n The multiplicity of the role, expressed as a single closed interval between the minimum and maximum number of MBeans that can be referenced in that role.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043856740595-648433586"
+    kaon:value="roleName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleInfoName"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043856782014-1956406653"
+    kaon:value="maximumDegree">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#maximumDegree"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043856813500-715046572"
+    kaon:value="minimumDegree">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#minimumDegree"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043856842752-157909684"
+    kaon:value="roleAccessMode">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleAccessMode"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043856906483-2102873822">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleAccessMode"/>
+    <kaon:value>The value of this attribute determines whether the role  is readable, writable, or both.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043856964647-1303676719"
+    kaon:value="className">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleInfoClassName"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043856987299-175821147">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleInfoClassName"/>
+    <kaon:value>The name of the class or interface of which all members must be instances, as determined by the MBean server’s isInstanceOf method.</kaon:value>
+</kaon:Documentation>
+<kaon:Documentation rdf:ID="1043857052443-1203359190">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#roleInfoName"/>
+    <kaon:value>The roleName must be unique among all roles of the given relation type</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043857239953-130414542"
+    kaon:value="specifiesRole">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#specifiesRole"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043857269625-116927661"
+    kaon:value="compliesToRoleInfo">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#compliesToRoleInfo"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043857493387-529140912"
+    kaon:value="containsRoleInfo">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#containsRoleInfo"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043863694354-2120683744"
+    kaon:value="dependsOnComponent">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#dependsOnComponent"/>
+</kaon:Label>
+<kaon:Documentation rdf:ID="1043863879360-165414311">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#dependsOnComponent"/>
+    <kaon:value>he dependsOn association leads to the recursive loading of other Components and their instantiation before the component itself is instantiated. Users may define further dependencies via relationtypes. The relationservice is automatically started and enforces the cardinality of the respective roles at runtime.</kaon:value>
+</kaon:Documentation>
+<kaon:Label rdf:ID="1043964469488-491988628"
+    kaon:value="Queue">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Queue"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043964773345-824528127"
+    kaon:value="QueueComponentName">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#QueueComponentName"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043964897023-1285625251"
+    kaon:value="Name=Queue">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#Name%3DQueue"/>
+</kaon:Label>
+<kaon:Label rdf:ID="1043964992250-1945340822"
+    kaon:value="QueueArchive">
+    <kaon:inLanguage rdf:resource="&kaon;en"/>
+    <kaon:references rdf:resource="#QueueArchive"/>
+</kaon:Label>
+<rdfs:Class rdf:ID="Argument">
+    <rdfs:subClassOf rdf:resource="#KeyValuePair"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Artifact">
+    <rdfs:subClassOf rdf:resource="&kaon;Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="CodeArchive">
+    <rdfs:subClassOf rdf:resource="#VersionedEntity"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Company">
+    <rdfs:subClassOf rdf:resource="#Producer"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Component">
+    <rdfs:subClassOf rdf:resource="#EntityWithParts"/>
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    <rdfs:subClassOf rdf:resource="#VersionedEntity"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="ComponentName">
+    <rdfs:subClassOf rdf:resource="#EntityWithParts"/>
+    <rdfs:subClassOf rdf:resource="#Part"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="EntityWithParts">
+    <rdfs:subClassOf rdf:resource="&kaon;Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="JARArchive">
+    <rdfs:subClassOf rdf:resource="#CodeArchive"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Java">
+    <rdfs:subClassOf rdf:resource="#ProgrammingLanguage"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="KeyValuePair">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Part">
+    <rdfs:subClassOf rdf:resource="&kaon;Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Person">
+    <rdfs:subClassOf rdf:resource="#Producer"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Producer">
+    <rdfs:subClassOf rdf:resource="&kaon;Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Program">
+    <rdfs:subClassOf rdf:resource="#VersionedEntity"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="ProgrammingLanguage">
+    <rdfs:subClassOf rdf:resource="#Artifact"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Project">
+    <rdfs:subClassOf rdf:resource="#Producer"/>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Relation">
+    <rdfs:subClassOf rdf:resource="#EntityWithParts"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="RelationType">
+    <rdfs:subClassOf rdf:resource="&kaon;Root"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="Role">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="RoleInfo">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+</rdfs:Class>
+<rdfs:Class rdf:ID="VersionedEntity">
+    <rdfs:subClassOf rdf:resource="#Artifact"/>
+</rdfs:Class>
+<rdf:Property rdf:ID="compliesToRoleInfo">
+    <rdfs:domain rdf:resource="#Role"/>
+    <rdfs:range rdf:resource="#RoleInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="contains">
+    <rdfs:domain rdf:resource="#Role"/>
+    <rdfs:range rdf:resource="#Component"/>
+    <rdfs:subPropertyOf rdf:resource="#isPartOf"/>
+</rdf:Property>
+<rdf:Property rdf:ID="containsRoleInfo">
+    <rdfs:domain rdf:resource="#RelationType"/>
+    <rdfs:range rdf:resource="#RoleInfo"/>
+    <rdfs:subPropertyOf rdf:resource="#hasPart"/>
+</rdf:Property>
+<rdf:Property rdf:ID="defines">
+    <rdfs:domain rdf:resource="#RelationType"/>
+    <rdfs:range rdf:resource="#Relation"/>
+</rdf:Property>
+<rdf:Property rdf:ID="dependsOnComponent"
+    kaon:transitive="true">
+    <rdfs:domain rdf:resource="#Component"/>
+    <rdfs:range rdf:resource="#Component"/>
+</rdf:Property>
+<rdf:Property rdf:ID="domainName">
+    <rdfs:domain rdf:resource="#ComponentName"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="forProgrammingLanguage">
+    <rdfs:domain rdf:resource="#CodeArchive"/>
+    <rdfs:range rdf:resource="#ProgrammingLanguage"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasClassName">
+    <rdfs:domain rdf:resource="#Component"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasCompiler">
+    <rdfs:domain rdf:resource="#ProgrammingLanguage"/>
+    <rdfs:range rdf:resource="#Program"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasComponentName">
+    <rdfs:domain rdf:resource="#Component"/>
+    <rdfs:range rdf:resource="#ComponentName"/>
+    <rdfs:subPropertyOf rdf:resource="#hasPart"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasConstructorArguments">
+    <rdfs:domain rdf:resource="#Component"/>
+    <rdfs:range rdf:resource="#Argument"/>
+    <rdfs:subPropertyOf rdf:resource="#hasPart"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasHomePage">
+    <rdfs:domain rdf:resource="#Artifact"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasKeyValuePairs">
+    <rdfs:domain rdf:resource="#ComponentName"/>
+    <rdfs:range rdf:resource="#KeyValuePair"/>
+    <rdfs:subPropertyOf rdf:resource="#hasPart"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasPart"
+    kaon:transitive="true">
+    <rdfs:domain rdf:resource="#EntityWithParts"/>
+    <rdfs:range rdf:resource="#Part"/>
+</rdf:Property>
+<rdf:Property rdf:ID="hasSerializedObject">
+    <rdfs:domain rdf:resource="#Component"/>
+</rdf:Property>
+<rdf:Property rdf:ID="isComposedOf">
+    <rdfs:domain rdf:resource="#Relation"/>
+    <rdfs:range rdf:resource="#Role"/>
+    <rdfs:subPropertyOf rdf:resource="#isPartOf"/>
+</rdf:Property>
+<rdf:Property rdf:ID="isPartOf"
+    kaon:transitive="true">
+    <rdfs:domain rdf:resource="#Part"/>
+    <rdfs:range rdf:resource="#EntityWithParts"/>
+</rdf:Property>
+<rdf:Property rdf:ID="key">
+    <rdfs:domain rdf:resource="#KeyValuePair"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="maximumDegree">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="minimumDegree">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="physicalURL">
+    <rdfs:domain rdf:resource="#CodeArchive"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="previousVersion">
+    <rdfs:domain rdf:resource="#VersionedEntity"/>
+    <rdfs:range rdf:resource="#VersionedEntity"/>
+</rdf:Property>
+<rdf:Property rdf:ID="producedBy">
+    <rdfs:domain rdf:resource="#Artifact"/>
+    <rdfs:range rdf:resource="#Producer"/>
+</rdf:Property>
+<rdf:Property rdf:ID="requiresArchives">
+    <rdfs:domain rdf:resource="#Component"/>
+    <rdfs:range rdf:resource="#JARArchive"/>
+</rdf:Property>
+<rdf:Property rdf:ID="roleAccessMode">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+</rdf:Property>
+<rdf:Property rdf:ID="roleInfoClassName">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="roleInfoName">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="roleName">
+    <rdfs:domain rdf:resource="#Role"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="satisfies">
+    <rdfs:domain rdf:resource="#Relation"/>
+    <rdfs:range rdf:resource="#RelationType"/>
+</rdf:Property>
+<rdf:Property rdf:ID="specifiesRole">
+    <rdfs:domain rdf:resource="#RoleInfo"/>
+    <rdfs:range rdf:resource="#Role"/>
+</rdf:Property>
+<rdf:Property rdf:ID="systemCall">
+    <rdfs:domain rdf:resource="#Program"/>
+</rdf:Property>
+<rdf:Property rdf:ID="type">
+    <rdfs:domain rdf:resource="#Argument"/>
+</rdf:Property>
+<rdf:Property rdf:ID="value">
+    <rdfs:domain rdf:resource="#KeyValuePair"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+<rdf:Property rdf:ID="versionTag">
+    <rdfs:domain rdf:resource="#VersionedEntity"/>
+    <rdfs:range rdf:resource="&rdfs;Literal"/>
+</rdf:Property>
+
+</rdf:RDF>

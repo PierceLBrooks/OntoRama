@@ -8,11 +8,11 @@
 		<description>Ontology Browser Prototype</description>
 		<description kind="tooltip">GO OntoRama!</description>
 		<icon href="img/OntoramaLogo-smaller.jpg"/>
-		<offline-alowed/>
+		<offline-allowed/>
 	</information>
 	<application-desc main-class="ontorama.ui.OntoRamaApp"/>
 	<resources>
-		<j2se version="1.4"/>
+		<j2se version="1.4+"/>
 		<jar href="OntoRama.jar"/>
 		<jar href="lib/jdom.jar"/>
 		<jar href="lib/jenaOntorama.jar"/>

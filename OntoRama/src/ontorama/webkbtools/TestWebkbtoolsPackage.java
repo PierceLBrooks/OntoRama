@@ -38,6 +38,7 @@ public class TestWebkbtoolsPackage extends TestCase {
     public static final String edgeName_nounType = "nounType";
     public static final String edgeName_description = "description";
     public static final String edgeName_synonym = "synonym";
+    public static final String edgeName_creator = "creator";
 
 
     public TestWebkbtoolsPackage(String name) {

@@ -6,6 +6,7 @@ import ontorama.hyper.canvas.CanvasManager;
 import ontorama.hyper.model.HyperNode;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,7 +19,6 @@ import java.util.LinkedList;
 
 
 public class SimpleHyperView  extends CanvasManager {
-
 
     /**
      * The spring length is the desired length between the nodes..
@@ -39,29 +39,26 @@ public class SimpleHyperView  extends CanvasManager {
         //Add HyperNodes to hashtabel stored in CanvasManager
         hypernodes = new Hashtable();
         //temporary map HyperNodeViews to GraphNode to build LineViews
-        Hashtable hypernodeviews = new Hashtable();
+        hypernodeviews = new Hashtable();
         canvasItems.clear();
-        Iterator it = graph.iterator();
-        while( it.hasNext() ) {
-            GraphNode gn = (GraphNode)it.next();
-            HyperNode hn = new HyperNode( gn );
-            hn.addFocusChangedObserver( this );
-            HyperNodeView hnv = new HyperNodeView( hn );
-            //canvasItems.add( hnv );
-            hypernodes.put( gn, hn );
-            hypernodeviews.put( gn, hnv );
-        }
-        GraphNode root = graph.getRootNode();
+        //GraphNode root = graph.getRootNode();
+        GraphNode root = graph.getEdgeRootNode();
+        System.out.println("root = " + root);
         if( root == null ) {
             System.out.println("Root = null");
             return;
         }
-        //add lines to canvas manager.
-        addLinesToHyperNodeViews( hypernodeviews, root );
+        makeHyperNodes(root);
+        System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
+
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
+
+        //add lines to canvas manager.
+        addLinesToHyperNodeViews( hypernodeviews, root );
+
         //Add HyperNodeViews to canvas manager.
-        it = hypernodeviews.values().iterator();
+        Iterator it = hypernodeviews.values().iterator();
         while( it.hasNext() ) {
             HyperNodeView hnv = (HyperNodeView)it.next();
             canvasItems.add( hnv );
@@ -76,6 +73,22 @@ public class SimpleHyperView  extends CanvasManager {
     }
 
     /**
+     *
+     */
+     private void makeHyperNodes (GraphNode top) {
+        HyperNode hn = new HyperNode (top);
+        hn.addFocusChangedObserver(this);
+        HyperNodeView hnv = new HyperNodeView (hn);
+        hypernodes.put(top,hn);
+        hypernodeviews.put(top,hnv);
+        Iterator outboundNodes = Edge.getOutboundEdgeNodes(top);
+        while (outboundNodes.hasNext()) {
+            GraphNode gn = (GraphNode) outboundNodes.next();
+            makeHyperNodes(gn);
+        }
+     }
+
+    /**
      * Add lines to join HyperNodeViews.
      *
      * ///TODO lines should eventually represent the binary relationship
@@ -86,16 +99,20 @@ public class SimpleHyperView  extends CanvasManager {
         queue.add( root );
         while( !queue.isEmpty() ) {
             GraphNode curGraphNode = (GraphNode)queue.remove(0);
-            HyperNodeView curHyperNode = (HyperNodeView)hypernodeviews.get( curGraphNode );
-            Iterator children = curGraphNode.getChildrenIterator();
-            while( children.hasNext() ) {
-                GraphNode childGraphNode = (GraphNode)children.next();
-                HyperNodeView childHyperNode = (HyperNodeView)hypernodeviews.get( childGraphNode );
-                canvasItems.add( new LineView( curHyperNode, childHyperNode ) );
-                queue.add( childGraphNode );
+            HyperNodeView curHyperNodeView = (HyperNodeView)hypernodeviews.get( curGraphNode );
+            //System.out.println("curHyperNodeView = " + curHyperNodeView);
+
+            Iterator outboundEdges = Edge.getOutboundEdges(curGraphNode);
+            while (outboundEdges.hasNext()) {
+                Edge edge = (Edge) outboundEdges.next();
+                int edgeType = edge.getType();
+                GraphNode outboundGraphNode = edge.getToNode();
+                HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
+                //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);
+                canvasItems.add(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView,edgeType) );
+                queue.add( outboundGraphNode );
             }
         }
-
     }
 
     /**
@@ -103,15 +120,16 @@ public class SimpleHyperView  extends CanvasManager {
      * The spring and electrical algorthms shall they do the rest.
      */
     private void basicLayout(GraphNode root, double rads, double startAngle) {
-        int numOfChildren = root.getNumberOfChildren();
-        if( numOfChildren == 0 ) {
+        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        int numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        if (numOfOutboundNodes == 0) {
             return;
         }
-        double angle = rads/ numOfChildren;
+        double angle = rads/numOfOutboundNodes;
         double x = 0, y = 0, radius = 0, count = 1;
-        Iterator it = root.getChildrenIterator();
-        while( it.hasNext() ) {
-            GraphNode node = (GraphNode)it.next();
+        outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        while (outboundNodesIterator.hasNext()) {
+            GraphNode node = (GraphNode) outboundNodesIterator.next();
             double ang = (angle * count) + startAngle - rads/2;
             count = count + 1;
             radius = springLength * ( node.getDepth() );
@@ -122,6 +140,7 @@ public class SimpleHyperView  extends CanvasManager {
                 return;
             }
             hn.setLocation( x, y);
+            //System.out.println("hyper node = " + hn.getName() + ", x = " + x + ", y = " + y);
             basicLayout( node, angle, ang );
         }
     }

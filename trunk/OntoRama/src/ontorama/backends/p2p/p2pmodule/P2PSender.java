@@ -7,6 +7,7 @@ import java.util.Vector;
 import net.jxta.peergroup.PeerGroup;
 import ontorama.backends.Backend;
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;

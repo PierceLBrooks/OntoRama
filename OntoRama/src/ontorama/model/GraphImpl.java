@@ -28,7 +28,7 @@ import java.util.*;
  * <br>
  * Company:     DSTC
  */
-public class GraphImpl implements GraphInterface {
+public class GraphImpl implements Graph {
 
     /**
      * Hold a list of processed ontology types (ontology types that have

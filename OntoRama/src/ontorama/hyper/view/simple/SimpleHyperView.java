@@ -6,7 +6,7 @@ import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.controller.NodeSelectedEventTransformer;
 import ontorama.model.Edge;
-import ontorama.model.GraphInterface;
+import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
@@ -158,7 +158,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      */
     private double ELECTRIC_CHARGE = 10;
 
-    private GraphInterface graph;
+    private Graph graph;
 
 
     /**
@@ -289,7 +289,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Loads new ontology with top concept.
      */
-    public void setGraph(GraphInterface graph) {
+    public void setGraph(Graph graph) {
         this.graph = graph;
         // reset canvas variables
         this.resetCanvas();
@@ -1036,7 +1036,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    private void addHyperNodeViews(GraphInterface graph) {
+    private void addHyperNodeViews(Graph graph) {
 
 //        Iterator it = hypernodeviews.values().iterator();
 //        while (it.hasNext()) {
@@ -1157,7 +1157,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
 
-    public GraphInterface getGraph () {
+    public Graph getGraph () {
         return this.graph;
     }
 

@@ -30,7 +30,7 @@ public class QueryEngineThread extends Thread {
     /**
      *
      */
-    private GraphInterface _graph;
+    private Graph _graph;
 
     /**
      * status message
@@ -175,7 +175,7 @@ public class QueryEngineThread extends Thread {
     /**
      * get graph that has been built
      */
-    public GraphInterface getGraph() {
+    public Graph getGraph() {
         return _graph;
     }
 

@@ -8,12 +8,12 @@ import java.util.List;
  *
  */
 
-public interface GraphInterface {
+public interface Graph {
 
     /**
      *
      */
-    //public GraphInterface (QueryResult queryResult);
+    //public Graph (QueryResult queryResult);
 
     /**
      * Returns root node of the tree.

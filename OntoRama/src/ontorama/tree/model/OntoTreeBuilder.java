@@ -1,7 +1,7 @@
 package ontorama.tree.model;
 
 import ontorama.model.Edge;
-import ontorama.model.GraphInterface;
+import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
 import javax.swing.tree.TreeNode;
@@ -27,13 +27,13 @@ import java.util.Iterator;
 public class OntoTreeBuilder {
 
     private static Hashtable ontoHash = new Hashtable();
-    private GraphInterface graph;
+    private Graph graph;
 
     /**
      * Constructor
      * @param	graph
      */
-    public OntoTreeBuilder(GraphInterface graph) {
+    public OntoTreeBuilder(Graph graph) {
         this.graph = graph;
 
 //        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();

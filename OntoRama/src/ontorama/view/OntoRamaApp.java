@@ -2,7 +2,7 @@ package ontorama.view;
 
 import ontorama.OntoramaConfig;
 import ontorama.hyper.view.simple.SimpleHyperView;
-import ontorama.model.GraphInterface;
+import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.textDescription.view.DescriptionView;
@@ -104,7 +104,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      * currently displayed graph
      */
-    private GraphInterface _graph;
+    private Graph _graph;
 
     /**
      * left side of split panel holds hyper view.
@@ -359,7 +359,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * waiting - update progress bar.
      */
     public void actionPerformed(ActionEvent evt) {
-        GraphInterface graph = null;
+        Graph graph = null;
         setStatusLabel(_worker.getMessage());
         if ((_worker.done()) || (_worker.isStopped())) {
             if (_worker.done()) {
@@ -422,7 +422,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      *
      */
-    private void setGraphInViews (GraphInterface graph) {
+    private void setGraphInViews (Graph graph) {
         _hyperView.setGraph(graph);
         _treeView.setGraph(graph);
         _queryPanel.setGraph(graph);

@@ -34,7 +34,7 @@ import java.util.List;
 
 public class TestGraph extends TestCase {
 
-    private GraphInterface graph;
+    private Graph graph;
 
     private LinkedList ontTypesList;
 

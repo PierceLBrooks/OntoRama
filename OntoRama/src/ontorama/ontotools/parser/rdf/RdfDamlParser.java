@@ -316,6 +316,7 @@ public class RdfDamlParser implements Parser {
         
 		if (predicate.getLocalName().equalsIgnoreCase(_predicateName_comment)) {
 			subjectNode.setDescription(object.toString());
+			return;
 		}
         
         Node objectNode = doNodeMapping(object);
@@ -392,7 +393,6 @@ public class RdfDamlParser implements Parser {
      *
      */
     protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
-    	
     	
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();

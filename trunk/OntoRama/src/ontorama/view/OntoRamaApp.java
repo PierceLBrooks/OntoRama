@@ -70,6 +70,7 @@ public class OntoRamaApp extends JFrame {
             QueryResult queryResult = queryEngine.getQueryResult();
 
             graphBuilder = new GraphBuilder(queryResult);
+            System.out.println("got graph = " + graph);
             graph = graphBuilder.getGraph();
         }
         catch (Exception e) {

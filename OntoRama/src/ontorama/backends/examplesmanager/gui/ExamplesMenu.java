@@ -8,7 +8,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 
 import ontorama.backends.examplesmanager.ExamplesBackend;
@@ -44,6 +45,8 @@ public class ExamplesMenu extends JMenu {
 
    
     private ExamplesBackend _backend;
+    
+    private ButtonGroup _buttonGroup;
 
 
     /**
@@ -62,7 +65,7 @@ public class ExamplesMenu extends JMenu {
     /**
      *
      */
-    public void displayExample(JCheckBoxMenuItem menuItem) {
+    public void displayExample(JRadioButtonMenuItem menuItem) {
         //System.out.println("displayExample for " + menuItem);
 
         // get corresponding example
@@ -80,9 +83,8 @@ public class ExamplesMenu extends JMenu {
     public void setSelectedExampleMenuItem(OntoramaExample example) {
         Enumeration enum = _menuItemExampleMapping.keys();
         while (enum.hasMoreElements()) {
-            JCheckBoxMenuItem exampleMenuItem = (JCheckBoxMenuItem) enum.nextElement();
+            JRadioButtonMenuItem exampleMenuItem = (JRadioButtonMenuItem) enum.nextElement();
             OntoramaExample curExample = (OntoramaExample) _menuItemExampleMapping.get(exampleMenuItem);
-            exampleMenuItem.setSelected(false);
             if (curExample.equals(example)) {
                 exampleMenuItem.setSelected(true);
             }
@@ -93,16 +95,18 @@ public class ExamplesMenu extends JMenu {
      *
      */
     private void buildExamplesMenuItems() {
+    	_buttonGroup = new ButtonGroup();
 
         Iterator examplesIterator = _examplesList.iterator();
         while (examplesIterator.hasNext()) {
             OntoramaExample curExample = (OntoramaExample) examplesIterator.next();
-            JCheckBoxMenuItem curItem = new JCheckBoxMenuItem(curExample.getName(), false);
+            JRadioButtonMenuItem curItem = new JRadioButtonMenuItem(curExample.getName(), false);
             _menuItemExampleMapping.put(curItem, curExample);
+            _buttonGroup.add(curItem);
 
             curItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    JCheckBoxMenuItem sourceItem = (JCheckBoxMenuItem) e.getSource();
+                    JRadioButtonMenuItem sourceItem = (JRadioButtonMenuItem) e.getSource();
                     displayExample(sourceItem);
                 }
             });

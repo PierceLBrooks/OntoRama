@@ -55,14 +55,14 @@ import ontorama.util.event.ViewEventObserver;
 //                                      KeyListener, MouseListener,
 //									  ViewEventObserver {
 
-public class OntoTreeView implements KeyListener, MouseListener,
+public class OntoTreeView extends JScrollPane implements KeyListener, MouseListener,
                                     TreeWillExpandListener,
                                     TreeSelectionListener,
-                                    ViewEventObserver {
+                                    ViewEventObserver  {
 
     private JScrollPane treeView;
     private JTree tree;
-    private OntoTreeNode focusedNode;
+    //private OntoTreeNode focusedNode;
 
     private Debug debug = new Debug(false);
 
@@ -83,11 +83,11 @@ public class OntoTreeView implements KeyListener, MouseListener,
      * Constructor
      */
     public OntoTreeView(Graph graph, ViewEventListener viewListener)  {
+        super();
+
         this.viewListener = viewListener;
         this.viewListener.addObserver(this);
 
-        // build OntoTreeModel for this graph
-        OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
         try {
             //UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -96,6 +96,14 @@ public class OntoTreeView implements KeyListener, MouseListener,
         catch (Exception e) {
             // case if this lookAndFeel doesn't exist
         }
+    }
+
+    /**
+     *
+     */
+    public void setGraph (Graph graph) {
+        // build OntoTreeModel for this graph
+        OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
         this.tree = new JTree(ontoTreeModel);
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -109,14 +117,11 @@ public class OntoTreeView implements KeyListener, MouseListener,
 
         this.tree.addMouseListener(this);
         this.tree.addKeyListener(this);
-        //ActionMap actionMap = this.tree.getActionMap();
-        //actionMap.put();
-        //System.out.println("ActionMap keys= " + actionMap.keys());
-
 
         ToolTipManager.sharedInstance().registerComponent(this.tree);
 
         this.tree.setCellRenderer(new OntoTreeRenderer());
+
 
         // fold/unfold all tree nodes depending on GraphNode.getFolded() value
         Iterator it = ontoTreeModel.getOntoTreeIterator();
@@ -126,16 +131,14 @@ public class OntoTreeView implements KeyListener, MouseListener,
           TreePath path = node.getTreePath();
           if (! curGraphNode.getFoldedState()) {
             this.tree.expandPath(path);
-            //expandPath(path);
           }
         }
-        //cancelCollapse = false;
-        //cancelExpand = false;
+        setViewportView(tree);
 
-        this.treeView = new JScrollPane(tree);
         tree.putClientProperty("JTree.lineStyle", "Angled");
         this.tree.setScrollsOnExpand(true);
 
+        repaint();
         this.tree.repaint();
     }
 
@@ -150,16 +153,6 @@ public class OntoTreeView implements KeyListener, MouseListener,
         debug.message("TreeSelectionListener ******** node " + node);
         System.out.println("TreeSelectionListener ******** node " + node);
         return;
-    }
-
-
-    /**
-     * Return TreeView as a JComponent
-     * @param   -
-     * @return  treeView
-     */
-    public JComponent getTreeViewPanel () {
-        return (JComponent) this.treeView;
     }
 
     /**

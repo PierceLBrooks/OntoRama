@@ -25,7 +25,7 @@ import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
  * Time: 10:57:49 AM
  * To change this template use Options | File Templates.
  */
-public class GroupChooser extends JPanel {
+public class GroupChooserPanel extends JPanel {
 
     private JRadioButton _nameButton;
     private JRadioButton _descriptionButton;
@@ -37,7 +37,7 @@ public class GroupChooser extends JPanel {
 
     private Vector _groups;
 
-    public GroupChooser (Vector groups, String labelString) {
+    public GroupChooserPanel (Vector groups, String labelString) {
         super();
         _groups = groups;
 

@@ -48,7 +48,7 @@ public class LeaveGroupDialog extends JDialog {
             /// @todo deal with exceptions propertly
             e.printStackTrace();
         }
-        final GroupChooser groupsPanel = new GroupChooser(foundGroups, "Choose group to leave");
+        final GroupChooserPanel groupsPanel = new GroupChooserPanel(foundGroups, "Choose group to leave");
 
         JButton cancelButton = new JButton("Cancel");
         final JButton okButton = new JButton("OK");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<website baseURL="http://www.webkb.org/ontorama" sourceDir="content" targetDir="output">-->
-<website baseURL="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/web" sourceDir="content" targetDir="output">
+<website baseURL="http://www.webkb.org/ontorama" sourceDir="content" targetDir="output">
+<!--<website baseURL="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/web" sourceDir="content" targetDir="output">-->
 	<structure>
 		<section name="Home" title="Home" sourceDir="home" targetDir="home" type="home">
 			<!-- use this as homepage, i.e. put it in the top directory (output: ../) -->

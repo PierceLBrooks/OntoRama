@@ -181,31 +181,6 @@ public class FileBackend implements Backend {
 		return null;
 	}
 	
-	
-
-	/**
-	 * @see ontorama.backends.Backend#getParser()
-	 */
-	public String getParser() {
-		return _parserName;
-	}
-	
-	
-
-	/**
-	 * @see ontorama.backends.Backend#getSourcePackageName()
-	 */
-	public String getSourcePackageName() {
-		return _sourcePackageName;
-	}
-
-
-	/**
-	 * @see ontorama.backends.Backend#getSourceUri()
-	 */
-	public String getSourceUri() {
-		return _filename;
-	}
 
 	/**
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)

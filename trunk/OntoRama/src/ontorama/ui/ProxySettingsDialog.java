@@ -46,6 +46,8 @@ public class ProxySettingsDialog extends JDialog {
 	private final String _proxyHostPropertyName = "proxyHost";
 	private final String _proxyPortPropertyName = "proxyPort"; 
 	private final String _proxySetPropertyName = "proxySet";
+	
+	private final String CONFIG_PROXY_SECTION_NAME = "ProxySettings";
 
 	public ProxySettingsDialog(Frame owner, String title, boolean isModal)
 											throws HeadlessException {
@@ -115,6 +117,13 @@ public class ProxySettingsDialog extends JDialog {
 				_proxyPortTextField.setText(System.getProperty(_proxyPortPropertyName));
 			}
 		}
+		else {
+			String proxySetValue = ConfigurationManager.fetchString(CONFIG_PROXY_SECTION_NAME, _proxySetPropertyName, null);
+			if (proxySetValue != null) {
+				_proxyHostTextField.setText(ConfigurationManager.fetchString(CONFIG_PROXY_SECTION_NAME, _proxyHostPropertyName, ""));
+				_proxyPortTextField.setText(ConfigurationManager.fetchString(CONFIG_PROXY_SECTION_NAME, _proxyPortPropertyName, ""));
+			} 
+		}
 		return inputPanel;
 	}
 	
@@ -140,6 +149,10 @@ public class ProxySettingsDialog extends JDialog {
 		}
 		System.getProperties().put( _proxySetPropertyName, "true" );
 		System.getProperties().put( _proxyHostPropertyName, proxyHostInput );
-		System.getProperties().put( _proxyPortPropertyName, proxyPortInput );		
+		System.getProperties().put( _proxyPortPropertyName, proxyPortInput );	
+		
+		ConfigurationManager.storeString(CONFIG_PROXY_SECTION_NAME ,_proxySetPropertyName, "true");
+		ConfigurationManager.storeString(CONFIG_PROXY_SECTION_NAME ,_proxyHostPropertyName, proxyHostInput);
+		ConfigurationManager.storeString(CONFIG_PROXY_SECTION_NAME ,_proxyPortPropertyName, proxyPortInput);
 	}
 }

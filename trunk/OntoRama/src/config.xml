@@ -200,7 +200,8 @@ http://www.gotomy.com/color.html
 	<rdfMapping>
         <map id="1" type="supertype" tag="subClassOf"/>
         <map id="1" type="supertype" tag="subPropertyOf"/>
-        <map id="2" type="similar" tag="similar"/>
+        <map id="2" type="similar" tag="sameClassAs"/>
+        <map id="2" type="similar" tag="samePropertyAs"/>
         <map id="4" type="part" tag="part"/>
         <map id="5" type="substance" tag="substance"/>
         <map id="6" type="instanceOf" tag="type"/>

@@ -78,6 +78,11 @@ public class RdfDamlParser implements Parser {
     private List resourceRelationNodeTypesList;
 
     private List predicatesConnectingPropertyToProperty;
+    
+    private final String _predicateName_subPropertyOf = "subPropertyOf";
+    private final String _predicateName_range = "range";
+    private final String _predicateName_domain = "domain"; 
+    private final String _predicateName_samePropertyAs = "samePropertyAs";
 
     /**
      * Constructor
@@ -157,6 +162,7 @@ public class RdfDamlParser implements Parser {
             predicatesConnectingPropertyToProperty.add("complementOf");
             predicatesConnectingPropertyToProperty.add("wnMember");
             predicatesConnectingPropertyToProperty.add("wnObject");
+        	predicatesConnectingPropertyToProperty.add("samePropertyAs");
 
             sortResourcesIntoClassesAndProperties(model);
 
@@ -240,7 +246,9 @@ public class RdfDamlParser implements Parser {
         Property predicate = s.getPredicate();
         if (resourceRelationNodeTypesList.contains(subject)) {
             String predicateLocalName = predicate.getLocalName();
+            System.out.println("statement: " + s.getSubject() + " -> " + s.getPredicate() + " -> " + s.getObject() );
             if (predicatesConnectingPropertyToProperty.contains(predicateLocalName)) {
+            	System.out.println("object IS property");
             	return true;
             }
         }
@@ -305,8 +313,47 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
+
+
+    	System.out.println(resource.toString() + " -> " + predicate.getLocalName() + " -> " + object.toString());
+
+
         Node subjectNode = doNodeMapping(resource);
         Node objectNode = doNodeMapping(object);
+        
+        if ((predicate.getLocalName().equals(_predicateName_subPropertyOf)) ||
+        		(predicate.getLocalName().equals(_predicateName_samePropertyAs)) ) {
+        			
+        	subjectNode.setNodeType(OntoramaConfig.RELATION_TYPE);
+        	objectNode.setNodeType(OntoramaConfig.RELATION_TYPE);
+
+        	resourceConceptNodeTypesList.remove(st.getSubject());
+			resourceRelationNodeTypesList.add(st.getSubject());
+
+        	resourceConceptNodeTypesList.remove(st.getObject());
+        	resourceRelationNodeTypesList.add(st.getObject());
+        	
+        	System.out.println("overwriting: set relation: "  + subjectNode.getName());
+			System.out.println("overwriting: set relation: "  + subjectNode.getName());
+        }
+        
+        if  ( (predicate.getLocalName().equals(_predicateName_range)) ||
+        		(predicate.getLocalName().equals(_predicateName_domain))) {
+        			
+        	subjectNode.setNodeType(OntoramaConfig.RELATION_TYPE);
+        	objectNode.setNodeType(OntoramaConfig.CONCEPT_TYPE);
+
+        	resourceConceptNodeTypesList.remove(st.getSubject());
+        	resourceRelationNodeTypesList.add(st.getSubject());
+
+        	resourceRelationNodeTypesList.remove(st.getObject());
+        	resourceConceptNodeTypesList.add(st.getObject());
+
+			System.out.println("overwriting: set relation: "  + subjectNode.getName());
+			System.out.println("overwriting: set concept: "  + objectNode.getName());
+
+        }
+        
         doEdgesMapping(subjectNode, predicate, objectNode);
     }
 
@@ -334,8 +381,11 @@ public class RdfDamlParser implements Parser {
             }
             else {
                 System.out.println("resourceConceptNodeTypesList = " + resourceConceptNodeTypesList);
-                throw new ParserException("RDF Resource '" + object + "'is neigher concept of property");
+                //throw new ParserException("RDF Resource '" + object + "'is neigher concept of property");
+            	System.err.println("RDF Resource '" + object + "'is neigher concept of property");
+            	node.setNodeType(OntoramaConfig.UNKNOWN_TYPE);
             }
+            System.out.println("node = " + node.getName());
             _nodesHash.put(nodeName, node);
         }
         return node;

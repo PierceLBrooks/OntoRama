@@ -111,7 +111,7 @@ public class CommunicationSender extends Communication {
         this.setSearchResult(new Vector());   
   
          //Build the message that is going to be sent
-         queryTobeSent = this.getGlobalPG().getPipeService().createMessage();
+         queryTobeSent = Communication.getGlobalPG().getPipeService().createMessage();
                        
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(
@@ -123,10 +123,10 @@ public class CommunicationSender extends Communication {
          queryTobeSent.newMessageElement(
                             "SenderPeerID", 
                             mimeType, 
-                            this.getGlobalPG().getPeerID().toString().getBytes()));
+							Communication.getGlobalPG().getPeerID().toString().getBytes()));
 
 		PipeAdvertisement pipeAdv = this.getInputPipeAdvertisement(
-										this.getGlobalPG().getPeerGroupID());
+							Communication.getGlobalPG().getPeerGroupID());
 
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(
@@ -216,10 +216,10 @@ public class CommunicationSender extends Communication {
 		PeerGroup pg = null;
 		String peerIDasString = peerID;
 		
-		if (groupIDasString.equals(this.getGlobalPG().getPeerGroupID().toString())) {
+		if (groupIDasString.equals(Communication.getGlobalPG().getPeerGroupID().toString())) {
 			//its the globalGroup we are looking for
-			discServ = this.getGlobalPG().getDiscoveryService();
-			pg =this.getGlobalPG();
+			discServ = Communication.getGlobalPG().getDiscoveryService();
+			pg =Communication.getGlobalPG();
 			//System.out.println("used globalGroup");
 		}	else {
 			pg = this.getPeerGroup(groupIDasString);

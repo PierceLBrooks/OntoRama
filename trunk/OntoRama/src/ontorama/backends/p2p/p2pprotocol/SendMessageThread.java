@@ -46,41 +46,39 @@ public class SendMessageThread extends Thread{
 	* @param tag the tag for the message
 	* @param message the message to send
 	*/
-    public void sendToAllPropagate(int propType,
-    						  String ownPeerID, 
-    						  String ownGroupID, 
-    						  int tag, 
-    						  String message) {
-        
-		OutputPipe outputPipe = null;
-		PeerGroup pg = null;
-		PipeAdvertisement pipeAdvert = null;
-		PipeService pipeService = null;
+    public void sendToAllPropagate(int propType,  String ownPeerID, 
+    						  String ownGroupID, int tag, String message) {
+        	
+		PeerGroup globalGroup = Communication.getGlobalPG();
+		sendMessageToPeerGroup(	globalGroup,propType, ownPeerID, ownGroupID,tag,message);
 				        
 
 	 	//while travese to send the mesage to all groups this peer is a member of
 		Enumeration enum = this.comm.memberOfGroupsEnumeration();
 		while (enum.hasMoreElements()) {
-			pg = (PeerGroup) enum.nextElement();
-
-            //Prepare a message to be sent
-             Message msgToSend = this.createMsg(pg,
-                                              propType,
-                                              ownPeerID,
-                                              ownGroupID,
-                                              tag,
-                                              message);
-
-	       	outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
-			try {
-				outputPipe.send(msgToSend);
-			} catch (IOException e) {
-				//do nothing
-				this.anyErrors = true;
-				e.printStackTrace();
-			}
+			PeerGroup pg = (PeerGroup) enum.nextElement();
+			sendMessageToPeerGroup(	pg,	propType, ownPeerID, ownGroupID,tag,message);
 		}
     }
+    
+	private void sendMessageToPeerGroup(PeerGroup pg, int propType,
+									String ownPeerID, String ownGroupID,
+									int tag, String message) {
+		//Prepare a message to be sent
+		Message msgToSend = this.createMsg(pg, propType, ownPeerID,
+		                                  ownGroupID, tag, message);
+		
+		OutputPipe outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
+		System.out.println("outputPipe = " + outputPipe + " for group " + pg.getPeerGroupName());
+		
+		try {
+			outputPipe.send(msgToSend);
+		} catch (IOException e) {
+			//do nothing
+			this.anyErrors = true;
+			e.printStackTrace();
+		}
+	}
     
     
 
@@ -177,7 +175,7 @@ public class SendMessageThread extends Thread{
 		
 		DiscoveryService discoveryService = null;
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;
-		PeerGroup pg = comm.getGlobalPG();
+		PeerGroup pg = Communication.getGlobalPG();
         System.err.println("SendMessageThread::sendToPeer (one specific)" );
 
         Message msgToSend = this.createMsg(pg,
@@ -187,7 +185,7 @@ public class SendMessageThread extends Thread{
 		        						  tag,
 		        						  message);
 
-        discoveryService = this.comm.getGlobalPG().getDiscoveryService();
+        discoveryService = Communication.getGlobalPG().getDiscoveryService();
 
  		//inputpipeDiscoveryListener = new InputpipeDiscoveryListener(msgToSend,this.comm,pg);
         //Add the listener that will be invoked when a response from the query will be resived
@@ -261,11 +259,11 @@ public class SendMessageThread extends Thread{
 
 	    tmpMessage.addElement(
             tmpMessage.newMessageElement("SenderPeerID",mimeType,
-			    this.comm.getGlobalPG().getPeerID().toString().getBytes()));
+				Communication.getGlobalPG().getPeerID().toString().getBytes()));
                     
         tmpMessage.addElement(
             tmpMessage.newMessageElement("SenderPeerName",mimeType,
-                    this.comm.getGlobalPG().getPeerName().toString().getBytes()));
+				Communication.getGlobalPG().getPeerName().toString().getBytes()));
 
         if (ownPeerID != null){
             tmpMessage.addElement(
@@ -274,7 +272,7 @@ public class SendMessageThread extends Thread{
         if (ownGroupID == null) {
             tmpMessage.addElement(
 	            tmpMessage.newMessageElement("GroupID",mimeType,
-	                this.comm.getGlobalPG().getPeerGroupID().toString().getBytes()));
+					Communication.getGlobalPG().getPeerGroupID().toString().getBytes()));
 	     } else {
 	        tmpMessage.addElement(
 			    tmpMessage.newMessageElement("GroupID",mimeType,ownGroupID.getBytes()));

@@ -2,6 +2,7 @@ package ontorama.backends.p2p.controller;
 
 import java.util.Vector;
 
+import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
@@ -31,7 +32,7 @@ public class NewGroupEventHandler implements EventBrokerListener{
 				return;
 			}
 			GroupReferenceElement groupToJoin = (GroupReferenceElement) resVector.firstElement();
-			_sender.sendJoinGroup(groupToJoin.getID());
+			_sender.sendJoinGroup((PeerGroupID) groupToJoin.getID());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

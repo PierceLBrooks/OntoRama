@@ -43,7 +43,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		
 		try {
 			communicationInit.initJxtaTopGroup();
-            communicationInit.startInputPipeEndpoint(communicationGroup.getGlobalPG());
+            communicationInit.startInputPipeEndpoint(Communication.getGlobalPG());
+			communicationInit.startPropagatePipeEndpoint(Communication.getGlobalPG()); 
 		} catch (GroupExceptionInit e) {
 			e.printStackTrace();
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -367,12 +368,5 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
         return new Vector(this.communicationGroup.memberOfGroupsByValues());   
         
     }
-    
-	/**
-	 * @return PeerGroup
-	 */
-	public PeerGroup getGlobalPG() {
-		return this.communicationInit.getGlobalPG();
-	}
-    
+       
 }

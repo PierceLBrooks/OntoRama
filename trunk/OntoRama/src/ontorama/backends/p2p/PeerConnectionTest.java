@@ -238,11 +238,11 @@ public class PeerConnectionTest implements DiscoveryListener {
 	public static void main (String[] args) {
 		PeerConnectionTest connection = new PeerConnectionTest();
 		connection.startJxta();
-		PeerGroup newGroup = connection.createGroup();
-		if (newGroup != null) {
-			connection.joinGroup(newGroup);
-		}
-		//connection.run();
+//		PeerGroup newGroup = connection.createGroup();
+//		if (newGroup != null) {
+//			connection.joinGroup(newGroup);
+//		}
+		connection.run();
 		System.exit(0);
 	}
 

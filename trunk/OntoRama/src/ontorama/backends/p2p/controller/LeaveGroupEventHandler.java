@@ -1,5 +1,6 @@
 package ontorama.backends.p2p.controller;
 
+import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
@@ -23,7 +24,7 @@ public class LeaveGroupEventHandler implements EventBrokerListener{
 		System.out.println("\n\nLeaveGroupEventHandler::processEvent");	
 		GroupReferenceElement groupRefElement = (GroupReferenceElement) event.getSubject();
 		try {
-			_sender.sendLeaveGroup(groupRefElement.getID());
+			_sender.sendLeaveGroup((PeerGroupID) groupRefElement.getID());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

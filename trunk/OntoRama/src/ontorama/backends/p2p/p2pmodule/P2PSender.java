@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import net.jxta.discovery.DiscoveryService;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
+import net.jxta.protocol.PeerAdvertisement;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
+import ontorama.backends.p2p.p2pprotocol.Communication;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
@@ -182,6 +185,31 @@ public class P2PSender{
           this.comm.sendSearchResponse(recieverPeerID, body);
 
     }
+    
+    public void peerDiscoveryForGlobalGroup () {
+    	PeerGroup globalGroup = Communication.getGlobalPG();
+		Vector result;
+		try {
+			DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
+			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
+											null,null,	10);
+			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
+													null,null);
+			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
+			while (e.hasMoreElements()){
+				Object obj = e.nextElement();
+				System.out.println("obj = " + obj);
+				PeerAdvertisement cur = (PeerAdvertisement) obj;
+			  	GroupReferenceElement element = new GroupReferenceElement(cur.getID(), cur.getName(), cur.getDescription());
+			  	System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
+			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
+			}
+		}
+		catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    }
 
     /**
     * Is called to do searches for at other peers. The methods sends out a search request and
@@ -189,39 +217,43 @@ public class P2PSender{
     */
     public void peerDiscovery (){
         Enumeration enum = this.joinedGroups().elements();
-        String groupName = null;
         while (enum.hasMoreElements()){
-            groupName = ((PeerGroup) enum.nextElement()).getPeerGroupName();
-            this.peerDiscovery(groupName);
+        	PeerGroup curGroup = (PeerGroup) enum.nextElement();
+            String groupName = curGroup.getPeerGroupName();
+
+            Vector result = peerDiscovery(groupName);
+
+			Enumeration e = result.elements();
+			System.out.println("\n\nPeer Discovery returned: size = " + result.size() + " for group " + groupName);
+			while (e.hasMoreElements()){
+			  GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
+			  System.out.println("--- name = " + element.getName() + ", id = " + element.getID());
+			  this.peersPanel.addPeer(element.getID().toString(), element.getName(), curGroup.getPeerGroupID().toString());
+			}
         }
     }
-
+    
     /**
     * Is called to do searches for at other peers. The methods sends out a search request and
     * then waits for 20 seconds to get responses
     *
     * @param groupName a string with the peer group id for the group to send a peer discovery in
     */
-    public void peerDiscovery (String groupName){
+    private Vector peerDiscovery (String groupName){
         try {
               Vector searchGroupResult = this.comm.sendSearchGroup("Name",groupName);
               Enumeration tmpEnumernation = searchGroupResult.elements();
-              if (tmpEnumernation.hasMoreElements()) {
+              if (!tmpEnumernation.hasMoreElements()) {
+				System.out.println("Couldn't find any group with name " + groupName);
+              }
+              else {
                   GroupReferenceElement searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
                   String tmpGroupID = searchGroupResultElement.getID().toString();
+
                   this.backend.getEventBroker().processEvent(new GroupJoinedEvent(searchGroupResultElement));
 
-                  Vector result = this.comm.peerDiscovery(tmpGroupID);
-                  Enumeration enum = result.elements();
-                  System.out.println("\nPeer Discovery returned: size = " + result.size());
-                  while (enum.hasMoreElements()){
-                    GroupReferenceElement element = (GroupReferenceElement) enum.nextElement();
-					System.out.println("--- name = " + element.getName() + ", id = " + element.getID());
-                    this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
-                  }
-               } else {
-                  System.out.println("Couldn't find any group with that name");
-                        }
+                  return this.comm.peerDiscovery(tmpGroupID);
+               } 
           } catch (GroupExceptionThread e) {
                   System.out.println("ERROR:");
                   e.printStackTrace();
@@ -229,6 +261,7 @@ public class P2PSender{
                   System.out.println("ERROR:");
                   e.printStackTrace();
           }
+          return new Vector();
 
         }
 

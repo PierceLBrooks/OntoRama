@@ -125,7 +125,6 @@ public class P2PBackend implements Peer2PeerBackend{
 		    this.sender.sendPropagate(P2PSender.TAGPROPAGATEINIT, null, "New Peer went online");
 		    
 		    this.mainPanel.getGroupsPanel().updateGroups();
-		    this.mainPanel.getPeerPanel().setGlobalGroup(_communicationProtocol.getGlobalPG());
 		    
 		}catch (GroupExceptionThread e) {
 		    System.err.println("GroupExceptionThread: " + e.getMessage());
@@ -407,10 +406,11 @@ public class P2PBackend implements Peer2PeerBackend{
     }
 
 
-    public void peerDiscovery(String groupName){
-        this.sender.peerDiscovery(groupName);
-
-    }
+//	// dont' need this one me thinks since noone calls it
+//    public void peerDiscovery(String groupName){
+//        this.sender.peerDiscovery(groupName);
+//
+//    }
 
     public JPanel getPanel(){
         return (JPanel) this.mainPanel;

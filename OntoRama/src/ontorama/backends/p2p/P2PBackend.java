@@ -67,7 +67,7 @@ import org.tockit.events.LoggingEventListener;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class P2PBackend implements Peer2PeerBackend{
+public class P2PBackend implements Peer2PeerBackend {
 	
     private P2PGraph graph = null;
     private P2PSender sender = null;

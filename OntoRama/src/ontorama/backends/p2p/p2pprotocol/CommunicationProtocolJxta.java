@@ -2,9 +2,14 @@ package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.peergroup.PeerGroupID;
+import net.jxta.pipe.InputPipe;
+import net.jxta.pipe.OutputPipe;
+import net.jxta.protocol.PipeAdvertisement;
 import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 /**
@@ -22,17 +27,50 @@ import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
  */
 
 public class CommunicationProtocolJxta implements CommunicationProtocol {
-//	private CommunicationGroup communicationGroup = null;
+
+	// The top p2p group
+	private PeerGroup globalP2PGroup = null;
+
+	// The p2p platform
+	private PeerGroup globalP2PPlatform = null;	
 	
 	private CommunicationGroup communicationGroup = null;
 	
-	private Communication comm;
 	
 	private CommunicationInit communicationInit = null;
 	private CommunicationSender communicationSender = null;
 
 	//Object to use for receiving messages
 	P2PRecieverInterface reciever = null;	
+	
+	//The serach result from a query (on tontologies)
+	private static Vector searchResult = null;
+	
+	//The pipe advertisement
+	private Hashtable outputPropagatePipe = null;
+
+	//The pipe
+	private Hashtable inputPropagatePipe = null;
+
+	//The pipe
+	private Hashtable inputPipeAdvertisement = null;
+
+	//Used by sendSearchGroup
+	public final static String SEARCHGROUPNAME = "Name";
+
+	public final static String SEARCHGROUPDESCR = "Desc";
+
+	//Used by sendMessage
+	public final static int TAGSEARCH = 1;
+
+	public final static int TAGLOGOUT = 2;
+
+	public final static int TAGPROPAGATE = 3;
+
+	public final static int TAGSEARCHRESPONSE = 4;
+
+	public final static int TAGFLUSHPEER = 5;
+	
 	
 	/**
 	 * The constructor for the class.
@@ -41,9 +79,12 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public CommunicationProtocolJxta (P2PRecieverInterface recieverObject) throws GroupExceptionInit {
-//		communicationGroup = new CommunicationGroup(this);
-		comm = new Communication();
-		communicationGroup = new CommunicationGroup(comm);
+
+		inputPipeAdvertisement = new Hashtable();
+		outputPropagatePipe = new Hashtable();
+		inputPropagatePipe = new Hashtable();
+
+		communicationGroup = new CommunicationGroup(this);
 		communicationInit = new CommunicationInit(this);
 		communicationSender = new CommunicationSender(this);	
 		
@@ -51,8 +92,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		
 		try {
 			communicationInit.initJxtaTopGroup();
-            communicationInit.startInputPipeEndpoint(Communication.getGlobalPG());
-			communicationInit.startPropagatePipeEndpoint(Communication.getGlobalPG()); 
+            communicationInit.startInputPipeEndpoint(this.globalP2PGroup);
+			communicationInit.startPropagatePipeEndpoint(this.globalP2PGroup); 
 		} catch (GroupExceptionInit e) {
 			e.printStackTrace();
 			throw (GroupExceptionInit) e.fillInStackTrace();
@@ -72,9 +113,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			communicationSender.sendMessage(0,
 											null,
-											communicationSender.getPeerIDasString(),
+											getPeerIDasString(),
 											null,
-											Communication.TAGLOGOUT,
+											CommunicationProtocolJxta.TAGLOGOUT,
 											"");
 			//Takes care of the cache problem at remote peers
 			//otherwise other peers still thinks this peer is online
@@ -122,7 +163,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		   									recieverPipeAdvID, 
 		   									null, 
 		   									null, 
-		   									Communication.TAGSEARCHRESPONSE, 
+		   									CommunicationProtocolJxta.TAGSEARCHRESPONSE, 
 		   									body);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();	
@@ -144,9 +185,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		try {
 			communicationSender.sendMessage(TAG,
 											recieverID,
-											communicationSender.getPeerIDasString(),
+											getPeerIDasString(),
 											null,
-											Communication.TAGPROPAGATE, 
+											CommunicationProtocolJxta.TAGPROPAGATE, 
 											internalModel);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();		
@@ -315,7 +356,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											null,
 											peerIDasString,
 											groupIDasString,
-											Communication.TAGFLUSHPEER,
+											CommunicationProtocolJxta.TAGFLUSHPEER,
 											"");
 		} catch (GroupExceptionFlush e) {
 			throw (GroupExceptionFlush) e.fillInStackTrace();	
@@ -360,7 +401,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		return this.reciever;
 	}
 
- /**
+   /**
     * Returns all the groups the peer belongs to.   
     * 
     * @return a vector of group IDs
@@ -368,16 +409,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
     * @version P2P-OntoRama 1.0.0
     */
     public Vector getMemberOfGroups(){
-//        Vector groups = null;
-//        Hashtable temptable = this.communicationGroup.getMemberOfGroups();
-//        groups = new Vector(temptable.values());      
-
-//		return groups;
-        
         return new Vector(this.communicationGroup.memberOfGroupsByValues());   
-        
-        
-        
     }
     
     
@@ -388,5 +420,143 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	protected PeerGroup getPeerGroup(String groupIDasString) {
 		return communicationGroup.getPeerGroup(groupIDasString);
 	}
+	
+	/**
+	* Gets the global platform
+	* @return the platform
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected PeerGroup getGlobalPlatform() {
+		return globalP2PPlatform;
+	}
+	
+	/**
+	* Sets the global platform
+	* @param obj the platform that should be used as the global platform
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setGlobalPlatform(PeerGroup obj)  {
+		globalP2PPlatform = obj;
+	}
+	
+	/**
+	* Gets the PeerID of this peer
+	* @return a peer id
+	* @version P2P-OntoRama 1.0.0
+	*/
+	public String getPeerIDasString() {
+		return globalP2PGroup.getPeerID().toString();
+	}
+	
+	/**
+	* Gets the global PeerGroup. The global PeerGroup is the group every peer belongs to.
+	* @return the globa peergroup
+	* @version P2P-OntoRama 1.0.0
+	*/
+	public PeerGroup getGlobalPG() {
+		return globalP2PGroup;
+	}
+	
+	/**
+	* Sets the global peergroup. The global PeerGroup is the group every peer belongs to.
+	* @param obj the peer group that should be the global peergroup
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setGlobalPG(PeerGroup obj)  {
+		globalP2PGroup = obj;
+	}	
+	
+
+	/**
+	* Gets the search result 
+	* @return a vector of SearchResultElement
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected Vector getSearchResult() {
+		return searchResult;
+	}
+
+	/**
+	* Sets the search result
+	* @param obj vector of SearchResultElement that should be set
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setSearchResult(Vector obj) {
+		searchResult = obj;
+	}
+	
+	/**
+	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @param obj the pipe advertisement to set
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setInputPipeAdvertisement(PeerGroupID groupID,PipeAdvertisement obj)  {
+		System.out.println("\nCommunication::setInputPipeAdvertisement for group id " + groupID + " putting " + obj);
+		inputPipeAdvertisement.put(groupID,obj);
+	}
+	
+
+	/**
+	* Gets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @return the pipe advertisement
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected PipeAdvertisement getInputPipeAdvertisement(PeerGroupID groupID)  {
+		System.out.println("Communication::getInputPipeAdvertisement hashtable size = " + inputPipeAdvertisement.size());
+		System.out.println("Communication::getInputPipeAdvertisement for group id " + groupID +
+						" returning " + (PipeAdvertisement) inputPipeAdvertisement.get(groupID));
+		return (PipeAdvertisement) inputPipeAdvertisement.get(groupID);
+	}
+
+
+	/**
+	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @param obj the pipe advertisement to set
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setOutputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
+		outputPropagatePipe.put(groupID,obj);
+	}
+
+	/**
+	* Gets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @return the pipe advertisement
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected OutputPipe getOutputPropagatePipe(PeerGroupID groupID)  {
+		return (OutputPipe) outputPropagatePipe.get(groupID);
+	}
+
+	/**
+	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @param obj the pipe advertisement to set
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected void setinputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
+		inputPropagatePipe.put(groupID,obj);
+	}
+
+	/**
+	* Gets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages
+	* from other peers.
+	* @return the pipe advertisement
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected InputPipe getInputPropagatePipe(PeerGroupID groupID)  {
+		return (InputPipe) inputPropagatePipe.get(groupID);
+	}
+	
        
+	/* (non-Javadoc)
+	 * @see ontorama.backends.p2p.p2pprotocol.CommunicationProtocol#sendSearchAllPeers()
+	 */
+	public void sendSearchAllPeers() throws GroupExceptionThread, IOException {
+		this.communicationGroup.peerDiscoveryForGlobalGroup();
+	}
+
 }

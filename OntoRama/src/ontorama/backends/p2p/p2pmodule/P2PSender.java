@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import net.jxta.discovery.DiscoveryService;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
-import net.jxta.protocol.PeerAdvertisement;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
-import ontorama.backends.p2p.p2pprotocol.Communication;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
@@ -31,7 +28,7 @@ import ontorama.backends.p2p.p2pprotocol.ItemReference;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class P2PSender{
+public class P2PSender {
     public final static int TAGPROPAGATEADD = 1;
     public final static int TAGPROPAGATEDELETE = 2;
     public final static int TAGPROPAGATEUPDATE = 3;
@@ -39,13 +36,13 @@ public class P2PSender{
     public final static int TAGPROPAGATEJOINGROUP = 5;
     public final static int TAGPROPAGATELEAVEGROUP = 6;
 
-    private CommunicationProtocol comm = null;
+    private CommunicationProtocol commProt = null;
     private Peer2PeerBackend backend = null;
     private PeersPanel peersPanel = null;
 
     //Constructor
     public P2PSender(CommunicationProtocol commProt, P2PBackend backend) {
-        this.comm = commProt;
+        this.commProt = commProt;
         this.backend = backend;
         this.peersPanel = ((P2PMainPanel) backend.getPanel()).getPeerPanel();
        }
@@ -60,7 +57,7 @@ public class P2PSender{
     */
     public void sendLogoutCommand() throws GroupExceptionThread, GroupExceptionFlush{
         //@todo this method is never called when the application is closed down
-            this.comm.sendLogoutCommand();
+            this.commProt.sendLogoutCommand();
      }
 
     /**
@@ -73,7 +70,7 @@ public class P2PSender{
     * @exception
     */
     public void sendPropagate(int TAG, String recieverID, String message) throws GroupExceptionThread{
-        this.comm.sendPropagate(TAG, recieverID, message);
+        this.commProt.sendPropagate(TAG, recieverID, message);
     }
 
 
@@ -86,7 +83,7 @@ public class P2PSender{
     * @exception
     */
     public Vector sendSearch(String query) throws IOException, GroupExceptionThread {
-            return this.comm.sendSearch(query);
+            return this.commProt.sendSearch(query);
     }
 
 
@@ -103,7 +100,7 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public Vector sendSearchGroup(String searchAttrib, String searchString) throws IOException, GroupExceptionThread{
-          return this.comm.sendSearchGroup(searchAttrib, searchString);
+          return this.commProt.sendSearchGroup(searchAttrib, searchString);
     }
 
 
@@ -118,7 +115,7 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public void sendCreateGroup(String name, String descr) throws GroupException{
-        PeerGroup pg = this.comm.sendCreateGroup(name, descr);
+        PeerGroup pg = this.commProt.sendCreateGroup(name, descr);
         ItemReference groupRefElement = new ItemReference(
         											pg.getPeerGroupID(), pg.getPeerGroupName(), 
         											pg.getPeerGroupAdvertisement().getDescription());
@@ -137,7 +134,7 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public boolean sendJoinGroup(PeerGroupID groupID) throws GroupExceptionNotAllowed, GroupException {
-    	String groupName = this.comm.sendJoinGroup(groupID.toString());
+    	String groupName = this.commProt.sendJoinGroup(groupID.toString());
         if (groupName != null){
         	this.backend.getEventBroker().processEvent(new GroupJoinedEvent(new ItemReference(groupID, groupName, "")));
             this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID.toString());
@@ -160,7 +157,7 @@ public class P2PSender{
      * @version P2P-OntoRama 1.0.0
      */
     public boolean sendLeaveGroup(PeerGroupID groupID) throws GroupException, IOException {
-        boolean leaved = this.comm.sendLeaveGroup(groupID.toString());
+        boolean leaved = this.commProt.sendLeaveGroup(groupID.toString());
         if (leaved){
             /// @todo pretty dodgy passing null's to the constructor.
             this.backend.getEventBroker().processEvent(new GroupIsLeftEvent(new ItemReference(groupID, null, null)));
@@ -182,33 +179,43 @@ public class P2PSender{
     *
     */
     public void sendSearchResponse(String recieverPeerID, String body) throws GroupExceptionThread{
-          this.comm.sendSearchResponse(recieverPeerID, body);
+          this.commProt.sendSearchResponse(recieverPeerID, body);
 
     }
     
-    public void peerDiscoveryForGlobalGroup () {
-    	PeerGroup globalGroup = Communication.getGlobalPG();
-		Vector result;
-		try {
-			DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
-			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
-											null,null,	10);
-			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
-													null,null);
-			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
-			while (e.hasMoreElements()){
-				Object obj = e.nextElement();
-				System.out.println("obj = " + obj);
-				PeerAdvertisement cur = (PeerAdvertisement) obj;
-			  	ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
-			  	System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
-			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
-			}
+    public void peerDiscoveryForGlobalGroup ()  {
+    	try {
+			this.commProt.sendSearchAllPeers();
 		}
-		catch (IOException e1) {
+		catch (GroupExceptionThread e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		Vector result;
+//		try {
+//			DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
+//			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
+//											null,null,	10);
+//			Enumeration e = discServ.getLocalAdvertisements(DiscoveryService.PEER,
+//													null,null);
+//			System.out.println("\n\nPeer Discovery returned for groupName group " + globalGroup.getPeerGroupName());
+//			while (e.hasMoreElements()){
+//				Object obj = e.nextElement();
+//				System.out.println("obj = " + obj);
+//				PeerAdvertisement cur = (PeerAdvertisement) obj;
+//			  	ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
+//			  	System.out.println("+++ name = " + element.getName() + ", id = " + element.getID());
+//			  //this.peersPanel.addPeer(element.getID().toString(), element.getName(), globalGroup.getPeerGroupID().toString());
+//			}
+//		}
+//		catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
     }
 
     /**
@@ -241,7 +248,7 @@ public class P2PSender{
     */
     private Vector peerDiscovery (String groupName){
         try {
-              Vector searchGroupResult = this.comm.sendSearchGroup("Name",groupName);
+              Vector searchGroupResult = this.commProt.sendSearchGroup("Name",groupName);
               Enumeration tmpEnumernation = searchGroupResult.elements();
               if (!tmpEnumernation.hasMoreElements()) {
 				System.out.println("Couldn't find any group with name " + groupName);
@@ -252,7 +259,7 @@ public class P2PSender{
 
                   this.backend.getEventBroker().processEvent(new GroupJoinedEvent(searchGroupResultElement));
 
-                  return this.comm.peerDiscovery(tmpGroupID);
+                  return this.commProt.peerDiscovery(tmpGroupID);
                } 
           } catch (GroupExceptionThread e) {
                   System.out.println("ERROR:");
@@ -273,7 +280,7 @@ public class P2PSender{
     * @version P2P-OntoRama 1.0.0
     */
     public Vector joinedGroups(){
-        return this.comm.getMemberOfGroups();
+        return this.commProt.getMemberOfGroups();
  	}
  	
  	/**

@@ -143,7 +143,12 @@ public interface CommunicationProtocol {
     * @version P2P-OntoRama 1.0.0
     */
     public Vector getMemberOfGroups();
+    
 
-
-
+	/**
+	 * send search for all peers we can find (not necesserily beloning to any groups)
+	 * @todo not sure if this belongs here at all
+	 * @author nataliya
+	 */
+	public void sendSearchAllPeers () throws GroupExceptionThread, IOException;
 }

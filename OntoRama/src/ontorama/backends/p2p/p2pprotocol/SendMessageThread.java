@@ -26,11 +26,9 @@ import net.jxta.protocol.PipeAdvertisement;
 
 public class SendMessageThread extends Thread{
 	boolean anyErrors = false;
-   	private CommunicationSender comm = null;
    	private CommunicationProtocolJxta commProt;
    
-	public SendMessageThread(CommunicationSender comm, CommunicationProtocolJxta commProt) {
-		this.comm = comm;	
+	public SendMessageThread(CommunicationProtocolJxta commProt) {
 		this.commProt = commProt;
 	} 
     
@@ -51,7 +49,7 @@ public class SendMessageThread extends Thread{
     public void sendToAllPropagate(int propType,  String ownPeerID, 
     						  String ownGroupID, int tag, String message) {
         	
-		PeerGroup globalGroup = Communication.getGlobalPG();
+		PeerGroup globalGroup = this.commProt.getGlobalPG();
 		sendMessageToPeerGroup(	globalGroup,propType, ownPeerID, ownGroupID,tag,message);
 				        
 
@@ -70,7 +68,7 @@ public class SendMessageThread extends Thread{
 		Message msgToSend = this.createMsg(pg, propType, ownPeerID,
 		                                  ownGroupID, tag, message);
 		
-		OutputPipe outputPipe = this.comm.getOutputPropagatePipe(pg.getPeerGroupID());
+		OutputPipe outputPipe = this.commProt.getOutputPropagatePipe(pg.getPeerGroupID());
 		System.out.println("outputPipe = " + outputPipe + " for group " + pg.getPeerGroupName());
 		
 		try {
@@ -177,7 +175,7 @@ public class SendMessageThread extends Thread{
 		
 		DiscoveryService discoveryService = null;
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;
-		PeerGroup pg = Communication.getGlobalPG();
+		PeerGroup pg = this.commProt.getGlobalPG();
         System.err.println("SendMessageThread::sendToPeer (one specific)" );
 
         Message msgToSend = this.createMsg(pg,
@@ -187,7 +185,7 @@ public class SendMessageThread extends Thread{
 		        						  tag,
 		        						  message);
 
-        discoveryService = Communication.getGlobalPG().getDiscoveryService();
+        discoveryService = this.commProt.getGlobalPG().getDiscoveryService();
 
  		//inputpipeDiscoveryListener = new InputpipeDiscoveryListener(msgToSend,this.comm,pg);
         //Add the listener that will be invoked when a response from the query will be resived
@@ -254,18 +252,18 @@ public class SendMessageThread extends Thread{
 	         								"TAG", 
 				                            mimeType, 
                                                 new Integer(tag).toString().getBytes()));
-        if (tag == Communication.TAGPROPAGATE){
+        if (tag == CommunicationProtocolJxta.TAGPROPAGATE){
 	        tmpMessage.addElement(
 	            tmpMessage.newMessageElement("propType",mimeType, new Integer(propType).toString().getBytes()));
 		}
 
 	    tmpMessage.addElement(
             tmpMessage.newMessageElement("SenderPeerID",mimeType,
-				Communication.getGlobalPG().getPeerID().toString().getBytes()));
+			this.commProt.getGlobalPG().getPeerID().toString().getBytes()));
                     
         tmpMessage.addElement(
             tmpMessage.newMessageElement("SenderPeerName",mimeType,
-				Communication.getGlobalPG().getPeerName().toString().getBytes()));
+			this.commProt.getGlobalPG().getPeerName().toString().getBytes()));
 
         if (ownPeerID != null){
             tmpMessage.addElement(
@@ -274,7 +272,7 @@ public class SendMessageThread extends Thread{
         if (ownGroupID == null) {
             tmpMessage.addElement(
 	            tmpMessage.newMessageElement("GroupID",mimeType,
-					Communication.getGlobalPG().getPeerGroupID().toString().getBytes()));
+				this.commProt.getGlobalPG().getPeerGroupID().toString().getBytes()));
 	     } else {
 	        tmpMessage.addElement(
 			    tmpMessage.newMessageElement("GroupID",mimeType,ownGroupID.getBytes()));

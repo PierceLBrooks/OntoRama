@@ -25,8 +25,7 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-public class CommunicationSender extends Communication {
-//public class CommunicationSender  {
+public class CommunicationSender  {
 
 	private CommunicationProtocolJxta commProt = null;
 
@@ -60,7 +59,7 @@ public class CommunicationSender extends Communication {
 								int tag, 
 								String message) 
 								throws GroupExceptionThread{
-		SendMessageThread sendMessageThread = new SendMessageThread(this, commProt);
+		SendMessageThread sendMessageThread = new SendMessageThread(commProt);
 		sendMessageThread.start();
 		
 		if (recieverPipeAdvID == null) {
@@ -109,25 +108,25 @@ public class CommunicationSender extends Communication {
 
   		MimeMediaType mimeType = new MimeMediaType("text/xml");
         Message queryTobeSent = null; 
-        this.setSearchResult(new Vector());   
+        this.commProt.setSearchResult(new Vector());   
   
          //Build the message that is going to be sent
-         queryTobeSent = Communication.getGlobalPG().getPipeService().createMessage();
+         queryTobeSent = this.commProt.getGlobalPG().getPipeService().createMessage();
                        
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(
                             "TAG", 
                             mimeType, 
-                            new Integer(Communication.TAGSEARCH).toString().getBytes()));
+                            new Integer(CommunicationProtocolJxta.TAGSEARCH).toString().getBytes()));
                         
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(
                             "SenderPeerID", 
                             mimeType, 
-							Communication.getGlobalPG().getPeerID().toString().getBytes()));
+		this.commProt.getGlobalPG().getPeerID().toString().getBytes()));
 
-		PipeAdvertisement pipeAdv = this.getInputPipeAdvertisement(
-							Communication.getGlobalPG().getPeerGroupID());
+		PipeAdvertisement pipeAdv = this.commProt.getInputPipeAdvertisement(
+							this.commProt.getGlobalPG().getPeerGroupID());
 
          queryTobeSent.addElement(
          queryTobeSent.newMessageElement(
@@ -150,7 +149,7 @@ public class CommunicationSender extends Communication {
             discoveryService = pg.getDiscoveryService();
 
             try {
-                OutputPipe pipe = this.getOutputPropagatePipe(pg.getPeerGroupID());
+                OutputPipe pipe = this.commProt.getOutputPropagatePipe(pg.getPeerGroupID());
                 pipe.send(queryTobeSent);
             }
             catch (IOException e) {
@@ -164,7 +163,7 @@ public class CommunicationSender extends Communication {
          }catch (InterruptedException e) {
 			 throw new GroupExceptionThread(e, "The thread was interrupted");
          }      
-          return this.getSearchResult();
+          return this.commProt.getSearchResult();
     }
 
 
@@ -217,10 +216,10 @@ public class CommunicationSender extends Communication {
 		PeerGroup pg = null;
 		String peerIDasString = peerID;
 		
-		if (groupIDasString.equals(Communication.getGlobalPG().getPeerGroupID().toString())) {
+		if (groupIDasString.equals(this.commProt.getGlobalPG().getPeerGroupID().toString())) {
 			//its the globalGroup we are looking for
-			discServ = Communication.getGlobalPG().getDiscoveryService();
-			pg =Communication.getGlobalPG();
+			discServ = this.commProt.getGlobalPG().getDiscoveryService();
+			pg = this.commProt.getGlobalPG();
 			//System.out.println("used globalGroup");
 		}	else {
 			pg = this.commProt.getPeerGroup(groupIDasString);

@@ -196,6 +196,35 @@ public class WebKB2Source implements Source {
         if (startPatternInd != -1) {
             extractedErrorStr = extractedErrorStr.substring(webkbErorrStartPattern.length());
         }
+        
+        // doing this because webkb returns error in html and there seems to be no
+        // carriage returns which causes error message to be too wide on the screen.
+        extractedErrorStr.replaceAll("<html>","");
+        extractedErrorStr.replaceAll("</html>","");
+        extractedErrorStr.replaceAll("<body>","");
+        extractedErrorStr.replaceAll("</body>","");
+    	extractedErrorStr.replaceAll("<pre>","");
+    	extractedErrorStr.replaceAll("</pre>","");
+
+		String res = "";    	
+    	int desiredStringLenght = 50;
+    	StringTokenizer strTok = new StringTokenizer(extractedErrorStr);
+    	String line = "";
+    	while (strTok.hasMoreElements()) {
+    		String tok = strTok.nextToken();
+    		System.out.println("tok = " + tok);
+    		line = line + tok + " ";
+    		if (line.length() >= desiredStringLenght) {
+    			res = res + line + "\n";
+    			line = "";
+    		}
+    		if (! strTok.hasMoreElements()) {
+    			res = res + line;
+    		}
+    	}
+    	System.out.println("res = res");
+    	
+        extractedErrorStr = res;
         return extractedErrorStr;
     }
 

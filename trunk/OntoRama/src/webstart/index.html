@@ -1,0 +1,58 @@
+<html>
+	<head>
+	<SCRIPT LANGUAGE="Javascript"> 
+		var javawsInstalled = 0; 
+		isIE = "false"; 
+		url=app/OntoRamaJavaWebstart.jnlp;
+		if (navigator.mimeTypes && navigator.mimeTypes.length) { 
+			x = navigator.mimeTypes['application/x-java-jnlp-file']; 
+			if (x) javawsInstalled = 1; 
+			} else { 
+			isIE = "true"; 
+		} 	
+		
+		function insertLink(url, name) { 
+			if (javawsInstalled) { 
+				//document.write("<a href=" + url + ">" + name + "</a>"); 
+			} else { 
+				document.write("<p><b>Please Note:");
+				document.write("You need  to install Java Web Start in order to run OntoRama"); 
+				document.write("</b></p><hr/>");
+			} 
+		} 
+	</SCRIPT> 
+	<SCRIPT LANGUAGE="VBScript"> 
+		on error resume next 
+		If isIE = "true" Then 
+			If Not(IsObject(CreateObject("JavaWebStart.IsInstalled"))) Then 
+				javawsInstalled = 0 
+			Else 
+				javawsInstalled = 1 
+			End If 
+		End If 
+	</SCRIPT>
+		<title> Ontorama test</title>
+	</head>
+	<body>
+		<h1>Ontorama test</h1>
+		<hr/>
+		<SCRIPT LANGUAGE="Javascript" TYPE="text/javascript">
+			 <!--
+			// insertLink("apps/OntoRama.jnlp","Launch OntoRama");
+			// --> 
+		</SCRIPT>		
+		<p>
+		<a href="OntoRama.jnlp">Launch OntoRama (Webstart Application)</a> 
+		<p>
+		<hr/>
+		<div align="center">
+		<a href="http://java.sun.com/cgi-bin/javawebstart-platform.sh?">
+			Download JavaWebstart
+			<br/>
+			<img src="img/dl-javawebstart3.jpe" border="0" />
+		</a>
+		</div>
+	</body>
+</html>
+
+

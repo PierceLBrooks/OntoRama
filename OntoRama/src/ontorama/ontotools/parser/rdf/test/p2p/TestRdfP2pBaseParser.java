@@ -94,6 +94,7 @@ public class TestRdfP2pBaseParser extends TestCase {
     }
 
     public void testNode_tail () {
+    	System.out.println("\ntestNode_tail\n");
         P2PNode tailNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail");
         assertEquals("returned list should contain node wn#Tail ", true, (tailNode != null));
         assertEquals("number of assertions for node wn#Tail ", 2, tailNode.getAssertions().size());
@@ -101,19 +102,41 @@ public class TestRdfP2pBaseParser extends TestCase {
     }
 
     public void testNode_outgrowth () {
+    	System.out.println("\ntestNode_outgrowth\n");
         P2PNode node = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth");
         assertEquals("returned list should contain node wn#Outgrowth ", true, (node != null));
         assertEquals("number of assertions for node wn#Outgrowth ", 0, node.getAssertions().size());
         assertEquals("number of rejections for node wn#Outgrowth ", 0, node.getRejectionsList().size());
     }
 
-    public void testEdge () {
+	public void testNode_dock_4 () {
+		System.out.println("\ntestNode_dock_4\n");
+		P2PNode node = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4");
+		assertEquals("returned list should contain node wn#Dock_4 ", true, (node != null));
+	}
+
+
+    public void testEdgeForRejections () {
+    	System.out.println("\ntestEdgeForRejections\n");
         P2PNode toNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail");
         P2PNode fromNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth");
         P2PEdge edge = getEdgeFromList(fromNode, toNode);
-        assertEquals("edge should exist in the edgesList ", true, (edge != null));
-        assertEquals("number of asserstions for edge ", 1, edge.getAssertions().size());
-        assertEquals("number of rejections for edge ", 1, edge.getRejections().size());
+        assertEquals("edge from wn#Outgrouwth to wn#Tail" + 
+							" should exist in the edgesList ", true, (edge != null));
+        assertEquals("number of asserstions for edge: " + printEdge(edge), 0, edge.getAssertions().size());
+        assertEquals("number of rejections for edge: " + printEdge(edge), 1, edge.getRejections().size());
+    }
+    
+    public void testEdgeForAssertions () {
+    	System.out.println("\ntestEdgeForAssertions\n");
+
+    	P2PNode fromNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail");
+    	P2PNode toNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4");
+    	P2PEdge edge = getEdgeFromList(fromNode, toNode);
+    	assertEquals("edge from wn#Tail to wn#Dock_4 " + 
+    							" should exist in the edgesList ", true, (edge != null));
+    	assertEquals("number of asserstions for edge: " + printEdge(edge), 1, edge.getAssertions().size());
+    	assertEquals("number of rejections for edge: " + printEdge(edge), 0, edge.getRejections().size());
     }
 
     private P2PNode getNodeFromList (String nodeName) {
@@ -138,6 +161,12 @@ public class TestRdfP2pBaseParser extends TestCase {
             }
         }
         return null;
+    }
+    
+    private String printEdge (P2PEdge edge) {
+    	String str = edge.getFromNode().getName() + " -> " + edge.getEdgeType().getName() + 
+    								" -> " + edge.getToNode().getName();
+    	return str;
     }
 }
 

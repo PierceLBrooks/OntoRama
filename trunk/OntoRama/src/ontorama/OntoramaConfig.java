@@ -29,7 +29,7 @@ import ontorama.model.graph.NodeTypeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 
 
 /**
@@ -135,7 +135,7 @@ public class OntoramaConfig {
     }
 
     private static void fatalExit(String message, Exception e) {
-        new ErrorPopupMessage(message, null);
+    	ErrorDialog.showError(null, e, "Error", e.getMessage());
         System.err.println("Exception: " + e);
         e.printStackTrace();
         System.exit(1);
@@ -328,29 +328,16 @@ public class OntoramaConfig {
 			return backend;
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();
-		    new ErrorPopupMessage(
-		        "Couldn't find class for backendName " + backendName,
-		        parentFrame);
+		    ErrorDialog.showError(parentFrame, e, "Error instantiating Backend", "Couldn't find class for backendName " + backendName);
 		} catch (InstantiationException instExc) {
 		    instExc.printStackTrace();
-		    new ErrorPopupMessage(
-		        "Couldn't instantiate backendName " + backendName,
-		        parentFrame);
+			ErrorDialog.showError(parentFrame, instExc, "Error instantiating Backend", "Couldn't instantiate backendName " + backendName);
 		} catch (IllegalAccessException illegalAccExc) {
 		    illegalAccExc.printStackTrace();
-		    new ErrorPopupMessage(
-		        "Couldn't load backend "
-		            + backendName
-		            + " (Illegal Access Exception)",
-		        parentFrame);
+			ErrorDialog.showError(parentFrame, illegalAccExc, "Error loading Backend", "Couldn't load backend " + backendName);
 		} catch (Exception e) {
 		    e.printStackTrace();
-		    new ErrorPopupMessage(
-		        "Couldn't load backend "
-		            + backendName
-		            + ": "
-		            + e.getMessage(),
-		        parentFrame);
+			ErrorDialog.showError(parentFrame, e, "Error loading Backend", "Couldn't load backend " + backendName);
 		}
 		return null;
 	}

@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import ontorama.backends.BackendSearch;
 import ontorama.ontotools.query.Query;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 
 /*
@@ -36,7 +36,7 @@ public class SearchPanel extends JPanel {
                 String searchTerm = queryField.getText();
 
                 if (searchTerm.length() == 0) {
-                    new ErrorPopupMessage("Please type search term", OntoRamaApp.getMainFrame());
+                	ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "Please type search term");
                 }
                 else {
                     Query tmpQuery = new Query(searchTerm);

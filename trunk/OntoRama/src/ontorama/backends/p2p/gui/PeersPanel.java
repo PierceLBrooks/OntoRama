@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 
 
 import ontorama.backends.p2p.*;
-import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.renderer.*;
 
 
@@ -227,9 +226,6 @@ public class PeersPanel extends JPanel  implements GroupView {
 			if (findInList(peer.getID()) == null) {
 				listModel.addElement(peer);
 				repaint();
-			}
-			else {
-				//System.out.println("addPeer skipping peer " + peer.getPeerName() + ", listmodel = " + listModel);
 			}
 		}
 

@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 import ontorama.backends.p2p.*;
 import ontorama.ui.ErrorDialog;
@@ -244,11 +245,11 @@ public class CommunicationGroup  {
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-	public Vector searchGroup(String searchAttrib, 
+	public List searchGroup(String searchAttrib, 
 								String searchString) 
 								throws GroupExceptionThread, IOException {
 									
-		Vector result = new Vector();
+		List result = new LinkedList();
 		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
 		PeerGroupAdvertisement pgAdv = null;
 		Enumeration enum = null;
@@ -302,10 +303,9 @@ public class CommunicationGroup  {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public Vector peerDiscovery (String groupIDasString) 
+	public List peerDiscovery (String groupIDasString) 
 								throws IOException, GroupExceptionThread {
 		
-		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();		
        		
 		//Get the group the the peer answering the question belongs to. 
 		PeerGroup pg = getPeerGroup(groupIDasString);
@@ -316,7 +316,7 @@ public class CommunicationGroup  {
 		//Send a request to other peers
 		discServ1.getRemoteAdvertisements(null,DiscoveryService.PEER,null,null,10);
 
-		Vector searchGroupResult = new Vector();	
+		List searchGroupResult = new LinkedList();	
 
 		try {
 			Thread.sleep(3*1000);
@@ -419,9 +419,8 @@ public class CommunicationGroup  {
 	}
 	
 	
-	public Vector peerDiscoveryForGlobalGroup () {
-		PeerGroup globalGroup = this.commProt.getGlobalPG();
-		Vector result = new Vector();
+	public List peerDiscoveryForGlobalGroup () {
+		List result = new LinkedList();
 		try {
 			DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
 			discServ.getRemoteAdvertisements(null,	DiscoveryService.PEER,
@@ -432,7 +431,7 @@ public class CommunicationGroup  {
 				PeerAdvertisement cur = (PeerAdvertisement) e.nextElement();
 				System.out.println("\npeerDiscoveryForGlobalGroup: peer = " + cur.getName() + ", group = " +  cur.getPeerGroupID());
 				PeerItemReference element = new PeerItemReference(cur.getID().toString(), cur.getName());
-			  	result.addElement(element);
+			  	result.add(element);
 			}
 		}
 		catch (IOException e1) {

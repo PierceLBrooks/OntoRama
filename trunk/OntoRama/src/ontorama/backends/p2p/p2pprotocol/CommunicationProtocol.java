@@ -1,7 +1,7 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
-import java.util.Vector;
+import java.util.List;
 
 import net.jxta.peergroup.PeerGroup;
 
@@ -53,7 +53,7 @@ public interface CommunicationProtocol {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-    public Vector sendSearch(String query) throws IOException, GroupExceptionThread ;
+    public List sendSearch(String query) throws IOException, GroupExceptionThread ;
 
 
 	/**
@@ -68,7 +68,7 @@ public interface CommunicationProtocol {
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-    public Vector sendSearchGroup(String searchAttrib, String searchString) throws IOException, GroupExceptionThread ;
+    public List sendSearchGroup(String searchAttrib, String searchString) throws IOException, GroupExceptionThread ;
 
 
 	/**
@@ -133,7 +133,7 @@ public interface CommunicationProtocol {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public Vector peerDiscovery (String groupIDasString) throws IOException, GroupExceptionThread;
+	public List peerDiscovery (String groupIDasString) throws IOException, GroupExceptionThread;
 
     /**
     * Returns all the groups the peer belongs to.   
@@ -142,7 +142,7 @@ public interface CommunicationProtocol {
     *
     * @version P2P-OntoRama 1.0.0
     */
-    public Vector getMemberOfGroups();
+    public List getMemberOfGroups();
     
 
 	/**
@@ -150,5 +150,5 @@ public interface CommunicationProtocol {
 	 * @todo not sure if this belongs here at all
 	 * @author nataliya
 	 */
-	public Vector sendSearchAllPeers () throws GroupExceptionThread, IOException;
+	public List sendSearchAllPeers () throws GroupExceptionThread, IOException;
 }

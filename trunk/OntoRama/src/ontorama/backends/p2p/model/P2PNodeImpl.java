@@ -20,12 +20,12 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
     /**
      * Store the asserters
      */
-    private HashSet asserters;
+    private Collection asserters;
 
     /**
      * Store the rejecters
      */
-    private HashSet rejecters;
+    private Collection rejecters;
 
     /**
      * Create a new P2PNodeImpl with given name and fullName

@@ -271,10 +271,10 @@ public class P2PBackendImpl implements P2PBackend {
        mainPanel.getChangePanel().empty();
        //Ask the other peers what they got
          try {
-              Vector result = this.sender.sendSearch(query.getQueryTypeName());
-              Enumeration enum = result.elements();
-              while (enum.hasMoreElements()){
-                    SearchResultElement resultElement = (SearchResultElement) enum.nextElement();
+              Collection result = this.sender.sendSearch(query.getQueryTypeName());
+              Iterator it = result.iterator();
+              while (it.hasNext()){
+                    SearchResultElement resultElement = (SearchResultElement) it.next();
                     String sourceText = resultElement.getResultText();
                     QueryResult qr = getQueryResult(sourceText, query);
                     if (qr != null ) {

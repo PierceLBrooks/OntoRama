@@ -5,7 +5,8 @@ import java.awt.Container;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -67,7 +68,7 @@ public class JoinGroupDialog extends JDialog {
         _p2pBackend.getEventBroker().subscribe(new LocalGroupJoinedEventHandler(this), 
         							GroupJoinedEvent.class, GroupItemReference.class);
                
-        Vector foundGroups = new Vector();
+        List foundGroups = new LinkedList();
         try {
             foundGroups =  _p2pBackend.getSender().sendSearchGroup(null, null);
         }

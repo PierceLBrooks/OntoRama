@@ -481,6 +481,29 @@ public class GraphImpl implements Graph {
     }
 
     /**
+     * @todo need some error checking
+     * @param fromNode
+     * @param toNode
+     * @param edgeType
+     */
+    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
+        addNode(fromNode);
+        addNode(toNode);
+        Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        addEdge(newEdge);
+    }
+
+    /**
+     * @todo need some error checking
+     * @param node
+     */
+    public void addNode (Node node) {
+        if (!_graphNodes.contains(node)) {
+            _graphNodes.add(node);
+        }
+    }
+
+    /**
      *
      */
     public void removeEdge(Edge remEdge) {
@@ -492,6 +515,16 @@ public class GraphImpl implements Graph {
      */
     public void removeAllEdges() {
         _graphEdges.clear();
+    }
+
+    /**
+     * @todo need to think this through - if removing a node, do we need to remove edges and
+     * subtrees if there are any?
+     * @param node
+     */
+    public void removeNode (Node node) {
+
+        _graphNodes.remove(node);
     }
 
     public List getEdgesList() {

@@ -1,5 +1,7 @@
 package ontorama.model;
 
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+
 import java.util.List;
 
 /**
@@ -59,8 +61,14 @@ public interface Graph {
      */
     public List getInboundEdgesDisplayedInGraph (Node node);
 
+    public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType);
+
     public void removeEdge(Edge remEdge);
     public void addEdge(Edge edge);
+    public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException;
 
+    public void addNode (Node node);
+
+    public void removeNode (Node node);
 
 }

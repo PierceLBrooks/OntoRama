@@ -14,6 +14,7 @@ import org.tockit.events.EventBroker;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.InputEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -964,20 +965,17 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double lpx = draggedEvent.getCanvasFromPosition().getX();
         double lpy = draggedEvent.getCanvasFromPosition().getY();
 
-        if ((draggedEvent.getModifiers() & MouseEvent.CTRL_DOWN_MASK) == 0) {
+        int onmask = InputEvent.BUTTON1_DOWN_MASK | InputEvent.CTRL_DOWN_MASK;
+        int offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
+                      InputEvent.SHIFT_DOWN_MASK | InputEvent.ALT_DOWN_MASK;
+        if ((draggedEvent.getModifiers() & (onmask | offmask)) == onmask) {
+            // calculate angle of rotation
+            double angle = Math.atan2(lpx, lpy) - Math.atan2(x, y);
+            this.rotateNodes(angle);
+        } else {
             double xDif = (lpx - x);
             double yDif = (lpy - y);
             moveCanvasItems(xDif, yDif);
-        } else {
-            System.out.println("\n\nROTATE...");
-            // get x's and y's in cartesian coordinates
-            double curX = x - getSize().width / 2;
-            double curY = y - getSize().height / 2;
-            double lastX = lpx - getSize().width / 2;
-            double lastY = lpy - getSize().height / 2;
-            // calculate angle of rotation
-            double angle = Math.atan2(lastX, lastY) - Math.atan2(curX, curY);
-            this.rotateNodes(angle);
         }
         //lastPoint.setLocation(x, y);
         repaint();

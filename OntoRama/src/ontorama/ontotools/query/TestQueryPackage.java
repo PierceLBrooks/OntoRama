@@ -6,8 +6,8 @@ import junit.framework.TestSuite;
 
 import ontorama.ontotools.parser.cgkb.TestCgKbCsvParser;
 import ontorama.ontotools.parser.rdf.test.TestRdfDamlParser;
-import ontorama.ontotools.parser.rdf.test.TestRdfP2pParser;
 import ontorama.ontotools.parser.rdf.test.TestRdfWebkbParser;
+import ontorama.ontotools.parser.rdf.test.p2p.TestRdfP2pBaseParser;
 
 /**
  * <p>Title: </p>
@@ -39,7 +39,7 @@ public class TestQueryPackage extends TestCase {
         // RJ's KB parser
         suite.addTest(new TestSuite(TestCgKbCsvParser.class));
 
-        suite.addTest(new TestSuite(TestRdfP2pParser.class));
+        suite.addTest(new TestSuite(TestRdfP2pBaseParser.class));
 
         return suite;
     }

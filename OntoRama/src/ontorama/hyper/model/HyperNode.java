@@ -126,6 +126,13 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     }
 
     /**
+     * Notify GraphNode that it has focus.
+     */
+    public void hasFocus() {
+        graphNode.hasFocus();
+    }
+
+    /**
      * Move node position by offset.
      */
     public void move( double x, double y ) {

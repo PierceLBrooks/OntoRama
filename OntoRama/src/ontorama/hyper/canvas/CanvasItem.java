@@ -25,4 +25,14 @@ public class CanvasItem {
     public boolean isNearestItem( double scrX, double scrY ) {
         return false;
     }
+
+    /**
+     * Method called to test if a canvas item is clicked on.
+     *
+     * If not over written this method shall let this
+     * canvas item be ignored.
+     */
+    public boolean isClicked( double scrX, double scrY ) {
+        return false;
+    }
 }

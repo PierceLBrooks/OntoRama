@@ -122,6 +122,9 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         return projectedY;
     }
 
+    /**
+     * Return the node name.
+     */
     public String getName() {
         return model.getName();
     }
@@ -163,19 +166,27 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     }
 
     /**
+     * Notify Hypernode that it has focus.
+     */
+    public void hasFocus() {
+        model.hasFocus();
+    }
+
+    /**
      * Method called to find nearest node view to mouse pointer.
      */
     public boolean isNearestItem( double scrX, double scrY ) {
+        return false;
+    }
 
+    /**
+     * Returns true if this is the node clicked on
+     */
+    public boolean isClicked( double scrX, double scrY ) {
         double x1 = this.projectedX;
         double y1 = this.projectedY;
-
         double dist = Math.sqrt( (scrX - x1)*(scrX - x1) + (scrY - y1)*(scrY - y1) );
-        //if( this.getName().equals("root") ) {
-        //    System.out.println("name: " + getName() + " x1: " + x1 + " y1: " + y1 + " scrX: " + scrX + " scrY: " + scrY);
-        //    System.out.println("dist: " + dist + " viewRadius: " + viewRadius);
-        //}
-        if( dist < viewRadius) {
+        if( dist <= viewRadius) {
             return true;
         }
         return false;

@@ -3,7 +3,7 @@ package ontorama.client;
 /**
  * Title:
  * Description:
- * Copyright:    Copyright (c) 2001
+ * Copyright:    Copyright DSTC (c) 2001
  * Company:
  * @author
  * @version 1.0
@@ -18,6 +18,10 @@ import ontorama.webkbtools.query.TypeQueryImplementation;
 import ontorama.webkbtools.query.TypeQuery;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
+/**
+ * Test client class
+ * Try to replicate client behaviour.
+ */
 public class TestClient {
 
   public TestClient() {
@@ -41,13 +45,13 @@ public class TestClient {
 
 	    ot.setIterator(new OntologyTypeImplementation("childType1"), OntoramaConfig.SUBTYPE);
 	    ot.setIterator(new OntologyTypeImplementation("childType2"), OntoramaConfig.SUBTYPE);
-	
+
 	    ot.setIterator(new OntologyTypeImplementation("superType"), OntoramaConfig.SUPERTYPE);
 	    ot.setIterator(new OntologyTypeImplementation("partOfType"), OntoramaConfig.PARTOF);
 	    ot.setIterator(new OntologyTypeImplementation("synonymType"), OntoramaConfig.SYNONYMTYPE);
-	
+
 	    System.out.println ("type = " + ot.toString());
-	
+
 		//Iterator iterator = ot.getIterator(OntoramaConfig.SUBTYPE);
         Iterator iterator = ot.getIterator(20);
 		while (iterator.hasNext()) {
@@ -58,10 +62,10 @@ public class TestClient {
 		  }
 		  else  {
 		    System.out.println("have OntologyTypeImplementation");
-		
+
 		  }
 		}
-	
+
 	    System.out.println("--------------------------");
 	    OntologyType ort = new OntologyRelationType("testRelationType");
 	    System.out.println ("type = " + ort.toString());
@@ -71,7 +75,7 @@ public class TestClient {
 	    while (iterator2.hasNext()) {
 	      //System.out.println("iterator.next = " + (OntologyTypeImplementation)iterator.next());
 	      Object obj2 = iterator2.next();
-	
+
 	      if (obj2 instanceof OntologyRelationType) {
 	        System.out.println("have OntologyRelationType");
 	      }

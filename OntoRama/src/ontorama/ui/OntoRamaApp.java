@@ -42,6 +42,7 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
 import ontorama.model.tree.events.TreeNodeEvent;
+import ontorama.model.QueryEndEvent;
 import ontorama.model.QueryStartEvent;
 import ontorama.model.QueryEvent;
 import ontorama.ontotools.query.Query;
@@ -209,10 +210,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             Query query = (Query) event.getSubject();
             _lastQuery = _query;
             _query = query;
-            _debug.message(
-                ".............. EXECUTE QUERY for new graph ...................");
             _worker = new QueryEngineThread(_query, _modelEventBroker);
-            System.out.println("_modelEventBroker.removeSubscriptions(_viewsEventBroker)");
+            //System.out.println("_modelEventBroker.removeSubscriptions(_viewsEventBroker)");
             _modelEventBroker.removeSubscriptions(_viewsEventBroker);
             _worker.start();
             _timer.start();
@@ -223,6 +222,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private class QueryEndEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
+        	Graph graph = (Graph) event.getSubject();
+        	_progressBar.setIndeterminate(false);
+        	setStatusLabel("");
+        	_stopQueryAction.setEnabled(false);
+        	_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
+        	if (graph == null) {
+        		return;
+        	}
+        	_graph = graph;
+        	_modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
+        	_tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
+        	_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
+        	_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
+        	updateViews();       	
         }
     }
 
@@ -247,6 +260,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _viewsEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
          _modelEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
 
+		_modelEventBroker.subscribe(new QueryEndEventHandler(), QueryEndEvent.class, Object.class);
+
 		_timer = new Timer(TIMER_INTERVAL, this);
 		initBackends();
 		_splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -265,6 +280,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		new LoggingEventListener(_modelEventBroker,TreeChangedEvent.class,Object.class,System.out);
         new LoggingEventListener(_modelEventBroker,QueryEvent.class,Object.class,System.out);
         new LoggingEventListener(_modelEventBroker,QueryStartEvent.class,Object.class,System.out);
+		new LoggingEventListener(_modelEventBroker,QueryEndEvent.class,Object.class,System.out);
 
 		_descriptionViewPanel = new DescriptionView(_viewsEventBroker);
 		_queryPanel = new QueryPanel(this, _viewsEventBroker);
@@ -563,29 +579,29 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * waiting - update progress bar.
 	 */
 	public void actionPerformed(ActionEvent evt) {
+		System.out.println("\n\nactionPerformed()");
 		Graph graph = null;
 		setStatusLabel(_worker.getMessage());
 		if ((_worker.done()) || (_worker.isStopped())) {
+			System.out.println("stopped");
 			if (_worker.done()) {
 				graph = _worker.getGraph();
+				_modelEventBroker.processEvent(new QueryEndEvent(graph));
 			}
-			_timer.stop();
-			_progressBar.setIndeterminate(false);
-			setStatusLabel("");
-			_stopQueryAction.setEnabled(false);
-			_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
-			if (graph == null) {
-				return;
-			}
-			_graph = graph;
-            _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
-            _tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
-			_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
-			_viewsEventBroker.subscribe(
-				new ViewUpdateHandler(),
-				TreeChangedEvent.class,
-				Tree.class);
-			updateViews();
+//			_timer.stop();
+//			_progressBar.setIndeterminate(false);
+//			setStatusLabel("");
+//			_stopQueryAction.setEnabled(false);
+//			_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
+//			if (graph == null) {
+//				return;
+//			}
+//			_graph = graph;
+//            _modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
+//            _tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
+//			_modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
+//			_viewsEventBroker.subscribe(new ViewUpdateHandler(),TreeChangedEvent.class,Tree.class);
+//			updateViews();
 		}
         appendHistoryMenu(_query);
 	}

@@ -7,8 +7,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import ontorama.backends.p2p.model.util.NoSuchP2PNodeException;
+import ontorama.model.Edge;
 import ontorama.model.GraphImpl;
 import ontorama.model.NoTypeFoundInResultSetException;
+import ontorama.model.Node;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
@@ -30,7 +32,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
  * <br>
  * Company:     DSTC
  */
-public class P2PGraphImpl extends GraphImpl implements P2PGraph {
+public class P2PGraphImpl extends GraphImpl implements P2PGraph,Cloneable {
 
 	public P2PGraphImpl() {
 		super();
@@ -44,18 +46,22 @@ public class P2PGraphImpl extends GraphImpl implements P2PGraph {
 
 	public void add(ParserResult parserResult) throws GraphModificationException, NoSuchRelationLinkException {
 		try {
-
+            System.out.println("1111");
 			Iterator it = parserResult.getNodesList().iterator();
+            System.out.println("2222");
 			while (it.hasNext()) {
-				this.addNode((P2PNode) it.next());
+            System.out.println("   eeeeeee");				
+				this.addNode((Node) it.next());
 			}	
 			it = parserResult.getEdgesList().iterator();
 			while (it.hasNext()) {
-					this.addEdge((P2PEdge) it.next());
+					this.addEdge((Edge) it.next());
 			}	
 		} catch (GraphModificationException e) {
+            System.out.println("GraphMOdificationError");	
 			throw e;
 		} catch (NoSuchRelationLinkException e) {
+            System.out.println("NoSuchRElationLinkException");
 			throw e;
 		}
 	}
@@ -130,10 +136,9 @@ public class P2PGraphImpl extends GraphImpl implements P2PGraph {
     }
 
 
-//TODO left to implement: 
 /**
  * Return the searchresult for given Query
- * @todo does NOT regard the realtion type in the search, uses all realtionstypes
+ * @todo does NOT regard the relation type in the search, uses all relationtypes
  */
 	public P2PGraph search(Query query) {
 		//keeps track of the depth for every node, the shallowest depth is used for every node
@@ -149,73 +154,41 @@ public class P2PGraphImpl extends GraphImpl implements P2PGraph {
 
 			LinkedList queueNodes = new LinkedList();
 			LinkedList nodesList;
-			String fromNodeURI,toNodeURI;
 			Iterator edgesIt,nodesIt;
 			P2PNode currGraphNode,tempGraphNode;
-			P2PNode fromNode = null;
-			P2PNode toNode = null;
 			P2PEdge currEdgeObj;			
 			int tempInt = 0;			
 			boolean depthReached = false;
 
-			//add searchNode
+			//add searchNode to queue
 			queueNodes.add(searchedNode);
-			queueNodesDepth.put(searchedNode,new Integer(0));			
-			newExtGraph.addNode(searchedNode);
+			queueNodesDepth.put(searchedNode,new Integer(0));
 
 			while ((!queueNodes.isEmpty()) && !depthReached) {												
 				currGraphNode = (P2PNode) queueNodes.remove(0);	
 
+				//depth control of search				
 				tempInt = ((Integer) queueNodesDepth.get(currGraphNode)).intValue();
 				if (tempInt < queryDepth) {
 					nodesList = (LinkedList) extGraph.getOutboundEdgeNodes(currGraphNode);
 	
-					//add outbound nodes to the queue
+					//add Outbound nodes to the queue
 					queueNodes.addAll(this.getNotProcessedNodesFrom(nodesList, alreadyProcessedNodes));
 	
-	
-					//add the inbound nodes to the graph
+					//add the Outbound nodes (and their depth) to the queue
 					nodesIt = nodesList.iterator();
 					while (nodesIt.hasNext()) {
 						tempGraphNode = (P2PNode) nodesIt.next();
-						newExtGraph.addNode(tempGraphNode);	
 						tempInt = ((Integer) queueNodesDepth.get(currGraphNode)).intValue();
 						tempInt++; 					
 						queueNodesDepth.put(tempGraphNode,new Integer(tempInt));
 					}
 	
-					edgesIt = extGraph.getInboundEdgeNodes(currGraphNode).iterator();
-														
+					//add the Inbound edges to the search result
+					edgesIt = extGraph.getInboundEdges(currGraphNode).iterator();
 					while (edgesIt.hasNext()) {
 						currEdgeObj = (P2PEdge) edgesIt.next();
-						
-						fromNodeURI = currEdgeObj.getFromNode().getIdentifier();
-						toNodeURI = currEdgeObj.getToNode().getIdentifier();
-						
-						//make sure that the GraphNode has been added, if not, do it
-						try {
-							newExtGraph.getP2PNode(fromNodeURI);
-						} catch (NoSuchP2PNodeException e) {
-							fromNode = new P2PNodeImpl(fromNodeURI,null,null);
-							//System.err.println("ERRORA create a new node cause it didn't exist:" + fromNodeURI);
-							newExtGraph.addNode(fromNode);
-
-						}
-							
-						try {
-							newExtGraph.getP2PNode(toNodeURI);
-						} catch (NoSuchP2PNodeException e) {
-							//System.err.println("ERRORB create a new node cause it didn't exist:" + fromNodeURI);
-							toNode = new P2PNodeImpl(toNodeURI,null,null);
-							newExtGraph.addNode(toNode);	
-						}
-	
-						P2PEdge tempEdge = new P2PEdgeImpl(fromNode,
-															toNode,
-															currEdgeObj.getEdgeType(),
-															null,
-															null);
-						newExtGraph.addEdge(tempEdge);
+						newExtGraph.addEdge(currEdgeObj);
 					}				
 				} else {
 					depthReached = true;

@@ -64,7 +64,6 @@ public class GraphImpl implements Graph {
         _topLevelUnconnectedNodes = new LinkedList();
         _graphNodes = new LinkedList();
         _eventBroker = new EventBroker();
-        System.out.println("GRAPH impl event broker " + _eventBroker);
     }
 
     /**

@@ -11,7 +11,6 @@ import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.query.Query;
-import org.tockit.events.EventBroker;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -120,7 +119,7 @@ public class TestTree extends TestCase{
 
 
         QueryResult queryRes = new QueryResult(new Query("node1"), graphNodesList, graphEdgesList);
-        _graph = new GraphImpl(queryRes, new EventBroker());
+        _graph = new GraphImpl(queryRes);
 
 
         _tree = new TreeImpl(_graph, _graph.getRootNode());

@@ -1,7 +1,5 @@
 package ontorama.backends.p2p.test;
 
-import org.tockit.events.EventBroker;
-
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.p2p.P2PBackendImpl;
@@ -38,7 +36,7 @@ public class TestP2PBackend2 extends TestCase {
 	}
 	
 	protected void setUp() throws NoSuchRelationLinkException, GraphModificationException {
-		_graph = new GraphImpl(new EventBroker());
+		_graph = new GraphImpl();
 		Node root = _backend.createNode("root", "root");
 		Node node1 = _backend.createNode("node1", "node1");
 		Node node2 = _backend.createNode("node2", "node2");

@@ -34,7 +34,9 @@ public class OntoTreeBuilder {
 
     /**
      * Constructor
-	 * @param	graph
+     * @param	graph
+     * @todo  hack for case when we don't have any edges. Rethink this!
+     *        Especially hardcoding setRelLink to '1'.
      */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
@@ -46,7 +48,23 @@ public class OntoTreeBuilder {
             graphToOntoTree(graph.getRootNode(), edge.getType());
         }
         //graphToOntoTree(graph.getEdgeRootNode());
+
+        // take care of a case when we only have one node and no edges
+        if (Edge.edges.size() == 0) {
+          OntoTreeNode ontoTreeNode = new OntoTreeNode (graph.getRootNode());
+          ontoTreeNode.setRelLink(1);
+          ontoHash.put(graph.getRootNode(),ontoTreeNode);
+        }
     }
+
+    /**
+     *
+     */
+    /*
+    public int getSize() {
+      return ontoHash.size();
+    }
+    */
 
     /**
      * Convert each GraphNode to OntoTreeNode

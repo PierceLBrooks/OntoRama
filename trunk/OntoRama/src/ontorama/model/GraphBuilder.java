@@ -126,11 +126,14 @@ public class GraphBuilder {
           }
           debug.message("number of Edges = " + Edge.edges.size());
           debug.message("edgeRoot = " + edgeRoot);
+          System.out.println("...number of Edges = " + Edge.edges.size());
+          System.out.println("...edgeRoot = " + edgeRoot);
 
           if (! processedNodes.containsKey(termName)) {
              throw new NoTypeFoundInResultSetException(termName);
           }
           debug.message("graph builder, num of nodes = " + processedNodes.size());
+          //System.out.println("...num of nodes = " + processedNodes.size());
 
           graph = new Graph( edgeRoot );
 

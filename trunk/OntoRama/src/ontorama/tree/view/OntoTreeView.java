@@ -32,6 +32,7 @@ import ontorama.ontologyConfig.*;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
@@ -106,7 +107,20 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         // build OntoTreeModel for this graph
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
-        this.tree = new JTree(ontoTreeModel);
+//        System.out.println("edges num = " + Edge.edges.size());
+//        OntoTreeNode ontoTreeNode = (OntoTreeNode) ontoTreeModel.getRoot();
+//        System.out.println("root node = " + ontoTreeNode);
+//        TreeNode treeNode = (TreeNode) ontoTreeNode;
+//        System.out.println("root treeNode = " + treeNode);
+//        if (Edge.edges.size() == 0) {
+//          // we have only root node
+//          this.tree = new JTree((OntoTreeNode) ontoTreeModel.getRoot());
+//        }
+//        else {
+          this.tree = new JTree(ontoTreeModel);
+//        }
+
+
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.tree.setEditable(false);
 
@@ -115,14 +129,12 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.tree.addTreeWillExpandListener(this);
 
-
         this.tree.addMouseListener(this);
         this.tree.addKeyListener(this);
 
         ToolTipManager.sharedInstance().registerComponent(this.tree);
 
         this.tree.setCellRenderer(new OntoTreeRenderer());
-
 
         // fold/unfold all tree nodes depending on GraphNode.getFolded() value
 

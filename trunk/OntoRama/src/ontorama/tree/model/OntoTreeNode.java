@@ -158,7 +158,7 @@ public class OntoTreeNode implements TreeNode{
         this.graphNode.hasFocus();
     }
 	*/
-	
+
 
     //////////////Implementation of TreeNode interface methods//////////////
 
@@ -260,7 +260,8 @@ public class OntoTreeNode implements TreeNode{
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-      if (this.getChildCount() <= 0 ) {
+      List outboundNodesList = Edge.getOutboundEdgeNodesList(this.getGraphNode());
+      if (outboundNodesList.size() <= 0 ) {
         //System.out.println("isLeaf, node = " + this.graphNode.getName() + " returning true");
        // debug.message("OntoTreeNode","isLeaf","node = " + this.graphNode.getName() + " returning true");
         return true;
@@ -304,7 +305,7 @@ public class OntoTreeNode implements TreeNode{
         //String str = "OntoTreeNode: " + this.graphNode.toString();
         return this.graphNode.getName();
     }
-	
+
 
 
 }

@@ -14,7 +14,7 @@ import java.util.*;
  * <br>
  * Company:     DSTC
  */
-public class GraphNode implements Cloneable, NodeInterface {
+public class GraphNode implements Cloneable, NodeIterface {
 
     /**
      * Store the name/label of GraphNode.

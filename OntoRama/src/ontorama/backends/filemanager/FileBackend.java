@@ -22,7 +22,7 @@ import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
@@ -123,7 +123,7 @@ public class FileBackend implements Backend {
 
         if ((mapping == null) || (mapping.getParserName() == null)) {
         	/// @todo need to throw a 'parser not specified exception' here?
-        	new ErrorPopupMessage("There is no parser specified for this file type ", OntoRamaApp.getMainFrame());
+        	ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no parser specified for this file type ");
         	return;
         }
 
@@ -147,7 +147,7 @@ public class FileBackend implements Backend {
 			
 			if ((mapping == null) || (mapping.getWriterName() == null)) {
 				/// @todo need exception here?
-				new ErrorPopupMessage("There is no writer specified for this file type ", OntoRamaApp.getMainFrame());
+				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "There is no writer specified for this file type ");
 				return;
 			}
 			

@@ -20,7 +20,7 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 
 /*
  * Created by IntelliJ IDEA.
@@ -176,12 +176,12 @@ public class JoinGroupDialog extends JDialog {
             System.out.println("trying to join group id " + groupId);
             _p2pBackend.getSender().sendJoinGroup(groupId);
         } catch (GroupExceptionNotAllowed e) {
-            new ErrorPopupMessage("Error: " + e.getMessage(), this);
+        	ErrorDialog.showError(this, e, "Error", e.getMessage());
             System.out.println("ERROR:");
             e.printStackTrace();
             return false;
         } catch (GroupException e) {
-            new ErrorPopupMessage("Error: " + e.getMessage(), this);
+        	ErrorDialog.showError(this, e, "Error", e.getMessage());
             System.out.println("ERROR:");
             e.printStackTrace();
             return false;

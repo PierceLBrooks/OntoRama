@@ -22,8 +22,8 @@ public class ErrorPopupMessage extends JOptionPane {
 
     }
 
-    public static void main(String[] args) {
-        new ErrorPopupMessage("Testing Error Popup", null);
-    }
+//    public static void main(String[] args) {
+//        new ErrorPopupMessage("Testing Error Popup", null);
+//    }
 
 }

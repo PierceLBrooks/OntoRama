@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 
 import org.jdom.Attribute;
@@ -43,7 +43,7 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 		}
 		catch (JDOMException e) {
 			String message = "Error parsing DataFormatMapping configuration: " + e.getMessage();
-			new ErrorPopupMessage(message, OntoRamaApp.getMainFrame());
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error", message);
 			System.err.println(message);
 			e.printStackTrace();
 		}	

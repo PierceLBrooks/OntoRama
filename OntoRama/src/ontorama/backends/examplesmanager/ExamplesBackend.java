@@ -28,7 +28,7 @@ import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
-import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ui.events.QueryEndEvent;
@@ -147,13 +147,13 @@ public class ExamplesBackend implements Backend {
 		}
 		catch (SourceException sourceExc) {
 			sourceExc.printStackTrace();
-			new ErrorPopupMessage("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), OntoRamaApp.getMainFrame());
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), sourceExc, "Error", "Unable to read properties or configuration file " + sourceExc.getMessage());
 		} catch (ConfigParserException cpe) {
 			cpe.printStackTrace();
-			new ErrorPopupMessage("ConfigParserException: " + cpe.getMessage(), OntoRamaApp.getMainFrame());
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), cpe, "Error", "ConfigParserException: " + cpe.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
-			new ErrorPopupMessage(e.getMessage(), OntoRamaApp.getMainFrame());
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error", e.getMessage());
 		}
 	}
 

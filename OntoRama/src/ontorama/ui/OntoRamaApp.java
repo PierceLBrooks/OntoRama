@@ -41,7 +41,6 @@ import ontorama.ontotools.query.Query;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
-import ontorama.ui.controller.ErrorEventHandler;
 import ontorama.ui.controller.QueryNodeEventHandler;
 import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
@@ -267,15 +266,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             QueryCancelledEvent.class,
             Object.class);
 
-        _modelEventBroker.subscribe(
-            new ErrorEventHandler(),
-            ErrorEvent.class,
-            Object.class);
-        _viewsEventBroker.subscribe(
-            new ErrorEventHandler(),
-            ErrorEvent.class,
-            Object.class);
-
         _timer = new Timer(TIMER_INTERVAL, this);
         initBackend();
         _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -388,7 +378,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private void initBackend() {
     	String backendName = OntoramaConfig.getBackendPackageName();
         if (backendName == null) {
-        	new ErrorPopupMessage("No backends specified in ontorama.properties", this);
+        	ErrorDialog.showError(this, "Error", "No backends specified in ontorama.properties");
         	System.exit(1);
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);

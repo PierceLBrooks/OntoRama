@@ -1,0 +1,25 @@
+
+OntoRama Issues and Design (29.07.2002)
+-----------------------------------------
+
+- design model allowing editing
+
+- peer-to-peer
+
+- subtype/supertype relation should be treated separately in config files and in the code. 
+(should this be hardcoded relation? or do I think this because I only deal with RDF formatted 
+ontologies at the moment....)
+
+- Graph model revolves around and relies on 'root' node, so does the Query and examples config file. 
+This makes sense for dynamic ontologies, but not neccessarily for static ones. Review the model?
+
+- Redunancy in creating OntologyTypes and then GraphNodes and Edges from the OntologyTypes. 
+Should review or not?
+
+- Introducing relation types - should have different Class for those or just add some properties
+to existing?
+(cons the former solution:
+- graph nodes don't make a distinction
+- at parse time while processing triples - dont' know if need to create concept type or relation type.)
+
+

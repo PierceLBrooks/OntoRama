@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.1 2002-10-04 03:50:37 pbecker Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.2 2002-10-04 05:19:01 pbecker Exp $
  */
 package ontorama.hyper.controller;
 
@@ -13,6 +13,9 @@ import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class NewRelatedNodeCreator {
     public NewRelatedNodeCreator(SimpleHyperView view, Node graphNode, EdgeType edgeType) {
@@ -27,9 +30,14 @@ public class NewRelatedNodeCreator {
         dialog.show();
 
         Node newNode = new NodeImpl(field.getText());
-        Edge newEdge;
+        List newEdges = new ArrayList();
         try {
-            newEdge = new EdgeImpl(graphNode, newNode, edgeType);
+            newEdges.add(new EdgeImpl(graphNode, newNode, edgeType));
+            List clones = graphNode.getClones();
+            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
+                Node node = (Node) iterator.next();
+                newEdges.add(new EdgeImpl(node, newNode.makeClone(), edgeType));
+            }
         } catch (NoSuchRelationLinkException e) {
             /// @todo what to do here? Do we get this?
             e.printStackTrace();
@@ -38,7 +46,10 @@ public class NewRelatedNodeCreator {
 
         Graph graph = view.getGraph();
         try {
-            graph.addEdge(newEdge);
+            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
+                Edge edge = (Edge) iterator.next();
+                graph.addEdge(edge);
+            }
         } catch (GraphModificationException e) {
             /// @todo what to do here? Do we get this?
             e.printStackTrace();

@@ -16,6 +16,7 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
+import ontorama.model.graph.GraphCyclesDisallowedException;
 import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.NoTypeFoundInResultSetException;
@@ -192,7 +193,8 @@ public class ExamplesBackend implements Backend {
 												throws
 													GraphModificationException,
 													NoSuchRelationLinkException,
-													NoTypeFoundInResultSetException {
+													NoTypeFoundInResultSetException,
+													GraphCyclesDisallowedException {
 		Graph res = new GraphImpl(qr, eb);
 		return res;
 	}

@@ -117,9 +117,10 @@ public class GraphImpl implements Graph {
      * @throws  ontorama.model.graph.NoTypeFoundInResultSetException
      */
     public GraphImpl(QueryResult queryResult, EventBroker eventBroker)
-            throws
-            NoSuchRelationLinkException,
-            NoTypeFoundInResultSetException {
+				            throws
+				            NoSuchRelationLinkException,
+				            NoTypeFoundInResultSetException,
+				            GraphCyclesDisallowedException {
         this(eventBroker);
         debug.message(
                 "******************* GraphBuilder constructor start *******************");
@@ -131,8 +132,6 @@ public class GraphImpl implements Graph {
         buildGraph( nodesList, edgesList);
         if (termName == null) {
             root = findRootNode();
-            /// @todo a hack here for rdf distillery
-            //OntoramaConfig.getCurrentExample().setRoot(root.getName());
         }
         else {
             root = findRootNode(termName);
@@ -147,7 +146,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    private void buildGraph( List nodesList, List edgesList) {
+    private void buildGraph( List nodesList, List edgesList) throws GraphCyclesDisallowedException {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
 
@@ -162,7 +161,7 @@ public class GraphImpl implements Graph {
     	_topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
     }
 
-    private void checkForCycles(List edgesList) {
+    private void checkForCycles(List edgesList) throws GraphCyclesDisallowedException {
         List edgesToRemove = new LinkedList();
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
@@ -177,7 +176,7 @@ public class GraphImpl implements Graph {
         }
     }
 
-    private List checkEdgeForCycle (Edge oneWayEdge) {
+    private List checkEdgeForCycle (Edge oneWayEdge) throws GraphCyclesDisallowedException {
         List edgesToRemove = new LinkedList();
 
         Node fromNode = oneWayEdge.getFromNode();
@@ -190,22 +189,22 @@ public class GraphImpl implements Graph {
 
         Edge reversedEdge = getEdge(toNode, fromNode, edgeType);
         if ((oneWayEdge != null) && (reversedEdge != null)) {
-            String message = "Relation links: \n";
-            message = message + "edge: " + fromNode + " -> " + toNode + " , edgeType = " + edgeType + "\n";
+            String message = "Detected cycle in the graph we are trying to display. Relation links: \n";
+            message = message + "edge: " + fromNode.getName() + " -> " + toNode.getName() + " , edgeType = " + edgeType.getName() + "\n";
             message = message + " and \n";
-            message = message + "edge: " + toNode + " -> " + fromNode + " , edgeType = " + edgeType + "\n";
+            message = message + "edge: " + toNode.getName() + " -> " + fromNode.getName() + " , edgeType = " + edgeType.getName() + "\n";
             message = message + " are reversable. This is not going to work in the current graph model, \n";
-            message = message + " we won't display this relation link here.\n";
             message = message + " Please consider changing dispay properties for this relaton link in the config file.";
 
-            edgesToRemove.add(oneWayEdge);
-            //edgesToRemove.add(reversedEdge);
-
-            //removeEdge(oneWayEdge);
-            //removeEdge(reversedEdge);
-
-            System.err.println("\n\n" + message);
-            _eventBroker.processEvent(new ErrorEvent(message));
+//            edgesToRemove.add(oneWayEdge);
+//            //edgesToRemove.add(reversedEdge);
+//
+//            //removeEdge(oneWayEdge);
+//            //removeEdge(reversedEdge);
+//
+//            System.err.println("\n\n" + message);
+//            _eventBroker.processEvent(new ErrorEvent(message));
+			throw new GraphCyclesDisallowedException(message);
         }
         return edgesToRemove;
     }

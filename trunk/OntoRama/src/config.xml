@@ -188,12 +188,12 @@ http://www.gotomy.com/color.html
         </relation>
         <relation id="16">
             <displayInDescriptionWindow>
-                <relationType name="relSignature1" displayLabel="Range"/>
+                <relationType name="relSignature1" displayLabel="Range" queryOn="yes"/>
             </displayInDescriptionWindow>
         </relation>
         <relation id="17">
             <displayInDescriptionWindow>
-                <relationType name="relSignature2" displayLabel="Domain"/>
+                <relationType name="relSignature2" displayLabel="Domain" queryOn="yes"/>
             </displayInDescriptionWindow>
         </relation>
     </displayInfo>

@@ -26,6 +26,7 @@ import java.util.*;
 
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.events.EventBroker;
 
 
@@ -138,6 +139,7 @@ public class CanvasManager extends JComponent
     /**
      * draw canvas items.
      *
+     * @todo fix ConcurrentModificationException (seems as it happens when folding/unfolding nodes).
      */
     protected void drawNodes( Graphics2D g2d ) {
         if(lengthOfAnimation > 0) {
@@ -266,7 +268,8 @@ public class CanvasManager extends JComponent
                     System.out.println();
                     System.out.println();
 
-                this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
+//                this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
+                eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, null, null));
             }
             repaint();
         }

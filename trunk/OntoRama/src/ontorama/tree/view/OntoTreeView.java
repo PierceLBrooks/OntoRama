@@ -38,6 +38,7 @@ import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoTreeBuilder;
 import ontorama.tree.controller.GraphViewFocusEventHandler;
+import ontorama.tree.controller.GraphViewToggleFoldEventHandler;
 
 import ontorama.util.Debug;
 import ontorama.util.event.ViewEventListener;
@@ -96,6 +97,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
+        new GraphViewToggleFoldEventHandler(eventBroker, this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -222,18 +224,14 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     public void treeWillCollapse(TreeExpansionEvent e)
                     throws ExpandVetoException {
       debug.message("Tree-will-collapse event detected " + e);
-      //System.out.println("Tree-will-collapse event detected ");
 
       TreePath path = e.getPath();
       if (path == null) {
         // mouse clicked not on a node, but somewhere else in the tree view
-        System.out.println("treeWillCollapse: path == null");
         return;
       }
       OntoTreeNode treeNode = (OntoTreeNode) path.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
-      System.out.println("\n\nthis.tree.isCollapsed(path) = " + this.tree.isCollapsed(path));
-      System.out.println("\n\n treeView is sending toggleEvent to ViewEventListener, node = " + graphNode.getName());
       //viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
       //return;
 

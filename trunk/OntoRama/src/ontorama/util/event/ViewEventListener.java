@@ -45,6 +45,7 @@ public class ViewEventListener implements ViewEventObservable {
 			switch (eventType) {
 				case 1:
 					cur.focus (node);
+					//System.out.println("view listener: focus on node = " + node.getName() + ", address: " + node);
 					break;
 				case 2:
                     System.out.println("SENDING TOGGLE FOLD EVENT for node " + node.getName());

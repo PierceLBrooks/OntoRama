@@ -47,7 +47,19 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     private List clones = new LinkedList();
 
+    /**
+     * Description string
+     */
+    private String description = null;
 
+    /**
+     * Creator string
+     */
+    private String creator = null;
+
+    /**
+     *
+     */
     public GraphNode( String name ) {
         this.name = name;
     }
@@ -287,6 +299,38 @@ public class GraphNode implements Cloneable, NodeObservable {
 
         return cloneNode;
     }
+
+    /**
+     * Set description for this node
+     * @param   descriptionStr
+     */
+    public void setDescription (String descriptionStr) {
+        this.description = descriptionStr;
+    }
+
+    /**
+     * Get description string
+     * @return description string
+     */
+    public String getDescription () {
+        return this.description;
+    }
+
+    /**
+     * Set creator
+     * @param creatorStr
+     */
+     public void setCreator (String creatorStr) {
+        this.creator = creatorStr;
+     }
+
+     /**
+      * Get creator string
+      * @return creator
+      */
+      public String getCreator () {
+        return this.creator;
+      }
 
 
     /**

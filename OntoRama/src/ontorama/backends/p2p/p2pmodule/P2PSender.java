@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
+
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
@@ -15,6 +18,8 @@ import ontorama.backends.p2p.p2pprotocol.GroupExceptionFlush;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+
+
 /**
  * @author henrika
  *
@@ -37,7 +42,7 @@ public class P2PSender{
 
 
     //Constructor
-    public P2PSender(CommunicationProtocol commProt, P2PBackend backend){
+    public P2PSender(CommunicationProtocol commProt, P2PBackend backend) {
         this.comm = commProt;
         this.backend = backend;
         this.peersPanel = ((P2PMainPanel) backend.getPanel()).getPeerPanel();
@@ -112,7 +117,10 @@ public class P2PSender{
      */
     public void sendCreateGroup(String name, String descr) throws GroupException{
         PeerGroup pg = this.comm.sendCreateGroup(name, descr);
-        this.peersPanel.addGroup(pg.getPeerGroupID().toString(), name);
+        GroupReferenceElement groupRefElement = new GroupReferenceElement(
+        											pg.getPeerGroupID(), pg.getPeerGroupName(), 
+        											pg.getPeerGroupAdvertisement().getDescription());
+        this.backend.getEventBroker().processEvent(new JoinGroupEvent(groupRefElement));
     }
 
 
@@ -126,11 +134,11 @@ public class P2PSender{
      *
      * @version P2P-OntoRama 1.0.0
      */
-    public boolean sendJoinGroup(String groupID) throws GroupExceptionNotAllowed, GroupException {
-    	String groupName = this.comm.sendJoinGroup(groupID);
+    public boolean sendJoinGroup(PeerGroupID groupID) throws GroupExceptionNotAllowed, GroupException {
+    	String groupName = this.comm.sendJoinGroup(groupID.toString());
         if (groupName != null){
-            this.peersPanel.addGroup(groupID, groupName);
-            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID);
+        	this.backend.getEventBroker().processEvent(new JoinGroupEvent(new GroupReferenceElement(groupID, groupName, "")));
+            this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID.toString());
             return true;
         }
     return false;
@@ -202,7 +210,7 @@ public class P2PSender{
               if (tmpEnumernation.hasMoreElements()) {
                   GroupReferenceElement searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
                   String tmpGroupID = searchGroupResultElement.getID().toString();
-                  this.peersPanel.addGroup(tmpGroupID, groupName);
+                  this.backend.getEventBroker().processEvent(new JoinGroupEvent(searchGroupResultElement));
 
                   Vector result = this.comm.peerDiscovery(tmpGroupID);
                   Enumeration enum = result.elements();

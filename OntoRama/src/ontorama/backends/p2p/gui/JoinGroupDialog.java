@@ -183,9 +183,9 @@ public class JoinGroupDialog extends JDialog {
 
     private boolean joinGroup (GroupReferenceElement group) {
         try {
-            String groupId = group.getID().toString();
-            System.out.println("trying to join group id " + groupId);
-            _p2pBackend.getSender().sendJoinGroup(groupId);
+//            String groupId = group.getID().toString();
+//            System.out.println("trying to join group id " + groupId);
+			_p2pBackend.getSender().sendJoinGroup(group.getID());
         } catch (GroupExceptionNotAllowed e) {
         	ErrorDialog.showError(this, e, "Error", e.getMessage());
             System.out.println("ERROR:");

@@ -16,6 +16,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+
 
 /*
  * Created by IntelliJ IDEA.
@@ -24,7 +26,7 @@ import javax.swing.JScrollPane;
  * Time: 13:03:37
  * To change this template use Options | File Templates.
  */
-public class PeersPanel extends JPanel {
+public class PeersPanel extends JPanel  implements GroupView {
 
     /**
      * holds mapping from groupId to the corresponding groupPanel
@@ -79,7 +81,10 @@ public class PeersPanel extends JPanel {
 
     }
 
-    public void addGroup(String groupId, String groupName) {
+	public void addGroup(GroupReferenceElement groupReferenceElement) {
+		System.out.println("\nPeersPanel::addGroup, group = " + groupReferenceElement.getName());
+		String groupId = groupReferenceElement.getID().toString();
+		String groupName = groupReferenceElement.getName();
         if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
             _groupsVector.add(groupName);
             GroupPanel groupPanel = new GroupPanel(groupId);

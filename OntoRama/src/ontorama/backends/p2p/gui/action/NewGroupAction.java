@@ -41,9 +41,7 @@ public class NewGroupAction extends AbstractAction {
 		if (! DialogUtil.textInputIsValid(_parent, input, "name")) {
 			return;
 		}
-		System.out.println("input = " + input);
 		try {
-			System.out.println("attempting to create new group with name " + input + " and description: " + _newGroupDescrField.getText());
 			_p2pBackend.getSender().sendCreateGroup(input,_newGroupDescrField.getText());
 			Vector resVector = _p2pBackend.getSender().sendSearchGroup("Name",input);
 			/// @todo probably should handle whole vector, not just one element.
@@ -52,9 +50,10 @@ public class NewGroupAction extends AbstractAction {
 				return;
 			}
 			GroupReferenceElement newGroup = (GroupReferenceElement) resVector.firstElement();
-			String groupId = newGroup.getID().toString();
-			System.out.println("trying to join group id " + groupId);
-			_p2pBackend.getSender().sendJoinGroup(groupId);
+//			String groupId = newGroup.getID().toString();
+			if (_p2pBackend.getSender().sendJoinGroup(newGroup.getID())) {
+				/// send event to update joined group list.
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			ErrorDialog.showError(_parent, e, _errMessageTitle, e.getMessage());

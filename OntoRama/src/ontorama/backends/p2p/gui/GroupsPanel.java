@@ -167,6 +167,9 @@ public class GroupsPanel extends JPanel {
 			if (groupsListContainsGroup(_allGroupsListModel, cur)) {
 				continue;
 			}
+			if (groupsListContainsGroup(_joinedGroupsListModel, cur)) {
+				continue;
+			}
 			_allGroupsListModel.addElement(cur);
 		}
 	}
@@ -177,6 +180,9 @@ public class GroupsPanel extends JPanel {
 		while (e.hasMoreElements()) {
 			GroupReferenceElement element = (GroupReferenceElement) e.nextElement();
 			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
+				continue;
+			}
+			if (groupsListContainsGroup(_allGroupsListModel, element)) {
 				continue;
 			}
 			_joinedGroupsListModel.addElement(element);

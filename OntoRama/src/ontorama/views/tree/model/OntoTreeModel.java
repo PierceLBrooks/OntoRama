@@ -111,7 +111,7 @@ public class OntoTreeModel implements TreeModel {
         // assuming that its still old value there
         // this assumption may be WRONG!?
         Object oldValue =  path.getLastPathComponent();
-        if (oldValue.equals(newValue)) {
+        if (! oldValue.equals(newValue)) {
             // post treeNodesChanged event
         }
     }

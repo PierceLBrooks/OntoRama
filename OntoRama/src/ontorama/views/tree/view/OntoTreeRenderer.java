@@ -25,18 +25,9 @@ import ontorama.views.tree.model.OntoTreeNode;
  */
 public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
-    /**
-     * node and line colors
-     */
-    private final static Color _cloneNodeColor = Color.red;
-    private final static Color _unknownNodeColor = Color.white;
     private final static Color _lineColor = Color.gray;
 
-    /**
-     *
-     */
     private ImageIcon _cloneNodeImageIcon;
-    private ImageIcon _unknownNodeImageIcon;
 
     /**
      * icon drawing line between relation link
@@ -46,10 +37,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
     /**
      * Renderer for OntoTree View
-     * @todo shouldn't have to pass graph to the renderer. doing this only to be able to display
-     * relation type signatures. Possible solutions:
-     * - introduce RelationNodes
-     * - ?
      */
     public OntoTreeRenderer() {
 
@@ -76,22 +63,12 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         EdgeType edge = treeNode.getEdgeType();
 
         NodeType nodeType = treeNode.getModelTreeNode().getNodeType();
-        // @todo hack for unknown node type
-        if (nodeType == null) {
-        	nodeType = OntoramaConfig.UNKNOWN_TYPE;
-        }
 
         String nodeTextStr = treeNode.getModelTreeNode().getName();
 
         setText(nodeTextStr);
 
         setToolTipText(getToolTipText(value, edge));
-
-        /// @todo should always have nodeType != null, when editing graph - it should be able
-        // to figure out node type.
-        if (nodeType == null) {
-            nodeType = OntoramaConfig.UNKNOWN_TYPE;
-        }
 
         ImageIcon image;
         if (treeNode.getModelTreeNode().getClones().size() != 0) {
@@ -135,7 +112,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
         ontorama.model.tree.TreeNode node = treeNode.getModelTreeNode();
-        NodeType nodeType = node.getNodeType();
 
         if (edgeType == null) {
             result = result + "Node: " + treeNode.getModelTreeNode().getName();
@@ -150,7 +126,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      *
      */
-    private Image makeImageForRelLink(ontorama.model.graph.EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
+    private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
         Image relImage = OntoramaConfig.getEdgeDisplayInfo(relLinkType).getImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage, nodeImageIcon);
         return nodeImage;

@@ -86,7 +86,7 @@ public class OntoRamaApp extends JFrame {
 
             graphBuilder = new GraphBuilder(queryResult);
             graph = graphBuilder.getGraph();
-            //System.out.println(graph.printXml());
+            System.out.println(graph.printXml());
         }
         catch (NoTypeFoundInResultSetException noTypeExc) {
             System.err.println(noTypeExc);

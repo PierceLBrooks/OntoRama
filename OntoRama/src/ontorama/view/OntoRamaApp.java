@@ -62,6 +62,9 @@ public class OntoRamaApp extends JFrame {
     public OntoRamaApp() {
         super("OntoRamaApp");
 
+        int appHeight = 600;
+        int appWidth = 700;
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         termName = OntoramaConfig.ontologyRoot;
@@ -112,24 +115,27 @@ public class OntoRamaApp extends JFrame {
 
         // Create HyperView
         hyperView = new SimpleHyperView();
-
         hyperView.setGraph(graph);
-        hyperView.setPreferredSize(new Dimension(500,400));
 
         // Create OntoTreeView
         treeView = new OntoTreeView(graph);
         JComponent treeViewPanel = treeView.getTreeViewPanel();
-        treeViewPanel.setPreferredSize(new Dimension (500,200));
 
         //Add the scroll panes to a split pane.
+        int splitPaneWidth = (appWidth * 70)/100;
+        int splitPaneHeight = appHeight;
         splitPane.setLeftComponent(hyperView);
         splitPane.setRightComponent(treeViewPanel);
+        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
+        splitPane.setDividerLocation(splitPaneWidth);
 
         //Add the split pane to this frame.
         getContentPane().add(queryPanel,BorderLayout.NORTH);
         getContentPane().add(splitPane, BorderLayout.CENTER);
 
-        getContentPane().setSize(600,600);
+        pack();
+        setSize(appWidth,appHeight);
+        setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -140,9 +146,9 @@ public class OntoRamaApp extends JFrame {
                 System.exit(0);
             }
         });
-
-        frame.pack();
-        frame.setVisible(true);
+        //frame.pack();
+        //frame.setSize(600,600);
+        //frame.setVisible(true);
     }
 }
 

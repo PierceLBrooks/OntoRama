@@ -7,9 +7,10 @@ import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeSelectionModel;
+import javax.swing.ToolTipManager;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
@@ -68,6 +69,8 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
 
         //Listen for when the selection changes.
         this.tree.addTreeSelectionListener(this);
+
+        ToolTipManager.sharedInstance().registerComponent(this.tree);
 
         this.tree.setCellRenderer(new MyRenderer());
 
@@ -147,11 +150,12 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
                             expanded, leaf, row,
                             hasFocus);
             RelationLinkDetails relLinkDetails = getRelLinkDetails(value);
+
             //setBackgroundNonSelectionColor(isChild(relLinkDetails));
             //setBackgroundSelectionColor(isChild(relLinkDetails));
 
             setIcon(getIcon(relLinkDetails));
-
+            setToolTipText(getToolTipText(value,relLinkDetails));
             return this;
         }
 
@@ -173,7 +177,14 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             Icon icon = new ImageIcon(image);
 
             return icon;
+        }
 
+        protected String getToolTipText (Object value, RelationLinkDetails relLinkDetails) {
+            OntoTreeNode treeNode = (OntoTreeNode) value;
+            String relLinkName = relLinkDetails.getLinkName();
+            String result = "node " + treeNode.getGraphNode().getName();
+            result = result + " , relation " + relLinkName;
+            return result;
         }
 
 

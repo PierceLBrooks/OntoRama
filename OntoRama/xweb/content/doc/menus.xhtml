@@ -17,11 +17,11 @@
 				<a href="#history">History Menu Behaviour</a>
 			</li>
 		</ul>
-		
+
 		<h3><a name="examples">Examples Menu</a></h3>
 		<p>
 			Examples Menu allows  user to load different ontologies.
-			The majority of examples are WebKB2 output. There is a subsection of Menu called 'Web Examples' which contains the  
+			The majority of examples are WebKB2 output. There is a subsection of Menu called 'Web Examples' which contains the
 			examples of ontologies found on the web.
 		</p>
 		<h4>Adding new examples.</h4>
@@ -29,7 +29,7 @@
 			All examples loaded by OntoRama are described in examplesConfig.xml file. Here is brief description of this file
 			Here is a sniplet of Ontorama Examples config file:
 		</p>
-		
+
 <xml>
 <ontoramaExamples>
     <example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes">
@@ -54,9 +54,9 @@
         <displayMenu subfolder="Test Cases"/>
     </example>
 </ontoramaExamples>
-</xml>		
+</xml>
 		<p>
-			Root Element: 'ontoramaExamples'.
+			Root Element of the configuration file is element 'ontoramaExamples'.
 			Root Element can contain any number of 'example' elements.
 		</p>
 		<p>
@@ -69,6 +69,11 @@
 				<li>
 					Root attribute: 'root'. Specifies root element of this ontology.
 				</li>
+                <li>
+                    Attribute "loadOnStart" is specified for the example that should be
+                    loaded first. Value of this attribute should be "true", here is an
+                    example: 'loadOnStart="true"'.
+                </li>
 			</ul>
 			</p>
 			<p>
@@ -76,7 +81,7 @@
 			</p>
 			<ul>
 				<li>
-					source element. Describes ontology source. Attibutes:
+					source element. Describes ontology source. Attributes:
 						<ul>
 							<li>
 								uri: specifies source/location of this ontology. This should be either:
@@ -88,16 +93,21 @@
 								</ol>
 							</li>
 							<li>
+                                <ul>
+                                    <li>
 								sourcePackagePathSuffix: name of class to use to parse this source.
-								<br/>
 								At the moment the following are available:
-								<br/>
-								JarSource is used if application is packaged in the jar file and location 
+                                    </li>
+                                    <li>
+								JarSource is used if application is packaged in the jar file and location
 								of an example is relative to ClassLoader.
-								<br/>
-								UrlSource can be used for Web-based ontologies. (Some restrictions will apply 
+                                    </li>
+                                    <li>
+								UrlSource can be used for Web-based ontologies. (Some restrictions will apply
 								in relation to Java Webstart. Possibly can only run ontologies that come from the
 								same host as the application. Have to CHECK and TEST this!!!!)
+                                    </li>
+                                </ul>
 							</li>
                             <li>
                                 WebKB2Source can be used to connect to WebKB2 Ontology Server.
@@ -105,22 +115,22 @@
 						</ul>
 				</li>
 				<li>
-					queryOutputFormat element. Specifies what query output format to use, at the moment ths is 
-					not used. The intention of this property was to work with WebKB2 and be able to 
-					specify format of WebKB output.
+					queryOutputFormat element. Specifies what query output format to use, at the moment this is
+					not used. The intention of this property is for WebKB2 integration, this
+                    element allows us to specify format of WebKB output.
 				</li>
 				<li>
 					parserPackagePathSuffix element. Specifies what parser to use for this ontology.
 					Available parsers at the moment: xml.XmlParserFull, rdf.RdfDamlParser and RdfWebkbParser.
 				</li>
 			</ul>
-		<h4>Location of examples files and examplesConfig.xml</h4>
+		<h4>Location of example files and examplesConfig.xml</h4>
 		<p>
 			Configuration file is located in the root directory of the executables.
 		</p>
-		<p> 
+		<p>
 			Distribution of Java Webstart includes 'examples' directory with all needed ontologies. This was done
-			so the demo prototype can be standalone and doesn't have to read files off the local drive (due to 
+			so the demo prototype can be standalone and doesn't have to read files off the local drive (due to
 			security restrictions of Java Webstart applications).
 		</p>
 		<p>
@@ -130,7 +140,7 @@
 		</p>
 		<h3><a name="history">History</a></h3>
 		<p>
-			The History feature is usefull if a user browsing multiple ontologies and multiple terms 
+			The History feature is usefull if a user browsing multiple ontologies and multiple terms
 			in those ontologies in one sesssion. This feature allows a user to 'jump' to terms he/she
 			would like to return to without having to remember which ontology to load. We tried to have
 			our 'history' behaviour consistent with behaviour of "History" in most common programs, such as
@@ -140,12 +150,12 @@
 			Here are main principles:
 			<ul>
 				<li>
-					If a user clicks on one of the examples in the "Examples" menu - we append this example to the 
-					History. If a user submits a new query or a query for an item in the current ontology - 
+					If a user clicks on one of the examples in the "Examples" menu - we append this example to the
+					History. If a user submits a new query or a query for an item in the current ontology -
 					we also append this query to the History.
 				</li>
 				<li>
-					However, if user clicks on one of history items, we will display this item and 'tick' it in
+					However, if user clicks on one of the history items, we will display this item and 'tick' it in
 					the menu, but history won't be appended with this item.
 				</li>
 				<li>
@@ -154,7 +164,7 @@
 			</ul>
 		</p>
 		<p>
-			Back and Forward buttons are available in the tool bar and also in History Menu to simplify moving through 
+			Back and Forward buttons are available in the tool bar and also in History Menu to simplify moving through
 			the history items.
 		</p>
 		</body>

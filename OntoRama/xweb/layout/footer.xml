@@ -11,8 +11,8 @@
             <td width="40"> </td>
             <td cellspacing="30" cellpadding="30"><a href="http://xweb.sourceforge.net">
                   					Made with XWeb
-                  					
-                  					</a></td>
+                  <div class="xwebLogo"><img src="http://www.webkb.org/ontorama/img/xwebbutton.png" border="0" alt="KVO Logo"/></div>
+                  </a></td>
          </tr>
       </table>
 </footer>

@@ -10,8 +10,7 @@
 		</h1>
 		<insertPrintLink href="config_print.html"/>
 		<p>
-			For definitions of terms 'relation link' and concept type
-			'properties', please, see  <a href="intro.html#definitions">Introduction section</a>
+			For definitions of term 'relation link', please see  <a href="intro.html#definitions">Introduction section</a>
 		</p>
 		<p>
 			Relation links in the OntoRama a fully
@@ -20,16 +19,17 @@
 			without having to modify and recompile the application.
 		</p>
         <p>
-            We 'classify' relation links into two categories for displying purposes: first one
+            We 'classify' relation links into two categories for displaying purposes: first one
             is displayed in the graph visualisations and second one is displayed in the description
             section of the application window. Relations most suitable for the second category are
             description, synonyms, creator, etc.
         </p>
 		<p>
 			OntoRama reads a configuration file on the startup and processes it. File
-			is XML file and consist of three sections: 'ontology', 'displayInfo' sections and
-			'rdfMapping' section.
+			is in XML format and consist of three sections: 'ontology', 'displayInfo' sections and
+			'rdfMapping'.
 		</p>
+        <hr/>
 		<p>
             The 'ontology' section describes relation links available in the current ontology.
             This section includes a set of 'relation' elements, each of them defining an ontology relation link.
@@ -38,8 +38,11 @@
 			Each relation is defined as an element 'relation' and gets an id
 			assigned to it. This id is going to be a reference to the corresponding
 			relation. We also define a name for each
-			relation link. Some relations could have two names, which means that
-			they are reversable.
+			relation link.  This is achieved by specifying subelements 'relationType', each
+            with attribute 'name'. Some relations could have two subelements 'relationType', which means that
+			they are reversable. First 'relationType' element will be considered as "forward" relation link
+            and second 'relationType' element will be cosidered as a "reverse" link for this
+            relation. OntoRama will only display "forward" relation in graph visualisations.
 		</p>
 		<p>
 			Examples of relations: subtype/supertype relation. Consider
@@ -58,13 +61,7 @@
 			<relationType name="supertype"/>
 		</relation>
         </xml>
-		<p>
-			Each  relation is uniquely identified by relation id number and relation
-			name. It should be noted that OntoRama will display only one relation
-			link for each relation (due to the fact that they are reversable). At
-			present, the first declared link in the 'relation' element will be
-			displayed.
-		</p>
+        <hr/>
         <p>The 'displayInfo' section describes how OntoRama should display each relation, here
         is a section of configuration file corresponding to subtype/supertype relation link.
         </p>
@@ -82,8 +79,14 @@
         </relation>
         </xml>
         <p>
-            DisplayInfo element has an attribute id that specifies relation id. Further on this element
-            can have two children: displayInGraphView and/or displayInDescriptionView. It is compulsory for
+        Each relation link is uniquely identified by id and a name. To map a relation to
+        display information 'displayInfo' element has an attribute id that specifies relation id.
+        Further on this element will have sub-subchildren "relationType" with attribute "name", thus
+        explicitely mapping a relation link to some specific display details.
+        </p>
+        <p>
+        Element 'displayInfo'
+            can have two children: 'displayInGraphView' and/or 'displayInDescriptionView'. It is compulsory for
             relation to have at least one of these elements specified, otherwise OntoRama won't display this
             relation link.
             <ul>
@@ -94,6 +97,14 @@
                         <li>
                             createIcon - if this element is present, then application will create an Icon
                             corresponding to this relation link with given color and mappingSymbol.
+                            <br/>
+                            One color corresponds to a relation in both directions. To specify mapping
+                            symbol for each direction use element "relationType" with attribute "name"
+                            corresponding to relation link and attribute "mappingSymbol".
+                            <br/>
+                            For instance, in the example above we tell OntoRama that we want to
+                            create an icon for relation id="1" and name="subtype" with following
+                            attributes: color="#33CCFF" and symbol appearing on icon: "&lt;".
                         </li>
                         <li>
                             loadIcon - if this element is present, icon corresponding to this relation link will
@@ -110,8 +121,6 @@
                     links such as description, synonyms, etc. We also used this to tell OntoRama to display
                     node's parents in the description view as seen in the example above. Here is a sniplet of
                     configuration file corresponding to synonyms relation link:
-                </li>
-            </ul>
             <xml>
        <relation id="15">
             <displayInDescriptionWindow>
@@ -119,6 +128,10 @@
             </displayInDescriptionWindow>
         </relation>
             </xml>
+                    This snipplet tells OntoRama that relation link with id="15" and name="synonym"
+                    should be displayed in the description view with corresponding label "Synonym".
+                </li>
+            </ul>
         </p>
 		<p>
 			While Ontology section of configuration file sets the scene, RdfMapping
@@ -128,22 +141,14 @@
 		</p>
 <xml>
 <rdfMapping>
-  <relationLinks>
 	<map id="1" type="supertype" tag="subClassOf"/>
 	<map id="3" type="part" tag="part"/>
 	<map id="6" type="inclusive" tag="jointWith"/>
-  </relationLinks>
-  <conceptProperties>
-	<map id="Description" tag="comment"/>
-	<map id="Creator" tag="Creator"/>
-	<map id="Synonym" tag="label"/>
-  </conceptProperties>
 </rdfMapping>
 </xml>
 		<p>
-			It also consists of two subsections, one: 'relationLinks' maps relation
-			links defined in the 'ontology' section to RDF tags. Another subsection
-			'conceptProperties' maps concept type properties to RDF tags.
+			This section maps relation
+			links defined in the 'ontology' section to RDF tags.
 		</p>
 		<p>
 			For instance, element <code>&lt;map id="1" type="supertype" tag="subClassOf"/&gt;</code>

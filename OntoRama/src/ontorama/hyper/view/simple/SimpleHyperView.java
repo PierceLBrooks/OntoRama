@@ -111,8 +111,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
         //focusChanged(node);
         focusNode = (HyperNode) this.hypernodes.get(graphNode);
         // set focused node label to selected
-        testIfVisibleOrFolded((HyperNodeView) this.hypernodeviews.get(graphNode));
-        setLabelSelected((HyperNodeView) (hypernodeviews.get(graphNode)));
+        HyperNodeView hyperNodeView  = (HyperNodeView) this.hypernodeviews.get(graphNode);
+        testIfVisibleOrFolded(hyperNodeView);
+        setLabelSelected(hyperNodeView);
         //place the label last in the list so that it gets drawn last.
         // calculate the length of the animation as a function of the distance
         // in the euclidian space (before hyperbolic projection)
@@ -756,6 +757,15 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (animationTime != 0) {
             animate();
         }
+        else {
+            if ( (focusNode != null) && (focusNode.getGraphNode().hasClones()) ) {
+                GraphNode graphNode = focusNode.getGraphNode();
+                HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
+                if (graphNode.hasClones()) {
+                    hyperNodeView.showClones(g2d, hypernodeviews);
+                }
+            }
+        }
     }
 
 
@@ -927,7 +937,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double lpy = draggedEvent.getCanvasFromPosition().getY();
 
         if ((draggedEvent.getModifiers() & MouseEvent.CTRL_DOWN_MASK) == 0) {
-            System.out.println("\n\nDRAG...");
             double xDif = (lpx - x);
             double yDif = (lpy - y);
             moveCanvasItems(xDif, yDif);
@@ -944,7 +953,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
         //lastPoint.setLocation(x, y);
         repaint();
-
     }
 
 

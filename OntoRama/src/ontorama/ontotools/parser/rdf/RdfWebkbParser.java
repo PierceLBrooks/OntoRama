@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.ParserResult;
@@ -40,6 +43,8 @@ public class RdfWebkbParser extends RdfDamlParser {
      * name of url relation link (special case)
      */
     private String urlLinkName = "url";
+    
+    private Hashtable namespacesMapping = new Hashtable();
 
 
     /**
@@ -55,6 +60,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      *
      */
     public ParserResult getResult (Reader reader) throws ParserException, AccessControlException {
+    	initNamespacesHashtable();
         namesMapping = new Hashtable();
 
         ParserResult pr = super.getResult(reader);
@@ -67,6 +73,36 @@ public class RdfWebkbParser extends RdfDamlParser {
         rewriteNodeNames();
         return pr;
     }
+    
+    /**
+     * Since WebKB is switched to declaring namespaces, we get wrong term
+     * identifiers in some cases. For example, we get type like 'daml-
+     * ont#domain' instead of 'daml#domain'. This happens when we parse 
+     * RDF and strip URL's. Full URL will be something like 'http://www.daml.
+     * org/2000/10/daml-ont#domain' and then we strip everything before last
+     * slalsh in order to get term identifier. 
+     * We will have to make sure we rewrite prefix in term indentifier to
+     * a prefix webkb is using for this namespace.
+     * 
+     * @todo this is a hack - need to work out some other way. If webkb adds
+     * some new namespaces, our approach here may not work.
+     * 
+     * Namespaces used in webkb:
+     * 
+     * rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     * rdfs "http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+     * dc "http://purl.org/metadata/dublin_core#"
+     * daml "http://www.daml.org/2000/10/daml-ont#"
+     * webkb  "http://meganesia. int.gu.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/"
+     * 
+     */
+    private void initNamespacesHashtable() {
+    	namespacesMapping.put("22-rdf-syntax-ns","rdf");
+    	namespacesMapping.put("PR-rdf-schema-19990303","rdfs");
+    	namespacesMapping.put("rdf-schema","rdfs");
+    	namespacesMapping.put("dublin_core","dc");
+    	namespacesMapping.put("daml-ont","daml");
+    }
 
     /**
      * write out hashtable mapping old names to new
@@ -77,20 +113,20 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator nodesIterator = nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) nodesIterator.next();
+            Node cur = (Node) nodesIterator.next();
             mapNewName(cur);
         }
 
 
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
-            ontorama.model.graph.Node fromNode = curEdge.getFromNode();
-            ontorama.model.graph.Node toNode = curEdge.getToNode();
+            Edge curEdge = (Edge) it.next();
+            Node fromNode = curEdge.getFromNode();
+            Node toNode = curEdge.getToNode();
             //System.out.println("cur edge = " + curEdge);
             mapNewName(fromNode);
 
-            ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
+            EdgeType edgeType = curEdge.getEdgeType();
             if (edgeType.getName().equals(urlLinkName)) {
                 toNode.setName(toNode.getIdentifier());
                 namesMapping.put(toNode, toNode.getIdentifier());
@@ -108,7 +144,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * First, check if this name is already in the hashtable, if not - then
      * get a new name and put it into the hashtable.
      */
-    protected void mapNewName(ontorama.model.graph.Node origNode) {
+    protected void mapNewName(Node origNode) {
         String newTypeName = (String) namesMapping.get(origNode.getName());
         if (newTypeName == null) {
             newTypeName = createNewNameForType(origNode);
@@ -128,15 +164,15 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator edgesIterator = _edgesList.iterator();
         while (edgesIterator.hasNext()) {
-            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) edgesIterator.next();
+            Edge curEdge = (Edge) edgesIterator.next();
             //System.out.println("cur edge = " + curEdge);
 
-            ontorama.model.graph.Node fromNode = curEdge.getFromNode();
+            Node fromNode = curEdge.getFromNode();
             if (!nodeNameIsAlreadyChanged(fromNode.getName())) {
                 String fromNodeNewName = (String) namesMapping.get(fromNode.getName());
                 fromNode.setName(fromNodeNewName);
             }
-            ontorama.model.graph.Node toNode = curEdge.getToNode();
+            Node toNode = curEdge.getToNode();
             if (!nodeNameIsAlreadyChanged(toNode.getName())) {
                 String toNodeNewName = (String) namesMapping.get(toNode.getName());
                 toNode.setName(toNodeNewName);
@@ -147,7 +183,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         // this is just in case we had some nodes not attached to _graphEdges.
         Iterator nodesIterator = _nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIterator.next();
+            Node curNode = (Node) nodesIterator.next();
             if (!nodeNameIsAlreadyChanged(curNode.getName())) {
                 String newNodeName = (String) namesMapping.get(curNode.getName());
                 curNode.setName(newNodeName);
@@ -170,7 +206,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
      * just return it.
      */
-    protected String createNewNameForType(ontorama.model.graph.Node node) {
+    protected String createNewNameForType(Node node) {
 
         String typeName = node.getName();
 
@@ -188,14 +224,20 @@ public class RdfWebkbParser extends RdfDamlParser {
             typeNameSuffix = typeName;
         } else {
             typeNamePreffix = typeName.substring(0, hashIndex);
+            /// do our hack with namespaces
+            if (namespacesMapping.get(typeNamePreffix) != null) {
+            	String replacementPrefix = (String) namespacesMapping.get(typeNamePreffix);
+            	typeNamePreffix = replacementPrefix;
+            }
+           
             typeNameSuffix = typeName.substring(hashIndex + 1, typeName.length());
         }
 
         try {
-            ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType("synonym");
+            EdgeType edgeType = OntoramaConfig.getEdgeType("synonym");
             Iterator it = _edgesList.iterator();
             while (it.hasNext()) {
-                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                Edge edge = (Edge) it.next();
                 if (edge.getEdgeType().equals(edgeType)) {
                     if (edge.getFromNode().equals(node)) {
                         synonyms.add(edge.getToNode().getName());

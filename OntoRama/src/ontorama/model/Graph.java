@@ -208,7 +208,7 @@ public class Graph implements GraphInterface {
     }
 
     /**
-     *
+     * Print all nodes into xml sniplet
      */
     private String printXmlConceptTypesEl () {
         String tab = "\t";
@@ -219,20 +219,15 @@ public class Graph implements GraphInterface {
 
         while ( !queue.isEmpty()) {
             GraphNode nextQueueNode = (GraphNode) queue.remove(0);
-            Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
 
-            while (allOutboundNodes.hasNext()) {
-                GraphNode curNode = (GraphNode) allOutboundNodes.next();
-                queue.add(curNode);
-
-                resultStr =  resultStr + tab + tab +"<conceptType name='" + curNode.getName() + "'>";
+                resultStr =  resultStr + tab + tab +"<conceptType name='" + nextQueueNode.getName() + "'>";
                 resultStr = resultStr + "\n";
 
                 Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
                 Enumeration e = conceptPropertiesConfig.keys();
                 while (e.hasMoreElements()) {
                     String propName = (String) e.nextElement();
-                    String propValue = (String) curNode.getProperty(propName);
+                    String propValue = (String) nextQueueNode.getProperty(propName);
                     if (propValue != null) {
                         resultStr = resultStr + tab + tab + tab + "<" + propName + ">";
                         resultStr = resultStr + propValue;
@@ -242,6 +237,14 @@ public class Graph implements GraphInterface {
                 }
                 resultStr = resultStr + tab + tab + "</conceptType>";
                 resultStr = resultStr + "\n";
+
+            Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
+
+            while (allOutboundNodes.hasNext()) {
+                GraphNode curNode = (GraphNode) allOutboundNodes.next();
+                queue.add(curNode);
+
+
             }
         }
         resultStr = resultStr + tab + "</conceptTypes>";
@@ -250,7 +253,7 @@ public class Graph implements GraphInterface {
     }
 
     /**
-     *
+     * Print all edges into XML sniplet
      */
     private String printXmlRelationLinksEl () {
         String tab = "\t";

@@ -140,7 +140,14 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(fromAttr, "from", "relationLink");
             OntologyType fromType = (OntologyTypeImplementation) ontHash.get (fromAttr.getValue());
             if( fromType == null ) {
-                throw new ParserException ("conceptType " + fromAttr.getValue() + " is not declared in conceptTypes section");
+                // Won't throw exception for now. consider example:
+                // wn#Cat with children generated from webkb rdf output.
+                // Input file will have all types declared, except wn#TrueCat,
+                // however it will have supertype link from
+                // wn#TrueCat to wn#Cat.
+                // For now - we simply skip it.
+                continue;
+                //throw new ParserException ("conceptType " + fromAttr.getValue() + " is not declared in conceptTypes section");
             }
 
             Attribute toAttr = relLinkEl.getAttribute("to");

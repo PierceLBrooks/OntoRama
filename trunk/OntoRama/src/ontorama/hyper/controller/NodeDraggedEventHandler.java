@@ -18,14 +18,13 @@ public class   NodeDraggedEventHandler implements EventListener {
 
     public NodeDraggedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
         this.simpleHyperView = simpleHyperView;
-        this.simpleHyperView = simpleHyperView;
         eventBroker.subscribe(this, CanvasItemDraggedEvent.class, HyperNodeView.class);
-         }
+     }
 
-         public void processEvent(Event e) {
-             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-             CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
-             simpleHyperView.dragNode(nodeView, draggedEvent);
-             //System.out.println("processEvent: NodeDragged: " + nodeView);
-         }
+     public void processEvent(Event e) {
+         HyperNodeView nodeView = (HyperNodeView) e.getSubject();
+         CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
+         simpleHyperView.dragNode(nodeView, draggedEvent);
+         //System.out.println("processEvent: NodeDragged: " + nodeView);
+     }
 }

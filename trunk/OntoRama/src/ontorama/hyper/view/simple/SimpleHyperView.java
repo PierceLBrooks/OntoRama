@@ -97,9 +97,10 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new NodeSelectedEventTransformer(eventBroker);
         new GraphViewFocusEventHandler(eventBroker, this);
         new NodeActivatedEventHandler(this, eventBroker);
-        new NodeDraggedEventHandler(this, eventBroker);
+        //new NodeDraggedEventHandler(this, eventBroker);
         new NodePointedEventHandler(this, eventBroker);
         new SphereMouseMovedEventHandler(this, eventBroker);
+        new DraggedEventHandler(this, eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
@@ -922,11 +923,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
             addCanvasItem(new LabelView(hnv));
         }
     }
-
+    /**
+     *
+     * @param nodeView
+     * @param draggedEvent
+     */
+    public void dragNode(HyperNodeView nodeView, CanvasItemDraggedEvent draggedEvent) {
+        drag(draggedEvent);
+    }
     /**
      *
      */
-    public void dragNode(HyperNodeView nodeView, CanvasItemDraggedEvent draggedEvent) {
+    public void drag(CanvasItemDraggedEvent draggedEvent) {
         labelView = null;
         this.focusNode = null;
         currentHighlightedView = null;

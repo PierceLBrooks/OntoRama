@@ -40,6 +40,7 @@ public class HyperEdgeView extends CanvasItem {
     }
 
     public void draw(Graphics2D g2d) {
+        //System.out.println("HyperEdgeView draw: from = " + from + ", to = " + to + ", relLink = " + relLink);
         if (!this.to.getVisible()) {
             return;
         }

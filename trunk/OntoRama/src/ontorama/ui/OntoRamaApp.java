@@ -174,7 +174,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private class QueryEngineThreadStartEventHandler implements EventBrokerListener {
 		public void processEvent(Event event) {
 			QueryEngine queryEngine = (QueryEngine) event.getSubject();
-			System.out.println("QueryEngineThreadStartEventHandler");
 			QueryEngineThreadStartEvent e = (QueryEngineThreadStartEvent) event;
 			Query query = e.getQuery();
 			_lastQuery = _query;
@@ -265,9 +264,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("model event broker = " + _modelEventBroker);
 		System.out.println("views event broker = " + _viewsEventBroker);
 
-        new QueryNodeEventHandler(_modelEventBroker);
+        // only views are using this event
         new QueryNodeEventHandler(_viewsEventBroker);
-
 
         _modelEventBroker.subscribe(
 				            new QueryStartEventHandler(_modelEventBroker),
@@ -277,6 +275,18 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							new QueryStartEventHandler(_viewsEventBroker),
 							QueryStartEvent.class,
 							Object.class);
+
+		new ExtendedLoggingEventListener(
+							_modelEventBroker,
+							QueryStartEvent.class,
+							Object.class,
+							System.out);
+		new ExtendedLoggingEventListener(
+							_viewsEventBroker,
+							QueryStartEvent.class,
+							Object.class,
+							System.out);
+
 
         _modelEventBroker.subscribe(
 				            new GraphIsLoadedEventHandler(),

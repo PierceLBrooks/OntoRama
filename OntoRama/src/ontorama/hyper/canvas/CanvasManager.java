@@ -117,33 +117,27 @@ public class CanvasManager extends JComponent
     /**
      * A timer to distinguish between single and double clicks.
      */
-    private Timer singleClickTimer = new Timer();;
+    private Timer singleClickTimer = new Timer();
 
     /**
      * draw canvas items.
      *
-     * @todo ConcurrentModificationException need to be addressed.
      */
     protected void drawNodes( Graphics2D g2d ) {
         if(lengthOfAnimation > 0) {
             animate();
         }
-        try {
-            Iterator it = canvasItems.iterator();
-            while( it.hasNext() ) {
-                CanvasItem cur = (CanvasItem)it.next();
-                cur.draw(g2d);
-            }
-            if( this.focusNode == null ) {
-                return;
-            }
-            if( lengthOfAnimation <= 0 && this.focusNode.hasClones() ) {
-                HyperNodeView focusHyperNode = (HyperNodeView)this.hypernodeviews.get( this.focusNode.getGraphNode() );
-                focusHyperNode.showClones( g2d, hypernodeviews );
-            }
+        Iterator it = canvasItems.iterator();
+        while( it.hasNext() ) {
+            CanvasItem cur = (CanvasItem)it.next();
+            cur.draw(g2d);
         }
-        catch(java.util.ConcurrentModificationException e) {
-            drawNodes( g2d );
+        if( this.focusNode == null ) {
+            return;
+        }
+        if( lengthOfAnimation <= 0 && this.focusNode.hasClones() ) {
+            HyperNodeView focusHyperNode = (HyperNodeView)this.hypernodeviews.get( this.focusNode.getGraphNode() );
+            focusHyperNode.showClones( g2d, hypernodeviews );
         }
     }
 

@@ -86,7 +86,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private boolean isLeaf = false;
 
     private NodeType nodeType;
-    private Shape pathShape = new GeneralPath();
+    private Shape projectedShape = new GeneralPath();
 
 	private SphericalProjection projection = null;
 	
@@ -241,7 +241,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Returns true if this is the node clicked on
      */
     public boolean containsPoint(Point2D point) {
-        return pathShape.contains(point);
+        return projectedShape.contains(point);
     }
 
     /**
@@ -298,15 +298,17 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         if(!nodeType.forceUprightShape()) {
         	Point2D projectedPos = projection.project(x,y);
         	g2d.rotate(Math.atan2(projectedPos.getX(), -projectedPos.getY()), projectedPos.getX(), projectedPos.getY());
-//        	g2d.rotate(Math.atan2(x,y));
         }        		
         
-        pathShape = projection.project(displayShape, x, y);
+        projectedShape = projection.project(displayShape, x, y);
 
+		// adding the draw method makes lines visible that would not be drawn with the fill method
         if (!isLeaf && this.getFolded()) {
-            g2d.fill(pathShape.getBounds2D());
+        	g2d.draw(projectedShape.getBounds2D());
+            g2d.fill(projectedShape.getBounds2D());
         } else {
-            g2d.fill(pathShape);
+        	g2d.draw(projectedShape);
+            g2d.fill(projectedShape);
         }
         
         g2d.setTransform(oldTransform);
@@ -367,7 +369,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     public Rectangle2D getCanvasBounds(Graphics2D g) {
-        return pathShape.getBounds2D();
+        return projectedShape.getBounds2D();
     }
 
     public boolean hasAutoRaise() {
@@ -375,7 +377,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
 
     public Point2D getPosition() {
-        Rectangle2D bounds = pathShape.getBounds2D();
+        Rectangle2D bounds = projectedShape.getBounds2D();
         return new Point2D.Double(bounds.getX() + bounds.getWidth()/2, bounds.getY() + bounds.getHeight()/2);
     }
 

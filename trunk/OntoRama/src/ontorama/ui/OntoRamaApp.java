@@ -37,13 +37,13 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
 import ontorama.ui.events.*;
-import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.QueryNodeEventHandler;
+import ontorama.ui.controller.QueryStartEventHandler;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
 import ontorama.views.hyper.view.SphericalProjection;
@@ -187,20 +187,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 	}
 
-    private class QueryStartEventHandler implements EventBrokerListener {
-        public void processEvent(Event event) {
-			try {
-				Query query = (Query) event.getSubject();
-				QueryEngine qe = OntoramaConfig.getBackend().getQueryEngine();
-				_modelEventBroker.processEvent(new QueryEngineThreadStartEvent(qe, query));
-			}
-			catch (QueryFailedException e) {
-				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());
-				e.printStackTrace();
-			}
-        }
-    }
-
     private class GraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             Graph graph = (Graph) event.getSubject();
@@ -276,11 +262,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 
         _modelEventBroker.subscribe(
-				            new QueryStartEventHandler(),
-				            QueryStartEvent.class,
-				            Object.class);
-        _viewsEventBroker.subscribe(
-				            new QueryStartEventHandler(),
+				            new QueryStartEventHandler(_modelEventBroker),
 				            QueryStartEvent.class,
 				            Object.class);
 

@@ -216,6 +216,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         executeQuery(_query);
     }
 
+    public OntoRamaApp(String examplesConfigFilePath, String ontoramaPropertiesPath, String configFilePath) {
+        OntoramaConfig.loadAllConfig(configFilePath,ontoramaPropertiesPath, examplesConfigFilePath);
+        new OntoRamaApp();
+    }
     /**
      * Initialise actions
      */
@@ -576,6 +580,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * main
      */
     public static void main(String[] args) {
-        new OntoRamaApp();
+
+        if (args.length == 0) {
+            new OntoRamaApp();
+        }
+        else if (args.length == 3) {
+            new OntoRamaApp(args[0], args[1], args[2]);
+        }
+        else {
+            String usage = " Usage: \n";
+            usage = usage + "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml]\n";
+            usage = usage + "To use default OntoRama settings - no need for command line arguments\n";
+            usage = usage + "To load alternative OntoRama setting - specify relative paths to config.xml, ontorama.properties and examplesConfig.xml\n";
+            System.err.println(usage);
+            System.exit(-1);
+        }
     }
 }

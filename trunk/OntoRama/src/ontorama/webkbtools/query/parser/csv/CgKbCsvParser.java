@@ -42,13 +42,13 @@ public class CgKbCsvParser implements Parser {
                 int count = 0;
                 char quoteChar = '"';
                 String quoteStr = new Character(quoteChar).toString();
-                System.out.println("line = " + line);
+                //System.out.println("line = " + line);
                 StringTokenizer st = new StringTokenizer(line, quoteStr);
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();
                     tok = tok.trim();
                     //tok = tok.replaceAll(quoteStr, new String());
-                    System.out.println("count = " + count + ", tok = ." + tok + ".");
+                    //System.out.println("count = " + count + ", tok = ." + tok + ".");
                     if (count == 0) {
                         tokens[0] = tok;
                     }
@@ -71,7 +71,7 @@ public class CgKbCsvParser implements Parser {
         Iterator it = ontHash.values().iterator();
         while (it.hasNext()) {
             OntologyType ot = (OntologyType) it.next();
-            System.out.println("ot = " + ot);
+            //System.out.println("ot = " + ot);
         }
 
         return ontHash.values();
@@ -106,9 +106,10 @@ public class CgKbCsvParser implements Parser {
                     //fromType.addRelationType(toType, i);
                     toType.addRelationType(fromType, i);
                     foundRelationLink = true;
-//                } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
-//                    toType.addRelationType(fromType, i);
-//                    foundRelationLink = true;
+                } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
+                    toType.addRelationType(fromType, i);
+                    //fromType.addRelationType(toType, i);
+                    foundRelationLink = true;
                 }
             }
             if (foundRelationLink == false) {

@@ -39,7 +39,10 @@ public class CgKbSource implements Source {
             RelationLinkDetails relDetails = OntoramaConfig.getRelationLinkDetails(relLinkType.intValue());
 
             paramTable.put("rel", relDetails.getLinkName());
-            int depth = 1;
+            int depth = query.getDepth();
+            if ((depth < 1) || (depth > 3)) {
+                depth=2;
+            }
             Integer depthInt = new Integer(depth);
             paramTable.put("depth",depthInt.toString());
 

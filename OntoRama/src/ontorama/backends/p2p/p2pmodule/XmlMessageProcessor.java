@@ -166,7 +166,6 @@ public class XmlMessageProcessor {
 			e.printStackTrace();
 			throw new XmlMessageCreatorException(e);			
 		}
-		System.out.println("stream result = " + res);
 
 		return res;
 	}

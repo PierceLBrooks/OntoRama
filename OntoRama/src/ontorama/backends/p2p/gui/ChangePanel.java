@@ -4,14 +4,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,12 +30,12 @@ public class ChangePanel extends JPanel {
     MyTableModel _myModel;
     JTable _table;
     
-    protected ButtonGroup _checkboxesButtonGroup = new ButtonGroup();
-    
-    /**
-     * keys - checkbox, values - change obj
-     */
-    protected Hashtable _checkboxToChangeMapping = new Hashtable();
+//    protected ButtonGroup _checkboxesButtonGroup = new ButtonGroup();
+//    
+//    /**
+//     * keys - checkbox, values - change obj
+//     */
+//    protected Hashtable _checkboxToChangeMapping = new Hashtable();
 
     public ChangePanel() {
         super();
@@ -47,6 +43,7 @@ public class ChangePanel extends JPanel {
         _myModel = new MyTableModel();
         _table = new JTable(_myModel);
         
+              
         Dimension d = new Dimension(250, 400);
         
         //_table.setPreferredScrollableViewportSize(d);
@@ -58,12 +55,17 @@ public class ChangePanel extends JPanel {
         acceptButton.setToolTipText("Accept these changes and add them to your model");
         acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				Enumeration e = _checkboxesButtonGroup.getElements();
-				while (e.hasMoreElements()) {
-					JCheckBox checkbox = (JCheckBox) e.nextElement();
-					Change change = (Change) _checkboxToChangeMapping.get(checkbox);
-					System.out.println("selected: " + change);
+				
+				for (int i = 0; i < _myModel.getRowCount(); i++) {
+					System.out.println("col 1 value for row " + i + " is " + _myModel.getValueAt(i,0));
+					
 				}
+//				Enumeration e = _checkboxesButtonGroup.getElements();
+//				while (e.hasMoreElements()) {
+//					JCheckBox checkbox = (JCheckBox) e.nextElement();
+//					Change change = (Change) _checkboxToChangeMapping.get(checkbox);
+//					System.out.println("selected: " + change);
+//				}
 			}
         });
         
@@ -95,9 +97,9 @@ public class ChangePanel extends JPanel {
 
         public MyTableModel () {
             // initialise
-            for (int i = 0; i < rowsNum; i++) {
-                rowsList.add(null);
-            }
+//            for (int i = 0; i < rowsNum; i++) {
+//                rowsList.add(null);
+//            }
         }
 
         public void clearTable () {
@@ -148,50 +150,63 @@ public class ChangePanel extends JPanel {
         }
 
         public Object getValueAt(int row, int col) {
+        	if (row >= rowsList.size()) {
+        		return null;
+        	}
             TableRow tableRow = (TableRow) rowsList.get(row);
-            if (tableRow == null) {
-                return new String();
-            }
-            return tableRow.getValueAt(col);
+//            if (tableRow == null) {
+//                return new String();
+//            }
+            System.out.println("getValueAt is returning " + tableRow.getValueAt(col) + " for row = "
+            								+ row + " and col = " + col);
+            return tableRow.getValueAt(col); 
         }
 
         public Class getColumnClass(int c) {
-			Class result = null;
-			switch (c) {
-			  case 1 :
-				  result = JCheckBox.class;
-				  break;
-			  case 2 :
-				  result = String.class;
-				  break;
-			  case 3 :
-				  result = String.class;
-				  break;
-			  case 4 :
-				  result = String.class;
-				  break;
-			  default :
-				  result = String.class;
-				  break;
-		  	}
+			Class result = String.class;
+			System.out.println("rowsList size = " + rowsList.size());
+			if (rowsList.size() > 0) {
 
+	//			result = getValueAt(0, c).getClass();
+	
+				switch (c) {
+				  case 0 :
+					  result = Boolean.class;
+					  break;
+	//			  case 1 :
+	//				  result = String.class;
+	//				  break;
+	//			  case 2 :
+	//				  result = String.class;
+	//				  break;
+	//			  case 3 :
+	//				  result = String.class;
+	//				  break;
+				  default :
+					  result = String.class;
+					  break;
+			  	}
+			}
+			System.out.println("getColumnClass returning " + result + " for col " + c);
             return result;
         }
 
-        /*
-         * Don't need to implement this method unless your _table's
-         * editable.
-         */
         public boolean isCellEditable(int row, int col) {
             //Note that the data/cell address is constant,
             //no matter where the cell appears onscreen.
-//            if (col < 2) {
-//                return false;
-//            } else {
-//                return true;
-//            }
             return true;
         }
+
+		public void setValueAt(Object value, int row, int col) {
+			TableRow tableRow = (TableRow) rowsList.get(row);
+			if (tableRow == null) {
+				return;
+			}
+			System.out.println("setValueAt for row = " + row + " and col = " + col);
+			tableRow.setValueAt(value, col); 
+			fireTableRowsUpdated(row, col);
+		}
+
     }
     
     private class TableRow {
@@ -201,11 +216,11 @@ public class ChangePanel extends JPanel {
 		public TableRow(Change change) {
 			_change = change;
 			
-			JCheckBox checkbox = new JCheckBox();
-			_checkboxesButtonGroup.add(checkbox);
-			_checkboxToChangeMapping.put(checkbox, change);
+//			JCheckBox checkbox = new JCheckBox();
+//			_checkboxesButtonGroup.add(checkbox);
+//			_checkboxToChangeMapping.put(checkbox, change);
 					 
-			row[0] = checkbox;
+			row[0] = new Boolean(false);
 			
 			row[2] = change.getAction();
 			
@@ -224,6 +239,10 @@ public class ChangePanel extends JPanel {
 		
 		public Object getValueAt (int col) {
 			return row[col];
+		}
+
+		public void setValueAt (Object value, int col) {
+			row[col] = value;
 		}
 		
 		public String toString() {

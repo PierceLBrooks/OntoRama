@@ -1,4 +1,4 @@
-package ontorama.test.webkbtools.query;
+package ontorama.webkbtools.query;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import junit.framework.*;
 
-import ontorama.test.IteratorUtil;
+import ontorama.util.IteratorUtil;
 
 import ontorama.webkbtools.query.Query;
 

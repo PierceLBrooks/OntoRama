@@ -1,9 +1,9 @@
-package ontorama.test.webkbtools.query;
+package ontorama.webkbtools.query;
 
 import junit.framework.*;
 
 import ontorama.OntoramaConfig;
-import ontorama.test.webkbtools.query.parser.rdf.TestRdfDamlParser;
+import ontorama.webkbtools.query.parser.rdf.TestRdfDamlParser;
 
 /**
  * <p>Title: </p>

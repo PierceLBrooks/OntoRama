@@ -1,10 +1,10 @@
-package ontorama.test.webkbtools.query;
+package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
 
 import java.util.*;
 
-import ontorama.test.IteratorUtil;
+import ontorama.util.IteratorUtil;
 
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;

@@ -20,8 +20,8 @@
 		<jar href="lib/jenaOntorama.jar" download="eager"/>
 		<jar href="lib/junit.jar" download="lazy"/>
 		<jar href="lib/xerces.jar" download="eager"/>
-		<jar href="lib/rdffilter.jar" download="lazy"/>
-		<jar href="lib/aelfred.jar" download="lazy"/>
+		<!--<jar href="lib/rdffilter.jar" download="lazy"/>
+		<jar href="lib/aelfred.jar" download="lazy"/>-->
 		<jar href="lib/sax2beta.jar" download="eager"/>
 		<jar href="lib/batik-awt-util.jar" download="lazy"/>
 		<jar href="lib/batik-dom.jar" download="lazy"/>

@@ -158,7 +158,11 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      */
     public void setQuery(Query query) {
         setQueryField(query.getQueryTypeName());
-        setWantedRelationLinks(query.getRelationLinksList());
+        List wantedLinks = query.getRelationLinksList();
+        if (wantedLinks.size() == 0) {
+        	wantedLinks = OntoramaConfig.getEdgeTypesList();
+        }
+        setWantedRelationLinks(wantedLinks);
         if (query.getDepth() > 0) {
             setDepthField(query.getDepth());
         } else {

@@ -6,7 +6,7 @@ package ontorama.hyper.canvas;
  */
 
 import ontorama.hyper.model.HyperNode;
-//import ontorama.hyper.model.HyperNodeObserver;
+import ontorama.hyper.view.simple.HyperNodeView;
 
 import javax.swing.JComponent;
 
@@ -57,10 +57,16 @@ import java.util.LinkedList;
      */
     private boolean noLabels = false;
 
-        /**
-     * StatusBar displays the node name that the mouse is over;
+    /**
+     * Hosds the constant value to determine if we are in drag mode.
      */
-    protected String statusBar = null;
+    private final int DRAG = 5;
+
+    /**
+     * Holds wether we are in drag mode
+     */
+    private boolean dragmode = false;
+
 
     /**
      * draw nodes and lines.
@@ -74,7 +80,22 @@ import java.util.LinkedList;
     }
 
     public void mouseClicked( MouseEvent e ) {
-
+        Iterator it = canvasItems.iterator();
+        while( it.hasNext() ) {
+            CanvasItem cur = (CanvasItem)it.next();
+            if( cur instanceof HyperNodeView ) {
+                double x = getSize().width - e.getX();
+                double y = getSize().height - e.getY();
+                double curX = (e.getX() + ( -1 * x ))/2;
+                double curY = (e.getY() + ( -1 * y ))/2;
+                curX = curX * ( 1 / canvasScale);
+                curY = curY  * (1 / canvasScale);
+                boolean found = cur.isClicked( curX, curY);
+                if(  found == true && cur instanceof HyperNodeView) {
+                    ((HyperNodeView)cur).hasFocus();
+                }
+            }
+        }
     }
 
     public void mousePressed( MouseEvent e ) {
@@ -83,6 +104,7 @@ import java.util.LinkedList;
 
     public void mouseReleased(MouseEvent e) {
         noLabels = false;
+        dragmode = false;
         repaint();
     }
 
@@ -95,9 +117,22 @@ import java.util.LinkedList;
     }
 
     public void mouseDragged(MouseEvent e) {
-        double xDif = (lastPoint.getX() - e.getX());
-        double yDif = (lastPoint.getY() - e.getY());
-        lastPoint.setLocation( e.getX(), e.getY() );
+        double lpx = lastPoint.getX();
+        double lpy = lastPoint.getY();
+        double x = e.getX();
+        double y = e.getY();
+        if(dragmode == false) {
+            double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
+            if( dragedAmount > DRAG ) {
+                dragmode = true;
+            }
+            else {
+                return;
+            }
+        }
+        double xDif = (lpx - x);
+        double yDif = (lpy - y);
+        lastPoint.setLocation( x, y );
         moveCanvasItems( xDif, yDif );
         noLabels = true;
         repaint();

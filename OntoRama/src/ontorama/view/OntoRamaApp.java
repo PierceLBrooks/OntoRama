@@ -126,7 +126,7 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    private OntoRamaMenu menu;
+    //private OntoRamaMenu menu;
 
     /**
      * @todo: introduce error dialogs for exception
@@ -141,13 +141,6 @@ public class OntoRamaApp extends JFrame {
         //termName = "root";
         //termName = "comms#CommsObject";
         //termName = "comms_CommsObject";
-
-        //LinkedList wantedLinks = new LinkedList();
-        //wantedLinks.add(new Integer (OntoramaConfig.SUBTYPE));
-        //wantedLinks.add (new Integer (OntoramaConfig.SUPERTYPE));
-        //Query query = new Query (termName, wantedLinks);
-
-
         Query query = new Query (termName);
 
         graph = getGraphFromQuery(query);
@@ -160,7 +153,7 @@ public class OntoRamaApp extends JFrame {
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
         // create Menu Bar
-        menu = new OntoRamaMenu(this);
+        OntoRamaMenu menu = new OntoRamaMenu(this);
         this.setJMenuBar(menu.getMenuBar());
         //setMenuBar(menu.getMenuBar());
 
@@ -341,11 +334,13 @@ public class OntoRamaApp extends JFrame {
 
         List wantedLinks = queryPanel.getWantedRelationLinks();
         // debug
+        /*
         Iterator it = wantedLinks.iterator();
         while (it.hasNext()) {
           Integer relLink = (Integer) it.next();
           System.out.println("--wanted link: " + relLink);
         }
+        */
         //end of debug
         System.out.println("wanted links list: " + wantedLinks);
         System.out.println("building graph with root = " + queryPanel.getQueryField());
@@ -360,8 +355,6 @@ public class OntoRamaApp extends JFrame {
      */
     public void executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
-
-        this.menu.appendHistory(query.getQueryTypeName(),OntoramaConfig.getCurrentExample());
 
         graph = getGraphFromQuery(query);
 

@@ -108,6 +108,22 @@ public class OntoRamaMenu {
   }
 
   /**
+   * create File menu
+   */
+  private void buildFileMenu () {
+    JMenuItem exitMenuItem = new JMenuItem("Exit");
+    exitMenuItem.setMnemonic(KeyEvent.VK_X);
+    exitMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        sendCloseMainApp();
+      }
+    });
+
+
+    this.fileMenu.add(exitMenuItem);
+  }
+
+  /**
    *
    */
   private void buildExamplesMenuItems () {
@@ -118,7 +134,7 @@ public class OntoRamaMenu {
       //System.out.println("curExample = " + curExample.getName());
       JCheckBoxMenuItem curItem = new JCheckBoxMenuItem(curExample.getName(), false);
       if (curExample.isLoadFirst()) {
-        setSelectedExampleMenuItem(curItem);
+        setSelectedMenuItem(menuItemExampleMapping, curItem);
       }
       this.menuItemExampleMapping.put(curItem,curExample);
 
@@ -173,13 +189,13 @@ public class OntoRamaMenu {
   }
 
   /**
-   *
+   * will only work for menu items that are JCheckBoxMenuItem's
    */
-  private void setSelectedExampleMenuItem (JCheckBoxMenuItem selectItem) {
+  private void setSelectedMenuItem (Hashtable itemsTable, JCheckBoxMenuItem selectItem) {
     // first deselect previously selected item
-    Enumeration examplesEnum = menuItemExampleMapping.keys();
-    while (examplesEnum.hasMoreElements()) {
-      JCheckBoxMenuItem curItem = (JCheckBoxMenuItem) examplesEnum.nextElement();
+    Enumeration enum = itemsTable.keys();
+    while (enum.hasMoreElements()) {
+      JCheckBoxMenuItem curItem = (JCheckBoxMenuItem) enum.nextElement();
       curItem.setSelected(false);
     }
 
@@ -187,21 +203,7 @@ public class OntoRamaMenu {
     selectItem.setSelected(true);
   }
 
-  /**
-   * create File menu
-   */
-  private void buildFileMenu () {
-    JMenuItem exitMenuItem = new JMenuItem("Exit");
-    exitMenuItem.setMnemonic(KeyEvent.VK_X);
-    exitMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        sendCloseMainApp();
-      }
-    });
 
-
-    this.fileMenu.add(exitMenuItem);
-  }
 
   /**
    *
@@ -212,11 +214,12 @@ public class OntoRamaMenu {
 
     HistoryElement historyElement = new HistoryElement(historyItemLabelName, termName, example);
 
-    JMenuItem historyItem = new JMenuItem(historyItemLabelName);
+    JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
+    setSelectedMenuItem(menuItemHistoryMapping, historyItem);
     this.menuItemHistoryMapping.put(historyItem , historyElement);
     historyItem.addActionListener(new ActionListener () {
       public void actionPerformed (ActionEvent e) {
-        JMenuItem historyItem = (JMenuItem) e.getSource();
+        JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) e.getSource();
         displayHistoryItem(historyItem);
       }
     });
@@ -227,10 +230,12 @@ public class OntoRamaMenu {
    *
    */
   public void displayExample(JCheckBoxMenuItem menuItem) {
-    System.out.println("displayExample for " + menuItem);
+    //System.out.println("displayExample for " + menuItem);
 
     // get corresponding example
     OntoramaExample example = (OntoramaExample) menuItemExampleMapping.get(menuItem);
+
+    appendHistory(example.getRoot(),example);
 
     executeQuery(example.getRoot(), example, menuItem);
 
@@ -240,13 +245,15 @@ public class OntoRamaMenu {
   /**
    *
    */
-  public void displayHistoryItem (JMenuItem historyItem) {
-    System.out.println("displayHistoryItem for " + historyItem);
+  public void displayHistoryItem (JCheckBoxMenuItem historyItem) {
+    //System.out.println("displayHistoryItem for " + historyItem);
     HistoryElement historyElement = (HistoryElement) this.menuItemHistoryMapping.get(historyItem);
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
 
-    // indicate that this example is currently displayed one
+    setSelectedMenuItem(menuItemHistoryMapping, historyItem);
+
+    // find corresponding example and select it
     Enumeration enum = this.menuItemExampleMapping.keys();
     JCheckBoxMenuItem correspondingExampleMenuItem = null;
     while (enum.hasMoreElements()) {
@@ -265,8 +272,10 @@ public class OntoRamaMenu {
    */
   private void executeQuery (String termName, OntoramaExample example,
                         JCheckBoxMenuItem correspondingExampleMenuItem) {
+
+
     // indicate that this example is currently displayed one
-    setSelectedExampleMenuItem(correspondingExampleMenuItem);
+    setSelectedMenuItem(menuItemExampleMapping, correspondingExampleMenuItem);
 
     // reset details in OntoramaConfig
     OntoramaConfig.setCurrentExample(example);
@@ -276,7 +285,7 @@ public class OntoRamaMenu {
 
     // get graph for this query and load it into app
     this.mainApp.executeQuery(query);
-
+    //appendHistory(query.getQueryTypeName(),example);
   }
 
   /**

@@ -161,10 +161,14 @@ public class Graph implements GraphInterface {
                                   throws  NoSuchRelationLinkException,
                                   NoSuchPropertyException {
 
+      int count = 0;
+
       while (ontIterator.hasNext()) {
           OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
           processOntologyType(ot,termName);
+          count++;
       }
+      System.out.println("\n\n processed " + count + " types");
     }
 
     /**
@@ -215,7 +219,7 @@ public class Graph implements GraphInterface {
                 }
                 new Edge(node,relNode,relLink.intValue());
                 debug.message("\t edge: " + node + " -> " + relNode + " , type = " + relLink.intValue());
-                processOntologyType(relatedType, rootName);
+                //processOntologyType(relatedType, rootName);
             }
         }
     }
@@ -262,6 +266,9 @@ public class Graph implements GraphInterface {
           Iterator curOutEdges = Edge.getOutboundEdges(curNode);
           while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
+            if (curEdge.getToNode() == root ) {
+              continue;
+            }
             Edge.removeEdge(curEdge);
           }
         }

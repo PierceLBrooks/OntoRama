@@ -6,7 +6,6 @@ import junit.framework.*;
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.parser.rdf.TestRdfDamlParser;
 import ontorama.webkbtools.query.parser.rdf.TestRdfWebkbParser;
-import ontorama.webkbtools.query.cgi.TestWebkbQueryStringConstructor;
 
 /**
  * <p>Title: </p>
@@ -30,7 +29,7 @@ public class TestQueryPackage extends TestCase {
 
      // webkb relevant
      suite.addTest( new TestSuite(TestRdfWebkbParser.class));
-     suite.addTest( new TestSuite(TestWebkbQueryStringConstructor.class) );
+     //suite.addTest( new TestSuite(TestWebkbQueryStringConstructor.class) );
 
 //    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
 //                            "ontorama.properties","examples/test/data/config.xml");

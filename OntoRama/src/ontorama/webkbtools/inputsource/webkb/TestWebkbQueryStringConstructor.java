@@ -5,8 +5,6 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.cgi.QueryStringConstructorInterface;
-import ontorama.webkbtools.query.cgi.WebkbQueryStringConstructor;
 
 /**
  * <p>Description:

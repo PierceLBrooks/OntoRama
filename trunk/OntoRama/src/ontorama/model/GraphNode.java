@@ -167,12 +167,22 @@ public class GraphNode implements Cloneable, NodeObservable {
             cloneNode.setProperty(propName, nodePropValue);
         }
 
+        // iterate through existing clones and add new clone to all of them
+        Iterator it = clones.iterator();
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            //if (!clones.contains(cloneNode)) {
+                cur.clones.add(cloneNode);
+            //}
+        }
+
         // add all clones of this GraphNode to the new node (clone node)
         cloneNode.clones.addAll(this.clones);
         // add the clone to the list of clones of this GraphNode
         this.clones.add(cloneNode);
         // add this GraphNode to the list of clones for clonedNode
         cloneNode.clones.add(this);
+
 
         return cloneNode;
     }

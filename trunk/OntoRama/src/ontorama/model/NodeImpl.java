@@ -69,13 +69,14 @@ public class NodeImpl implements Cloneable, Node {
 
     /**
      * Return GraphNodes name/title.
+     * @return name
      */
     public String getName() {
         return name;
     }
 
     /**
-     *
+     * set node name
      * @param name
      */
     public void setName(String name) {
@@ -84,14 +85,16 @@ public class NodeImpl implements Cloneable, Node {
 
 
     /**
-     *
+     * get node unique identifier
+     * @return
      */
     public String getIdentifier() {
         return fullName;
     }
 
     /**
-     *
+     * set node unique identifier
+     * @param identifier
      */
     public void setIdentifier(String identifier) {
         this.fullName = identifier;
@@ -105,16 +108,16 @@ public class NodeImpl implements Cloneable, Node {
     }
 
     /**
-     * Return an iterator of all clones.
+     * Return a list of all clones.
+     * @return clones list
      */
     public List getClones() {
         return clones;
     }
 
     /**
-     * Adds a new clone o this NodeImpl.
-     *
-     * @param  clone  NodeImpl that is clone for this NodeImpl
+     * Adds a new clone o this Node.
+     * @param  clone  Node that is clone for this Node
      */
     public void addClone(Node clone) {
         if (! clones.contains(clone)) {
@@ -122,6 +125,10 @@ public class NodeImpl implements Cloneable, Node {
         }
     }
 
+    /**
+     * add list of new clones to this node's clones list
+     * @param clones
+     */
     public void addClones(List clones) {
         Iterator it = clones.iterator();
         while (it.hasNext()) {
@@ -130,29 +137,35 @@ public class NodeImpl implements Cloneable, Node {
         }
     }
 
-
     /**
      * Returns the distance to the root node.
-     *
      * @return node depth
      */
     public int getDepth() {
         return this.depth;
     }
 
+    /**
+     * set distance to the root node
+     * @param depth
+     */
     public void setDepth(int depth) {
         this.depth = depth;
     }
 
     /**
-     *
+     * set node's folded state
+     * @param isFolded
+     * @todo perhaps this shouldn't be in the model
      */
     public void setFoldState(boolean isFolded) {
         this.isFolded = isFolded;
     }
 
     /**
-     *
+     * returns true if this node is folded.
+     * @return isFolded
+     * @todo perhaps this shouldn't be in the model
      */
     public boolean getFoldedState() {
         return this.isFolded;
@@ -185,10 +198,18 @@ public class NodeImpl implements Cloneable, Node {
         return cloneNode;
     }
 
+    /**
+     * get creatorUri for this node. creatorUri is URI for a creator of this node.
+     * @return creatorUri
+     */
     public URI getCreatorUri() {
         return this.creatorUri;
     }
 
+    /**
+     * set creatorUri for this node.
+     * @param creatorUri
+     */
     public void setCreatorUri(URI creatorUri) {
         this.creatorUri = creatorUri;
     }

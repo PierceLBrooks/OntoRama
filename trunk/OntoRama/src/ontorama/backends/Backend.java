@@ -10,6 +10,8 @@ import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
+import javax.swing.*;
+
 /**
  * @author henrika
  *
@@ -34,4 +36,5 @@ public interface Backend{
 
     public List getPanels();
     public Menu getMenu();
+    public JMenu getJMenu();
  }

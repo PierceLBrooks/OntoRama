@@ -32,14 +32,12 @@ import ontorama.webkbtools.query.Query;
 
 public class VirtualOntoRama {
 	private P2PBackend p2pBackend = null;
-    private OntoRamaBackend ontoRamaBackend = null;
 	private FileBackend fileBackend = null;
 	private Vector backends = null;
 	private Hashtable allNodes = null;
 		
     public VirtualOntoRama(){
-        ontoRamaBackend = new OntoRamaBackend(this);
-        p2pBackend = new P2PBackend(ontoRamaBackend); 
+        p2pBackend = new P2PBackend();
 		this.allNodes = new Hashtable();
         backends = new Vector();
 		backends.add(p2pBackend);		

@@ -57,9 +57,11 @@ public class PeerPanel extends JPanel {
 
         _cardPanel.setBorder(BorderFactory.createEtchedBorder());
 
-        add(new JLabel("Groups "), BorderLayout.NORTH);
-        add(_comboBox, BorderLayout.CENTER);
-        add(_cardPanel, BorderLayout.SOUTH);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        add(new JLabel("Groups "));
+        add(_comboBox);
+        add(_cardPanel);
 
         addGroup("testId", "testGroup");
         addGroup("id2", "group2");

@@ -1,11 +1,7 @@
 package ontorama.view;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.filemanager.gui.FileJMenu;
-import ontorama.backends.filemanager.FileBackend;
-import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.gui.P2PJMenu;
-import ontorama.backends.OntoRamaBackend;
+import ontorama.backends.Backend;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;
 import ontorama.model.GraphImpl;
@@ -23,8 +19,16 @@ import org.tockit.events.Event;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Frame;
 import java.awt.event.*;
+import java.util.Vector;
+import java.util.List;
+import java.util.Iterator;
+import java.util.Enumeration;
 
 /**
  * Main Application class. This class start OntoRama application.
@@ -151,6 +155,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private NodesListViewer _listViewer;
 
+    /**
+     * @todo need some other way to get backends - static probably not very good..?
+     */
+    private static Vector _backends;
+
 
     /**
      * debugging
@@ -186,6 +195,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         EventBroker eventBroker = new EventBroker();
 
         _timer = new Timer(TIMER_INTERVAL, this);
+        initBackends();
 
         _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
@@ -239,6 +249,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         executeQuery(_query);
     }
 
+
     public OntoRamaApp(String examplesConfigFilePath, String ontoramaPropertiesPath, String configFilePath) {
         OntoramaConfig.loadAllConfig(configFilePath,ontoramaPropertiesPath, examplesConfigFilePath);
         new OntoRamaApp();
@@ -258,6 +269,33 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         OntoramaConfig.loadAllConfig(configFilePath,ontoramaPropertiesPath, examplesConfigFilePath);
         OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
         new OntoRamaApp();
+    }
+
+    private void initBackends() {
+        _backends = new Vector();
+        List backendsList = OntoramaConfig.getBackends();
+        Iterator it = backendsList.iterator();
+        while (it.hasNext()) {
+            String backendName =(String) it.next();
+            try {
+                Backend curBackend = (Backend) Class.forName(backendName).newInstance();
+                _backends.add(curBackend);
+            }
+            catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                new ErrorPopupMessage("Couldn't find class for backendName " + backendName, this);
+            }
+            catch (InstantiationException instExc) {
+                instExc.printStackTrace();
+                new ErrorPopupMessage("Couldn't instantiate backendName " + backendName, this);
+            }
+            catch (IllegalAccessException illegalAccExc) {
+                illegalAccExc.printStackTrace();
+                new ErrorPopupMessage("Couldn't load backend " + backendName + " (Illegal Access Exception)", this);
+            }
+
+        }
+
     }
 
     /**
@@ -390,14 +428,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         JMenu backendsMenu = new JMenu("Backends");
         backendsMenu.setMnemonic(KeyEvent.VK_B);
 
-        FileBackend fileBackend = new FileBackend();
-        FileJMenu backendFileMenu = new FileJMenu(fileBackend);
-        backendsMenu.add(backendFileMenu);
-
-        //OntoRamaBackend ontoRamaBackend = new OntoRamaBackend(this);
-        //P2PBackend p2pBackend = new P2PBackend(null);
-        P2PJMenu backendP2PMenu = new P2PJMenu(null, this);
-        backendsMenu.add(backendP2PMenu);
+        Enumeration backendsEnum = _backends.elements();
+        while (backendsEnum.hasMoreElements()) {
+            Backend backend = (Backend) backendsEnum.nextElement();
+            JMenu backendMenu = backend.getJMenu();
+            backendsMenu.add(backendMenu);
+        }
 
         _menuBar.add(backendsMenu);
 
@@ -618,6 +654,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private void setStatusLabel(String statusMessage) {
         _statusLabel.setText(statusMessage);
+    }
+
+    public static Vector getBackends() {
+        return _backends;
     }
 
     /**

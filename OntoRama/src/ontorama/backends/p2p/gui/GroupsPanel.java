@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.NewGroupAction;
@@ -52,24 +54,35 @@ public class GroupsPanel extends JPanel {
 	
 	private void buildNewGroupPanel() {
 		_newGroupPanel = new JPanel();
-		_newGroupPanel.setBackground(Color.WHITE);
+		_newGroupPanel.setBackground(Color.white);
 		_newGroupPanel.setLayout(new BoxLayout(_newGroupPanel, BoxLayout.Y_AXIS));
-		_newGroupPanel.add(new JLabel("Create new group"));
 		
+		JLabel newGroupNameLabel = new JLabel(DialogUtil.newGroupNameLabel);
+		JLabel newGroupDescrLabel = new JLabel(DialogUtil.newGroupDescriptionLabel);
+
 		JTextField newGroupNameField = DialogUtil.createNewGroupNameTextField();
 		JTextField newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
 		
+		newGroupNameField.setMaximumSize(newGroupNameField.getPreferredSize());
+		newGroupDescrField.setMaximumSize(newGroupDescrField.getPreferredSize());
+		
+		newGroupNameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupDescrLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		newGroupDescrField.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 		JButton cancelButton = new JButton("Clear");
 		JButton okButton = new JButton("Create group");
 		okButton.setAction(new NewGroupAction(this, newGroupNameField, newGroupDescrField, _p2pBackend));
 		JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
-
-		_newGroupPanel.add(new JLabel(DialogUtil.newGroupNameLabel));
+		
+		_newGroupPanel.add(new JLabel("Create new group"));
+		_newGroupPanel.add(newGroupNameLabel);
 		_newGroupPanel.add(newGroupNameField);
-		_newGroupPanel.add(new JLabel(DialogUtil.newGroupDescriptionLabel));
+		_newGroupPanel.add(newGroupDescrLabel);
 		_newGroupPanel.add(newGroupDescrField);
 		_newGroupPanel.add(buttonPanel);
-
+		
 		_newGroupPanel.setBorder(BorderFactory.createEtchedBorder());		
 	}
 	

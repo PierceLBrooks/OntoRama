@@ -7,7 +7,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import ontorama.model.tree.Tree;
-import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeModel takes graph of GraphNodes and
@@ -31,12 +30,6 @@ public class OntoTreeModel implements TreeModel {
      * between GraphNodes and TreeNodes
      */
     private OntoTreeBuilder ontoTreeBuilder;
-
-    /**
-     * debug vars
-     */
-    private boolean debugOn = false;
-    Debug debug = new Debug(this.debugOn);
 
     /**
      * Constructor
@@ -69,7 +62,6 @@ public class OntoTreeModel implements TreeModel {
     public Object getChild(Object parent, int index) {
         TreeNode parentNode = (OntoTreeNode) parent;
         OntoTreeNode childNode = (OntoTreeNode) parentNode.getChildAt(index);
-        debug.message("OntoTreeModel", "getRoot()", "returning " + childNode + " for parent " + parentNode + " at index " + index);
         return childNode;
     }
 

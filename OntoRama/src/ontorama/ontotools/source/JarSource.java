@@ -45,9 +45,6 @@ public class JarSource implements Source {
      *  @throws SourceException
      */
     private Reader getReader(String relativePath, Query query) throws SourceException {
-        if (OntoramaConfig.DEBUG) {
-            System.out.println("relativePath = " + relativePath);
-        }
         if (OntoramaConfig.VERBOSE) {
             System.out.println("class JarSource relativePath = " + relativePath);
         }

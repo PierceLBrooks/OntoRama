@@ -28,7 +28,6 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
-import ontorama.util.Debug;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -40,11 +39,6 @@ public class XmlParserFull implements Parser {
 	
     private Hashtable _nodes;
     private List _edges;
-
-    /**
-     * debug
-     */
-    Debug debug = new Debug(false);
 
     private Element rootElement;
     private Namespace ns;
@@ -238,7 +232,6 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(toAttr, "to", "relationship");
             NodeType toNodeType = getNodeTypeForDestinationNode(toAttr.getValue());
             Node toNode = makeNode(toAttr.getValue(), toNodeType);
-            debug.message("XmlParserFull", "processRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + typeAttr.getValue());
             makeEdge(fromNode, toNode, typeAttr.getValue());
         }
     }

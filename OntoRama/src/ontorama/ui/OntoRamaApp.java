@@ -43,7 +43,6 @@ import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.ui.controller.QueryNodeEventHandler;
-import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
 import ontorama.views.hyper.view.SphericalProjection;
@@ -154,11 +153,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private static EventBroker _viewsEventBroker;
 
     private Projection projection = new SphericalProjection(300, 0.8);
-
-    /**
-     * debugging
-     */
-    Debug _debug = new Debug(false);
 
     /**
      * timer interval - interval for swing timer thread to check for

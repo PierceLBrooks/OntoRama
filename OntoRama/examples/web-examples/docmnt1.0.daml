@@ -1,0 +1,284 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:base = "http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#"
+  xmlns:gen = "http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>document-ont, v.1.0</versionInfo>
+  <comment>An ontology that models documents, particularly publications</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml" />
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml" />
+</Ontology>
+
+<Class ID="Manual">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Lecture">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Software">
+  <subClassOf resource="#Communication" />
+</Class>
+
+<Property ID="softwareDocumentation">
+  <label>is documented in</label>
+  <domain resource="#Software" />
+  <range resource="#Publication" />
+</Property>
+
+<Property ID="publisher">
+  <label>is published by</label>
+  <domain resource="#Document" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Property>
+
+<Class ID="BookArticle">
+  <subClassOf resource="#Article" />
+</Class>
+
+<Property ID="subject">
+  <label>has subject</label>
+  <domain resource="#Document" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Property>
+
+<Class ID="Dictionary">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Property ID="author">
+  <label>is written by</label>
+  <domain resource="#Document" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Class ID="Proceedings">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Email">
+  <subClassOf resource="#Correspondence" />
+</Class>
+
+<Class ID="Promotion">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Postcard">
+  <subClassOf resource="#Correspondence" />
+</Class>
+
+<Class ID="DocumentRepresentation">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Artifact" />
+</Class>
+
+<Property ID="publishDate">
+  <label>was published on</label>
+  <domain resource="#Document" />
+</Property>
+
+<Class ID="MastersThesis">
+  <subClassOf resource="#Thesis" />
+</Class>
+
+<Class ID="Communication">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Event" />
+</Class>
+
+<Class ID="Publication">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Manuscript">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="OrganizationHomepage">
+  <subClassOf resource="#Homepage" />
+</Class>
+
+<Class ID="Index">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Property ID="communicator">
+  <label>is communicated by</label>
+  <domain resource="#Communication" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Agent" />
+</Property>
+
+<Class ID="PaperDocument">
+  <subClassOf resource="#DocumentRepresentation" />
+</Class>
+
+<Property ID="authorOrg">
+  <label>is written by</label>
+  <domain resource="#Document" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Property>
+
+<Class ID="DoctoralThesis">
+  <subClassOf resource="#Thesis" />
+</Class>
+
+<Property ID="containedIn">
+  <label>is contained in</label>
+  <domain resource="#Document" />
+  <range resource="#Document" />
+</Property>
+
+<Class ID="Advertisement">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="PhoneCall">
+  <subClassOf resource="#Communication" />
+</Class>
+
+<Class ID="Form">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Preprint">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Property ID="recipient">
+  <label>is received by</label>
+  <domain resource="#Communication" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Agent" />
+</Property>
+
+<Class ID="Speech">
+  <subClassOf resource="#Communication" />
+</Class>
+
+<Class ID="Thesis">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Comment">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="ConferencePaper">
+  <subClassOf resource="#Article" />
+</Class>
+
+<Class ID="Article">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Homepage">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Document">
+  <subClassOf resource="#Communication" />
+</Class>
+
+<Class ID="Periodical">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Property ID="title">
+  <label>is titled</label>
+  <domain resource="#Document" />
+</Property>
+
+<Class ID="Letter">
+  <subClassOf resource="#Correspondence" />
+</Class>
+
+<Class ID="Correspondence">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Property ID="volume">
+  <label>is volume</label>
+  <domain resource="#Periodical" />
+</Property>
+
+<Class ID="Regulation">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Discussion">
+  <subClassOf resource="#Correspondence" />
+</Class>
+
+<Property ID="softwareVersion">
+  <label>is version</label>
+  <domain resource="#Software" />
+</Property>
+
+<Class ID="Minutes">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="TechnicalReport">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Journal">
+  <subClassOf resource="#Periodical" />
+</Class>
+
+<Class ID="Review">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Specification">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="WorkshopPaper">
+  <subClassOf resource="#Article" />
+</Class>
+
+<Class ID="JournalArticle">
+  <subClassOf resource="#Article" />
+</Class>
+
+<Class ID="Magazine">
+  <subClassOf resource="#Periodical" />
+</Class>
+
+<Class ID="Newspaper">
+  <subClassOf resource="#Periodical" />
+</Class>
+
+<Class ID="Editorial">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="Guideline">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="Book">
+  <subClassOf resource="#Publication" />
+</Class>
+
+<Class ID="ElectronicDocument">
+  <subClassOf resource="#DocumentRepresentation" />
+</Class>
+
+<Class ID="Newsletter">
+  <subClassOf resource="#Periodical" />
+</Class>
+
+<Class ID="Abstract">
+  <subClassOf resource="#Document" />
+</Class>
+
+<Class ID="PersonalHomepage">
+  <subClassOf resource="#Homepage" />
+</Class>
+
+</rdf:RDF>

@@ -1,0 +1,185 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:gen = "http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>personal-ont, v.1.0</versionInfo>
+  <comment>An ontology that defines elements for describing an individual and his/her interests.</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml" />
+</Ontology>
+
+<Property ID="addressCity">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressCity" />
+</Property>
+
+<rdf:Description ID="Male">
+  <type resource="#Gender" />
+</rdf:Description>
+
+<Property ID="age">
+  <label>is age</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="emailAddress">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#emailAddress" />
+</Property>
+
+<Property ID="spouse">
+  <label>has spouse</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="child">
+  <label>has child</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="photo">
+  <label>is shown in</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Image" />
+</Property>
+
+<Property ID="name">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#name" />
+</Property>
+
+<Property ID="mother">
+  <label>has mother</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="homePhone">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#homePhone" />
+</Property>
+
+<Class ID="Gender">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="Organization">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Organization" />
+</Class>
+
+<Property ID="birthDate">
+  <label>was born</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Class ID="Employee">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Employee" />
+</Class>
+
+<Property ID="sex">
+  <label>has gender</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="#Gender" />
+</Property>
+
+<Property ID="father">
+  <label>has father</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Class ID="Work">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Work" />
+</Class>
+
+<Property ID="addressStreet">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressStreet" />
+</Property>
+
+<Property ID="addressState">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressState" />
+</Property>
+
+<Property ID="alumnus">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#alumnus" />
+</Property>
+
+<Property ID="homeAddress">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#homeAddress" />
+</Property>
+
+<Property ID="title">
+  <label>is called</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Class ID="Activity">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Activity" />
+</Class>
+
+<rdf:Description ID="Female">
+  <type resource="#Gender" />
+</rdf:Description>
+
+<Property ID="workAddress">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#workAddress" />
+</Property>
+
+<Class ID="Recreation">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Recreation" />
+</Class>
+
+<Class ID="Person">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Class>
+
+<Class ID="Address">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Address" />
+</Class>
+
+<Class ID="SocialGroup">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#SocialGroup" />
+</Class>
+
+<Property ID="sibling">
+  <label>has sibling</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="worksFor">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#worksFor" />
+</Property>
+
+<Property ID="addressZip">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#addressZip" />
+</Property>
+
+<Property ID="member">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#member" />
+</Property>
+
+<Class ID="Image">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Image" />
+</Class>
+
+<Class ID="Process">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Process" />
+</Class>
+
+<Property ID="workPhone">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#workPhone" />
+</Property>
+
+<Property ID="friend">
+  <label>has friend</label>
+  <domain resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+  <range resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#Person" />
+</Property>
+
+<Property ID="engagesIn">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/general1.0.daml#engagesIn" />
+</Property>
+
+</rdf:RDF>

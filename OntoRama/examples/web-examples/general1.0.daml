@@ -1,0 +1,339 @@
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:daml = "http://www.daml.org/2001/03/daml+oil#"
+  xmlns:base = "http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#"
+>
+
+<Ontology about="">
+  <versionInfo>general-ont, v.1.0</versionInfo>
+  <comment>An ontology that models many general concepts that are required by other ontologies</comment>
+  <imports resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml" />
+</Ontology>
+
+<Property ID="addressCity">
+  <label>city</label>
+  <domain resource="#Address" />
+</Property>
+
+<Class ID="Liquid">
+  <label>liquid</label>
+  <subClassOf resource="#Substance" />
+</Class>
+
+<Class ID="Solid">
+  <label>solid</label>
+  <subClassOf resource="#Substance" />
+</Class>
+
+<Property ID="affiliatedOrganization">
+  <label>is affiliated with</label>
+  <domain resource="#Organization" />
+  <range resource="#Organization" />
+</Property>
+
+<Class ID="Substance">
+  <label>substance</label>
+  <subClassOf resource="#PhysicalObject" />
+</Class>
+
+<Property ID="orgPhone">
+  <label>receives calls at</label>
+  <domain resource="#Organization" />
+</Property>
+
+<Property ID="emailAddress">
+  <label>receives e-mail at</label>
+  <domain resource="#Person" />
+</Property>
+
+<Property ID="affiliateOf">
+  <label>has affilate</label>
+  <domain resource="#Organization" />
+  <range resource="#Person" />
+</Property>
+
+<Class ID="ArtificialAgent">
+  <label>artificial agent</label>
+  <subClassOf resource="#Agent" />
+</Class>
+
+<Class ID="Audio">
+  <subClassOf resource="#WebResource" />
+</Class>
+
+<Property ID="borders">
+  <label>borders</label>
+  <domain resource="#Location" />
+  <range resource="#Location" />
+</Property>
+
+<Property ID="head">
+  <label>is headed by</label>
+  <domain resource="#Organization" />
+  <range resource="#Person" />
+</Property>
+
+<Property ID="name">
+  <equivalentTo resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#name" />
+</Property>
+
+<Property ID="homePhone">
+  <label>receives personal calls at</label>
+  <domain resource="#Person" />
+</Property>
+
+<Class ID="NonprofitOrganization">
+  <label>nonprofit organization</label>
+  <subClassOf resource="#Organization" />
+</Class>
+
+<Class ID="EducationOrganization">
+  <label>education organization</label>
+  <subClassOf resource="#Organization" />
+</Class>
+
+<Class ID="Organism">
+  <label>organism</label>
+  <subClassOf resource="#Thing" />
+</Class>
+
+<Class ID="Organization">
+  <label>organization</label>
+  <subClassOf resource="#SocialGroup" />
+</Class>
+
+<Property ID="orgAddress">
+  <label>receives mail at</label>
+  <domain resource="#Organization" />
+  <range resource="#Address" />
+</Property>
+
+<Class ID="Employee">
+  <label>employee</label>
+  <subClassOf resource="#Person" />
+</Class>
+
+<Class ID="WebPage">
+  <subClassOf resource="#WebResource" />
+</Class>
+
+<Property ID="isLocated">
+  <label>is located at</label>
+  <domain resource="#Organization" />
+  <range resource="#Location" />
+</Property>
+
+<Property ID="performs">
+  <label>performs</label>
+  <domain resource="#Agent" />
+  <range resource="#Work" />
+</Property>
+
+<Class ID="Work">
+  <label>work</label>
+  <subClassOf resource="#Activity" />
+</Class>
+
+<Property ID="addressStreet">
+  <label>street</label>
+  <domain resource="#Address" />
+</Property>
+
+<Property ID="eventStart">
+  <label>started at</label>
+  <domain resource="#Event" />
+</Property>
+
+<Class ID="CommercialOrganization">
+  <label>commercial organization</label>
+  <subClassOf resource="#Organization" />
+</Class>
+
+<Class ID="Thing">
+  <label>thing</label>
+  <subClassOf resource="#PhysicalObject" />
+</Class>
+
+<Property ID="eventLocation">
+  <label>occured at</label>
+  <domain resource="#Event" />
+  <range resource="#Location" />
+</Property>
+
+<Property ID="alumnus">
+  <label>has as an alumnus</label>
+  <domain resource="#Organization" />
+  <range resource="#Person" />
+</Property>
+
+<Property ID="addressState">
+  <label>state</label>
+  <domain resource="#Address" />
+</Property>
+
+<Property ID="homeAddress">
+  <label>receives home mail at</label>
+  <domain resource="#Person" />
+  <range resource="#Address" />
+</Property>
+
+<Class ID="Artifact">
+  <label>artifact</label>
+  <subClassOf resource="#Thing" />
+</Class>
+
+<Class ID="Activity">
+  <label>activity</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="Agent">
+  <label>agent</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="workAddress">
+  <label>receives work mail at</label>
+  <domain resource="#Person" />
+  <range resource="#Address" />
+</Property>
+
+<Class ID="Event">
+  <label>event</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="PhysicalObject">
+  <label>physical object</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Class ID="Recreation">
+  <label>recreation</label>
+  <subClassOf resource="#Activity" />
+</Class>
+
+<Class ID="Person">
+  <label>person</label>
+  <subClassOf resource="#Agent" />
+  <subClassOf resource="#Organism" />
+</Class>
+
+<Class ID="Address">
+  <label>address</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="encloses">
+  <label>encloses</label>
+  <domain resource="#Location" />
+  <range resource="#Location" />
+</Property>
+
+<Class ID="SocialGroup">
+  <label>social group</label>
+  <subClassOf resource="#Agent" />
+</Class>
+
+<Class ID="WebResource">
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="worksFor">
+  <label>works for</label>
+  <domain resource="#Employee" />
+  <range resource="#Organization" />
+</Property>
+
+<Class ID="Location">
+  <label>location</label>
+  <subClassOf resource="http://www.cs.umd.edu/projects/plus/DAML/onts/base1.0.daml#SHOEEntity" />
+</Class>
+
+<Property ID="member">
+  <label>has as a member</label>
+  <domain resource="#SocialGroup" />
+  <range resource="#Person" />
+</Property>
+
+<Property ID="addressZip">
+  <label>zip code</label>
+  <domain resource="#Address" />
+</Property>
+
+<Class ID="Image">
+  <subClassOf resource="#WebResource" />
+</Class>
+
+<Class ID="Process">
+  <label>process</label>
+  <subClassOf resource="#Activity" />
+</Class>
+
+<Class ID="Video">
+  <subClassOf resource="#WebResource" />
+</Class>
+
+<Property ID="subOrganizationOf">
+  <label>is part of</label>
+  <domain resource="#Organization" />
+  <range resource="#Organization" />
+</Property>
+
+<Property ID="workPhone">
+  <label>receives work calls at</label>
+  <domain resource="#Person" />
+</Property>
+
+<Property ID="eventEnd">
+  <label>ended at</label>
+  <domain resource="#Event" />
+</Property>
+
+<Property ID="engagesIn">
+  <label>engages in</label>
+  <domain resource="#Agent" />
+  <range resource="#Activity" />
+</Property>
+
+<Property ID="participant">
+  <label>had participant</label>
+  <domain resource="#Event" />
+  <range resource="#Agent" />
+</Property>
+
+<Class ID="GovernmentOrganization">
+  <label>government organization</label>
+  <subClassOf resource="#Organization" />
+</Class>
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="Transitivity of Suborganizations.  If subOrganizationOf(x,y) and subOrganizationOf(y,z) then subOrganizationOf(x,z)">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="Invertability of Affiliations.  If affiliatedOrganization(x,y) then affiliatedOrganization(y,x)">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="Transfers-through of membership.  If member(x,y) and subOrganizationOf(y,z) then member(x,z).">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="If performs(a,w) then engagesIn(a,w).">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="Encloses is transitive. If encloses(x,y) and encloses(y,z), then encloses(x,z).">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="If worksFor(p,o) then member(o,p).">
+  -->
+
+  <!-- Ignoring rule:
+<DEF-INFERENCE  DESCRIPTION="If head(o,p) then member(o,p).">
+  -->
+
+</rdf:RDF>

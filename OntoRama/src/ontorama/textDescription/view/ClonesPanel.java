@@ -34,13 +34,14 @@ public class ClonesPanel extends AbstractMultiValuesPanel {
     	super(clonesPropName, viewListener);
     }
 
-   private JComponent createPropertyComponent (GraphNode graphNode) {
+   protected JComponent createPropertyComponent (GraphNode graphNode) {
           JButton button = new JButton();
           button.setText(graphNode.getName());
-          _componentToPropValueMapping.put(button, graphNode);
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	System.out.println("action performed for clone button");
                 GraphNode node = (GraphNode) _componentToPropValueMapping.get(e.getSource());
+                System.out.println("sending focus request to view listener for node = " + node.getName() + ", address = " + node);
                 _viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
             }
           });

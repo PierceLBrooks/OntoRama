@@ -237,13 +237,6 @@ public class P2PSender{
 
 
 
-
-
-
-
-
-
-
    private static void printSearchGroupResult(String tag, Vector obj) {
         SearchGroupResultElement searchGroupResultElement = null;
         System.out.println("Found following matching " + tag + "s");

@@ -52,7 +52,6 @@ public class P2PReciever implements P2PRecieverInterface{
         changes = (ChangePanel) panels.get(1);
     }
 
-    
     public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
             switch (TAG){
                     case P2PReciever.TAGPROPAGATEINIT:

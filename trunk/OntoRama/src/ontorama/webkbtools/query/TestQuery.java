@@ -52,6 +52,7 @@ public class TestQuery extends TestCase {
 
     query1 = new Query(termName);
     query2 = new Query(termName, testRelationLinksList);
+    query2.setDepth(4);
 
     expectedRelLinksList1 = new LinkedList();
     expectedRelLinksList2 = new LinkedList();
@@ -126,5 +127,21 @@ public class TestQuery extends TestCase {
 
     assertEquals(new Integer(22), query2.getRelationLinksList().get(0));
     assertEquals(new Integer(4), query2.getRelationLinksList().get(1));
+  }
+  
+  /**
+   * 
+   */
+  public void testGetDepth() {
+  	assertEquals("depth for query1", -1, query1.getDepth());
+  	assertEquals("depth for query1", 4, query2.getDepth());
+  }
+  
+  /**
+   * 
+   */
+  public void testSetDepth () {
+  	query1.setDepth(8);
+  	assertEquals("set depth for query1", 8, query1.getDepth());	
   }
 }

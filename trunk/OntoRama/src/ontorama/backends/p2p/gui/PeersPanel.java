@@ -1,7 +1,6 @@
 package ontorama.backends.p2p.gui;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -209,7 +208,6 @@ public class PeersPanel extends JPanel  implements GroupView {
     	public PeersJList() {
     		super();
     		setModel(listModel);
-			setBackground(Color.YELLOW);
 			
 			//String prototypeCellValueStr = "";
 			//for (int i = 0; i < 40; i++) {

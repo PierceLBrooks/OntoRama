@@ -56,7 +56,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      * back_forward toolbar
      */
-    private JToolBar _backForwardToolBar;
+    private JToolBar _toolBar;
 
     /**
      * actions
@@ -174,7 +174,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _listViewer = new NodesListViewer(eventBroker);
 
-        buildBackForwardToolBar();
+        buildToolBar();
 
 
         buildStatusBar();
@@ -196,7 +196,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         mainContentPanel.add(_splitPane, BorderLayout.CENTER);
         mainContentPanel.add(_descriptionViewPanel, BorderLayout.SOUTH);
 
-        getContentPane().add(_backForwardToolBar, BorderLayout.NORTH);
+        getContentPane().add(_toolBar, BorderLayout.NORTH);
         getContentPane().add(mainContentPanel, BorderLayout.CENTER);
         getContentPane().add(_statusBar, BorderLayout.SOUTH);
 
@@ -350,22 +350,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      *
      */
-    private void buildBackForwardToolBar() {
-        _backForwardToolBar = new JToolBar();
+    private void buildToolBar() {
+        _toolBar = new JToolBar();
 
-        JButton backButton = _backForwardToolBar.add(_backAction);
-        _backForwardToolBar.add(backButton);
+        JButton backButton = _toolBar.add(_backAction);
+        _toolBar.add(backButton);
 
-        JButton forwardButton = _backForwardToolBar.add(_forwardAction);
-        _backForwardToolBar.add(forwardButton);
+        JButton forwardButton = _toolBar.add(_forwardAction);
+        _toolBar.add(forwardButton);
 
-        _backForwardToolBar.addSeparator();
+        _toolBar.addSeparator();
 
-        //_listViewer.setEnabled(true);
-        _backForwardToolBar.add(_listViewer);
+        _toolBar.add(_listViewer);
 
-//        JToggleButton unconnectedNodesButton = new JToggleButton(_unconnectedNodesAction);
-//        _backForwardToolBar.add(unconnectedNodesButton);
     }
 
     /**

@@ -8,6 +8,8 @@ package ontorama.hyper.canvas;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.hyper.view.simple.LabelView;
+import ontorama.model.Edge;
+import ontorama.model.GraphNode;
 
 import javax.swing.JComponent;
 
@@ -227,6 +229,7 @@ public class CanvasManager extends JComponent
                 return;
             }
         }
+        currentHighlightedView = null;
         if( hyperViewMode == this.TRANSLATION ) {
             double xDif = (lpx - x);
             double yDif = (lpy - y);
@@ -275,21 +278,63 @@ public class CanvasManager extends JComponent
         repaint();
     }
 
+    private HyperNodeView currentHighlightedView = null;
+
     public void mouseMoved(MouseEvent e) {
-        /*Iterator it = canvasItems.iterator();
-        statusBar = "";
+        Iterator it = canvasItems.iterator();
+        double minDist = this.getWidth();
+        double dist = 0;
+        HyperNodeView closestNode = null;
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
-            double x = getSize().width - e.getX();
-            double y = getSize().height - e.getY();
-            double cartX = (e.getX() + ( -1 * x ))/2;
-            double cartY = (e.getY() + ( -1 * y ))/2;
-            cartX = cartX * ( 1 / canvasScale);
-            cartY = cartY  * (1 / canvasScale);
-            boolean found = cur.isNearestItem( cartX, cartY);
-            if(  found == true && cur instanceof NodeView) {
-                statusBar = ((NodeView)cur).getName();
+            if( cur instanceof HyperNodeView ) {
+                double curX = e.getX() - getSize().width/2;
+                double curY = e.getY() - getSize().height/2;
+                curX = curX * ( 1 / canvasScale);
+                curY = curY  * (1 / canvasScale);
+                dist = ((HyperNodeView)cur).distance(curX, curY);
+                if(  dist < minDist ) {
+                    minDist = dist;
+                    closestNode = (HyperNodeView)cur;
+                }
             }
-            repaint();*/
+        }
+        if(  closestNode != null && !closestNode.equals( currentHighlightedView )) {
+            currentHighlightedView = closestNode;
+            closestNode.setHighlightEdge( true );
+            highlightEdge( closestNode.getGraphNode() );
+            repaint();
+        }
+    }
+
+    /**
+     * Method called to highlight edges back to the root node.
+     */
+    private void highlightEdge( GraphNode node ) {
+        Iterator it = Edge.getInboundEdgeNodes( node );
+        while( it.hasNext() ) {
+            GraphNode cur = (GraphNode)it.next();
+            HyperNodeView hyperNode = this.getHyperNodeView( cur );
+            if( hyperNode != null ) {
+                hyperNode.setHighlightEdge( true );
+                highlightEdge( cur );
+            }
+        }
+    }
+
+    /**
+     * Method to find a HyperNodeView for a GraphNode.
+     */
+    private HyperNodeView getHyperNodeView( GraphNode gn ) {
+        Iterator it = canvasItems.iterator();
+        while( it.hasNext() ) {
+            CanvasItem cur = (CanvasItem)it.next();
+            if( cur instanceof HyperNodeView ) {
+                if( ((HyperNodeView)cur).getGraphNode().equals( gn ) ) {
+                    return (HyperNodeView)cur;
+                }
+            }
+        }
+        return null;
     }
  }

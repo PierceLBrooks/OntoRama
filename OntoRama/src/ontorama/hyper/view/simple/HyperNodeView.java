@@ -7,6 +7,7 @@ package ontorama.hyper.view.simple;
 import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChaingedObserver;
+import ontorama.model.GraphNode;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -65,6 +66,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Holds the current node view radius.
      */
     private double viewRadius;
+
+    /**
+     * Store that edge connecting this node should
+     * be highlighted.
+     */
+    private boolean highlightEdge = false;
 
     private Ellipse2D nodeShape = new Ellipse2D.Double( 0,0,0,0 );
 
@@ -182,6 +189,39 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         }
         return false;
     }
+
+    /**
+     * Returns the distance from the node to a ginen point.
+     */
+    public double distance( double scrX, double scrY ) {
+        double x1 = this.projectedX;
+        double y1 = this.projectedY;
+        return Math.sqrt( (scrX - x1)*(scrX - x1) + (scrY - y1)*(scrY - y1) );
+    }
+
+    /**
+     * Returns GraphNode.
+     */
+    public GraphNode getGraphNode() {
+        return this.model.getGraphNode();
+    }
+
+    /**
+     * Method called to set highlight flag.
+     *
+     * This method highlights the edge back to root node.
+     */
+    public void setHighlightEdge( boolean state) {
+        this.highlightEdge = state;
+    }
+
+    /**
+     * Get state of highlightEdge flag.
+     */
+    public boolean getHighlightEdge() {
+        return this.highlightEdge;
+    }
+
     /**
      * Return the node view radius.
      */

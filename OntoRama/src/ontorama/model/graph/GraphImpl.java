@@ -124,34 +124,24 @@ public class GraphImpl implements Graph {
         debug.message(
                 "******************* GraphBuilder constructor start *******************");
 
-        // remove all _graphEdges before building new set of _graphEdges
-        /// @todo commented out sending this event for now because it creates a null pointer
-        // exception sometimes when we load a new graph.
-        //removeAllEdges();
-
         termName = queryResult.getQuery().getQueryTypeName();
         List nodesList = queryResult.getNodesList();
         List edgesList = queryResult.getEdgesList();
 
-        //try {
-            buildGraph( nodesList, edgesList);
-            if (termName == null) {
-                root = findRootNode();
-                /// @todo a hack here for rdf distillery
-                OntoramaConfig.getCurrentExample().setRoot(root.getName());
+        buildGraph( nodesList, edgesList);
+        if (termName == null) {
+            root = findRootNode();
+            /// @todo a hack here for rdf distillery
+            OntoramaConfig.getCurrentExample().setRoot(root.getName());
+        }
+        else {
+            root = findRootNode(termName);
+            if (root == null) {
+                throw new NoTypeFoundInResultSetException(termName);
             }
-            else {
-                root = findRootNode(termName);
-                if (root == null) {
-                    throw new NoTypeFoundInResultSetException(termName);
-                }
-            }
-            System.out.println("root = " + root);
-            System.out.println("calling trasformGraphIntoTree from GraphImpl");
-            //transformGraphIntoTree();
-        //} catch (NoSuchRelationLinkException e) {
-        //    throw e;
-        //}
+        }
+        System.out.println("root = " + root);
+        System.out.println("calling trasformGraphIntoTree from GraphImpl");
         debug.message(
                 "******************* GraphBuilder constructor end *******************");
     }
@@ -171,6 +161,7 @@ public class GraphImpl implements Graph {
             int descendantsNum = calculateNodeDescendants(curNode);
             originalNodeDescendantsMapping.put(curNode, new Integer(descendantsNum));
         }
+    	_topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
     }
 
     private void checkForCycles(List edgesList) {
@@ -186,18 +177,6 @@ public class GraphImpl implements Graph {
             Edge curEdge = (Edge) edgesToRemoveIterator.next();
             removeEdge(curEdge);
         }
-    }
-
-    public void transformGraphIntoTree () throws NoSuchRelationLinkException {
-        _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
-        listItemsToRemove(_topLevelUnconnectedNodes);
-        // clean up
-        removeUnconnectedEdges();
-        removeUnconnectedNodesFromGraph();
-
-        convertIntoTree(root);
-        System.out.println("finished convertIntoTree()");
-        calculateDepths(root, 0);
     }
 
     private List checkEdgeForCycle (Edge oneWayEdge) {
@@ -244,29 +223,6 @@ public class GraphImpl implements Graph {
         return null;
     }
 
-    /**
-     *
-     */
-    private void removeUnconnectedEdges() {
-        Iterator it = _edgesToRemove.iterator();
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            removeEdge(curEdge);
-        }
-    }
-
-
-    /**
-     *
-     */
-    private void removeUnconnectedNodesFromGraph() {
-        Iterator it = _nodesToRemove.iterator();
-        while (it.hasNext()) {
-            Node node = (Node) it.next();
-            _graphNodes.remove(node);
-        }
-    }
-
     private List listTopLevelUnconnectedNodes () {
         LinkedList result = new LinkedList();
         Iterator allNodes = _graphNodes.iterator();
@@ -291,50 +247,6 @@ public class GraphImpl implements Graph {
             }
         }
         return result;
-    }
-
-    /**
-     *
-     * @param topLevelUnconnectedNodes
-     * @todo current approach will list all nodes created for synonyms as well
-     * (in xml example). if we want to be able to click on synonyms at some point -
-     * this may introduce NPE. work around - send queries for nodeNames rather
-     * then graphNodes themselves.
-     */
-    private void listItemsToRemove(List topLevelUnconnectedNodes) {
-        _nodesToRemove = new LinkedList();
-        _edgesToRemove = new LinkedList();
-
-        Iterator it = topLevelUnconnectedNodes.iterator();
-        while (it.hasNext()) {
-            Node node = (Node) it.next();
-            listItemsToRemove(node);
-        }
-    }
-
-   private void listItemsToRemove (Node node) {
-        if (!_nodesToRemove.contains(node)) {
-            _nodesToRemove.add(node);
-        }
-
-        Iterator curOutEdges = getOutboundEdges(node).iterator();
-        while (curOutEdges.hasNext()) {
-            Edge curEdge = (Edge) curOutEdges.next();
-            Node toNode = curEdge.getToNode();
-            if (toNode == root) {
-                // don't remove parents of root node
-                continue;
-            }
-            _edgesToRemove.add(curEdge);
-            if (getInboundEdges(toNode).size() > 1 ) {
-                if ( ! nodeIsInGivenBranch(root, toNode)) {
-                    listItemsToRemove(toNode);
-                }
-            }
-            else {
-                listItemsToRemove(toNode);
-            }
-        }
     }
 
     /**
@@ -383,141 +295,6 @@ public class GraphImpl implements Graph {
      */
     public List getUnconnectedNodesList() {
         return _topLevelUnconnectedNodes;
-    }
-
-    /**
-     * Test if current Graph is a Tree
-     *
-     * @param root  - root Node
-     */
-    private boolean testIfTree(Node root) {
-        LinkedList queue = new LinkedList();
-        boolean isTree = true;
-
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node nextQueueNode = (Node) queue.remove(0);
-            Iterator allOuboundEdges = getOutboundEdges(nextQueueNode).iterator();
-            while (allOuboundEdges.hasNext()) {
-                Edge curEdge = (Edge) allOuboundEdges.next();
-                Node curNode = curEdge.getToNode();
-                queue.add(curNode);
-                Iterator inboundEdges = getInboundEdges(curNode).iterator();
-                int count = 0;
-                while (inboundEdges.hasNext()) {
-                    count++;
-                    inboundEdges.next();
-                }
-                if (count > 1) {
-                    debug.message(
-                            "Graph",
-                            "testIfTree",
-                            " node "
-                            + curNode.getName()
-                            + " has multiple inbound _graphEdges");
-                    isTree = false;
-                }
-            }
-        }
-        return isTree;
-    }
-
-    /**
-     * Convert Graph into Tree by cloning nodes with duplicate parents (inbound _graphEdges)
-     *
-     * @param   root - root node for the graph
-     * @throws  ontorama.ontotools.NoSuchRelationLinkException
-     */
-    private void convertIntoTree(Node root)
-            throws NoSuchRelationLinkException {
-        LinkedList queue = new LinkedList();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            Node nextQueueNode = (Node) queue.remove(0);
-            debug.message(
-                    "Graph",
-                    "convertIntoTree",
-                    "--- processing node " + nextQueueNode.getName() + " -----");
-            Iterator allOutboundEdges = getOutboundEdges(nextQueueNode).iterator();
-            while (allOutboundEdges.hasNext()) {
-                Edge curEdge = (Edge) allOutboundEdges.next();
-                Node curNode = curEdge.getToNode();
-                queue.add(curNode);
-                List inboundEdgesList = getInboundEdgesDisplayedInGraph(curNode);
-                if (inboundEdgesList.size() <= 1) {
-                    continue;
-                }
-                cloneInboundEdges(inboundEdgesList, curEdge);
-            }
-        }
-    }
-
-    private void cloneInboundEdges(List inboundEdgesList, Edge curEdge) throws NoSuchRelationLinkException {
-        Iterator inboundEdges = inboundEdgesList.iterator();
-        Node toNode = curEdge.getToNode();
-        // do not need to clone all edges - only need to clone (edges - 1), otherwise will
-        // end up with too many clones.
-        if (inboundEdges.hasNext()) {
-            inboundEdges.next();
-        }
-        List edgesToCloneQueue = new LinkedList();
-        while (inboundEdges.hasNext()) {
-            Edge edge = (Edge) inboundEdges.next();
-            EdgeType edgeType = edge.getEdgeType();
-            if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                edgesToCloneQueue.add(edge);
-            }
-        }
-
-        while (! edgesToCloneQueue.isEmpty()) {
-            // clone the node
-            if (_topLevelUnconnectedNodes.contains(toNode)) {
-                continue;
-            }
-            Node cloneNode = toNode.makeClone();
-            _graphNodes.add(cloneNode);
-
-            Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
-            Edge newEdge = new EdgeImpl(edgeToClone.getFromNode(),  cloneNode, edgeToClone.getEdgeType());
-            try {
-                addEdge(newEdge);
-            }
-            catch (GraphModificationException e) {
-            }
-            removeEdge(edgeToClone);
-            // copy/clone all structure below
-            deepCopy(toNode, cloneNode);
-        }
-    }
-
-    /**
-     * Recursively copy all node's outbound _graphEdges into cloneNode, so we
-     * and up with cloneNode that has exactly the same children as given node.
-     * These children are not first node's descendants themselfs - but their clones.
-     *
-     * @param   node    original node
-     * @param   cloneNode   copy node that needs all outbound _graphEdges filled in
-     * @throws  ontorama.ontotools.NoSuchRelationLinkException
-     */
-    private void deepCopy(Node node, Node cloneNode)
-            throws NoSuchRelationLinkException {
-        Iterator outboundEdgesIterator = getOutboundEdges(node).iterator();
-        while (outboundEdgesIterator.hasNext()) {
-            Edge curEdge = (Edge) outboundEdgesIterator.next();
-            Node toNode = curEdge.getToNode();
-            Node cloneToNode = toNode.makeClone();
-            Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
-            try {
-                addEdge(newEdge);
-            }
-            catch (GraphModificationException e) {
-            }
-            EdgeType edgeType = curEdge.getEdgeType();
-            if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                continue;
-            }
-            deepCopy(toNode, cloneToNode);
-        }
     }
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
@@ -919,31 +696,6 @@ public class GraphImpl implements Graph {
 
 
 
-    /**
-
-     * Calculate the depths of all children in respect to this node.
-
-     */
-
-    public void calculateDepths(Node top, int depth) {
-
-        top.setDepth(depth);
-
-        Iterator it = getOutboundEdges(top).iterator();
-
-        while (it.hasNext()) {
-
-            Edge outboundEdge = (Edge) it.next();
-
-            Node outboundNode = outboundEdge.getToNode();
-
-            outboundNode.setDepth(depth + 1);
-
-            calculateDepths(outboundNode, depth + 1);
-
-        }
-
-    }
 
 
 

@@ -28,11 +28,11 @@ public class TreeNodeImpl implements TreeNode {
      * list of children - outbound TreeEdges
      */
     private List _childEdges;
-
+   
     /**
-     * parent TreeEdge for this node (inbound TreeEdge)
+     * distance to the root node
      */
-    private TreeEdge _parentEdge;
+    private int _depth = 0;
 
     /**
      *
@@ -72,13 +72,15 @@ public class TreeNodeImpl implements TreeNode {
         return _childEdges.remove(childEdge);
     }
 
-    public void setParent(TreeEdge parentEdge) {
-        _parentEdge = parentEdge;
-    }
+    
+	public int getDepth() {
+		return _depth;
+	}
 
-    public TreeEdge getParent() {
-        return _parentEdge;
-    }
+	public void setDepth(int depth) {
+		_depth = depth;
+	}
+    
 
     public String toString () {
         String res = "TreeNode: " + this.getGraphNode().getName();

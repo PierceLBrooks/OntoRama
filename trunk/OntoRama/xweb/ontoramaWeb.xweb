@@ -10,7 +10,8 @@
 			<entry name="Documentation" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 			<entry name="Introduction" sourceFile="intro.xhtml" targetFile="intro.html" type="XHTML"/>
 			<entry name="Configuration" sourceFile="config.xhtml" targetFile="config.html" type="XHTML"/>
-			<entry name="Future Plans" sourceFile="plans.xhtml" targetFile="plans.html" type="XHTML"/>
+			<!--<entry name="Future Plans" sourceFile="plans.xhtml"
+			targetFile="plans.html" type="XHTML"/>-->
 			<entry name="WebKB Notes" sourceFile="OntologyServerNotes.xhtml" targetFile="OntologyServerNotes.html" type="XHTML"/>
 			<entry name="Dev. Doc" sourceFile="dev_doc.xhtml" targetFile="dev_doc.html" type="XHTML"/>
 			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>
@@ -21,6 +22,10 @@
 		<section name="Links" title="Resources" sourceDir="links" targetDir="links" type="links">
 			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
 		</section>
+		<section name="Plans" title="Future Plans" sourceDir="plans" targetDir="plans" type="plans">
+			<entry name="Links" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
+		</section>
+
 		<file sourceFile="ontoramaStyle.css" targetFile="ontoramaStyle.css" type="copy" id="style"/>
 			<file sourceFile="img/OntoramaLogo-smaller.jpg" targetFile="img/OntoramaLogo-smaller.jpg" type="copy" id="firstLogo"/>
 			<file sourceFile="img/ontoramaBanner.png" targetFile="img/ontoramaBanner.png" type="copy" id="ontoramaBanner"/>

@@ -134,13 +134,6 @@ public class ExamplesBackend implements Backend {
 		return null;
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#getParser()
-	 */
-	public String getParser() {
-		return _curExample.getDataFormatMapping().getParserName();
-	}	
-	
 	private void loadExamples() {
 		try {
 			String examplesConfigLocation = OntoramaConfig.examplesConfigLocation;
@@ -174,13 +167,6 @@ public class ExamplesBackend implements Backend {
 		return _examples;
 	}
 
-	/**
-	 * @see ontorama.backends.Backend#getSourcePackageName()
-	 */
-	public String getSourcePackageName() {
-		return _curExample.getSourcePackagePathSuffix();
-	}
-	
 	public String getSourceUri() {
 		return _curExample.getRelativeUri();
 	}

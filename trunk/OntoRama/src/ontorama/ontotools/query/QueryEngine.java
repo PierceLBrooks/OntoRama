@@ -53,12 +53,6 @@ public class QueryEngine {
 	private String sourceUri;
 
     /**
-     * Query Result
-     */
-//    private QueryResult queryResult;
-
-
-    /**
      * debug
      */
     //Debug debug = new Debug(OntoramaConfig.DEBUG);

@@ -45,20 +45,4 @@ public interface Backend {
 	
 	public Collection getDataFormats();
 	
-	/**
-	 * @todo return string - parser package name for now, will need to refactor
-	 * later
-	 */
-	public String getParser();
-	
-	/**
-	 * @todo wrapper method to use while refactoring
-	 */
-	public String getSourcePackageName();
-
-	/**
-	 * @todo wrapper method to use while refactoring
-	 */
-	public String getSourceUri();
-
 }

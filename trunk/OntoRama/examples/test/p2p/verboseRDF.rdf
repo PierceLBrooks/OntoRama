@@ -2,7 +2,7 @@
   xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
   xmlns:dc='http://purl.org/metadata/dublin_core#'
   xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
-  xmlns:ontP2P='http://www.ontorama.org/ont#'
+  xmlns:ontP2P='http://www.ontorama.org/ontoP2P#'
  >
   <rdf:Description rdf:about='#A0'>
     <rdf:type rdf:resource='http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement'/>

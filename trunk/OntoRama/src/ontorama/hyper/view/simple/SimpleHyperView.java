@@ -24,7 +24,6 @@ import java.util.List;
 
 public class SimpleHyperView extends Canvas implements GraphView {
 
-
     /**
      * Hold the mapping of HyperNode to GraphNodes
      */
@@ -202,17 +201,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             System.out.println("Root = null");
             return;
         }
-//        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
-//        if (topLevelNodes.hasNext()) {
         makeHyperNodes(root);
-//        }
-//        else {
-//            while (topLevelNodes.hasNext()) {
-//                GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
-//                makeHyperNodes(topLevelNode);
-//            }
-//        }
-        //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
         NodePlacementDetails rootNode = new NodePlacementDetails();
         rootNode.node = root;
         rootNode.numOfLeaves = getLeafNodeTotal(root);
@@ -220,11 +209,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
         // (Math.PI * 2) is the number of radians in a circle
 //        radialLayout(root, Math.PI * 2, 0);
         System.out.println("Running radial layout...");
-//        //if( runSpringForceAlgorithms == true ) {
+        //if( runSpringForceAlgorithms == true ) {
         long start = System.currentTimeMillis();
-//        layoutNodes( 200 );
+        //layoutNodes( 200 );
         long end = System.currentTimeMillis();
-//        //}
+        //}
         end = System.currentTimeMillis();
         System.out.println("Time taken: " + ((end - start)) + "ms");
 
@@ -343,9 +332,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 }
             }
         }
-//        for( int i = 0; i < nodeList.length; i++ ) {
-//            System.out.println("NumberOfLeaves = " + nodeList[i].numOfLeaves);
-//        }
     }
 
     /**
@@ -398,11 +384,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
             index++;
             offset = offset + 1;
         }
-//        System.out.println("finnished sorting");
-//        for( int x = 0; x < sortedNodeList.length; x++ ) {
-//            System.out.println("NumberOfLeaves = " + sortedNodeList[x].numOfLeaves);
-//            System.out.println("Node = " + sortedNodeList[x].node.getName() + " Wedge = " + (180d/Math.PI * sortedNodeList[x].wedge));
-//        }
         return sortedNodeList;
     }
 
@@ -428,7 +409,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double y = Math.sin(drawAngle) * radius;
         HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
         hn.setLocation(x, y);
-//        System.out.println("GraphNode root node is: " + root.getName());
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(rootNode.node);
         double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes < 1) {
@@ -529,7 +509,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
             minMoveDiff = lastMinMove - minNodeMove;
             minMoveDiff = Math.abs(minMoveDiff);
             System.out.print(".");
-//            System.out.println("* * * minMoveDiff: " + minMoveDiff);
             numOfItorations++;
         } while (numOfItorations < iteration && minMoveDiff > .001);
         System.out.println("Iterated " + numOfItorations + " times");
@@ -651,7 +630,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 }
             }
             System.out.print(".");
-//            System.out.println("* * * minMoveDiff: " + minMoveDiff);
             numOfItorations++;
         } while (numOfItorations < iteration && loopAgain == true);
         System.out.println("Iterated " + numOfItorations + " times");

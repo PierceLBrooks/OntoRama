@@ -32,6 +32,11 @@ import javax.swing.border.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.Action;
 
+import javax.swing.JList;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
+
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
@@ -118,7 +123,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private DescriptionView _descriptionViewPanel;
 
 	/**
-	 * status bar 
+	 * status bar
 	 */
 	private JPanel _statusBar;
 	private JLabel _statusLabel;
@@ -133,12 +138,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private QueryEngineThread _worker;
 
 	/**
-	 * holds current query 
+	 * holds current query
 	 */
 	private Query _query;
 
 	/**
-	 * 
+	 *
 	 */
 	private Query _lastQuery = null;
 
@@ -176,7 +181,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * view listener
 	 */
 	private ViewEventListener _viewListener = new ViewEventListener();
-	
+
 	/**
 	 * nodes list viewer, used to show unconnected nodes
 	 */
@@ -194,7 +199,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private static final int TIMER_INTERVAL = 100;
 
 	/**
-	 * 
+	 *
 	 */
 	public OntoRamaApp() {
 		super("OntoRamaApp");
@@ -215,9 +220,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		buildStatusBar();
 		setStatusLabel("status bar is here");
 
-		_queryPanel = new QueryPanel(_viewListener, this);		
-		
-		_listViewer = new NodesListViewer();
+		_queryPanel = new QueryPanel(_viewListener, this);
+
+		_listViewer = new NodesListViewer(new LinkedList());
 
 		_treeView = new OntoTreeView(_viewListener);
 		_hyperView = new SimpleHyperView(_viewListener);
@@ -453,8 +458,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	private void updateViews(Graph graph) {
-		
-		
+
+
 		_hyperView.setGraph(graph);
 		_treeView.setGraph(graph);
 		//_queryPanel.setQueryField(graph.getRootNode().getName());
@@ -476,16 +481,28 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		List unconnectedNodes = graph.getUnconnectedNodesList();
 		if (unconnectedNodes.size() != 0) {
-			_listViewer.setNodesList( unconnectedNodes);
+			//_listViewer.setNodesList( unconnectedNodes);
+                        _listViewer = new NodesListViewer(unconnectedNodes);
 			_listViewer.showList(true);
+                        //_listViewer.addListSelectionListener(_listViewer);
+                        JList list = _listViewer.getList();
+                        list.addListSelectionListener(new ListSelectionListener() {
+                            public void valueChanged (ListSelectionEvent e) {
+                                    GraphNode selectedNode = (GraphNode) _listViewer.getList().getSelectedValue();
+                                    System.out.println("selected node = " + selectedNode.getName());
+				//graph.setRoot(selectedNode);
+				//updateViews(graph);
+
+                            }
+                      });
 		}
 //		if (unconnectedNodes.size() != 0) {
-//			
+//
 //			//Custom button text
 //			Object[] options = new Object[4];
 //
 //
-//			
+//
 //			int count = 0;
 //			Iterator it = unconnectedNodes.iterator();
 //			while ((it.hasNext()) && (count < 4)) {
@@ -511,10 +528,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 //		}
 
 	}
-	
+
 	/**
 	 * enable/disable components that should be only shown
-	 * for dynamically loaded ontologies 
+	 * for dynamically loaded ontologies
 	 */
 	private void enableDisableDynamicFields () {
 		if (OntoramaConfig.isSourceDynamic) {

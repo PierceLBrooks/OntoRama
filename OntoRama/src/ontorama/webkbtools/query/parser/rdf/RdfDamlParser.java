@@ -118,7 +118,7 @@ public class RdfDamlParser implements Parser {
       Property predicate = st.getPredicate();
       Resource resource = st.getSubject();
       RDFNode object = st.getObject();
-      
+
       //System.out.println( "resource = " + resource + ", predicate = " + predicate + ", object = " + object);
 
       //System.out.println ("resource: local name = " + resource.getLocalName() + ", namespace = " + resource.getNameSpace()
@@ -136,43 +136,47 @@ public class RdfDamlParser implements Parser {
       Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
       while ( ontologyRelationRdfMappingIterator.hasNext() ) {
           RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
-          String mappingTag = rdfMapping.getRdfTag();
-          //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
-          if (predicate.getLocalName().endsWith(mappingTag)) {
-              int mappingId = rdfMapping.getId();
-              //System.out.println("MATCHED mappingTag = " + mappingTag);
-              String mappingType = rdfMapping.getType();
-              RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+          Iterator mappingTagsIterator = rdfMapping.getRdfTags().iterator();
+          while (mappingTagsIterator.hasNext()) {
+            //String mappingTag = rdfMapping.getRdfTag();
+            String mappingTag = (String) mappingTagsIterator.next();
+            //System.out.println("mappingTag = " + mappingTag + ", id = " + rdfMapping.getId());
+            if (predicate.getLocalName().endsWith(mappingTag)) {
+                int mappingId = rdfMapping.getId();
+                //System.out.println("MATCHED mappingTag = " + mappingTag);
+                String mappingType = rdfMapping.getType();
+                RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
 
-              //System.out.println("mappingType = " + mappingType);
-              //System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
-              //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
+                //System.out.println("mappingType = " + mappingType);
+                //System.out.println("relLinkDetails.getLinkName() = " + relLinkDetails.getLinkName());
+                //System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
 
-              try {
+                try {
 
-                  if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
-                      //System.out.println("case 1");
-                      addRelationLinkToType(resource, mappingId, object, relLinkDetails.getLinkName());
-                      //subjectType.addRelationType(objectType,mappingId);
-                  }
-                  else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
-                      //System.out.println("case 2");
-                      addRelationLinkToType(object, mappingId, resource, relLinkDetails.getLinkName());
-                      //objectType.addRelationType(subjectType, mappingId);
-                  }
-                  else {
-                      // ERROR
-                      // throw exception here
-                      //System.out.println("case 3");
-                      System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-                      java.awt.Toolkit.getDefaultToolkit().beep();
-                      System.exit(-1);
-                  }
-              }
-              catch (NoSuchRelationLinkException e) {
-                  System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-                  System.exit(-1);
-              }
+                    if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
+                        //System.out.println("case 1");
+                        addRelationLinkToType(resource, mappingId, object, relLinkDetails.getLinkName());
+                        //subjectType.addRelationType(objectType,mappingId);
+                    }
+                    else if (mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
+                        //System.out.println("case 2");
+                        addRelationLinkToType(object, mappingId, resource, relLinkDetails.getLinkName());
+                        //objectType.addRelationType(subjectType, mappingId);
+                    }
+                    else {
+                        // ERROR
+                        // throw exception here
+                        //System.out.println("case 3");
+                        System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+                        java.awt.Toolkit.getDefaultToolkit().beep();
+                        System.exit(-1);
+                    }
+                }
+                catch (NoSuchRelationLinkException e) {
+                    System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+                    System.exit(-1);
+                }
+            }
           }
       }
     }

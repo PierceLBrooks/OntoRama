@@ -228,7 +228,14 @@ public class XmlConfigParser extends XmlParserAbstract {
             checkCompulsoryAttr(typeAttr, "type", "map");
             Attribute tagAttr = mapEl.getAttribute("tag");
             checkCompulsoryAttr(tagAttr, "tag", "map");
+            //System.out.println("idAttr = " + idAttr + ", typeAttr = " + typeAttr + ", tagAttr = " + tagAttr);
             RdfMapping rdfMappingObject = new RdfMapping (idAttr.getIntValue(), typeAttr.getValue(), tagAttr.getValue());
+            Iterator tagElementsIterator = mapEl.getChildren("tag").iterator();
+            while (tagElementsIterator.hasNext()) {
+              Element tagEl = (Element) tagElementsIterator.next();
+              //System.out.println("\ttagEl content = " + tagEl.getText());
+              rdfMappingObject.addRdfTag(tagEl.getText());
+            }
             relationRdfMappingList.add(rdfMappingObject);
         }
     }

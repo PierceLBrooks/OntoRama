@@ -65,6 +65,12 @@ public class SimpleHyperView  extends CanvasManager {
             HyperNodeView hnv = (HyperNodeView)it.next();
             canvasItems.add( hnv );
         }
+        //Add HyperNodeViews labels canvas manager.
+        it = hypernodeviews.values().iterator();
+        while( it.hasNext() ) {
+            HyperNodeView hnv = (HyperNodeView)it.next();
+            canvasItems.add( new LabelView( hnv ) );
+        }
         repaint();
     }
 
@@ -119,6 +125,10 @@ public class SimpleHyperView  extends CanvasManager {
         }
     }
 
+    public void update(Graphics g) {
+        paintComponent(g);
+    }
+
     public void paintComponent(Graphics g) {
         Graphics2D g2d = ( Graphics2D )g;
         //java.awt.Paint oldPaint = g2d.getPaint();
@@ -138,7 +148,10 @@ public class SimpleHyperView  extends CanvasManager {
         g2d.scale( canvasScale, canvasScale );
         g2d.setColor(new Color( 244, 244, 244 ));
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
+        //System.out.println("Start");
+        //System.out.println(System.currentTimeMillis());
         drawNodes( g2d );
+        //System.out.println(System.currentTimeMillis());
         //g2d.setPaint(oldPaint);
     }
 }

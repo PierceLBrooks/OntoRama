@@ -11,6 +11,8 @@ import ontorama.util.Debug;
 import ontorama.view.action.*;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
+import org.tockit.events.LoggingEventListener;
+import org.tockit.canvas.events.CanvasItemEvent;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -175,8 +177,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         EventBroker eventBroker = new EventBroker();
 
         _queryPanel = new QueryPanel(this, eventBroker);
-
-
         _treeView = new OntoTreeView(eventBroker);
         _hyperView = new SimpleHyperView(eventBroker);
 

@@ -6,11 +6,11 @@ package ontorama.hyper.model;
  */
 
 
-public interface PositionChaingedObserver {
+public interface PositionChangedObserver {
 
     /**
      * Method called to update observer position.
      */
-    public void positionUpdate(double x, double y);
+    public void positionChanged();
 
 }

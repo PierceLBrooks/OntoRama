@@ -128,9 +128,9 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             nodeColor = displayInfo.getColor();
             nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
             /// @todo hardcoded node type name here
-            //if (nodeType.getNodeType().equals("relation")) {
+            if (nodeType.getNodeType().equals("relation")) {
                 nodeShape = new Polygon();
-            //}
+            }
         }
     }
 
@@ -332,9 +332,11 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         g2d.setColor(fadeColor);
         /// @todo a hack to get different node shapes
         if (nodeShape instanceof Polygon) {
-            ((Polygon) nodeShape).addPoint( (int) projectedX, (int) projectedY);
-            ((Polygon) nodeShape).addPoint( (int) projectedX , (int) (projectedY + viewRadius));
-            ((Polygon) nodeShape).addPoint( (int) (projectedX + viewRadius), (int) (projectedY + viewRadius));
+            Polygon polygon = (Polygon) nodeShape;
+            polygon.reset();
+            polygon.addPoint( (int) projectedX, (int) projectedY);
+            polygon.addPoint( (int) projectedX , (int) (projectedY + viewRadius * 1.5));
+            polygon.addPoint( (int) (projectedX + viewRadius * 1.5), (int) (projectedY + viewRadius * 1.5 ));
         }
         else {
             ((Ellipse2D) nodeShape).setFrame(projectedX - viewRadius,

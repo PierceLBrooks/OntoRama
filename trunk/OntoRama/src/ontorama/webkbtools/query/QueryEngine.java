@@ -148,10 +148,10 @@ public class QueryEngine implements QueryEngineInterface {
         while (it.hasNext()) {
             OntologyType cur = (OntologyType) it.next();
             String termIdentifierSuffix = "#" + termName;
-            System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
-            System.out.println("fullName = " + cur.getFullName());
+            //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
+            //System.out.println("fullName = " + cur.getFullName());
             if (cur.getFullName().equals(termName)) {
-                System.out.println("MATCH");
+                //System.out.println("MATCH");
                 found = true;
                 newTermName = cur.getName();
             }

@@ -31,9 +31,11 @@ import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 
 
@@ -50,6 +52,7 @@ public class XmlParserFull implements Parser {
     private NodeType conceptNodeType;
 
     private Element rootElement;
+    private Namespace ns;
 
     private static final String conceptTypeElementName = "conceptType";
     private static final String relationTypeElementName = "relationType";
@@ -58,7 +61,6 @@ public class XmlParserFull implements Parser {
      *
      */
     public XmlParserFull() {
-//        ontHash = new Hashtable();
         _nodes = new Hashtable();
         _edges = new LinkedList();
 
@@ -77,6 +79,8 @@ public class XmlParserFull implements Parser {
             // Create the document
             Document doc = builder.build(reader);
             rootElement = doc.getRootElement();
+            
+            ns = rootElement.getNamespace();
 
             /// @todo hack to get concept node type
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
@@ -90,8 +94,8 @@ public class XmlParserFull implements Parser {
                 }
             }
 
-            readConceptTypes(rootElement.getChildren(conceptTypeElementName));
-        	readRelationTypes(rootElement.getChildren(relationTypeElementName));
+            readConceptTypes(rootElement.getChildren(conceptTypeElementName, ns));
+        	readRelationTypes(rootElement.getChildren(relationTypeElementName, ns));
         } catch (URISyntaxException e) {
             System.out.println("URISyntaxException: " + e);
             e.printStackTrace();
@@ -101,6 +105,8 @@ public class XmlParserFull implements Parser {
             e.printStackTrace();
         	throw new ParserException(e.getMessage());            
         }
+        System.out.println("\n\nreturning nodes: " + new LinkedList(_nodes.values()));
+        System.out.println("returning edges: " + _edges);
         return new ParserResult(new LinkedList(_nodes.values()), _edges);
     }
 
@@ -160,7 +166,7 @@ public class XmlParserFull implements Parser {
 
     private NodeType getNodeTypeForDestinationNode (String nodeName) {
         NodeType retVal = null;
-        Iterator conceptTypesIterator = rootElement.getChildren(conceptTypeElementName).iterator();
+        Iterator conceptTypesIterator = rootElement.getChildren(conceptTypeElementName, ns).iterator();
         while (conceptTypesIterator.hasNext()) {
             Element cur = (Element) conceptTypesIterator.next();
             Attribute typeNameAttr = cur.getAttribute("name");
@@ -168,7 +174,7 @@ public class XmlParserFull implements Parser {
                 retVal = conceptNodeType;
             }
         }
-        Iterator relationTypesIterator = rootElement.getChildren(relationTypeElementName).iterator();
+        Iterator relationTypesIterator = rootElement.getChildren(relationTypeElementName, ns).iterator();
         while (relationTypesIterator.hasNext()) {
             Element cur = (Element) relationTypesIterator.next();
             Attribute typeNameAttr = cur.getAttribute("name");
@@ -213,7 +219,7 @@ public class XmlParserFull implements Parser {
 
     private List getTypeProperty (Element typeElement, String subelementName) {
         List retVal = new LinkedList();
-        Iterator subelements =  typeElement.getChildren(subelementName).iterator();
+        Iterator subelements =  typeElement.getChildren(subelementName, ns).iterator();
         while (subelements.hasNext()) {
             Element cur = (Element) subelements.next();
             retVal.add(cur.getTextTrim());
@@ -225,7 +231,7 @@ public class XmlParserFull implements Parser {
      *
      */
     private void processRelationLinks(Element top, Node fromNode) throws ParserException, NoSuchRelationLinkException {
-        List relationLinksElementsList = top.getChildren("relationship");
+        List relationLinksElementsList = top.getChildren("relationship", ns);
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
 

@@ -48,12 +48,15 @@ public class ChangePanel extends JPanel {
         repaint();
     }
 
+    public void empty() {
+        _myModel.clearTable();
+    }
+
     class MyTableModel extends AbstractTableModel {
         private final static int rowsNum = 4;
         private final static int columnsNum = 2;
 
         String[] columnNames = {"Change", "Peer"};
-//        String[][] data = new String[rowsNum][columnsNum];
 
         List changesList = new LinkedList();
 
@@ -62,6 +65,10 @@ public class ChangePanel extends JPanel {
             for (int i = 0; i < rowsNum; i++) {
                 changesList.add(null);
             }
+        }
+
+        public void clearTable () {
+            changesList = new LinkedList();
         }
 
         public void addRow (Change change) {
@@ -112,12 +119,10 @@ public class ChangePanel extends JPanel {
                 return change.getChange();
             }
             return change.getPeerName();
-//            return data[row][col];
         }
 
         public Class getColumnClass(int c) {
             return String.class;
-            //return getValueAt(0, c).getClass();
         }
 
         /*

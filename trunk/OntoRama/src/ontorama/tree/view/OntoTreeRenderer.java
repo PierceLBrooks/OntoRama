@@ -16,7 +16,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
- * @todo    clean up methods, remove unneeded variables
+ * Renderer for TreeView
  */
 public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
@@ -26,7 +26,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     private final static Color _nodeColor = Color.blue;
     private final static Color _cloneNodeColor = Color.red;
     private final static Color _lineColor = Color.gray;
-    private static Color _bgColor;
 
     /**
      * icon for a tree node
@@ -56,10 +55,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * Renderer for OntoTree View
      */
     public OntoTreeRenderer() {
-        //tutorialIcon = new ImageIcon("images/middle.gif");
-        _bgColor = this.backgroundNonSelectionColor;
-        //System.out.println("OntoTreeRenderer: backgroundNonSelectionColor = " + this.backgroundNonSelectionColor + ", backgroundSelectionColor = " + this.backgroundSelectionColor);
-
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
         _nodeImageIcon = makeNodeIcon(iconW / 2, iconH, _nodeColor);
@@ -74,13 +69,13 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      *
      */
     public Component getTreeCellRendererComponent(
-            JTree tree,
-            Object value,
-            boolean sel,
-            boolean expanded,
-            boolean leaf,
-            int row,
-            boolean hasFocus) {
+                                        JTree tree,
+                                        Object value,
+                                        boolean sel,
+                                        boolean expanded,
+                                        boolean leaf,
+                                        int row,
+                                        boolean hasFocus) {
 
         super.getTreeCellRendererComponent(
                 tree, value, sel,
@@ -91,19 +86,15 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         int relLinkInt = treeNode.getRelLink();
         RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
-        //System.out.println("treeNode = " + treeNode + ", relLinkDetails = " + relLinkDetails + ", relLinkInt = " + relLinkInt);
 
         /// @todo shouldn't have to check for null here
         if (relLinkDetails != null) {
-            //setBackgroundNonSelectionColor(isChild(relLinkDetails));
-            //setBackgroundSelectionColor(isChild(relLinkDetails));
             setToolTipText(getToolTipText(value, relLinkDetails));
         }
 
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(_nodeImageIcon);
         } else if (treeNode.getGraphNode().hasClones()) {
-            //System.out.println("clone: " + treeNode);
             setIcon(getIcon(relLinkInt, true));
         } else {
             setIcon(getIcon(relLinkInt, false));
@@ -126,9 +117,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         }
 
         Icon icon = new ImageIcon(nodeImage);
-
-        //Icon icon = _nodeImageIcon;
-
         return icon;
     }
 
@@ -136,7 +124,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * get tool tip text for given object and relation link
      */
     protected String getToolTipText(Object value, RelationLinkDetails relLinkDetails) {
-        //OntoTreeNode treeNode = (OntoTreeNode) value;
         String relLinkName = relLinkDetails.getLinkName();
         String result = "";
         //result = "Concept: " + treeNode.getGraphNode().getName();
@@ -165,7 +152,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      */
     private Image makeImageForRelLink(int relLinkInt, boolean isClone) {
         RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(relLinkInt);
-        //System.out.println("relLinkInt = " + relLinkInt + ", relLinkDetails = " + relLinkDetails);
         Image relImage = relLinkDetails.getDisplayImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage);
         return nodeImage;
@@ -189,7 +175,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         BufferedImage image = new BufferedImage(totalWidth + 1, totalHeight, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2 = image.createGraphics();
-        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(Color.white);
         g2.fillRect(0, 0, totalWidth, totalHeight);
@@ -227,17 +213,12 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         int ovalSize = width - (width * 12) / 100;
         int ovalX = 0;
         int ovalY = (height - ovalSize) / 2;
-        //System.out.println("\n\novalSize = " + ovalSize + ", height = " + height);
-
         g2.setColor(color);
-        //g2.fillOval(ovalX, ovalY, ovalSize, ovalSize);
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
         g2.fill(circle);
-
-        //Ellipse2D circleOutline = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
         g2.setColor(Color.black);
         g2.draw(circle);
 
@@ -264,11 +245,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         int y2 = y1;
 
         float dash1[] = {1.0f};
-        BasicStroke dashed = new BasicStroke(0.01f,
-                BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_MITER,
-                1.0f, dash1, 0.0f);
-
+        BasicStroke dashed = new BasicStroke(0.01f, BasicStroke.CAP_BUTT,
+                                        BasicStroke.JOIN_MITER, 1.0f, dash1, 0.0f);
 
         g2.setColor(_lineColor);
         g2.setStroke(dashed);

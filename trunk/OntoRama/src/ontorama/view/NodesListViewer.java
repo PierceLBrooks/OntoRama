@@ -198,13 +198,13 @@ public class NodesListViewer extends JComboBox {
                     int numOfDescendants = graphImpl.getNumOfDescendants(node);
                     setText(node.getName() + " (" + numOfDescendants + ")");
                 }
-                setToolTipText(nodeType.getNodeType());
                 if (nodeType != null) {
                     ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
                     setIcon(image);
                 }
                 else {
                     setIcon(_noImage);
+                    setToolTipText(nodeType.getNodeType());
                 }
             }
             return this;

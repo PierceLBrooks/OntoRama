@@ -110,6 +110,7 @@
         </java>
     </target>
 
+
   <target name="runJar" depends="jar">
   	<java fork="yes"  jar="${jar.file}" classpathref="project.class.path"/>
   </target>

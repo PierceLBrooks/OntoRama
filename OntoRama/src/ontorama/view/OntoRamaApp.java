@@ -395,8 +395,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         backendsMenu.add(backendFileMenu);
 
         //OntoRamaBackend ontoRamaBackend = new OntoRamaBackend(this);
-        P2PBackend p2pBackend = new P2PBackend(null);
-        P2PJMenu backendP2PMenu = new P2PJMenu(p2pBackend);
+        //P2PBackend p2pBackend = new P2PBackend(null);
+        P2PJMenu backendP2PMenu = new P2PJMenu(null);
         backendsMenu.add(backendP2PMenu);
 
         _menuBar.add(backendsMenu);

@@ -9,6 +9,7 @@
 package ontorama.backends.p2p.gui;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ public class P2PJMenu extends JMenu {
         _p2pBackend = p2pBackend;
         setText(_menuName);
 
-        _searchAction = new ActionSearch();
+        _searchAction = new ActionSearch("Group search");
 
         add(_searchAction);
         addSeparator();
@@ -72,8 +73,21 @@ public class P2PJMenu extends JMenu {
     }
 
     private class ActionSearch extends AbstractAction {
+        public ActionSearch(String name) {
+            super(name);
+        }
+
         public void actionPerformed(ActionEvent e) {
             System.out.println("...action search");
+            GroupSearchDialog searchDialog = new GroupSearchDialog(OntoRamaApp.getMainFrame());
+            searchDialog.show();
+            if (searchDialog.actionIsCancelled()) {
+                System.out.println("action was cancelled");
+            }
+            else {
+                System.out.println("selected option = " + searchDialog.getSelectedOption());
+                System.out.println("value = " + searchDialog.getValue());
+            }
         }
     }
 }

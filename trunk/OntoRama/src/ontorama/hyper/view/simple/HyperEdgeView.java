@@ -6,7 +6,6 @@ package ontorama.hyper.view.simple;
  * represent the relationship type between the two nodes.
  */
 
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.model.EdgeType;
 import ontorama.OntoramaConfig;
 import org.tockit.canvas.CanvasItem;

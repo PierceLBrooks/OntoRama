@@ -10,7 +10,6 @@ import ontorama.model.*;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.ConceptPropertiesMapping;
 import ontorama.ontologyConfig.RdfMapping;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;

@@ -1,6 +1,5 @@
 package ontorama.model;
 
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.net.URI;

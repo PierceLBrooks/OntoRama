@@ -148,7 +148,18 @@ public class GraphImpl implements Graph {
      */
     private void buildGraph( List nodesList, List edgesList) {
         _graphNodes = nodesList;
-        _graphEdges = edgesList;
+        //_graphEdges = edgesList;
+        _graphEdges = new LinkedList();
+
+        Iterator edgesIt = edgesList.iterator();
+        while (edgesIt.hasNext()) {
+            Edge edge = (Edge) edgesIt.next();
+            EdgeType edgeType = edge.getEdgeType();
+            System.out.println("edge = " + edge + ", displayInGraph = " + OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph());
+            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+                _graphEdges.add(edge);
+            }
+        }
 
 //        Iterator it = edgesList.iterator();
 //        while (it.hasNext()) {
@@ -173,7 +184,6 @@ public class GraphImpl implements Graph {
             message = message + " are reversable. This is not going to work in the current graph model, ";
             message = message + " we won't display this relation link here.";
             message = message + " Please consider moving this relation link into concept properties in the config file.";
-            //System.err.println("\n\n\none of these _graphEdges already exists \n\n\n");
             if (oneWayEdge != null) {
                 removeEdge(oneWayEdge);
             }
@@ -221,7 +231,6 @@ public class GraphImpl implements Graph {
 
     private List listTopLevelUnconnectedNodes () {
         LinkedList result = new LinkedList();
-//        Iterator allNodes = processedNodes.values().iterator();
         Iterator allNodes = _graphNodes.iterator();
         while (allNodes.hasNext()) {
             Node curNode = (Node) allNodes.next();
@@ -272,23 +281,14 @@ public class GraphImpl implements Graph {
         Iterator curOutEdges = getOutboundEdges(node).iterator();
         while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
-//            System.out.println("\toutbound edge: " + curEdge);
             Node toNode = curEdge.getToNode();
             if (toNode == root) {
                 // don't remove parents of root node
                 continue;
             }
             _edgesToRemove.add(curEdge);
-//            System.out.println("\t\ttoNode number of inbound _graphEdges: " + EdgeImpl.getInboundEdgeNodesList(toNode).size());
-//            System.out.println("\t\ttoNode inbound _graphEdges: " + EdgeImpl.getInboundEdgeNodesList(toNode));
             if (getInboundEdgeNodesList(toNode).size() > 1 ) {
-//                Iterator inIt = EdgeImpl.getInboundEdges(toNode);
-//                while (inIt.hasNext()) {
-//                    EdgeImpl edge = (EdgeImpl) inIt.next();
-//                    System.out.println("\t\t\t" + edge);
-//                }
                 if ( ! nodeIsInGivenBranch(root, toNode)) {
-//                    System.out.println ("this node is not in current branch");
                     listItemsToRemove(toNode);
                 }
             }
@@ -855,21 +855,6 @@ public class GraphImpl implements Graph {
             result.add(cur.getEdgeNode(!flag));
         }
         return result;
-    }
-
-    /**
-     * Convenience method that returns iterator size
-     * @param   it iterator
-     * @return  int size
-     * @todo  perhaps this method should 'live' in util package
-     */
-    public static int getIteratorSize(Iterator it) {
-        int count = 0;
-        while (it.hasNext()) {
-            it.next();
-            count = count + 1;
-        }
-        return count;
     }
 
     /**

@@ -5,7 +5,7 @@ import ontorama.controller.QueryEvent;
 import ontorama.graph.controller.*;
 import ontorama.graph.view.GraphView;
 import ontorama.graph.view.GraphQuery;
-import ontorama.model.Graph;
+import ontorama.model.GraphInterface;
 import ontorama.model.GraphNode;
 import ontorama.tree.model.OntoTreeBuilder;
 import ontorama.tree.model.OntoTreeModel;
@@ -42,7 +42,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
     private EventBroker eventBroker;
 
-    private Graph graph;
+    private GraphInterface graph;
 
     private boolean KEY_IS_PRESSED = false;
     private boolean MOUSE_IS_PRESSED = false;
@@ -72,7 +72,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      *
      */
-    public void setGraph(Graph graph) {
+    public void setGraph(GraphInterface graph) {
         this.graph = graph;
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
@@ -306,7 +306,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.tree.scrollPathToVisible(path);
     }
 
-    public Graph getGraph() {
+    public GraphInterface getGraph() {
         return this.graph;
     }
 

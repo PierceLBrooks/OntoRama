@@ -34,7 +34,7 @@ import java.util.List;
 
 public class TestGraph extends TestCase {
 
-    private Graph graph;
+    private GraphInterface graph;
 
     private LinkedList ontTypesList;
 
@@ -111,7 +111,7 @@ public class TestGraph extends TestCase {
 
         QueryResult queryResult = new QueryResult(query, ontTypesList.iterator());
 
-        graph = new Graph(queryResult);
+        graph = new GraphImpl(queryResult);
 
         node1 = getNodeChildByName(graph.getRootNode(), "node1");
         node1_2 = getNodeChildByName(node1, "node1.2");

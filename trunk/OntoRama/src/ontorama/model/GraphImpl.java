@@ -28,7 +28,7 @@ import java.util.*;
  * <br>
  * Company:     DSTC
  */
-public class Graph implements GraphInterface {
+public class GraphImpl implements GraphInterface {
 
     /**
      * Hold a list of processed ontology types (ontology types that have
@@ -93,7 +93,7 @@ public class Graph implements GraphInterface {
      *        root node. (this is good solution for static ontologies, but not so for
      *        webkb ontology (remember ontology viewer for hibkb)).
      */
-    public Graph(QueryResult queryResult)
+    public GraphImpl(QueryResult queryResult)
             throws
             NoSuchRelationLinkException,
             NoTypeFoundInResultSetException,

@@ -1,7 +1,6 @@
 package ontorama.view;
 
-import ontorama.model.Graph;
-import ontorama.model.NoTypeFoundInResultSetException;
+import ontorama.model.*;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryEngine;
 import ontorama.webkbtools.query.QueryResult;
@@ -31,7 +30,7 @@ public class QueryEngineThread extends Thread {
     /**
      *
      */
-    private Graph _graph;
+    private GraphInterface _graph;
 
     /**
      * status message
@@ -102,7 +101,7 @@ public class QueryEngineThread extends Thread {
             _status = "building graph";
             _current = 90;
             //printStatus();
-            _graph = new Graph(queryResult);
+            _graph = new GraphImpl(queryResult);
 
             _status = "graph is built";
         } catch (NoTypeFoundInResultSetException noTypeExc) {
@@ -176,7 +175,7 @@ public class QueryEngineThread extends Thread {
     /**
      * get graph that has been built
      */
-    public Graph getGraph() {
+    public GraphInterface getGraph() {
         return _graph;
     }
 

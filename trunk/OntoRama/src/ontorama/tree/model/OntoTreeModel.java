@@ -1,6 +1,6 @@
 package ontorama.tree.model;
 
-import ontorama.model.Graph;
+import ontorama.model.GraphInterface;
 import ontorama.model.GraphNode;
 import ontorama.util.Debug;
 
@@ -23,7 +23,7 @@ public class OntoTreeModel implements TreeModel {
     /**
      * Graph that is a base for this OntoTreeModel
      */
-    private Graph graph;
+    private GraphInterface graph;
 
     /**
      * OntoTreeBuilder object that will hold references
@@ -40,7 +40,7 @@ public class OntoTreeModel implements TreeModel {
     /**
      * Constructor
      */
-    public OntoTreeModel(Graph graph) {
+    public OntoTreeModel(GraphInterface graph) {
         this.graph = graph;
         this.ontoTreeBuilder = new OntoTreeBuilder(graph);
 

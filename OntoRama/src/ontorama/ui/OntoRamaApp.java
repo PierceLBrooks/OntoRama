@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -30,6 +31,7 @@ import javax.swing.event.ChangeListener;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.examplesmanager.gui.*;
+import ontorama.importer.FileImporter;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
@@ -409,6 +411,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _menuBar = new JMenuBar();
         _fileMenu = new JMenu("File");
         _fileMenu.setMnemonic(KeyEvent.VK_F);
+               
+               
+        JMenu importMenu = new JMenu("Import");
+    	Action fileImportAction = new AbstractAction("from file backend...") {
+    		public void actionPerformed(ActionEvent e) {
+    			FileImporter importer = new FileImporter(_modelEventBroker);
+    			importer.doImport();
+    		}
+    	};
+    	importMenu.add(fileImportAction);
+    	
+    	_fileMenu.add(importMenu);
+        
         _fileMenu.add(_exitAction);
 
 
@@ -482,13 +497,15 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private void updateViews() {
         setGraphInViews(_graph);
-        _queryPanel.setQuery(_query);
         _descriptionViewPanel.clear();
         _descriptionViewPanel.focus(_graph.getRootNode());
         _hyperView.repaint();
         _treeView.repaint();
         _splitPane.repaint();
-        _historyMenu.updateHistory(_query);
+        if (_query != null) {
+	    	_queryPanel.setQuery(_query);
+	        _historyMenu.updateHistory(_query);
+        }
         repaint();
     }
 

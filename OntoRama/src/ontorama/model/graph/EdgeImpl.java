@@ -70,12 +70,12 @@ public class EdgeImpl implements Edge {
         return this.edgeType;
     }
 
-    public Node getEdgeNode(boolean isFromNode) {
-        if (isFromNode == true) {
-            return this.fromNode;
-        }
-        return this.toNode;
-    }
+//    public Node getEdgeNode(boolean isFromNode) {
+//        if (isFromNode == true) {
+//            return this.fromNode;
+//        }
+//        return this.toNode;
+//    }
 
     /**
      * set URI of creator of this edge.

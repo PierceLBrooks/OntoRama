@@ -34,11 +34,6 @@ public interface Graph {
      */
     public List getNodesList();
 
-    /**
-     *
-     * @param rootNode
-     * @param node
-     */
     public boolean nodeIsInGivenBranch(Node rootNode, Node node);
 
     public List getEdgesList ();
@@ -50,18 +45,8 @@ public interface Graph {
     public List getInboundEdgeNodes (Node node, EdgeType relLink);
     public List getOutboundEdgeNodes (Node node, EdgeType relLink);
 
-    /**
-     * @todo this method doesn't belong here - should have another abstraction layer - Tree for this
-     * @param node
-     * @return
-     */
     public List getOutboundEdgesDisplayedInGraph (Node node);
 
-    /**
-     * @todo this method doesn't belong here - should have another abstraction layer - Tree for this
-     * @param node
-     * @return
-     */
     public List getInboundEdgesDisplayedInGraph (Node node);
 
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType);

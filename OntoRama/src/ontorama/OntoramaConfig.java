@@ -19,6 +19,7 @@ import java.util.Properties;
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatConfigParser;
+import ontorama.conf.DataFormatMapping;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.conf.XmlConfigParser;
@@ -58,21 +59,11 @@ public class OntoramaConfig {
     public static String sourcePackageName;
 
     /**
-     * Specify Ontology Server Output format
-     */
-    public static String queryOutputFormat;
-
-    /**
      * Specify Parser to use with queryOutputFormat.
      * All parsers should have ontorama.ontotools.parser as root
      * and implement Parser iterface.
      */
     public static String parserPackageName;
-
-    /**
-     * where to find parser
-     */
-    private static final String parserPackagePathPrefix = "ontorama.ontotools.parser";
 
     /**
      * where to find source package
@@ -170,7 +161,7 @@ public class OntoramaConfig {
         buildDefaultNodeTypes();
         
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
-    	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.TestingBackend", null);
+    	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.examplesmanager.ExamplesBackend", null);
     	OntoramaConfig.activateBackend(_defaultBackend);
         System.out.println("--------- end of config--------------");
     }
@@ -319,10 +310,9 @@ public class OntoramaConfig {
     public static void setCurrentExample(OntoramaExample example) {
         OntoramaConfig.mainExample = example;
         OntoramaConfig.sourceUri = example.getRelativeUri();
-        setParserPackageName(example.getParserPackagePathSuffix());
+        setParserPackageName(example.getDataFormatMapping().getParserName());
         setSourcePackageName(example.getSourcePackagePathSuffix());
         OntoramaConfig.ontologyRoot = example.getRoot();
-        OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
     }
 
     /**
@@ -340,8 +330,8 @@ public class OntoramaConfig {
         return parserPackageName;
     }
 
-    public static void setParserPackageName(String parserPackagePathSuffixStr) {
-        parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
+    public static void setParserPackageName(String parserPackagePath) {
+        parserPackageName = parserPackagePath;
     }
 
     public static String getSourcePackageName() {
@@ -377,6 +367,18 @@ public class OntoramaConfig {
     public static List getDataFormatsMapping () {
     	return _dataFormatsMappingList;
     }
+    
+    public static DataFormatMapping getDataFormatMapping(String name) {
+    	Iterator it = _dataFormatsMappingList.iterator();
+		while (it.hasNext()) {
+			DataFormatMapping cur = (DataFormatMapping) it.next();
+			if (cur.getName().equals(name)) {
+				return cur;
+			}
+		}
+		return null;
+    }
+
 
     private static void buildDefaultNodeTypes() {
     	///@todo no need to create default shapes if we don't use them

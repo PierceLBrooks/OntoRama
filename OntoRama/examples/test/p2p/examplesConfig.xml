@@ -1,17 +1,11 @@
 <ontoramaExamples>
-    <example name="p2p_test1" root="wn#Tail" loadOnStart="yes">
+    <example name="p2p_test1" root="wn#Tail" dataFormatMapping="P2P-RDF" loadOnStart="yes">
         <source uri="examples/test/p2p/short.rdf"
-            isSourceDynamic="true"
             sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfP2PParser</parserPackagePathSuffix>
     </example>
-    <example name="p2p_test2" root="wn#Tail" >
+    <example name="p2p_test2" root="wn#Tail" dataFormatMapping="P2P-RDF">
         <source uri="examples/test/p2p/rdfExampleShort.rdf"
-            isSourceDynamic="true"
             sourcePackagePathSuffix="JarSource"/>
-        <queryOutputFormat>RDF</queryOutputFormat>
-        <parserPackagePathSuffix>rdf.RdfP2PParser</parserPackagePathSuffix>
     </example>
 
 </ontoramaExamples>

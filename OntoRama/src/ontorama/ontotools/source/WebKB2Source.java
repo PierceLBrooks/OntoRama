@@ -160,7 +160,7 @@ public class WebKB2Source implements Source {
      */
     private String constructQueryUrl(String uri, Query query) {
         WebkbQueryStringConstructor queryConstructor = new WebkbQueryStringConstructor();
-        String resultUrl = uri + queryConstructor.getQueryString(query, OntoramaConfig.queryOutputFormat);
+        String resultUrl = uri + queryConstructor.getQueryString(query, "RDF");
         return resultUrl;
     }
 

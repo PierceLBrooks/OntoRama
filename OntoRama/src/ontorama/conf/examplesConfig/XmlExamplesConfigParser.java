@@ -8,6 +8,7 @@ import java.util.List;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.ConfigParserException;
+import ontorama.conf.DataFormatMapping;
 import ontorama.conf.XmlParserAbstract;
 import ontorama.util.Debug;
 import org.jdom.Attribute;
@@ -78,6 +79,14 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         Attribute rootAttr = element.getAttribute("root");
         checkCompulsoryAttr(rootAttr, "root", "element");
         Attribute loadOnStartAttr = element.getAttribute("loadOnStart");
+        
+        Attribute dataFormatMappingAttr = element.getAttribute("dataFormatMapping");
+        checkCompulsoryAttr(dataFormatMappingAttr, "dataFormatMapping", "example");
+        DataFormatMapping dataFormatMapping = OntoramaConfig.getDataFormatMapping(dataFormatMappingAttr.getValue());
+        if (dataFormatMapping == null) {
+        	throw new ConfigParserException("Couldn't find data format mapping " + dataFormatMappingAttr.getValue() +
+        									". It should be defined in corresponding DataFormatMapping config XML file");
+        }
 
         Element sourceElement = element.getChild("source");
         if (sourceElement == null) {
@@ -89,30 +98,12 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
         checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
 
-
-        Element queryOutputFormatElement = element.getChild("queryOutputFormat");
-        if (queryOutputFormatElement == null) {
-            throw new ConfigParserException("Missing compulsory element 'queryOutputFormat' in element 'example'");
-        }
-
-        Element parserPackagePathSuffixElement = element.getChild("parserPackagePathSuffix");
-        if (parserPackagePathSuffixElement == null) {
-            throw new ConfigParserException("Missing compulsory element 'parserPackagePathSuffixElement' in element 'example'");
-        }
-
-
         OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
-                uriAttr.getValue(), queryOutputFormatElement.getText(),
-                parserPackagePathSuffixElement.getText(), sourcePackagePathSuffixAttr.getValue());
+                uriAttr.getValue(), sourcePackagePathSuffixAttr.getValue(),
+                dataFormatMapping);
         if ((loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes"))) {
             this.mainExample = example;
             example.setLoadFirst(true);
-        }
-
-        Attribute isSourceDynamicAttr = sourceElement.getAttribute("isSourceDynamic");
-        //System.out.println("isSourceDynamicAttr = " + isSourceDynamicAttr);
-        if ((isSourceDynamicAttr != null) && (isSourceDynamicAttr.getValue().equals("true"))) {
-            example.setIsSourceDynamic(true);
         }
 
         this.examplesList.add(example);

@@ -126,7 +126,7 @@ public class FileBackend implements Backend {
        OntoramaConfig.ontologyRoot = null;
        OntoramaConfig.sourceUri = filename;
        OntoramaConfig.sourcePackageName = _sourcePackageName;
-       OntoramaConfig.parserPackageName = parserName;
+       OntoramaConfig.setParserPackageName(parserName);
        
     	System.out.println("FileBackend::parserName = " + parserName);
        

@@ -1,39 +1,27 @@
 <ontoramaExamples>
-	<example name="testCase" root="test#Chair" loadOnStart="yes" >
+	<example name="testCase" root="test#Chair" dataFormatMapping="RDF" loadOnStart="yes" >
 		<source uri="examples/test/data/testCase.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-	<example name="testCase: invalid RDF 1" root="test#Chair">
+	<example name="testCase: invalid RDF 1" root="test#Chair" dataFormatMapping="RDF">
 		<source uri="examples/test/data/testCase-invalidRDF-1.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-	<example name="testCase: invalid RDF 2" root="test#Chair">
+	<example name="testCase: invalid RDF 2" root="test#Chair" dataFormatMapping="RDF">
 		<source uri="examples/test/data/testCase-invalidRDF-2.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-	<example name="test webkb: cat" root="cat">
+	<example name="test webkb: cat" root="cat" dataFormatMapping="WEBKB-RDF">
 		<source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi" 
 					sourcePackagePathSuffix="WebKB2Source"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
 	</example>
-	<example name="test webkb rdf parser" root="chair">
+	<example name="test webkb rdf parser" root="chair" dataFormatMapping="WEBKB-RDF">
 		<source uri="examples/test/data/testCase.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
 	</example>
-	<example name="comprehensive test" root="root">
+	<example name="comprehensive test" root="root" dataFormatMapping="RDF">
 		<source uri="examples/web-examples/imdb.rdf" 
 					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.DamlParser</parserPackagePathSuffix>
 	</example>
 
     <!--

@@ -17,12 +17,23 @@ public interface Edge {
      * @return fromNode
      */
     public Node getFromNode();
+    
+    /**
+     * set a 'start' node for this edge
+     * @param node
+     */
+    public void setFromNode(Node node);
 
     /**
      * get an 'end' node for this edge.
      * @return toNode
      */
     public Node getToNode();
+    
+    /**
+     * set an 'end' node for this edge
+     */
+    public void setToNode(Node node);
 
     /**
      * get edge type.

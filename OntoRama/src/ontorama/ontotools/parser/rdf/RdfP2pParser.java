@@ -13,6 +13,8 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.conf.RdfMapping;
+import ontorama.model.graph.EdgeType;
+//import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
@@ -230,6 +232,8 @@ public class RdfP2pParser implements Parser {
         Resource subject = st.getSubject();
         Property predicate = st.getPredicate();
         RDFNode object = st.getObject();
+        
+        //System.out.println(subject + " -> " + predicate + " -> " + object);
 
         String predicateStr = predicate.toString();
 
@@ -386,7 +390,7 @@ public class RdfP2pParser implements Parser {
 
     private P2PEdge mapEdgeIntoModel(String subjectStr, String predicateStr, String objectStr) throws NoSuchRelationLinkException {
         EdgeTypeExtended edgeTypeExt = getEdgeTypeForRdfTag(predicateStr);
-        ontorama.model.graph.EdgeType edgeType = edgeTypeExt.getEdgeType();
+        EdgeType edgeType = edgeTypeExt.getEdgeType();
         P2PNode node1 = getNodeForName(subjectStr);
         P2PNode node2 = getNodeForName(objectStr);
         P2PEdge edge = null;
@@ -435,7 +439,7 @@ public class RdfP2pParser implements Parser {
                 String mappingTag = (String) mappingTagsIterator.next();
                 if (predicateStr.endsWith(mappingTag)) {
                     String mappingType = rdfMapping.getType();
-                    ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
+                    EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
                         if (mappingType.equals(edgeType.getName())) {
                             return new EdgeTypeExtended(edgeType, false);
                         } else if (mappingType.equals(edgeType.getReverseEdgeName())) {
@@ -452,13 +456,13 @@ public class RdfP2pParser implements Parser {
         return null;
     }
 
-    private P2PEdge findEdgeInEdgesList(String fromNodeName, String toNodeName, ontorama.model.graph.EdgeType edgeType) {
+    private P2PEdge findEdgeInEdgesList(String fromNodeName, String toNodeName, EdgeType edgeType) {
         Iterator it = _edgesList.iterator();
         while (it.hasNext()) {
             P2PEdge cur = (P2PEdge) it.next();
             if (cur.getEdgeType().equals(edgeType)) {
-                ontorama.model.graph.Node fromNode = cur.getFromNode();
-                ontorama.model.graph.Node toNode = cur.getToNode();
+                P2PNode fromNode = (P2PNode) cur.getFromNode();
+                P2PNode toNode = (P2PNode) cur.getToNode();
                 if (fromNode.getName().equals(fromNodeName)) {
                     if (toNode.getName().equals(toNodeName)) {
                         return cur;
@@ -470,15 +474,15 @@ public class RdfP2pParser implements Parser {
     }
 
     private class EdgeTypeExtended {
-        private ontorama.model.graph.EdgeType type;
+        private EdgeType type;
         private boolean isReverse = false;
 
-        public EdgeTypeExtended (ontorama.model.graph.EdgeType type, boolean isReverse) {
+        public EdgeTypeExtended (EdgeType type, boolean isReverse) {
             this.type = type;
             this.isReverse = isReverse;
         }
 
-        public ontorama.model.graph.EdgeType getEdgeType () {
+        public EdgeType getEdgeType () {
             return this.type;
         }
 

@@ -337,7 +337,7 @@ public class GraphImpl implements Graph {
         try  {
             tempNode = existSameName(fromNode);
             if (tempNode != null) {
-                ((EdgeImpl) edge).setFromNode(tempNode);
+                edge.setFromNode(tempNode);
             } else {
                 addNode(fromNode);
             }
@@ -354,7 +354,7 @@ public class GraphImpl implements Graph {
         try  {
             tempNode = existSameName(toNode);
             if (tempNode != null) {
-                ((EdgeImpl) edge).setToNode(tempNode);
+                edge.setToNode(tempNode);
             } else {
                 addNode(toNode);
             }

@@ -51,6 +51,7 @@ public class P2PSender{
     * @version P2P-OntoRama 1.0.0
     */
     public void sendLogoutCommand() throws GroupExceptionThread, GroupExceptionFlush{
+        //@todo this method is never called when the application is closed down
             this.comm.sendLogoutCommand();
      }
 

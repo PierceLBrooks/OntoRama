@@ -100,7 +100,7 @@ System.out.println("PeersPanel, selectedGroupName:" + selectedGroupName + "(" + 
 
     public void removePeerFromAllGroups(String senderPeerID) {
 System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
-        //@todo implement should remove the id from every group
+        //@todo implement should remove the id from every group, I don't think this method is called from the application (i.e. not generated when a peer logout)
     }
 
     public void removeGroup(String groupID) {

@@ -174,7 +174,7 @@ public class OntoTreeView implements KeyListener, MouseListener,
     public void treeWillExpand(TreeExpansionEvent e)
                 throws ExpandVetoException {
       debug.message("Tree-will-expand event detected " + e);
-      System.out.println("Tree-will-expand event detected ");
+      //System.out.println("Tree-will-expand event detected ");
 
       TreePath path = e.getPath();
       if (path == null) {
@@ -206,7 +206,7 @@ public class OntoTreeView implements KeyListener, MouseListener,
     public void treeWillCollapse(TreeExpansionEvent e)
                     throws ExpandVetoException {
       debug.message("Tree-will-collapse event detected " + e);
-      System.out.println("Tree-will-collapse event detected ");
+      //System.out.println("Tree-will-collapse event detected ");
 
       TreePath path = e.getPath();
       if (path == null) {

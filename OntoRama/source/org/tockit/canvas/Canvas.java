@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: Canvas.java,v 1.1 2002-08-14 00:33:17 nataliya Exp $
+ * $Id: Canvas.java,v 1.2 2002-08-20 05:56:06 nataliya Exp $
  */
 package org.tockit.canvas;
 
@@ -149,7 +149,11 @@ public class Canvas extends JPanel implements Printable {
         Rectangle2D retVal = cur.getCanvasBounds(graphics);
         while (it.hasNext()) {
             cur = (CanvasItem) it.next();
-            retVal = retVal.createUnion(cur.getCanvasBounds(graphics));
+            Rectangle2D canvasBounds = cur.getCanvasBounds(graphics);
+            if (canvasBounds == null) {
+                continue;
+            }
+            retVal = retVal.createUnion(canvasBounds);
         }
         return retVal;
     }

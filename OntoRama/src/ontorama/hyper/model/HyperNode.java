@@ -2,7 +2,6 @@
 package ontorama.hyper.model;
 
 import ontorama.model.NodeObserver;
-import ontorama.model.GraphNode;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -15,7 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
 
-public class HyperNode {
+public class HyperNode implements NodeObserver {
     /**
      * Store the position of the node.
      */
@@ -26,14 +25,31 @@ public class HyperNode {
      */
     private int nodeRadius = 25;
 
-    private GraphNode node;
+    //private GraphNode node;
+
+    private String name;
 
     /**
      * Constructor
      */
-    public HyperNode( GraphNode node ) {
-      this.node = node;
+    public HyperNode( String name ) {
+      //this.node = node;
+      this.name = name;
       this.position = new Position3D();
+    }
+
+    /**
+     * Update method called from obserable (GraphNode)
+     */
+    public void update( Object obj ) {
+
+    }
+
+    /**
+     * Get the current NodeObserver.
+     */
+    public NodeObserver getNodeObserver() {
+        return this;
     }
 
     /**
@@ -67,6 +83,7 @@ public class HyperNode {
     /**
      * Recursive call to move all nodes..
      */
+     /*
     public void move( double x, double y ) {
         setLocation(position.getX() - x, position.getY() - y );
         //Iterator it = children.iterator();
@@ -75,7 +92,7 @@ public class HyperNode {
             HyperNode cur = (HyperNode)it.next();
             cur.move( x, y );
         }
-    }
+    }*/
 
     /**
      * Returns the distance to the other node.
@@ -89,6 +106,7 @@ public class HyperNode {
         //node.notifyChange();
     }
 
+    /*
     public void draw( Graphics2D g2d) {
       //Iterator it = children.iterator();
       Iterator it = node.getChildrenIterator();
@@ -99,6 +117,10 @@ public class HyperNode {
       g2d.setColor(Color.blue);
       g2d.fill( new Ellipse2D.Double(getX(), getY(), (double)(nodeRadius/2), (double)(nodeRadius/2)));
 
+    }*/
+
+    public String toString() {
+        return name;
     }
 
 }

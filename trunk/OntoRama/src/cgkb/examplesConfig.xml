@@ -1,15 +1,17 @@
 <ontoramaExamples>
 	<example name="KB test file" root="net.sourceforge.toscanaj" dataFormatMapping="CGKB" loadOnStart="yes" >
-		<source uri="examples/cgkb/test1.csv" sourcePackagePathSuffix="JarSource"/>
+		<source uri="examples/cgkb/test1.csv" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
 	</example>
 
 	<example name="KB cgi" root="net.sf.tj" dataFormatMapping="CGKB" loadOnStart="yes" >
 		<source uri="http://meganesia.int.gu.edu.au/cgi-bin/projects/KB/cgi_query_wrapper.pl"
-					sourcePackagePathSuffix="cgkb.CgKbSource"/>
+					sourcePackagePathSuffix="ontorama.ontotools.source.cgkb.CgKbSource"/>
 	</example>
-
+	
+	<!--
     	<example name="KB url" root="net.sourceforge.toscanaj.gui" dataFormatMapping="CGKB">
 		<source uri="http://meganesia.int.gu.edu.au/~nataliya/testCgKb.txt"
-					sourcePackagePathSuffix="UrlSource" />
+					sourcePackagePathSuffix="ontorama.ontotools.source.UrlSource" />
 	</example>
+	-->
 </ontoramaExamples>

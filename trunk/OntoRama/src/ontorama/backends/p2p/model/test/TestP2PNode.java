@@ -61,8 +61,8 @@ public class TestP2PNode extends TestCase {
      * test method getName()
      */
     public void testGetName() {
-        assertEquals("node1 name", "node1", node1.getIdentifier());
-        assertEquals("node2 name", "node2", node2.getIdentifier());
+        assertEquals("node1 name", "node1", node1.getName());
+        assertEquals("node2 name", "node2", node2.getName());
     }
 
     /**

@@ -25,12 +25,12 @@ public class P2PEdgeImpl implements P2PEdge {
     /**
      * Store the asserters
      */
-    private HashSet assertions;
+    private Collection assertions;
 
     /**
      * Store the rejecters
      */
-    private HashSet rejections;
+    private Collection rejections;
 
     /**
      * Create a new P2PEdgeImpl with given name and asserter or rejecter

@@ -2,6 +2,7 @@ package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import ontorama.backends.p2p.P2PGlobals;
 
@@ -56,9 +57,9 @@ public class SendMessageThread extends Thread{
 				        
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.commProt.getMemberOfGroups().elements();
-		while (enum.hasMoreElements()) {
-			PeerGroup pg = (PeerGroup) enum.nextElement();
+	 	Iterator it = this.commProt.getMemberOfGroups().iterator();
+		while (it.hasNext()) {
+			PeerGroup pg = (PeerGroup) it.next();
 			sendMessageToPeerGroup(	pg,	propType, ownPeerID, ownGroupID,tag,message);
 		}
     }
@@ -94,9 +95,9 @@ public class SendMessageThread extends Thread{
 		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;				 
 
 	 	//while travese to send the mesage to all groups this peer is a member of
-		Enumeration enum = this.commProt.getMemberOfGroups().elements();
-		while (enum.hasMoreElements()) {
-			PeerGroup pg = (PeerGroup) enum.nextElement();
+		Iterator it = this.commProt.getMemberOfGroups().iterator();
+		while (it.hasNext()) {
+			PeerGroup pg = (PeerGroup) it.next();
 			DiscoveryService discoveryService = pg.getDiscoveryService();
 			
 			//Prepare a message to be sent
@@ -141,12 +142,14 @@ public class SendMessageThread extends Thread{
 				}  
 	         }catch (InterruptedException e) {
 				this.anyErrors = true;
+				e.printStackTrace();
 		     }catch (IOException e) {
-	                    //Couldn't find a host to a given Adv.
+	            //Couldn't find a host to a given Adv.
+	            e.printStackTrace();
 	         }finally {
-				enum = this.commProt.getMemberOfGroups().elements();
-				while (enum.hasMoreElements()) {
-					pg = (PeerGroup) enum.nextElement();
+				it = this.commProt.getMemberOfGroups().iterator();
+				while (it.hasNext()) {
+					pg = (PeerGroup) it.next();
 			        discoveryService = pg.getDiscoveryService();	
 					discoveryService.removeDiscoveryListener(inputpipeDiscoveryListener);
 				}
@@ -197,24 +200,21 @@ public class SendMessageThread extends Thread{
                                                     recieverPipeAdvID);
 			PipeService pipeService = pg.getPipeService();                    
 			while(adverts.hasMoreElements()){
-				try {  
-					PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement(); 
+				PipeAdvertisement tmpAdv = (PipeAdvertisement) adverts.nextElement(); 
 
-					//Create a OutputPipe  
-					OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv,5*1000);
+				//Create a OutputPipe  
+				OutputPipe tmpOutputPipe = pipeService.createOutputPipe(tmpAdv,5*1000);
 
-					//Send message through new pipe and close pipe
-					tmpOutputPipe.send(msgToSend);
-					tmpOutputPipe.close();
-				} catch (IOException e) {
-				    //Couldn't find a host to a given Adv.
-				}             
+				//Send message through new pipe and close pipe
+				tmpOutputPipe.send(msgToSend);
+				tmpOutputPipe.close();
 			}  
 		} catch (InterruptedException e) {
 			System.err.println("Thread:: gonna do getREmoteAdvertisements FAILED" );
 			this.anyErrors = true;
 		} catch (IOException e) {
 		      //Couldn't find a host to a given Adv.
+		      e.printStackTrace();
 		} finally {
 			discoveryService = pg.getDiscoveryService();	
 			discoveryService.removeDiscoveryListener(inputpipeDiscoveryListener);

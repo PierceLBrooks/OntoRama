@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.controller;
 
-import java.util.Vector;
+import java.util.List;
 
 import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.p2p.GroupItemReference;
@@ -26,12 +26,12 @@ public class NewGroupEventHandler implements EventBrokerListener{
 		GroupItemReference newGroupRefElement = (GroupItemReference) event.getSubject();
 		try {
 			_sender.sendCreateGroup(newGroupRefElement.getName(),newGroupRefElement.getDescription());
-			Vector resVector = _sender.sendSearchGroup("Name",newGroupRefElement.getName());
+			List result = _sender.sendSearchGroup("Name",newGroupRefElement.getName());
 			/// @todo probably should handle whole vector, not just one element.
-			if ( resVector.isEmpty()) {
+			if ( result.isEmpty()) {
 				return;
 			}
-			GroupItemReference groupToJoin = (GroupItemReference) resVector.firstElement();
+			GroupItemReference groupToJoin = (GroupItemReference) result.get(0);
 			_sender.sendJoinGroup((PeerGroupID) groupToJoin.getID());
 		}
 		catch (Exception e) {

@@ -2,6 +2,7 @@ package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import net.jxta.peer.PeerID;
@@ -35,7 +36,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 
 	
 	//The serach result from a query (on tontologies)
-	private Vector searchResult;
+	private List searchResult;
 	
 	//The pipe advertisement
 	private Hashtable outputPropagatePipe;
@@ -108,13 +109,12 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
     * @exception GroupExceptionThread
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public Vector sendSearch(String query) throws IOException, GroupExceptionThread {
-		Vector searchResult = null;
+	public List sendSearch(String query) throws IOException, GroupExceptionThread {
 		try {
-			searchResult = sendSearchRequest(query);
+			return sendSearchRequest(query);
 		} catch (GroupExceptionThread e) {
-			throw (GroupExceptionThread) e.fillInStackTrace();		}
-		return searchResult;
+			throw (GroupExceptionThread) e.fillInStackTrace();		
+		}
 	}
 
 
@@ -250,9 +250,9 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-	public Vector sendSearchGroup(String searchAttrib, 
+	public List sendSearchGroup(String searchAttrib, 
 								  String searchString) throws IOException, GroupExceptionThread {
-		Vector retVal = null;
+		List retVal = null;
 		try {
 			retVal = this.communicationGroup.searchGroup(searchAttrib,searchString);
 		} catch (GroupExceptionThread e) {
@@ -275,16 +275,14 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-	public Vector peerDiscovery (String groupIDasString) throws IOException, GroupExceptionThread {
-		Vector retVal = null;
+	public List peerDiscovery (String groupIDasString) throws IOException, GroupExceptionThread {
 		try {
-			retVal= this.communicationGroup.peerDiscovery(groupIDasString);
+			return this.communicationGroup.peerDiscovery(groupIDasString);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();			
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();				
 		}	
-		return retVal;
 	}	
 
 
@@ -297,7 +295,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-    private Vector sendSearchRequest(String query) throws GroupExceptionThread{
+    private List sendSearchRequest(String query) throws GroupExceptionThread{
 		return communicationSender.sendSearchRequest(query);
     }
 	
@@ -365,7 +363,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
     *
     * @version P2P-OntoRama 1.0.0
     */
-    public Vector getMemberOfGroups(){
+    public List getMemberOfGroups(){
         return new Vector(this.communicationGroup.memberOfGroupsByValues());   
     }
     
@@ -397,7 +395,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	* @return a vector of SearchResultElement
 	* @version P2P-OntoRama 1.0.0
 	*/
-	protected Vector getSearchResult() {
+	protected List getSearchResult() {
 		return searchResult;
 	}
 
@@ -477,10 +475,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	}
 	
        
-	/* (non-Javadoc)
-	 * @see ontorama.backends.p2p.p2pprotocol.CommunicationProtocol#sendSearchAllPeers()
-	 */
-	public Vector sendSearchAllPeers() throws GroupExceptionThread, IOException {
+	public List sendSearchAllPeers() throws GroupExceptionThread, IOException {
 		return this.communicationGroup.peerDiscoveryForGlobalGroup();
 	}
 

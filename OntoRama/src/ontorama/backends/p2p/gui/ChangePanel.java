@@ -72,7 +72,8 @@ public class ChangePanel extends JPanel {
 				List selectedChanges = getChangesForSelectedRows();
 				Iterator it = selectedChanges.iterator();
 				while (it.hasNext()) {
-					Change element = (Change) it.next();
+					Change change = (Change) it.next();
+					System.out.println("accept change: " + change);
 					
 				}
 			}
@@ -83,6 +84,7 @@ public class ChangePanel extends JPanel {
 		rejectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				List selectedChanges = getChangesForSelectedRows();
+				System.out.println("changed to reject: " + selectedChanges);
 			}
 		});
 
@@ -91,6 +93,7 @@ public class ChangePanel extends JPanel {
 		ignoreButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				List selectedChanges = getChangesForSelectedRows();
+				System.out.println("changed to ignore: " + selectedChanges);
 			}
 		});
 

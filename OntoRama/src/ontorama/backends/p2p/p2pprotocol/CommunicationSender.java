@@ -1,8 +1,8 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.List;
 
 import ontorama.backends.p2p.P2PGlobals;
 
@@ -104,9 +104,7 @@ public class CommunicationSender  {
 	*
 	* @version P2P-OntoRama 1.0.0
 	*/
-    protected Vector sendSearchRequest(String query) throws GroupExceptionThread {
-		DiscoveryService discoveryService = null;
-		InputpipeDiscoveryListener inputpipeDiscoveryListener = null;
+    protected List sendSearchRequest(String query) throws GroupExceptionThread {
 
   		MimeMediaType mimeType = new MimeMediaType("text/xml");
         Message queryTobeSent = null; 
@@ -145,17 +143,18 @@ public class CommunicationSender  {
         System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
 
 
-        Enumeration enum = this.commProt.getMemberOfGroups().elements();
-        while (enum.hasMoreElements()) {
-            PeerGroup pg = (PeerGroup) enum.nextElement();
-            discoveryService = pg.getDiscoveryService();
+		Iterator it = this.commProt.getMemberOfGroups().iterator();
+        while (it.hasNext()) {
+            PeerGroup pg = (PeerGroup) it.next();
+            DiscoveryService discoveryService = pg.getDiscoveryService();
 
             try {
                 OutputPipe pipe = this.commProt.getOutputPropagatePipe(pg.getPeerGroupID());
                 pipe.send(queryTobeSent);
             }
             catch (IOException e) {
-                         //Couldn't find a host to a given Adv
+                //Couldn't find a host to a given Adv
+                e.printStackTrace();
             }
         }
         try {
@@ -183,10 +182,10 @@ public class CommunicationSender  {
 		//Use the GroupMember object to keep track of which group we are 
 		//in at the moment. Call callFlushPeerAdvertisement for every group 
 		//in this object.
-		Enumeration enum = this.commProt.getMemberOfGroups().elements();
+		Iterator it = this.commProt.getMemberOfGroups().iterator();
 		
-		while (enum.hasMoreElements()) {
-			PeerGroupID groupID = ((PeerGroup) enum.nextElement()).getPeerGroupID();	
+		while (it.hasNext()) {
+			PeerGroupID groupID = ((PeerGroup) it.next()).getPeerGroupID();	
 			try {
 				commProt.callFlushPeerAdvertisementFrom(groupID.toString());
 			} catch (GroupExceptionFlush e) {

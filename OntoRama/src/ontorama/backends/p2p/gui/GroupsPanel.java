@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -198,7 +200,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithFoundGroups() {
-		Vector foundGroups = new Vector();
+		List foundGroups = new LinkedList();
 		try {
 			foundGroups =  _p2pBackend.getSender().sendSearchGroup(null, null);
 		} 
@@ -207,9 +209,9 @@ public class GroupsPanel extends JPanel implements GroupView {
 			ErrorDialog.showError(this, e, "Error searching for available groups", e.getMessage());
 		}
 		
-		Enumeration e = foundGroups.elements();
-		while (e.hasMoreElements()) {
-			GroupItemReference cur = (GroupItemReference) e.nextElement();
+		Iterator it = foundGroups.iterator();
+		while (it.hasNext()) {
+			GroupItemReference cur = (GroupItemReference) it.next();
 			if (_joinedGroupsListModel.contains(cur)) {
 				continue;
 			}
@@ -218,10 +220,10 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithJoinedGroups () {
-		Vector joinedGroups =  _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
-		Enumeration e = joinedGroups.elements();
-		while (e.hasMoreElements()) {
-			GroupItemReference element = (GroupItemReference) e.nextElement();
+		List joinedGroups =  _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
+		Iterator it = joinedGroups.iterator();
+		while (it.hasNext()) {
+			GroupItemReference element = (GroupItemReference) it.next();
 			if (_allGroupsListModel.contains(element)) {
 				continue;
 			}

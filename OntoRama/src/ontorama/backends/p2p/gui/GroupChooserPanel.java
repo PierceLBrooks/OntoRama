@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,7 +15,7 @@ public class GroupChooserPanel extends JPanel {
 
     private GroupChooserComboBox _nameChooser;
 
-    public GroupChooserPanel (Vector groups, String labelString) {
+    public GroupChooserPanel (Collection groups, String labelString) {
         super();
 
         Object[] sortedGroups = sortCaseInsensitive(groups);

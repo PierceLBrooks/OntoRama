@@ -1,8 +1,8 @@
 package ontorama.backends.p2p.gui.action;
 
 import java.awt.event.ActionEvent;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 
@@ -39,12 +39,12 @@ public class ActionGroupSearch extends AbstractAction{
             if (selectedOption == GroupSearchDialog.OPTION_ALL) {
                 System.out.println("option selected: all groups");
                 try {
-                    Vector searchGroupResult = _p2pBackend.getSender().sendSearchGroup(null,null);
+                    List searchGroupResult = _p2pBackend.getSender().sendSearchGroup(null,null);
                     GroupItemReference searchGroupResultElement = null;
                     System.out.println("Found following matching " + "s");
-                    Enumeration tmpEnumernation = searchGroupResult.elements();
-                        while (tmpEnumernation.hasMoreElements()) {
-                        searchGroupResultElement = (GroupItemReference)tmpEnumernation.nextElement();
+                    Iterator it = searchGroupResult.iterator();
+                        while (it.hasNext()) {
+                        searchGroupResultElement = (GroupItemReference) it.next();
                         System.out.println(":" +
                             searchGroupResultElement.getName()
                             + " (ID:" + searchGroupResultElement.getID() + ")");

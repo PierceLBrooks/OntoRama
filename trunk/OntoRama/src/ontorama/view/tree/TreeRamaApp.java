@@ -75,8 +75,8 @@ public class TreeRamaApp extends JFrame {
 
         //Create the scroll pane and add the tree to it.
         //JScrollPane treeView = new JScrollPane(tree);
-        //JComponent treeView = tree.getTreeViewPanel();
-        JScrollPane treeView = tree.getTreeViewPanel();
+        JComponent treeView = tree.getTreeViewPanel();
+        //JScrollPane treeView = tree.getTreeViewPanel();
 
         //Add the scroll panes to a split pane.
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);

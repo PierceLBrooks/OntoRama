@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Enumeration;
 import java.util.Collection;
+import java.util.Stack;
 
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import ontorama.model.GraphNode;
 import ontorama.model.NodeObserver;
@@ -44,6 +46,41 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      */
     public void update( Object obj ) {
         System.out.println("OntoTreeNode method update: " + this.graphNode.getName());
+        //TreeNode treeNode = OntoTreeBuilder.getTreeNode(this.graphNode);
+
+        // get TreePath for this node and tell tree to update?
+
+        OntoTreeNode parent = (OntoTreeNode) this.getParent();
+        Stack stack = new Stack();
+        stack.push(this);
+        stack = buildPath(parent,stack);
+        System.out.println ("stack = " + stack);
+        int stackSize = stack.size();
+        System.out.println ("stack size = " + stackSize);
+        Stack reverseStack = new Stack();
+        while (!stack.isEmpty()) {
+            reverseStack.push(stack.pop());
+        }
+        Object nodesPathArray[] = reverseStack.toArray();
+        TreePath path = new TreePath(nodesPathArray);
+
+        System.out.println("TreePath = " + path);
+
+    }
+
+    /**
+     *
+     */
+    private Stack buildPath (OntoTreeNode node, Stack stack) {
+        //GraphNode graphNode = node.getGraphNode();
+        stack.push(node);
+        OntoTreeNode parent = (OntoTreeNode) node.getParent();
+        if (parent != null) {
+            Stack newStack = buildPath(parent,stack);
+            return newStack;
+        }
+        return stack;
+
     }
 
     /**
@@ -61,14 +98,10 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * @return  child TreeNode
      */
     public TreeNode getChildAt(int childIndex) {
-        //List childrenList = this.graphNode.getChildrenList();
-
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        List childrenList = graphNode.getChildrenList();
-
+        List childrenList = this.graphNode.getChildrenList();
         GraphNode childGraphNode = (GraphNode) childrenList.get(childIndex);
         TreeNode childNode = OntoTreeBuilder.getTreeNode(childGraphNode);
-        //System.out.println("getChildAt(index): , node = " + graphNode.getName() + " returning " + childNode + " for index " + childIndex );
+        //System.out.println("getChildAt(index): , node = " + this.graphNode.getName() + " returning " + childNode + " for index " + childIndex );
         return childNode;
     }
 
@@ -79,15 +112,8 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * @todo  remove getNumberOfChildren method
      */
     public int getChildCount() {
-        //List childrenList = this.graphNode.getChildrenList();
-
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        List childrenList = graphNode.getChildrenList();
-
-        //this.graphNode.hasFocus();
-
-        //System.out.println("getChildCount(): , node = " + graphNode.getName() + " returning "  + childrenList.size());
-
+        List childrenList = this.graphNode.getChildrenList();
+        //System.out.println("getChildCount(): , node = " + this.graphNode.getName() + " returning "  + childrenList.size());
         return childrenList.size();
     }
 
@@ -100,21 +126,13 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * @return parent TreeNode
      */
     public TreeNode getParent() {
-        //Iterator parentsIterator = this.graphNode.getParents();
-
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        Iterator parentsIterator = graphNode.getParents();
-
-
-
+        Iterator parentsIterator = this.graphNode.getParents();
         if (parentsIterator.hasNext()) {
             GraphNode parentGraphNode = (GraphNode) parentsIterator.next();
-            //System.out.println("getParent(): , node = " + graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
-
+            //System.out.println("getParent(): , node = " + this.graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
             return ( (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
         }
-        //System.out.println("getParent(): , node = " + graphNode.getName() + " returning null");
-
+        //System.out.println("getParent(): , node = " + this.graphNode.getName() + " returning null");
         return null;
     }
 
@@ -127,12 +145,8 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * that by 'receiver' they mean this node.
      */
     public int getIndex(TreeNode node) {
-        //List childrenList = this.graphNode.getChildrenList();
-
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        List childrenList = graphNode.getChildrenList();
-
-        //System.out.println("getIndex(TreeNode): , node = " + graphNode.getName() +
+        List childrenList = this.graphNode.getChildrenList();
+        //System.out.println("getIndex(TreeNode): , node = " + this.graphNode.getName() +
         //            " returning "  + childrenList.indexOf(node) +
         //            " for TreeNode " +  (OntoTreeBuilder.getGraphNode(node)).getName());
         return childrenList.indexOf(node);
@@ -142,8 +156,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * Returns true if the receiver allows children.
      */
     public boolean getAllowsChildren() {
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        //System.out.println("getAllowsChildren(): , node = " + graphNode.getName() +
+        //System.out.println("getAllowsChildren(): , node = " + this.graphNode.getName() +
         //            " returning "  + allowChildren);
       return allowChildren;
     }
@@ -154,13 +167,12 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
       if (this.getChildCount() < 0 ) {
-        //System.out.println("isLeaf(): , node = " + graphNode.getName() +
+        //System.out.println("isLeaf(): , node = " + this.graphNode.getName() +
         //            " returning true");
         return true;
       }
-        //System.out.println("isLeaf(): , node = " + graphNode.getName() +
+        //System.out.println("isLeaf(): , node = " + this.graphNode.getName() +
         //            " returning false");
 
       return false;
@@ -170,9 +182,8 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * Returns the children of the reciever as an Enumeration.
      */
     public Enumeration children() {
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-      Enumeration childrenEnum = (Enumeration) ( graphNode.getChildrenList());
-        //System.out.println("children(): , node = " + graphNode.getName() +
+      Enumeration childrenEnum = (Enumeration) ( this.graphNode.getChildrenList());
+        //System.out.println("children(): , node = " + this.graphNode.getName() +
         //            " returning" + childrenEnum);
 
       return childrenEnum;
@@ -183,18 +194,16 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
     /**
      * Get GraphNode that is a part of this OntoTreeNode
      */
-    //public GraphNode getGraphNode () {
-    //    return this.graphNode;
-    //}
+    public GraphNode getGraphNode () {
+        return this.graphNode;
+    }
 
     /**
      * toString
      */
     public String toString () {
-        GraphNode graphNode = OntoTreeBuilder.getGraphNode(this);
-        return graphNode.getName();
         //String str = "OntoTreeNode: " + this.graphNode.toString();
-        //return this.graphNode.getName();
+        return this.graphNode.getName();
     }
 
 }

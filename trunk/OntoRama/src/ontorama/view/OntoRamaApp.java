@@ -45,20 +45,16 @@ public class OntoRamaApp extends JFrame {
         GraphBuilder graphBuilder = new GraphBuilder();
         Graph graph = graphBuilder.getGraph();
 
-        // Create hyper view
+        // Create HyperView
         hyperView = new SimpleHyperView();
 
-        //JPanel hyperViewPanel = new JPanel();
         hyperView.setGraph(graph);
-        hyperView.setPreferredSize(new Dimension(400,400));
-        //hyperViewPanel.add(hyperView);
+        hyperView.setPreferredSize(new Dimension(500,400));
 
         // Create OntoTreeView
         treeView = new OntoTreeView(graph);
-        //Create the scroll pane and add the tree to it.
-        JScrollPane treeViewPanel = treeView.getTreeViewPanel();
-        //Dimension prefferredSize = new Dimension (500,200);
-        //treeViewPanel.setPreferredSize(prefferredSize);
+        JComponent treeViewPanel = treeView.getTreeViewPanel();
+        treeViewPanel.setPreferredSize(new Dimension (500,200));
 
         //Add the scroll panes to a split pane.
         splitPane.setLeftComponent(hyperView);

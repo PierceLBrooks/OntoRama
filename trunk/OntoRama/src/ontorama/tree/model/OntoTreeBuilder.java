@@ -33,7 +33,6 @@ public class OntoTreeBuilder {
             TreeNode treeNode = new OntoTreeNode (curNode);
             //System.out.println("graph node = " + curNode);
             //System.out.println("tree node = " + treeNode);
-
             ontoHash.put(curNode,treeNode);
         }
     }
@@ -47,7 +46,8 @@ public class OntoTreeBuilder {
     /**
      *
      */
-    public static GraphNode getGraphNode (TreeNode treeNode) {
+     /*
+   public static GraphNode getGraphNode (TreeNode treeNode) {
         Enumeration en = ontoHash.keys();
         while (en.hasMoreElements()) {
             GraphNode graphNode = (GraphNode) en.nextElement();
@@ -57,4 +57,5 @@ public class OntoTreeBuilder {
         }
         return null;
     }
+    */
 }

@@ -13,7 +13,7 @@ import java.util.Vector;
 
 import ontorama.backends.Backend;
 import ontorama.backends.Menu;
-import ontorama.backends.OntoRamaBackend;
+import ontorama.backends.BackendSearch;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
@@ -47,7 +47,7 @@ import javax.swing.*;
 public class P2PBackend implements Backend{
     private P2PGraph graph = null;
     private P2PSender sender = null;
-    //private OntoRamaBackend ontoRama = null;
+    //private BackendSearch ontoRama = null;
     public List panels = null;
 
 
@@ -90,7 +90,7 @@ public class P2PBackend implements Backend{
                sender.sendSearchResponse(senderPeerID, rdfResultGraph);
           
                //TODO should be toRdf instead 
-               P2PGraph resultGraphOntoRama = OntoRamaBackend.search(tmpQuery);
+               P2PGraph resultGraphOntoRama = BackendSearch.search(tmpQuery);
                String rdfResultOntoRama = resultGraphOntoRama.toRDFString();
                sender.sendSearchResponse(senderPeerID, rdfResultOntoRama);
         } catch (GroupExceptionThread e) {
@@ -102,7 +102,7 @@ public class P2PBackend implements Backend{
     public P2PGraph search(Query query) {
        //Emtpy the previus graph model and set it to what ontoRama returns
        //TODO this should be used when everything is working
-       this.setP2PGraph(OntoRamaBackend.search(query));
+       this.setP2PGraph(BackendSearch.search(query));
        ((ChangePanel) this.getPanels().get(1)).empty();
        //Ask the other peers what they got
          try {

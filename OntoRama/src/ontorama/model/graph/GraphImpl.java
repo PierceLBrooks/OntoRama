@@ -131,9 +131,9 @@ public class GraphImpl implements Graph {
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
-			System.out.println("graphImpl checkForCycles:: " + curEdge.getFromNode().getName() 
-										+ " -> " + curEdge.getToNode().getName() 
-										+ " : " + curEdge.getEdgeType());
+			//System.out.println("graphImpl checkForCycles:: " + curEdge.getFromNode().getName() 
+			//							+ " -> " + curEdge.getToNode().getName() 
+			//							+ " : " + curEdge.getEdgeType());
             List curEdgesToRemove = checkEdgeForCycle(curEdge);
             edgesToRemove.addAll(curEdgesToRemove);
         }
@@ -220,7 +220,7 @@ public class GraphImpl implements Graph {
      * @return Node root
      */
     public Node getRootNode() {
-    	System.out.println("GraphImpl:: getRootNode returns: " + root);
+    	//System.out.println("GraphImpl:: getRootNode returns: " + root);
         return root;
     }
 

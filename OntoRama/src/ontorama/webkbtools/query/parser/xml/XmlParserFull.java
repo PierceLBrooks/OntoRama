@@ -84,6 +84,17 @@ public class XmlParserFull implements Parser {
         List conceptTypeElementsList = top.getChildren("conceptType");
         Iterator conceptTypeElementsIterator = conceptTypeElementsList.iterator();
 
+        /// @todo hack to get concept node type
+        Iterator it = OntoramaConfig.getNodeTypesList().iterator();
+        NodeType conceptNodeType = null;
+        while (it.hasNext()) {
+            NodeType nodeType = (NodeType) it.next();
+            if (nodeType.getNodeType().equals("concept")) {
+                conceptNodeType = nodeType;
+            }
+        }
+
+
         while (conceptTypeElementsIterator.hasNext()) {
             Element conceptTypeEl = (Element) conceptTypeElementsIterator.next();
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
@@ -93,6 +104,7 @@ public class XmlParserFull implements Parser {
 
             if (node == null) {
                 node = new NodeImpl(nameAttr.getValue());
+                node.setNodeType(conceptNodeType);
                 // add child to hashtable
                 _nodes.put(nameAttr.getValue(), node);
             }

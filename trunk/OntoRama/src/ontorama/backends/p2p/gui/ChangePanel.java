@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,9 +19,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.Change;
 import ontorama.backends.p2p.model.EdgeChange;
 import ontorama.backends.p2p.model.NodeChange;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.NodeType;
 
 /*
  * Created by IntelliJ IDEA.
@@ -181,18 +186,6 @@ public class ChangePanel extends JPanel {
 			row[1] = change;
 			row[2] = change;
 			row[3] = change;
-			
-			
-//			if (change instanceof NodeChange ) {
-//				//row[1] = "node";
-//				NodeChange nodeChange = (NodeChange) change;
-//				row[3] = nodeChange.getNodeName();
-//			}
-//			else {
-//				//row[1] = "edge";
-//				EdgeChange edgeChange = (EdgeChange) change;
-//				row[3] = edgeChange.getFromNode() + " -> " + edgeChange.getToNode();
-//			}
 			row[4] = change.getPeer().getName();
 		}
 		
@@ -222,14 +215,20 @@ public class ChangePanel extends JPanel {
 
 			switch (col) {
 				case 1 :
+					ImageIcon icon = null;
 					if (value instanceof NodeChange) {
-						setText("node");
+						NodeChange nodeChange = (NodeChange) value;
+						//setText("node");
 						setToolTipText("Node");
+						icon = getNodeIcon(nodeChange);
 					}
 					else {
-						setText("edge");
+						EdgeChange edgeChange = (EdgeChange) value;
+						//setText("edge");
 						setToolTipText("Edge");
+						icon = getEdgeIcon(edgeChange);
 					}
+					setIcon(icon);
 					break;
 				case 2 :
 					String action = ((Change) value).getAction();
@@ -241,6 +240,7 @@ public class ChangePanel extends JPanel {
 						setText("-");
 						setToolTipText("Rejected");
 					}
+					setIcon(null);
 					break;
 				case 3:
 					String cellText = "";
@@ -254,33 +254,42 @@ public class ChangePanel extends JPanel {
 					}
 					setText(cellText);
 					setToolTipText(cellText);
+					setIcon(null);
 					break;
 				default :
 					break;
 			}
-			System.out.println("NodeEdgeColumnTableRenderer:: getTableCellRendererComponent for row " + row + " and col " + col);
 			return this;
+		}
+		
+		private ImageIcon getNodeIcon (NodeChange nodeChange) {
+			String nodeTypeStr = nodeChange.getNodeType();
+			Iterator it = OntoramaConfig.getNodeTypesCollection().iterator();
+			NodeType nodeType = null;
+			while (it.hasNext()) {
+				NodeType cur = (NodeType) it.next();
+				if (cur.getName().equals(nodeTypeStr)) {
+					nodeType = cur;
+				}
+			}
+			if (nodeType == null) {
+				nodeType = OntoramaConfig.UNKNOWN_TYPE;
+			}
+			return new ImageIcon(OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getImage());
+		}
+		
+		private ImageIcon getEdgeIcon (EdgeChange edgeChange) {
+			String edgeTypeString = edgeChange.getEdgeType();
+			Iterator it = OntoramaConfig.getEdgeTypesList().iterator();
+			EdgeType edgeType = null;
+			while (it.hasNext()) {
+				EdgeType cur = (EdgeType) it.next();
+				if (cur.getName().equals(edgeTypeString)) {
+					edgeType = cur;
+				}
+			}
+			return new ImageIcon( OntoramaConfig.getEdgeDisplayInfo(edgeType).getImage());
 		}
     	
     }
-	private class AssertColumnTableRenderer extends JLabel implements TableCellRenderer  {
-
-		public Component getTableCellRendererComponent(JTable table, Object value, 
-													boolean isSelected, boolean hasFocus, 
-													int row, int col) {
-
-			String action = ((Change) value).getAction();
-			if (action.equalsIgnoreCase(Change.ASSERT)) {
-				setText("+");
-				setToolTipText("Asserted");
-			}
-			else {
-				setText("-");
-				setToolTipText("Rejected");
-			}
-			System.out.println("AssertColumnTableRenderer:: getTableCellRendererComponent for row " + row + " and col " + col);
-			return this;
-		}
-    	
-	}
 }

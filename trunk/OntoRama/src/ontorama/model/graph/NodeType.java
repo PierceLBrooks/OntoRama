@@ -7,4 +7,5 @@ package ontorama.model.graph;
  * something else. Otherwise NodeTypes can be anything.
  */
 public interface NodeType {
+	public String getName();
 }

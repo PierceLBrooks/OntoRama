@@ -34,7 +34,7 @@ public class Graph implements GraphInterface {
     /**
      * debug vars
      */
-    Debug debug = new Debug(false);
+    Debug debug = new Debug(true);
 
     /**
      * Create a Graph with given root
@@ -72,6 +72,7 @@ public class Graph implements GraphInterface {
      * Test if current Graph is a Tree
      *
      * @param root  - root GraphNode
+     * @todo  remove code between //debug and //end of debug
      */
     private boolean testIfTree (GraphNode root) {
         LinkedList queue = new LinkedList();
@@ -87,6 +88,16 @@ public class Graph implements GraphInterface {
                 GraphNode curNode = (GraphNode) allOutboundNodes.next();
                 queue.add(curNode);
 
+                // debug. Remove later
+                int[] typeCount = getTypeCount(Edge.getInboundEdges(curNode));
+                for (int i = 0; i < typeCount.length; i++) {
+                  if (typeCount[i] > 1) {
+                    debug.message("Graph","testIfTree"," node " + curNode.getName() + " has " + typeCount[i] + " inbound edges for relLink " + i);
+                  }
+                }
+                // end of debug
+
+
                 Iterator inboundEdges = Edge.getInboundEdges(curNode);
                 int count = 0;
                 while (inboundEdges.hasNext()) {
@@ -94,6 +105,12 @@ public class Graph implements GraphInterface {
                     inboundEdges.next();
                 }
                 if (count > 1) {
+                    debug.message("Graph","testIfTree"," node " + curNode.getName() + " has multiple inbound edges");
+                    Iterator it = Edge.getInboundEdges(curNode);
+                    while (it.hasNext()) {
+                      Edge edge = (Edge) it.next();
+                      System.out.println("edge from " + edge.getFromNode() + ", type = " + edge.getType());
+                    }
                     isTree = false;
                 }
             }
@@ -123,6 +140,7 @@ public class Graph implements GraphInterface {
             while (allOutboundNodes.hasNext()) {
                 GraphNode curNode = (GraphNode) allOutboundNodes.next();
                 queue.add(curNode);
+                /*
                 int[] typeCount = getTypeCount(Edge.getInboundEdges(curNode));
                 for (int i = 0; i < typeCount.length; i++) {
                     while (typeCount[i] > 1) {
@@ -146,6 +164,35 @@ public class Graph implements GraphInterface {
                         // indicate that we processed one edge
                         typeCount[i]--;
                     }
+                }
+                */
+
+                Iterator inboundEdges = Edge.getInboundEdges(curNode);
+                int count = 0;
+                while (inboundEdges.hasNext()) {
+                    count++;
+                    inboundEdges.next();
+                }
+                while (count > 1) {
+                    debug.message("Graph","convertIntoTree"," node " + curNode.getName() + " has multiple inbound edges");
+
+                        // clone the node
+                        GraphNode cloneNode = curNode.makeClone();
+
+                        // add edge from cloneNode to a NodeParent with this rel type and
+                        // remove edge from curNode to a NodeParent with this rel type
+                        Iterator it = Edge.getInboundEdges(curNode);
+                        if (it.hasNext()) {
+                            Edge firstEdge = (Edge) it.next();
+                            Edge newEdge = new Edge (firstEdge.getFromNode(), cloneNode, firstEdge.getType());
+                            Edge.removeEdge(firstEdge);
+                        }
+
+                        // copy/clone all structure below
+                        deepCopy(curNode, cloneNode);
+
+                        // indicate that we processed one edge
+                        count--;
                 }
 
             }

@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>  
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cweb="http://139.91.183.30:9090/RDF/VRP/Examples/cwebMetaProperty.rdf"
+         xmlns:xs="http://www.w3.org/1999/XMLSchema-datatypes#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">  
+
+<rdfs:Class rdf:ID="ROOT_CLASS"
+          rdfs:comment="The root abstract class for any C-Web schema.">  
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="WR"
+        rdfs:comment="The class of Web Resources.">  
+        <rdfs:subClassOf rdf:resource="#ROOT_CLASS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="RWOS"
+         rdfs:comment="The abstract class for Real-World Entity Surrogates." >  
+        <rdfs:subClassOf rdf:resource="#ROOT_CLASS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Link">  
+        <rdfs:subClassOf rdf:resource="#ROOT_CLASS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Artefact">  
+        <rdfs:comment>  Generic class for all artefacts. May be subclassed
+                  as needed for specific application domains.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+<rdfs:Class rdf:ID="Collection">  
+        <rdfs:comment>  A Web Resource that can contain other Web Resources.
+                        See definition in RFC-2518.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#WR"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Community">  
+        <rdfs:comment>  Generic class for communities, i.e. : group of people 
+                        sharing some common objectives, rules and language. 
+Persons are attached to communities through roles.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="DocRef"
+        rdfs:comment="A generic class to represent non-digital documents. 
+        A WebResource may have an instance of Document as its WR:Source.">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Role">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Forum">  
+        <rdfs:subClassOf rdf:resource="#WR"/>  
+</rdfs:Class>  
+<rdfs:Class rdf:ID="e-mail">  
+        <rdfs:subClassOf rdf:resource="#WR"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="NaturalThing"
+         rdfs:comment="Generic class for natural things.">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="LT">  
+        <rdfs:comment>  Living Thing. Should be subclassed as needed 
+                      for specific application domains.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#NaturalThing"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="NLNT">  
+        <rdfs:comment>  Non-Living Natural Thing. Should be subclassed as 
+                        needed for specific application domains.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#NaturalThing"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Organisation"
+         rdfs:comment="A community with  formalized statute and explicit rules.">  
+        <rdfs:subClassOf rdf:resource="#Community"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="OrgUnit"
+         rdfs:comment="An organisation unit  located in one single place.">  
+        <rdfs:subClassOf rdf:resource="#Organisation"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Person">  
+        <rdfs:comment>  Generic class for Persons. May be subclassed for 
+                        specific application domains.</rdfs:comment>  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Places"
+        rdfs:comment="A class to represent as local instances some places 
+                      relevant for the application domain. Note that in many 
+                      applications, one may prefer to define a slot taking value 
+                      in the GeoPlace thesaurus.">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Process">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdfs:Class rdf:ID="Theory">  
+        <rdfs:subClassOf rdf:resource="#RWOS"/>  
+</rdfs:Class>  
+
+<rdf:Property rdf:ID="Com_PartOf"
+         cweb:maxCardinality="1"
+         rdfs:comment="The PartOf relationship between Communities.">  
+        <rdfs:domain rdf:resource="#Community"/>  
+        <rdfs:range rdf:resource="#Community"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Doc_Author"
+         rdfs:comment="Author of a document. A document may have several authors.">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Doc_PubDate"
+         cweb:maxCardinality="1"
+         rdfs:comment="Publication date of a document.">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Doc_PubPlace"
+         cweb:maxCardinality="1"
+         rdfs:comment="Publication place of a document. Optional.">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Doc_Publisher"
+         cweb:maxCardinality="1"
+         rdfs:comment="Publisher of a document">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Doc_Title"
+         cweb:maxCardinality="1"
+         rdfs:comment="Title of a document.">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+
+<!--
+<rdf:Property rdf:ID="Doc_Type"
+        cweb:maxCardinality="1"
+        cweb:minCardinality="1"
+        rdfs:comment="Type of a document, chosen in a thesaurus.">  
+        <rdfs:domain rdf:resource="#DocRef"/>  
+        <rdfs:range >
+                <cweb:thesaurus  
+                        rdf:about='http://foo.bar.com/terms/docTypes.xml'/> 
+        </rdfs:range>
+</rdf:Property>
+  -->
+<rdf:Property rdf:ID="Label"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1">  
+        <rdfs:comment>  The generic slot used to give a visible 
+                        name tto any object (class or instance).
+                        This name can be used in RQL queries, and is 
+                        displayed by default in result-sets.</rdfs:comment>  
+        <rdfs:domain rdf:resource="#RWOS"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Link_Dest"
+         cweb:minCardinality="1">  
+        <rdfs:comment>  Target of a link is a Web resource. A link may have 
+                        several targets (extended links).</rdfs:comment>  
+        <rdfs:domain rdf:resource="#Link"/>  
+        <rdfs:range rdf:resource="#WR"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Link_Src"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="The origin of an hyperlink.">  
+        <rdfs:domain rdf:resource="#Link"/>  
+        <rdfs:range rdf:resource="#WR"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Mail_To"
+         cweb:minCardinality="1">  
+        <rdfs:domain rdf:resource="#e-mail"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<!--
+<rdf:Property rdf:ID="Org_Location">  
+        <rdfs:comment>  Location of an Organisation. Value is a term chosen in a thesaurus.
+                        An organisation may have several Locations. An OrgUnit may have 
+                        only a single Location.</rdfs:comment>  
+        <rdfs:domain rdf:resource="#Organisation"/>  
+        <rdfs:range> 
+                 <cweb:thesaurusURL 
+                          rdf:about='http://foo.bar.com/terms/TGIN.xml'/> 
+        </rdfs:range>
+</rdf:Property> 
+-->
+<rdf:Property rdf:ID="Person_Birthday"
+         cweb:maxCardinality="1"
+         rdfs:comment="Birth day of a person, if known. Takes a Date as value.">  
+        <rdfs:domain rdf:resource="#Person"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Person_Birthplace"
+         cweb:maxCardinality="1">  
+        <rdfs:comment>  Birth place of a person. Takes a string for value. 
+                        Could as well take a term in a geographic thesaurus</rdfs:comment>  
+        <rdfs:domain rdf:resource="#Person"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Person_Deathday"
+         cweb:maxCardinality="1"
+         rdfs:comment="Death day of a person, if relevant. Takes a Date as value.">  
+        <rdfs:domain rdf:resource="#Person"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Person_Role"
+         rdfs:comment="Property associating a Person and a Role.">  
+        <rdfs:domain rdf:resource="#Person"/>  
+        <rdfs:range rdf:resource="#Role"/>  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="RelatesTo"
+        rdfs:comment="The most generic relationship between objects. Can be used to 
+                      associate a Web Resource to a RWOS." >  
+        <rdfs:range rdf:resource="#ROOT_CLASS" />  
+        <rdfs:domain rdf:resource="#ROOT_CLASS" />  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="Role_Begin"
+         cweb:maxCardinality="1"
+         rdfs:comment="Begin date of validity of a Role">  
+        <rdfs:domain rdf:resource="#Role"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Role_End"
+         cweb:maxCardinality="1"
+         rdfs:comment="End date of validity of a Role">  
+        <rdfs:domain rdf:resource="#Role"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Role_Person"
+        rdfs:comment="Slot associating a Person to a Role. This is the reverse relation to Person:Role.">  
+        <rdfs:range rdf:resource="#Person"/>  
+        <rdfs:domain rdf:resource="#Role"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Role_TargetOrg"
+         rdfs:comment="Identifies the Organisation for which the Role is defined.">  
+        <rdfs:range rdf:resource="#Community"/>  
+        <rdfs:domain rdf:resource="#Role"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Subscriber">  
+        <rdfs:domain rdf:resource="#Forum"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Theo_Contradicts"
+         cweb:maxCardinality="1"
+        rdfs:comment="Relation between a theory and another one which contradicts the first.">  
+        <rdfs:range rdf:resource="#Theory"/>  
+        <rdfs:domain rdf:resource="#Theory"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Theo_Creator"
+         cweb:maxCardinality="1"
+         rdfs:comment="The main creator of the theory.">  
+        <rdfs:range rdf:resource="#Person"/>  
+        <rdfs:domain rdf:resource="#Theory"/>  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="Theo_Date"
+         cweb:maxCardinality="1"
+         rdfs:comment="Date of creation of the theory.">  
+        <rdfs:domain rdf:resource="#Theory"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="Theo_Period"
+         cweb:maxCardinality="1"
+        rdfs:comment="Period during which the theory was considered as valid. 
+                      Can take any string or comment as value.">  
+        <rdfs:domain rdf:resource="#Theory"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="Theo_Prerequisite"
+         cweb:maxCardinality="1"
+        rdfs:comment="Points to another theory which is a prerequisite of the first.">  
+        <rdfs:domain rdf:resource="#Theory"/>  
+        <rdfs:range rdf:resource="#Theory"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Actor"
+         rdfs:comment="A person involved in a process.">  
+        <rdfs:range rdf:resource="#Person"/>  
+        <rdfs:domain rdf:resource="#Process"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Begin"
+         cweb:maxCardinality="1"
+         rdfs:comment="Begin date of a process.">  
+        <rdfs:domain rdf:resource="#Process"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_End"
+         cweb:maxCardinality="1"
+         rdfs:comment="End date of a process.">  
+        <rdfs:domain rdf:resource="#Process"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Involves"
+         cweb:maxCardinality="1">  
+        <rdfs:comment>  Relation to any RWO which is in some way involved in
+                        a Process. This relation may be refined if needed by 
+                        some application domain.</rdfs:comment>  
+        <rdfs:domain rdf:resource="#Process"/>  
+        <rdfs:range rdf:resource="#RWOS"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Location"
+         cweb:maxCardinality="1"
+         rdfs:comment="The place in which the process takes place. Optional.">  
+        <rdfs:range rdf:resource="#Places"/>  
+        <rdfs:domain rdf:resource="#Process"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Org"
+         rdfs:comment="The community in which the process is carried-out.">  
+        <rdfs:range rdf:resource="#Community"/>  
+        <rdfs:domain rdf:resource="#Process"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="Proc_Prerequisite"
+         cweb:maxCardinality="1"
+         rdfs:comment="Experimental. Use with care at your own risk">  
+        <rdfs:range rdf:resource="#Process"/>  
+        <rdfs:domain rdf:resource="#Process"/>  
+</rdf:Property>  
+
+<rdf:Property rdf:ID="Proc_Triggers"
+        rdfs:comment="Experimental. To be evaluated. Use with care at your own risk">  
+        <rdfs:domain rdf:resource="#Process"/>  
+        <rdfs:range rdf:resource="#Process"/>  
+</rdf:Property>  
+<!--
+<rdf:Property rdf:ID="Proc_State"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="Current state of a process. Experimental. Use with care at your own risk." >  
+        <rdfs:domain rdf:resource="#Process" />  
+        <rdfs:range> 
+              <cweb:enumeration>
+                  <rdf:value>running</rdf:value> 
+                  <rdf:value>suspended</rdf:value> 
+                  <rdf:value>ended</rdf:value> 
+                  <rdf:value>pending</rdf:value> 
+              </cweb:enumeration>
+         </rdfs:range>
+</rdf:Property>  
+-->
+<rdf:Property rdf:ID="WR_Container"   cweb:maxCardinality="1" 
+	rdfs:comment="The inclusion relation between a Web Resouce and a Collection in which it is included.">
+        <rdfs:range rdf:resource="#Collection"/>  
+        <rdfs:domain rdf:resource="#WR"/>  
+</rdf:Property>  
+
+<!-- changed -->
+<rdf:Property rdf:ID="WR_Contributor"  
+        rdfs:comment="Contributor to a web resource. Optional. Definition in Dublin-core.">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+
+<!-- changed -->
+<rdf:Property rdf:ID="WR_Copyright"
+         cweb:maxCardinality="1" 
+        rdfs:comment="Copyright notice attached to a web resource. Optional. Definition in Dublin-core">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_CreationDate"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="Creation date of a Web resource. Live property.">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime" />  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_Creator"
+         cweb:maxCardinality="1"
+        rdfs:comment="Creator of a web resource. Optional. Definition in Dublin-core">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_Description"
+         cweb:maxCardinality="1"
+        rdfs:comment="Short description of a web resource. Optional but recommended. 
+        Should not exceed one or two lines. This description is displayed in result-sets" >  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_LastModified"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="Last modification date of a Web resource. Live property.">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#dateTime"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_Title"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="Short title used to list the resource.">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<rdf:Property rdf:ID="WR_Type"
+         cweb:maxCardinality="1"
+         cweb:minCardinality="1"
+         rdfs:comment="The MIME type of a Web Resource. Live property.">  
+        <rdfs:domain rdf:resource="#WR"/>  
+        <rdfs:range rdf:resource="http://www.w3.org/1999/XMLSchema-datatypes#string"/>  
+</rdf:Property>  
+<!--
+<rdf:Property rdf:ID="WR_Update"
+         cweb:maxCardinality="1"
+         cweb:defaultValue="unknown"
+         rdfs:comment="Estimated update frequency" >  
+        <rdfs:domain rdf:resource="#WR" />  
+        <rdfs:range> 
+             <cweb:enumeration>
+                <rdf:value>daily</rdf:value> 
+                <rdf:value>weekly</rdf:value> 
+                <rdf:value>monthly</rdf:value> 
+                <rdf:value>yearly</rdf:value> 
+                <rdf:value>unknown</rdf:value>
+             </cweb:enumeration>
+        </rdfs:range>
+</rdf:Property>
+-->
+</rdf:RDF>  
+

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:s="http://www.w3.org/2000/01/rdf-schema#" xmlns:wn="http://www.cogsci.princeton.edu/~wn/schema/">
+	<!--This is an inofficial RDF Schema for WordNet data written by
+  Sergey Melnik, melnik@db.stanford.edu -->
+<!-- example from the site: http://139.91.183.30:9090/RDF/Examples.html-->
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept" s:comment="A lexical concept identifies a sense or a meaning, captured by a set of synonyms that serves as an unambiguous designator. The synonym set does not explain what the concept is; it merely signifies that the concept exists."/>
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/Verb" s:comment="A verb.">
+		<s:subClassOf rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</s:Class>
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/Noun" s:comment="A noun.">
+		<s:subClassOf rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</s:Class>
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/Adjective" s:comment="An adjective.">
+		<s:subClassOf rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</s:Class>
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/AdjectiveSatellite" s:comment="An adjective satellite.">
+		<s:subClassOf rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/Adjective"/>
+	</s:Class>
+	<s:Class rdf:about="http://www.cogsci.princeton.edu/~wn/schema/Adverb" s:comment="An adverb.">
+		<s:subClassOf rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</s:Class>
+	<rdf:Property rdf:about="http://www.cogsci.princeton.edu/~wn/schema/glossaryEntry" s:comment="The glossary entry (a gloss) helps to resolve the polysemy. The gloss is not intended for use in constructing a new lexical concept by someone not already familiar with it, and it differs from a synonym in that it is not used to gain access to information stored in the mental lexicon. It fulfills its purpose if it enables the user of WordNet, who is assumed to know English, to differentiate this sense from others with which it could be confused.">
+		<s:domain rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+		<s:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="http://www.cogsci.princeton.edu/~wn/schema/wordForm" s:comment="A word form is used to refer to the physical utterance or inscription and word meaning to refer to the lexicalized concept that a form can be used to express.">
+		<s:domain rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+		<s:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="http://www.cogsci.princeton.edu/~wn/schema/similarTo" s:comment="Specifies that the second lexical concept is similar in meaning to the first concept. This means that the second concept is a satellite the first one, which is the cluster head. This relation only holds for adjectives.">
+		<s:domain rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/Adjective"/>
+		<s:range rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/Adjective"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="http://www.cogsci.princeton.edu/~wn/schema/antonymOf" s:comment="This is a lexical relation that specifies antonymous words; it holds for all syntactic categories. This relation is transitive.">
+		<s:domain rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+		<s:range rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</rdf:Property>
+	<rdf:Property rdf:about="http://www.cogsci.princeton.edu/~wn/schema/hyponymOf" s:comment="This is a lexical relation that specifies that the first concept is a hyponym of the second concept. This relation holds for nouns and verbs. The reflexive operator, hypernym, implies that the second concept is a hypernym of the first one.">
+		<s:domain rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+		<s:range rdf:resource="http://www.cogsci.princeton.edu/~wn/schema/LexicalConcept"/>
+	</rdf:Property>
+</rdf:RDF>

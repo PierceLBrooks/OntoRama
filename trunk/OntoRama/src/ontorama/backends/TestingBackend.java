@@ -1,5 +1,7 @@
 package ontorama.backends;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -18,9 +20,25 @@ import org.tockit.events.EventBroker;
  * @author nataliya
  */
 public class TestingBackend implements Backend {
+	
+	private List _dataFormats = new LinkedList();
 
 
-
+	/**
+	 * Constructor for TestingBackend.
+	 */
+	public TestingBackend() {
+		/// @todo  data formats should be read from the config files.
+		DataFormatMapping rdfDataFormat = new DataFormatMapping("RDF", "rdf",
+							"ontorama.ontotools.parser.rdf.RdfDamlParser",
+							"ontorama.ontotools.writer.rdf.RdfModelWriter");
+		_dataFormats.add(rdfDataFormat);
+		
+		DataFormatMapping xmlDataFormat = new DataFormatMapping ("XML", "xml",
+							"ontorama.ontotools.parser.xml.XmlParserFull",
+							null);
+		_dataFormats.add(xmlDataFormat);
+	}
 
 	/**
 	 * @see ontorama.backends.Backend#getMenu()
@@ -54,6 +72,15 @@ public class TestingBackend implements Backend {
 	 */
 	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
+	}
+	
+	
+
+	/**
+	 * @see ontorama.backends.Backend#getDataFormats()
+	 */
+	public Collection getDataFormats() {
+		return null;
 	}
 
 }

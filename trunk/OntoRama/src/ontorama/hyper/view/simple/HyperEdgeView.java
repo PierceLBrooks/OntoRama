@@ -7,6 +7,8 @@ package ontorama.hyper.view.simple;
  */
 
 import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.model.EdgeType;
+import ontorama.OntoramaConfig;
 import org.tockit.canvas.CanvasItem;
 
 import javax.swing.*;
@@ -31,9 +33,9 @@ public class HyperEdgeView extends CanvasItem {
     /**
      * Store the relation type for this edge
      */
-    private RelationLinkDetails relLink;
+    private EdgeType relLink;
 
-    public HyperEdgeView(HyperNodeView from, HyperNodeView to, RelationLinkDetails relLink) {
+    public HyperEdgeView(HyperNodeView from, HyperNodeView to, EdgeType relLink) {
         this.from = from;
         this.to = to;
         this.relLink = relLink;
@@ -43,7 +45,7 @@ public class HyperEdgeView extends CanvasItem {
         if (!this.to.getVisible()) {
             return;
         }
-        ImageIcon iconImg = relLink.getDisplayIcon();
+        ImageIcon iconImg = OntoramaConfig.getEdgeDisplayInfo(relLink).getDisplayIcon();
         double x1 = from.getProjectedX();
         double y1 = from.getProjectedY();
         double x2 = to.getProjectedX();

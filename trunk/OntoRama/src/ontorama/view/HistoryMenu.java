@@ -93,7 +93,8 @@ public class HistoryMenu extends JMenu {
      * a query with ALL relation links.
      */
     public void appendHistory(String termName, OntoramaExample example) {
-        Query query = new Query(termName, OntoramaConfig.getRelationLinkDetailsList());
+//        Query query = new Query(termName, OntoramaConfig.getRelationLinkDetailsList());
+        Query query = new Query(termName, OntoramaConfig.getRelationLinksList());
         appendHistory(query, example);
     }
 

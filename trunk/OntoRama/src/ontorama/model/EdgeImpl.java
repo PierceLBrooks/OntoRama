@@ -27,7 +27,7 @@ public class EdgeImpl implements Edge {
     /**
      * edgeType
      */
-    private RelationLinkDetails edgeType;
+    private EdgeType edgeType;
 
     /**
      * URI for this edge (unique identifier of creator)
@@ -39,7 +39,7 @@ public class EdgeImpl implements Edge {
     /**
      *
      */
-    public EdgeImpl(Node fromNode, Node toNode, RelationLinkDetails edgeType) throws NoSuchRelationLinkException {
+    public EdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.edgeType = edgeType;
@@ -67,7 +67,7 @@ public class EdgeImpl implements Edge {
         this.uri = uri;
     }
 
-    public RelationLinkDetails getEdgeType() {
+    public EdgeType getEdgeType() {
         return this.edgeType;
     }
 
@@ -80,7 +80,7 @@ public class EdgeImpl implements Edge {
 
     public String toString() {
         String str = "Edge from '" + this.fromNode + "' to '";
-        str = str + this.toNode + "', edgeType = " + edgeType.getLinkName();
+        str = str + this.toNode + "', edgeType = " + edgeType.getName();
         str = str + ", URI = " + this.uri;
         return str;
     }

@@ -63,7 +63,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private String _reverseRelationLinkName;
-    private RelationLinkDetails _firstRelationLink = OntoramaConfig.getRelationLinkDetails()[1];
+    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getRelationLinksList().get(0);
 
     /**
      *
@@ -139,7 +139,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private void initReverseRelation() {
-        _reverseRelationLinkName = _firstRelationLink.getReversedLinkName();
+        _reverseRelationLinkName = _firstRelationLink.getReverseEdgeName();
     }
 
     /**

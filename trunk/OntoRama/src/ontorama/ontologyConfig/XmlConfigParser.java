@@ -1,6 +1,8 @@
 package ontorama.ontologyConfig;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.EdgeTypeImpl;
+import ontorama.model.EdgeType;
 import ontorama.util.Debug;
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
@@ -8,6 +10,8 @@ import org.jdom.input.SAXBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
+import java.awt.*;
 
 /**
  * Title:
@@ -24,6 +28,8 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     private static RelationLinkDetails[] relationLinkConfig;
+
+    private static Hashtable edgesConfig;
 
     /**
      * Holds defined conceptProperties details. This list can be referred to
@@ -48,6 +54,26 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     private Debug debug = new Debug(false);
+
+    private static final String ontologyElementName = "ontology";
+    private static final String displayInfoElementName = "displayInfo";
+    private static final String rdfMappingElementName = "rdfMapping";
+    private static final String relationElementName = "relation";
+    private static final String relationTypeElementName = "relationType";
+    private static final String displayInGraphViewElementName = "displayInGraphView";
+    private static final String createIconElementName = "createIcon";
+    private static final String loadIconElementName = "loadIcon";
+    private static final String displayInDescriptionWindowElementName ="displayInDescriptionWindow";
+
+    private static final String idAttributeName = "id";
+    private static final String nameAttributeName = "name";
+    private static final String colorAttributeName = "color";
+    private static final String mappingSymbolAttributeName = "mappingSymbol";
+    private static final String pathAttributeName = "path";
+    private static final String displayLabelAttributeName = "displayLabel";
+
+
+    private Element _rootElement;
 
 
     /**
@@ -81,22 +107,27 @@ public class XmlConfigParser extends XmlParserAbstract {
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
+        edgesConfig = new Hashtable();
 
         try {
             SAXBuilder builder = new SAXBuilder();
 
             Document doc = builder.build(in);
 
-            Element rootEl = doc.getRootElement();
+            _rootElement = doc.getRootElement();
 
-            Element ontologyEl = rootEl.getChild("ontology");
-            Element rdfMappingEl = rootEl.getChild("rdfMapping");
+            parse();
 
-            parseOntologyElement(ontologyEl);
+//            Element ontologyEl = _rootElement.getChild(ontologyElementName);
+//            Element displayInfoEl = _rootElement.getChild(displayInfoElementName);
+            Element rdfMappingEl = _rootElement.getChild(rdfMappingElementName);
+//
+//            parseOntologyElement(ontologyEl);
+
+            //parseDisplayInfoElement(displayInfoEl);
 
             if (rdfMappingEl != null) {
                 parseRelationRdfMappingElement(rdfMappingEl);
-                parseConceptRdfMappingElement(rdfMappingEl);
             }
         } catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
@@ -119,12 +150,182 @@ public class XmlConfigParser extends XmlParserAbstract {
         return conceptPropertiesConfig;
     }
 
+    public Hashtable getDisplayInfo () {
+        return edgesConfig;
+    }
+
+    private void parse () throws ConfigParserException {
+        System.out.println("parse() method");
+        Element ontologyElement = _rootElement.getChild(ontologyElementName);
+        List relationElementsList = ontologyElement.getChildren(relationElementName);
+        if (relationElementsList.size() == 0) {
+            throw new ConfigParserException("Element '//" + ontologyElementName +
+                    "/" + relationElementName + "' doesn't have any sublements");
+        }
+        Iterator it = relationElementsList.iterator();
+        while (it.hasNext()) {
+            Element relationElement = (Element) it.next();
+            int relationId = getIdFromIdAttribute(relationElement);
+            EdgeType edgeType = parseRelation(relationElement, relationElement.getAttribute(idAttributeName));
+            EdgeTypeDisplayInfo displayInfo = getDisplayInfo(relationId, edgeType);
+            edgesConfig.put(edgeType, displayInfo);
+            System.out.println("edgeType = " + edgeType + ", displayInfo = " + displayInfo);
+        }
+        System.out.println("parse() method END");
+    }
+
+
+    private EdgeType parseRelation (Element relationElement, Attribute idAttr)  throws ConfigParserException {
+        List relationTypeElementsList = relationElement.getChildren(relationTypeElementName);
+        int listSize = relationTypeElementsList.size();
+
+        if (listSize == 0) {
+            throw new ConfigParserException("Expected Element '" + relationTypeElementName
+                        + "' in the Element '" + relationElementName + "' with attribute" + idAttr);
+        }
+        if (listSize > 2) {
+            throw new ConfigParserException("Can't have more then 2 of '" + relationElementName
+                            + "' Elements in the Element '" + relationElementName + "' with attribute" + idAttr);
+        }
+        Element relationTypeElement = (Element) relationTypeElementsList.get(0);
+        Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
+        checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
+        EdgeType edgeType = new EdgeTypeImpl(nameAttr.getValue());
+
+        if (listSize > 1) {
+            Element reverseRelationTypeElement = (Element) relationTypeElementsList.get(1);
+            Attribute reverseNameAttr = reverseRelationTypeElement.getAttribute(nameAttributeName);
+            checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
+            edgeType.setReverseEdgeName(reverseNameAttr.getValue());
+        }
+        return edgeType;
+    }
+
+    private EdgeTypeDisplayInfo getDisplayInfo (int relationId, EdgeType edgeType) throws ConfigParserException {
+        EdgeTypeDisplayInfo result = null;
+
+        Element displayInfoElement = _rootElement.getChild(displayInfoElementName);
+        List relationElementsList = displayInfoElement.getChildren(relationElementName);
+        Element relationElement = getRelationElementForGivenId(relationElementsList, relationId);
+
+        Element displayInGraphElement = relationElement.getChild(displayInGraphViewElementName);
+        Element displayInDescriptionWinElement = relationElement.getChild(displayInDescriptionWindowElementName);
+        if ((displayInGraphElement == null) && (displayInDescriptionWinElement == null)) {
+            throw new ConfigParserException("Expect at least one of the following children "
+                            + displayInGraphViewElementName + " or " + displayInDescriptionWindowElementName
+                            + "in the element " + displayInfoElement);
+        }
+        result = new EdgeTypeDisplayInfo();
+        if (displayInGraphElement != null) {
+            result.setDisplayLocationDirective(EdgeTypeDisplayInfo.DISPLAY_IN_GRAPH);
+            Element createIconElement = displayInGraphElement.getChild(createIconElementName);
+            if (createIconElement != null) {
+                processCreateIconElement(createIconElement, edgeType, result);
+            }
+            Element loadIconElement = displayInGraphElement.getChild(loadIconElementName);
+            if (loadIconElement != null) {
+                processLoadIconElement(loadIconElement,  edgeType, result);
+            }
+        }
+        if (displayInDescriptionWinElement != null) {
+
+        }
+
+
+
+        return result;
+    }
+
+    private void processCreateIconElement(Element createIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+        Attribute colorAttr = createIconElement.getAttribute(colorAttributeName);
+        checkCompulsoryAttr(colorAttr,  colorAttributeName, createIconElementName);
+        List relationTypeElementsList = createIconElement.getChildren(relationTypeElementName);
+        if (relationTypeElementsList.size() < 1) {
+            throw new ConfigParserException("expected element '" + relationTypeElementName + "' in "
+                        + "//" + displayInGraphViewElementName + "/"
+                        + createIconElementName);
+        }
+        Color color = Color.decode(colorAttr.getValue());
+
+        Attribute mappingSymbolAttr = getAttributeForGivenRelationName(relationTypeElementsList, edgeType.getName(), mappingSymbolAttributeName);
+        checkCompulsoryAttr(mappingSymbolAttr,  mappingSymbolAttributeName, relationTypeElementName);
+        result.setImage(color, mappingSymbolAttr.getValue());
+
+        Attribute reverseMappingSymbolAttribute = getAttributeForGivenRelationName(relationTypeElementsList, edgeType.getReverseEdgeName(), mappingSymbolAttributeName);
+        if (reverseMappingSymbolAttribute != null) {
+            result.setReverseEdgeImage(color, mappingSymbolAttr.getValue());
+        }
+    }
+
+    private void processLoadIconElement(Element loadIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+        List relationTypeElementsList = loadIconElement.getChildren(relationTypeElementName);
+        if (relationTypeElementsList.size() < 1) {
+            throw new ConfigParserException("expected element '" + relationTypeElementName + "' in "
+                        + "//" + displayInGraphViewElementName + "/"
+                        + loadIconElementName);
+        }
+
+        Attribute pathAttr = getAttributeForGivenRelationName(relationTypeElementsList, edgeType.getName(), pathAttributeName);
+        checkCompulsoryAttr(pathAttr, pathAttributeName, relationTypeElementName);
+        Image image = Toolkit.getDefaultToolkit().createImage(pathAttr.getValue());
+        result.setImage(image);
+
+        Attribute reversePathAttr = getAttributeForGivenRelationName(relationTypeElementsList, edgeType.getReverseEdgeName(), pathAttributeName);
+        if (reversePathAttr != null ) {
+            Image reverseImage = Toolkit.getDefaultToolkit().createImage(reversePathAttr.getValue());
+            result.setReverseEdgeImage(reverseImage);
+        }
+    }
+
+    private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, EdgeType edgeType, EdgeTypeDisplayInfo result)
+                                            throws ConfigParserException {
+
+    }
+
+    private Attribute getAttributeForGivenRelationName (List relationTypeElementsList, String relName,
+                                        String attrName) {
+        Attribute result = null;
+        Iterator it = relationTypeElementsList.iterator();
+        while (it.hasNext()) {
+            Element relationTypeElement = (Element) it.next();
+            Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
+            if (nameAttr.getValue().equals(relName)) {
+                result = relationTypeElement.getAttribute(attrName);
+            }
+        }
+        return result;
+    }
+
+    private Element getRelationElementForGivenId(List elementsList, int relationId) throws ConfigParserException {
+        Iterator it = elementsList.iterator();
+        while (it.hasNext()) {
+            Element el = (Element) it.next();
+            int id = getIdFromIdAttribute(el);
+            if (id == relationId) {
+                return el;
+            }
+        }
+        return null;
+    }
+
+    private int getIdFromIdAttribute (Element el) throws ConfigParserException {
+        Attribute idAttr = el.getAttribute(idAttributeName);
+        checkCompulsoryAttr(idAttr, idAttributeName, relationElementName);
+        try {
+            return  idAttr.getIntValue();
+        }
+        catch (DataConversionException e) {
+            throw new ConfigParserException("expected an integer in '" + idAttributeName
+                    + "' attribute in element '" + relationElementName + "'");
+        }
+    }
+
 
     /**
      *
      */
     private void parseOntologyElement(Element ontologyEl)
-            throws ConfigParserException, ArrayIndexOutOfBoundsException {
+                    throws ConfigParserException, ArrayIndexOutOfBoundsException {
         List relationElementsList = ontologyEl.getChildren("relation");
         if (relationElementsList.size() == 0) {
             throw new ConfigParserException("Element 'relation' doesn't have any sublements");
@@ -135,9 +336,9 @@ public class XmlConfigParser extends XmlParserAbstract {
         Iterator relationElementsIterator = relationElementsList.iterator();
         while (relationElementsIterator.hasNext()) {
             Element relationElement = (Element) relationElementsIterator.next();
-            Attribute idAttr = relationElement.getAttribute("id");
+            Attribute idAttr = relationElement.getAttribute(idAttributeName);
 
-            checkCompulsoryAttr(idAttr, "id", "relation");
+            checkCompulsoryAttr(idAttr, idAttributeName, "relation");
 
             List relationTypeElementsList = relationElement.getChildren("relationType");
             int listSize = relationTypeElementsList.size();
@@ -217,8 +418,7 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     private void parseRelationRdfMappingElement(Element rdfMappingEl) throws ConfigParserException, DataConversionException {
-        Element relationLinksEl = rdfMappingEl.getChild("relationLinks");
-        List mapElementsList = relationLinksEl.getChildren("map");
+        List mapElementsList = rdfMappingEl.getChildren("map");
         Iterator mapElementsIterator = mapElementsList.iterator();
         while (mapElementsIterator.hasNext()) {
             Element mapEl = (Element) mapElementsIterator.next();
@@ -252,31 +452,6 @@ public class XmlConfigParser extends XmlParserAbstract {
      */
     public Hashtable getConceptPropertiesRdfMappingTable() {
         return this.conceptPropertiesMapping;
-    }
-
-    /**
-     *
-     */
-    private void parseConceptRdfMappingElement(Element rdfMappingEl) throws ConfigParserException {
-        Element conceptPropertiesEl = rdfMappingEl.getChild("conceptProperties");
-        List mapElementsList = conceptPropertiesEl.getChildren("map");
-        Iterator mapElementsIterator = mapElementsList.iterator();
-        while (mapElementsIterator.hasNext()) {
-            Element mapEl = (Element) mapElementsIterator.next();
-            Attribute idAttr = mapEl.getAttribute("id");
-            checkCompulsoryAttr(idAttr, "id", "map");
-            Attribute tagAttr = mapEl.getAttribute("tag");
-            checkCompulsoryAttr(tagAttr, "tag", "map");
-
-            Enumeration conceptPropertiesConfigEnum = conceptPropertiesConfig.keys();
-            while (conceptPropertiesConfigEnum.hasMoreElements()) {
-                String curDetailsName = (String) conceptPropertiesConfigEnum.nextElement();
-                if (idAttr.getValue().equals(curDetailsName)) {
-                    ConceptPropertiesMapping conceptMapping = new ConceptPropertiesMapping(idAttr.getValue(), tagAttr.getValue());
-                    conceptPropertiesMapping.put(idAttr.getValue(), conceptMapping);
-                }
-            }
-        }
     }
 
 

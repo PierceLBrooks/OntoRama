@@ -1,10 +1,6 @@
 package ontorama.tree.model;
 
-import ontorama.model.Graph;
-import ontorama.model.Node;
-import ontorama.model.Edge;
-import ontorama.model.Node;
-import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.model.*;
 
 import javax.swing.tree.TreeNode;
 import java.util.Hashtable;
@@ -63,7 +59,7 @@ public class OntoTreeBuilder {
     /**
      * Convert each Node to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode(Node top, RelationLinkDetails relLinkType) {
+    private void graphNodeToOntoTreeNode(Node top, EdgeType relLinkType) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
         ontoTreeNode.setRelLink(relLinkType);
         ontoHash.put(top, ontoTreeNode);

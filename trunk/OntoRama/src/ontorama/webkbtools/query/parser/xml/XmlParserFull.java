@@ -11,11 +11,7 @@ package ontorama.webkbtools.query.parser.xml;
 
 
 import ontorama.OntoramaConfig;
-import ontorama.model.EdgeImpl;
-import ontorama.model.Edge;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
-import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.model.*;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -134,7 +130,8 @@ public class XmlParserFull implements Parser {
         List relationLinksElementsList = top.getChildren("relationLink");
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
-        RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
+//        RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
+        Iterator edgeTypesIterator = OntoramaConfig.getRelationLinksSet().iterator();
 
         while (relationLinksElementsIterator.hasNext()) {
             Element relLinkEl = (Element) relationLinksElementsIterator.next();
@@ -162,17 +159,17 @@ public class XmlParserFull implements Parser {
             }
             debug.message("XmlParserFull", "readRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + nameAttr.getValue());
             Edge edge = null;
-            for (int i = 0; i < relationLinksConfigArray.length; i++) {
-                if (relationLinksConfigArray[i] == null) {
-                    continue;
-                }
-                RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
-                if ((nameAttr.getValue()).equals(relationLinkDetails.getLinkName())) {
-                    debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
-                } else if ((nameAttr.getValue()).equals(relationLinkDetails.getReversedLinkName())) {
-                    debug.message("XmlParserFull", "readRelationLinks", "rel id = " + i);
-                    edge = new EdgeImpl(toNode, fromNode, relationLinkDetails);
+//            for (int i = 0; i < relationLinksConfigArray.length; i++) {
+//                if (relationLinksConfigArray[i] == null) {
+//                    continue;
+//                }
+            while (edgeTypesIterator.hasNext()) {
+                EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+//                RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
+                if ((nameAttr.getValue()).equals(edgeType.getName())) {
+                    edge = new EdgeImpl(fromNode, toNode, edgeType);
+                } else if ((nameAttr.getValue()).equals(edgeType.getReverseEdgeName())) {
+                    edge = new EdgeImpl(toNode, fromNode, edgeType);
                 }
             }
             if (edge == null) {

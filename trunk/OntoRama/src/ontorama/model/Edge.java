@@ -8,8 +8,6 @@
  */
 package ontorama.model;
 
-import ontorama.ontologyConfig.RelationLinkDetails;
-
 import java.net.URI;
 
 public interface Edge {
@@ -20,5 +18,5 @@ public interface Edge {
     public URI getUri();
     public void setUri(URI uri);
 
-    public RelationLinkDetails getEdgeType();
+    public EdgeType getEdgeType();
 }

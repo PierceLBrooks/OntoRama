@@ -5,8 +5,7 @@ import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.graph.view.GraphQuery;
 import ontorama.graph.view.GraphView;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.*;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -257,22 +256,21 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
      *
      */
     private void buildRelationLinksQueryPanel() {
-        RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
+        //RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
+        Iterator it = OntoramaConfig.getRelationLinksSet().iterator();
 
-        for (int i = 0; i < relationLinksDetails.length; i++) {
-            RelationLinkDetails cur = relationLinksDetails[i];
-            if (cur == null) {
-                System.out.println("i = " + i);
-            } else {
-                JCheckBox curCheckBox = new JCheckBox(cur.getLinkName());
-                ImageIcon displayIcon = cur.getDisplayIcon();
-                JLabel displayIconLabel = new JLabel(displayIcon);
-                curCheckBox.setSelected(true);
-                curCheckBox.addItemListener(new CheckBoxListener());
-                _relationLinksCheckBoxes.put(curCheckBox, cur);
-                _relationLinksPanel.add(displayIconLabel);
-                _relationLinksPanel.add(curCheckBox);
-            }
+        while (it.hasNext()) {
+//        for (int i = 0; i < relationLinksDetails.length; i++) {
+//            RelationLinkDetails cur = relationLinksDetails[i];
+            EdgeType cur = (EdgeType) it.next();
+            JCheckBox curCheckBox = new JCheckBox(cur.getName());
+            ImageIcon displayIcon = OntoramaConfig.getEdgeDisplayInfo(cur).getDisplayIcon();
+            JLabel displayIconLabel = new JLabel(displayIcon);
+            curCheckBox.setSelected(true);
+            curCheckBox.addItemListener(new CheckBoxListener());
+            _relationLinksCheckBoxes.put(curCheckBox, cur);
+            _relationLinksPanel.add(displayIconLabel);
+            _relationLinksPanel.add(curCheckBox);
         }
 
     }

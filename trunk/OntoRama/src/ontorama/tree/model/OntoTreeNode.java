@@ -1,9 +1,7 @@
 package ontorama.tree.model;
 
-import ontorama.model.Node;
-import ontorama.model.Node;
+import ontorama.model.*;
 import ontorama.util.Debug;
-import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -38,7 +36,7 @@ public class OntoTreeNode implements TreeNode {
     /**
      *
      */
-    private RelationLinkDetails relLink;
+    private EdgeType relLink;
 
     /**
      * debug
@@ -57,14 +55,14 @@ public class OntoTreeNode implements TreeNode {
     /**
      *
      */
-    public void setRelLink(RelationLinkDetails relLink) {
+    public void setRelLink(EdgeType relLink) {
         this.relLink = relLink;
     }
 
     /**
      *
      */
-    public RelationLinkDetails getRelLink() {
+    public EdgeType getRelLink() {
         return this.relLink;
     }
 

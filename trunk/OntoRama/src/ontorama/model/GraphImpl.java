@@ -1,7 +1,6 @@
 package ontorama.model;
 
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
@@ -160,7 +159,7 @@ public class GraphImpl implements Graph {
     private void checkForCycle (Edge oneWayEdge) {
         Node fromNode = oneWayEdge.getFromNode();
         Node toNode = oneWayEdge.getToNode();
-        RelationLinkDetails relLinkType = oneWayEdge.getEdgeType();
+        EdgeType relLinkType = oneWayEdge.getEdgeType();
 
         Edge reversedEdge = getEdge(toNode, fromNode, relLinkType);
         if ((oneWayEdge != null) || (reversedEdge != null)) {
@@ -575,10 +574,10 @@ public class GraphImpl implements Graph {
             Edge curEdge = (Edge) edgesIterator.next();
             Node fromNode = curEdge.getFromNode();
             Node toNode = curEdge.getToNode();
-            RelationLinkDetails relLinkDetails = curEdge.getEdgeType();
+            EdgeType relLinkDetails = curEdge.getEdgeType();
             resultStr = resultStr + tab + tab + "<relationLink";
             resultStr =
-                    resultStr + " name='" + relLinkDetails.getLinkName() + "'";
+                    resultStr + " name='" + relLinkDetails.getName() + "'";
             resultStr = resultStr + " from='" + fromNode.getName() + "'";
             resultStr = resultStr + " to='" + toNode.getName() + "'";
             resultStr = resultStr + "/>";
@@ -631,7 +630,7 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Edge getEdge(Node fromNode, Node toNode, RelationLinkDetails edgeType) {
+    public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType) {
         Iterator it = getOutboundEdges(fromNode, edgeType);
         //Iterator it = EdgeImpl.getOutboundEdgeNodes(fromNode, relLink);
         while (it.hasNext()) {
@@ -687,7 +686,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return iterator of Edges
      */
-    private Iterator getEdges(Node node, RelationLinkDetails relationType, boolean flag) {
+    private Iterator getEdges(Node node, EdgeType relationType, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {
@@ -702,14 +701,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdges(Node node, RelationLinkDetails edgeType) {
+    public Iterator getOutboundEdges(Node node, EdgeType edgeType) {
         return getEdges(node, edgeType, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdges(Node node, RelationLinkDetails edgeType) {
+    public Iterator getInboundEdges(Node node, EdgeType edgeType) {
         return getEdges(node, edgeType, false);
     }
 
@@ -744,7 +743,7 @@ public class GraphImpl implements Graph {
             EdgeImpl cur = (EdgeImpl) nodeEdgesIt.next();
             Iterator it = relationLinks.iterator();
             while (it.hasNext()) {
-                RelationLinkDetails curRel = (RelationLinkDetails) it.next();
+                EdgeType curRel = (EdgeType) it.next();
                 if (cur.getEdgeType().equals(curRel)) {
                     result.add(cur.getEdgeNode(!flag));
                 }
@@ -762,14 +761,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdgeNodes(Node node, RelationLinkDetails edgeType) {
+    public Iterator getOutboundEdgeNodes(Node node, EdgeType edgeType) {
         return getEdgeNodes(node, edgeType, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdgeNodes(Node node, RelationLinkDetails edgeType) {
+    public Iterator getInboundEdgeNodes(Node node, EdgeType edgeType) {
         return getEdgeNodes(node, edgeType, false);
     }
 
@@ -781,7 +780,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return iterator of Nodes
      */
-    private Iterator getEdgeNodes(Node node, RelationLinkDetails edgeType, boolean flag) {
+    private Iterator getEdgeNodes(Node node, EdgeType edgeType, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {

@@ -14,7 +14,6 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.inputsource.*;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.OntoramaConfig;
 import ontorama.model.*;
 
@@ -81,19 +80,16 @@ public class CgKbCsvParser implements Parser {
         String shortNameObj2 = obj2;
 
         try {
-            RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
+            Iterator edgeTypesIterator = OntoramaConfig.getRelationLinksSet().iterator();
             Node fromNode = getNodeForName(shortNameObj1,  obj1);
             Node toNode = getNodeForName(shortNameObj2, obj2);
             Edge edge = null;
-            for (int i = 0; i < relationLinksConfigArray.length; i++) {
-                if (relationLinksConfigArray[i] == null) {
-                    continue;
-                }
-                RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
-                if (rel.equals(relationLinkDetails.getLinkName())) {
-                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
-                } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
-                    edge = new EdgeImpl(fromNode, toNode, relationLinkDetails);
+            while (edgeTypesIterator.hasNext()) {
+                EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+                if (rel.equals(edgeType.getName())) {
+                    edge = new EdgeImpl(fromNode, toNode, edgeType);
+                } else if (rel.equals(edgeType.getReverseEdgeName())) {
+                    edge = new EdgeImpl(fromNode, toNode, edgeType);
                 }
             }
             if (edge == null) {

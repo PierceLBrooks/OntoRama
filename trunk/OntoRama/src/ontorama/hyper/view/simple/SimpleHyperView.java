@@ -908,7 +908,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             Iterator outboundEdges = graph.getOutboundEdges(curGraphNode);
             while (outboundEdges.hasNext()) {
                 Edge edge = (Edge) outboundEdges.next();
-                RelationLinkDetails edgeType = edge.getEdgeType();
+                EdgeType edgeType = edge.getEdgeType();
                 Node outboundGraphNode = edge.getToNode();
                 HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
                 //System.out.println("---" + edgeType + "---outboundHyperNodeView = " + outboundHyperNodeView);

@@ -10,6 +10,9 @@ package ontorama.model.tree.events;
 import ontorama.model.tree.Tree;
 import org.tockit.events.Event;
 
+/**
+ * @todo could be abstract
+ */
 public class TreeChangedEvent implements Event {
     private Tree tree;
 

@@ -22,8 +22,8 @@ import ontorama.model.graph.NodeImpl;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
+import ontorama.ui.events.GraphIsLoadedEvent;
 import ontorama.ui.events.QueryStartEvent;
-import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
@@ -58,11 +58,11 @@ public class FileBackend implements Backend {
 	
 	private QueryEngine _lastQueryEngine;
 	
-    private class GraphLoadedEventHandler implements EventBrokerListener {
+    private class GraphIsLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
-        public GraphLoadedEventHandler(EventBroker eventBroker)  {
+        public GraphIsLoadedEventHandler(EventBroker eventBroker)  {
             this.eventBroker = eventBroker;
-            eventBroker.subscribe(this, GraphLoadedEvent.class, Graph.class);
+            eventBroker.subscribe(this, GraphIsLoadedEvent.class, Graph.class);
         }
 
         public void processEvent(Event event) {
@@ -76,7 +76,7 @@ public class FileBackend implements Backend {
 
     public void setEventBroker(EventBroker eventBroker) {
         _eventBroker = eventBroker;
-        new GraphLoadedEventHandler(this._eventBroker);
+        new GraphIsLoadedEventHandler(this._eventBroker);
     }
 
     public JPanel getPanel(){

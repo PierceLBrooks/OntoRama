@@ -32,8 +32,9 @@ public class GroupSearchDialog extends JDialog {
     private boolean _cancelled = false;
     private int _selectedOption;
 
-    public GroupSearchDialog (Frame frame) {
-        super(frame, _title, true);
+    public GroupSearchDialog (Frame parent) {
+        super(parent, _title, true);
+
 
         JButton cancelButton = new JButton("Cancel");
         final JButton okButton = new JButton("OK");
@@ -80,9 +81,9 @@ public class GroupSearchDialog extends JDialog {
         _allGroupsButton = new JRadioButton("All Groups");
 
         ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(_allGroupsButton);
         buttonGroup.add(_nameButton);
         buttonGroup.add(_descriptionButton);
-        buttonGroup.add(_allGroupsButton);
 
         _nameField = new JTextField();
         _nameField.addKeyListener(new KeyListener () {
@@ -133,6 +134,7 @@ public class GroupSearchDialog extends JDialog {
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
         pack();
+        DialogUtil.centerDialog(parent, this);
     }
 
     private void showDialog (boolean isVisible) {

@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import ontorama.model.graph.EdgeType;
+
 /**
  * Description: Query consist of query term and an iterator of relation links that we
  * are interested in (for example: subtype, memberOf).
@@ -41,10 +43,12 @@ public class Query {
      * before hand.
      */
     public Query (String sourcePackage, String parserPackage, String sourceUri) {
+		//this (null, sourcePackage, parserPackage, sourceUri);
         _typeName = null;
         _sourcePackage = sourcePackage;
         _parserPackage = parserPackage;
         _sourceUri = sourceUri;
+    	System.out.println(this);
     }
 
     /**
@@ -55,6 +59,7 @@ public class Query {
     	_sourcePackage = sourcePackage;
     	_parserPackage = parserPackage;
     	_sourceUri = sourceUri;
+    	System.out.println(this);
     }
 
     /**
@@ -62,11 +67,13 @@ public class Query {
      * Initialise query type name and relation links
      */
     public Query(String typeName, List relationLinks, String sourcePackage, String parserPackage, String sourceUri) {
+//		this (typeName, sourcePackage, parserPackage, sourceUri);
         _typeName = typeName;
         _relationLinks = relationLinks;
     	_sourcePackage = sourcePackage;
     	_parserPackage = parserPackage;
     	_sourceUri = sourceUri;
+    	System.out.println(this);
     }
 
     /**
@@ -159,7 +166,12 @@ public class Query {
 	public String toString() {
 		String str = "Query: ";
 		str = str + "termName = " + _typeName + ", depth = " + _depth;
-		str = str + ", relation links: " + _relationLinks;
+		str = str + ", relation links: " ;
+		Iterator it = _relationLinks.iterator();
+		while (it.hasNext()) {
+			EdgeType edgeType = (EdgeType) it.next();
+			str = str + edgeType.getName() + ", ";
+		}
 		return str;
 	}
 

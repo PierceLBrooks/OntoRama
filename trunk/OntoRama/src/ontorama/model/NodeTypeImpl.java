@@ -12,10 +12,10 @@ import ontorama.model.NodeTypeInterface;
 
 import java.awt.*;
 
-public class NodeType implements NodeTypeInterface {
+public class NodeTypeImpl implements NodeTypeInterface {
     private String _nodeTypeName;
 
-    public NodeType (String typeName) {
+    public NodeTypeImpl (String typeName) {
         _nodeTypeName = typeName;
     }
 

@@ -50,6 +50,7 @@ public class CanvasManager extends JComponent
         public void run() {
             //hyperNodeView.hasFocus();
 			viewListener.notifyChange(hyperNodeView.getGraphNode() , ViewEventListener.MOUSE_SINGLECLICK);
+            //viewListener.notifyChange(hyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
         }
     }
 
@@ -135,7 +136,7 @@ public class CanvasManager extends JComponent
     /**
      * A timer to distinguish between single and double clicks.
      */
-    private Timer doubleClickTimer = new Timer();;
+    private Timer singleClickTimer = new Timer();;
 
     /**
      * draw canvas items.
@@ -254,29 +255,37 @@ public class CanvasManager extends JComponent
         lastPoint.setLocation( e.getPoint() );
     }
 
+//    private HyperNodeView focusedHyperNodeView = null;
+
     public void mouseReleased(MouseEvent e) {
         if( dragmode == true ) {
             dragmode = false;
             repaint();
         }
         else {
-            HyperNodeView hyperNodeView = getClickedItem( e );
-            if( hyperNodeView == null ) {
+            HyperNodeView focusedHyperNodeView = getClickedItem( e );
+            if( focusedHyperNodeView == null ) {
                 return;
             }
             if( e.getClickCount() == 1) {
-                this.doubleClickTimer = new Timer();
-                this.doubleClickTimer.schedule( new CanvasItemSingleClicked( hyperNodeView ),  300 );
+                this.singleClickTimer = new Timer();
+                this.singleClickTimer.schedule( new CanvasItemSingleClicked( focusedHyperNodeView ),  300 );
             } else if( e.getClickCount() == 2 ){
-                this.doubleClickTimer.cancel();
-                int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( hyperNodeView.getGraphNode()));
-                // don't fold if leaf node
-                if( numOfLeaves == 0 ) {
-                    return;
-                }
-                boolean foldedState = hyperNodeView.getFolded();
-                hyperNodeView.setFolded( !foldedState);
-                setFolded( foldedState,  hyperNodeView.getGraphNode() );
+//                this.singleClickTimer.cancel();
+                    System.out.println();
+                    System.out.println("CanvasManager is sending DoubleClick");
+                    System.out.println();
+                    System.out.println();
+
+                this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
+//                int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( hyperNodeView.getGraphNode()));
+//                // don't fold if leaf node
+//                if( numOfLeaves == 0 ) {
+//                    return;
+//                }
+//                boolean foldedState = hyperNodeView.getFolded();
+//                hyperNodeView.setFolded( !foldedState);
+//                setFolded( foldedState,  hyperNodeView.getGraphNode() );
             }
             repaint();
         }
@@ -471,6 +480,24 @@ public class CanvasManager extends JComponent
      *
      */
     public void toggleFold ( GraphNode node) {
+        System.out.println("******* CanvasManager got toggleFold for node comms#TransmissionObject");
+
+        HyperNodeView focusedHyperNodeView = (HyperNodeView)this.hypernodeviews.get( node );
+        if( focusedHyperNodeView == null ) {
+            return;
+        }
+        int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( node));
+        // don't fold if leaf node
+        if( numOfLeaves == 0 ) {
+            return;
+        }
+        boolean foldedState = focusedHyperNodeView.getFolded();
+        System.out.println("hyper view: foldedState = " + foldedState);
+        focusedHyperNodeView.setFolded( !foldedState);
+        System.out.println("hyper view: foldedState = " + focusedHyperNodeView.getFolded());
+        setFolded( foldedState,  node );
+        repaint();
+        System.out.println("hyper view: finished");
     }
 
     /**

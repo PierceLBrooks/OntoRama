@@ -32,6 +32,11 @@ public class GraphNode implements Cloneable {
     private int depth = 0;
 
     /**
+     * Stores if this view is folded.
+     */
+    private boolean isFolded = false;
+
+    /**
      * Holds the list of all GraphNodes that refer to the same ontology term..
      */
     private List clones = new LinkedList();
@@ -122,6 +127,20 @@ public class GraphNode implements Cloneable {
      */
     public int getDepth() {
         return this.depth;
+    }
+
+    /**
+     *
+     */
+    public void setFoldState (boolean isFolded) {
+        this.isFolded = isFolded;
+    }
+
+    /**
+     *
+     */
+    public boolean getFoldedState () {
+        return this.isFolded;
     }
 
 

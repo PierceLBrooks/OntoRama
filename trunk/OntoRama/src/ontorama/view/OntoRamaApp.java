@@ -156,14 +156,14 @@ public class OntoRamaApp extends JFrame {
         OntoRamaMenu menu = new OntoRamaMenu(this);
         setMenuBar(menu.getMenuBar());
 
+        // Create OntoTreeView
+        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
 
         // Create HyperView
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
         //hyperView.saveCanvasToFile( "hyperView" );
 
-        // Create OntoTreeView
-        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
 
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);

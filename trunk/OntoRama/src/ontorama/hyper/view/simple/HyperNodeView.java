@@ -74,10 +74,6 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      */
     private boolean highlightEdge = false;
 
-    /**
-     * Stores if this view is folded.
-     */
-    private boolean isFolded = false;
 
     /**
      * Stores if this view is visible.
@@ -122,14 +118,16 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
      * Set if view is folded.
      */
     public void setFolded( boolean state ) {
-        this.isFolded = state;
+        this.getGraphNode().setFoldState(state);
+        //this.isFolded = state;
     }
 
     /**
      * Get if view is folded.
      */
     public boolean getFolded( ) {
-        return this.isFolded;
+        return this.getGraphNode().getFoldedState();
+        //return this.isFolded;
     }
 
     /**
@@ -302,7 +300,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         double blue = nodeColor.getBlue() + ( ( 255 -  nodeColor.getBlue() ) * colorScale );
         fadeColor = new Color( (int)red, (int)green, (int)blue );
         g2d.setColor( fadeColor );
-        if( this.isFolded ) {
+        if( this.getFolded() ) {
             g2d.fillRect(   (int)(projectedX - viewRadius),
                              (int)(projectedY - viewRadius),
                              (int)(viewRadius * 2),
@@ -329,7 +327,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
             GraphNode cur = (GraphNode)it.next();
             HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
             if( hyperNodeView == null ) {
-            	System.out.println("HyperNodeView not found for " + cur.getName());
+            	//System.out.println("HyperNodeView not found for " + cur.getName());
                 continue;
             }
             hyperNodeView.showClone( g2d );

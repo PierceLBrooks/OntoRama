@@ -180,15 +180,17 @@ public class OntoTreeView implements KeyListener, MouseListener,
       OntoTreeNode treeNode = (OntoTreeNode) path.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
       viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
-      return;
+      //return;
 
-      //boolean cancelExpand = true;
-      //if (cancelExpand) {
-      //    //Cancel expansion.
-      //    debug.message("Tree expansion cancelled" + e);
-      //    System.out.println("Tree expansion cancelled" + e);
-      //    throw new ExpandVetoException(e);
-      //}
+      boolean cancelExpand = true;
+      if (cancelExpand) {
+          //Cancel expansion.
+          debug.message("Tree expansion cancelled" + e);
+          System.out.println("Tree expansion cancelled" + e);
+          throw new ExpandVetoException(e);
+      }
+      //this.tree.setExpandedState(path,false);
+
     }
 
     /**
@@ -210,15 +212,15 @@ public class OntoTreeView implements KeyListener, MouseListener,
       GraphNode graphNode = treeNode.getGraphNode();
 
       viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
-      return;
+      //return;
 
-      //boolean cancelCollapse = true;
-      //if (cancelCollapse) {
-      //    //Cancel expansion.
-      //    debug.message("Tree collapse cancelled" + e);
-      //    System.out.println("Tree collapse cancelled" + e);
-      //    throw new ExpandVetoException(e);
-      //}
+      boolean cancelCollapse = true;
+      if (cancelCollapse) {
+          //Cancel expansion.
+          debug.message("Tree collapse cancelled" + e);
+          System.out.println("Tree collapse cancelled" + e);
+          throw new ExpandVetoException(e);
+      }
 
     }
 
@@ -325,12 +327,13 @@ public class OntoTreeView implements KeyListener, MouseListener,
              }
              else {
                 viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_SINGLECLICK);
+                //viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
              }
          }
-         else if(e.getClickCount() == 2) {
-             debug.message("mousePressed, double click,  row=" + selRow);
-             viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
-         }
+//         else if(e.getClickCount() == 2) {
+//             debug.message("mousePressed, double click,  row=" + selRow);
+//             viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
+//         }
       }
     }
 
@@ -413,18 +416,32 @@ public class OntoTreeView implements KeyListener, MouseListener,
       }
       TreePath path = treeNode.getTreePath();
       int row = this.tree.getRowForPath(path);
-      System.out.println("this.tree.isExpanded(row) = " + this.tree.isExpanded(row));
+      boolean isExpanded = this.tree.isExpanded(path);
+      boolean isCollapsed = this.tree.isCollapsed(path);
+      System.out.println("this.tree.isExpanded = " + isExpanded);
+      System.out.println("this.tree.isCollapsed = " + isCollapsed);
 
-      if (this.tree.isExpanded(row)) {
-              System.out.println("expanding");
-              this.tree.expandRow(row);
-      }
-      else {
-              System.out.println("collapsing");
-              this.tree.collapseRow(row);
+//      try {
+        if (!node.getFoldedState()) {
 
-      }
-
+          //if (isExpanded) {
+                  System.out.println("collapsing");
+                  //this.tree.collapseRow(row);
+                  //this.tree.fireTreeWillCollapse(path);
+                  this.tree.fireTreeCollapsed(path);
+          }
+          else {
+                  System.out.println("expanding");
+                  //this.tree.expandRow(row);
+                  //this.tree.fireTreeWillExpand(path);
+                  this.tree.fireTreeExpanded(path);
+          }
+//      }
+//      catch (ExpandVetoException e) {
+//        System.out.println("ExpandVetoException");
+//      }
+     // this.tree.repaint();
+      //this.tree.paintComponents(this.tree.getGraphics());
     }
 
     /**

@@ -349,7 +349,8 @@ public class RdfDamlParser implements Parser {
             Iterator mappingTagsIterator = rdfMapping.getRdfTags().iterator();
             while (mappingTagsIterator.hasNext()) {
                 String mappingTag = (String) mappingTagsIterator.next();
-                if (predicate.getLocalName().endsWith(mappingTag)) {
+//                if (predicate.getLocalName().endsWith(mappingTag)) {
+                if (predicate.getLocalName().equalsIgnoreCase(mappingTag)) {
                     String mappingType = rdfMapping.getType();
                     EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
                     String edgeTypeNamespace = predicate.getNameSpace();

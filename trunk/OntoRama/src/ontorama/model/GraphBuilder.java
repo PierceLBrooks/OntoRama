@@ -118,19 +118,19 @@ public class GraphBuilder {
 
           // clean up before we create a graph
           int lastNumOfEdges = -1;
-          System.out.println("number of Edges = " + Edge.edges.size());
+          debug.message("number of Edges = " + Edge.edges.size());
           while (Edge.edges.size() != lastNumOfEdges) {
-            System.out.println("number of Edges = " + Edge.edges.size() + ", lastNumOfEdges = " + lastNumOfEdges);
+            debug.message("number of Edges = " + Edge.edges.size() + ", lastNumOfEdges = " + lastNumOfEdges);
             lastNumOfEdges = Edge.edges.size();
             cleanUpEdges();
           }
-          System.out.println("number of Edges = " + Edge.edges.size());
-          System.out.println("edgeRoot = " + edgeRoot);
+          debug.message("number of Edges = " + Edge.edges.size());
+          debug.message("edgeRoot = " + edgeRoot);
 
           if (! processedNodes.containsKey(termName)) {
              throw new NoTypeFoundInResultSetException(termName);
           }
-          System.out.println("graph builder, num of nodes = " + processedNodes.size());
+          debug.message("graph builder, num of nodes = " + processedNodes.size());
 
           graph = new Graph( edgeRoot );
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Collection;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -46,7 +47,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    * this hashtable will hold labels of concept property names as keys
    * and labels of corresponding values for a node as values
    */
-  private Hashtable labels = new Hashtable();
+  //private Hashtable labels = new Hashtable();
 
   /**
    * Keys - name of property
@@ -64,6 +65,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    */
   String clonesLabelName = "Clones";
 
+  /**
+   *
+   */
+  private Dimension propertyNameLabelsDimension;
+
+  /**
+   *
+   */
   private ViewEventListener viewListener;
 
 
@@ -71,14 +80,16 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
     this.viewListener = viewListener;
     this.viewListener.addObserver(this);
 
-    // set up hashtable of labels
+    // set up hashtable of panels
     //initLabels();
     initPropertiesPanels();
+    this.propertyNameLabelsDimension = calcLabelSize();
+    setLabelSizes();
 
     // set layout manager
     this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
-    // add labels to the view
+    // add panels to the view
     Enumeration propPanelsEnum = nodePropertiesPanels.keys();
     while (propPanelsEnum.hasMoreElements()) {
         String propName = (String) propPanelsEnum.nextElement();
@@ -105,11 +116,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    * find max label width
    */
    private int getMaxLabelWidth() {
-    Enumeration e = labels.keys();
+    Iterator it = nodePropertiesPanels.values().iterator();
+    //Enumeration e = labels.keys();
     int length = 0;
-    while (e.hasMoreElements()) {
-      JLabel curLabel = (JLabel) e.nextElement();
-      int width = getLabelWidth(curLabel);
+    while (it.hasNext()) {
+      NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
+      JLabel curLabel = curPanel.getPropNameLabel();
+      //JLabel curLabel = (JLabel) e.nextElement();
+      int width = curPanel.getPropNameLabelWidth();
       if (width > 0) {
         length = width;
       }
@@ -118,14 +132,36 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
    }
 
    /**
-    * get label width
+    *
     */
-    private int getLabelWidth (JLabel label) {
-      Font font = label.getFont();
-      FontMetrics fontMetrics = label.getFontMetrics(font);
-      int width = fontMetrics.stringWidth(label.getText());
-      return width;
+   private void setLabelSizes () {
+    Iterator it = nodePropertiesPanels.values().iterator();
+    while (it.hasNext()) {
+      NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
+      JLabel curLabel = curPanel.getPropNameLabel();
+      //Dimension d = curLabel.getSize();
+      //System.out.println("d = " + d + ", width = " + maxSize + ", height = " + curPanel.getPropNameLabelHeight());
+      curLabel.setSize(this.propertyNameLabelsDimension);
+      curLabel.setMinimumSize (this.propertyNameLabelsDimension);
+      curLabel.setMaximumSize(this.propertyNameLabelsDimension);
+      curLabel.setPreferredSize(this.propertyNameLabelsDimension);
     }
+    this.clonesPanel.setNameLabelSize(this.propertyNameLabelsDimension);
+   }
+
+   /**
+    *
+    */
+   private Dimension calcLabelSize () {
+    int padding = 5;
+    int maxSize = getMaxLabelWidth() + padding;
+    Iterator it = nodePropertiesPanels.values().iterator();
+    if (it.hasNext()) {
+      NodePropertiesPanel panel = (NodePropertiesPanel) it.next();
+      return ( new Dimension(maxSize, panel.getPropNameLabelHeight()) );
+    }
+    return new Dimension(50,20);
+   }
 
   /**
    * clear description value panel from any leftover properties (left from previous example)
@@ -140,6 +176,9 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
       clonesPanel.clear();
   }
 
+  /**
+   *
+   */
   public void setFocus (GraphNode node) {
       Enumeration e = this.nodePropertiesPanels.keys();
       while (e.hasMoreElements()) {

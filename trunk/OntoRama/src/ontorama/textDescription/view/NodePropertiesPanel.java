@@ -74,6 +74,10 @@ public class NodePropertiesPanel extends JPanel {
         return this.propName;
     }
 
+    public JLabel getPropNameLabel () {
+      return this.propNameLabel;
+    }
+
     public void clear () {
       propValueLabel.setText("");
     }
@@ -92,5 +96,38 @@ public class NodePropertiesPanel extends JPanel {
         propValueLabel.setText( propertyValue);
     }
 
+   /**
+    * get label width
+    */
+    private int getLabelWidth (JLabel label) {
+      Font font = label.getFont();
+      FontMetrics fontMetrics = label.getFontMetrics(font);
+      int width = fontMetrics.stringWidth(label.getText());
+      return width;
+    }
+
+   /**
+    *
+    */
+   public int getPropNameLabelWidth () {
+    return getLabelWidth(this.propNameLabel);
+   }
+
+   /**
+    * get label height
+    */
+    private int getLabelHeight (JLabel label) {
+      Font font = label.getFont();
+      FontMetrics fontMetrics = label.getFontMetrics(font);
+      int height = fontMetrics.getHeight();
+      return height;
+    }
+
+   /**
+    *
+    */
+   public int getPropNameLabelHeight  () {
+    return getLabelHeight (this.propNameLabel);
+   }
 }
 

@@ -3,22 +3,22 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NodeRemovedEvent.java,v 1.1 2002-10-04 03:50:48 pbecker Exp $
+ * $Id: NodeRemovedEvent.java,v 1.2 2002-11-24 23:42:21 nataliya Exp $
  */
 package ontorama.model.events;
 
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 
 public class NodeRemovedEvent extends GraphReducedEvent {
-    private Node node;
+    private ontorama.model.graph.Node node;
 
-    public NodeRemovedEvent(Graph subject, Node node) {
+    public NodeRemovedEvent(ontorama.model.graph.Graph subject, ontorama.model.graph.Node node) {
         super(subject);
         this.node = node;
     }
 
-    public Node getNode() {
+    public ontorama.model.graph.Node getNode() {
         return node;
     }
 }

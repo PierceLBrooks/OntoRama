@@ -4,7 +4,7 @@
  * Date: Sep 16, 2002
  * Time: 12:08:52 PM
  */
-package ontorama.model;
+package ontorama.model.graph;
 
 import java.net.URI;
 import java.util.List;

@@ -7,9 +7,9 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.webkbtools.NoSuchRelationLinkException;
@@ -41,21 +41,21 @@ public class TestQueryEngine extends TestCase {
     private QueryResult queryResult2;
     private List queryResultList2;
 
-    private Node testNode_chair;
+    private ontorama.model.graph.Node testNode_chair;
 
 
-    EdgeType edgeType1;
-    EdgeType edgeType2;
-    EdgeType edgeType3;
-    EdgeType edgeType4;
-    EdgeType edgeType5;
-    EdgeType edgeType6;
-    EdgeType edgeType7;
-    EdgeType edgeType8;
-    EdgeType edgeType9;
-    EdgeType edgeType10;
-    EdgeType edgeType11;
-    EdgeType edgeType12;
+    ontorama.model.graph.EdgeType edgeType1;
+    ontorama.model.graph.EdgeType edgeType2;
+    ontorama.model.graph.EdgeType edgeType3;
+    ontorama.model.graph.EdgeType edgeType4;
+    ontorama.model.graph.EdgeType edgeType5;
+    ontorama.model.graph.EdgeType edgeType6;
+    ontorama.model.graph.EdgeType edgeType7;
+    ontorama.model.graph.EdgeType edgeType8;
+    ontorama.model.graph.EdgeType edgeType9;
+    ontorama.model.graph.EdgeType edgeType10;
+    ontorama.model.graph.EdgeType edgeType11;
+    ontorama.model.graph.EdgeType edgeType12;
 
     /**
      *
@@ -139,8 +139,8 @@ public class TestQueryEngine extends TestCase {
     /**
      *
      */
-    private void checkOutboundEdge(QueryResult queryResult, Node fromNode,
-                                           EdgeType edgeType, int expectedListSize) {
+    private void checkOutboundEdge(QueryResult queryResult, ontorama.model.graph.Node fromNode,
+                                           ontorama.model.graph.EdgeType edgeType, int expectedListSize) {
         String message = "query " + queryResult.getQuery().getQueryTypeName();
         message = message + ", iterator size for ";
         message = message + " ontology type " + fromNode.getName() + " and relation link ";
@@ -150,7 +150,7 @@ public class TestQueryEngine extends TestCase {
 
         Iterator edgesIt = queryResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            Edge cur = (Edge) edgesIt.next();
+            ontorama.model.graph.Edge cur = (ontorama.model.graph.Edge) edgesIt.next();
             String edgeTypeName = cur.getEdgeType().getName();
             if ((cur.getFromNode().equals(fromNode)) && (edgeType.getName().equals(edgeTypeName)) ) {
                 outboundEdges.add(cur);
@@ -159,10 +159,10 @@ public class TestQueryEngine extends TestCase {
         assertEquals(message, expectedListSize, outboundEdges.size());
     }
 
-    private Node getNodeFromList (String nodeName, List nodesList) {
+    private ontorama.model.graph.Node getNodeFromList (String nodeName, List nodesList) {
         Iterator it = nodesList.iterator();
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             if (cur.getName().equals(nodeName)) {
                 return cur;
             }

@@ -21,8 +21,8 @@ import ontorama.controller.NodeSelectedEvent;
 import ontorama.controller.QueryEvent;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.tree.model.OntoTreeBuilder;
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
@@ -49,7 +49,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
     private EventBroker eventBroker;
 
-    private Graph graph;
+    private ontorama.model.graph.Graph graph;
 
     private boolean KEY_IS_PRESSED = false;
     private boolean MOUSE_IS_PRESSED = false;
@@ -78,7 +78,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      *
      */
-    public void setGraph(Graph graph) {
+    public void setGraph(ontorama.model.graph.Graph graph) {
         this.graph = graph;
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
@@ -98,7 +98,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         Iterator it = ontoTreeModel.getOntoTreeIterator();
         while (it.hasNext()) {
             OntoTreeNode node = (OntoTreeNode) it.next();
-            Node curGraphNode = node.getGraphNode();
+            ontorama.model.graph.Node curGraphNode = node.getGraphNode();
             TreePath path = node.getTreePath();
             if (!curGraphNode.getFoldedState()) {
                 this.tree.expandPath(path);
@@ -217,7 +217,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
             if (this.KEY_IS_PRESSED) {
                 notifyMouseKeyEvent(this.curKeyEvent, e);
             } else {
-				Node graphNode = getGraphNodeFromMouseEvent(e);
+				ontorama.model.graph.Node graphNode = getGraphNodeFromMouseEvent(e);
 				if (graphNode == null ) return;                	
                 eventBroker.processEvent(new NodeSelectedEvent(graphNode));
             }
@@ -260,7 +260,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      *
      */
     private void notifyMouseKeyEvent(KeyEvent keyEvent, MouseEvent mouseEvent) {
-		Node graphNode = getGraphNodeFromMouseEvent(mouseEvent);
+		ontorama.model.graph.Node graphNode = getGraphNodeFromMouseEvent(mouseEvent);
 		if (graphNode == null ) return;
     	
         int keyEventCode = keyEvent.getModifiers();
@@ -276,7 +276,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      * 
      */
-    private Node getGraphNodeFromMouseEvent (MouseEvent mouseEvent) {
+    private ontorama.model.graph.Node getGraphNodeFromMouseEvent (MouseEvent mouseEvent) {
         TreePath selPath = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());
         if (selPath == null) {
             // mouse clicked not on a node, but somewhere else in the tree view
@@ -290,9 +290,9 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 	/**
 	 * 
 	 */
-	private Node getGraphNodeFromTreePath(TreePath selPath) {
+	private ontorama.model.graph.Node getGraphNodeFromTreePath(TreePath selPath) {
 		OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
-		Node graphNode = treeNode.getGraphNode();
+		ontorama.model.graph.Node graphNode = treeNode.getGraphNode();
 		return graphNode;
 	}
 
@@ -300,7 +300,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
     /**
      */
-    public void focus(Node node) {
+    public void focus(ontorama.model.graph.Node node) {
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
         TreePath path = treeNode.getTreePath();
         this.tree.setSelectionPath(path);

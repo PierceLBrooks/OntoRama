@@ -6,7 +6,7 @@
  * To change template for new interface use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model;
+package ontorama.model.graph;
 
 public interface EdgeType {
     public String getName();

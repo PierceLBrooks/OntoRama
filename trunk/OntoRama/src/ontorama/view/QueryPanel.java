@@ -28,9 +28,9 @@ import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.controller.GraphViewQueryEventHandler;
 import ontorama.model.graph.view.GraphQuery;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -248,7 +248,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         while (en.hasMoreElements()) {
             JCheckBox key = (JCheckBox) en.nextElement();
             if (key.isSelected()) {
-                EdgeType relLinkType = (EdgeType) _relationLinksCheckBoxes.get(key);
+                ontorama.model.graph.EdgeType relLinkType = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(key);
                 wantedRelationLinks.add(relLinkType);
             }
         }
@@ -262,7 +262,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         Enumeration enum = _relationLinksCheckBoxes.keys();
         while (enum.hasMoreElements()) {
             JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
-            EdgeType correspondingRelLink = (EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
+            ontorama.model.graph.EdgeType correspondingRelLink = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
             } else {
@@ -278,7 +278,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         Iterator it = OntoramaConfig.getEdgeTypesList().iterator();
 
         while (it.hasNext()) {
-            EdgeType cur = (EdgeType) it.next();
+            ontorama.model.graph.EdgeType cur = (ontorama.model.graph.EdgeType) it.next();
             if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
                 continue;
             }
@@ -358,18 +358,18 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
     /**
      *
      */
-    public void focus(Node node) {
+    public void focus(ontorama.model.graph.Node node) {
         _queryField.setText(node.getName());
     }
 
     /**
      */
-    public void query(Node node) {
+    public void query(ontorama.model.graph.Node node) {
         _queryField.setText(node.getName());
         doQuery();
     }
 
-    public void setGraph (Graph graph) {
+    public void setGraph (ontorama.model.graph.Graph graph) {
     }
 
     public void repaint () {

@@ -5,8 +5,8 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 
 /**
  * Basic P2PNodeImpl for ontology viewers.
@@ -16,7 +16,7 @@ import ontorama.model.NodeImpl;
  * <br>
  * Company:     DSTC
  */
-public class P2PNodeImpl extends NodeImpl implements P2PNode {
+public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNode {
 
 
     /**
@@ -47,7 +47,7 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
          *
          * @param node
          */
-        public P2PNodeImpl(Node node) {
+        public P2PNodeImpl(ontorama.model.graph.Node node) {
             super(node.getName(),node.getIdentifier());
             this.setCreatorUri(node.getCreatorUri());
             this.setNodeType(node.getNodeType());

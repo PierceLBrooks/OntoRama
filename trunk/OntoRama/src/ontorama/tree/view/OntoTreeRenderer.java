@@ -19,11 +19,11 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.ontologyConfig.ImageMaker;
 import ontorama.tree.model.OntoTreeNode;
 
@@ -57,7 +57,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      */
     private static Hashtable _nodeTypeToImageMapping = new Hashtable();
 
-    private Graph graph;
+    private ontorama.model.graph.Graph graph;
 
     /**
      * Renderer for OntoTree View
@@ -66,7 +66,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * - introduce RelationNodes
      * - ?
      */
-    public OntoTreeRenderer(Graph graph) {
+    public OntoTreeRenderer(ontorama.model.graph.Graph graph) {
 
         this.graph = graph;
 
@@ -75,7 +75,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
         while (nodeTypesIterator.hasNext()) {
-            NodeType nodeType = (NodeType) nodeTypesIterator.next();
+            ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) nodeTypesIterator.next();
             Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
             ImageIcon image = makeNodeIcon(iconW/2, iconH, color, nodeType);
             _nodeTypeToImageMapping.put(nodeType, image);
@@ -106,14 +106,14 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        EdgeType edge = treeNode.getRelLink();
+        ontorama.model.graph.EdgeType edge = treeNode.getRelLink();
 
-        NodeType nodeType = treeNode.getGraphNode().getNodeType();
+        ontorama.model.graph.NodeType nodeType = treeNode.getGraphNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
-                NodeType cur = (NodeType) it.next();
+                ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
                 if (cur.getNodeType().equals("unknown")) {
                     nodeType = cur;
                 }
@@ -128,8 +128,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
             String sign2 = null;
             Iterator it = this.graph.getOutboundEdges(treeNode.getGraphNode()).iterator();
             while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
-                EdgeType edgeType = curEdge.getEdgeType();
+                ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
                 // @todo again hardcoding relation name - if config.xml file changes - this won't work.
                 // probably need RelationNode to fix this.
                 if (edgeType.getName().equals("relSignature1")) {
@@ -187,7 +187,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(EdgeType edgeType, ImageIcon nodeImageIcon, boolean isClone) {
+    protected Icon getIcon(ontorama.model.graph.EdgeType edgeType, ImageIcon nodeImageIcon, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
@@ -204,11 +204,11 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get tool tip text for given object and relation link
      */
-    protected String getToolTipText(Object value, EdgeType edgeType) {
+    protected String getToolTipText(Object value, ontorama.model.graph.EdgeType edgeType) {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        Node node = treeNode.getGraphNode();
-        NodeType nodeType = node.getNodeType();
+        ontorama.model.graph.Node node = treeNode.getGraphNode();
+        ontorama.model.graph.NodeType nodeType = node.getNodeType();
 //        if (nodeType == null) {
 //            result = "???";
 //        }
@@ -229,7 +229,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      *
      */
-    private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
+    private Image makeImageForRelLink(ontorama.model.graph.EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
         Image relImage = OntoramaConfig.getEdgeDisplayInfo(relLinkType).getImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage, nodeImageIcon);
         return nodeImage;
@@ -278,7 +278,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * make icon for nodes
      */
-    private ImageIcon makeNodeIcon(int width, int height, Color color, NodeType nodeType) {
+    private ImageIcon makeNodeIcon(int width, int height, Color color, ontorama.model.graph.NodeType nodeType) {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 

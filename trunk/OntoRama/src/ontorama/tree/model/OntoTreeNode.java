@@ -10,9 +10,9 @@ import java.util.Vector;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.util.Debug;
 
 /**
@@ -34,7 +34,7 @@ public class OntoTreeNode implements TreeNode {
     /**
      * Node that is a base for this OntoTreeNode
      */
-    private Node graphNode;
+    private ontorama.model.graph.Node graphNode;
 
     /**
      * Observers list
@@ -44,7 +44,7 @@ public class OntoTreeNode implements TreeNode {
     /**
      *
      */
-    private EdgeType relLink;
+    private ontorama.model.graph.EdgeType relLink;
 
     /**
      * debug
@@ -56,21 +56,21 @@ public class OntoTreeNode implements TreeNode {
      *  Constructor
      *  @param graphNode
      */
-    public OntoTreeNode(Node graphNode) {
+    public OntoTreeNode(ontorama.model.graph.Node graphNode) {
         this.graphNode = graphNode;
     }
 
     /**
      *
      */
-    public void setRelLink(EdgeType relLink) {
+    public void setRelLink(ontorama.model.graph.EdgeType relLink) {
         this.relLink = relLink;
     }
 
     /**
      *
      */
-    public EdgeType getRelLink() {
+    public ontorama.model.graph.EdgeType getRelLink() {
         return this.relLink;
     }
 
@@ -133,8 +133,8 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getChildAt(int childIndex) {
         List outboundEdges = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
-        Edge outboundEdge = (Edge) outboundEdges.get(childIndex);
-        Node outboundNode = outboundEdge.getToNode();
+        ontorama.model.graph.Edge outboundEdge = (ontorama.model.graph.Edge) outboundEdges.get(childIndex);
+        ontorama.model.graph.Node outboundNode = outboundEdge.getToNode();
         TreeNode ouboundTreeNode = OntoTreeBuilder.getTreeNode(outboundNode);
 
         return ouboundTreeNode;
@@ -161,8 +161,8 @@ public class OntoTreeNode implements TreeNode {
         List inboundEdges = OntoTreeModel.graph.getInboundEdgesDisplayedInGraph(this.graphNode);
         Iterator it = inboundEdges.iterator();
         if (it.hasNext()) {
-            Edge edge = (Edge) it.next();
-            Node inboundNode = edge.getFromNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node inboundNode = edge.getFromNode();
             return (OntoTreeBuilder.getTreeNode(inboundNode));
         }
         return null;
@@ -181,8 +181,8 @@ public class OntoTreeNode implements TreeNode {
         Iterator it = outboundEdges.iterator();
         int index = -1;
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
-            Node toNode = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node toNode = edge.getToNode();
             if (toNode.equals(node)) {
                 index = outboundEdges.indexOf(edge);
             }
@@ -219,8 +219,8 @@ public class OntoTreeNode implements TreeNode {
         Iterator outIterator = outboundEdges.iterator();
         Vector result = new Vector();
         while (outIterator.hasNext()) {
-            Edge curEdge = (Edge) outIterator.next();
-            Node curNode = curEdge.getToNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) outIterator.next();
+            ontorama.model.graph.Node curNode = curEdge.getToNode();
             OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(curNode);
             result.add(treeNode);
         }
@@ -235,7 +235,7 @@ public class OntoTreeNode implements TreeNode {
      * Get Node that is a part of this OntoTreeNode
      * @return  graphNode
      */
-    public Node getGraphNode() {
+    public ontorama.model.graph.Node getGraphNode() {
         return this.graphNode;
     }
 

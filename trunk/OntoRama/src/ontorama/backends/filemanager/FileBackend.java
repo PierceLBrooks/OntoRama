@@ -18,8 +18,8 @@ import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.controller.GeneralQueryEvent;
 import ontorama.controller.GraphLoadedEvent;
-import ontorama.model.Graph;
-import ontorama.model.NoTypeFoundInResultSetException;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.NoTypeFoundInResultSetException;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
@@ -42,7 +42,7 @@ import org.tockit.events.EventListener;
  */
 public class FileBackend implements Backend{
     private P2PGraph graph = null;
-    private Graph ontoramaGraph = null;
+    private ontorama.model.graph.Graph ontoramaGraph = null;
     private List panels = null;
     private EventBroker eventBroker;
     private String filename;
@@ -51,11 +51,11 @@ public class FileBackend implements Backend{
         EventBroker eventBroker;
         public GraphLoadedEventHandler(EventBroker eventBroker)  {
             this.eventBroker = eventBroker;
-            eventBroker.subscribe(this, GraphLoadedEvent.class, Graph.class);
+            eventBroker.subscribe(this, GraphLoadedEvent.class, ontorama.model.graph.Graph.class);
         }
 
         public void processEvent(Event event) {
-            ontoramaGraph = (Graph) event.getSubject();
+            ontoramaGraph = (ontorama.model.graph.Graph) event.getSubject();
             //ontoramaGraph = OntoRamaApp.getCurrentGraph();
             System.out.println("\n\nloaded graph = " + ontoramaGraph);
             /// @todo total hack, need to work out workflows
@@ -69,7 +69,7 @@ public class FileBackend implements Backend{
                 /// @todo deal with the exceptions
                 e.printStackTrace();
             }
-            catch (NoTypeFoundInResultSetException e) {
+            catch (ontorama.model.graph.NoTypeFoundInResultSetException e) {
                 /// @todo deal with the exceptions
                 e.printStackTrace();
             }

@@ -1,4 +1,7 @@
 package ontorama.model;
+
+import ontorama.model.graph.Node;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya

@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import ontorama.model.Node;
+import ontorama.model.graph.Node;
 
 /**
  * <p>Title: </p>
@@ -113,7 +113,7 @@ public class AmbiguousChoiceDialog extends JDialog {
         group = new ButtonGroup();
 
         for (int i = 0; i < numChoices; i++) {
-            Node node= (Node) choiceList.get(i);
+            ontorama.model.graph.Node node= (ontorama.model.graph.Node) choiceList.get(i);
             JButton curButton = new JButton(node.getName());
             buttons[i] = curButton;
             if (i == 0) {

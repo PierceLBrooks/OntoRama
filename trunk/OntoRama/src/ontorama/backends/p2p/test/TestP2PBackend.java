@@ -22,7 +22,7 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.EdgeType;
+import ontorama.model.graph.EdgeType;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.webkbtools.query.Query;
@@ -84,7 +84,7 @@ public class TestP2PBackend {
 			node1.addRejection(creator3);			
 
 
-	        EdgeType edgeType_subtype = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
+	        ontorama.model.graph.EdgeType edgeType_subtype = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
 	        edgeType_subtype.setNamespace(ontoramaNamespace);
 	        P2PEdge edge1 = new P2PEdgeImpl(node1, node2, edgeType_subtype,creator,null);
 			edge1.addAssertion(creator2);

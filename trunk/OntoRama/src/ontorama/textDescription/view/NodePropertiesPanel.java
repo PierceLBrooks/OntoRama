@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import ontorama.model.Node;
+import ontorama.model.graph.Node;
 
 /**
  *
@@ -69,7 +69,7 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
                 propertyValue = propertyValue + propValueString;
             }
             else {
-                Node node = (Node) obj;
+                ontorama.model.graph.Node node = (ontorama.model.graph.Node) obj;
                 propertyValue =  propertyValue + node.getName() + " ";
             }
         }

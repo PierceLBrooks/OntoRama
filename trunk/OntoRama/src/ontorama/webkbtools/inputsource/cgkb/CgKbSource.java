@@ -22,7 +22,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import ontorama.model.EdgeType;
+import ontorama.model.graph.EdgeType;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
@@ -43,7 +43,7 @@ public class CgKbSource implements Source {
         Iterator it = relLinksList.iterator();
         String allReadersString="";
         while (it.hasNext()) {
-            EdgeType relDetails = (EdgeType) it.next();
+            ontorama.model.graph.EdgeType relDetails = (ontorama.model.graph.EdgeType) it.next();
 
             String readerString = "";
             Hashtable paramTable = new Hashtable();

@@ -10,13 +10,13 @@ package ontorama.backends.p2p.model;
 
 import java.net.URI;
 
-import ontorama.model.Graph;
+import ontorama.model.graph.Graph;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 
-public interface P2PGraph extends Graph {
+public interface P2PGraph extends ontorama.model.graph.Graph {
 	public P2PGraph search(Query query);
 	/**
 	 * Adds a parsser result to the graph

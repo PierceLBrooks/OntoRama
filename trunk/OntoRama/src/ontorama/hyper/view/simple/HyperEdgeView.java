@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.EdgeType;
+import ontorama.model.graph.EdgeType;
 import org.tockit.canvas.CanvasItem;
 
 public class HyperEdgeView extends CanvasItem {
@@ -34,9 +34,9 @@ public class HyperEdgeView extends CanvasItem {
     /**
      * Store the relation type for this edge
      */
-    private EdgeType relLink;
+    private ontorama.model.graph.EdgeType relLink;
 
-    public HyperEdgeView(HyperNodeView from, HyperNodeView to, EdgeType relLink) {
+    public HyperEdgeView(HyperNodeView from, HyperNodeView to, ontorama.model.graph.EdgeType relLink) {
         this.from = from;
         this.to = to;
         this.relLink = relLink;

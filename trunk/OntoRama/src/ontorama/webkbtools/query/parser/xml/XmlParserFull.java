@@ -20,12 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+import ontorama.model.graph.NodeType;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -48,8 +48,8 @@ public class XmlParserFull implements Parser {
      * debug
      */
     Debug debug = new Debug(false);
-    private NodeType relationNodeType;
-    private NodeType conceptNodeType;
+    private ontorama.model.graph.NodeType relationNodeType;
+    private ontorama.model.graph.NodeType conceptNodeType;
 
     private Element rootElement;
     private Namespace ns;
@@ -85,7 +85,7 @@ public class XmlParserFull implements Parser {
             /// @todo hack to get concept node type
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
-                NodeType nodeType = (NodeType) it.next();
+                ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) it.next();
                 if (nodeType.getNodeType().equals("concept")) {
                     conceptNodeType = nodeType;
                 }
@@ -118,7 +118,7 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(nameAttr, "name", conceptTypeElementName);
             String nodeName = nameAttr.getValue();
 
-            Node node = makeNode(nodeName, conceptNodeType);
+            ontorama.model.graph.Node node = makeNode(nodeName, conceptNodeType);
 
             processTypeDetails(conceptTypeEl, node);
         }
@@ -132,7 +132,7 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(nameAttr, "name", relationTypeElementName);
             String nodeName = nameAttr.getValue();
 
-            Node node = makeNode(nodeName, relationNodeType);
+            ontorama.model.graph.Node node = makeNode(nodeName, relationNodeType);
             
             /// @todo hardcoded relSignature1 and relSignature2 edge names - will cause a problem when config.xml file changes!
             processSignatureItem(node, relationTypeEl, "domain", "relSignature1");
@@ -142,30 +142,30 @@ public class XmlParserFull implements Parser {
         }
     }
 
-	private void processSignatureItem (Node node, Element relationTypeEl, 
+	private void processSignatureItem (ontorama.model.graph.Node node, Element relationTypeEl,
 									String signatureItemAttrName, String edgeName) 
 									throws ParserException, NoSuchRelationLinkException {
 		Attribute signatureAttr = relationTypeEl.getAttribute(signatureItemAttrName);
 		if (signatureAttr != null) {
-			Node toNode = makeNode(signatureAttr.getValue(), conceptNodeType);
-			Edge edge = makeEdge(node, toNode, edgeName);
+			ontorama.model.graph.Node toNode = makeNode(signatureAttr.getValue(), conceptNodeType);
+			ontorama.model.graph.Edge edge = makeEdge(node, toNode, edgeName);
 		}
 		
 	}
 
-    private Node makeNode(String nodeName, NodeType nodeType) {
-        Node node = (Node) _nodes.get(nodeName);
+    private ontorama.model.graph.Node makeNode(String nodeName, ontorama.model.graph.NodeType nodeType) {
+        ontorama.model.graph.Node node = (ontorama.model.graph.Node) _nodes.get(nodeName);
 
         if (node == null) {
-            node = new NodeImpl(nodeName);
+            node = new ontorama.model.graph.NodeImpl(nodeName);
             node.setNodeType(nodeType);
             _nodes.put(nodeName, node);
         }
         return node;
     }
 
-    private NodeType getNodeTypeForDestinationNode (String nodeName) {
-        NodeType retVal = null;
+    private ontorama.model.graph.NodeType getNodeTypeForDestinationNode (String nodeName) {
+        ontorama.model.graph.NodeType retVal = null;
         Iterator conceptTypesIterator = rootElement.getChildren(conceptTypeElementName, ns).iterator();
         while (conceptTypesIterator.hasNext()) {
             Element cur = (Element) conceptTypesIterator.next();
@@ -185,7 +185,7 @@ public class XmlParserFull implements Parser {
         return retVal;
     }
 
-    private void processTypeDetails (Element typeElement, Node node) throws URISyntaxException, NoSuchRelationLinkException, ParserException {
+    private void processTypeDetails (Element typeElement, ontorama.model.graph.Node node) throws URISyntaxException, NoSuchRelationLinkException, ParserException {
         URI creator = getCreator(typeElement);
         if (creator != null) {
             node.setCreatorUri(creator);
@@ -195,7 +195,7 @@ public class XmlParserFull implements Parser {
             // and not to have creator as edge type. not sure though
             // if this would work with the rest of the application well. at least
             // it may not be as dynamic.
-            Node creatorNode = makeNode(creator.toString(), conceptNodeType);
+            ontorama.model.graph.Node creatorNode = makeNode(creator.toString(), conceptNodeType);
             makeEdge(node, creatorNode, "creator");
         }
 
@@ -205,14 +205,14 @@ public class XmlParserFull implements Parser {
         processRelationLinks(typeElement, node);
     }
 
-    private void processTypeProperty(Element typeElement, Node node, String typePropertyName) 
+    private void processTypeProperty(Element typeElement, ontorama.model.graph.Node node, String typePropertyName)
     						throws NoSuchRelationLinkException, ParserException {
         List descr = getTypeProperty(typeElement, typePropertyName);
         Iterator it = descr.iterator();
         while (it.hasNext()) {
             String cur = (String) it.next();
-            Node toNode = makeNode(cur, null);
-            Edge edge = makeEdge(node, toNode, typePropertyName);
+            ontorama.model.graph.Node toNode = makeNode(cur, null);
+            ontorama.model.graph.Edge edge = makeEdge(node, toNode, typePropertyName);
         }
     }
 
@@ -238,7 +238,7 @@ public class XmlParserFull implements Parser {
     /**
      *
      */
-    private void processRelationLinks(Element top, Node fromNode) throws ParserException, NoSuchRelationLinkException {
+    private void processRelationLinks(Element top, ontorama.model.graph.Node fromNode) throws ParserException, NoSuchRelationLinkException {
         List relationLinksElementsList = top.getChildren("relationship", ns);
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
@@ -249,22 +249,22 @@ public class XmlParserFull implements Parser {
             checkCompulsoryAttr(typeAttr, "type", "relationship");
             Attribute toAttr = relLinkEl.getAttribute("to");
             checkCompulsoryAttr(toAttr, "to", "relationship");
-            NodeType toNodeType = getNodeTypeForDestinationNode(toAttr.getValue());
-            Node toNode = makeNode(toAttr.getValue(), toNodeType);
+            ontorama.model.graph.NodeType toNodeType = getNodeTypeForDestinationNode(toAttr.getValue());
+            ontorama.model.graph.Node toNode = makeNode(toAttr.getValue(), toNodeType);
             debug.message("XmlParserFull", "processRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + typeAttr.getValue());
-            Edge edge = makeEdge(fromNode, toNode, typeAttr.getValue());
+            ontorama.model.graph.Edge edge = makeEdge(fromNode, toNode, typeAttr.getValue());
         }
     }
 
-    private Edge makeEdge(Node fromNode, Node toNode, String edgeName) throws NoSuchRelationLinkException, ParserException {
+    private ontorama.model.graph.Edge makeEdge(ontorama.model.graph.Node fromNode, ontorama.model.graph.Node toNode, String edgeName) throws NoSuchRelationLinkException, ParserException {
         Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
-        Edge edge = null;
+        ontorama.model.graph.Edge edge = null;
         while (edgeTypesIterator.hasNext()) {
-            EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+            ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) edgeTypesIterator.next();
             if ((edgeType.getName()).equals(edgeName)) {
-                edge = new EdgeImpl(fromNode, toNode, edgeType);
+                edge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
             } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(edgeName)) ) {
-                edge = new EdgeImpl(toNode, fromNode, edgeType);
+                edge = new ontorama.model.graph.EdgeImpl(toNode, fromNode, edgeType);
             }
         }
     	if (edge == null) {
@@ -276,16 +276,16 @@ public class XmlParserFull implements Parser {
         return edge;
     }
 
-    private boolean edgeAlreadyInList (Edge edge) {
+    private boolean edgeAlreadyInList (ontorama.model.graph.Edge edge) {
         Iterator it = _edges.iterator();
         while (it.hasNext()) {
-            Edge cur = (Edge) it.next();
+            ontorama.model.graph.Edge cur = (ontorama.model.graph.Edge) it.next();
             if (cur.equals(edge)) {
             	return true;
             }
-            Node fromNode = cur.getFromNode();
-            Node toNode = cur.getToNode();
-            EdgeType edgeType = cur.getEdgeType();
+            ontorama.model.graph.Node fromNode = cur.getFromNode();
+            ontorama.model.graph.Node toNode = cur.getToNode();
+            ontorama.model.graph.EdgeType edgeType = cur.getEdgeType();
             if (edge.getFromNode().getName().equals(fromNode.getName())) {
                 if (edge.getToNode().getName().equals(toNode.getName())) {
                     if (edge.getEdgeType().getName().equals(cur.getEdgeType().getName())) {

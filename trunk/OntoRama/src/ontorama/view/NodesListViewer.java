@@ -25,10 +25,10 @@ import javax.swing.ListCellRenderer;
 
 import ontorama.OntoramaConfig;
 import ontorama.controller.GeneralQueryEvent;
-import ontorama.model.Graph;
-import ontorama.model.GraphImpl;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.GraphImpl;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.ontologyConfig.ImageMaker;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -45,7 +45,7 @@ public class NodesListViewer extends JComboBox {
      */
     private List _nodesList = new LinkedList();
 
-    private Graph _graph;
+    private ontorama.model.graph.Graph _graph;
 
     /**
      * event broker
@@ -77,7 +77,7 @@ public class NodesListViewer extends JComboBox {
                 if (selectedObject instanceof String) {
                     return;
                 }
-                Node selectedNode = (Node) selectedObject;
+                ontorama.model.graph.Node selectedNode = (ontorama.model.graph.Node) selectedObject;
                 System.out.println("\n\nsending new QueryEvent");
                 _eventBroker.processEvent(new GeneralQueryEvent(new Query(selectedNode.getName())));
             }
@@ -90,7 +90,7 @@ public class NodesListViewer extends JComboBox {
     /**
      * set new list of nodes
      */
-    public void setGraph (Graph graph) {
+    public void setGraph (ontorama.model.graph.Graph graph) {
         _graph = graph;
         _nodesList = graph.getUnconnectedNodesList();
         removeAllItems();
@@ -99,7 +99,7 @@ public class NodesListViewer extends JComboBox {
         sortList();
         Iterator it = _nodesList.iterator();
         while (it.hasNext()) {
-            Node curNode = (Node) it.next();
+            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) it.next();
             addItem(curNode);
         }
     }
@@ -142,8 +142,8 @@ public class NodesListViewer extends JComboBox {
         while(atLeastOneSwap) {
             atLeastOneSwap = false;
             for(j=0; j < (_nodesList.size()-1); ++j) {
-                Node curNode = (Node) _nodesList.get(j);
-                Node nextNode = (Node) _nodesList.get(j+1);
+                ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) _nodesList.get(j);
+                ontorama.model.graph.Node nextNode = (ontorama.model.graph.Node) _nodesList.get(j+1);
 
                 String curNodeName = curNode.getName();
                 String nextNodeName = nextNode.getName();
@@ -174,7 +174,7 @@ public class NodesListViewer extends JComboBox {
 
             Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
             while (nodeTypesIterator.hasNext()) {
-                NodeType nodeType = (NodeType) nodeTypesIterator.next();
+                ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) nodeTypesIterator.next();
                 Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
                 ImageIcon image = makeNodeIcon(iconW/2, iconH, color, Color.black, nodeType);
                 _nodeTypeToImageMapping.put(nodeType, image);
@@ -201,12 +201,12 @@ public class NodesListViewer extends JComboBox {
                 return this;
             }
             else {
-                Node node = (Node) value;
-                NodeType nodeType = node.getNodeType();
+                ontorama.model.graph.Node node = (ontorama.model.graph.Node) value;
+                ontorama.model.graph.NodeType nodeType = node.getNodeType();
                 setText(node.getName());
                 // @todo hack: should consider adding the method into interface
-                if (_graph instanceof GraphImpl) {
-                    GraphImpl graphImpl = (GraphImpl) _graph;
+                if (_graph instanceof ontorama.model.graph.GraphImpl) {
+                    ontorama.model.graph.GraphImpl graphImpl = (ontorama.model.graph.GraphImpl) _graph;
                     int numOfDescendants = graphImpl.getNumOfDescendants(node);
                     setText(node.getName() + " (" + numOfDescendants + ")");
                 }
@@ -223,7 +223,7 @@ public class NodesListViewer extends JComboBox {
         }
     }
 
-    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor, NodeType nodeType) {
+    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor, ontorama.model.graph.NodeType nodeType) {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 

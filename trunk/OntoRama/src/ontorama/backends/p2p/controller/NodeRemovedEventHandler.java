@@ -3,8 +3,8 @@ package ontorama.backends.p2p.controller;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.util.GraphModificationException;
 import org.tockit.events.Event;
@@ -25,12 +25,12 @@ public class NodeRemovedEventHandler implements EventListener {
     public NodeRemovedEventHandler(EventBroker eventBroker, P2PBackend backend) {
         _eventBroker = eventBroker;
         _p2pBackend = backend;
-        _eventBroker.subscribe(this, NodeRemovedEvent.class, Graph.class);
+        _eventBroker.subscribe(this, NodeRemovedEvent.class, ontorama.model.graph.Graph.class);
     }
 
     public void processEvent(Event event) {
         NodeRemovedEvent nodeRemovedEvent = (NodeRemovedEvent) event;
-        Node node = nodeRemovedEvent.getNode();
+        ontorama.model.graph.Node node = nodeRemovedEvent.getNode();
         P2PNode p2pNode = new P2PNodeImpl(node.getName(), node.getIdentifier());
         try {
             _p2pBackend.rejectNode(p2pNode, node.getCreatorUri());

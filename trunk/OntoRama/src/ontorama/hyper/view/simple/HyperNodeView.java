@@ -22,8 +22,8 @@ import java.util.Iterator;
 import ontorama.OntoramaConfig;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChangedObserver;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.ontologyConfig.NodeTypeDisplayInfo;
 import org.tockit.canvas.CanvasItem;
 
@@ -107,7 +107,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private boolean isLeaf = false;
 
-    private NodeType nodeType;
+    private ontorama.model.graph.NodeType nodeType;
     private Shape pathShape;
 
     /**
@@ -126,7 +126,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private double depth = 0;
 
-    public HyperNodeView(HyperNode model, NodeType nodeType) {
+    public HyperNodeView(HyperNode model, ontorama.model.graph.NodeType nodeType) {
         this.model = model;
         this.nodeType = nodeType;
         model.addPositionChangedObserver(this);
@@ -302,7 +302,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Returns Node.
      */
-    public Node getGraphNode() {
+    public ontorama.model.graph.Node getGraphNode() {
         return this.model.getGraphNode();
     }
 
@@ -413,7 +413,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         // draw lines to, and show clones
         Iterator it = this.getGraphNode().getClones().iterator();
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView == null) {
                 //System.out.println("HyperNodeView not found for " + cur.getName());

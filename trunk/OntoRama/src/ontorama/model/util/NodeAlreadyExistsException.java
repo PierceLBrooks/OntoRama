@@ -8,10 +8,10 @@
  */
 package ontorama.model.util;
 
-import ontorama.model.Node;
+import ontorama.model.graph.Node;
 
 public class NodeAlreadyExistsException extends GraphModificationException  {
-    public NodeAlreadyExistsException(Node node) {
+    public NodeAlreadyExistsException(ontorama.model.graph.Node node) {
         super("Node " + node.getName() + " is already exists in the graph");
     }
 }

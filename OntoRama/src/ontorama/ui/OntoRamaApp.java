@@ -38,7 +38,9 @@ import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
 import ontorama.ui.events.*;
+import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
@@ -171,18 +173,42 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
     }
     
+	private class QueryEngineThreadStartEventHandler implements EventBrokerListener {
+		public void processEvent(Event event) {
+			QueryEngine queryEngine = (QueryEngine) event.getSubject();
+			QueryEngineThreadStartEvent e = (QueryEngineThreadStartEvent) event;
+			Query query = e.getQuery();
+			_lastQuery = _query;
+			_query = query;
+			_worker = new QueryEngineThread(queryEngine, _query, _modelEventBroker);
+			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
+			_worker.start();
+			_timer.start();
+			_progressBar.setIndeterminate(true);
+			_queryPanel.enableStopQueryAction(true);
+		}
+	}
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
-            Query query = (Query) event.getSubject();
-            _lastQuery = _query;
-            _query = query;
-            _worker = new QueryEngineThread(_query, _modelEventBroker);
-            _modelEventBroker.removeSubscriptions(_viewsEventBroker);
-            _worker.start();
-            _timer.start();
-            _progressBar.setIndeterminate(true);
-            _queryPanel.enableStopQueryAction(true);
+			try {
+				Query query = (Query) event.getSubject();
+				QueryEngine qe = OntoramaConfig.getBackend().getQueryEngine();
+				_modelEventBroker.processEvent(new QueryEngineThreadStartEvent(qe, query));
+			}
+			catch (QueryFailedException e) {
+				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());
+				e.printStackTrace();
+			}
+//            Query query = (Query) event.getSubject();
+//            _lastQuery = _query;
+//            _query = query;
+//            _worker = new QueryEngineThread(_query, _modelEventBroker);
+//            _modelEventBroker.removeSubscriptions(_viewsEventBroker);
+//            _worker.start();
+//            _timer.start();
+//            _progressBar.setIndeterminate(true);
+//            _queryPanel.enableStopQueryAction(true);
         }
     }
 
@@ -308,6 +334,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							LoadGraphEvent.class,
 							Object.class);
 
+		_modelEventBroker.subscribe(
+							new QueryEngineThreadStartEventHandler(),
+							QueryEngineThreadStartEvent.class,
+							Object.class);
 
         _timer = new Timer(TIMER_INTERVAL, this);
         initBackend();

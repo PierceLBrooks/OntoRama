@@ -147,6 +147,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 */
 	private Query _lastQuery = null;
 
+        /**
+         * currently displayed graph
+         */
+         private Graph _graph;
+
 	/**
 	 * left side of split panel holds hyper view.
 	 * leftSplitPanelWidthPercent allocates percentage of space for
@@ -222,7 +227,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		_queryPanel = new QueryPanel(_viewListener, this);
 
-		_listViewer = new NodesListViewer(new LinkedList());
+		//_listViewer = new NodesListViewer(this);
 
 		_treeView = new OntoTreeView(_viewListener);
 		_hyperView = new SimpleHyperView(_viewListener);
@@ -425,12 +430,15 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			if (graph == null) {
 				return;
 			}
-			updateViews(graph);
+                        _graph = graph;
+			updateViews();
+                        showUnconnectedNodes();
 		}
 	}
 
 	/**
-	 *
+	 * @todo shouldn't return true or false as since introducing threads
+         * we return from this method before query finished executing
 	 */
 	public boolean executeQuery(Query query) {
 		_lastQuery = _query;
@@ -457,15 +465,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 *
 	 */
-	private void updateViews(Graph graph) {
-
-
-		_hyperView.setGraph(graph);
-		_treeView.setGraph(graph);
+	private void updateViews() {
+		_hyperView.setGraph(_graph);
+		_treeView.setGraph(_graph);
 		//_queryPanel.setQueryField(graph.getRootNode().getName());
 		_queryPanel.setQuery(_query);
 		_descriptionViewPanel.clear();
-		_descriptionViewPanel.setFocus(graph.getRootNode());
+		_descriptionViewPanel.setFocus(_graph.getRootNode());
 
 		_hyperView.repaint();
 		_treeView.repaint();
@@ -478,56 +484,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		enableDisableDynamicFields();
 
 		repaint();
-
-		List unconnectedNodes = graph.getUnconnectedNodesList();
-		if (unconnectedNodes.size() != 0) {
-			//_listViewer.setNodesList( unconnectedNodes);
-                        _listViewer = new NodesListViewer(unconnectedNodes);
-			_listViewer.showList(true);
-                        //_listViewer.addListSelectionListener(_listViewer);
-                        JList list = _listViewer.getList();
-                        list.addListSelectionListener(new ListSelectionListener() {
-                            public void valueChanged (ListSelectionEvent e) {
-                                    GraphNode selectedNode = (GraphNode) _listViewer.getList().getSelectedValue();
-                                    System.out.println("selected node = " + selectedNode.getName());
-				//graph.setRoot(selectedNode);
-				//updateViews(graph);
-
-                            }
-                      });
-		}
-//		if (unconnectedNodes.size() != 0) {
-//
-//			//Custom button text
-//			Object[] options = new Object[4];
-//
-//
-//
-//			int count = 0;
-//			Iterator it = unconnectedNodes.iterator();
-//			while ((it.hasNext()) && (count < 4)) {
-//				GraphNode node = (GraphNode) it.next();
-//				System.out.println("count = " + count + ", value = " + node.getName());
-//				options[count]=node;
-//				count++;
-//			}
-////			JOptionPane optionPane = new JOptionPane(
-//			int n = JOptionPane.showOptionDialog(this,
-//			    "Would you like some green eggs? ",
-//			    "unconnected nodes",
-//			    JOptionPane.YES_NO_CANCEL_OPTION,
-//			    JOptionPane.QUESTION_MESSAGE,
-//			    null,
-//			    options,
-//			    options[0]);
-//			System.out.println("\noption chosen: " + n);
-//			if (n != -1) {
-//				graph.setRoot((GraphNode) options[n]);
-//				updateViews(graph);
-//			}
-//		}
-
 	}
+
 
 	/**
 	 * enable/disable components that should be only shown
@@ -619,6 +577,37 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 		return false;
 	}
+
+        /**
+         *
+         */
+        private void showUnconnectedNodes () {
+          List unconnectedNodes = _graph.getUnconnectedNodesList();
+          if (unconnectedNodes.size() != 0) {
+                  //_listViewer.setNodesList( unconnectedNodes);
+                  closeUnconnectedNodesView();
+                  _listViewer = new NodesListViewer(this,unconnectedNodes);
+                  _listViewer.showList(true);
+          }
+        }
+
+        /**
+         *
+         */
+        private void closeUnconnectedNodesView () {
+          if (_listViewer != null) {
+            _listViewer.dispose();
+            _listViewer = null;
+          }
+        }
+
+        /**
+         *
+         */
+        protected void resetGraphRoot (GraphNode newRootNode) {
+          _graph.setRoot(newRootNode);
+          updateViews();
+        }
 
 	/**
 	 *

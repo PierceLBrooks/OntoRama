@@ -35,21 +35,23 @@ import com.hp.hpl.jena.daml.common.DAMLClassImpl;
  */
 
 public class RdfModelWriter implements ModelWriter {
-    private Graph _graph;
+    protected Graph _graph;
 
     /**
      * contains mapping of processed nodes to created rdf resources
      * keys - nodes
      * values - rdf resources
      */
-    private Hashtable _nodeToResource;
+    protected Hashtable _nodeToResource;
 
     /**
      * contains a list of processed edges that have been added to rdf model
      */
-    private List _processedEdges;
+    protected List _processedEdges;
 
-    private List _processedNodes;
+    protected List _processedNodes;
+
+    protected Hashtable _edgeTypesToRdfMapping;
 
     public void write(Graph graph, Writer out) throws ModelWriterException {
         _graph = graph;
@@ -58,6 +60,7 @@ public class RdfModelWriter implements ModelWriter {
         _processedNodes = new LinkedList();
 
         try {
+            _edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
             Model rdfModel = toRDFModel();
             writeModel(rdfModel, out);
         } catch (RDFException rdfExc) {
@@ -95,8 +98,7 @@ public class RdfModelWriter implements ModelWriter {
         List nodesList = _graph.getNodesList();
         List edgesList = _graph.getEdgesList();
 
-        Hashtable edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
-        writeEdges(edgesList, edgeTypesToRdfMapping, rdfModel);
+        writeEdges(edgesList, rdfModel);
         //writeNodes(nodesList, rdfModel);
 
         return rdfModel;
@@ -121,39 +123,54 @@ public class RdfModelWriter implements ModelWriter {
         }
     }
 
-    private void writeEdges(List edgesList, Hashtable edgeTypesToRdfMapping, Model rdfModel) throws RDFException {
+    protected void writeEdges(List edgesList,  Model rdfModel) throws RDFException {
         Iterator edgesIterator = edgesList.iterator();
         while (edgesIterator.hasNext()) {
             Edge curEdge = (Edge) edgesIterator.next();
-            Node fromNode = curEdge.getFromNode();
-            Resource subject = getResource(fromNode);
-            EdgeType edgeType = curEdge.getEdgeType();
-            RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
-            String rdfTag = (String) rdfMapping.getRdfTags().get(0);
-            Property predicate = new PropertyImpl(edgeType.getNamespace() + rdfTag);
-            if (rdfMapping.getType().equals(edgeType.getName()) ) {
-                Node toNode = curEdge.getToNode();
-                if (toNode.getIdentifier().equals(toNode.getName())) {
-                    /// @todo this is not a good test (testing if node should
-                    // be resource or literal). this probably should be reflected
-                    // in a node type object
-                    rdfModel.add(subject, predicate, curEdge.getToNode().getName());
-                }
-                else {
-                    Resource object = getResource(curEdge.getToNode());
-                    rdfModel.add(subject, predicate, object);
-                }
-                _processedNodes.add(fromNode);
+            SimpleTriple triple = writeEdgeIntoModel(curEdge, rdfModel);
+            Resource subject = getResource(triple.getSubject());
+            Property predicate = triple.getPredicate();
+            if (triple.getObject().getIdentifier().equals(triple.getObject().getName())) {
+                /// @todo this is not a good test (testing if node should
+                // be resource or literal). this probably should be reflected
+                // in a node type object
+                rdfModel.add(subject, predicate, curEdge.getToNode().getName());
             }
-            else if (rdfMapping.getType().equals(edgeType.getReverseEdgeName())) {
-                Resource object = getResource(curEdge.getToNode());
-                rdfModel.add(object, predicate, subject);
-                _processedNodes.add(curEdge.getToNode());
+            else {
+                Resource object = getResource(triple.getObject());
+                rdfModel.add(subject, predicate, object);
             }
+
         }
     }
 
-    private Hashtable mapEdgeTypesToRdfTags() throws NoSuchRelationLinkException {
+    protected SimpleTriple writeEdgeIntoModel(Edge curEdge, Model rdfModel) throws RDFException {
+        SimpleTriple result = null;
+        Node fromNode = curEdge.getFromNode();
+        EdgeType edgeType = curEdge.getEdgeType();
+        Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
+        RdfMapping rdfMapping = (RdfMapping) _edgeTypesToRdfMapping.get(edgeType);
+        if (rdfMapping.getType().equals(edgeType.getName()) ) {
+            Node toNode = curEdge.getToNode();
+            result =  new SimpleTriple (curEdge.getFromNode(), predicate, curEdge.getToNode());
+            _processedNodes.add(fromNode);
+        }
+        else if (rdfMapping.getType().equals(edgeType.getReverseEdgeName())) {
+            result = new SimpleTriple(curEdge.getToNode(), predicate, curEdge.getFromNode());
+            _processedNodes.add(curEdge.getToNode());
+        }
+        return result;
+    }
+
+    protected Property getPropertyForEdgeType (EdgeType edgeType, Hashtable edgeTypesToRdfMapping) throws RDFException {
+        RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
+        String rdfTag = (String) rdfMapping.getRdfTags().get(0);
+        Property predicate = new PropertyImpl(edgeType.getNamespace() + rdfTag);
+        return predicate;
+    }
+
+
+    protected Hashtable mapEdgeTypesToRdfTags() throws NoSuchRelationLinkException {
         Hashtable result = new Hashtable();
         List rdfMappingList = OntoramaConfig.getRelationRdfMapping();
         Iterator it = rdfMappingList.iterator();
@@ -166,13 +183,37 @@ public class RdfModelWriter implements ModelWriter {
         return result;
     }
 
-    private Resource getResource(Node node) {
+    protected Resource getResource(Node node) {
         if (_nodeToResource.containsKey(node)) {
             return (Resource) _nodeToResource.get(node);
         } else {
             Resource resource = new ResourceImpl(node.getIdentifier());
             _nodeToResource.put(node, resource);
             return resource;
+        }
+    }
+
+    class SimpleTriple {
+        private Node _subject;
+        private Property _predicate;
+        private Node _object;
+
+        public SimpleTriple (Node subject, Property predicate, Node object) {
+            _subject = subject;
+            _predicate = predicate;
+            _object = object;
+        }
+
+        public Node getSubject() {
+            return _subject;
+        }
+
+        public Property getPredicate() {
+            return _predicate;
+        }
+
+        public Node getObject() {
+            return _object;
         }
     }
 

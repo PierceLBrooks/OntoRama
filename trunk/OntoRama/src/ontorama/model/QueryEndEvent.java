@@ -1,7 +1,8 @@
 package ontorama.model;
 
 import org.tockit.events.Event;
-import ontorama.ontotools.query.Query;
+
+import ontorama.model.graph.Graph;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,9 +12,9 @@ import ontorama.ontotools.query.Query;
  * To change this template use Options | File Templates.
  */
 public class QueryEndEvent implements Event {
-    protected Query subject;
+    protected Graph subject;
 
-    public QueryEndEvent(Query subject) {
+    public QueryEndEvent(Graph subject) {
         this.subject = subject;
     }
 

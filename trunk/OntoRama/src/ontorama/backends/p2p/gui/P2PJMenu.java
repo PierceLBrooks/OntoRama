@@ -9,10 +9,8 @@
 package ontorama.backends.p2p.gui;
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.io.File;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -24,7 +22,6 @@ import ontorama.backends.p2p.gui.action.ActionGroupSearch;
 import ontorama.backends.p2p.gui.action.ActionShowJoinGroupDialog;
 import ontorama.backends.p2p.gui.action.ActionShowLeaveGroupDialog;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
-import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
 import ontorama.ui.OntoRamaApp;
 
 public class P2PJMenu extends JMenu {
@@ -52,10 +49,6 @@ public class P2PJMenu extends JMenu {
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
         
-        _enableP2PAction = new ActionEnableP2P("Show P2P Panels");
-        add(_enableP2PAction);
-        addSeparator();
-
         _searchAction = new ActionGroupSearch("Group search", p2pBackend);
         add(_searchAction);
         addSeparator();
@@ -66,9 +59,6 @@ public class P2PJMenu extends JMenu {
         add(_leaveGroupAction);
         addSeparator();
 
-        _updatePanelAction = new ActionUpdateP2PPanel("Update Peer Panel",_p2pBackend);
-        add(_updatePanelAction);
-
         _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel", _p2pBackend);
         add(_resetChangePanelAction);
         addSeparator();
@@ -76,19 +66,7 @@ public class P2PJMenu extends JMenu {
     	setActionsEnabled(false);
         
     }
-
-    private class ActionEnableP2P extends AbstractAction {
-        public ActionEnableP2P(String name) {
-            super(name);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            //_p2pBackend.activate();
-            setActionsEnabled(true);
-        }
-
-    }
-    
+   
     private void setActionsEnabled (boolean isEnabled) {
 //    	_searchAction.setEnabled(isEnabled);
 //    	_joinGroupAction.setEnabled(isEnabled);

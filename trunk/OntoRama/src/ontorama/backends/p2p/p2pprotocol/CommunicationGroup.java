@@ -288,7 +288,7 @@ public class CommunicationGroup extends Communication {
 			GroupReferenceElement groupRes = new GroupReferenceElement (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
-			System.out.println("search groups returned: " + groupRes + ", group name = " + groupRes.getName());
+			System.out.println("search groups returned: group name = " + groupRes.getName() + ", group id = " + pgAdv.getPeerGroupID());
 			result.add(groupRes);				
 		}
 
@@ -317,7 +317,9 @@ public class CommunicationGroup extends Communication {
 		pg = getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
-		DiscoveryService discServ1 = pg.getDiscoveryService();
+		//DiscoveryService discServ1 = pg.getDiscoveryService();
+		/// @todo added line below instead of commented out above while trying to figure out why we can't see other peers in our group
+		DiscoveryService discServ1 = discServ;
 		//discServ = pg.getDiscoveryService();
 
 		//Send a request to other peers
@@ -339,10 +341,13 @@ public class CommunicationGroup extends Communication {
 				
 					
 		//Get all peer advertisements that are stored in the local cahe
-		Vector searchGroupResult = new Vector();					
+		Vector searchGroupResult = new Vector();	
+		System.out.println("\tCommunicationGroup::peerDiscovery retuning");				
 		while (enum.hasMoreElements()) {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum.nextElement();
+			System.out.println("\tpeerAdv.getName() = " + peerAdv.getName() + ", peerAdv.getPeerGroupID() = " 
+								+ peerAdv.getPeerGroupID() + ", peerAdv.getDescription()" + peerAdv.getDescription());
 			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
 								  									peerAdv.getName(),
 								  									peerAdv.getDescription()));

@@ -1,15 +1,13 @@
 package ontorama.hyper.view.simple;
 
 /**
- * Line view is responsible for drawing lines between
- * node views.
- *
- * LineView stors the from NodeView and to NodeView.
+ * HyperEdgeView is responsible for drawing lines between
+ * two node views, and displaying the image icon to
+ * represent the relationship type between the two nodes.
  */
 
 import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.view.simple.HyperNodeView;
-
 import ontorama.ontologyConfig.RelationLinkDetails;
 
 import javax.swing.ImageIcon;
@@ -31,9 +29,11 @@ public class HyperEdgeView extends CanvasItem{
     private HyperNodeView to;
 
     /**
-     *
+     * Store the relation type for this edge
      */
-    int relLink;
+    private int relLink;
+
+    private Line2D edgeView = new Line2D.Double( 0,0,0,0 );
 
     public HyperEdgeView( HyperNodeView from, HyperNodeView to, int relLink ) {
         this.from = from;
@@ -56,15 +56,16 @@ public class HyperEdgeView extends CanvasItem{
         double imgW = iconImg.getIconWidth() * viewScale;
         double imgH = iconImg.getIconHeight() * viewScale;
         double imgHyp = Math.sqrt( imgW * imgW + imgH * imgH);
-        double scale = (nodeViewRadius + imgHyp) / distanceBetweenTwoNodes;
+        double scale = (nodeViewRadius/2 + imgHyp) / distanceBetweenTwoNodes;
         double imgX = x2 - ( xDiff * scale) - imgW/2;
         double imgY = y2 - ( yDiff * scale) - imgH/2;
 
         g2d.setColor( Color.lightGray );
-        g2d.draw( new Line2D.Double(    from.getProjectedX(),
-                                        from.getProjectedY(),
-                                        to.getProjectedX(),
-                                        to.getProjectedY() ) );
+        edgeView.setLine( from.getProjectedX(),
+                          from.getProjectedY(),
+                          to.getProjectedX(),
+                          to.getProjectedY() );
+        g2d.draw( edgeView );
 
         g2d.drawImage( iconImg.getImage(), (int)imgX, (int)imgY, (int)imgW, (int)imgH, iconImg.getImageObserver());
     }

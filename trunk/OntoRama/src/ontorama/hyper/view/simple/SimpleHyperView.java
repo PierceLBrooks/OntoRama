@@ -67,12 +67,12 @@ public class SimpleHyperView  extends CanvasManager  {
      * Path for test output files.
      */
     private String testFileOutputPath = "benchmark_out/";
-	
+
 
     public SimpleHyperView(ViewEventListener viewListener) {
 		this.viewListener = viewListener;
 		this.viewListener.addObserver(this);
-		
+
         this.addMouseListener( this );
         this.addMouseMotionListener( this );
         this.setDoubleBuffered( true );
@@ -83,6 +83,8 @@ public class SimpleHyperView  extends CanvasManager  {
      * Loads new ontology with top concept.
      */
     public void setGraph( Graph graph ) {
+        // create a new linked list for canvas items
+        canvasItems = new LinkedList();
         //Add HyperNodes to hashtabel stored in CanvasManager
         hypernodes = new Hashtable();
         //Map HyperNodeViews to GraphNode to build LineViews
@@ -613,6 +615,6 @@ public class SimpleHyperView  extends CanvasManager  {
         g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
         drawNodes( g2d );
     }
-	
+
 
 }

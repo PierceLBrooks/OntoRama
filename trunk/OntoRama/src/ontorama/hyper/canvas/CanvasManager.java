@@ -78,7 +78,7 @@ public class CanvasManager extends JComponent
     /**
      * Store the hyper view canvas items.
      */
-    protected List canvasItems = new LinkedList();
+    protected List canvasItems = null;
 
     /**
      * Hosds the constant value to determine if we are in drag mode.

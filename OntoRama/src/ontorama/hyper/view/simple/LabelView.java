@@ -1,17 +1,14 @@
 package ontorama.hyper.view.simple;
 
-/**
- * For now labels are just drawn on top of nodes.
- * This layer simple enables labels to be drawn last.
- */
-
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 
+/**
+ * For now labels are just drawn on top of nodes.
+ * This layer simply enables labels to be drawn last.
+ */
 public class LabelView extends CanvasItem {
 
     /**

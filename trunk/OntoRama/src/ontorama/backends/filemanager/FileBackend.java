@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.backends.Backend;
-import ontorama.backends.Menu;
-import ontorama.backends.filemanager.FileMenu;
 import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
@@ -95,9 +93,6 @@ public class FileBackend implements Backend{
     
     public List getPanels(){
         return this.panels;
-    }
-    public Menu getMenu(){
-        return new FileMenu(this);
     }
 
     public JMenu getJMenu() {

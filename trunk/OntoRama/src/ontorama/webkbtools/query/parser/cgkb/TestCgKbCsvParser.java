@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.webkbtools.query.parser.csv;
+package ontorama.webkbtools.query.parser.cgkb;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;

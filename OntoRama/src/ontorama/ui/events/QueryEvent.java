@@ -17,7 +17,6 @@ public class QueryEvent implements Event  {
 
     public QueryEvent(GeneralNode subject) {
         this.subject = subject;
-        System.out.println("new QueryEvent()");
     }
 
     public Object getSubject() {

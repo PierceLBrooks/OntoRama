@@ -33,7 +33,6 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;
@@ -45,6 +44,7 @@ import ontorama.ontotools.query.Query;
 import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
+import ontorama.ui.controller.ErrorEventHandler;
 import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
@@ -182,7 +182,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 	private class ViewUpdateHandler implements EventBrokerListener {
 		public void processEvent(Event e) {
-            System.out.println("processEvent ViewUpdateHandler for new tree");
 			TreeImpl tree = (TreeImpl) e.getSubject();
 			updateViews();
 		}
@@ -240,9 +239,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_modelEventBroker = new EventBroker();
 		_viewsEventBroker = new EventBroker();
 
-        System.out.println("_modelEventBroker.subscribe(_viewsEventBroker,...)");
-        System.out.println("_viewsEventBroker.subscribe(_modelEventBroker, ...)");
-
         new GeneralQueryEventHandler(_modelEventBroker);
         new GeneralQueryEventHandler(_viewsEventBroker);
 
@@ -254,8 +250,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _modelEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);
         _viewsEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);
 
-        System.out.println("_modelEventBroker = " + _modelEventBroker);
-        System.out.println("_viewsEventBroker = " + _viewsEventBroker);
+        _modelEventBroker.subscribe(new ErrorEventHandler(), ErrorEvent.class, Object.class);
+        _viewsEventBroker.subscribe(new ErrorEventHandler(), ErrorEvent.class, Object.class);
 
 
 		_timer = new Timer(TIMER_INTERVAL, this);
@@ -394,9 +390,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		// recalculate percentage for _leftSplitPanelWidthPercent to
 		// account for user specified position of divider bar
 		int currentDividerBarLocation = _splitPane.getDividerLocation();
-		if (_dividerBarLocation != currentDividerBarLocation) {
-			//System.out.println("*****this._dividerBarLocation != currentDividerBarLocation: " + this._dividerBarLocation + ", " + currentDividerBarLocation);
-		}
 		double scale = (double) curAppWidth / (double) this._appWidth;
 		double scaledDividerLocation =
 			((double) this._dividerBarLocation * scale);
@@ -404,14 +397,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			(currentDividerBarLocation * 100) / this._appWidth;
 		double scaledDividerPercent =
 			(scaledDividerLocation * 100) / curAppWidth;
-		if (((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)
-			- scaledDividerLocation)
-			> 25)
-			|| ((scaledDividerLocation
-				- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent))
-				> 25)) {
-			if (((newLeftPanelPercent - scaledDividerPercent) > 10)
-				|| ((scaledDividerPercent - newLeftPanelPercent) > 10)) {
+		if (((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent) - scaledDividerLocation) > 25)
+			 || ((scaledDividerLocation - calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
+			if (((newLeftPanelPercent - scaledDividerPercent) > 10)	|| ((scaledDividerPercent - newLeftPanelPercent) > 10)) {
 				_leftSplitPanelWidthPercent = newLeftPanelPercent;
 			}
 		}
@@ -573,9 +561,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_hyperView.repaint();
 		_treeView.repaint();
 		_splitPane.repaint();
-		setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
+        _examplesMenu.setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
 		enableDisableDynamicFields();
-        appendHistoryMenu(_query);
+        _historyMenu.appendHistory(_query, OntoramaConfig.getCurrentExample());
 		repaint();
 	}
 
@@ -583,8 +571,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	private void setGraphInViews(Graph graph) {
-		//_hyperView.setGraph(graph);
-		//_treeView.setGraph(graph);
 		_hyperView.setTree(_tree);
 		_treeView.setTree(_tree);
 		_queryPanel.setGraph(graph);
@@ -604,29 +590,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			_queryPanel.disableDepth();
 			_descriptionViewPanel.disableDynamicFields();
 		}
-	}
-
-	/**
-	 *
-	 */
-	public void appendHistoryMenu(Query query) {
-        System.out.println("append history for given query " + query);
-		_historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
-	}
-
-	/**
-	 *
-	 */
-	protected void setSelectedExampleMenuItem(OntoramaExample example) {
-		_examplesMenu.setSelectedExampleMenuItem(example);
-	}
-
-	/**
-	 *
-	 */
-	public static void showErrorDialog(String message) {
-		Frame parentFrame = getMainFrame();
-		new ErrorPopupMessage(message, parentFrame);
 	}
 
     /**

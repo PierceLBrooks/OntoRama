@@ -153,14 +153,14 @@ public class Query {
 		return _sourceUri;
 	}
 
-//	/**
-//	 *
-//	 */
-//	public String toString() {
-//		String str = "Query: ";
-//		str = str + "termName = " + _typeName + ", depth = " + _depth;
-//		str = str + ", relation links: " + _relationLinks;
-//		return str;
-//	}
+	/**
+	 *
+	 */
+	public String toString() {
+		String str = "Query: ";
+		str = str + "termName = " + _typeName + ", depth = " + _depth;
+		str = str + ", relation links: " + _relationLinks;
+		return str;
+	}
 
 }

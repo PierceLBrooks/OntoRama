@@ -162,7 +162,8 @@ public class LabelView extends CanvasItem {
         g2d.setColor(hyperNodeView.getNodeFadeColor());
         g2d.draw(roundRect);
         g2d.setColor(Color.black);
-        g2d.drawString(getContentString(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
+        //g2d.drawString(getContentString(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
+    	g2d.drawString(hyperNodeView.getName(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
     }
 
     public Point2D getPosition() {

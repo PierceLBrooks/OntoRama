@@ -45,6 +45,7 @@ public class Graph implements GraphInterface {
         this.root = root;
 
         debug.message("Graph","constructor","before convertIntoTree testIfTree(): " + testIfTree(root));
+        debug.message("Graph","constructor","before convertIntoTree number of nodes: " + getNodesList().size());
         debug.message("Graph","constructor","before convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
         try {
             //System.out.println( printXml());
@@ -56,6 +57,7 @@ public class Graph implements GraphInterface {
             System.exit(-1);
         }
         debug.message("Graph","constructor","after convertIntoTree testIfTree(): " + testIfTree(root));
+        debug.message("Graph","constructor","after convertIntoTree number of nodes: " + getNodesList().size());
         debug.message("Graph","constructor","after convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
     }
 
@@ -66,6 +68,31 @@ public class Graph implements GraphInterface {
      */
     public GraphNode getRootNode() {
         return root;
+    }
+
+    /**
+     * Get nodes list. Convinience method.
+     *
+     * @return  list of all graph nodes
+     */
+    public List getNodesList () {
+        LinkedList queue = new LinkedList();
+        LinkedList result = new LinkedList();
+        boolean isTree = true;
+
+        queue.add(this.root);
+
+        while ( !queue.isEmpty()) {
+            GraphNode nextQueueNode = (GraphNode) queue.remove(0);
+            result.add(nextQueueNode);
+
+            Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
+            while (allOutboundNodes.hasNext()) {
+                GraphNode curNode = (GraphNode) allOutboundNodes.next();
+                queue.add(curNode);
+            }
+        }
+        return result;
     }
 
     /**

@@ -255,10 +255,6 @@ public class WebKB2Source implements Source {
         }
 
         String newTermName = selectedType;
-
-//        Query newQuery = new Query(newTermName, this.query.getRelationLinksList());
-//        newQuery.setDepth(this.query.getDepth());
-//    	return newQuery;
         
         this.query.setQueryTypeName(newTermName);
         return this.query;

@@ -16,13 +16,13 @@ import java.util.Properties;
 
 
 import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.OntoramaExample;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatConfigParser;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.conf.XmlConfigParser;
-import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
 import ontorama.model.graph.NodeTypeImpl;

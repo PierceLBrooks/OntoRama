@@ -1,4 +1,4 @@
-package ontorama.conf.examplesConfig;
+package ontorama.backends.examplesmanager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.examplesmanager.*;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.XmlParserAbstract;

@@ -15,7 +15,8 @@ import ontorama.OntoramaConfig;
 import ontorama.ui.events.QueryStartEvent;
 import ontorama.ontotools.query.Query;
 import ontorama.backends.examplesmanager.ExamplesBackend;
-import ontorama.conf.examplesConfig.OntoramaExample;
+import ontorama.backends.examplesmanager.OntoramaExample;
+
 import org.tockit.events.EventBroker;
 
 /**

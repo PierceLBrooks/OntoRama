@@ -15,7 +15,6 @@ import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.ui.events.QueryStartEvent;
 import ontorama.backends.Backend;
-import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -69,9 +68,6 @@ public class HistoryMenu extends JMenu {
             JMenuItem menuItem = (JMenuItem) event.getSubject();
             JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) menuItem;
             HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
-            // get corresponding example
-            OntoramaExample example = historyElement.getExample();
-            //OntoramaConfig.setCurrentExample(example);
             // get graph for this query and load it into app
             _eventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
             //setSelectedMenuItem(historyItem);
@@ -130,10 +126,10 @@ public class HistoryMenu extends JMenu {
      * Assumptions:	we are assuming that each example would correspond to
      * a query with ALL relation links.
      */
-    public void appendHistory(String termName, OntoramaExample example) {
+    public void appendHistory(String termName) {
     	Backend backend = OntoramaConfig.getBackend();
         Query query = new Query(termName, OntoramaConfig.getEdgeTypesList(), backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
-        appendHistory(query, example);
+        appendHistory(query);
     }
 
 
@@ -141,10 +137,10 @@ public class HistoryMenu extends JMenu {
      * Append history menu with new example
      *
      */
-    public void appendHistory(Query query, OntoramaExample example) {
-    	System.out.println("HistoryMenu:: query = " + query + ", example = " + example);
+    public void appendHistory(Query query) {
+    	System.out.println("HistoryMenu:: query = " + query);
 
-        String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
+        String historyItemLabelName = query.getQueryTypeName();
 
         String historyItemToolTipText = historyItemLabelName;
         if (query.getDepth() > -1) {
@@ -160,7 +156,7 @@ public class HistoryMenu extends JMenu {
             remove(firstMenuItem);
         }
 
-        HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, example);
+        HistoryElement historyElement = new HistoryElement(historyItemLabelName, query);
 
         JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
         historyItem.setToolTipText(historyItemToolTipText);

@@ -12,8 +12,6 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.examplesmanager.gui.ExamplesMenu;
 import ontorama.conf.ConfigParserException;
-import ontorama.conf.examplesConfig.OntoramaExample;
-import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;

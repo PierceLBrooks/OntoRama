@@ -1,4 +1,4 @@
-package ontorama.conf.examplesConfig;
+package ontorama.backends.examplesmanager;
 
 import ontorama.conf.DataFormatMapping;
 

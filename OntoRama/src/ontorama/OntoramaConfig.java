@@ -21,6 +21,7 @@ import ontorama.ontologyConfig.ConceptPropertiesDetails;
 import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
 
+
 /**
  * @todo    Implement different method to introduce relation links:
  *      rather then having them hardcoded in this class -
@@ -162,14 +163,14 @@ public class OntoramaConfig {
 
 
         Properties properties = new Properties();
-		
+
 		propertiesFileLocation = cl.getResource("ontorama.properties");
     	xmlConfigFileLocation = cl.getResource("config.xml");
-		
+
         //Properties properties = new Properties(System.getProperties());
         try {
           //FileInputStream propertiesFileIn = new FileInputStream (propertiesFileLocation);
-		  
+
 		  //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
 		  InputStream propertiesFileIn = getInputStreamFromResource(cl,"ontorama.properties");
 
@@ -184,7 +185,7 @@ public class OntoramaConfig {
 
           parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
           sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
-		  
+
 		  System.out.println("sourceUri = " + sourceUri);
 
 
@@ -203,7 +204,7 @@ public class OntoramaConfig {
 			//InputStream configInStream = cl.getResourceAsStream("config.xml");
 			InputStream configInStream = getInputStreamFromResource(cl,"config.xml");
 			//System.out.println("input stream = " + configInStream.getClass());
-			
+
 			XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
             allRelationsArray = xmlConfig.getRelationLinksArray();
             MAXTYPELINK = allRelationsArray.length;
@@ -308,86 +309,95 @@ public class OntoramaConfig {
      public static Hashtable getConceptPropertiesRdfMapping () {
         return conceptPropertiesRdfMapping;
      }
-	 
+
 	 /**
 	  *
 	  * @todo	need an exception for an unknown protocol
 	  */
 	 private static InputStream getInputStreamFromResource (ClassLoader cl,
-	 											String resourceName)  
-												throws IOException {
+                                      String resourceName) throws IOException {
+
 	 	InputStream resultStream = null;
 		String className = cl.getResourceAsStream(resourceName).getClass().getName();
 		System.out.println("getResourceAsStream class name = " + className);
 		String className2 = cl.getResource(resourceName).getClass().getName();
-		System.out.println("getResource class name = " + className2);	
-		
-		Enumeration e = cl.getResources(resourceName);
-		while (e.hasMoreElements() ) {
-			Object obj = e.nextElement();
-			System.out.println("---obj class name = " + obj.getClass().getName());
-			URL url = (URL) obj;
-			System.out.println("url = " + url.toString());
-			System.out.println("protocol = " + url.getProtocol());
-			if (url.getProtocol().equalsIgnoreCase("jar")) {
-				System.out.println("found JAR");
-				System.out.println("path = " + url.getPath());
-				System.out.println("file = " + url.getFile());
-				System.out.println("content = " + url.getContent());
-				Object content = url.getContent();
-				System.out.println("content class: " + content.getClass().getName());
-				
-				//ZipFile zipFile = (ZipFile) content;
-				String pathString = url.getPath();
-				int index = pathString.indexOf("!");
-				String filePath = pathString.substring(0,index);
-				// a hack: strip string 'protocol:/" from the path
-				if (filePath.startsWith("file")) {
-					int index1 = pathString.indexOf(":") + 1;
-					filePath = filePath.substring(index1, filePath.length());
-				}
-				
-				System.out.println("filePath = " + filePath);
-				File file = new File(filePath);
-				System.out.println("file absolute path = " + file.getAbsolutePath());
-				ZipFile zipFile = new ZipFile (file);
-				
-				//Enumeration en = zipFile.entries();
-				//while (en.hasMoreElements()) {
-				//	System.out.println("next entry = " + en.nextElement());
-				//}
-				
-				ZipEntry zipEntry = zipFile.getEntry(resourceName);
-				//System.out.println("zip entry for resourceName = " + resourceName + ", " + zipEntry);
-				
-				resultStream = (InputStream) zipFile.getInputStream(zipEntry);
-				System.out.println("resultStream class name = " + resultStream.getClass().getName());
-				zipFile.close();
+		System.out.println("getResource class name = " + className2);
 
-			}
-			else if (url.getProtocol().equalsIgnoreCase("file")) {
-				System.out.println("found FILE");
-				resultStream = url.openStream();
-			}
-			else {
-				System.err.println("Dont' know about this protocol: "
-				+ url.getProtocol());
-				System.exit(-1);
-			}
-		}
-/*
-		if (className.startsWith("ZipFile")) {
-			ZipFile zipFile = (ZipFile) cl.getResourceAsStream(resourceName);
-			//ZipInputStream zipStream = (ZipInputStream) cl.getResourceAsStream(resourceName);
-			System.out.println("clas name = " + zipFile.getClass().getName());
-			//ZipEntry zipEntry = zipFile.getEntry(resourceName);
-			//resultStream = zipFile.getInputStream(zipFile.getEntry(resourceName));
-		}
-		else {
-			resultStream = cl.getResourceAsStream(resourceName);
-		}
-		*/
+                URL url = cl.getResource(resourceName);
+
+//		Enumeration e = cl.getResources(resourceName);
+//		while (e.hasMoreElements() ) {
+//			Object obj = e.nextElement();
+                //System.out.println("---obj class name = " + obj.getClass().getName());
+                //URL url = (URL) obj;
+                System.out.println("url = " + url.toString());
+                System.out.println("protocol = " + url.getProtocol());
+                if (url.getProtocol().equalsIgnoreCase("jar")) {
+                        System.out.println("found JAR");
+                        //System.out.println("path = " + url.getPath());
+                        System.out.println("file = " + url.getFile());
+                        //System.out.println("content = " + url.getContent());
+                        //Object content = url.getContent();
+                        //System.out.println("content class: " + content.getClass().getName());
+
+                        //ZipFile zipFile = (ZipFile) content;
+                        //String pathString = url.getPath();
+                        String pathString = url.getFile();
+                        int index = pathString.indexOf("!");
+                        String filePath = pathString.substring(0,index);
+                        // a hack: strip string 'protocol:/" from the path
+                        if (filePath.startsWith("file")) {
+                                int index1 = pathString.indexOf(":") + 1;
+                                filePath = filePath.substring(index1, filePath.length());
+                        }
+
+                        System.out.println("filePath = " + filePath);
+                        File file = new File(filePath);
+                        System.out.println("file absolute path = " + file.getAbsolutePath());
+                        ZipFile zipFile = new ZipFile (file);
+
+                        //Enumeration en = zipFile.entries();
+                        //while (en.hasMoreElements()) {
+                        //	System.out.println("next entry = " + en.nextElement());
+                        //}
+
+                        ZipEntry zipEntry = zipFile.getEntry(resourceName);
+                        //System.out.println("zip entry for resourceName = " + resourceName + ", " + zipEntry);
+
+                        resultStream = (InputStream) zipFile.getInputStream(zipEntry);
+                        System.out.println("resultStream class name = " + resultStream.getClass().getName());
+                        //copyInputStream(resultStream, new BufferedOutputStream(new FileOutputStream("nat.tmp.txt")));
+                        //zipFile.close();
+
+                }
+                else if (url.getProtocol().equalsIgnoreCase("file")) {
+                        System.out.println("found FILE");
+                        resultStream = url.openStream();
+                }
+                else {
+                        System.err.println("Dont' know about this protocol: "
+                        + url.getProtocol());
+                        System.exit(-1);
+                }
+//		}
 		return resultStream;
 	 }
+  /**
+   * debug method. can be removed
+   */
+  public static final void copyInputStream(InputStream in, OutputStream out)
+                                    throws IOException
+  {
+    byte[] buffer = new byte[1024];
+    int len;
+
+    while((len = in.read(buffer)) >= 0)
+      out.write(buffer, 0, len);
+
+    //in.close();
+    out.close();
+  }
+
+
 }
 

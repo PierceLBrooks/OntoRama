@@ -128,6 +128,8 @@ public class RdfDamlParser implements Parser {
                         // throw exception here
                         //System.out.println("case 3");
                         System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+                        java.awt.Toolkit.getDefaultToolkit().beep();
+                        System.exit(-1);
                     }
                 }
                 catch (NoSuchRelationLinkException e) {

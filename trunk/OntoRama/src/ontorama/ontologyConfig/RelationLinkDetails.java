@@ -36,6 +36,12 @@ public class RelationLinkDetails {
     /**
      *
      */
+    private String displaySymbol = null;
+    private String reversedLinkDisplaySymbol = null;
+
+    /**
+     *
+     */
     private Image displayImage;
 
     /**
@@ -109,10 +115,33 @@ public class RelationLinkDetails {
     }
 
     /**
+     *
+     */
+    public void setDisplaySymbol (String displaySymbol) {
+        this.displaySymbol = displaySymbol;
+        makeDisplayImage();
+    }
+
+    /**
+     *
+     */
+    public String getDisplaySymbol () {
+        return this.displaySymbol;
+    }
+
+
+    /**
      * @todo    look into parameter for getImage - use relative paths
      */
     public void setDisplayImage (String imageStr) {
         this.displayImage = Toolkit.getDefaultToolkit().getImage(imageStr);
+    }
+
+    /**
+     * Make an image from given color and symbol
+     */
+    public void makeDisplayImage () {
+        this.displayImage = ImageMaker.getImage(this.displayColor,this.displaySymbol);
     }
 
     /**

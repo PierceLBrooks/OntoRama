@@ -63,6 +63,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
 
         } catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
     }

@@ -94,10 +94,13 @@ public class XmlConfigParser extends XmlParserAbstract {
 
             parseOntologyElement(ontologyEl);
 
-            parseRelationRdfMappingElement(rdfMappingEl);
-            parseConceptRdfMappingElement(rdfMappingEl);
+            if (rdfMappingEl != null) {
+                parseRelationRdfMappingElement(rdfMappingEl);
+                parseConceptRdfMappingElement(rdfMappingEl);
+            }
         } catch (JDOMException e) {
             System.out.println("JDOMException: " + e);
+            e.printStackTrace();
             System.exit(-1);
         }
     }

@@ -1,5 +1,10 @@
-
 package ontorama.hyper.model;
+
+/**
+ * HyperNode represents a concept in the hyperbolic model
+ * HyperNode wraps around a GrapNode. Commutation between different
+ * views is via GrapNode hasFocus() method.
+ */
 
 import ontorama.hyper.canvas.FocusChangedObservable;
 import ontorama.hyper.canvas.FocusChangedObserver;
@@ -33,7 +38,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Store the name/label of node.
      */
-    private double nodeRadius = 25d;
+    private double nodeRadius = 20;
 
 
     /**
@@ -142,6 +147,11 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
         return this.position.distance(other.position);
     }
 
+    /**
+     * Set a new location for the Hypernode.
+     *
+     * Notify view of change of position.
+     */
     public void setLocation( double x, double y ) {
         position.setLocation( x, y );
         notifyPositionMoved( x, y);

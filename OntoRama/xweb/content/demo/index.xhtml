@@ -53,7 +53,7 @@
 			<li>
 				Reset your proxy setting in Java Webstart to manual.
 				To do that: start Java Webstart, go to File:Preferences. In the 
-				dialog box choose General tab. In Proxies section click on
+				dialog box choose 'General' tab. In 'Proxies' section click on
 				'Manual' and type in your settings.
 			</li>
 			<li>
@@ -81,18 +81,18 @@
 			If you wish to unzip ontorama  into a different directory,
 			you will need to edit ontorama-local.jnlp file and specify alternative location by changing href in the followind line:
 		</p>
-		<pre>
-		&lt;homepage href="file:/C://Program Files/ontorama"/&gt;
-		</pre>
+		<xml>
+		<homepage href="file:/C://Program Files/ontorama"/>
+		</xml>
 		<p>
 			Note, value of attribute 'href'	should be valid url (in particular, on a local system, it should contain 'file:/' in it).
 		</p>
 		<p>
 			For example, if you wish to use "C:\temp\ontorama" directory, then change the above line to 
 		</p>
-		<pre>
-		&lt;homepage href="file:/C://temp/ontorama"/&gt;
-		</pre>
+		<xml>
+		<homepage href="file:/C://temp/ontorama"/>
+		</xml>
 		<p>
 		Disadvantage of this approach is that if defies the purpose of Webstart: you won't get automated updates.
 		Each time the application is updated, you will need to download and unzip the updated file.

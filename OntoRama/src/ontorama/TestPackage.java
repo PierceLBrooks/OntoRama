@@ -1,4 +1,4 @@
-package ontorama.test;
+package ontorama;
 
 import junit.framework.*;
 
@@ -17,8 +17,8 @@ public class TestPackage {
 
          TestSuite suite = new TestSuite( "ontorama" );
 
-         suite.addTest( ontorama.test.model.TestModelPackage.suite() );
-         suite.addTest( ontorama.test.webkbtools.TestWebkbtoolsPackage.suite());
+         suite.addTest( ontorama.model.TestModelPackage.suite() );
+         suite.addTest( ontorama.webkbtools.TestWebkbtoolsPackage.suite());
 
          return suite;
      }

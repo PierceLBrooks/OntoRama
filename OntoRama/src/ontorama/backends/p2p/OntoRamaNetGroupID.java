@@ -5,10 +5,8 @@ package ontorama.backends.p2p;
 
 import java.net.URL;
 
-import java.net.UnknownServiceException;
 import java.net.MalformedURLException;
 
-import net.jxta.id.ID;
 import net.jxta.id.IDFactory;
 
 import net.jxta.peergroup.PeerGroupID;

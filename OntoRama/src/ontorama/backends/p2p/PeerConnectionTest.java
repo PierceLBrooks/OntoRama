@@ -9,7 +9,6 @@ import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.MimeMediaType;
-import net.jxta.exception.PeerGroupException;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupFactory;
 import net.jxta.protocol.DiscoveryResponseMsg;

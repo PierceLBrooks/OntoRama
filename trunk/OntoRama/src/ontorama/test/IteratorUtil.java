@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -26,4 +27,19 @@ public class IteratorUtil {
       }
       return size;
     }
+
+    /**
+     * check for given object in the given iterator
+     */
+    public static boolean objectIsInIterator (Object obj, Iterator it) {
+      while (it.hasNext()) {
+        Object cur = (Object) it.next();
+        if (obj.equals(cur)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+
 }

@@ -92,14 +92,21 @@ public class TestGraph extends TestCase {
     OntologyType ontType7 = new OntologyTypeImplementation("node5");
 
     ontType.addRelationType(ontType1,1);
-    ontType.addTypeProperty(typePropertyName, rootNodeDescr);
     ontType.addRelationType(ontType2,2);
     ontType.addRelationType(ontType3,1);
     ontType1.addRelationType(ontType4,1);
-    ontType1.addTypeProperty(typePropertyName, node1Descr);
     ontType1.addRelationType(ontType5,2);
     ontType2.addRelationType(ontType5,1);
     ontType6.addRelationType(ontType7,1);
+
+//    LinkedList rootDescrPropValue = new LinkedList();
+//    rootDescrPropValue.add(rootNodeDescr);
+//
+//    LinkedList node1DescrPropValue = new LinkedList();
+//    node1DescrPropValue.add(node1DescrPropValue);
+//
+    ontType.addTypeProperty(typePropertyName, rootNodeDescr);
+    ontType1.addTypeProperty(typePropertyName, node1Descr);
 
     ontTypesList = new LinkedList();
     ontTypesList.add(ontType);
@@ -111,11 +118,9 @@ public class TestGraph extends TestCase {
 
     QueryResult queryResult = new QueryResult(query,ontTypesList.iterator());
 
-    //graphBuilder = new GraphBuilder (queryResult);
     graph = new Graph (queryResult);
 
     node1 = getNodeChildByName(graph.getRootNode(), "node1");
-    //System.out.println("node1 = " + node1);
     node1_2 = getNodeChildByName(node1, "node1.2");
   }
 

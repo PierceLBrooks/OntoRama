@@ -1,6 +1,5 @@
 package ontorama.ui;
 
-import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.ontotools.query.Query;
 
 
@@ -13,7 +12,6 @@ import ontorama.ontotools.query.Query;
  */
 public class HistoryElement {
 
-    private OntoramaExample _example;
     private Query _query;
     private String _menuDisplayName;
 
@@ -25,11 +23,9 @@ public class HistoryElement {
      * @param	example - corresponding ontorama _example
      *
      */
-    public HistoryElement(String menuDisplayName, Query query, OntoramaExample example) {
+    public HistoryElement(String menuDisplayName, Query query) {
         _menuDisplayName = menuDisplayName;
         _query = query;
-        _example = example;
-        //System.out.println("history element constructor: " + this.toString());
     }
 
     /**
@@ -53,21 +49,13 @@ public class HistoryElement {
         return _query;
     }
 
-
-    /**
-     * Get _example corresponding to this history element
-     */
-    public OntoramaExample getExample() {
-        return _example;
-    }
-
     /**
      *
      */
     public String toString() {
         String str = "HistoryElement: ";
         str = str + "display name = " + _menuDisplayName;
-        str = str + ", query = " + _query + ", example = " + _example;
+        str = str + ", query = " + _query;
         return str;
     }
 

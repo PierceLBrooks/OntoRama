@@ -5,7 +5,7 @@ import java.util.List;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.examplesmanager.ExamplesBackend;
-import ontorama.conf.examplesConfig.OntoramaExample;
+import ontorama.backends.examplesmanager.OntoramaExample;
 
 /**
  * <p>Title: </p>

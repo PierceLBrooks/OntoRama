@@ -20,6 +20,7 @@ import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.query.TypeQuery;
 import ontorama.webkbtools.query.TypeQueryBase;
 import ontorama.webkbtools.query.TypeQueryImplementation;
+import ontorama.webkbtools.query.Query;
 
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -38,6 +39,8 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 public class TestTypeQueryImplementation extends TestCase {
 
+  private Query query;
+
   private TypeQuery typeQuery;
 
   private List expectedTypesList = new LinkedList();
@@ -53,6 +56,9 @@ public class TestTypeQueryImplementation extends TestCase {
    *
    */
   protected void setUp() throws Exception {
+
+    query = new Query(OntoramaConfig.ontologyRoot);
+
     typeQuery = new TypeQueryImplementation();
 
     // expected ontology types:
@@ -61,15 +67,15 @@ public class TestTypeQueryImplementation extends TestCase {
     type_PygmyMouse.addTypeProperty("Synonym", "Baiomys_taylori");
     type_PygmyMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_PygmyMouse.addTypeProperty("Description", "very small dark grayish brown mouse resembling a house mouse; of Texas and Mexico");
-    
+
     expectedTypesList.add(type_PygmyMouse);
-    
+
     OntologyType type_CottonMouse = new OntologyTypeImplementation("wn#CottonMouse");
     type_CottonMouse.addTypeProperty("Synonym", "cotton_mouse");
     type_CottonMouse.addTypeProperty("Synonym", "Peromyscus_gossypinus");
     type_CottonMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_CottonMouse.addTypeProperty("Description", "large dark mouse of southeastern United States");
-    
+
     expectedTypesList.add(type_CottonMouse);
 
     OntologyType type_CactusMouse = new OntologyTypeImplementation("wn#CactusMouse");
@@ -77,7 +83,7 @@ public class TestTypeQueryImplementation extends TestCase {
     type_CactusMouse.addTypeProperty("Synonym", "Peromyscus_eremicus");
     type_CactusMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_CactusMouse.addTypeProperty("Description", "burrowing mouse of desert areas of southwestern United States");
-    
+
     expectedTypesList.add(type_CactusMouse);
 
     OntologyType type_DeerMouse = new OntologyTypeImplementation("wn#DeerMouse");
@@ -85,18 +91,18 @@ public class TestTypeQueryImplementation extends TestCase {
     type_DeerMouse.addTypeProperty("Synonym", "Peromyscus_maniculatus");
     type_DeerMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_DeerMouse.addTypeProperty("Description", "brownish New World mouse; most widely distributed member of the genus");
-    
+
     expectedTypesList.add(type_DeerMouse);
-    
+
     OntologyType type_White_footedMouse = new OntologyTypeImplementation("wn#White-footedMouse");
     type_White_footedMouse.addTypeProperty("Synonym", "white-footed_mouse");
     type_White_footedMouse.addTypeProperty("Synonym", "vesper_mouse");
     type_White_footedMouse.addTypeProperty("Synonym", "Peromyscus_leucopus");
     type_White_footedMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_White_footedMouse.addTypeProperty("Description", "American woodland mouse with white feet and underparts");
-    
+
     expectedTypesList.add(type_White_footedMouse);
-    
+
     OntologyType type_WoodMouse = new OntologyTypeImplementation("wn#WoodMouse");
     type_WoodMouse.addTypeProperty("Synonym", "wood_mouse");
     type_WoodMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
@@ -106,41 +112,41 @@ public class TestTypeQueryImplementation extends TestCase {
     type_WoodMouse.addRelationType(type_White_footedMouse,1);
     type_WoodMouse.addRelationType(type_CactusMouse,1);
     type_WoodMouse.addRelationType(type_DeerMouse,1);
-    
+
     expectedTypesList.add(type_WoodMouse);
 
     OntologyType type_Mouse = new OntologyTypeImplementation("wn#Mouse");
     type_Mouse.addRelationType(type_WoodMouse,1);
-    
+
     expectedTypesList.add(type_Mouse);
-    
+
   }
 
   /**
    *
    */
   public void testGetTypeRelative () throws Exception {
-    
-    int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(OntoramaConfig.ontologyRoot));
+
+    int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(query));
     int expectedIteratorSize = expectedTypesList.size();
-    
+
     assertEquals(expectedIteratorSize, queryIteratorSize);
 
-    Iterator queryIterator = typeQuery.getTypeRelative(OntoramaConfig.ontologyRoot);
-    
+    Iterator queryIterator = typeQuery.getTypeRelative(query);
+
     while (queryIterator.hasNext()) {
       OntologyType cur = (OntologyType) queryIterator.next();
       //System.out.println("---" + cur);
       findOntologyTypeInIterator(cur, expectedTypesList.iterator());
-      
+
     }
 
   }
-  
+
     /**
      *
      */
-    public void findOntologyTypeInIterator (OntologyType type, Iterator it) 
+    public void findOntologyTypeInIterator (OntologyType type, Iterator it)
                                 throws NoSuchPropertyException, NoSuchRelationLinkException {
         while (it.hasNext()) {
             OntologyType cur = (OntologyType) it.next();
@@ -167,5 +173,5 @@ public class TestTypeQueryImplementation extends TestCase {
             }
         }
     }
-  
+
 }

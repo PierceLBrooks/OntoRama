@@ -235,9 +235,13 @@ public class OntoRamaMenu {
     // get corresponding example
     OntoramaExample example = (OntoramaExample) menuItemExampleMapping.get(menuItem);
 
+    boolean querySuccessfull = executeQuery(example.getRoot(), example, menuItem);
+    if (!querySuccessfull) {
+      return;
+    }
+
     appendHistory(example.getRoot(),example);
 
-    executeQuery(example.getRoot(), example, menuItem);
 
   }
 
@@ -251,8 +255,6 @@ public class OntoRamaMenu {
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
 
-    setSelectedMenuItem(menuItemHistoryMapping, historyItem);
-
     // find corresponding example and select it
     Enumeration enum = this.menuItemExampleMapping.keys();
     JCheckBoxMenuItem correspondingExampleMenuItem = null;
@@ -264,18 +266,20 @@ public class OntoRamaMenu {
         break;
       }
     }
-    executeQuery(historyElement.getTermName(), example, correspondingExampleMenuItem);
+
+    boolean querySuccessfull = executeQuery(historyElement.getTermName(), example, correspondingExampleMenuItem);
+    if (!querySuccessfull) {
+      return;
+    }
+    setSelectedMenuItem(menuItemHistoryMapping, historyItem);
+
   }
 
   /**
    *
    */
-  private void executeQuery (String termName, OntoramaExample example,
+  private boolean executeQuery (String termName, OntoramaExample example,
                         JCheckBoxMenuItem correspondingExampleMenuItem) {
-
-
-    // indicate that this example is currently displayed one
-    setSelectedMenuItem(menuItemExampleMapping, correspondingExampleMenuItem);
 
     // reset details in OntoramaConfig
     OntoramaConfig.setCurrentExample(example);
@@ -284,8 +288,12 @@ public class OntoRamaMenu {
     Query query = new Query(termName);
 
     // get graph for this query and load it into app
-    this.mainApp.executeQuery(query);
-    //appendHistory(query.getQueryTypeName(),example);
+    if (this.mainApp.executeQuery(query)) {
+      // indicate that this example is currently displayed one
+      setSelectedMenuItem(menuItemExampleMapping, correspondingExampleMenuItem);
+      return true;
+    }
+    return false;
   }
 
   /**

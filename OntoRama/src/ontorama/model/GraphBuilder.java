@@ -117,6 +117,7 @@ public class GraphBuilder {
 
         // make GraphNode and set available properties for it.
         GraphNode node = (GraphNode) processedNodes.get(ot.getName());
+        //System.out.println("----processing ot = " + ot.getName());
         if (node == null) {
             node = new GraphNode (ot.getName());
             processedNodes.put(ot.getName(), node);
@@ -125,9 +126,10 @@ public class GraphBuilder {
         Enumeration e = conceptPropertiesConfig.keys();
         while (e.hasMoreElements()) {
             String propertyName = (String) e.nextElement();
-            if (ot.getTypeProperty(propertyName) != null) {
-                node.setProperty(propertyName, ot.getTypeProperty(propertyName));
+            if (node.getName().endsWith("Mongoose")) {
+              System.out.println ("node = " + node.getName() + ", setting propName = " + propertyName + ", value = " + ot.getTypeProperty(propertyName));
             }
+            node.setProperty(propertyName, ot.getTypeProperty(propertyName));
         }
 
         // check if this is root

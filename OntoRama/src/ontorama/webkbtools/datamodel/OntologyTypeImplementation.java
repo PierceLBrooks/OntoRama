@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.LinkedList;
 import java.util.Hashtable;
+import java.util.Enumeration;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -47,12 +48,12 @@ public class OntologyTypeImplementation implements OntologyType {
   /**
    * Description for this Ontology Type.
    */
-  String typeDescription;
+  //String typeDescription;
 
   /**
    * Creator for this Ontology Type
    */
-   private String typeCreator;
+   //private String typeCreator;
 
   /**
    * Create new OntologyTypeImplementation
@@ -61,6 +62,7 @@ public class OntologyTypeImplementation implements OntologyType {
   public OntologyTypeImplementation(String typeName) {
     this.typeName = typeName;
     initRelationshipTypes();
+    initConceptProperties();
   }
 
   /**
@@ -73,6 +75,18 @@ public class OntologyTypeImplementation implements OntologyType {
       count++;
     }
   }
+
+    /**
+     *
+     */
+    private void initConceptProperties() {
+      Enumeration conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable().keys();
+      while (conceptPropertiesConfig.hasMoreElements()) {
+        String propName = (String) conceptPropertiesConfig.nextElement();
+        typeProperties.put(propName,new LinkedList());
+      }
+    }
+
 
   /**
    * Returns an iterator on ontology types for relation links between the types
@@ -141,7 +155,13 @@ public class OntologyTypeImplementation implements OntologyType {
    */
    public void addTypeProperty (String propertyName, String propertyValue) throws NoSuchPropertyException {
      if (OntoramaConfig.getConceptPropertiesTable().containsKey(propertyName)) {
-        typeProperties.put(propertyName, propertyValue);
+       List l = this.getTypeProperty(propertyName);
+       if (l.contains(propertyValue)) {
+        // already is in the list
+        return;
+       }
+       l.add(propertyValue);
+       typeProperties.put(propertyName, l);
      }
      else {
         throw new NoSuchPropertyException(propertyName,OntoramaConfig.getConceptPropertiesTable().keys());
@@ -151,9 +171,9 @@ public class OntologyTypeImplementation implements OntologyType {
    /**
     *
     */
-    public String getTypeProperty (String propertyName) throws NoSuchPropertyException {
+    public List getTypeProperty (String propertyName) throws NoSuchPropertyException {
         if (OntoramaConfig.getConceptPropertiesTable().containsKey(propertyName)) {
-            return (String) typeProperties.get(propertyName);
+            return (List) typeProperties.get(propertyName);
         }
         else {
             throw new NoSuchPropertyException(propertyName,OntoramaConfig.getConceptPropertiesTable().keys());
@@ -212,7 +232,7 @@ public class OntologyTypeImplementation implements OntologyType {
    */
   public String toString () {
     String str = "name: " + typeName + "\n";
-    str = str + "description: " + typeDescription + "\n";
+    //str = str + "description: " + typeDescription + "\n";
     int count = 0;
     while(count <= OntoramaConfig.MAXTYPELINK) {
       try {

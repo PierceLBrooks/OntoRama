@@ -96,12 +96,12 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     public void hasFocus () {
         System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
-        Enumeration e = nodeDetails.keys();
-        while (e.hasMoreElements()) {
-            String curPropName = (String) e.nextElement();
-            String curPropValue = (String) nodeDetails.get(curPropName);
-            System.out.println("\t\t" + curPropName + " = " + curPropValue);
-        }
+//        Enumeration e = nodeDetails.keys();
+//        while (e.hasMoreElements()) {
+//            String curPropName = (String) e.nextElement();
+//            String curPropValue = (String) nodeDetails.get(curPropName);
+//            System.out.println("\t\t" + curPropName + " = " + curPropValue);
+//        }
 
         System.out.println("\t\tclones: " + this.clones);
 
@@ -182,7 +182,7 @@ public class GraphNode implements Cloneable, NodeObservable {
      * @param   propertyValue - value for this property
      * @todo    should we throw NoSuchPropertyException?
      */
-    public void setProperty (String propertyName, String propertyValue) {
+    public void setProperty (String propertyName, List propertyValue) {
         nodeDetails.put(propertyName, propertyValue);
     }
 
@@ -192,10 +192,11 @@ public class GraphNode implements Cloneable, NodeObservable {
      * @param   propertyName
      * @todo    should we throw NoSuchPropertyException?
      */
-    public String getProperty (String propertyName) {
+    public List getProperty (String propertyName) {
         //if (nodeDetails.contains(propertyName)) {
-            return (String) nodeDetails.get(propertyName);
+            return (List) nodeDetails.get(propertyName);
         //}
+        //return new LinkedList();
         //return null;
     }
 

@@ -23,22 +23,27 @@ non-transitive:
 	<ontology>
 		<relation id="1">
 			<relationType name="in" mappingSymbol="in"/>
+			<relationType name="-in" mappingSymbol="in"/>
 			<display color="#33CCFF" symbol="in"/>
 		</relation>
 		<relation id="2">
 			<relationType name="is" mappingSymbol="is"/>
+			<relationType name="-is" mappingSymbol="is"/>
 			<display color="#FF99CC" symbol="is"/>
 		</relation>
 		<relation id="3">
 			<relationType name="return" mappingSymbol="r"/>
+			<relationType name="-return" mappingSymbol="r"/>
 			<display color="#FFCC99" symbol="r"/>
 		</relation>
 		<relation id="4">
 			<relationType name="extends" mappingSymbol="e"/>
+			<relationType name="-extends" mappingSymbol="e"/>
 			<display color="#00FFCC" symbol="e"/>
 		</relation>
 		<relation id="5">
 			<relationType name="calls" mappingSymbol="c"/>
+			<relationType name="-calls" mappingSymbol="c"/>
 			<display color="#C0C0C0" symbol="c"/>
 		</relation>
 		<relation id="6">

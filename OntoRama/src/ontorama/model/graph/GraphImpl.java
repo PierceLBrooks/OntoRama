@@ -294,6 +294,7 @@ public class GraphImpl implements Graph {
     }
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
+    	System.out.println("GraphImpl::addEdge(edge)");
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
@@ -316,6 +317,7 @@ public class GraphImpl implements Graph {
      * @param edgeType
      */
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException {
+		System.out.println("GraphImpl::addEdge(fromNode, toNode, edgeType)");
         Edge newEdge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
         addEdge(newEdge);
     }
@@ -403,6 +405,7 @@ public class GraphImpl implements Graph {
      * @todo error checking seems a bit stupid ;) maybe don't need this exception at all?...
      */
     public void addNode (Node node) throws GraphModificationException {
+    	System.out.println("GraphImpl::addNode, node = " + node.getName());
         if (_graphNodes.contains(node)) {
             throw new NodeAlreadyExistsException(node);
         }
@@ -415,6 +418,7 @@ public class GraphImpl implements Graph {
      *
      */
     public void removeEdge(Edge remEdge) {
+    	System.out.println("GraphImpl::removeEdge");
         _graphEdges.remove(remEdge);
         _eventBroker.processEvent(new GraphEdgeRemovedEvent(this, remEdge));
     }
@@ -434,6 +438,7 @@ public class GraphImpl implements Graph {
      *       useful on a generic Graph.
      */
     public void removeNode (Node node) {
+    	System.out.println("GraphImpl::removeNode " + node.getName());
         _graphNodes.remove(node);
         List edgesToRemove = new ArrayList();
         for (Iterator iterator = _graphEdges.iterator(); iterator.hasNext();) {

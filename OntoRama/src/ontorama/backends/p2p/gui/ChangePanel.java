@@ -292,6 +292,13 @@ public class ChangePanel extends JPanel {
 													boolean isSelected, boolean hasFocus, 
 													int row, int col) {
 
+			if (isSelected) {
+				setBackground(table.getSelectionBackground());
+				setForeground(table.getSelectionForeground());
+			} else {
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
+			}
 			switch (col) {
 				case 1 :
 					ImageIcon icon = null;

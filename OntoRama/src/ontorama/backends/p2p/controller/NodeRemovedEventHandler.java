@@ -1,11 +1,9 @@
 package ontorama.backends.p2p.controller;
 
-import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphModificationException;
-import ontorama.model.graph.Node;
 import ontorama.model.graph.events.GraphNodeRemovedEvent;
 
 import org.tockit.events.Event;
@@ -31,11 +29,10 @@ public class NodeRemovedEventHandler implements EventBrokerListener {
 
     public void processEvent(Event event) {
         GraphNodeRemovedEvent nodeRemovedEvent = (GraphNodeRemovedEvent) event;
-        Node node = nodeRemovedEvent.getNode();
-    	System.out.println("p2p NodeRemovedEventHandler processEvent() for node " + node.getName());
-        P2PNode p2pNode = (P2PNode) OntoramaConfig.getBackend().createNode(node.getName(), node.getIdentifier());
+        P2PNode p2pNode = (P2PNode) nodeRemovedEvent.getNode();
+    	System.out.println("\np2p NodeRemovedEventHandler processEvent() for node " + p2pNode.getName());
         try {
-            _p2pBackend.rejectNode(p2pNode, node.getCreatorUri());
+            _p2pBackend.rejectNode(p2pNode, p2pNode.getCreatorUri());
         }
         catch (GraphModificationException modExc) {
             /// @todo don't know what to do with exception here...

@@ -11,6 +11,8 @@ import java.io.Writer;
 import java.io.StringWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
@@ -19,6 +21,10 @@ import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.prettywriter.PrettyWriter;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.RDF;
+import com.hp.hpl.jena.daml.DAMLModel;
+import com.hp.hpl.jena.daml.DAMLClass;
+import com.hp.hpl.jena.daml.common.DAMLModelImpl;
+import com.hp.hpl.jena.daml.common.DAMLClassImpl;
 
 /*
  * Created by IntelliJ IDEA.
@@ -60,11 +66,17 @@ public class RdfModelWriter implements ModelWriter {
             StringWriter stringWriter = new StringWriter();
             rdfModel.write(stringWriter);
             String string = stringWriter.toString();
+            Pattern p = Pattern.compile("rdf:Description");
+
             StringTokenizer tok = new StringTokenizer(string);
             while (tok.hasMoreElements()) {
                 String token = (String) tok.nextElement();
+                Matcher m = p.matcher(token);
+                boolean found = m.find();
                 System.out.println(token);
-                System.out.println("match: " + token.matches("rdf:Description"));
+                if (found) {
+                    System.out.println("match: rdf:Description");
+                }
 
 
             }
@@ -95,7 +107,8 @@ public class RdfModelWriter implements ModelWriter {
 
 
     protected Model toRDFModel() throws RDFException, NoSuchRelationLinkException {
-        ModelMem rdfModel = new ModelMem();
+//        DAMLModel rdfModel = new DAMLModelImpl();
+        Model rdfModel = new ModelMem();
 
 
         List nodesList = _graph.getNodesList();
@@ -146,6 +159,7 @@ public class RdfModelWriter implements ModelWriter {
 //            }
 //            if (needToAddToModel) {
 //                rdfModel.createResource(curResource);
+//                //DAMLClass damlClass = new DAMLClassImpl(curResource, rdfModel, )
 //                _processedNodes.add(curNode);
 //            }
 //        }

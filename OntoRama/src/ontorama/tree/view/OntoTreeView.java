@@ -40,6 +40,7 @@ import ontorama.tree.model.OntoNodeObserver;
 
 public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
 
+
     private JScrollPane treeView;
     private JTree tree;
     private OntoTreeNode focusedNode;

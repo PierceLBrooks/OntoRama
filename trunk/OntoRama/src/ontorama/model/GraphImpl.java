@@ -109,19 +109,21 @@ public class GraphImpl implements Graph {
                 throw new NoTypeFoundInResultSetException(termName);
             }
 
-            _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
-            listItemsToRemove(_topLevelUnconnectedNodes);
+            transformGraphIntoTree();
 
-
-            // clean up
-            removeUnconnectedEdges();
-            removeUnconnectedNodesFromGraph();
-
-            //System.out.println( printXml());
-            convertIntoTree(root);
-            System.out.println("finished convertIntoTree()");
-            calculateDepths(root, 0);
-
+//            _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
+//            listItemsToRemove(_topLevelUnconnectedNodes);
+//
+//
+//            // clean up
+//            removeUnconnectedEdges();
+//            removeUnconnectedNodesFromGraph();
+//
+//            //System.out.println( printXml());
+//            convertIntoTree(root);
+//            System.out.println("finished convertIntoTree()");
+//            calculateDepths(root, 0);
+//
 
         } catch (NoSuchRelationLinkException e) {
             throw e;
@@ -146,6 +148,35 @@ public class GraphImpl implements Graph {
 //        }
     }
 
+    private void transformGraphIntoTree () throws NoSuchRelationLinkException {
+        _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
+        listItemsToRemove(_topLevelUnconnectedNodes);
+
+
+        // clean up
+        removeUnconnectedEdges();
+        removeUnconnectedNodesFromGraph();
+
+        //System.out.println( printXml());
+        convertIntoTree(root);
+        System.out.println("finished convertIntoTree()");
+        calculateDepths(root, 0);
+
+        _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
+        listItemsToRemove(_topLevelUnconnectedNodes);
+
+
+        // clean up
+        removeUnconnectedEdges();
+        removeUnconnectedNodesFromGraph();
+
+        //System.out.println( printXml());
+        convertIntoTree(root);
+        System.out.println("finished convertIntoTree()");
+        calculateDepths(root, 0);
+
+
+    }
 
     private void checkForCycle (Edge oneWayEdge) {
         Node fromNode = oneWayEdge.getFromNode();

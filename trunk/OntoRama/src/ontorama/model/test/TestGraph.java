@@ -7,6 +7,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
 import ontorama.model.*;
 import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;
+import ontorama.model.util.GraphModificationException;
 import ontorama.OntoramaConfig;
 
 import java.util.Iterator;
@@ -179,7 +180,7 @@ public class TestGraph extends TestCase {
         }
     }
 
-    public void testAddNode() {
+    public void testAddNode()  throws GraphModificationException {
         Node newNode = new NodeImpl("newNode");
         try {
             graph.addNode(newNode);

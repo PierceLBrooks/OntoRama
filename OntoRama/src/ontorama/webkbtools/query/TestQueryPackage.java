@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import ontorama.webkbtools.query.parser.rdf.test.TestRdfDamlParser;
 import ontorama.webkbtools.query.parser.rdf.test.TestRdfWebkbParser;
+import ontorama.webkbtools.query.parser.rdf.test.TestRdfP2pParser;
 import ontorama.webkbtools.query.parser.cgkb.TestCgKbCsvParser;
 
 /**
@@ -36,6 +37,8 @@ public class TestQueryPackage extends TestCase {
 
         // RJ's KB parser
         suite.addTest(new TestSuite(TestCgKbCsvParser.class));
+
+        suite.addTest(new TestSuite(TestRdfP2pParser.class));
 
         return suite;
     }

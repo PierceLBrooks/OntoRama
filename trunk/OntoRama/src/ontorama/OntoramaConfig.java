@@ -182,8 +182,8 @@ public class OntoramaConfig {
         try {
           //FileInputStream propertiesFileIn = new FileInputStream (propertiesFileLocation);
 
-		  //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
-		  InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
+          //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
+          InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
 
           properties.load(propertiesFileIn);
 
@@ -235,10 +235,11 @@ public class OntoramaConfig {
 
             // overwrite sourceUri, ontologyRoot, etc
             ///@todo  fix this later!!!
-            sourceUri = mainExample.getRelativeUri();
-            ontologyRoot = mainExample.getRoot();
-            queryOutputFormat = mainExample.getQueryOutputFormat();
-            parserPackagePathSuffix = mainExample.getParserPackagePathSuffix();
+            setCurrentExample(mainExample);
+            //sourceUri = mainExample.getRelativeUri();
+            //ontologyRoot = mainExample.getRoot();
+            //queryOutputFormat = mainExample.getQueryOutputFormat();
+            //parserPackagePathSuffix = mainExample.getParserPackagePathSuffix();
         }
         catch (IOException ioe) {
           System.err.println("Unable to read xml configuration file");
@@ -350,11 +351,16 @@ public class OntoramaConfig {
       * @todo should all OntoramaConfig variables be public? or should they
       *   have setters and getters? (sourceUri, ontologyRoot, queryOutputFormat)
       */
-     public static void setNewExampleDetails (OntoramaExample example) {
+     public static void setCurrentExample (OntoramaExample example) {
+      OntoramaConfig.mainExample = example;
       OntoramaConfig.sourceUri = example.getRelativeUri();
       setParserPackageName(example.getParserPackagePathSuffix());
       OntoramaConfig.ontologyRoot = example.getRoot();
       OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
+
+      System.out.println("setNewExampleDetails:");
+      System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
+      System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
      }
 
      /**
@@ -369,6 +375,17 @@ public class OntoramaConfig {
       */
      public static void setParserPackageName (String parserPackagePathSuffixStr) {
       parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
+     }
+
+     /**
+      *
+      */
+     public static OntoramaExample getCurrentExample () {
+      System.out.println("getCurrentExample:");
+      System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
+      System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
+
+      return OntoramaConfig.mainExample;
      }
 
 

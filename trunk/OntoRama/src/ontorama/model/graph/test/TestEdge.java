@@ -71,6 +71,7 @@ public class TestEdge extends TestCase {
     private URI creatorUri2;
     
     private Edge equityTestEdge;
+	private Edge equityTransitivityTestEdge;
 
 
     /**
@@ -99,6 +100,7 @@ public class TestEdge extends TestCase {
 
         try {
 			equityTestEdge = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+			equityTransitivityTestEdge= new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
@@ -207,7 +209,22 @@ public class TestEdge extends TestCase {
     
     public void testEquity () {
     	assertEquals("edge should be equal to edge1", true, edge1.equals(equityTestEdge));
+		assertEquals("edge1 should be equal to the test edge", true, equityTestEdge.equals(edge1));
+		
 		assertEquals("edge should not be equal to edge7", false, edge7.equals(equityTestEdge));
+		assertEquals("edge7 should not be equal to the test edge", false, equityTestEdge.equals(edge7));
+		
+		assertEquals("edge should be equal to itself", true, equityTestEdge.equals(equityTestEdge));
+		
+		assertEquals("edge should not be equal null", false, equityTestEdge.equals(null));
+		
+		assertEquals("equal edges should have the same hashcodes", true, (edge1.hashCode() == equityTestEdge.hashCode()));
+		
+		assertEquals("equityTestEdge should be equal to equityTransitivityTestEdge" , true,
+														equityTestEdge.equals(equityTransitivityTestEdge));
+    	assertEquals("edge1 should be equal to equityTransitivityTestEdge to fulfill " + 
+    					" requerement of transitivity when implementing equity",
+    					true, edge1.equals(equityTransitivityTestEdge));
     }
 
     //////////////******* Helper methods ********////////////////////

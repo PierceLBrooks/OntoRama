@@ -24,7 +24,7 @@ import java.util.Properties;
  *       value is returned.
  */
 public class ConfigurationManager {
-    private static final String PROPERTIES_FILE_NAME = "ontorama.prop";
+    private static final String PROPERTIES_FILE_NAME = "ontorama.sessiondata";
     /**
      * Stores the data we manage.
      */
@@ -58,7 +58,7 @@ public class ConfigurationManager {
     static public void saveConfiguration() {
         try {
             FileOutputStream out = new FileOutputStream(PROPERTIES_FILE_NAME);
-            properties.store(out, "--- OntoRama settings ---");
+            properties.store(out, "--- OntoRama session data ---");
             out.close();
         } catch (Exception e) {
             // nothing useful we can do here, just print the stack trace

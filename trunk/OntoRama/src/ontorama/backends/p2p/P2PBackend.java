@@ -35,4 +35,5 @@ public interface P2PBackend extends Backend {
     	throws GraphModificationException;
     
     public EventBroker getEventBroker();
+    
 }

@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 
 import ontorama.backends.p2p.GroupItemReference;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.P2PBackendImpl;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.LeaveGroupEvent;
@@ -36,11 +37,11 @@ public class GroupsPanel extends JPanel implements GroupView {
 
 	JPanel _newGroupPanel;
 	JPanel _allGroupsPanel;
-	P2PBackendImpl _p2pBackend;
+	P2PBackend _p2pBackend;
 	private GroupListModel _allGroupsListModel;
 	private GroupListModel _joinedGroupsListModel;
 
-	public GroupsPanel(P2PBackendImpl p2pBackend) {
+	public GroupsPanel(P2PBackend p2pBackend) {
 		super();
 		_p2pBackend = p2pBackend;
 		
@@ -200,7 +201,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	private void populateWithFoundGroups() {
 		Vector foundGroups = new Vector();
 		try {
-			foundGroups = _p2pBackend.getSender().sendSearchGroup(null, null);
+			foundGroups = ((P2PBackendImpl) _p2pBackend).getSender().sendSearchGroup(null, null);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -218,7 +219,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithJoinedGroups () {
-		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
+		Vector joinedGroups = ((P2PBackendImpl) _p2pBackend).getSender().getJoinedGroupsInSearchGroupResultFormat();
 		Enumeration e = joinedGroups.elements();
 		while (e.hasMoreElements()) {
 			GroupItemReference element = (GroupItemReference) e.nextElement();

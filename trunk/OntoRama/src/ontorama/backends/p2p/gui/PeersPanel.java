@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 
 
 import ontorama.backends.p2p.*;
-import ontorama.backends.p2p.P2PBackendImpl;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.renderer.*;
 
 
@@ -48,11 +48,11 @@ public class PeersPanel extends JPanel  implements GroupView {
     private JPanel _cardPanel;
     private CardLayout _cardLayout;
     
-    private P2PBackendImpl _p2pBackend;
+    private P2PBackend _p2pBackend;
     
     private GroupPanel _globalGroupPanel;
        
-    public PeersPanel(P2PBackendImpl backend) {
+    public PeersPanel(P2PBackend backend) {
         super();
         _p2pBackend = backend;
         
@@ -100,9 +100,9 @@ public class PeersPanel extends JPanel  implements GroupView {
 			public void actionPerformed(ActionEvent event) {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");						
 				System.out.println("REFRESH on peers, time (mils): " + sdf.format(new Date()));
-				_p2pBackend.getSender().peerDiscovery();
+				((P2PBackendImpl)_p2pBackend).getSender().peerDiscovery();
 				System.out.println("----+++++-------");
-				_p2pBackend.getSender().peerDiscoveryForGlobalGroup();
+				((P2PBackendImpl) _p2pBackend).getSender().peerDiscoveryForGlobalGroup();
 			}
         	
         });

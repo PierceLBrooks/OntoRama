@@ -10,6 +10,7 @@ package ontorama.webkbtools.inputsource;
  */
 
 import ontorama.OntoramaConfig;
+import ontorama.view.OntoRamaApp;
 import ontorama.model.Node;
 import ontorama.model.Edge;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
@@ -68,7 +69,7 @@ public class WebKB2Source implements Source {
      * it in the config.xml file - the whole thing will crash without reasonable
      * explanation. find a better way to do this!
      */
-    private String synPropName = "Synonym";
+    private String synPropName = "synonym";
 
     /**
      *  Get a SourceResult from given uri. First, get a reader and check ir.
@@ -242,15 +243,10 @@ public class WebKB2Source implements Source {
     private Query processAmbiguousResultSet() throws ParserException {
         getRootTypesFromStreams();
 
-        Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
+        Frame frame = OntoRamaApp.getMainFrame();
         String selectedType = ((Node) typesList.get(0)).getName();
-        if (frames.length > 0) {
-            AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
-            selectedType = dialog.getSelected();
-        } else {
-            //AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, null);
-            //selectedType = dialog.getSelected();
-        }
+        AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frame);
+        selectedType = dialog.getSelected();
         System.out.println("\n\n\nselectedType = " + selectedType);
 
         String newTermName = selectedType;

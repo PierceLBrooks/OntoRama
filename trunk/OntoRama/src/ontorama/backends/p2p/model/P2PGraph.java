@@ -10,7 +10,6 @@ package ontorama.backends.p2p.model;
 
 import java.net.URI;
 
-import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.parser.ParserResult;
@@ -33,7 +32,7 @@ public interface P2PGraph extends ontorama.model.graph.Graph {
     /**
      * Assert a node.
      * 
-     * @param p2pnode to assert
+     * @param node to assert
      * @param userIdUri for the asserter
      */
     public void assertNode(P2PNode node, URI userIdUri) throws GraphModificationException;
@@ -42,7 +41,7 @@ public interface P2PGraph extends ontorama.model.graph.Graph {
     /**
      * Reject a node.
      * 
-     * @param p2pnode to reject
+     * @param node to reject
      * @param userIdUri for the rejecter
      */
     public void rejectNode (P2PNode node, URI userIdUri) throws GraphModificationException ;
@@ -50,7 +49,7 @@ public interface P2PGraph extends ontorama.model.graph.Graph {
    /**
      * Assert an edge.
      * 
-     * @param p2pedge to assert
+     * @param edge to assert
      * @param userIdUri for the asserter
      */
     public void assertEdge (P2PEdge edge, URI userIdUri) throws GraphModificationException, NoSuchRelationLinkException;
@@ -59,7 +58,7 @@ public interface P2PGraph extends ontorama.model.graph.Graph {
     /**
      * Reject an edge.
      * 
-     * @param p2pedge to reject
+     * @param edge to reject
      * @param userIdUri for the rejecter
      */
      public void rejectEdge (P2PEdge edge, URI userIdUri) throws GraphModificationException, NoSuchRelationLinkException;

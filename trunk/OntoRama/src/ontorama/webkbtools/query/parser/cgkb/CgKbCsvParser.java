@@ -19,11 +19,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;

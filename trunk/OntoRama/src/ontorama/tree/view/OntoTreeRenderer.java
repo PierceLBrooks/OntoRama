@@ -1,4 +1,4 @@
-package ontorama.view.tree.view;
+package ontorama.views.tree.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -25,7 +25,7 @@ import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 import ontorama.conf.ImageMaker;
-import ontorama.view.tree.model.OntoTreeNode;
+import ontorama.views.tree.model.OntoTreeNode;
 
 /**
  * Renderer for TreeView

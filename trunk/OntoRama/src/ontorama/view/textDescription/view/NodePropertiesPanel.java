@@ -1,4 +1,4 @@
-package ontorama.view.textDescription.view;
+package ontorama.views.textDescription.view;
 
 import java.util.Iterator;
 import java.util.LinkedList;

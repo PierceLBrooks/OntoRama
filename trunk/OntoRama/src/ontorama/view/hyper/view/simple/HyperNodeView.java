@@ -1,4 +1,4 @@
-package ontorama.view.hyper.view.simple;
+package ontorama.views.hyper.view.simple;
 
 /**
  *
@@ -20,8 +20,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import ontorama.OntoramaConfig;
-import ontorama.view.hyper.model.HyperNode;
-import ontorama.view.hyper.model.PositionChangedObserver;
+import ontorama.views.hyper.model.HyperNode;
+import ontorama.views.hyper.model.PositionChangedObserver;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 import ontorama.conf.NodeTypeDisplayInfo;

@@ -1,4 +1,4 @@
-package ontorama.view.hyper.view.simple;
+package ontorama.views.hyper.view.simple;
 
 
 import java.awt.Color;
@@ -15,13 +15,13 @@ import java.util.ListIterator;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
-import ontorama.view.hyper.controller.DraggedEventHandler;
-import ontorama.view.hyper.controller.NodeActivatedEventHandler;
-import ontorama.view.hyper.controller.NodeContextMenuHandler;
-import ontorama.view.hyper.controller.NodePointedEventHandler;
-import ontorama.view.hyper.controller.NodeSelectedEventTransformer;
-import ontorama.view.hyper.controller.SphereMouseMovedEventHandler;
-import ontorama.view.hyper.model.HyperNode;
+import ontorama.views.hyper.controller.DraggedEventHandler;
+import ontorama.views.hyper.controller.NodeActivatedEventHandler;
+import ontorama.views.hyper.controller.NodeContextMenuHandler;
+import ontorama.views.hyper.controller.NodePointedEventHandler;
+import ontorama.views.hyper.controller.NodeSelectedEventTransformer;
+import ontorama.views.hyper.controller.SphereMouseMovedEventHandler;
+import ontorama.views.hyper.model.HyperNode;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;

@@ -1,4 +1,4 @@
-package ontorama.view.hyper.view;
+package ontorama.views.hyper.view;
 
 /**
  * HyperEdgeView is responsible for drawing lines between

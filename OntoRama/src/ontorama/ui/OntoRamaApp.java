@@ -449,7 +449,18 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     	};
     	importMenu.add(fileImportAction);
     	
+    	
+    	Action proxySettingsMenuAction = new AbstractAction("Configure proxy settings") {
+    		public void actionPerformed(ActionEvent e) {
+    			new ProxySettingsDialog(OntoRamaApp.getMainFrame(), "Cofigure Proxies", true);
+    		}
+    	};
+    	
+    	
+    	
     	_fileMenu.add(importMenu);
+
+    	_fileMenu.add(proxySettingsMenuAction);
         
         _fileMenu.add(_exitAction);
 

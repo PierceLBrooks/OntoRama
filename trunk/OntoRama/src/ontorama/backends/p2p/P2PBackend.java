@@ -234,7 +234,7 @@ public class P2PBackend implements Backend{
     }
 
     public JMenu getJMenu() {
-        return new P2PJMenu(this);
+        return new P2PJMenu(this, this.sender);
     }
 
     public String showGraph(){

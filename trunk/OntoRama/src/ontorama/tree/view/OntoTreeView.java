@@ -68,22 +68,6 @@ public class OntoTreeView implements OntoNodeObserver {
 
         this.treeView = new JScrollPane(tree);
         tree.putClientProperty("JTree.lineStyle", "Angled");
-
-        // testing if communication from GraphNode to OntoTreeView is working
-        /*
-        Iterator it = ontoTreeModel.getOntoTreeIterator();
-        while (it.hasNext()) {
-            OntoTreeNode ontoTreeNode = (OntoTreeNode) it.next();
-            int depth = (ontoTreeNode.getGraphNode()).getDepth();
-            System.out.println("depth for node " + (ontoTreeNode.getGraphNode()).getName() + " is " + depth);
-            if (depth ==2 ) {
-                ontoTreeNode.setFocus();
-            }
-            //if ( ((ontoTreeNode.getGraphNode()).getName()).equals("node3.2")) {
-                //ontoTreeNode.setFocus();
-            //}
-        }
-        */
     }
 
     /**

@@ -394,6 +394,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
 		OntoramaConfig.activateBackend(backend);
+		System.out.println("\nOntoRamaApp::initBackend passing event broker " + _modelEventBroker + "\n");
 		backend.setEventBroker(_modelEventBroker);
     }
 

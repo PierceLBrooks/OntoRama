@@ -294,6 +294,7 @@ public class GraphImpl implements Graph {
     }
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
+    	System.out.println("\nGraphImpl::addEdge for " + edge);
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
@@ -368,7 +369,7 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     * Help method for getting nodes with same name fron the graphNodes list
+     * Help method for getting nodes with same name from the graphNodes list
      */
     protected Node existSameName(Node node) {
         Iterator it = _graphNodes.iterator();
@@ -380,6 +381,24 @@ public class GraphImpl implements Graph {
         }
         return null;
     }
+
+	/**
+	 * Help method for getting nodes with same name from the graphNodes list
+	 */
+	protected Edge existSameEdgeName(Edge edge) {
+		Iterator it = _graphEdges.iterator();
+		while (it.hasNext()){
+			Edge tmpEdge = (Edge)it.next();
+			if (tmpEdge.getFromNode().getIdentifier().equals(edge.getFromNode().getIdentifier())) {
+				if (tmpEdge.getToNode().getIdentifier().equals(edge.getToNode().getIdentifier())) {
+					if (tmpEdge.getEdgeType().getName().equals(edge.getEdgeType().getName())) {
+						return tmpEdge;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
     /**
      * Add a node to the graph.
@@ -400,6 +419,7 @@ public class GraphImpl implements Graph {
         }
 
         _graphNodes.add(node);
+        System.out.println("GraphImpl::addNode, event broker = " + _eventBroker);
         _eventBroker.processEvent(new GraphNodeAddedEvent(this, node));
     }
 

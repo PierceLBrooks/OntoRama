@@ -26,7 +26,7 @@ public class P2PMainPanel extends JPanel {
 	GroupsPanel groupsPanel;
     PeersPanel peerPanel = new PeersPanel();
     ChangePanel changePanel = new ChangePanel();
-    SearchPanel searchPanel = new SearchPanel();
+    SearchPanel searchPanel;
 
 
 	/**
@@ -36,8 +36,9 @@ public class P2PMainPanel extends JPanel {
 	 */
     public P2PMainPanel(P2PBackend p2pBackend) {
         super();
-        
+               
     	groupsPanel = new GroupsPanel(p2pBackend);
+    	searchPanel = new SearchPanel(p2pBackend.getEventBroker());
         
         this.setLayout(new GridLayout(1,1));
 

@@ -1,5 +1,7 @@
 package ontorama.backends;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
@@ -20,8 +22,8 @@ import ontorama.ontotools.query.Query;
 
 public class BackendSearch {
 
-	public static P2PGraph search(Query query){
-        P2PGraph retVal = new P2PGraphImpl();
+	public static P2PGraph search(Query query, EventBroker eventBroker){
+        P2PGraph retVal = new P2PGraphImpl(eventBroker);
         try {
             Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
             System.out.println("---searching backend " + backend + " for query " + query);
@@ -41,8 +43,8 @@ public class BackendSearch {
         return retVal;
 	}
 
-    public static P2PGraph searchLocal(Query query) {
-        P2PGraph retVal = new P2PGraphImpl();
+    public static P2PGraph searchLocal(Query query, EventBroker eventBroker) {
+        P2PGraph retVal = new P2PGraphImpl(eventBroker);
         try{
             Peer2PeerBackend backend = (Peer2PeerBackend) OntoramaConfig.getBackend();
             System.out.println("--1---searching backend " + backend + " for query " + query);

@@ -33,6 +33,7 @@ public class FileImporter implements Importer {
 	
 	public FileImporter (EventBroker eventBroker) {
 		_eventBroker = eventBroker;
+		System.out.println("FileImporter event broker = " + _eventBroker);
 	}
 
 	/** 
@@ -55,7 +56,7 @@ public class FileImporter implements Importer {
 			}
 	
 			String parserPackageName = mapping.getParserName();		
-			System.out.println("FileImporter::parserName = " + parserPackageName);
+			System.out.println("\nFileImporter::parserName = " + parserPackageName + "\n");
 //			GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
 //			_eventBroker.processEvent(queryEvent);
 			getResult(parserPackageName, file);
@@ -75,6 +76,7 @@ public class FileImporter implements Importer {
 			QueryEngine qe = new QueryEngine( _sourcePackageName, parserPackageName,file.getAbsolutePath());
 			QueryResult qr = qe.getQueryResult(new Query());
 			Backend backend = OntoramaConfig.getBackend();
+			System.out.println("FileBackend::getResult, backend = " + backend);
 			Graph newGraph = backend.createGraph(qr, _eventBroker);
 			_eventBroker.processEvent(new QueryEndEvent(newGraph));
 		}

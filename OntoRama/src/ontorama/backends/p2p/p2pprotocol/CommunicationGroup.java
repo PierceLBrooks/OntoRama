@@ -5,6 +5,9 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import ontorama.ui.ErrorDialog;
+import ontorama.ui.OntoRamaApp;
+
 import net.jxta.credential.AuthenticationCredential;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.StructuredDocument;
@@ -212,11 +215,13 @@ public class CommunicationGroup extends Communication {
 			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
 			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
 									+ pipeAdv);
-			if (pipeAdv != null) {
+			if (pipeAdv == null) {
 				/// @todo not sure if this check should be here (if we ever could have null pipeAdv
-				/// or if this should never happen)									
-				discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
+				/// or if this should never happen)
+				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error leaving group", 
+										"Ooops...\nCouldn't find pipe advertisement in order to flush advertisement :(");
 			}
+			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
 							
 		} catch (PeerGroupException e) {
 				throw new GroupException(e,"Could not leave the peer group");

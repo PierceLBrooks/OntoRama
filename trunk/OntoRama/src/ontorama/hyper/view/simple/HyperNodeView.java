@@ -433,6 +433,11 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             return false;
         }
 
+    public Point2D getPosition() {
+        Rectangle2D bounds = nodeShape.getBounds2D();
+        return new Point2D.Double(bounds.getX() + bounds.getWidth()/2, bounds.getY() + bounds.getHeight()/2);
+    }
+
     public String toString() {
         return "Node view for " + this.model.getName();
     }

@@ -85,7 +85,13 @@ public class HyperEdgeView extends CanvasItem {
                 to.getProjectedY() - from.getProjectedY());
     }
 
-    public String toString() {
+    public Point2D getPosition() {
+        Point2D fromPos = from.getPosition();
+        Point2D toPos = to.getPosition();
+        return new Point2D.Double((fromPos.getX() + toPos.getX())/2, (fromPos.getY() + toPos.getY())/2);
+    }
+
+   public String toString() {
         return "Line from " + from + " ( " + from.getProjectedX() + ", " + from.getProjectedY() + " )" +
                 " to " + to + " ( " + to.getProjectedX() + "," + to.getProjectedY() + ")";
     }

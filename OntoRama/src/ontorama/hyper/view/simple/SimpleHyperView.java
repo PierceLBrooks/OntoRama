@@ -756,11 +756,15 @@ public class SimpleHyperView extends Canvas implements GraphView {
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
         setScreenTransform(this.scaleToFit(g2d, bounds));
 
+        if (focusNode == null) {
+            return;
+        }
+
         if (animationTime != 0) {
             animate();
         }
         else {
-            if ( (focusNode != null) && (focusNode.getGraphNode().hasClones()) ) {
+            if (focusNode.getGraphNode().hasClones()) {
                 GraphNode graphNode = focusNode.getGraphNode();
                 HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
                 if (graphNode.hasClones()) {
@@ -811,10 +815,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
         if (animDist > 1) {
             animDist = 1;
             animationTime = 0;
-        }
-
-        if (focusNode == null) {
-            return;
         }
 
         moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);

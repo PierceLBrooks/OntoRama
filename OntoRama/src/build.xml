@@ -1,12 +1,10 @@
-<project name="OntoRama Project" default="compile" basedir=".">
-
-  <property name="ontorama.home"       value="H:/projects/OntoRama"/>
+<project name="OntoRama Project" default="compile" basedir="..">
 
   <property name="app.name"       value="OntoRama"/>
-  <property name="src.home"   value="${ontorama.home}/src"/>
-  <property name="lib.home"   value="${ontorama.home}/lib"/>
-  <property name="classes.home"   value="${ontorama.home}/classes"/>
-  <property name="javadoc.home"   value="${ontorama.home}/doc/api"/>
+  <property name="src.home"   value="${basedir}/src"/>
+  <property name="lib.home"   value="${basedir}/lib"/>
+  <property name="classes.home"   value="${basedir}/classes"/>
+  <property name="javadoc.home"   value="${basedir}/doc/api"/>
 
   <!-- Set Classpath -->
   <path id="project.class.path">

@@ -109,6 +109,10 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return HyperNodeView.sphereRadius;
     }
 
+    public static double getFocalDepth() {
+        return HyperNodeView.focalDepth;
+    }
+
     /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
@@ -315,6 +319,10 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     public double getViewRadius() {
         return viewRadius;
+    }
+
+    public HyperNode getModel() {
+        return model;
     }
 
     /**

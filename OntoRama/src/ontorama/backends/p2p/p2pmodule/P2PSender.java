@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.p2pmodule;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -295,12 +296,12 @@ public class P2PSender {
 
 
 
-   private static void printSearchGroupResult(String tag, Vector obj) {
+   private static void printSearchGroupResult(String tag, Collection obj) {
         GroupItemReference searchGroupResultElement = null;
         System.out.println("Found following matching " + tag + "s");
-        Enumeration tmpEnumernation = obj.elements();
-            while (tmpEnumernation.hasMoreElements()) {
-            searchGroupResultElement = (GroupItemReference)tmpEnumernation.nextElement();
+        Iterator it = obj.iterator();
+            while (it.hasNext()) {
+            searchGroupResultElement = (GroupItemReference)it.next();
             System.out.println(tag + ":" +
                 searchGroupResultElement.getName()
                 + " (ID:" + searchGroupResultElement.getID() + ")");

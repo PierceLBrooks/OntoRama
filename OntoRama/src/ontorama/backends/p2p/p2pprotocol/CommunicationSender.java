@@ -112,30 +112,31 @@ public class CommunicationSender  {
   
          //Build the message that is going to be sent
          queryTobeSent = this.commProt.getGlobalPG().getPipeService().createMessage();
-                       
+         
+             
          queryTobeSent.addElement(
-         queryTobeSent.newMessageElement(
+         		queryTobeSent.newMessageElement(
                             "TAG", 
                             mimeType, 
-                            new Integer(P2PGlobals.TAGSEARCH).toString().getBytes()));
+							Integer.toString(P2PGlobals.TAGSEARCH).getBytes()));
                         
          queryTobeSent.addElement(
-         queryTobeSent.newMessageElement(
+         		queryTobeSent.newMessageElement(
                             "SenderPeerID", 
                             mimeType, 
-		this.commProt.getGlobalPG().getPeerID().toString().getBytes()));
+							this.commProt.getGlobalPG().getPeerID().toString().getBytes()));
 
 		PipeAdvertisement pipeAdv = this.commProt.getInputPipeAdvertisement(
 							this.commProt.getGlobalPG().getPeerGroupID());
 
          queryTobeSent.addElement(
-         queryTobeSent.newMessageElement(
+         		queryTobeSent.newMessageElement(
                             "SenderPipeID", 
                             mimeType, 
                             pipeAdv.getPipeID().toString().getBytes()));
 
         queryTobeSent.addElement(
-        queryTobeSent.newMessageElement(
+        		queryTobeSent.newMessageElement(
                         "Body", 
                         mimeType, 
                         query.getBytes()));
@@ -146,7 +147,7 @@ public class CommunicationSender  {
 		Iterator it = this.commProt.getMemberOfGroups().iterator();
         while (it.hasNext()) {
             PeerGroup pg = (PeerGroup) it.next();
-            DiscoveryService discoveryService = pg.getDiscoveryService();
+            //DiscoveryService discoveryService = pg.getDiscoveryService();
 
             try {
                 OutputPipe pipe = this.commProt.getOutputPropagatePipe(pg.getPeerGroupID());

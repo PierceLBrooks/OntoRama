@@ -239,13 +239,13 @@ public class SendMessageThread extends Thread{
         result.addElement( result.newMessageElement( 
         							P2PGlobals.STR_TAG, 
 									mimeType, 
-									new Integer(tag).toString().getBytes()));
+									Integer.toString(tag).getBytes()));
         
         if (tag == P2PGlobals.TAGPROPAGATE){
 	        result.addElement( result.newMessageElement(
 	        						P2PGlobals.STR_propType,
 	        						mimeType, 
-	            					new Integer(propType).toString().getBytes()));
+	            					Integer.toString(propType).getBytes()));
 		}
 
 		byte[] peerIdInBytes = this.commProt.getGlobalPG().getPeerID().toString().getBytes();

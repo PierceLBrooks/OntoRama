@@ -71,6 +71,17 @@ public class GraphBuilder {
      * @throws  NoTypeFoundInResultSetException
      * @throws  NoSuchPropertyException
      * @todo: should never return null!!! need to introduce exception chain up to the parser??
+     * @todo    query returns an iterator of ontology types. some of those types may
+     * not be relevant for our view. For example: consider following rdf:
+     *       <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/comms#WirelessNetwork">
+     *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Network_2"/>
+     *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Network_3"/>
+     *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#TransmissionObject"/>
+     *       </rdfs:Class>
+     *  this example will produce ontology types: comms#WirelessNetwork, wn#Network_2, wn#Network_3, comms#TransmissionObject
+     *  where comms#WirelessNetwork has 3 parents. Therefor we clone this node, but wn#Network_2, wn#Network_3 don't have
+     *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the view.
+     *  Yet, comms#WirelessNetwork is thinking it's got 3 clones, but user can't navigate to them.
      */
     public GraphBuilder(QueryResult queryResult)
                 throws NoSuchRelationLinkException, NoTypeFoundInResultSetException,

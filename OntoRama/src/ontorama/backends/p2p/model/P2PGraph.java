@@ -14,7 +14,7 @@ import ontorama.model.Graph;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 
 public interface P2PGraph extends Graph {
 	public P2PGraph search(Query query);

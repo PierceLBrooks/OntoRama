@@ -23,8 +23,8 @@ import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
 import ontorama.view.ErrorPopupMessage;
 import ontorama.webkbtools.inputsource.JarSource;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.webkbtools.SourceException;
 
 
 /**

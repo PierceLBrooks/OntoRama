@@ -19,7 +19,7 @@
         <jar href="lib/junit.jar"/>
         <jar href="lib/xerces.jar"/>
         <jar href="lib/canvas.jar"/>
-        <jar href="lib/event.jar"/>
+        <jar href="lib/events.jar"/>
     </resources>
 
 </jnlp>

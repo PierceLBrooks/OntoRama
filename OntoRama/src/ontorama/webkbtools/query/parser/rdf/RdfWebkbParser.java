@@ -12,8 +12,8 @@ import ontorama.model.Edge;
 import ontorama.model.EdgeType;
 import ontorama.model.Node;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.webkbtools.ParserException;
 
 /**
  * <p>Title: </p>

@@ -14,7 +14,7 @@ import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.EdgeType;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
  * Title:

@@ -9,8 +9,8 @@ import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.webkbtools.ParserException;
 
 /**
  * <p>Title: </p>

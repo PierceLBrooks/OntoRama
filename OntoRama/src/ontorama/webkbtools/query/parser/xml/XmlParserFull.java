@@ -29,8 +29,8 @@ import ontorama.model.NodeType;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.webkbtools.ParserException;
 
 import org.jdom.Attribute;
 import org.jdom.Document;

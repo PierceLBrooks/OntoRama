@@ -8,7 +8,7 @@ import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.events.EdgeAddedEvent;
 import ontorama.model.util.GraphModificationException;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;

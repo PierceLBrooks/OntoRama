@@ -7,7 +7,7 @@ import java.util.Set;
 import ontorama.model.EdgeImpl;
 import ontorama.model.EdgeType;
 import ontorama.model.Node;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
  * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.

@@ -14,10 +14,10 @@ import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.NoSuchTypeInQueryResult;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.CancelledQueryException;
+import ontorama.webkbtools.NoSuchTypeInQueryResult;
+import ontorama.webkbtools.ParserException;
+import ontorama.webkbtools.SourceException;
 
 /**
  * Description: Query Engine will query Ontology Server with the given

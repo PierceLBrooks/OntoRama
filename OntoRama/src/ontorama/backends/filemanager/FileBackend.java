@@ -23,7 +23,7 @@ import ontorama.model.NoTypeFoundInResultSetException;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.NoSuchRelationLinkException;
 import ontorama.webkbtools.writer.ModelWriter;
 import ontorama.webkbtools.writer.ModelWriterException;
 import ontorama.webkbtools.writer.rdf.RdfModelWriter;

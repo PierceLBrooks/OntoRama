@@ -124,7 +124,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private JLabel _statusLabel;
     private JProgressBar _progressBar;
     private Timer _timer;
-    private QueryEngineTask _worker;
+    //private QueryEngineTask _worker;
+    private QueryEngineThread _worker;
 
     /**
      * left side of split panel holds hyper view.
@@ -402,13 +403,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * waiting - update progress bar.
      */
     public void actionPerformed(ActionEvent evt) {
-        _progressBar.setValue(_worker.getCurrent());
+        //_progressBar.setValue(_worker.getCurrent());
         setStatusLabel(_worker.getMessage());
-        if (_worker.done() ) {
+        //System.out.println("--- timer checking _worker.done() : " + _worker.done() + " _worker.isInterrupted()  = " + _worker.isInterrupted()  + ", isAlive = " + _worker.isAlive());
+        if ( _worker.done() ) {
             _graph = _worker.getGraph();
             System.out.println(".....returned graph = " + _graph);
             _timer.stop();
-            _progressBar.setValue(_progressBar.getMinimum());
+            //_progressBar.setValue(_progressBar.getMinimum());
+            _progressBar.setIndeterminate(false);
+            //_progressBar.setValue(_progressBar.getMinimum());
             setStatusLabel("");
             if (_graph == null) {
               return;
@@ -428,9 +432,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("          method executeQuery(query)\n\n\n");
 
 
-        _worker = new QueryEngineTask(query);
+        //_worker = new QueryEngineTask(query);
+        //_worker.go();
+        _worker = new QueryEngineThread(query);
+        _worker.start();
+
         _timer.start();
-        _worker.go();
+        _progressBar.setIndeterminate(true);
 
 //        System.out.println("returned from worker thread");
 //
@@ -440,6 +448,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 //
 //        setStatusLabel("Query for " + query.getQueryTypeName());
         System.out.println("END of executeQuery method");
+        System.out.println("---------------------------------------------------------------\n\n\n");
         return true;
     }
 
@@ -463,6 +472,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
         setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
         repaint();
+    }
+
+    /**
+     *
+     */
+    protected void stopQuery () {
+      System.out.println("\n\n\nSTOP QUERY");
+      //_worker.stop();
+      //_worker.interrupt();
+      _worker.stopProcess();
     }
 
     /**
@@ -527,6 +546,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
       _statusLabel = new JLabel();
       _progressBar = new JProgressBar(0, 100);
+      //_progressBar = new JProgressBar();
+      _progressBar.setIndeterminate(true);
 
       _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
       _statusBar.add(_statusLabel, BorderLayout.WEST);

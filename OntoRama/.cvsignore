@@ -6,3 +6,5 @@ classes
 doc
 *.tws
 uml
+.jpx
+.jpx.*

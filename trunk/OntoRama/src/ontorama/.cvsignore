@@ -1,0 +1,7 @@
+*.jpr
+*.jpr.*
+bak
+classes
+*.tpr
+doc
+*.tws

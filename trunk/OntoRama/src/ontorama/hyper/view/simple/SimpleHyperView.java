@@ -113,18 +113,20 @@ public class SimpleHyperView extends Canvas implements GraphView {
             //System.out.println("\tnode " + graphNode + " is already focused, don't have to do anything");
             return;
         }
-        animationTime = System.currentTimeMillis();
-        //focusChanged(node);
+
         focusNode = (HyperNode) this.hypernodes.get(graphNode);
+        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
+                focusNode.getY() * focusNode.getY());
+        if(distance == 0) {
+            return;
+        }
+
         // set focused node label to selected
         HyperNodeView hyperNodeView  = (HyperNodeView) this.hypernodeviews.get(graphNode);
         testIfVisibleOrFolded(hyperNodeView);
         setLabelSelected(hyperNodeView);
-        //place the label last in the list so that it gets drawn last.
-        // calculate the length of the animation as a function of the distance
-        // in the euclidian space (before hyperbolic projection)
-        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
-                focusNode.getY() * focusNode.getY());
+
+        animationTime = System.currentTimeMillis();
         lengthOfAnimation = (long) (distance * 1.5);
         animate();
     }
@@ -757,7 +759,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         paintCanvas(g2d);
 
-        /// @todo this use rectangle2D is questionalble...
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
         setScreenTransform(this.scaleToFit(g2d, bounds));
 
@@ -1026,10 +1027,4 @@ public class SimpleHyperView extends Canvas implements GraphView {
             repaint();
         }
     }
-
-
-    public void repaint() {
-        super.repaint();
-    }
-
 }

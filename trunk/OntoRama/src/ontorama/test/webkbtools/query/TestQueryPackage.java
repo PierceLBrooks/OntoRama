@@ -21,7 +21,7 @@ public class TestQueryPackage extends TestCase {
      TestSuite suite = new TestSuite( "ontorama.query" );
 
      suite.addTest( new TestSuite(TestQuery.class) );
-     //suite.addTest( new TestSuite(TestTypeQueryImplementation.class) );
+     suite.addTest( new TestSuite(TestTypeQueryImplementation.class) );
 
      return suite;
   }

@@ -9,6 +9,7 @@
 package ontorama.model.graph.controller;
 
 import ontorama.model.graph.view.GraphQuery;
+import ontorama.model.graph.events.QueryEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;

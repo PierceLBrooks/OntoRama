@@ -6,7 +6,7 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.graph.controller;
+package ontorama.model.graph.events;
 
 import org.tockit.events.Event;
 

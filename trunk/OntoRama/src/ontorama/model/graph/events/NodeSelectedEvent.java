@@ -6,12 +6,13 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.graph.controller;
+package ontorama.model.graph.events;
+
+import ontorama.model.graph.events.NodeEvent;
 
 
-public class QueryEvent extends NodeEvent {
-    public QueryEvent(ontorama.model.graph.Node subject) {
+public class NodeSelectedEvent extends NodeEvent {
+    public NodeSelectedEvent(ontorama.model.graph.Node subject) {
         super(subject);
-        System.out.println("new QueryEvent()");
     }
 }

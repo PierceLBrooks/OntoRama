@@ -1,0 +1,564 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <!ENTITY rdfs "http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">
+   <!ENTITY dc "http://purl.org/metadata/dublin_core#">
+   <!ENTITY daml "http://www.daml.org/2000/10/daml-ont#">
+   <!ENTITY webkb "http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/">
+]>
+<rdf:RDF xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;" xmlns:dc="&dc;" xmlns:daml="&daml;"
+         xmlns:webkb="&webkb;" xmlns:pm="&webkb;pm#" xmlns:wn="&webkb;wn#">
+
+
+<rdfs:Class rdf:about="&webkb;wn#Wine">
+  <rdfs:label xml:lang="en">wine</rdfs:label>
+  <rdfs:label xml:lang="en">vino</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>fermented juice (of grapes especially)</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="&webkb;wn#AlcoholicBeverage"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Sake.wine">
+     <rdfs:label xml:lang="en">sake.wine</rdfs:label>
+     <rdfs:label xml:lang="en">sake</rdfs:label>
+     <rdfs:label xml:lang="en">saki</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>Japanese beverage from fermented rice usually served hot</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Vintage">
+     <rdfs:label xml:lang="en">vintage</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a season's yield of wine from a vineyard</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#RedWine">
+     <rdfs:label xml:lang="en">red_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>wine having a red color derived from skins of dark-colored grapes</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Beaujolais">
+        <rdfs:label xml:lang="en">Beaujolais</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry fruity light red wine drunk within a few months after it is made; from the Beaujolais district in southeastern France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Medoc">
+        <rdfs:label xml:lang="en">Medoc</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>red Bordeaux wine from the Medoc district of southwestern France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BordeauxWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#PinotNoir">
+        <rdfs:label xml:lang="en">Pinot_noir</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red California table wine made from purple Pinot grapes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#RedBordeaux">
+        <rdfs:label xml:lang="en">red_Bordeaux</rdfs:label>
+        <rdfs:label xml:lang="en">claret</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red Bordeaux or Bordeaux-like wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BordeauxWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#SaintEmilion">
+           <rdfs:label xml:lang="en">Saint_Emilion</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>full-bodied red wine from around the town of Saint Emilion in Bordeaux</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#RedBordeaux"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Chianti">
+        <rdfs:label xml:lang="en">Chianti</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red Italian table wine from the Chianti region of Tuscany</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#CabernetSauvignon">
+        <rdfs:label xml:lang="en">Cabernet_Sauvignon</rdfs:label>
+        <rdfs:label xml:lang="en">Cabernet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>superior Bordeaux type of red wine from California</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Merlot">
+        <rdfs:label xml:lang="en">Merlot</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red wine made from a grape grown widely in Bordeaux and California</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Rioja">
+        <rdfs:label xml:lang="en">Rioja</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red table wine from the Rioja region of northern Spain</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Zinfandel">
+        <rdfs:label xml:lang="en">zinfandel</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry fruity red wine from California</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#WhiteWine">
+     <rdfs:label xml:lang="en">white_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>pale yellowish wine made from white grapes or red grapes with skins removed before fermentation</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#CanaryWine">
+        <rdfs:label xml:lang="en">Canary_wine</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a sweet white wine from the Canary Islands</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#WhiteBurgundy">
+        <rdfs:label xml:lang="en">white_Burgundy</rdfs:label>
+        <rdfs:label xml:lang="en">Chablis</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white table wine of Chablis France or a wine resembling it</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Montrachet">
+        <rdfs:label xml:lang="en">Montrachet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a white Burgundy wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#PinotChardonnay">
+        <rdfs:label xml:lang="en">Pinot_Chardonnay</rdfs:label>
+        <rdfs:label xml:lang="en">Chardonnay</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white table wine resembling Chablis but made from Chardonnay grapes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#PinotBlanc">
+        <rdfs:label xml:lang="en">Pinot_blanc</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white California table wine made from white Pinot grapes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#SauvignonBlanc">
+        <rdfs:label xml:lang="en">Sauvignon_blanc</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a California wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Moselle">
+        <rdfs:label xml:lang="en">Moselle</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>German white wine from the Moselle valley or a similar wine made elsewhere</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Muscadet">
+        <rdfs:label xml:lang="en">Muscadet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white wine from the Loire Valley in France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#RhineWine">
+        <rdfs:label xml:lang="en">Rhine_wine</rdfs:label>
+        <rdfs:label xml:lang="en">Rhenish</rdfs:label>
+        <rdfs:label xml:lang="en">hock</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any of several white wines from the Rhine River valley in Germany (`hock' is British usage)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#Riesling">
+           <rdfs:label xml:lang="en">Riesling</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>fragrant dry or sweet white wine from the Rhine valley or a similar wine from California</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#RhineWine"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#Liebfraumilch">
+           <rdfs:label xml:lang="en">liebfraumilch</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a sweetened Rhenish wine (especially one from Hesse in western Germany)</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#RhineWine"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Sack">
+        <rdfs:label xml:lang="en">sack</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any of various light dry strong white wine from Spain and Canary Islands (including sherry)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Soave">
+        <rdfs:label xml:lang="en">Soave</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white Italian wine from Verona</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Sauterne">
+        <rdfs:label xml:lang="en">Sauterne</rdfs:label>
+        <rdfs:label xml:lang="en">Sauternes</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>semisweet golden-colored table or dessert wine from around Bordeaux in France; similar wine from California</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#CheninBlanc">
+        <rdfs:label xml:lang="en">Chenin_blanc</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>made in California and the Loire valley in France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Verdicchio">
+        <rdfs:label xml:lang="en">Verdicchio</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a dry white Italian wine made from Verdicchio grapes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Vouvray">
+        <rdfs:label xml:lang="en">Vouvray</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a dry white French wine (either still or sparkling) made in the Loire valley</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Yquem">
+        <rdfs:label xml:lang="en">Yquem</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a sweet white French wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#BlushWine">
+     <rdfs:label xml:lang="en">blush_wine</rdfs:label>
+     <rdfs:label xml:lang="en">pink_wine</rdfs:label>
+     <rdfs:label xml:lang="en">rose</rdfs:label>
+     <rdfs:label xml:lang="en">rose_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>pinkish table wine from red grapes whose skins were removed after fermentation began</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#AltarWine">
+     <rdfs:label xml:lang="en">altar_wine</rdfs:label>
+     <rdfs:label xml:lang="en">sacramental_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>used in a communion service</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#SparklingWine">
+     <rdfs:label xml:lang="en">sparkling_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>effervescent wine</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Champagne">
+        <rdfs:label xml:lang="en">champagne</rdfs:label>
+        <rdfs:label xml:lang="en">bubbly</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a white sparkling wine either produced in Champagne or resembling that produced there</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#SparklingWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#ColdDuck">
+        <rdfs:label xml:lang="en">cold_duck</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>pink sparkling wine originally from Germany</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#SparklingWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#BurgundyWine">
+     <rdfs:label xml:lang="en">Burgundy_wine</rdfs:label>
+     <rdfs:label xml:lang="en">Burgundy</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>red table wine from the Burgundy region of France (or any similar wine made elsewhere)</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Beaujolais">
+        <rdfs:label xml:lang="en">Beaujolais</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry fruity light red wine drunk within a few months after it is made; from the Beaujolais district in southeastern France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#WhiteBurgundy">
+        <rdfs:label xml:lang="en">white_Burgundy</rdfs:label>
+        <rdfs:label xml:lang="en">Chablis</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry white table wine of Chablis France or a wine resembling it</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Montrachet">
+        <rdfs:label xml:lang="en">Montrachet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a white Burgundy wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BurgundyWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#WhiteWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#BordeauxWine">
+     <rdfs:label xml:lang="en">Bordeaux_wine</rdfs:label>
+     <rdfs:label xml:lang="en">Bordeaux</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of several red or white wines produced around Bordeaux in France or resembling such wines</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Medoc">
+        <rdfs:label xml:lang="en">Medoc</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>red Bordeaux wine from the Medoc district of southwestern France</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BordeauxWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#RedBordeaux">
+        <rdfs:label xml:lang="en">red_Bordeaux</rdfs:label>
+        <rdfs:label xml:lang="en">claret</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry red Bordeaux or Bordeaux-like wine</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#BordeauxWine"/>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#RedWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#CaliforniaWine">
+     <rdfs:label xml:lang="en">California_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of various wines produced in California</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#CotesDeProvence">
+     <rdfs:label xml:lang="en">Cotes_de_Provence</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a wine from southeastern France on the Mediterranean coast</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#DessertWine">
+     <rdfs:label xml:lang="en">dessert_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>still sweet wine often served with dessert or after a meal</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#StrawWine">
+        <rdfs:label xml:lang="en">straw_wine</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>sweet wine from grapes partially sun-dried on the vine or on straw mats</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#DessertWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#JugWine">
+     <rdfs:label xml:lang="en">jug_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>inexpensive wine sold in large bottles or jugs</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Macon">
+     <rdfs:label xml:lang="en">macon</rdfs:label>
+     <rdfs:label xml:lang="en">maconnais</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>fine Burgundy wine usually white and dry</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Plonk.wine">
+     <rdfs:label xml:lang="en">plonk.wine</rdfs:label>
+     <rdfs:label xml:lang="en">plonk</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>(British and Australian) a cheap wine of inferior quality</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Retsina">
+     <rdfs:label xml:lang="en">retsina</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>Greek wine flavored with resin</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#RhoneWine">
+     <rdfs:label xml:lang="en">Rhone_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of various wines from the Rhone River valley in France</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#TableWine">
+     <rdfs:label xml:lang="en">table_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>wine containing not more than 14 percent alcohol usually served with a meal</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#VinOrdinaire">
+        <rdfs:label xml:lang="en">vin_ordinaire</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>cheap French table wine of unspecified origin</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#TableWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Tokay.wine">
+     <rdfs:label xml:lang="en">Tokay.wine</rdfs:label>
+     <rdfs:label xml:lang="en">Tokay</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>Hungarian wine made from Tokay grapes</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#Vermouth">
+     <rdfs:label xml:lang="en">vermouth</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of several white wines flavored with aromatic herbs; used as aperitifs or in mixed drinks</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#SweetVermouth">
+        <rdfs:label xml:lang="en">sweet_vermouth</rdfs:label>
+        <rdfs:label xml:lang="en">Italian_vermouth</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>sweet dark amber variety</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#Vermouth"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#DryVermouth">
+        <rdfs:label xml:lang="en">dry_vermouth</rdfs:label>
+        <rdfs:label xml:lang="en">French_vermouth</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry pale amber variety</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#Vermouth"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#FortifiedWine">
+     <rdfs:label xml:lang="en">fortified_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>wine to which alcohol (usually grape brandy) has been added</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Madeira">
+        <rdfs:label xml:lang="en">Madeira</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>amber-colored dessert wine from Madeira</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#FortifiedWine"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#Malmsey">
+           <rdfs:label xml:lang="en">malmsey</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>sweet Madeira wine</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#Madeira"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#PortWine">
+        <rdfs:label xml:lang="en">port_wine</rdfs:label>
+        <rdfs:label xml:lang="en">port</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>sweet dark-red dessert wine originally from Portugal</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#FortifiedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Sherry">
+        <rdfs:label xml:lang="en">sherry</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dry to sweet amber wine from the Jerez region of southern Spain or similar wines produced elsewhere; usually drunk as an aperitif</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#FortifiedWine"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#Manzanilla">
+           <rdfs:label xml:lang="en">Manzanilla</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>very dry pale sherry from Spain</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#Sherry"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="&webkb;wn#Amontillado">
+           <rdfs:label xml:lang="en">Amontillado</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>pale medium-dry sherry from Spain</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="&webkb;wn#Sherry"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Marsala">
+        <rdfs:label xml:lang="en">Marsala</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>dark sweet or semisweet dessert wine from Sicily</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#FortifiedWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Muscatel">
+        <rdfs:label xml:lang="en">muscatel</rdfs:label>
+        <rdfs:label xml:lang="en">muscat</rdfs:label>
+        <rdfs:label xml:lang="en">muscadel</rdfs:label>
+        <rdfs:label xml:lang="en">muscadelle</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>wine from muscat grapes</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#FortifiedWine"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="&webkb;wn#MulledWine">
+     <rdfs:label xml:lang="en">mulled_wine</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>wine heated with sugar and spices and often citrus fruit</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="&webkb;wn#Wine"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Bishop.mulledWine">
+        <rdfs:label xml:lang="en">bishop.mulled_wine</rdfs:label>
+        <rdfs:label xml:lang="en">bishop</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>port wine mulled with oranges and cloves</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#MulledWine"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="&webkb;wn#Negus">
+        <rdfs:label xml:lang="en">negus</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>wine and hot water with sugar and lemon juice and nutmeg</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="&webkb;wn#MulledWine"/>
+        <pm:substance rdf:resource="&webkb;wn#Wine"/>
+      </rdfs:Class>
+
+
+</rdf:RDF>
+
+
+
+
+
+

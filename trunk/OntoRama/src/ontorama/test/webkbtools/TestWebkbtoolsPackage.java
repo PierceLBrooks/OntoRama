@@ -9,6 +9,15 @@ import junit.framework.*;
  * <p>Company: DSTC</p>
  * @author nataliya
  * @version 1.0
+ *
+ * Testing:
+ * - package datamodel
+ *
+ * No tests for:
+ * - all interfaces
+ * - package inputsource
+ * - package util
+ *
  */
 
 public class TestWebkbtoolsPackage extends TestCase {
@@ -22,6 +31,7 @@ public class TestWebkbtoolsPackage extends TestCase {
          TestSuite suite = new TestSuite( "ontorama.webkbtools" );
 
          suite.addTest( ontorama.test.webkbtools.datamodel.TestDatamodelPackage.suite() );
+         suite.addTest( ontorama.test.webkbtools.query.TestQueryPackage.suite() );
 
          return suite;
      }

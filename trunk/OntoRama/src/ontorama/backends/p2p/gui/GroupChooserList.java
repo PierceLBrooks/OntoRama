@@ -4,8 +4,8 @@ package ontorama.backends.p2p.gui;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.gui.renderer.*;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 /**
  * @author nataliya

@@ -3,8 +3,8 @@ package ontorama.backends.p2p.gui;
 import java.util.Vector;
 import javax.swing.JComboBox;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.gui.renderer.*;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 /**
  * @author nataliya

@@ -22,10 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
+import ontorama.backends.p2p.*;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.renderer.*;
-import ontorama.backends.p2p.p2pprotocol.*;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 
 /*

@@ -6,9 +6,9 @@ import java.util.Vector;
 
 import javax.swing.AbstractAction;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.GroupSearchDialog;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 import ontorama.ui.OntoRamaApp;
 
 /*

@@ -6,8 +6,8 @@
  */
 package ontorama.backends.p2p.controller;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.gui.GroupView;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;

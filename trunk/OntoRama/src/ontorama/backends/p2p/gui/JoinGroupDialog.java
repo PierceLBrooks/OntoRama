@@ -20,11 +20,11 @@ import javax.swing.JTextField;
 import org.tockit.events.Event;
 import org.tockit.events.EventBrokerListener;
 
+import ontorama.backends.p2p.GroupItemReference;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.JoinGroupEvent;
 import ontorama.backends.p2p.events.NewGroupEvent;
-import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 /*
  * Created by IntelliJ IDEA.

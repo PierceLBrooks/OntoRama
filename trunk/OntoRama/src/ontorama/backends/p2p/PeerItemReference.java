@@ -1,4 +1,4 @@
-package ontorama.backends.p2p.p2pprotocol;
+package ontorama.backends.p2p;
 
 /**
  * @author nataliya

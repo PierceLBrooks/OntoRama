@@ -3,10 +3,10 @@ package ontorama.backends.p2p.p2pmodule;
 import java.util.Hashtable;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.PeerItemReference;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
-import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;

@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
  * - setDepth() because there are no way to check it since getDepth is protected.
  */
 
-public class TestGraphNode extends TestCase {
+public class TestNode extends TestCase {
 
     private Node node1;
     private Node node2;
@@ -40,7 +40,7 @@ public class TestGraphNode extends TestCase {
     /**
      *
      */
-    public TestGraphNode(String name) {
+    public TestNode(String name) {
         super(name);
     }
 

@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import ontorama.model.test.TestEdge;
 import ontorama.model.test.TestGraph;
-import ontorama.model.test.TestGraphNode;
+import ontorama.model.test.TestNode;
 
 /**
  * <p>Title: </p>
@@ -26,7 +26,7 @@ public class TestModelPackage extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.model");
         suite.addTest(new TestSuite(TestEdge.class));
-        suite.addTest(new TestSuite(TestGraphNode.class));
+        suite.addTest(new TestSuite(TestNode.class));
         suite.addTest(new TestSuite(TestGraph.class));
         return suite;
     }

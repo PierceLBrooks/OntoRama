@@ -14,6 +14,7 @@
   <property name="jenaJar.file"	value="${basedir}/jenaOntorama.jar"/>
   <property name="deploy.webstart"	value="${basedir}/deployWebstart"/>
   <property name="src.webstart"	value="${src.home}/webstart"/>
+  <property name="deploy.demo"	value="${basedir}/demo"/>
 
   
   <!-- Set Classpath -->
@@ -127,7 +128,23 @@
   <target name="runPeerTest">
   	<java fork="yes" classname="ontorama.backends.p2p.PeerConnectionTest" classpathref="project.class.path"/>
   </target>
-
+  
+  <target name="demoDeploy" depends="compile">
+  	<delete dir="${deploy.demo}"/>
+  	<mkdir dir="${deploy.demo}"/>
+	<mkdir dir="${deploy.demo}/lib"/>	
+  	<copy todir="${deploy.demo}/lib"> 
+		<fileset dir="${lib.home}" includes="*.jar"/>
+	</copy>
+	<copy todir="${deploy.demo}/deploy">
+		<fileset dir="${deploy.home}" includes="**/*"/>
+	</copy>
+	<copy todir="${deploy.demo}">
+      <fileset dir="${basedir}" includes="run.bat"/>
+      <fileset dir="${basedir}" includes="run-file.bat"/>
+    </copy>
+  </target>
+  
   
   <target name="webstartDeploy" depends="jar">
   	<delete dir="${deploy.webstart}"/>

@@ -208,19 +208,19 @@ public class TestP2PEdge extends TestCase {
 		HashSet set = new HashSet();
 		set.add(creatorUri1);
 		
-		assertEquals("getAssertion for edge1", set, (HashSet) edge1.getAssertionsList());
-		assertEquals("getAssertion for edge2", set, (HashSet) edge2.getAssertionsList());
-		assertEquals("getAssertion for edge3", set, (HashSet) edge3.getAssertionsList());
+		assertEquals("getAssertion for edge1", set, (HashSet) edge1.getAssertions());
+		assertEquals("getAssertion for edge2", set, (HashSet) edge2.getAssertions());
+		assertEquals("getAssertion for edge3", set, (HashSet) edge3.getAssertions());
 	}
 
 	public void testGetRejectionList() {
 		HashSet set = new HashSet();
 		set.add(creatorUri2);
 		
-		assertEquals("getRejections for edge4", set, (HashSet) edge4.getRejectionsList());
-		assertEquals("getRejections for edge5", set, (HashSet) edge5.getRejectionsList());
-		assertEquals("getRejections for edge6", set, (HashSet) edge6.getRejectionsList());
-		assertEquals("getRejections for edge7", set, (HashSet) edge7.getRejectionsList());
+		assertEquals("getRejections for edge4", set, (HashSet) edge4.getRejections());
+		assertEquals("getRejections for edge5", set, (HashSet) edge5.getRejections());
+		assertEquals("getRejections for edge6", set, (HashSet) edge6.getRejections());
+		assertEquals("getRejections for edge7", set, (HashSet) edge7.getRejections());
 	}
 
 	public void testAddAssertion() {
@@ -228,11 +228,11 @@ public class TestP2PEdge extends TestCase {
 		set.add(creatorUri1);
 		
 		edge1.addAssertion(creatorUri1);
-		assertEquals("addAssertion for edge1", set, (HashSet) edge1.getAssertionsList());
+		assertEquals("addAssertion for edge1", set, (HashSet) edge1.getAssertions());
 		
 		set.add(creatorUri2);
 		edge2.addAssertion(creatorUri2);
-		assertEquals("addAssertion for edge2", set, (HashSet) edge2.getAssertionsList());
+		assertEquals("addAssertion for edge2", set, (HashSet) edge2.getAssertions());
 	}
 
 	public void testAddRejection() {
@@ -240,11 +240,11 @@ public class TestP2PEdge extends TestCase {
 
 		set.add(creatorUri2);
 		edge4.addRejection(creatorUri2);
-		assertEquals("addRejection for edge2", set, (HashSet) edge4.getRejectionsList());
+		assertEquals("addRejection for edge2", set, (HashSet) edge4.getRejections());
 
 		set.add(creatorUri1);
 		edge4.addRejection(creatorUri1);
-		assertEquals("addRejection for edge1", set, (HashSet) edge4.getRejectionsList());
+		assertEquals("addRejection for edge1", set, (HashSet) edge4.getRejections());
 	}
 	
 	

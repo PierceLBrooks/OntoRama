@@ -23,7 +23,7 @@ public interface P2PEdge extends Edge {
      public void addAssertion (URI userIdUri);
 
 
-   /**
+    /**
      * Add an rejecter for this edge. If the rejecter is registered as a 
      * asserter as well that is removed
      *
@@ -32,17 +32,13 @@ public interface P2PEdge extends Edge {
       public void addRejection (URI userIdUri);
 
     /**
-     * Returns the asserters
-     *
-     * @return a list of the asserter
+     * Returns the assertions.
      */
-     public Set getAssertionsList ();
+     public Set getAssertions ();
 
 
     /**
-     * Returns the rejecter
-     *
-     * @return a list of the rejecters
+     * Returns the rejections.
      */
-     public Set getRejectionsList ();
+     public Set getRejections ();
 }

@@ -1,10 +1,10 @@
-package ontorama.ontotools.inputsource;
+package ontorama.ontotools.source;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import ontorama.ontotools.inputsource.webkb.TestWebkbQueryStringConstructor;
+import ontorama.ontotools.source.webkb.TestWebkbQueryStringConstructor;
 
 /**
  * <p>Title: </p>
@@ -22,7 +22,7 @@ public class TestSourcePackage extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("ontorama.inputsource");
+        TestSuite suite = new TestSuite("ontorama.source");
 
         suite.addTest(new TestSuite(TestWebKB2Source.class));
         suite.addTest(new TestSuite(TestWebkbQueryStringConstructor.class));

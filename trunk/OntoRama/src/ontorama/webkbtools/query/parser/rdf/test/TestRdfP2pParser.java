@@ -10,7 +10,7 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.util.TestingUtils;
-import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.source.Source;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.parser.Parser;
 import ontorama.ontotools.query.parser.ParserResult;

@@ -1,4 +1,4 @@
-package ontorama.ontotools.inputsource;
+package ontorama.ontotools.source;
 
 /**
  * Title:
@@ -28,8 +28,8 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ontotools.inputsource.webkb.AmbiguousChoiceDialog;
-import ontorama.ontotools.inputsource.webkb.WebkbQueryStringConstructor;
+import ontorama.ontotools.source.webkb.AmbiguousChoiceDialog;
+import ontorama.ontotools.source.webkb.WebkbQueryStringConstructor;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.parser.ParserResult;
 import ontorama.ontotools.query.parser.rdf.RdfWebkbParser;

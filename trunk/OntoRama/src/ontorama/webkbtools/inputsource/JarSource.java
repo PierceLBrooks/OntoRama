@@ -1,4 +1,4 @@
-package ontorama.ontotools.inputsource;
+package ontorama.ontotools.source;
 
 import java.io.File;
 import java.io.IOException;

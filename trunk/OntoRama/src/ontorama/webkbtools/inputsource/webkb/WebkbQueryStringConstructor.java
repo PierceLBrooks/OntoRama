@@ -1,8 +1,8 @@
-package ontorama.ontotools.inputsource.webkb;
+package ontorama.ontotools.source.webkb;
 
 import java.util.Hashtable;
 
-import ontorama.ontotools.inputsource.UrlQueryStringConstructor;
+import ontorama.ontotools.source.UrlQueryStringConstructor;
 import ontorama.ontotools.query.Query;
 
 /**

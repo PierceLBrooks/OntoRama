@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.events.EdgeAddedEvent;
-import ontorama.model.graph.events.EdgeRemovedEvent;
+import ontorama.model.graph.events.GraphEdgeAddedEvent;
+import ontorama.model.graph.events.GraphEdgeRemovedEvent;
+import ontorama.model.graph.events.GraphNodeAddedEvent;
+import ontorama.model.graph.events.GraphNodeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
-import ontorama.model.graph.events.NodeAddedEvent;
-import ontorama.model.graph.events.NodeRemovedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.OntoRamaApp;
@@ -316,7 +316,7 @@ public class GraphImpl implements Graph {
         */
         addNodesForNewEdge(fromNode, toNode);
         _graphEdges.add(edge);
-        _eventBroker.processEvent(new EdgeAddedEvent(this,edge));
+        _eventBroker.processEvent(new GraphEdgeAddedEvent(this,edge));
     }
 
     /**
@@ -418,7 +418,7 @@ public class GraphImpl implements Graph {
         }
 
         _graphNodes.add(node);
-        _eventBroker.processEvent(new NodeAddedEvent(this, node));
+        _eventBroker.processEvent(new GraphNodeAddedEvent(this, node));
     }
 
     /**
@@ -426,7 +426,7 @@ public class GraphImpl implements Graph {
      */
     public void removeEdge(Edge remEdge) {
         _graphEdges.remove(remEdge);
-        _eventBroker.processEvent(new EdgeRemovedEvent(this, remEdge));
+        _eventBroker.processEvent(new GraphEdgeRemovedEvent(this, remEdge));
     }
 
     /**
@@ -459,7 +459,7 @@ public class GraphImpl implements Graph {
             Edge edge = (Edge) iterator.next();
             removeEdge(edge);
         }
-        _eventBroker.processEvent(new NodeRemovedEvent(this, node));
+        _eventBroker.processEvent(new GraphNodeRemovedEvent(this, node));
     }
 
     public List getEdgesList() {

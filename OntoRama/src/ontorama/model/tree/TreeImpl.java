@@ -4,7 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.model.graph.*;
+import ontorama.model.tree.events.TreeNodeAddedEvent;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
  * User: nataliya
@@ -16,6 +20,7 @@ public class TreeImpl implements Tree {
     private Graph _graph;
     private Node _graphRootNode;
     private TreeNode _root;
+    private EventBroker _eventBroker;
 
     private List _nodes = new LinkedList();
     private List _edges = new LinkedList();
@@ -27,29 +32,46 @@ public class TreeImpl implements Tree {
      * @param graphRootNode
      * @throws NoSuchRelationLinkException
      */
-    public TreeImpl (Graph graph, Node graphRootNode) {
+    public TreeImpl (Graph graph, Node graphRootNode, EventBroker eventBroker) {
         _graph = graph;
         _graphRootNode = graphRootNode;
+        _eventBroker = eventBroker;
         buildTree(graphRootNode);
     }
-
+    
     public TreeNode getRootNode() {
         return _root;
     }
 
-	public TreeNode addNode (TreeNode parentTreeNode, Edge graphEdge, Node graphNode) {
-		TreeNode newNode = addTreeNode(graphNode);
-		TreeEdge newEdge = addTreeEdge(graphEdge, parentTreeNode, newNode);
-		
-		Iterator clones = parentTreeNode.getClones().iterator();
-		while (clones.hasNext()) {
-			TreeNode curClone = (TreeNode) clones.next();
-			TreeNode curNewNode = addTreeNode(graphNode);
-			addTreeEdge(graphEdge, parentTreeNode, curNewNode);
+	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType) 
+											throws TreeModificationException {
+		Node graphNode = ((TreeNodeImpl) newNode).getGraphNode();
+		addTreeNode(newNode);
+		try {
+			Edge graphEdge = new EdgeImpl(((TreeNodeImpl) parentTreeNode).getGraphNode(),
+										((TreeNodeImpl) newNode).getGraphNode(),
+										edgeType);
+			_graph.addNode(graphNode);
+			_graph.addEdge(graphEdge);
+				
+			TreeEdge newEdge = addTreeEdge(graphEdge, parentTreeNode, newNode);
+			
+			Iterator clones = parentTreeNode.getClones().iterator();
+			while (clones.hasNext()) {
+				TreeNode curClone = (TreeNode) clones.next();
+				TreeNode curNewNode = addTreeNode(graphNode);
+				addTreeEdge(graphEdge, parentTreeNode, curNewNode);
+			}
+			calculateDepths(_root, 0);
+			_eventBroker.processEvent(new TreeNodeAddedEvent(this, newNode));
+			return newNode;
 		}
-		
-		//_eventBroker.processEvent(new NodeAddedEvent(this, node));
-		return newNode;
+		catch (NoSuchRelationLinkException e) {
+			throw new TreeModificationException(e.getMessage());
+		}
+		catch (GraphModificationException e) {
+			throw new TreeModificationException(e.getMessage());
+		}
 	}    
 
     private void buildTree (Node topGraphNode) {
@@ -70,20 +92,24 @@ public class TreeImpl implements Tree {
 
     private TreeNode addTreeNode (Node graphNode) {
         TreeNode treeNode = new TreeNodeImpl(graphNode);
-        /// @todo not sure if this is a good way to handle cloning: since we should be
-        /// able to uniquely identify nodes by the graph nodes they contain - if we find two nodes with
-        /// the same graph node, we assume that they are each other clones.
-        Iterator it = _nodes.iterator();
-        while (it.hasNext()) {
-            TreeNode cur = (TreeNode) it.next();
-            if (cur.isClone(treeNode)) {
-                    cur.addClone(treeNode);
-                    treeNode.addClone(cur);
-            }
-        }
-        _nodes.add(treeNode);
+        addTreeNode (treeNode);
         return treeNode;
     }
+
+	private void addTreeNode (TreeNode treeNode) {
+		/// since we should be
+		/// able to uniquely identify nodes by the graph nodes they contain - if we find two nodes with
+		/// the same graph node, we assume that they are each other clones.
+		Iterator it = _nodes.iterator();
+		while (it.hasNext()) {
+			TreeNode cur = (TreeNode) it.next();
+			if (cur.isClone(treeNode)) {
+					cur.addClone(treeNode);
+					treeNode.addClone(cur);
+			}
+		}
+		_nodes.add(treeNode);
+	}
 
     private TreeEdge addTreeEdge (Edge graphEdge, TreeNode fromNode, TreeNode toNode) {
         TreeEdge treeEdge = new TreeEdgeImpl(graphEdge, toNode);
@@ -104,6 +130,12 @@ public class TreeImpl implements Tree {
 			childNode.setDepth(depth + 1);
 			calculateDepths(childNode, depth + 1);
 		}
+	}
+	
+	private Edge findGraphEdge (TreeNode node1, TreeNode node2, EdgeType edgeType) {
+		TreeNodeImpl fromNode = (TreeNodeImpl) node1;
+		TreeNodeImpl toNode = (TreeNodeImpl) node2;
+		return _graph.getEdge(fromNode.getGraphNode(), toNode.getGraphNode(), edgeType);
 	}
 
 

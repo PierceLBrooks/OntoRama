@@ -1,8 +1,7 @@
 package ontorama.model.tree;
 
 
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.Node;
+import ontorama.model.graph.EdgeType;
 
 /*
  * Created by IntelliJ IDEA.
@@ -19,7 +18,7 @@ public interface Tree {
     
    
     // @todo need to decouple from graph nodes and edges.
-	public TreeNode addNode (TreeNode parentTreeNode, Edge graphEdge, Node graphNode);
+	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType) throws TreeModificationException;
 //    //public void removeNode(TreeNode nodeToRemove);
 
 }

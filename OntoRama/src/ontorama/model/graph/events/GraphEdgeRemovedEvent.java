@@ -3,15 +3,22 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: GraphReducedEvent.java,v 1.3 2002-12-03 07:22:21 nataliya Exp $
+ * $Id: EdgeRemovedEvent.java,v 1.2 2002/11/26 00:06:08 pbecker Exp $
  */
 package ontorama.model.graph.events;
 
+import ontorama.model.graph.Edge;
 import ontorama.model.graph.Graph;
 
+public class GraphEdgeRemovedEvent extends GraphReducedEvent {
+    private Edge edge;
 
-public class GraphReducedEvent extends GraphChangedEvent {
-    public GraphReducedEvent(Graph subject) {
+    public GraphEdgeRemovedEvent(Graph subject, Edge edge) {
         super(subject);
+        this.edge = edge;
+    }
+
+    public Edge getEdge() {
+        return edge;
     }
 }

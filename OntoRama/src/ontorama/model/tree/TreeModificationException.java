@@ -1,6 +1,4 @@
-package ontorama.model.graph.events;
-
-import ontorama.model.graph.Graph;
+package ontorama.model.tree;
 
 /**
  * @author nataliya
@@ -10,10 +8,10 @@ import ontorama.model.graph.Graph;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class GraphExtendedEvent extends GraphChangedEvent {
-	public GraphExtendedEvent(Graph subject) {
-		super(subject);
+public class TreeModificationException extends Exception {
+
+	public TreeModificationException(String message) {
+		super(message);
 	}
-	
 
 }

@@ -1,6 +1,6 @@
-package ontorama.model.graph.events;
+package ontorama.model.tree.events;
 
-import ontorama.model.graph.Graph;
+import ontorama.model.tree.Tree;
 import org.tockit.events.Event;
 
 /**
@@ -11,20 +11,15 @@ import org.tockit.events.Event;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class GraphChangedEvent implements Event {
+public class TreeLoadedEvent implements Event {
+	private Tree tree;
 
-	private Graph graph;
-
-	public GraphChangedEvent(Graph subject) {
-		this.graph = subject;
+	public TreeLoadedEvent(Tree subject) {
+		this.tree = subject;
 	}
 
 	public Object getSubject() {
-		return graph;
-	}
-
-	public Graph getGraph() {
-		return graph;
-	}
+		return tree;
+	}	
 
 }

@@ -2,7 +2,6 @@ package ontorama.model.tree;
 
 import java.util.List;
 
-import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 
 /**

@@ -3,8 +3,10 @@ package ontorama.model.tree.test;
 import junit.framework.TestCase;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
+import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeEdge;
+import ontorama.model.tree.TreeNodeImpl;
 import ontorama.model.graph.*;
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -125,7 +127,7 @@ public class TestTree extends TestCase{
         _graph = new GraphImpl(queryRes, new EventBroker());
 
 
-        _tree = new TreeImpl(_graph, _graph.getRootNode());
+        _tree = new TreeImpl(_graph, _graph.getRootNode(), new EventBroker());
 
     }
 
@@ -198,15 +200,16 @@ public class TestTree extends TestCase{
     	assertEquals("depth for root node node1 ", 0, node1.getDepth());
     }
     
-	public void testAddNode ()  throws GraphModificationException, NoSuchRelationLinkException {
+	public void testAddNode ()  throws TreeModificationException,GraphModificationException, NoSuchRelationLinkException{
 		int originalNodeCount = countNumOfNodes();
 		
 		Node newNode = new NodeImpl("newNode");
 		Edge newEdge = new EdgeImpl(_node7, newNode, _edgeType1);
+		TreeNode newTreeNode = new TreeNodeImpl(newNode);
 		
 		TreeNode node7 = getNodeByName("node7");
 		
-		_tree.addNode(node7, newEdge, newNode);
+		_tree.addNode(newTreeNode, node7, _edgeType1);
 		
 		assertEquals("number of nodes after add ", originalNodeCount + 3, countNumOfNodes());
 	}

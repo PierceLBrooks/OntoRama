@@ -1,5 +1,6 @@
 package ontorama.model.graph.events;
 
+import ontorama.model.graph.Graph;
 import org.tockit.events.Event;
 
 /*
@@ -10,9 +11,9 @@ import org.tockit.events.Event;
  * To change this template use Options | File Templates.
  */
 public class GraphLoadedEvent implements Event {
-    private ontorama.model.graph.Graph graph;
+    private Graph graph;
 
-    public GraphLoadedEvent(ontorama.model.graph.Graph subject) {
+    public GraphLoadedEvent(Graph subject) {
         this.graph = subject;
     }
 

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.NodeType;
 
 /**
@@ -48,9 +49,20 @@ public class TreeNodeImpl implements TreeNode {
      */
     public TreeNodeImpl (Node graphNode) {
         _graphNode = graphNode;
-        _clones = new LinkedList();
-        _children = new LinkedList();
+        init();
     }
+    
+    public TreeNodeImpl (String nodeName, NodeType nodeType) {
+    	_graphNode = new NodeImpl(nodeName);
+    	_graphNode.setNodeType(nodeType);
+    	init();
+    }
+    
+    private void init () {
+    	_clones = new LinkedList();
+    	_children = new LinkedList();
+    }
+    
 
 	protected Node getGraphNode() {
 		return _graphNode;

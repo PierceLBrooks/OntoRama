@@ -71,7 +71,7 @@
 	     <rdfs:subClassOf rdf:parseType="Resource">
 		<rdf:value>http://www.webkb.org/kb/theKB_terms.rdf/wn#Fluke_3</rdf:value>
 		<ontoP2P:asserted>Johan</ontoP2P:asserted>
-		<ontoP2P:rejected>Henrik</ontoP2P:asserted>
+		<ontoP2P:rejected>Henrik</ontoP2P:rejected>
 	     </rdfs:subClassOf>
 	   </rdfs:Class>
 

@@ -67,6 +67,7 @@ public class HyperEdgeView extends CanvasItem {
         } else {
             g2d.setColor(Color.lightGray);
         }
+        /// @todo figure out how to transform lines properly, move this into the transformation function object extracted from the node view class
         if (OntoramaConfig.FOUNTAINS) {
             double firstControlPos = 29 / 30.0;
             double secondControlPos = 1 / 30.0;

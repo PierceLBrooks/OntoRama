@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -75,11 +76,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     private boolean isVisible = true;
 
     /**
-     * Create 2D object for node representation.
-     */
-    private Shape nodeShape = new Ellipse2D.Double(0, 0, 0, 0);
-
-    /**
      * Hold the percentage increase for cloned node rind
      * used for showing cloned node when a cloned node gets focus.
      */
@@ -116,7 +112,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             nodeColor = displayInfo.getColor();
         }
         double radius = model.getNodeRadius();
-        nodeShape = nodeType.getDisplayShape();
     }
 
     /**
@@ -296,14 +291,26 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
         updateProjection();
         g2d.setColor(fadeColor);
+        double x = model.getX();
+        double y = model.getY();
 
-        pathShape = projection.project(nodeShape, model.getX(), model.getY());
+        Shape displayShape = nodeType.getDisplayShape();
+        AffineTransform oldTransform = g2d.getTransform();
+        if(!nodeType.forceUprightShape()) {
+        	Point2D projectedPos = projection.project(x,y);
+        	g2d.rotate(Math.atan2(projectedPos.getX(), -projectedPos.getY()), projectedPos.getX(), projectedPos.getY());
+//        	g2d.rotate(Math.atan2(x,y));
+        }        		
+        
+        pathShape = projection.project(displayShape, x, y);
 
         if (!isLeaf && this.getFolded()) {
             g2d.fill(pathShape.getBounds2D());
         } else {
             g2d.fill(pathShape);
         }
+        
+        g2d.setTransform(oldTransform);
     }
 
     private void calculateFadedColor() {

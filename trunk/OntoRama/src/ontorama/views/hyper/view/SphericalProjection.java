@@ -79,14 +79,14 @@ public class SphericalProjection implements Projection {
 		for (int i = 0; i < in.length; i+=2) {
 			double x = xpos + in[i];
 			double y = ypos + in[i+1];
-			Point2D newCoord = transform(x,y);
+			Point2D newCoord = project(x,y);
 			retval[i] = (float) newCoord.getX();
 			retval[i+1] = (float) newCoord.getY();
 		}
 		return retval;
 	}
 
-	private Point2D transform(double x, double y) {
+	public Point2D project(double x, double y) {
 		double length = Math.sqrt(x * x + y * y + focalDepth * focalDepth);
 		double scale = sphereRadius / length;
 		return new Point2D.Double(scale * x, scale * y);

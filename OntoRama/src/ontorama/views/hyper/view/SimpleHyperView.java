@@ -113,15 +113,14 @@ public class SimpleHyperView extends Canvas implements TreeView {
         this.projection = projection;
         new NodeSelectedEventTransformer(eventBroker);
         new TreeViewFocusEventHandler(eventBroker, this);
-//        new NodeActivatedEventHandler(this, eventBroker);
-//        //new NodeDraggedEventHandler(this, eventBroker);
-//        new NodePointedEventHandler(this, eventBroker);
+        new NodeActivatedEventHandler(this, eventBroker);
+        new NodePointedEventHandler(this, eventBroker);
 //        if (OntoramaConfig.EDIT_ENABLED) {
 //        	new NodeContextMenuHandler(this, eventBroker);
 //        }
-//        new SphereMouseMovedEventHandler(this, eventBroker);
-//    	new DraggedEventHandler(this, eventBroker);
-//    	new RotateEventHandler(this, eventBroker);
+        new SphereMouseMovedEventHandler(this, eventBroker);
+    	new DraggedEventHandler(this, eventBroker);
+    	new RotateEventHandler(this, eventBroker);
         SimpleHyperView.sphereView = new SphereView(((SphericalProjection)projection).getSphereRadius());
     }
 
@@ -753,6 +752,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     private void highlightEdge(TreeNode node) {
     	TreeNode parent = node.getParent();
+        if (parent == null) {
+            return;
+        }
         HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(parent);
         if (hyperNodeView != null) {
             hyperNodeView.setHighlightEdge(true);

@@ -61,37 +61,34 @@ import ontorama.textDescription.view.DescriptionView;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.Debug;
 
+/**
+ * Main Application class. This class start OntoRama application.
+ */
 public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      * holds hyper view
      */
-    private SimpleHyperView hyperView;
+    private SimpleHyperView _hyperView;
 
     /**
      * holds tree view
      */
-    private OntoTreeView treeView;
+    private OntoTreeView _treeView;
 
     /**
-     * holds name of term user is serching for
+     * hold query panel
      */
-    private String termName;
-
-    /**
-     * holds graph
-     */
-    private Graph graph;
-
-
-    /**
-     *
-     */
-    public QueryPanel queryPanel;
+    public QueryPanel _queryPanel;
 
     /**
      * split panel will contain hyper view and tree view
      */
-    private JSplitPane splitPane;
+    private JSplitPane _splitPane;
+
+    /**
+     * ontorama menu bar
+     */
+    private JMenuBar _menuBar;
 
 
     /**
@@ -108,22 +105,31 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private JToolBar _backForwardToolBar;
 
     /**
-     *
+     * actions
      */
-    private DescriptionView descriptionViewPanel;
+    public Action _backAction;
+    public Action _forwardAction;
+    public Action _exitAction;
+    public Action _aboutAction;
+
 
     /**
-     *
+     * desctiption view panel contains concept properties details
      */
-    private JMenuBar _menuBar;
+    private DescriptionView _descriptionViewPanel;
 
     /**
-     *
+     * status bar 
      */
     private JPanel _statusBar;
     private JLabel _statusLabel;
     private JProgressBar _progressBar;
     private Timer _timer;
+    
+    /**
+     * holds thread that will do all the work: querying ont server
+     * and building graph
+     */
     //private QueryEngineTask _worker;
     private QueryEngineThread _worker;
 
@@ -133,61 +139,49 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * the hyper view. the rest of the split panel will be taken up
      * by tree view
      */
-    int leftSplitPanelWidthPercent = 70;
+    int _leftSplitPanelWidthPercent = 70;
 
     /**
      * height and width of main window
      */
-    private int appHeight = 600;
-    private int appWidth = 700;
+    private int _appHeight = 600;
+    private int _appWidth = 700;
 
     /**
      * location of split panel's divider
      */
-    private int dividerBarLocation = -1;
+    private int _dividerBarLocation = -1;
 
     /**
      * screen width and height
      */
-    private int screenWidth;
-    private int screenHeight;
+    private int _screenWidth;
+    private int _screenHeight;
 
     /**
      * what part of a screen this app window should take (percentage)
      */
-    private int appWindowPercent = 85;
+    private int _appWindowPercent = 85;
 
     /**
-     *
+     * view listener
      */
-    ViewEventListener viewListener = new ViewEventListener();
-
+    private ViewEventListener _viewListener = new ViewEventListener();
 
     /**
-     *
+     * debugging
      */
-    Debug debug = new Debug(false);
+    Debug _debug = new Debug(false);
+
 
     /**
-     * actions
-     */
-    public Action _backAction;
-    public Action _forwardAction;
-    public Action _exitAction;
-    public Action _aboutAction;
-
-    /**
-     *
-     */
-    private Graph _graph;
-
-    /**
-     *
+     * timer interval - interval for swing timer thread to check for
+     * progress on worker thread and update status and progress bar.
      */
     private static final int TIMER_INTERVAL = 100;
 
     /**
-     * @todo: introduce error dialogs for exception
+     * 
      */
     public OntoRamaApp() {
         super("OntoRamaApp");
@@ -196,55 +190,46 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _timer = new Timer(TIMER_INTERVAL, this);
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        _splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         calculateAppPreferredSize();
 
-        JPanel mainContentPanel = new JPanel(new BorderLayout());
 
         buildMenuBar();
-        this.setJMenuBar(_menuBar);
+        setJMenuBar(_menuBar);
 
         buildBackForwardToolBar();
 
         buildStatusBar();
         setStatusLabel("status bar is here");
 
-        queryPanel = new QueryPanel(viewListener, this);
+        _queryPanel = new QueryPanel(_viewListener, this);
 
-        /**
-         * Create OntoTreeView
-         */
-        treeView = new OntoTreeView(viewListener);
-
-        /**
-         * Create HyperView
-         */
-        hyperView = new SimpleHyperView(viewListener);
+        _treeView = new OntoTreeView(_viewListener);
+        _hyperView = new SimpleHyperView(_viewListener);
+        //Add the scroll panes to a split pane.
+        addComponentsToScrollPanel(_hyperView, _treeView);
 
         /** create description panel
          *  NOTE: description panel can't be created before hyper view and tree view
          *  because then a view that is created after description panel doesn't
          *  display clones for the first time a user clicks on a clone in one of the views
          */
-        descriptionViewPanel = new DescriptionView(viewListener);
+        _descriptionViewPanel = new DescriptionView(_viewListener);
 
-        //Add the scroll panes to a split pane.
-        addComponentsToScrollPanel(hyperView, treeView);
-
-        mainContentPanel.add(queryPanel, BorderLayout.NORTH);
-        mainContentPanel.add(splitPane, BorderLayout.CENTER);
-        mainContentPanel.add(descriptionViewPanel,BorderLayout.SOUTH);
+        JPanel mainContentPanel = new JPanel(new BorderLayout());
+        mainContentPanel.add(_queryPanel, BorderLayout.NORTH);
+        mainContentPanel.add(_splitPane, BorderLayout.CENTER);
+        mainContentPanel.add(_descriptionViewPanel,BorderLayout.SOUTH);
 
         getContentPane().add(_backForwardToolBar, BorderLayout.NORTH);
         getContentPane().add(mainContentPanel, BorderLayout.CENTER);
         getContentPane().add(_statusBar, BorderLayout.SOUTH);
 
         pack();
-        setSize(appWidth,appHeight);
+        setSize(_appWidth,_appHeight);
         setLocation(centerAppWin());
         setVisible(true);
-
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -252,13 +237,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         });
 
-        termName = OntoramaConfig.ontologyRoot;
-        Query query = new Query (termName);
+        Query query = new Query (OntoramaConfig.ontologyRoot);
         executeQuery(query);
     }
 
     /**
-     *
+     * Initialise actions
      */
     private void initActions () {
       _backAction = new BackHistoryAction();
@@ -276,26 +260,26 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         int curAppWidth = getContentPane().getWidth();
         int curAppHeight = getContentPane().getHeight();
 
-        // recalculate percentage for leftSplitPanelWidthPercent to
+        // recalculate percentage for _leftSplitPanelWidthPercent to
         // account for user specified position of divider bar
-        int currentDividerBarLocation = splitPane.getDividerLocation();
-        if (this.dividerBarLocation != currentDividerBarLocation) {
-            //System.out.println("*****this.dividerBarLocation != currentDividerBarLocation: " + this.dividerBarLocation + ", " + currentDividerBarLocation);
+        int currentDividerBarLocation = _splitPane.getDividerLocation();
+        if (_dividerBarLocation != currentDividerBarLocation) {
+            //System.out.println("*****this._dividerBarLocation != currentDividerBarLocation: " + this._dividerBarLocation + ", " + currentDividerBarLocation);
         }
-        double scale = (double) curAppWidth/(double) this.appWidth;
+        double scale = (double) curAppWidth/(double) this._appWidth;
 
-        double scaledDividerLocation = ((double) this.dividerBarLocation * scale);
-        int newLeftPanelPercent = (currentDividerBarLocation * 100) / this.appWidth;
+        double scaledDividerLocation = ((double) this._dividerBarLocation * scale);
+        int newLeftPanelPercent = (currentDividerBarLocation * 100) / this._appWidth;
         double scaledDividerPercent = (scaledDividerLocation * 100) / curAppWidth;
         if ( ((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)-scaledDividerLocation) > 25) ||
                  ((scaledDividerLocation- calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
           if ( ((newLeftPanelPercent - scaledDividerPercent) > 10) || ((scaledDividerPercent - newLeftPanelPercent) > 10) ) {
-              this.leftSplitPanelWidthPercent = newLeftPanelPercent;
+              _leftSplitPanelWidthPercent = newLeftPanelPercent;
           }
         }
         setSplitPanelSizes(curAppWidth, curAppHeight);
-        this.appWidth = curAppWidth;
-        this.appHeight = curAppHeight;
+        _appWidth = curAppWidth;
+        _appHeight = curAppHeight;
         super.repaint();
     }
 
@@ -305,17 +289,17 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private void calculateAppPreferredSize () {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.screenWidth = (int) screenSize.getWidth();
-        this.screenHeight = (int) screenSize.getHeight();
-        this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
-        this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
+        _screenWidth = (int) screenSize.getWidth();
+        _screenHeight = (int) screenSize.getHeight();
+        _appWidth = (_screenWidth * _appWindowPercent) /100;
+        _appHeight = (_screenHeight * _appWindowPercent) /100;
     }
 
     /**
      * Calculate width of left panel in the split panel
      */
-    private int calculateLeftPanelWidth (int appWidth, int percent) {
-        return ( (appWidth * percent)/100 );
+    private int calculateLeftPanelWidth (int _appWidth, int percent) {
+        return ( (_appWidth * percent)/100 );
     }
 
     /**
@@ -323,30 +307,30 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      */
     private void setSplitPanelSizes (int applicationWidth, int applicationHeigth) {
 
-        int splitPaneWidth = applicationWidth;
-        int splitPaneHeight = (applicationHeigth * 70)/100;
+        int _splitPaneWidth = applicationWidth;
+        int _splitPaneHeight = (applicationHeigth * 70)/100;
 
-        int dividerBarWidth = splitPane.getDividerSize();
+        int dividerBarWidth = _splitPane.getDividerSize();
 
-        int leftPanelWidth = calculateLeftPanelWidth(applicationWidth, this.leftSplitPanelWidthPercent );
+        int leftPanelWidth = calculateLeftPanelWidth(applicationWidth, this._leftSplitPanelWidthPercent );
         int rigthPanelWidth = applicationWidth - leftPanelWidth;
 
-        hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, splitPaneHeight));
-        treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, splitPaneHeight));
+        _hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth, _splitPaneHeight));
+        _treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth, _splitPaneHeight));
 
-        splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
+        _splitPane.setPreferredSize(new Dimension(_splitPaneWidth, _splitPaneHeight));
 
-        this.dividerBarLocation = leftPanelWidth;
+        _dividerBarLocation = leftPanelWidth;
 
-        splitPane.setDividerLocation(this.dividerBarLocation);
+        _splitPane.setDividerLocation(_dividerBarLocation);
     }
 
     /**
      * get position for center of the screen
      */
     private Point centerAppWin () {
-      int xDiff = this.screenWidth - this.appWidth;
-      int yDiff = this.screenHeight - this.appHeight;
+      int xDiff = _screenWidth - _appWidth;
+      int yDiff = _screenHeight - _appHeight;
       return new Point(xDiff/4, yDiff/4);
     }
 
@@ -354,10 +338,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * Add the scroll panes to a split pane
      */
     private void addComponentsToScrollPanel (JComponent leftComp, JComponent rightComp) {
-        setSplitPanelSizes(this.appWidth, this.appHeight);
-        this.splitPane.setLeftComponent(leftComp);
-        this.splitPane.setRightComponent(rightComp);
-        this.splitPane.setOneTouchExpandable(true);
+        setSplitPanelSizes(_appWidth, _appHeight);
+        _splitPane.setLeftComponent(leftComp);
+        _splitPane.setRightComponent(rightComp);
+        _splitPane.setOneTouchExpandable(true);
     }
 
     /**
@@ -403,21 +387,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * waiting - update progress bar.
      */
     public void actionPerformed(ActionEvent evt) {
-        //_progressBar.setValue(_worker.getCurrent());
+        Graph graph = null;
         setStatusLabel(_worker.getMessage());
-        //System.out.println("--- timer checking _worker.done() : " + _worker.done() + " _worker.isInterrupted()  = " + _worker.isInterrupted()  + ", isAlive = " + _worker.isAlive());
-        if ( _worker.done() ) {
-            _graph = _worker.getGraph();
-            System.out.println(".....returned graph = " + _graph);
+        if (( _worker.done()) || (_worker.isStopped()) ) {
+        	if (_worker.done()) {
+	            graph = _worker.getGraph();
+	            System.out.println(".....returned graph = " + graph);
+        	}
             _timer.stop();
-            //_progressBar.setValue(_progressBar.getMinimum());
             _progressBar.setIndeterminate(false);
-            //_progressBar.setValue(_progressBar.getMinimum());
             setStatusLabel("");
-            if (_graph == null) {
+            if (graph == null) {
               return;
             }
-            updateViews();
+            updateViews(graph);
         }
     }
 
@@ -425,8 +408,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     public boolean executeQuery (Query query) {
-        debug.message(".............. EXECUTE QUERY for new graph ...................");
-        _graph = null;
+        _debug.message(".............. EXECUTE QUERY for new graph ...................");
 
         System.out.println("\n\n\n---------------------------------------------------------------");
         System.out.println("          method executeQuery(query)\n\n\n");
@@ -440,13 +422,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _timer.start();
         _progressBar.setIndeterminate(true);
 
-//        System.out.println("returned from worker thread");
-//
-//        if (_graph == null) {
-//          return false;
-//        }
-//
-//        setStatusLabel("Query for " + query.getQueryTypeName());
         System.out.println("END of executeQuery method");
         System.out.println("---------------------------------------------------------------\n\n\n");
         return true;
@@ -455,19 +430,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     /**
      *
      */
-    private void updateViews () {
-        hyperView.setGraph(_graph);
-        treeView.setGraph(_graph);
-        queryPanel.setQueryField(_graph.getRootNode().getName());
-        descriptionViewPanel.clear();
-        descriptionViewPanel.setFocus(_graph.getRootNode());
+    private void updateViews (Graph graph) {
+        _hyperView.setGraph(graph);
+        _treeView.setGraph(graph);
+        _queryPanel.setQueryField(graph.getRootNode().getName());
+        _descriptionViewPanel.clear();
+        _descriptionViewPanel.setFocus(graph.getRootNode());
 
-        //addComponentsToScrollPanel(hyperView, treeView);
-        //addComponentsToScrollPanel(hyperViewPanel, treeViewPanel);
-
-        hyperView.repaint();
-        treeView.repaint();
-        splitPane.repaint();
+        _hyperView.repaint();
+        _treeView.repaint();
+        _splitPane.repaint();
 
         setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
         setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
@@ -545,8 +517,8 @@ public class OntoRamaApp extends JFrame implements ActionListener {
       _statusBar = new JPanel(new BorderLayout());
 
       _statusLabel = new JLabel();
-      _progressBar = new JProgressBar(0, 100);
-      //_progressBar = new JProgressBar();
+      //_progressBar = new JProgressBar(0, 100);
+      _progressBar = new JProgressBar();
       _progressBar.setIndeterminate(true);
 
       _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));

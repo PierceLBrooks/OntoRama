@@ -95,22 +95,21 @@ public class QueryEngineThread extends Thread {
       initAll();
       try {
           _status = "getting ontology data from the source";
-          printStatus();
+          //printStatus();
           _current = 30;
           QueryEngine queryEngine = new QueryEngine (_query);
 
           _status = "ontology data is read, building data structures";
           _current = 60;
-          printStatus();
+          //printStatus();
           QueryResult queryResult = queryEngine.getQueryResult();
 
           _status = "building graph";
           _current = 90;
-          printStatus();
+          //printStatus();
           _graph = new Graph(queryResult);
 
           _status = "graph is built";
-
       }
       catch (NoTypeFoundInResultSetException noTypeExc) {
           System.err.println(noTypeExc);
@@ -206,6 +205,13 @@ public class QueryEngineThread extends Thread {
    public boolean done () {
     return _finished;
    }
+   
+   /**
+    * return flag indicating if task has been stopped
+    */
+  public boolean isStopped () {
+  	return isInterrupted();
+  }
 
    /**
     * stop this thread
@@ -213,8 +219,8 @@ public class QueryEngineThread extends Thread {
    public void stopProcess () {
     interrupt();
     _graph = null;
-    _finished = true;
-    System.out.println("\n\nafter interrupt: isInterrupted()  = " + isInterrupted() );
+    //_finished = true;
+    //System.out.println("\n\nafter interrupt: isInterrupted()  = " + isInterrupted() );
    }
 
    /**

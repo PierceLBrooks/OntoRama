@@ -120,7 +120,7 @@ public class OntoramaConfig {
       * Get current classloader
       */
       private static Class curClass;
-     private static ClassLoader cl;
+     private static ClassLoader classLoader;
 
 
     /**
@@ -153,7 +153,7 @@ public class OntoramaConfig {
 
         try {
             curClass = Class.forName("ontorama.OntoramaConfig");
-            cl = curClass.getClassLoader();
+            classLoader = curClass.getClassLoader();
         }
         catch (ClassNotFoundException classException ) {
             System.err.println("ClassNotFoundException : " + classException);
@@ -163,15 +163,15 @@ public class OntoramaConfig {
 
         Properties properties = new Properties();
 
-		//propertiesFileLocation = cl.getResource("ontorama.properties");
-    	//xmlConfigFileLocation = cl.getResource("config.xml");
+		//propertiesFileLocation = classLoader.getResource("ontorama.properties");
+    	//xmlConfigFileLocation = classLoader.getResource("config.xml");
 
         //Properties properties = new Properties(System.getProperties());
         try {
           //FileInputStream propertiesFileIn = new FileInputStream (propertiesFileLocation);
 
 		  //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
-		  InputStream propertiesFileIn = getInputStreamFromResource(cl,"ontorama.properties");
+		  InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
 
           properties.load(propertiesFileIn);
 
@@ -200,8 +200,8 @@ public class OntoramaConfig {
 
             //FileInputStream configInStream = new FileInputStream(xmlConfigFileLocation);
             //InputStream configInStream = xmlConfigFileLocation.openConnection().getInputStream();
-            //InputStream configInStream = cl.getResourceAsStream("config.xml");
-            InputStream configInStream = getInputStreamFromResource(cl,"config.xml");
+            //InputStream configInStream = classLoader.getResourceAsStream("config.xml");
+            InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
             //System.out.println("input stream = " + configInStream.getClass());
 
             XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
@@ -314,11 +314,11 @@ public class OntoramaConfig {
     * @todo	need an exception for an unknown protocol
     * @todo       maybe there is a better way to handle that hack with stripping off protocol and "://" from url
     */
-    private static InputStream getInputStreamFromResource (ClassLoader cl,
+    private static InputStream getInputStreamFromResource (ClassLoader classLoader,
                                 String resourceName) throws IOException {
 
           InputStream resultStream = null;
-          URL url = cl.getResource(resourceName);
+          URL url = classLoader.getResource(resourceName);
 
           if (url.getProtocol().equalsIgnoreCase("jar")) {
             //System.out.println("found JAR");

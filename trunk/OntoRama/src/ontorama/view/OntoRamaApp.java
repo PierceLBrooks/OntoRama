@@ -22,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.JMenuBar;
 
 import ontorama.OntoramaConfig;
 
@@ -151,6 +152,11 @@ public class OntoRamaApp extends JFrame {
         this.appWidth = (this.screenWidth * this.appWindowPercent) /100;
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
+        // create Menu Bar
+        OntoRamaMenu menu = new OntoRamaMenu(this);
+        setMenuBar(menu.getMenuBar());
+
+
         // Create HyperView
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
@@ -276,7 +282,7 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    private Graph getGraphFromQuery (Query query) {
+    public Graph getGraphFromQuery (Query query) {
       Graph graph = null;
       try {
           QueryEngine queryEngine = new QueryEngine (query);
@@ -322,6 +328,9 @@ public class OntoRamaApp extends JFrame {
 
         graph = getGraphFromQuery(query);
 
+        executeQueryForNewGraph(graph);
+        /*
+
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
 
@@ -337,9 +346,27 @@ public class OntoRamaApp extends JFrame {
         //graphBuilder = new GraphBuilder(queryField.getText());
         //graph = graphBuilder.getGraph();
         // update views
+        */
 
     }
 
+    /**
+     *
+     */
+    public void executeQueryForNewGraph (Graph graph) {
+        System.out.println(".............. EXECUTE QUERY for new graph ...................");
+
+        hyperView = new SimpleHyperView(viewListener);
+        hyperView.setGraph(graph);
+
+        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
+
+        addComponentsToScrollPanel(hyperView, treeView);
+
+        hyperView.repaint();
+        treeView.repaint();
+        splitPane.repaint();
+    }
 
 
 

@@ -76,7 +76,8 @@ public class OntoTreeModel implements TreeModel {
       */
     public Object getRoot() {
         //GraphNode rootGraphNode = this.graph.getRootNode();
-        GraphNode rootGraphNode = this.graph.getEdgeRootNode();
+        //GraphNode rootGraphNode = this.graph.getEdgeRootNode();
+        GraphNode rootGraphNode = this.graph.getRootNode();
         debug.message("OntoTreeModel","getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         //System.out.println("OntoTreeModel, getRoot(), root graphNode = " + rootGraphNode);
         //System.out.println("OntoTreeModel, getRoot(), returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));

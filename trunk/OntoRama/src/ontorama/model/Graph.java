@@ -35,10 +35,12 @@ public class Graph implements GraphInterface {
     // for debugging purposes only, remove later!!!
     private Hashtable printedGraphNodes;
 
-    public Graph(Collection graphNodes, GraphNode root, GraphNode edgeRoot) {
+    //public Graph(Collection graphNodes, GraphNode root, GraphNode edgeRoot) {
+    public Graph( GraphNode edgeRoot) {
         //this.nodes = nodes;
         //this.root = root;
-        this.root = root;
+
+        //this.root = root;
         this.edgeRoot = edgeRoot;
 
         // debug
@@ -55,27 +57,27 @@ public class Graph implements GraphInterface {
         }
 
 
-        System.out.println("-------graph size: " + graphNodes.size() + "------------------------------");
+        //System.out.println("-------graph size: " + graphNodes.size() + "------------------------------");
 
-        convertIntoTree();
-        System.out.println("converted graph into tree");
-        makeTreeList(root);
+        //convertIntoTree();
+        //System.out.println("converted graph into tree");
+        //makeTreeList(root);
 
         // calculate the depth of each node
-        root.calculateDepths();
+        //root.calculateDepths();
 
 
-        System.out.println("-------check if tree returned: " + checkIfTree(root) + "------------------------------");
-        System.out.println("-------tree size: " + getSize() + "------------------------------");
+        //System.out.println("-------check if tree returned: " + checkIfTree(root) + "------------------------------");
+        //System.out.println("-------tree size: " + getSize() + "------------------------------");
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
         System.out.println("before convertIntoTree testIfTree(): " + testIfTree(edgeRoot));
         System.out.println("before convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
 
@@ -97,14 +99,15 @@ public class Graph implements GraphInterface {
     /**
      * Returns the root node of the graph.
      */
-    public GraphNode getRootNode() {
-        return root;
-    }
+//    public GraphNode getRootNode() {
+//        return root;
+//    }
 
     /**
      * Returns the root node of the graph.
      */
-    public GraphNode getEdgeRootNode() {
+    //public GraphNode getEdgeRootNode() {
+    public GraphNode getRootNode() {
         return edgeRoot;
     }
 
@@ -129,125 +132,125 @@ public class Graph implements GraphInterface {
         return treeNodes.size();
     }
 
-    /**
-     * Removes all duplicate parents by cloning the children.
-     */
-    private void convertIntoTree() {
-        List queue = new LinkedList();
-        queue.add(root);
-        while( !queue.isEmpty() ) {
-            GraphNode cur = (GraphNode)queue.remove(0);
-            List childrenList = cur.getChildrenList();
-            int count = 0;
-            int size = childrenList.size();
-            while( count < size ) {
-                GraphNode child = (GraphNode)childrenList.get( count );
-                if(child.getNumberOfParents() > 1) {
-                    //System.out.println("node with multiple parents: " + child);
-                    GraphNode clone = child.deepCopy();
-                    cur.removeChild( child );
-                    cur.addChild( clone );
-                    child.removeParent(cur);
-                    clone.setParent(cur);
-                }
-                count++;
-                queue.add( child );
-            }
-        }
-    }
+//    /**
+//     * Removes all duplicate parents by cloning the children.
+//     */
+//    private void convertIntoTree() {
+//        List queue = new LinkedList();
+//        queue.add(root);
+//        while( !queue.isEmpty() ) {
+//            GraphNode cur = (GraphNode)queue.remove(0);
+//            List childrenList = cur.getChildrenList();
+//            int count = 0;
+//            int size = childrenList.size();
+//            while( count < size ) {
+//                GraphNode child = (GraphNode)childrenList.get( count );
+//                if(child.getNumberOfParents() > 1) {
+//                    //System.out.println("node with multiple parents: " + child);
+//                    GraphNode clone = child.deepCopy();
+//                    cur.removeChild( child );
+//                    cur.addChild( clone );
+//                    child.removeParent(cur);
+//                    clone.setParent(cur);
+//                }
+//                count++;
+//                queue.add( child );
+//            }
+//        }
+//    }
 
-    /**
-     * Build a list of nodes including all clones.
-     * At this stage we should have a tree
-     * @param   root
-     * @return  -
-     */
-     public void makeTreeList (GraphNode root) {
+//    /**
+//     * Build a list of nodes including all clones.
+//     * At this stage we should have a tree
+//     * @param   root
+//     * @return  -
+//     */
+//     public void makeTreeList (GraphNode root) {
+//
+//        Iterator it = root.getChildrenIterator();
+//        treeNodes.add(root);
+//        while (it.hasNext()) {
+//            GraphNode child = (GraphNode) it.next();
+//            makeTreeList(child);
+//        }
+//     }
 
-        Iterator it = root.getChildrenIterator();
-        treeNodes.add(root);
-        while (it.hasNext()) {
-            GraphNode child = (GraphNode) it.next();
-            makeTreeList(child);
-        }
-     }
+//    /**
+//     * debug method
+//     */
+//    private void printTree (GraphNode node) {
+//
+//      Iterator children = node.getChildrenIterator();
+//      int depth = node.getDepth();
+//      String tabs = "";
+//      for(int i = 0; i < depth; i++) {
+//        tabs = tabs + "\t";
+//      }
+//      tabs = tabs + "> ";
+//      System.out.println(tabs + node.getName());
+//      while (children.hasNext()) {
+//        GraphNode child = (GraphNode) children.next();
+//        printTree(child);
+//
+//      }
+//    }
 
-    /**
-     * debug method
-     */
-    private void printTree (GraphNode node) {
+//    /**
+//     *
+//     */
+//    private void printXmlTree (GraphNode node) {
+//
+//      printedGraphNodes = new Hashtable ();
+//
+//      System.out.println("<ontology top=\"" + node.getName().replace('#','_') + "\">");
+//      printXmlGraphNode (node);
+//      System.out.println("</ontology>");
+//    }
 
-      Iterator children = node.getChildrenIterator();
-      int depth = node.getDepth();
-      String tabs = "";
-      for(int i = 0; i < depth; i++) {
-        tabs = tabs + "\t";
-      }
-      tabs = tabs + "> ";
-      System.out.println(tabs + node.getName());
-      while (children.hasNext()) {
-        GraphNode child = (GraphNode) children.next();
-        printTree(child);
+//    /**
+//     * debug method
+//     */
+//    private void printXmlGraphNode (GraphNode node) {
+//
+//      String tabs = "\t";
+//
+//      //if ( printedGraphNodes.containsKey(node)) {
+//       // return;
+//      //}
+//      System.out.println(tabs + "<node name=\"" + node.getName().replace('#','_') + "\">");
+//      printedGraphNodes.put(node,node);
+//
+//      Iterator children = node.getChildrenIterator();
+//      while (children.hasNext()) {
+//        GraphNode child = (GraphNode) children.next();
+//        System.out.println ( tabs + tabs + "<child name=\"" + child.getName().replace('#','_') + "\"/>");
+//      }
+//      System.out.println(tabs + "</node>");
+//      children = node.getChildrenIterator();
+//      while (children.hasNext()) {
+//        GraphNode child = (GraphNode) children.next();
+//        if ( (child.getChildrenList()).size() > 0) {
+//          printXmlGraphNode(child);
+//        }
+//      }
+//    }
 
-      }
-    }
-
-    /**
-     *
-     */
-    private void printXmlTree (GraphNode node) {
-
-      printedGraphNodes = new Hashtable ();
-
-      System.out.println("<ontology top=\"" + node.getName().replace('#','_') + "\">");
-      printXmlGraphNode (node);
-      System.out.println("</ontology>");
-    }
-
-    /**
-     * debug method
-     */
-    private void printXmlGraphNode (GraphNode node) {
-
-      String tabs = "\t";
-
-      //if ( printedGraphNodes.containsKey(node)) {
-       // return;
-      //}
-      System.out.println(tabs + "<node name=\"" + node.getName().replace('#','_') + "\">");
-      printedGraphNodes.put(node,node);
-
-      Iterator children = node.getChildrenIterator();
-      while (children.hasNext()) {
-        GraphNode child = (GraphNode) children.next();
-        System.out.println ( tabs + tabs + "<child name=\"" + child.getName().replace('#','_') + "\"/>");
-      }
-      System.out.println(tabs + "</node>");
-      children = node.getChildrenIterator();
-      while (children.hasNext()) {
-        GraphNode child = (GraphNode) children.next();
-        if ( (child.getChildrenList()).size() > 0) {
-          printXmlGraphNode(child);
-        }
-      }
-    }
-
-    /**
-     * debug method
-     */
-    private boolean checkIfTree (GraphNode node) {
-      boolean isTree = true;
-      Iterator children = node.getChildrenIterator();
-      while (children.hasNext()) {
-        GraphNode child = (GraphNode) children.next();
-        isTree = checkIfTree (child);
-        if(child.getNumberOfParents() > 1) {
-          System.out.println("GraphNode with more than one parent: " + child);
-          return false;
-        }
-      }
-      return isTree;
-    }
+//    /**
+//     * debug method
+//     */
+//    private boolean checkIfTree (GraphNode node) {
+//      boolean isTree = true;
+//      Iterator children = node.getChildrenIterator();
+//      while (children.hasNext()) {
+//        GraphNode child = (GraphNode) children.next();
+//        isTree = checkIfTree (child);
+//        if(child.getNumberOfParents() > 1) {
+//          System.out.println("GraphNode with more than one parent: " + child);
+//          return false;
+//        }
+//      }
+//      return isTree;
+//    }
 
     /**
      *

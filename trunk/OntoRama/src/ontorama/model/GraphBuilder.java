@@ -1,13 +1,9 @@
-
 package ontorama.model;
-
 
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -23,22 +19,43 @@ import ontorama.webkbtools.datamodel.*;
 import ontorama.webkbtools.util.*;
 import ontorama.util.Debug;
 
-
+/**
+ * GraphBuilder is responsible for building a collection of GraphNodes and Edges that form a Graph.
+ * GraphNodes are built from OntologyTypes and Edges are bult from RelationLinks attached to Ontology Type.
+ * GraphBuilder is given a QueryResult (that contains OntologyTypes Iterator)
+ *
+ * <p>
+ * Copyright:    Copyright (c) 2002
+ * <br>
+ * Company:     DSTC
+ */
 public class GraphBuilder {
 
     /**
-     * Hold the node in the hashtable by there name.
+     * Graph
      */
-    private Hashtable nodes = new Hashtable();
     private Graph graph = null;
 
-    private String filename;
-
+    /**
+     * Hold a set of available relation links
+     */
     private Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
 
+    /**
+     * Hold a list of processed ontology types (ontology types that have
+     * been converted into nodes already)
+     */
     private List processedTypes = new LinkedList();
+
+    /**
+     * Hold processed nodes (nodes created for Graph)
+     * Keys - node names, values - node objects
+     */
     private Hashtable processedNodes = new Hashtable();
 
+    /**
+     * graph root
+     */
     private GraphNode edgeRoot = null;
 
     /**
@@ -47,42 +64,29 @@ public class GraphBuilder {
      Debug debug = new Debug(false);
 
     /**
+     * Build Graph from given QueryResult.
      *
+     * @param   queryResult
+     * @throws  NoSuchRelationLinkException
+     * @throws  NoTypeFoundInResultSetException
+     * @throws  NoSuchPropertyException
      * @todo: should never return null!!! need to introduce exception chain up to the parser??
-     * @todo:  replace parseTypeToNode(ot,1) below with something more meaninfull (instead
-     * of hardcoding int=1 use iterator on a set of relation types)
      */
     public GraphBuilder(QueryResult queryResult)
                 throws NoSuchRelationLinkException, NoTypeFoundInResultSetException,
                 NoSuchPropertyException {
 
+        // termName is a query term, node for this ontology type is graph root
         String termName = queryResult.getQuery().getQueryTypeName();
+        // get Iterator of OntologyTypes
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
         processedTypes = new LinkedList();
         try {
           while (ontIterator.hasNext()) {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-
-              Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
-              Iterator relationLinksIterator = relationLinksSet.iterator();
-              while (relationLinksIterator.hasNext()) {
-                Integer nextRelLink = (Integer) relationLinksIterator.next();
-                parseTypeToNode(ot,nextRelLink.intValue());
-              }
               makeEdges(ot,termName);
           }
-
-          GraphNode root = (GraphNode) nodes.get(termName);
-          if (root == null) {
-            throw new NoTypeFoundInResultSetException(termName);
-          }
-          Collection collection = nodes.values();
-          Iterator it = collection.iterator();
-          while (it.hasNext()) {
-            GraphNode n = (GraphNode) it.next();
-            debug.message("GraphBuilder","constructor", n.getName());
-          }
-          graph = new Graph( collection, root, edgeRoot );
+          graph = new Graph( edgeRoot );
         }
         catch (NoSuchRelationLinkException e) {
             throw e;
@@ -93,7 +97,9 @@ public class GraphBuilder {
     }
 
     /**
+     * Process given OntologyType, create Node for it and all corresponding Edges.
      *
+     * @param   ontologyType, rootName
      */
     private void makeEdges (OntologyType ot,String rootName) throws NoSuchRelationLinkException, NoSuchPropertyException {
         if ( processedTypes.contains(ot)) {
@@ -101,13 +107,12 @@ public class GraphBuilder {
         }
         processedTypes.add(ot);
 
+        // make GraphNode and set available properties for it.
         GraphNode node = (GraphNode) processedNodes.get(ot.getName());
         if (node == null) {
             node = new GraphNode (ot.getName());
             processedNodes.put(ot.getName(), node);
         }
-        //node.setDescription(ot.getDescription());
-        //node.setCreator(ot.getCreator());
         Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
         Enumeration e = conceptPropertiesConfig.keys();
         while (e.hasMoreElements()) {
@@ -116,16 +121,14 @@ public class GraphBuilder {
                 node.setProperty(propertyName, ot.getTypeProperty(propertyName));
             }
         }
-        //node.setDescription(ot.getTypeProperty("description"));
-        //node.setCreator(ot.getTypeProperty("creator"));
 
+        // check if this is root
         if (rootName.equals(node.getName())) {
             edgeRoot = node;
-            System.out.println();
             debug.message("GraphBuilder","makeEdges","edgeRoot = " + edgeRoot.getName());
-            System.out.println();
         }
 
+        // Go through relation links and make Edges
         Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
         while (relLinks.hasNext()) {
             Integer relLink = (Integer) relLinks.next();
@@ -144,79 +147,11 @@ public class GraphBuilder {
         }
     }
 
-    /**
-     *
-     */
-     private void parseTypeToEdge (OntologyType ot) throws NoSuchRelationLinkException {
-
-        GraphNode outboundNode = new GraphNode (ot.getName());
-        Iterator allRelationLinks = relationLinksSet.iterator();
-        while (allRelationLinks.hasNext()) {
-            Integer curRel = (Integer) allRelationLinks.next();
-
-            Iterator typeRelations = ot.getIterator(curRel.intValue());
-            while (typeRelations.hasNext()) {
-                OntologyType inboundType = (OntologyType) typeRelations.next();
-                GraphNode inboundNode = new GraphNode (inboundType.getName());
-                new Edge (outboundNode, inboundNode, curRel.intValue());
-            }
-        }
-     }
-
-    /**
-     * Read nodes into hashtable
-     * @todo    remove this method
-     */
-    private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException, NoSuchPropertyException {
-
-        // find node with name
-        String nodeName = ot.getName();
-        GraphNode conceptNode = (GraphNode)nodes.get( nodeName );
-        // if not found --> create one
-        if( conceptNode == null ) {
-            conceptNode = new GraphNode( nodeName );
-            // add child to hashtable
-            nodes.put(nodeName, conceptNode );
-        }
-        //conceptNode.setDescription(ot.getDescription());
-        //conceptNode.setCreator(ot.getCreator());
-        Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
-        Enumeration e = conceptPropertiesConfig.keys();
-        while (e.hasMoreElements()) {
-            String propertyName = (String) e.nextElement();
-            if (ot.getTypeProperty(propertyName) != null) {
-                conceptNode.setProperty(propertyName, ot.getTypeProperty(propertyName));
-            }
-        }
-
-        //conceptNode.setDescription(ot.getTypeProperty("description"));
-        //conceptNode.setCreator(ot.getTypeProperty("creator"));
-
-        //get children
-
-        Iterator it = ot.getIterator(relLink);
-        while(it.hasNext()) {
-            OntologyType child = (OntologyType) it.next();
-
-            // find node with name of child
-            nodeName = child.getName();
-            GraphNode childNode = (GraphNode)nodes.get( nodeName );
-            // if not found --> create one
-            if( childNode == null ) {
-                childNode = new GraphNode( nodeName );
-                // add child to hashtable\
-                nodes.put(nodeName, childNode );
-            }
-            // add child to outer node
-            if( !conceptNode.hasChild(childNode)) {
-              conceptNode.addChild(childNode);
-            }
-            if( !childNode.hasParent( conceptNode ) ){
-              childNode.addParent(conceptNode);
-            }
-        }
-    }
-
+     /**
+      * Get Graph
+      *
+      * @return graph
+      */
     public Graph getGraph() {
         return graph;
     }

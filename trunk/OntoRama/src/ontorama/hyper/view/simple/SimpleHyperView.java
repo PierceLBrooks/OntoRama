@@ -59,7 +59,8 @@ public class SimpleHyperView  extends CanvasManager {
         hypernodeviews = new Hashtable();
         canvasItems.clear();
         //GraphNode root = graph.getRootNode();
-        root = graph.getEdgeRootNode();
+        //root = graph.getEdgeRootNode();
+        root = graph.getRootNode();
         System.out.println("root = " + root);
         if( root == null ) {
             System.out.println("Root = null");

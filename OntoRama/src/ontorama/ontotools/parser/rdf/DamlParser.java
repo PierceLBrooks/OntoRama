@@ -9,6 +9,9 @@ import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 
+import com.hp.hpl.jena.daml.DAMLClass;
+import com.hp.hpl.jena.daml.DAMLModel;
+import com.hp.hpl.jena.daml.common.DAMLModelImpl;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
@@ -36,6 +39,20 @@ public class DamlParser implements Parser {
      * @throws AccessControlException
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+    	try {
+    		DAMLModel model = new DAMLModelImpl();
+    		model.read(reader, "");
+    		
+    		Iterator damlClasses = model.listDAMLClasses();
+    		while (damlClasses.hasNext()) {
+				DAMLClass curClass = (DAMLClass) damlClasses.next();
+				System.out.println("class: " + curClass + ", local name: " + curClass.getLocalName());
+			}
+    	}
+    	catch (RDFException e) {
+    		e.fillInStackTrace();
+    		throw new ParserException("Parser Failed ");
+    	}
         return null;
     }
 

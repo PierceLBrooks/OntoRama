@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,11 +113,7 @@ public class FileBackend implements Backend {
 	}
 
     public void loadFile(File file){
-        _filename = file.getAbsolutePath();
-    	System.out.println("FileBackend::Loading file = " + _filename);
-        
-        String extension = Util.getExtension(file);
-        DataFormatMapping mapping = getMappingForExtension(extension);
+        DataFormatMapping mapping = Util.getMappingForFile(_dataFormatsMapping, file);
         System.out.println("FileBackend::loadFile, mapping = " + mapping);
 
         if ((mapping == null) || (mapping.getParserName() == null)) {
@@ -141,9 +136,7 @@ public class FileBackend implements Backend {
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
 
-			String extension = Util.getExtension(filename);
-			
-			DataFormatMapping mapping = getMappingForExtension(extension);
+			DataFormatMapping mapping = Util.getMappingForFile(_dataFormatsMapping, file);
 			
 			if ((mapping == null) || (mapping.getWriterName() == null)) {
 				/// @todo need exception here?
@@ -169,17 +162,6 @@ public class FileBackend implements Backend {
         }
     }
 
-	
-	private DataFormatMapping getMappingForExtension (String extension) {
-		Iterator it = _dataFormatsMapping.iterator();
-		while (it.hasNext()) {
-			DataFormatMapping element = (DataFormatMapping) it.next();
-			if (element.getFileExtention().equals(extension)) {
-				return element;
-			}
-		}
-		return null;
-	}
 	
 
 	/**

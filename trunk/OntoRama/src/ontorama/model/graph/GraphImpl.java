@@ -7,7 +7,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.events.GraphEdgeAddedEvent;
@@ -452,14 +451,15 @@ public class GraphImpl implements Graph {
      *
      */
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType) {
-        Iterator it = getOutboundEdges(fromNode, edgeType);
-        while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node curNode = curEdge.getToNode();
-            if (curNode.equals(toNode)) {
-                return curEdge;
-            }
-        }
+    	Iterator it = _graphEdges.iterator();
+		while (it.hasNext()) {
+			Edge curEdge = (Edge) it.next();
+			if ( (curEdge.getFromNode().equals(fromNode)) &&
+				(curEdge.getToNode().equals(toNode)) &&
+				(curEdge.getEdgeType().equals(edgeType)) ) {
+				return curEdge;	
+			}
+		}
         return null;
     }
 
@@ -467,219 +467,61 @@ public class GraphImpl implements Graph {
      *
      */
     public List getOutboundEdges(Node node) {
-        return getEdges(node, true);
+    	List result = new LinkedList();
+    	Iterator it = _graphEdges.iterator();
+    	while (it.hasNext()) {
+    		Edge curEdge = (Edge) it.next();
+    		if ( curEdge.getFromNode().equals(node)) {
+    			result.add(curEdge);
+    		}
+    	}
+        return result;
     }
 
     /**
      *
      */
     public List getInboundEdges(Node node) {
-        return getEdges(node, false);
-    }
-
-    /**
-     *
-     * @param  node Node
-     *         flag - true if we want to get list of outbound _graphEdges,
-     *         false of we want to get a list of inbound _graphEdges.
-     * @return iterator of Edges
-     */
-    private List getEdges(Node node, boolean flag) {
-        List result = new LinkedList();
-        Iterator it = _graphEdges.iterator();
-        while (it.hasNext()) {
-            EdgeImpl cur = (EdgeImpl) it.next();
-            Node graphNode = cur.getEdgeNode(flag);
-            if (graphNode.equals(node)) {
-                result.add(cur);
-            }
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param  node Node
-     *         int relationType
-     *         boolean flag - true if we want to get list of outbound nodes,
-     *         false of we want to get a list of inbound nodes.      *
-     * @return iterator of Edges
-     */
-    private Iterator getEdges(Node node, EdgeType relationType, boolean flag) {
-        List result = new LinkedList();
-        Iterator nodeEdgesIt = getEdges(node, flag).iterator();
-        while (nodeEdgesIt.hasNext()) {
-            Edge cur = (Edge) nodeEdgesIt.next();
-            if (cur.getEdgeType() == relationType) {
-                result.add(cur);
-            }
-        }
-        return result.iterator();
-    }
-
-    /**
-     *
-     */
-    public Iterator getOutboundEdges(Node node, EdgeType edgeType) {
-        return getEdges(node, edgeType, true);
-    }
-
-    /**
-     *
-     */
-    public Iterator getInboundEdges(Node node, EdgeType edgeType) {
-        return getEdges(node, edgeType, false);
-    }
-
-    /**
-     *
-     * @param  node Node
-     *         Set relationLinks
-     *         boolean flag - true if we want to get list of outbound nodes,
-     *         false of we want to get a list of inbound nodes.
-     * @return iterator of Nodes
-     */
-    private Iterator getEdgeNodes(Node node, Set relationLinks, boolean flag) {
-        List result = new LinkedList();
-        Iterator nodeEdgesIt = getEdges(node, flag).iterator();
-        while (nodeEdgesIt.hasNext()) {
-            EdgeImpl cur = (EdgeImpl) nodeEdgesIt.next();
-            Iterator it = relationLinks.iterator();
-            while (it.hasNext()) {
-                EdgeType curRel = (EdgeType) it.next();
-                if (cur.getEdgeType().equals(curRel)) {
-                    result.add(cur.getEdgeNode(!flag));
-                }
-            }
-        }
-        return result.iterator();
+    	List result = new LinkedList();
+    	Iterator it = _graphEdges.iterator();
+    	while (it.hasNext()) {
+    		Edge curEdge = (Edge) it.next();
+    		if ( curEdge.getToNode().equals(node)) {
+    			result.add(curEdge);
+    		}
+    	}
+    	return result;
     }
 
     /**
      *
      */
     public List getOutboundEdgeNodes(Node node, EdgeType edgeType) {
-        return getEdgeNodes(node, edgeType, true);
+    	List result = new LinkedList();
+    	Iterator it = getOutboundEdges(node).iterator();
+		while (it.hasNext()) {
+			Edge curEdge = (Edge) it.next();
+			if (curEdge.getEdgeType().equals(edgeType)) {
+				result.add(curEdge.getToNode());
+			}
+		}
+        return result;
     }
 
     /**
      *
      */
     public List getInboundEdgeNodes(Node node, EdgeType edgeType) {
-        return getEdgeNodes(node, edgeType, false);
+    	List result = new LinkedList();
+    	Iterator it = getInboundEdges(node).iterator();
+    	while (it.hasNext()) {
+    		Edge curEdge = (Edge) it.next();
+    		if (curEdge.getEdgeType().equals(edgeType)) {
+    			result.add(curEdge.getFromNode());
+    		}
+    	}
+    	return result;
     }
-
-    /**
-     *
-     * @param  node Node
-     *         int relationType
-     *         boolean flag - true if we want to get list of outbound nodes,
-     *         false of we want to get a list of inbound nodes.      *
-     * @return iterator of Nodes
-     */
-    private List getEdgeNodes(Node node, EdgeType edgeType, boolean flag) {
-        List result = new LinkedList();
-        Iterator nodeEdgesIt = getEdges(node, flag).iterator();
-        while (nodeEdgesIt.hasNext()) {
-            EdgeImpl cur = (EdgeImpl) nodeEdgesIt.next();
-            if (cur.getEdgeType().equals(edgeType)) {
-                result.add(cur.getEdgeNode(!flag));
-            }
-        }
-        return result;
-    }
-
-
-
-    /**
-
-     *
-
-     */
-
-    public List getOutboundEdgeNodes(Node node) {
-
-        return getEdgeNodes(node, true);
-
-    }
-
-
-
-    /**
-
-     *
-
-     */
-
-    public List getInboundEdgeNodes(Node node) {
-
-        return getEdgeNodes(node, false);
-
-    }
-
-
-
-    /**
-
-     *
-
-     * @param  node Node
-
-     *         int relationType
-
-     *         boolean flag - true if we want to get list of outbound nodes,
-
-     *         false of we want to get a list of inbound nodes.      *
-
-     * @return iterator of Nodes
-
-     */
-
-    private List getEdgeNodes(Node node, boolean flag) {
-
-        return getEdgeNodesList(node, flag);
-
-    }
-
-
-
-    /**
-
-     *
-
-     * @param  node Node
-
-     *         int relationType
-
-     *         boolean flag - true if we want to get list of outbound nodes,
-
-     *         false of we want to get a list of inbound nodes.      *
-
-     * @return list of Nodes
-
-     */
-
-    private List getEdgeNodesList(Node node, boolean flag) {
-
-        List result = new LinkedList();
-
-        Iterator nodeEdgesIt = getEdges(node, flag).iterator();
-
-        while (nodeEdgesIt.hasNext()) {
-
-            EdgeImpl cur = (EdgeImpl) nodeEdgesIt.next();
-            result.add(cur.getEdgeNode(!flag));
-
-        }
-
-        return result;
-
-    }
-
-
-
-
-
 
     public List getOutboundEdgesDisplayedInGraph (Node node) {
         List result = new LinkedList();
@@ -693,8 +535,6 @@ public class GraphImpl implements Graph {
         }
         return result;
     }
-
-
 
     public List getInboundEdgesDisplayedInGraph (Node node) {
         List result = new LinkedList();
@@ -715,7 +555,7 @@ public class GraphImpl implements Graph {
         Iterator it = _graphNodes.iterator();
         while (it.hasNext()) {
             Node node = (Node) it.next();
-            if (getInboundEdgeNodes(node).size() == 0) {
+            if (getInboundEdges(node).size() == 0) {
                 continue;
             }
             int numOfDescendants = calculateNodeDescendants(node);

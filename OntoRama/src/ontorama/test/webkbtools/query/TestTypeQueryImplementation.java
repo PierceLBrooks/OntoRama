@@ -89,8 +89,8 @@ public class TestTypeQueryImplementation extends TestCase {
     expectedTypesList.add(type_DeerMouse);
     
     OntologyType type_White_footedMouse = new OntologyTypeImplementation("wn#White-footedMouse");
-    type_White_footedMouse.addTypeProperty("Synonym", "type_White_footedMouse");
-    type_White_footedMouse.addTypeProperty("Synonym", "type_White_footedMouse");
+    type_White_footedMouse.addTypeProperty("Synonym", "white-footed_mouse");
+    type_White_footedMouse.addTypeProperty("Synonym", "vesper_mouse");
     type_White_footedMouse.addTypeProperty("Synonym", "Peromyscus_leucopus");
     type_White_footedMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
     type_White_footedMouse.addTypeProperty("Description", "American woodland mouse with white feet and underparts");

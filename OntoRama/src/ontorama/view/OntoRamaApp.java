@@ -36,6 +36,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.model.GraphBuilder;
 import ontorama.model.NoTypeFoundInResultSetException;
 
@@ -315,8 +316,8 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    public void executeQuery () {
-        System.out.println(".............. EXECUTE QUERY for " + queryPanel.getQueryField() + " ...................");
+    public Query buildNewQuery () {
+        System.out.println(".............. buildNewQuery  for " + queryPanel.getQueryField() + " ...................");
 
         List wantedLinks = queryPanel.getWantedRelationLinks();
         // debug
@@ -330,15 +331,21 @@ public class OntoRamaApp extends JFrame {
         System.out.println("building graph with root = " + queryPanel.getQueryField());
 
         Query query = new Query (queryPanel.getQueryField(), wantedLinks);
-        graph = getGraphFromQuery(query);
-        executeQueryForNewGraph(graph);
+        //executeQuery(query);
+
+        return query;
     }
 
     /**
      *
      */
-    public void executeQueryForNewGraph (Graph graph) {
+    public void executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
+
+        // remove all edges before building new graph
+        //Edge.printAllEdges();
+
+        graph = getGraphFromQuery(query);
 
         hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);

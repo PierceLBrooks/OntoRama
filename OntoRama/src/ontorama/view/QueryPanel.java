@@ -24,6 +24,8 @@ import ontorama.ontologyConfig.*;
 import ontorama.hyper.view.simple.*;
 import ontorama.model.GraphNode;
 
+import ontorama.webkbtools.query.Query;
+
 
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
@@ -219,7 +221,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     }
 
     public void doQuery () {
-      ontoRamaApp.executeQuery();
+      Query newQuery = ontoRamaApp.buildNewQuery();
+      ontoRamaApp.executeQuery(newQuery);
     }
 
 	//////////////////////////ViewEventObserver interface implementation////////////////

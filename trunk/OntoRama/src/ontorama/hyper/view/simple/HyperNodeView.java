@@ -329,8 +329,8 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
             GraphNode cur = (GraphNode)it.next();
             HyperNodeView hyperNodeView = (HyperNodeView)hypernodeviews.get( cur );
             if( hyperNodeView == null ) {
-            System.out.println("HyperNodeView not found for " + cur.getName());
-                return;
+            	System.out.println("HyperNodeView not found for " + cur.getName());
+                continue;
             }
             hyperNodeView.showClone( g2d );
             double x1 = this.projectedX;

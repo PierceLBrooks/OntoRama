@@ -53,40 +53,44 @@ public class InputPipeListener implements PipeMsgListener {
         String senderPeerIDStr = message.getString(P2PGlobals.STR_SenderPeerID);
 
         //check to see if the message is sent for us
-        if ((senderPeerIDStr != null) && tagString != null) {
-            System.err.println("We have recieved a message with TAG, senderPeerName = " + message.getString("SenderPeerName") + ", senderPeerID:" + tagString + "," + senderPeerIDStr + " Body:" + message.getString(P2PGlobals.STR_Body));
-
-            //Only process messages that this peer has not sent
-            if (!(senderPeerIDStr.equals(this.commProt.getGlobalPG().getPeerID().toString()))) {
-	            if (tagIntValue == P2PGlobals.TAGPROPAGATE ) {
-	                PeerItemReference senderPeer = new PeerItemReference(
-	            							message.getString(P2PGlobals.STR_SenderPeerID),
-											message.getString(P2PGlobals.STR_SenderPeerName));
-	                this.getP2PReciever().recievePropagateCommand(
-	                                        new Integer(message.getString(P2PGlobals.STR_propType)).intValue(),
-	                                        senderPeer,
-	                                        message.getString(P2PGlobals.STR_GroupID),
-	                                        message.getString(P2PGlobals.STR_Body));
-				}
-                if (tagIntValue ==  P2PGlobals.TAGLOGOUT) {
-                    this.getP2PReciever().recieveLogoutCommand(
-                    						message.getString(P2PGlobals.STR_SenderPeerID));
-                }
-                if (tagIntValue == P2PGlobals.TAGSEARCH) {
-                    this.getP2PReciever().recieveSearchRequest(
-                    						message.getString(P2PGlobals.STR_SenderPipeID),
-                                            message.getString(P2PGlobals.STR_Body));
-                }
-                if (tagIntValue == P2PGlobals.TAGSEARCHRESPONSE) {
-                    this.recieveSearchResponse(message);
-                }
-                if (tagIntValue == P2PGlobals.TAGFLUSHPEER) {
-                    this.recieveFlushPeerAdvertisement(
-                    						message.getString(P2PGlobals.STR_GroupID),
-                                            message.getString(P2PGlobals.STR_PeerID));
-                }
-            }
+        if ((senderPeerIDStr == null) && tagString == null) {
+        	return;
         }
+        System.err.println("We have recieved a message with TAG, senderPeerName = " + message.getString("SenderPeerName") + ", senderPeerID:" + tagString + "," + senderPeerIDStr + " Body:" + message.getString(P2PGlobals.STR_Body));
+
+        //Only process messages that this peer has not sent
+        if (senderPeerIDStr.equals(this.commProt.getGlobalPG().getPeerID().toString())) {
+        	return;
+        }
+
+        if (tagIntValue == P2PGlobals.TAGPROPAGATE ) {
+            PeerItemReference senderPeer = new PeerItemReference(
+        							message.getString(P2PGlobals.STR_SenderPeerID),
+									message.getString(P2PGlobals.STR_SenderPeerName));
+            this.getP2PReciever().recievePropagateCommand(
+                                    new Integer(message.getString(P2PGlobals.STR_propType)).intValue(),
+                                    senderPeer,
+                                    message.getString(P2PGlobals.STR_GroupID),
+                                    message.getString(P2PGlobals.STR_Body));
+		}
+        if (tagIntValue ==  P2PGlobals.TAGLOGOUT) {
+            this.getP2PReciever().recieveLogoutCommand(
+            						message.getString(P2PGlobals.STR_SenderPeerID));
+        }
+        if (tagIntValue == P2PGlobals.TAGSEARCH) {
+            this.getP2PReciever().recieveSearchRequest(
+            						message.getString(P2PGlobals.STR_SenderPipeID),
+                                    message.getString(P2PGlobals.STR_Body));
+        }
+        if (tagIntValue == P2PGlobals.TAGSEARCHRESPONSE) {
+            this.recieveSearchResponse(message);
+        }
+        if (tagIntValue == P2PGlobals.TAGFLUSHPEER) {
+            this.recieveFlushPeerAdvertisement(
+            						message.getString(P2PGlobals.STR_GroupID),
+                                    message.getString(P2PGlobals.STR_PeerID));
+        }
+        
     }
         
 

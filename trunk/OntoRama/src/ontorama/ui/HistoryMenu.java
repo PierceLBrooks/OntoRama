@@ -159,6 +159,9 @@ public class HistoryMenu extends JMenu {
 		}
 		
 		HistoryElement historyElement = _backend.createHistoryElement(query,_eventBroker);
+		if (historyElement == null) {
+			return;
+		}
 		
 		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyElement.getMenuDisplayName());
 		_buttonGroup.add(historyItem);

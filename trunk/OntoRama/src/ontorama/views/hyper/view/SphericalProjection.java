@@ -52,23 +52,21 @@ public class SphericalProjection implements Projection {
 		while(!path.isDone()) {
 			int segType = path.currentSegment(points);
 			points = transform(points, xpos, ypos);
-			switch(segType) {
-				case PathIterator.SEG_LINETO:
-					outShape.lineTo(points[0], points[1]);
-					break;
-				case PathIterator.SEG_MOVETO:
-					outShape.moveTo(points[0], points[1]);
-					break;
-				case PathIterator.SEG_QUADTO:
-					outShape.quadTo(points[0], points[1], points[2], points[3]);
-					break;
-				case PathIterator.SEG_CUBICTO:
-					outShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
-					break;
-				case PathIterator.SEG_CLOSE:
-					outShape.closePath();
-					break;
+			if (segType == PathIterator.SEG_LINETO) {
+				outShape.lineTo(points[0], points[1]);
 			}
+			if (segType == PathIterator.SEG_MOVETO) {
+				outShape.moveTo(points[0], points[1]);
+			}
+			if (segType == PathIterator.SEG_QUADTO) {
+				outShape.quadTo(points[0], points[1], points[2], points[3]);
+			}
+			if (segType == PathIterator.SEG_CUBICTO) {
+				outShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
+			}
+			if (segType == PathIterator.SEG_CLOSE) {
+				outShape.closePath();
+			}			
 			path.next();
 		}
 		return outShape;

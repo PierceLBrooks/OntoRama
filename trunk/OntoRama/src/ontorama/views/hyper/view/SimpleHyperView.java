@@ -332,11 +332,11 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		public double weight = 1;// used to calc node radius from center
         
         public NodePlacementDetails() {
-        	System.out.println("NodePlacementDetails()");
         }
         
 		public NodePlacementDetails(TreeNode node, double numOfLeaves) {
-			System.out.println("NodePlacementDetails() 2");
+			this.node = node;
+			this.numOfLeaves = numOfLeaves;
 		}
     }
 

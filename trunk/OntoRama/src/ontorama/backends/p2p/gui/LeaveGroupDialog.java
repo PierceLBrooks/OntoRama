@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
+import java.util.Iterator;
+
+import net.jxta.peergroup.PeerGroup;
 
 
 /*
@@ -29,7 +32,14 @@ public class LeaveGroupDialog extends JDialog {
 
         Vector foundGroups = new Vector();
         try {
-            foundGroups = _p2pSender.sendSearchGroup(null, null);
+            //foundGroups = _p2pSender.sendSearchGroup(null, null);
+            foundGroups = _p2pSender.joinedGroups();
+            System.out.println("joined groups: ");
+            Iterator it = foundGroups.iterator();
+            while (it.hasNext()) {
+                Object obj = it.next();
+                System.out.println("next = " + obj + ", class: " + obj.getClass());
+            }
         }
         catch (Exception e) {
             /// @todo deal with exceptions propertly
@@ -48,9 +58,9 @@ public class LeaveGroupDialog extends JDialog {
 
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SearchGroupResultElement selectedGroup = groupsPanel.getValue();
-                String groupId = selectedGroup.getID().toString();
-                System.out.println("trying to leave group: name = " + selectedGroup.getName() + ", id = " + groupId);
+                PeerGroup selectedGroup = (PeerGroup) groupsPanel.getValue();
+                String groupId = selectedGroup.getPeerID().toString();
+                System.out.println("trying to leave group: name = " + selectedGroup.getPeerGroupName() + ", id = " + groupId);
                 try {
                     _p2pSender.sendLeaveGroup(groupId);
                 }

@@ -130,7 +130,7 @@ public class JoinGroupDialog extends JDialog {
     private boolean verifyInputCorrect () {
         SearchGroupResultElement groupToJoin;
         if (_tabbedPanel.getSelectedComponent().equals(_existingGroupPanel) ) {
-            groupToJoin = _existingGroupPanel.getValue();
+            groupToJoin = (SearchGroupResultElement) _existingGroupPanel.getValue();
             if (groupToJoin == null) {
                 return false;
             }

@@ -1,14 +1,16 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 
 import javax.swing.*;
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.*;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+
+import net.jxta.peergroup.PeerGroup;
+
+import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 
 /*
  * Created by IntelliJ IDEA.
@@ -25,7 +27,7 @@ public class GroupChooser extends JPanel {
     private JComboBox _nameChooser;
     private JComboBox _descriptionChooser;
 
-    private SearchGroupResultElement _value = null;
+    private Object _value = null;
 
     private Vector _groups;
 
@@ -36,14 +38,14 @@ public class GroupChooser extends JPanel {
         _nameButton = new JRadioButton("Name");
         _nameButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                _value = (SearchGroupResultElement) _nameChooser.getSelectedItem();
+                _value =  _nameChooser.getSelectedItem();
             }
         });
 
         _descriptionButton = new JRadioButton("Description");
         _descriptionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                _value = (SearchGroupResultElement) _descriptionChooser.getSelectedItem();
+                _value =  _descriptionChooser.getSelectedItem();
             }
         });
 
@@ -51,13 +53,14 @@ public class GroupChooser extends JPanel {
         buttonGroup.add(_nameButton);
         buttonGroup.add(_descriptionButton);
 
-        _nameChooser = new JComboBox(_groups);
+        Vector sortedGroups = bubbleSort(_groups.toArray(), _groups.size());
+        _nameChooser = new JComboBox(sortedGroups);
         _nameChooser.setRenderer(new GroupNamesComboBoxRenderer());
 
         _nameChooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 _nameButton.setSelected(true);
-                _value = (SearchGroupResultElement) _nameChooser.getSelectedItem();
+                _value = _nameChooser.getSelectedItem();
             }
         });
 
@@ -68,7 +71,7 @@ public class GroupChooser extends JPanel {
         _descriptionChooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 _descriptionButton.setSelected(true);
-                _value = (SearchGroupResultElement) _descriptionChooser.getSelectedItem();
+                _value =  _descriptionChooser.getSelectedItem();
             }
         });
 
@@ -90,7 +93,47 @@ public class GroupChooser extends JPanel {
     }
 
 
-    public SearchGroupResultElement getValue () {
+    public Object getValue () {
+        System.out.println("group chooser returning value = " + _value + ", class = " + _value.getClass());
         return _value;
     }
+
+    /*
+    * sort given array of group names in alphabetical order
+    * (using bubble sort algorithm)
+    * @todo probably could pass it a vector, no need to use arrays?..
+    */
+    private Vector bubbleSort (Object array[], int bound ) {
+        Object tmp;
+        Vector result = new Vector();
+        for ( int i = 0; i < bound; i++ ) {
+          for ( int j = bound-1; j > i; j-- ) {
+              Object currentObj = array[j];
+              Object previousObj = array[j-1];
+              String currentName;
+              String previousName;
+              /// @todo this if is a hack. all vectors used in this group chooser should implement the same interface.
+              if (currentObj instanceof  SearchGroupResultElement) {
+                  currentName = ( (SearchGroupResultElement) currentObj ).getName().toLowerCase();
+                  previousName = ( (SearchGroupResultElement) previousObj).getName().toLowerCase();
+              }
+              else {
+                  currentName = ( (PeerGroup) currentObj).getPeerGroupName().toLowerCase();
+                  previousName = ( (PeerGroup) previousObj).getPeerGroupName().toLowerCase();
+              }
+              //if ( (array[j-1].toLowerCase()).compareTo ( array[j].toLowerCase()) > 0 ) {
+              if ( previousName.compareTo( currentName) > 0 ) {
+                  tmp = array[j-1];
+                  array[j-1] = array[j];
+                  array[j] = tmp;
+              }
+          }
+        }
+
+        List list = Arrays.asList(array);
+        result = new Vector(list);
+        return result;
+    }
+
+
 }

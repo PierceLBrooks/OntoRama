@@ -129,14 +129,17 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
     }
 
     private class GroupPanel extends JPanel {
-        Vector peersList;
+        //Vector peersList;
+        DefaultListModel listModel = new DefaultListModel();
         JList jlist;
         Hashtable _peerIdToPeerNameMapping = new Hashtable();
 
         public GroupPanel(String groupId) {
-            peersList = new Vector();
+            //peersList = new Vector();
             setName(groupId);
-            jlist = new JList(peersList);
+
+
+            jlist = new JList(listModel);
 
             JScrollPane scrollPanel = new JScrollPane(jlist);
             add(scrollPanel);
@@ -144,9 +147,10 @@ System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
 
         public void addPeer (String peerID, String peerName) {
             _peerIdToPeerNameMapping.put(peerID, peerName);
-            peersList.add(peerName);
-System.out.println("PeersPanel::GroupPanel::AddPeer" + peerName + "(peers in list after add:" + peersList + ")");
-            jlist.setListData(peersList);
+            //peersList.add(peerName);
+            listModel.addElement(peerName);
+            //System.out.println("PeersPanel::GroupPanel::AddPeer" + peerName + "(peers in list after add:" + peersList + ")");
+            //jlist.setListData(peersList);
             repaint();
             //@todo repaint problem on peer panel update, works fine for recieveJoinGroup but NOT update panel
         }
@@ -155,9 +159,10 @@ System.out.println("PeersPanel::GroupPanel::AddPeer" + peerName + "(peers in lis
             String peerName = null;
             peerName = (String) _peerIdToPeerNameMapping.remove(peerID);
             if (peerName != null) {
-                peersList.remove(peerName);
-System.out.println("GroupPanel::removePeer:" + peerName + "(" + peersList + ")");
-                jlist.setListData(peersList);
+                listModel.removeElement(peerName);
+                //peersList.remove(peerName);
+                //System.out.println("GroupPanel::removePeer:" + peerName + "(" + peersList + ")");
+                //jlist.setListData(peersList);
                 repaint();
             }
         }

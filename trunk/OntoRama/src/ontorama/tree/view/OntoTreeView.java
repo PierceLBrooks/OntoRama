@@ -185,8 +185,8 @@ public class OntoTreeView implements KeyListener, MouseListener,
 
       OntoTreeNode treeNode = (OntoTreeNode) path.getLastPathComponent();
       GraphNode graphNode = treeNode.getGraphNode();
-      System.out.println("\n\nthis.tree.isCollapsed(path) = " + this.tree.isCollapsed(path));
-      System.out.println("\n\n treeView is sending toggleEvent to ViewEventListener, node = " + graphNode.getName());
+      //System.out.println("\n\nthis.tree.isCollapsed(path) = " + this.tree.isCollapsed(path));
+      //System.out.println("\n\n treeView is sending toggleEvent to ViewEventListener, node = " + graphNode.getName());
       //viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
 
       //boolean cancelExpand = true;

@@ -123,6 +123,13 @@ public class Edge {
      /**
       *
       */
+    public static void removeAllEdges() {
+      Edge.edges.clear();
+    }
+
+     /**
+      *
+      */
       public static Iterator getOutboundEdges(GraphNode node) {
         return getEdges(node,true);
       }
@@ -360,8 +367,8 @@ public class Edge {
      *
      */
      public String toString() {
-        //String str = "Edge from '" + this.fromNode.getName() + "' to '" + this.toNode.getName() + "', type = " + type;
-        String str = "Edge from '" + this.fromNode.getName() + "' = " + this.fromNode +  "to '" + this.toNode.getName() + "' = " + this.toNode + ", type = " + type;
+        String str = "Edge from '" + this.fromNode.getName() + "' to '" + this.toNode.getName() + "', type = " + type;
+        //String str = "Edge from '" + this.fromNode.getName() + "' = " + this.fromNode +  " to '" + this.toNode.getName() + "' = " + this.toNode + ", type = " + type;
         return str;
      }
 

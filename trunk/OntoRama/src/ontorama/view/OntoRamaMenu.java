@@ -129,8 +129,9 @@ public class OntoRamaMenu {
 
     // create a new query
     Query query = new Query(example.getRoot());
+
     // get graph for this query and load it into app
-    this.mainApp.executeQueryForNewGraph(this.mainApp.getGraphFromQuery(query));
+    this.mainApp.executeQuery(query);
   }
 
   /**

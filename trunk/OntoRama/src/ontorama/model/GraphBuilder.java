@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Collection;
 
 import ontorama.*;
 import ontorama.webkbtools.query.*;
@@ -94,16 +95,34 @@ public class GraphBuilder {
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
 
         processedTypes = new LinkedList();
+
+        // remove all edges before building new set of edges
+        Edge.removeAllEdges();
+
         try {
           while (ontIterator.hasNext()) {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
               makeEdges(ot,termName);
           }
+
+          // clean up before we create a graph
+          System.out.println("number of Edges = " + Edge.edges.size());
+          cleanUp();
+          System.out.println("number of Edges = " + Edge.edges.size());
+          // clean up again - testing if there is anything left.
+          // @todo  test and remove this!!!! may need to rewrite the method? or move it to Graph class??
+          cleanUp();
+          System.out.println("number of Edges = " + Edge.edges.size());
+          cleanUp();
+          System.out.println("number of Edges = " + Edge.edges.size());
+          cleanUp();
+          System.out.println("number of Edges = " + Edge.edges.size());
+
           System.out.println("edgeRoot = " + edgeRoot);
 
           if (! processedNodes.containsKey(termName)) {
              throw new NoTypeFoundInResultSetException(termName);
-           }
+          }
 
           graph = new Graph( edgeRoot );
 
@@ -172,12 +191,49 @@ public class GraphBuilder {
         }
     }
 
-     /**
-      * Get Graph
-      *
-      * @return graph
-      */
-    public Graph getGraph() {
-        return graph;
+  /**
+   * Remove all edges that are 'hanging in space' (edges that don't
+   * have any parents).
+   * @todo  does it need to be recusive?
+   */
+  private void cleanUp () {
+    Iterator allNodes = processedNodes.values().iterator();
+
+    while (allNodes.hasNext()) {
+      GraphNode curNode = (GraphNode) allNodes.next();
+
+      if (curNode == edgeRoot) {
+        //System.out.println ("-------curNode is ROOT");
+        continue;
+      }
+
+      //System.out.println("------------curNode = " + curNode);
+
+      // get inbound nodes (parents) and check how many there is.
+      // If there is no parents - this node is not attached
+      // to anything, hence - 'hanging node'
+      Iterator inboundNodes = Edge.getInboundEdges(curNode);
+      if (Edge.getIteratorSize(inboundNodes) == 0 ) {
+
+        //System.out.println("size of inbound edges == 0");
+
+        // get outbound edges for this node and remove them
+        Iterator curOutEdges = Edge.getOutboundEdges(curNode);
+        while (curOutEdges.hasNext()) {
+          Edge curEdge = (Edge) curOutEdges.next();
+          //System.out.println("curEdge = " + curEdge);
+          Edge.removeEdge(curEdge);
+        }
+      }
     }
+  }
+
+  /**
+   * Get Graph
+   *
+   * @return graph
+  */
+  public Graph getGraph() {
+      return graph;
+  }
 }

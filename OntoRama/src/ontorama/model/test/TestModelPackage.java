@@ -3,9 +3,6 @@ package ontorama.model.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ontorama.model.graph.test.TestEdge;
-import ontorama.model.graph.test.TestNode;
-import ontorama.model.graph.test.TestGraph;
 import ontorama.model.graph.test.TestGraphPackage;
 import ontorama.model.tree.test.TestTreePackage;
 
@@ -27,8 +24,8 @@ public class TestModelPackage extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.model");
-        suite.addTest(new TestSuite(TestGraphPackage.class));
-        suite.addTest(new TestSuite(TestTreePackage.class));
+        suite.addTest(TestGraphPackage.suite());
+        suite.addTest(TestTreePackage.suite());
         return suite;
     }
 }

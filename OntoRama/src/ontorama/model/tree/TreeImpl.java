@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import ontorama.model.graph.*;
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.OntoramaConfig;
 
 /**
  * User: nataliya

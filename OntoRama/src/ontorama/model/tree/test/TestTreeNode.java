@@ -10,7 +10,6 @@ import ontorama.OntoramaConfig;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 import java.util.List;
-import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.

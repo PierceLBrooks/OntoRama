@@ -3,6 +3,9 @@ package ontorama;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import ontorama.model.test.TestModelPackage; 
+import ontorama.ontotools.TestWebkbtoolsPackage;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -22,8 +25,8 @@ public class TestPackage {
 
         TestSuite suite = new TestSuite("ontorama");
 
-        suite.addTest(ontorama.model.test.TestModelPackage.suite());
-        suite.addTest(ontorama.ontotools.TestWebkbtoolsPackage.suite());
+        suite.addTest(TestModelPackage.suite());
+        suite.addTest(TestWebkbtoolsPackage.suite());
 
         return suite;
     }

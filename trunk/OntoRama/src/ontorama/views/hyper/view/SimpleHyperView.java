@@ -115,9 +115,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
         new TreeViewFocusEventHandler(eventBroker, this);
         new NodeActivatedEventHandler(this, eventBroker);
         new NodePointedEventHandler(this, eventBroker);
-        //if (OntoramaConfig.EDIT_ENABLED) {
+        if (OntoramaConfig.EDIT_ENABLED) {
         	new NodeContextMenuHandler(this, eventBroker);
-        //}
+        }
         new SphereMouseMovedEventHandler(this, eventBroker);
     	new DraggedEventHandler(this, eventBroker);
     	new RotateEventHandler(this, eventBroker);

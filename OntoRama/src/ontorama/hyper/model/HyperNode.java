@@ -2,6 +2,7 @@
 package ontorama.hyper.model;
 
 import ontorama.model.NodeObserver;
+import ontorama.hyper.model.HyperNodeObservable;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -14,7 +15,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
 
-public class HyperNode implements NodeObserver {
+public class HyperNode implements NodeObserver, HyperNodeObservable {
+
+    /**
+     * Store all the Hyper observers
+     */
+    private List HyperObservers = new LinkedList();
+
     /**
      * Store the position of the node.
      */
@@ -39,6 +46,13 @@ public class HyperNode implements NodeObserver {
     }
 
     /**
+     * Add a Hyper observer.
+     */
+    public void addHyperObserver( Object obj ) {
+        HyperObservers.add(obj);
+    }
+
+    /**
      * Update method called from obserable (GraphNode)
      */
     public void update( Object obj ) {
@@ -50,6 +64,13 @@ public class HyperNode implements NodeObserver {
      */
     public NodeObserver getNodeObserver() {
         return this;
+    }
+
+    /**
+     * Get the concept name.
+     */
+    public String getName() {
+        return name;
     }
 
     /**

@@ -6,7 +6,6 @@ import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.parser.Parser;
@@ -142,7 +141,6 @@ public class QueryEngine implements QueryEngineInterface {
      * case - we return this new term so we can update the original query term
      * to reflect this.
      *
-     * @param resultSet - collection of ontology types returned by source.
      * @param termName  - search term
      * @return term: the same as search term OR updated term corresponding to
      * the ontology type name matching this term.
@@ -208,6 +206,8 @@ public class QueryEngine implements QueryEngineInterface {
             RelationLinkDetails edgeType = OntoramaConfig.getRelationLinkDetails(i.intValue());
             wantedLinksObjects.add(edgeType);
         }
+        System.out.println("wantedLinks: " + wantedLinks);
+        System.out.println("wantedLinksObjects: " + wantedLinksObjects);
 
         _resultNodesList = new LinkedList();
         _resultEdgesList = new LinkedList();
@@ -216,7 +216,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
             Edge curEdge = (Edge) edgesIt.next();
-            if (wantedLinksObjects.contains(curEdge)) {
+            if (wantedLinksObjects.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
                 GraphNode fromNode = curEdge.getFromNode();
                 GraphNode toNode = curEdge.getToNode();

@@ -2,14 +2,14 @@ package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
-import ontorama.util.IteratorUtil;
+import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>Title: </p>
@@ -38,21 +38,20 @@ public class TestQueryEngine extends TestCase {
     private QueryResult queryResult2;
     private List queryResultList2;
 
-    private OntologyType testType_chair;
+    private GraphNode testNode_chair;
 
-
-    private String queryTerm_cat;
-    private List relationLinksList_cat;
-    private Query query_cat;
-    private QueryEngine queryEngine_cat;
-    private QueryResult queryResult_cat;
-    private List queryResultList_cat;
-
-//  private TypeQuery typeQuery;
-//
-//  private List expectedTypesList = new LinkedList();
-
-
+    RelationLinkDetails edgeType1 = OntoramaConfig.getRelationLinkDetails()[1];
+    RelationLinkDetails edgeType2 = OntoramaConfig.getRelationLinkDetails()[2];
+    RelationLinkDetails edgeType3 = OntoramaConfig.getRelationLinkDetails()[3];
+    RelationLinkDetails edgeType4 = OntoramaConfig.getRelationLinkDetails()[4];
+    RelationLinkDetails edgeType5 = OntoramaConfig.getRelationLinkDetails()[5];
+    RelationLinkDetails edgeType6 = OntoramaConfig.getRelationLinkDetails()[6];
+    RelationLinkDetails edgeType7 = OntoramaConfig.getRelationLinkDetails()[7];
+    RelationLinkDetails edgeType8 = OntoramaConfig.getRelationLinkDetails()[8];
+    RelationLinkDetails edgeType9 = OntoramaConfig.getRelationLinkDetails()[9];
+    RelationLinkDetails edgeType10 = OntoramaConfig.getRelationLinkDetails()[10];
+    RelationLinkDetails edgeType11 = OntoramaConfig.getRelationLinkDetails()[11];
+    RelationLinkDetails edgeType12 = OntoramaConfig.getRelationLinkDetails()[12];
 
     /**
      *
@@ -62,7 +61,6 @@ public class TestQueryEngine extends TestCase {
     }
 
     /**
-     * @todo rewrite tests here.
      */
     protected void setUp() throws NoSuchPropertyException,
             NoSuchRelationLinkException, Exception {
@@ -79,218 +77,79 @@ public class TestQueryEngine extends TestCase {
         query1 = new Query(queryTerm);
         queryEngine1 = new QueryEngine(query1);
         queryResult1 = queryEngine1.getQueryResult();
-        System.out.println("queryResult1 = " + queryResult1);
+        //System.out.println("queryResult1 = " + queryResult1);
         queryResultList1 = queryResult1.getNodesList();
 
         query2 = new Query(queryTerm, relationLinksList);
         queryEngine2 = new QueryEngine(query2);
         queryResult2 = queryEngine2.getQueryResult();
         queryResultList2 = queryResult2.getNodesList();
-
-        // load ambiguous case
-//    List examplesList = OntoramaConfig.getExamplesList();
-//    for (int i = 0; i < examplesList.size(); i++) {
-//      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
-//      if (curExample.getName().equals("test webkb: cat")) {
-//        System.out.println("GOT cat example");
-//        OntoramaConfig.setCurrentExample(curExample);
-//      }
-//    }
-//    queryTerm_cat = OntoramaConfig.ontologyRoot;
-//    relationLinksList_cat = new LinkedList ();
-//
-//    query_cat = new Query(queryTerm_cat);
-//    queryEngine_cat = new QueryEngine(query_cat);
-//    queryResult_cat = queryEngine_cat.getQueryResult();
-//    System.out.println("queryResult_cat = " + queryResult_cat);
-//    queryResultList_cat = IteratorUtil.copyIteratorToList(queryResult_cat.getOntologyTypesIterator());
-
-
-
-
-
-
-//    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
-//                            "ontorama.properties","examples/test/data/config.xml");
-//
-//
-//    queryTerm = OntoramaConfig.ontologyRoot;
-//
-//    typeQuery = new TypeQueryImplementation();
-//
-//    // expected ontology types:
-//    OntologyType type_PygmyMouse = new OntologyTypeImplementation("wn#PygmyMouse");
-//    type_PygmyMouse.addTypeProperty("Synonym", "pygmy_mouse");
-//    type_PygmyMouse.addTypeProperty("Synonym", "Baiomys_taylori");
-//    type_PygmyMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    type_PygmyMouse.addTypeProperty("Description", "very small dark grayish brown mouse resembling a house mouse; of Texas and Mexico");
-//
-//    expectedTypesList.add(type_PygmyMouse);
-//
-//    OntologyType type_CottonMouse = new OntologyTypeImplementation("wn#CottonMouse");
-//    type_CottonMouse.addTypeProperty("Synonym", "cotton_mouse");
-//    type_CottonMouse.addTypeProperty("Synonym", "Peromyscus_gossypinus");
-//    type_CottonMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    //type_CottonMouse.addTypeProperty("Creator", "~wn");
-//
-//    type_CottonMouse.addTypeProperty("Description", "large dark mouse of southeastern United States");
-//
-//    expectedTypesList.add(type_CottonMouse);
-//
-//    OntologyType type_CactusMouse = new OntologyTypeImplementation("wn#CactusMouse");
-//    type_CactusMouse.addTypeProperty("Synonym", "cactus_mouse");
-//    type_CactusMouse.addTypeProperty("Synonym", "Peromyscus_eremicus");
-//    type_CactusMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    type_CactusMouse.addTypeProperty("Description", "burrowing mouse of desert areas of southwestern United States");
-//
-//    expectedTypesList.add(type_CactusMouse);
-//
-//    OntologyType type_DeerMouse = new OntologyTypeImplementation("wn#DeerMouse");
-//    type_DeerMouse.addTypeProperty("Synonym", "deer_mouse");
-//    type_DeerMouse.addTypeProperty("Synonym", "Peromyscus_maniculatus");
-//    type_DeerMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    type_DeerMouse.addTypeProperty("Description", "brownish New World mouse; most widely distributed member of the genus");
-//
-//    expectedTypesList.add(type_DeerMouse);
-//
-//    OntologyType type_White_footedMouse = new OntologyTypeImplementation("wn#White-footedMouse");
-//    type_White_footedMouse.addTypeProperty("Synonym", "white-footed_mouse");
-//    type_White_footedMouse.addTypeProperty("Synonym", "vesper_mouse");
-//    type_White_footedMouse.addTypeProperty("Synonym", "Peromyscus_leucopus");
-//    type_White_footedMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    type_White_footedMouse.addTypeProperty("Description", "American woodland mouse with white feet and underparts");
-//
-//    expectedTypesList.add(type_White_footedMouse);
-//
-//    OntologyType type_WoodMouse = new OntologyTypeImplementation("wn#WoodMouse");
-//    type_WoodMouse.addTypeProperty("Synonym", "wood_mouse");
-//    type_WoodMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
-//    type_WoodMouse.addTypeProperty("Description", "any of various New World woodland mice");
-//    type_WoodMouse.addRelationType(type_PygmyMouse, 1);
-//    type_WoodMouse.addRelationType(type_CottonMouse,1);
-//    type_WoodMouse.addRelationType(type_White_footedMouse,1);
-//    type_WoodMouse.addRelationType(type_CactusMouse,1);
-//    type_WoodMouse.addRelationType(type_DeerMouse,1);
-//
-//    expectedTypesList.add(type_WoodMouse);
-//
-//    OntologyType type_Mouse = new OntologyTypeImplementation("wn#Mouse");
-//    type_Mouse.addRelationType(type_WoodMouse,1);
-//
-//    expectedTypesList.add(type_Mouse);
-//
-//    OntologyType type_rdf_Class = new  OntologyTypeImplementation("PR-rdf-schema-19990303#Class");
-//    type_CottonMouse.addRelationType(type_rdf_Class,6);
-//    type_CactusMouse.addRelationType(type_rdf_Class,6);
-//    type_DeerMouse.addRelationType(type_rdf_Class, 6);
-//    type_PygmyMouse.addRelationType(type_rdf_Class, 6);
-//    type_White_footedMouse.addRelationType(type_rdf_Class, 6);
-//    type_WoodMouse.addRelationType(type_rdf_Class, 6);
-//
-//
-//
-//    expectedTypesList.add(type_rdf_Class);
     }
 
     /**
      *
      */
     public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException {
-//        assertEquals("size of query result iterator for query1", 14, queryResultList1.size());
-//        testType_chair = IteratorUtil.getOntologyTypeFromList("test#Chair", queryResultList1);
-//        checkRelationIteratorSize("query1", testType_chair, 1, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 2, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 3, 0);
-//        checkRelationIteratorSize("query1", testType_chair, 4, 2);
-//        checkRelationIteratorSize("query1", testType_chair, 5, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 6, 0);
-//        checkRelationIteratorSize("query1", testType_chair, 7, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 8, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 9, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 10, 2);
-//        checkRelationIteratorSize("query1", testType_chair, 11, 1);
-//        checkRelationIteratorSize("query1", testType_chair, 12, 0);
+        assertEquals("size of query result iterator for query1", 14, queryResultList1.size());
+        testNode_chair = getNodeFromList("test#Chair", queryResult1.getNodesList());
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType1 ,1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType2, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType3, 0);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType4, 2);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType5, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType6, 0);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType7, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType8, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType9, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType10, 2);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType11, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType12, 0);
     }
 
     /**
      *
      */
     public void testGetQueryResultForQuery2() throws NoSuchRelationLinkException {
-        assertEquals("size of query result iterator for query2", 14, queryResultList2.size());
-        testType_chair = IteratorUtil.getOntologyTypeFromList("test#Chair", queryResultList2);
-        checkRelationIteratorSize("query2", testType_chair, 3, 0);
-        checkRelationIteratorSize("query2", testType_chair, 6, 0);
-        checkRelationIteratorSize("query2", testType_chair, 9, 1);
+        assertEquals("size of query result iterator for query2", 3, queryResultList2.size());
+        testNode_chair = getNodeFromList("test#Chair", queryResult2.getNodesList());
+        checkOutboundEdge(queryResult2, testNode_chair, edgeType3, 0);
+        checkOutboundEdge(queryResult2, testNode_chair, edgeType6, 0);
+        checkOutboundEdge(queryResult2, testNode_chair, edgeType9, 1);
 
     }
 
     /**
      *
      */
-    private void checkRelationIteratorSize(String queryName, OntologyType ontType,
-                                           int relLinkId, int expectedIteratorSize)
-            throws NoSuchRelationLinkException {
-        String message = "query " + queryName + ", iterator size for ";
-        message = message + " ontology type " + ontType.getName() + " and relation link ";
-        message = message + relLinkId;
-        assertEquals(message, expectedIteratorSize, IteratorUtil.getIteratorSize(ontType.getIterator(relLinkId)));
+    private void checkOutboundEdge(QueryResult queryResult, GraphNode fromNode,
+                                           RelationLinkDetails edgeType, int expectedListSize) {
+        String message = "query " + queryResult.getQuery().getQueryTypeName();
+        message = message + ", iterator size for ";
+        message = message + " ontology type " + fromNode.getName() + " and relation link ";
+        message = message + edgeType.getLinkName();
+
+        List outboundEdges = new LinkedList();
+
+        Iterator edgesIt = queryResult.getEdgesList().iterator();
+        while (edgesIt.hasNext()) {
+            Edge cur = (Edge) edgesIt.next();
+            String edgeTypeName = cur.getEdgeType().getLinkName();
+            if ((cur.getFromNode().equals(fromNode)) && (edgeType.getLinkName().equals(edgeTypeName)) ) {
+                outboundEdges.add(cur);
+            }
+        }
+        assertEquals(message, expectedListSize, outboundEdges.size());
     }
 
-
-//  /**
-//   *
-//   */
-//  public void testGetTypeRelative () throws Exception {
-//
-//    int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(queryTerm));
-//    int expectedIteratorSize = expectedTypesList.size();
-//
-//    assertEquals("results iterator size", expectedIteratorSize, queryIteratorSize);
-//
-//    Iterator queryIterator = typeQuery.getTypeRelative(queryTerm);
-//
-//    while (queryIterator.hasNext()) {
-//      OntologyType cur = (OntologyType) queryIterator.next();
-//      //System.out.println("---" + cur);
-//      findOntologyTypeInIterator(cur, expectedTypesList.iterator());
-//
-//    }
-//
-//  }
-//
-//    /**
-//     *
-//     */
-//    public void findOntologyTypeInIterator (OntologyType type, Iterator it)
-//                                throws NoSuchPropertyException, NoSuchRelationLinkException {
-//        while (it.hasNext()) {
-//            OntologyType cur = (OntologyType) it.next();
-//            String curName = cur.getName();
-//            if (curName.equals(type.getName())) {
-//                // compare properties
-//                Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
-//                while (e.hasMoreElements()) {
-//                    String propName = (String) e.nextElement();
-//                    List curTypePropValue = cur.getTypeProperty(propName);
-//                    List expectedTypePropValue = type.getTypeProperty(propName);
-//                    assertEquals("property " + propName + " for ontology type " + curName,
-//                                 curTypePropValue, expectedTypePropValue);
-//                }
-//                // compare relation links
-//                Set relLinksSet = OntoramaConfig.getRelationLinksSet();
-//                Iterator relLinksIterator = relLinksSet.iterator();
-//                while (relLinksIterator.hasNext()) {
-//                    int relLink = ((Integer) relLinksIterator.next()).intValue();
-//                    Iterator curTypeRel = cur.getIterator(relLink);
-//                    Iterator expectedTypeRel = type.getIterator(relLink);
-//                    //// what should happen here???
-//                    assertEquals("iterator size for relation link id=" + relLink +
-//                              " for ontology type " + curName,
-//                              IteratorUtil.getIteratorSize(expectedTypeRel),
-//                              IteratorUtil.getIteratorSize(curTypeRel));
-//                }
-//            }
-//        }
-//    }
+    private GraphNode getNodeFromList (String nodeName, List nodesList) {
+        Iterator it = nodesList.iterator();
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            if (cur.getName().equals(nodeName)) {
+                return cur;
+            }
+        }
+        return null;
+    }
 
 }

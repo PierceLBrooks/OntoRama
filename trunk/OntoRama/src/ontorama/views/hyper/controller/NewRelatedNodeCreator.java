@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.4 2002-12-02 05:04:01 nataliya Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.5 2002-12-03 03:35:01 nataliya Exp $
  */
 package ontorama.views.hyper.controller;
 
@@ -50,53 +50,55 @@ public class NewRelatedNodeCreator {
     }
 
     public TreeNode createNewRelatedNode() {
-        dialog.show();
-    	TreeNode newTreeNode = null;
-
-    	Tree tree = view.getTree();
-
-        Node newGraphNode = new NodeImpl(textField.getText());
-        List newEdges = new ArrayList();
-        try {
-        	Edge newGraphEdge = new EdgeImpl(treeNode.getGraphNode(), newGraphNode, edgeType);
-        	
-			newTreeNode = tree.addNode(treeNode, newGraphEdge, newGraphNode);
-        	
-//            newEdges.add(newGraphEdge);
-//            
-//            newTreeNode = new TreeNodeImpl(newGraphNode);
-//            TreeEdge newTreeEdge = new TreeEdgeImpl(newGraphEdge, newTreeNode);
-//            treeNode.addChild(newTreeEdge);
-//            
-//            List clones = treeNode.getClones();
-//            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
-//                TreeNode node = (TreeNode) iterator.next();
-//                TreeNode childCloneNode = new TreeNodeImpl (newGraphNode);
-//                TreeEdge childCloneEdge = new TreeEdgeImpl (newGraphEdge, childCloneNode);
-//                node.addChild(childCloneEdge);
-//            }
-        } catch (NoSuchRelationLinkException e) {
-            /// @todo what to do here? Do we get this?
-            e.printStackTrace();
-            return null;
-        }
-
-        
+//        dialog.show();
+//    	TreeNode newTreeNode = null;
+//
+//    	Tree tree = view.getTree();
+//
+//        Node newGraphNode = new NodeImpl(textField.getText());
+//        List newEdges = new ArrayList();
 //        try {
-            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
-                Edge edge = (Edge) iterator.next();
-                /// @todo modify graph here!
-                //graph.addEdge(edge);
-            }
-//        } catch (GraphModificationException e) {
-//            /// @todo what to do here? Do we get this?
-//            e.printStackTrace();
-//            return null;
+//        	Edge newGraphEdge = new EdgeImpl(treeNode.getGraphNode(), newGraphNode, edgeType);
+//        	
+//			newTreeNode = tree.addNode(treeNode, newGraphEdge, newGraphNode);
+//        	
+////            newEdges.add(newGraphEdge);
+////            
+////            newTreeNode = new TreeNodeImpl(newGraphNode);
+////            TreeEdge newTreeEdge = new TreeEdgeImpl(newGraphEdge, newTreeNode);
+////            treeNode.addChild(newTreeEdge);
+////            
+////            List clones = treeNode.getClones();
+////            for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
+////                TreeNode node = (TreeNode) iterator.next();
+////                TreeNode childCloneNode = new TreeNodeImpl (newGraphNode);
+////                TreeEdge childCloneEdge = new TreeEdgeImpl (newGraphEdge, childCloneNode);
+////                node.addChild(childCloneEdge);
+////            }
 //        } catch (NoSuchRelationLinkException e) {
 //            /// @todo what to do here? Do we get this?
 //            e.printStackTrace();
 //            return null;
 //        }
-        return newTreeNode;
+//
+//        
+////        try {
+//            for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
+//                Edge edge = (Edge) iterator.next();
+//                /// @todo modify graph here!
+//                //graph.addEdge(edge);
+//            }
+////        } catch (GraphModificationException e) {
+////            /// @todo what to do here? Do we get this?
+////            e.printStackTrace();
+////            return null;
+////        } catch (NoSuchRelationLinkException e) {
+////            /// @todo what to do here? Do we get this?
+////            e.printStackTrace();
+////            return null;
+////        }
+//        return newTreeNode;
+return null;
     }
+    
 }

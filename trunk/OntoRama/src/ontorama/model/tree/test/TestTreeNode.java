@@ -53,16 +53,12 @@ public class TestTreeNode  extends TestCase{
         EdgeType et2 = (EdgeType) edgeTypes.get(1);
         Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
         _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
-        _treeNode.addChild(_childEdge1);
+        _treeNode.addChild(_childNode1, _childEdge1);
         _childNode1.setParent(_treeNode);
         Edge edge2 = new EdgeImpl(_graphNode, childGraphNode2, et2);
         _childEdge2 = new TreeEdgeImpl(edge2, _childNode2);
-        _treeNode.addChild(_childEdge2);
+        _treeNode.addChild(_childNode2, _childEdge2);
         _childNode2.setParent(_treeNode);
-    }
-
-    public void testGetGraphNode () {
-        assertEquals(_graphNode, _treeNode.getGraphNode());
     }
 
     public void testClones () {
@@ -70,7 +66,7 @@ public class TestTreeNode  extends TestCase{
         assertEquals("number of clones for node ", 1, clones.size());
         TreeNode cloneNode = (TreeNode) clones.get(0);
         assertEquals("clone for node " , _cloneNode, cloneNode);
-        assertEquals("clones should contain the same graph node ", _treeNode.getGraphNode(), _cloneNode.getGraphNode());
+        assertEquals("clones should contain the same graph node ", true, _treeNode.isClone(_cloneNode));
     }
 
     public void testAddClone () {
@@ -83,12 +79,14 @@ public class TestTreeNode  extends TestCase{
     public void testChildren () {
         List children = _treeNode.getChildren();
         assertEquals("number of children for _treeNode ", 2, children.size());
-        assertEquals("expecting to find edge in children list ", true, children.contains(_childEdge1));
-        assertEquals("expecting ro find edge in children list ", true, children.contains(_childEdge2));
+        
+        assertEquals("expecting to find node in children list ", true, children.contains(_childNode1));
+        assertEquals("expecting ro find node in children list ", true, children.contains(_childNode2));
     }
     
     public void testGetParent() {
     	assertEquals("parent for node _childNode1 ", _treeNode, _childNode1.getParent());
     }
+    
     
 }

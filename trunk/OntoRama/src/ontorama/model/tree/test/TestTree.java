@@ -32,6 +32,8 @@ public class TestTree extends TestCase{
 
     Graph _graph;
     Tree _tree;
+    
+    Node _node7;
 
     public TestTree(String name) {
         super(name);
@@ -58,8 +60,8 @@ public class TestTree extends TestCase{
         node5.setNodeType(_nodeType1);
         Node node6 = new NodeImpl("node6");
         node6.setNodeType(_nodeType1);
-        Node node7 = new NodeImpl("node7");
-        node7.setNodeType(_nodeType1);
+        _node7 = new NodeImpl("node7");
+        _node7.setNodeType(_nodeType1);
         Node node8 = new NodeImpl("node8");
         node8.setNodeType(_nodeType1);
         Node node9 = new NodeImpl("node9");
@@ -76,7 +78,7 @@ public class TestTree extends TestCase{
         graphNodesList.add(node4);
         graphNodesList.add(node5);
         graphNodesList.add(node6);
-        graphNodesList.add(node7);
+        graphNodesList.add(_node7);
         graphNodesList.add(node8);
         graphNodesList.add(node9);
         graphNodesList.add(node10);
@@ -96,13 +98,13 @@ public class TestTree extends TestCase{
         Edge e1_4 = new EdgeImpl(node1, node4, _edgeType2);
         Edge e2_9 = new EdgeImpl(node2, node9, _edgeType1);
         Edge e2_10 = new EdgeImpl(node2, node10, _edgeType2);
-        Edge e10_7 = new EdgeImpl(node10, node7, _edgeType1);
+        Edge e10_7 = new EdgeImpl(node10, _node7, _edgeType1);
         Edge e3_5 = new EdgeImpl(node3, node5, _edgeType1);
         Edge e4_11 = new EdgeImpl(node4, node11, _edgeType1);
         Edge e4_6 = new EdgeImpl(node4, node6, _edgeType1);
         Edge e5_6 = new EdgeImpl(node5, node6, _edgeType1);
         Edge e11_12 = new EdgeImpl(node11, node12, _edgeType1);
-        Edge e6_7 = new EdgeImpl(node6, node7, _edgeType1);
+        Edge e6_7 = new EdgeImpl(node6, _node7, _edgeType1);
         Edge e6_8 = new EdgeImpl(node6, node8, _edgeType2);
         graphEdgesList.add(e1_2);
         graphEdgesList.add(e1_3);
@@ -158,7 +160,7 @@ public class TestTree extends TestCase{
             assertEquals("number of children in each clones should be the same ",
                                     treeNode.getChildren().size(), curClone.getChildren().size());
             assertEquals("clones should contain the same graph node object ",
-                                    treeNode.getGraphNode(), curClone.getGraphNode());
+                                    true, treeNode.isClone( curClone));
         }
     }
     
@@ -180,8 +182,8 @@ public class TestTree extends TestCase{
         int branchDepth = 0;
         Iterator topLevelChildren = rootNode.getChildren().iterator();
         while (topLevelChildren.hasNext()) {
-            TreeEdge curEdge = (TreeEdge) topLevelChildren.next();
-            TreeNode child = curEdge.getToNode();
+            TreeNode child = (TreeNode) topLevelChildren.next();
+            TreeEdge curEdge = rootNode.getEdge(child);
             branchDepth = calcBranchDepth(1, child);
             if (branchDepth > treeDepth) {
                 treeDepth = branchDepth;
@@ -198,10 +200,11 @@ public class TestTree extends TestCase{
     
 	public void testAddNode ()  throws GraphModificationException, NoSuchRelationLinkException {
 		int originalNodeCount = countNumOfNodes();
-		TreeNode node7 = getNodeByName("node7");
 		
 		Node newNode = new NodeImpl("newNode");
-		Edge newEdge = new EdgeImpl(node7.getGraphNode(), newNode, _edgeType1);
+		Edge newEdge = new EdgeImpl(_node7, newNode, _edgeType1);
+		
+		TreeNode node7 = getNodeByName("node7");
 		
 		_tree.addNode(node7, newEdge, newNode);
 		
@@ -215,9 +218,8 @@ public class TestTree extends TestCase{
             depth++;
         }
         while (children.hasNext()) {
-            TreeEdge curEdge = (TreeEdge) children.next();
-            TreeNode toNode = curEdge.getToNode();
-            depth = calcBranchDepth(depth, toNode);
+			TreeNode childNode = (TreeNode) children.next();
+            depth = calcBranchDepth(depth, childNode);
         }
         return depth;
     }
@@ -230,11 +232,10 @@ public class TestTree extends TestCase{
     		TreeNode cur = (TreeNode) q.remove(0);
     		Iterator children = cur.getChildren().iterator();
     		while (children.hasNext()) {
-    			TreeEdge curEdge = (TreeEdge) children.next();
-    			TreeNode childNode = curEdge.getToNode();
+    			TreeNode childNode = (TreeNode) children.next();
     			q.add(childNode);
     		}
-    		if (cur.getGraphNode().getName().equals(nodeName)) {
+    		if (cur.getName().equals(nodeName)) {
     			return cur;
     		}
     	}
@@ -251,8 +252,7 @@ public class TestTree extends TestCase{
     		result++;
     		Iterator children = cur.getChildren().iterator();
     		while (children.hasNext()) {
-    			TreeEdge curEdge = (TreeEdge) children.next();
-    			TreeNode childNode = curEdge.getToNode();
+    			TreeNode childNode = (TreeNode) children.next();
     			q.add(childNode);
     		}
     	}

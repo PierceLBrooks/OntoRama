@@ -131,9 +131,8 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getChildAt(int childIndex) {
     	
-    	List childrenEdges = _treeNode.getChildren();
-    	TreeEdge childEdge = (TreeEdge) childrenEdges.get(childIndex);
-    	ontorama.model.tree.TreeNode node = childEdge.getToNode();
+    	List children = _treeNode.getChildren();
+    	ontorama.model.tree.TreeNode node = (ontorama.model.tree.TreeNode) children.get(childIndex);
     	TreeNode ontoTreeNode = OntoTreeBuilder.getTreeNode(node);
 	
         return ontoTreeNode;
@@ -173,15 +172,14 @@ public class OntoTreeNode implements TreeNode {
      * that by 'receiver' they mean this node.
      */
     public int getIndex(TreeNode node) {
-        List childrenEdges = _treeNode.getChildren();
-        Iterator it = childrenEdges.iterator();
+        List children = _treeNode.getChildren();
+        Iterator it = children.iterator();
         int index = -1;
         while (it.hasNext()) {
-            TreeEdge edge = (TreeEdge) it.next();
-            ontorama.model.tree.TreeNode toNode = edge.getToNode();
-            TreeNode ontoTreeNode = OntoTreeBuilder.getTreeNode(toNode);
+            ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) it.next();
+            TreeNode ontoTreeNode = OntoTreeBuilder.getTreeNode(curNode);
             if (ontoTreeNode.equals(node)) {
-                index = childrenEdges.indexOf(edge);
+                index = children.indexOf(curNode);
             }
         }
         return index;
@@ -216,8 +214,7 @@ public class OntoTreeNode implements TreeNode {
         Iterator it = childrenEdges.iterator();
         Vector result = new Vector();
         while (it.hasNext()) {
-            TreeEdge curEdge = (TreeEdge) it.next();
-            ontorama.model.tree.TreeNode curNode = curEdge.getToNode();
+            ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) it.next();
             OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(curNode);
             result.add(treeNode);
         }
@@ -240,7 +237,7 @@ public class OntoTreeNode implements TreeNode {
      * toString. Pring out name of this node
      */
     public String toString() {
-        return _treeNode.getGraphNode().getName();
+        return _treeNode.getName();
     }
 
 

@@ -133,7 +133,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     public void valueChanged(TreeSelectionEvent e) {
         OntoTreeNode node = (OntoTreeNode) _treeView.getLastSelectedPathComponent();
         debug.message("TreeSelectionListener ******** node " + node);
-        System.out.println("TreeSelectionListener ******** node " + node);
         return;
     }
 
@@ -144,24 +143,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.KEY_IS_PRESSED = true;
         this.pressedKey = e.getModifiers();
         this.curKeyEvent = e;
-        /*
-      if (e.getModifiers() == InputEvent.ALT_GRAPH_MASK) {
-        debug.message("keyEvent ALT_GRAPH_MASK");
-      }
-      if (e.getModifiers() == InputEvent.ALT_MASK) {
-        debug.message("keyEvent ALT_MASK ");
-      }
-      if (e.getModifiers() == InputEvent.CTRL_MASK ) {
-        debug.message("keyEvent CTRL_MASK ");
-      }
-      if (e.getModifiers() == InputEvent.META_MASK ) {
-        debug.message("keyEvent META_MASK ");
-      }
-      if (e.getModifiers() == InputEvent.SHIFT_MASK ) {
-        debug.message("keyEvent SHIFT_MASK ");
-      }
-	  */
-
     }
 
     /**
@@ -171,10 +152,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.pressedKey = -1;
         this.KEY_IS_PRESSED = false;
         this.curKeyEvent = null;
-        System.out.println("... key event = " + e.getModifiers());
         if (this.KEY_IS_PRESSED) {
             notifyMouseKeyEvent(e, this.curMouseEvent);
-            
             return;
         }
     }
@@ -183,7 +162,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      *
      */
     public void keyTyped(KeyEvent e) {
-        debug.message("keyTyped, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     /**
@@ -193,43 +171,38 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.curMouseEvent = e;
         this.MOUSE_IS_PRESSED = true;
         this.pressedMouseButton = e.getModifiers();
-
-        //System.out.println("... mouse event = " + e.getModifiers());
-        /*
-        if (e.getModifiers() == InputEvent.BUTTON1_MASK) {
-          debug.message("BUTTON1_MASK");
-          System.out.println("BUTTON1_MASK");
-          //this.pressedMouseButton = InputEvent.BUTTON1_MASK;
-        }
-        if (e.getModifiers() == InputEvent.BUTTON2_MASK) {
-          debug.message("BUTTON2_MASK");
-          System.out.println("BUTTON2_MASK");
-          //this.pressedMouseButton = InputEvent.BUTTON2_MASK;
-        }
-        if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
-          debug.message("BUTTON3_MASK ");
-          System.out.println("BUTTON3_MASK ");
-          //this.pressedMouseButton = InputEvent.BUTTON3_MASK;
-        }
-        if (e.getModifiers() == InputEvent.META_MASK ) {
-          debug.message("META_MASK ");
-          System.out.println("META_MASK ");
-          //this.pressedMouseButton = InputEvent.META_MASK;
-        }
-        */
-
         int selRow = _treeView.getRowForLocation(e.getX(), e.getY());
         if (selRow == -1) {
         	return;
         }
         if (e.getClickCount() == 1) {
             debug.message("mousePressed, single click,  row=" + selRow);
+//            int onmask = InputEvent.BUTTON1_DOWN_MASK;
+//            int offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
+//                            InputEvent.ALT_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK
+//                            | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
+//            if ( (onmask | offmask) == onmask) {
+//                TreeNode modelNode = getModelNodeFromMouseEvent(e);
+//                if (modelNode == null ) return;
+//                _eventBroker.processEvent(new TreeNodeSelectedEvent(modelNode, _eventBroker));
+//                System.out.println("HAHA");
+//                return;
+//            }
+//            onmask = InputEvent.BUTTON1_DOWN_MASK | InputEvent.CTRL_DOWN_MASK;
+//            offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
+//                            InputEvent.ALT_DOWN_MASK | InputEvent.ALT_DOWN_MASK
+//                            | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
+//            if ( (onmask | offmask) == onmask) {
+//                notifyMouseKeyEvent(this.curKeyEvent, e);
+//                System.out.println("HEHE");
+//                return;
+//            }
             if (this.KEY_IS_PRESSED) {
                 notifyMouseKeyEvent(this.curKeyEvent, e);
             } else {
 				TreeNode modelNode = getModelNodeFromMouseEvent(e);
 				if (modelNode == null ) return;
-                _eventBroker.processEvent(new TreeNodeSelectedEvent(modelNode));
+                _eventBroker.processEvent(new TreeNodeSelectedEvent(modelNode, _eventBroker));
             }
         }
     }
@@ -238,21 +211,18 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      *
      */
     public void mouseClicked(MouseEvent e) {
-        //debug.message("mouseClicked");
     }
 
     /**
      *
      */
     public void mouseEntered(MouseEvent e) {
-        //debug.message("mouseEntered");
     }
 
     /**
      *
      */
     public void mouseExited(MouseEvent e) {
-        //debug.message("mouseExited");
     }
 
     /**
@@ -262,8 +232,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.pressedMouseButton = -1;
         this.MOUSE_IS_PRESSED = false;
         this.curMouseEvent = null;
-        //this.curGraphNode = null;
-        //debug.message("mouseReleased");
     }
 
     /**

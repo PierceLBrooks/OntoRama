@@ -14,7 +14,7 @@ import net.jxta.id.ID;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-public class ItemReference {
+public class GroupItemReference {
 
 	private ID id = null;
 	private String name = null;
@@ -30,7 +30,7 @@ public class ItemReference {
 	 * 
 	 * @version P2P-OntoRama 1.0.0
 	 */	
-	public ItemReference(ID id, String name, String descr) {
+	public GroupItemReference(ID id, String name, String descr) {
 		this.id = id;
 		this.name = name;
 		this.descr = descr;		

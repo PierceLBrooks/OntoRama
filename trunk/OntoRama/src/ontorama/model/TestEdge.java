@@ -10,8 +10,6 @@ import java.util.HashSet;
 
 import ontorama.util.IteratorUtil;
 
-import ontorama.model.GraphNode;
-import ontorama.model.Edge;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**

@@ -1,4 +1,4 @@
-package ontorama.test;
+package ontorama.util;
 
 import java.util.Iterator;
 import java.util.List;

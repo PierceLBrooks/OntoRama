@@ -1,11 +1,11 @@
-package ontorama.test.webkbtools.query.parser.rdf;
+package ontorama.webkbtools.query.parser.rdf;
 
 import junit.framework.TestCase;
 
 import java.io.*;
 import java.util.*;
 
-import ontorama.test.IteratorUtil;
+import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
 

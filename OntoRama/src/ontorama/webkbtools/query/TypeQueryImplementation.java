@@ -61,7 +61,6 @@ public class TypeQueryImplementation extends TypeQueryBase {
      */
     public Iterator getTypeRelative(String termName, int relationLink) {
         return null;
-
     }
 
     public String toString() {

@@ -92,6 +92,11 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     private static final int RINGPERCENTAGE = 10;
 
     /**
+     *  Store if node is a leaf node
+     */
+    private boolean isLeaf = false;
+
+    /**
      * Returns the radius of the projection sphere.
      */
     public static double getSphereRadius() {
@@ -115,11 +120,25 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     }
 
     /**
+     * Returns ture if leaf node
+     */
+    public boolean isLeaf() {
+        return this.isLeaf;
+    }
+
+    /**
+     * Set if leaf node
+     */
+    public void setNodeAsLeafNode() {
+        this.isLeaf = true;
+    }
+
+    /**
      * Set if view is folded.
      */
     public void setFolded( boolean state ) {
+//        System.out.println("HyperNodeView: " + this.getGraphNode().getName() + " folded state is being set to " + state);
         this.getGraphNode().setFoldState(state);
-        //this.isFolded = state;
     }
 
     /**
@@ -320,7 +339,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
         double blue = nodeColor.getBlue() + ( ( 255 -  nodeColor.getBlue() ) * colorScale );
         fadeColor = new Color( (int)red, (int)green, (int)blue );
         g2d.setColor( fadeColor );
-        if( this.getFolded() ) {
+        if( !isLeaf && this.getFolded() ) {
             g2d.fillRect(   (int)(projectedX - viewRadius),
                              (int)(projectedY - viewRadius),
                              (int)(viewRadius * 2),

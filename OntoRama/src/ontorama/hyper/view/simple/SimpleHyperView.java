@@ -136,7 +136,24 @@ public class SimpleHyperView  extends CanvasManager  {
             HyperNodeView hnv = (HyperNodeView)it.next();
             canvasItems.add( new LabelView( hnv ) );
         }
+        setLeafNodes();
         repaint();
+    }
+
+    /**
+     * This method set the flag in HyperViewNode to indicate if a
+     * node if a leaf node.
+     */
+    private void setLeafNodes() {
+        Iterator it = hypernodeviews.values().iterator();
+        int numOfLeaves = 0;
+        while( it.hasNext() ) {
+            HyperNodeView hnv = (HyperNodeView)it.next();
+            numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( hnv.getGraphNode() ) );
+            if( numOfLeaves == 0 ) {
+                hnv.setNodeAsLeafNode();
+            }
+        }
     }
 
     /**

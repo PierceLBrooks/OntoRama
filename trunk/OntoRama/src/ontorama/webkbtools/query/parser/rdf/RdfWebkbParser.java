@@ -64,41 +64,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      */
     private String urlLinkName = "url";
 
-    /**
-     * add relation link to type corresponding to given resource
-     * In WebKB case we need to be aware of relation link 'url' -
-     * it doesn't need uri to be stripped
-     *
-     * Assumptions: in case of 'url' relation link we are assuming that
-     * one of the types is created already!
-     * @todo  check if the assumption is safe!
-     */
-    protected void addRelationLinkToType (RDFNode fromTypeResource, int relLinkId,
-                            RDFNode toTypeResource, String linkName)
-                            throws NoSuchRelationLinkException {
-      String fromTypeName = stripUri(fromTypeResource);
-      String toTypeName = stripUri(toTypeResource);
 
-      OntologyType fromType = null;
-      OntologyType toType = null;
-
-      if (linkName.equals(urlLinkName)) {
-        if (ontTypeExists(fromTypeName)) {
-          toType = getOntTypeByName(toTypeResource.toString());
-          fromType = getOntTypeByName(fromTypeName);
-        }
-        else {
-          fromType = getOntTypeByName(fromTypeResource.toString());
-          toType = getOntTypeByName(toTypeName);
-        }
-      }
-      else {
-        fromType = getOntTypeByName(fromTypeName);
-        toType = getOntTypeByName(toTypeName);
-      }
-      //System.out.println("relLink = " + linkName + ", fromType = " + fromType + ", toType = " + toType);
-      fromType.addRelationType(toType,relLinkId);
-    }
 
     /**
      * Rewrite Iterator returned by the super class to a new
@@ -139,6 +105,41 @@ public class RdfWebkbParser extends RdfDamlParser {
       return null;
     }
 
+    /**
+     * add relation link to type corresponding to given resource
+     * In WebKB case we need to be aware of relation link 'url' -
+     * it doesn't need uri to be stripped
+     *
+     * Assumptions: in case of 'url' relation link we are assuming that
+     * one of the types is created already!
+     * @todo  check if the assumption is safe!
+     */
+    protected void addRelationLinkToType (RDFNode fromTypeResource, int relLinkId,
+                            RDFNode toTypeResource, String linkName)
+                            throws NoSuchRelationLinkException {
+      String fromTypeName = stripUri(fromTypeResource);
+      String toTypeName = stripUri(toTypeResource);
+
+      OntologyType fromType = null;
+      OntologyType toType = null;
+
+      if (linkName.equals(urlLinkName)) {
+        if (ontTypeExists(fromTypeName)) {
+          toType = getOntTypeByName(toTypeResource.toString());
+          fromType = getOntTypeByName(fromTypeName);
+        }
+        else {
+          fromType = getOntTypeByName(fromTypeResource.toString());
+          toType = getOntTypeByName(toTypeName);
+        }
+      }
+      else {
+        fromType = getOntTypeByName(fromTypeName);
+        toType = getOntTypeByName(toTypeName);
+      }
+      //System.out.println("relLink = " + linkName + ", fromType = " + fromType + ", toType = " + toType);
+      fromType.addRelationType(toType,relLinkId);
+    }
 
     /**
      * write out hashtable mapping old names to new
@@ -369,6 +370,7 @@ public class RdfWebkbParser extends RdfDamlParser {
       }
       return allCapitals;
     }
+
 
 
 }

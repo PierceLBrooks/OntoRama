@@ -112,7 +112,7 @@ public class WebKB2Source implements Source {
             }
             System.out.println("\n\n\nselectedType = " + selectedType);
 
-            String newTermName = RdfWebkbParser.stripUri(selectedType);
+            String newTermName = selectedType;
 
             Query newQuery = new Query(newTermName, query.getRelationLinksList());
 

@@ -14,7 +14,6 @@ import ontorama.OntoramaConfig;
 import ontorama.util.Debug;
 
 import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.cgi.QueryStringConstructorInterface;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -83,11 +82,11 @@ public class QueryEngine implements QueryEngineInterface {
         String queryUrl = OntoramaConfig.sourceUri;
         String queryOutputFormat = OntoramaConfig.queryOutputFormat;
 
-        if (OntoramaConfig.isSourceDynamic) {
-          QueryStringConstructorInterface queryStrConstr =
-            (QueryStringConstructorInterface) (Class.forName(OntoramaConfig.getQueryStringCostructorPackageName())).newInstance();
-          queryUrl = queryUrl + queryStrConstr.getQueryString(query, queryOutputFormat);
-        }
+//        if (OntoramaConfig.isSourceDynamic) {
+//          QueryStringConstructorInterface queryStrConstr =
+//            (QueryStringConstructorInterface) (Class.forName(OntoramaConfig.getQueryStringCostructorPackageName())).newInstance();
+//          queryUrl = queryUrl + queryStrConstr.getQueryString(query, queryOutputFormat);
+//        }
 
         Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
         if (OntoramaConfig.DEBUG) {

@@ -233,8 +233,32 @@ public class RdfDamlParser implements Parser {
      * maybe need to check if string starts with http:// ?
      */
      public String stripUri (RDFNode rdfNode) {
+        return stripUri(rdfNode.toString());
+//        //System.out.println("***stripUri, rdfNode = " + rdfNode);
+//        StringTokenizer tokenizer = new StringTokenizer(rdfNode.toString(),"/");
+//        int count = 0;
+//        int tokensNumber = tokenizer.countTokens();
+//        while (tokenizer.hasMoreTokens()) {
+//            count++;
+//            String token = tokenizer.nextToken();
+//            if (count == tokensNumber) {
+//                //System.out.println("returning token = " + token);
+//                return token;
+//            }
+//        }
+//        return rdfNode.toString();
+
+     }
+
+    /**
+     * @todo    need to check if this rdfNode string contains any uri's, otherwise
+     * may strip something that shouldn't be stripped if node happen to contain "/".
+     * for example: description may contain '/': cats/dogs
+     * maybe need to check if string starts with http:// ?
+     */
+     protected static String stripUri (String uriStr) {
         //System.out.println("***stripUri, rdfNode = " + rdfNode);
-        StringTokenizer tokenizer = new StringTokenizer(rdfNode.toString(),"/");
+        StringTokenizer tokenizer = new StringTokenizer(uriStr,"/");
         int count = 0;
         int tokensNumber = tokenizer.countTokens();
         while (tokenizer.hasMoreTokens()) {
@@ -245,8 +269,7 @@ public class RdfDamlParser implements Parser {
                 return token;
             }
         }
-        return rdfNode.toString();
-
+        return uriStr;
      }
 
     /**

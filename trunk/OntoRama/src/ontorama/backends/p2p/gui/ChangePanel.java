@@ -29,13 +29,6 @@ public class ChangePanel extends JPanel {
 
     MyTableModel _myModel;
     JTable _table;
-    
-//    protected ButtonGroup _checkboxesButtonGroup = new ButtonGroup();
-//    
-//    /**
-//     * keys - checkbox, values - change obj
-//     */
-//    protected Hashtable _checkboxToChangeMapping = new Hashtable();
 
     public ChangePanel() {
         super();
@@ -55,17 +48,9 @@ public class ChangePanel extends JPanel {
         acceptButton.setToolTipText("Accept these changes and add them to your model");
         acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				
 				for (int i = 0; i < _myModel.getRowCount(); i++) {
 					System.out.println("col 1 value for row " + i + " is " + _myModel.getValueAt(i,0));
-					
 				}
-//				Enumeration e = _checkboxesButtonGroup.getElements();
-//				while (e.hasMoreElements()) {
-//					JCheckBox checkbox = (JCheckBox) e.nextElement();
-//					Change change = (Change) _checkboxToChangeMapping.get(checkbox);
-//					System.out.println("selected: " + change);
-//				}
 			}
         });
         
@@ -88,50 +73,26 @@ public class ChangePanel extends JPanel {
     }
 
     class MyTableModel extends AbstractTableModel {
-        private final static int rowsNum = 10;
         private final static int columnsNum = 5;
 
         String[] columnNames = {"","","Action","Details", "Peer"};
 
-        List rowsList = new LinkedList();
+        List rowsList;
 
         public MyTableModel () {
-            // initialise
-//            for (int i = 0; i < rowsNum; i++) {
-//                rowsList.add(null);
-//            }
+        	rowsList = new LinkedList();
         }
 
         public void clearTable () {
-            rowsList = new LinkedList();
-            for (int i = 0; i < rowsNum; i++) {
-                rowsList.add(null);
-            }
+        	rowsList.clear();
         }
 
         public void addRow (Change change) {
         	TableRow newRow = new TableRow(change);
-            int emptyRowNum = findEmptyRow();
-            if (emptyRowNum < rowsNum) {
-                rowsList.set(emptyRowNum, newRow);
-            }
-            else {
-                rowsList.remove(0);
-                rowsList.add(newRow);
-            }
+            rowsList.add(newRow);
+            fireTableDataChanged();
             repaint();
         }
-
-        private int findEmptyRow () {
-            for (int i = 0; i < rowsNum; i++) {
-                TableRow curRow = getValueAt(i);
-                if (curRow == null) {
-                    return i;
-                }
-            }
-            return rowsNum + 1;
-        }
-
 
         public TableRow getValueAt(int row) {
             return  (TableRow) rowsList.get(row);
@@ -142,7 +103,7 @@ public class ChangePanel extends JPanel {
         }
 
         public int getRowCount() {
-            return rowsNum;
+			return rowsList.size();
         }
 
         public String getColumnName(int col) {
@@ -154,55 +115,35 @@ public class ChangePanel extends JPanel {
         		return null;
         	}
             TableRow tableRow = (TableRow) rowsList.get(row);
-//            if (tableRow == null) {
-//                return new String();
-//            }
-            System.out.println("getValueAt is returning " + tableRow.getValueAt(col) + " for row = "
-            								+ row + " and col = " + col);
             return tableRow.getValueAt(col); 
         }
 
         public Class getColumnClass(int c) {
 			Class result = String.class;
-			System.out.println("rowsList size = " + rowsList.size());
-			if (rowsList.size() > 0) {
-
-	//			result = getValueAt(0, c).getClass();
-	
-				switch (c) {
-				  case 0 :
-					  result = Boolean.class;
-					  break;
-	//			  case 1 :
-	//				  result = String.class;
-	//				  break;
-	//			  case 2 :
-	//				  result = String.class;
-	//				  break;
-	//			  case 3 :
-	//				  result = String.class;
-	//				  break;
-				  default :
-					  result = String.class;
-					  break;
-			  	}
+			switch (c) {
+				case 0 :
+					result = Boolean.class;
+					break;
+				default :
+					result = String.class;
+					break;
 			}
-			System.out.println("getColumnClass returning " + result + " for col " + c);
             return result;
         }
 
         public boolean isCellEditable(int row, int col) {
             //Note that the data/cell address is constant,
             //no matter where the cell appears onscreen.
-            return true;
+            if (col == 0) {
+            	// only first column with checkboxes is editable to
+            	// allow us to select/deselect checkboxes.
+            	return true;
+            }
+            return false;
         }
 
 		public void setValueAt(Object value, int row, int col) {
 			TableRow tableRow = (TableRow) rowsList.get(row);
-			if (tableRow == null) {
-				return;
-			}
-			System.out.println("setValueAt for row = " + row + " and col = " + col);
 			tableRow.setValueAt(value, col); 
 			fireTableRowsUpdated(row, col);
 		}
@@ -216,12 +157,7 @@ public class ChangePanel extends JPanel {
 		public TableRow(Change change) {
 			_change = change;
 			
-//			JCheckBox checkbox = new JCheckBox();
-//			_checkboxesButtonGroup.add(checkbox);
-//			_checkboxToChangeMapping.put(checkbox, change);
-					 
 			row[0] = new Boolean(false);
-			
 			row[2] = change.getAction();
 			
 			if (change instanceof NodeChange ) {

@@ -356,11 +356,6 @@ public class P2PBackendImpl implements P2PBackend {
             System.out.println("\n\nP2PBackend::assertNode sending propagate for node " + node.getName());
              
              NodeType nodeType = node.getNodeType();
-             if (nodeType == null) {
-             	// @todo a hack here for node type. Need to fix where adding nodes.
-             	nodeType = OntoramaConfig.UNKNOWN_TYPE;
-             }
-			System.out.println("\nnode type for new node: " + nodeType.getName());
              Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserterUri.toString());
              String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
@@ -386,11 +381,6 @@ public class P2PBackendImpl implements P2PBackend {
                 rejectorUri = _defaultUserUri;
             }
 			NodeType nodeType = node.getNodeType();
-			if (nodeType == null) {
-			   // @todo a hack here for node type. Need to fix where adding nodes.
-			   nodeType = OntoramaConfig.UNKNOWN_TYPE;
-			}
-
 			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejectorUri.toString());
 			String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);

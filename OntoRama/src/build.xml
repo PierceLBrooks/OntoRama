@@ -111,7 +111,7 @@
   	<copy todir="${deploy.webstart}/lib"> 
 		<fileset dir="${lib.home}" includes="**/*.jar"/>
 	</copy>
-	<copy todir="${deploy.webstart}/lib">
+	<copy todir="${deploy.webstart}">
 		<fileset dir="${basedir}" includes="OntoRama.jar"/>
 	</copy>
   </target>
@@ -142,7 +142,7 @@
   <target name="runtests" depends="compile">
   	<java fork="yes" classname="junit.textui.TestRunner" 
     	taskname="junit" failonerror="true">
-        <arg value="ontorama.test.TestEdge"/>
+        <arg value="ontorama.test.TestPackage"/>
 		<classpath refid="project.class.path"/>
     </java>
   </target>

@@ -133,6 +133,7 @@ public class OntoRamaApp extends JFrame {
         //wantedLinks.add (new Integer (OntoramaConfig.SUPERTYPE));
         //Query query = new Query (termName, wantedLinks);
 
+
         Query query = new Query (termName);
 
         try {

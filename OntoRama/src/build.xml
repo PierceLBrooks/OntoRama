@@ -6,7 +6,7 @@
   <property name="src.home"   value="${ontorama.home}/src"/>
   <property name="lib.home"   value="${ontorama.home}/lib"/>
   <property name="classes.home"   value="${ontorama.home}/classes"/>
-  <property name="javadoc.home"   value="${ontorama.home}/doc"/>
+  <property name="javadoc.home"   value="${ontorama.home}/doc/api"/>
 
   <!-- Set Classpath -->
   <path id="project.class.path">
@@ -23,21 +23,19 @@
 
   <target name="prepare">
     <mkdir  dir="${classes.home}"/>
-    <!--<mkdir  dir="${javadoc.home}"/>-->
+    <mkdir  dir="${javadoc.home}"/>
   </target>
 
   <target name="clean">
     <delete dir="${classes.home}"/>
+	<delete dir="${javadoc.home}"/>
   </target>
 
   <target name="compile" depends="prepare">
-    <!--<javac destdir="${classes.home}"  debug="on" optimize="off"
-	deprecation="off">-->
-	<javac destdir="${classes.home}"  debug="on" optimize="off"
-			deprecation="on"
-			classpathref="project.class.path">
+    <javac destdir="${classes.home}"  debug="on" optimize="off"
+	deprecation="off">
 		<src path="${src.home}"/>
-		<!--<classpath refid="project.class.path"/>-->
+		<classpath refid="project.class.path"/>
     </javac>
     <copy   todir="${classes.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
@@ -46,8 +44,10 @@
 
 
   <target name="javadoc" depends="prepare">
-    <javadoc sourcepath="${srcdir.name}" packagenames="*"
-                destdir="${javadoc.home}"/>
+    <javadoc sourcepath="${src.home}" 
+			packagenames="ontorama.*,ontorama.model.*,ontorama.hyper.*,ontorama.view.*,ontorama.tree.*"
+            destdir="${javadoc.home}"
+			classpathref="project.class.path"/>
   </target>
 
   <!--<target name="all" depends="clean,prepare,compile,javadoc"/>-->

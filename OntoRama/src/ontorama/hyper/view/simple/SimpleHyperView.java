@@ -9,6 +9,7 @@ import ontorama.model.GraphNode;
 import ontorama.model.Edge;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -44,17 +45,17 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 200;
+    private static double springLength = 123;
 
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .2;
+    private double STIFFNESS = .793;
 
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private double ELECTRIC_CHARGE = 500;
+    private double ELECTRIC_CHARGE = 838;
 
     /**
      * Path for test output files.
@@ -118,6 +119,7 @@ public class SimpleHyperView  extends CanvasManager {
         Document document = domImpl.createDocument(null, "svg", null);
         // Create an instance of the SVG Generator
         SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        svgGenerator.setSVGCanvasSize( new Dimension( this.getWidth(), this.getHeight() ) );
         paintComponent(svgGenerator);
         boolean useCSS = true; // we want to use CSS style attribute
         try {
@@ -136,7 +138,7 @@ public class SimpleHyperView  extends CanvasManager {
         this.springLength = springLength;
         this.STIFFNESS = stiffness;
         this.ELECTRIC_CHARGE = electric_charge;
-        int iteration = 250;
+        int iteration = 50;
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
         System.out.println("Start spring and force algorthm: " + iteration + " iterations");
@@ -166,7 +168,7 @@ public class SimpleHyperView  extends CanvasManager {
         catch( IOException ioe ) {
             System.out.println("IOException: " + ioe.getMessage());
         }
-        repaint();
+        this.paintComponent( this.getGraphics() );
     }
 
     /**
@@ -279,7 +281,7 @@ public class SimpleHyperView  extends CanvasManager {
             System.out.print(".");
 //            System.out.println("* * * minMoveDiff: " + minMoveDiff);
             numOfItorations++;
-        }while( numOfItorations < iteration  && minMoveDiff > .00001 );
+        }while( numOfItorations < iteration  && minMoveDiff > .001 );
         System.out.println("Iterated " + numOfItorations + " times");
         return numOfItorations;
     }
@@ -302,15 +304,16 @@ public class SimpleHyperView  extends CanvasManager {
             HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
             double vectorLength = curHyperNode.distance( curHyperNodeParent );
             if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
-                double springlength = springLength;// / Math.sqrt(parent.getDepth() + 1);
+                double springlength = springLength;
+                //double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
                 double force = STIFFNESS * ( springlength - vectorLength ) / vectorLength;
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
                 xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
                 yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
                 curHyperNode.setLocation( xMove, yMove);
-//                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
-//                count++;
+                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
+                count++;
             }
             else {
                 curHyperNode.setLocation( curHyperNode.getX() + (Math.random() - 0.5),
@@ -342,10 +345,10 @@ public class SimpleHyperView  extends CanvasManager {
             HyperNode curHyperNodeOther = (HyperNode)hypernodes.get( other );
             HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
             double vectorLength = curHyperNode.distance( curHyperNodeOther );
-            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
+            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero0.00001
                 int levelDiff = Math.abs( cur.getDepth() - other.getDepth() + 1 );
                 //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
-                double force = ELECTRIC_CHARGE / (vectorLength * vectorLength);
+                double force = (ELECTRIC_CHARGE)/ (vectorLength * vectorLength);
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
                 xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());

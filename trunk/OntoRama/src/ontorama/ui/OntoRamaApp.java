@@ -30,8 +30,6 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.backends.examplesmanager.*;
-import ontorama.backends.examplesmanager.gui.*;
 import ontorama.importer.FileImporter;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
@@ -85,7 +83,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * ontorama menus
      */
     private JMenu _fileMenu;
-    private ExamplesMenu _examplesMenu;
     private HistoryMenu _historyMenu;
     private JMenu _helpMenu;
     /**
@@ -171,21 +168,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
     }
     
-    private class HistoryQueryStartEventHandler implements EventBrokerListener {
-    	public void processEvent (Event event) {
-//    		ExamplesHistoryElement historyElement = (ExamplesHistoryElement) event.getSubject();
-//            _lastQuery = _query;
-//            _query = historyElement.getQuery();
-//    		Backend backend = OntoramaConfig.getBackend();
-//    		backend.setQueryEngine(historyElement.getQueryEngine());
-//            _worker = new QueryEngineThread(_query, historyElement.getQueryEngine(), _modelEventBroker);
-//            _modelEventBroker.removeSubscriptions(_viewsEventBroker);
-//            _worker.start();
-//            _timer.start();
-//            _progressBar.setIndeterminate(true);
-//            _queryPanel.enableStopQueryAction(true);    		
-    	}
-    }
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
@@ -258,11 +240,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         new QueryNodeEventHandler(_modelEventBroker);
         new QueryNodeEventHandler(_viewsEventBroker);
 
-        _modelEventBroker.subscribe(
-				            new HistoryQueryStartEventHandler(),
-				            HistoryQueryStartEvent.class,
-				            ExamplesHistoryElement.class);
-
 
         _modelEventBroker.subscribe(
 				            new QueryStartEventHandler(),
@@ -316,11 +293,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				            Object.class,
 				            System.out);
 
-    	new LoggingEventListener(
-    						_modelEventBroker,
-    						HistoryQueryStartEvent.class,
-    						Object.class,
-    						System.out);
 
         _descriptionViewPanel = new DescriptionView(_viewsEventBroker);
         _queryPanel = new QueryPanel(_viewsEventBroker);

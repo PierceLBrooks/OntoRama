@@ -2,9 +2,7 @@ package ontorama.backends.filemanager;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -35,7 +33,6 @@ import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.writer.ModelWriter;
-import ontorama.ontotools.writer.ModelWriterException;
 import ontorama.ontotools.writer.rdf.RdfModelWriter;
 
 import org.tockit.events.Event;
@@ -64,8 +61,6 @@ public class FileBackend implements Backend {
 	
 	private QueryEngine _lastQueryEngine;
 	
-	private Hashtable _queryEngineToQueryConfigMapping;
-
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
         public GraphLoadedEventHandler(EventBroker eventBroker)  {
@@ -80,7 +75,6 @@ public class FileBackend implements Backend {
     }
     
     public FileBackend(){
-    	_queryEngineToQueryConfigMapping = new Hashtable();
     }
 
     public void setEventBroker(EventBroker eventBroker) {
@@ -163,12 +157,10 @@ public class FileBackend implements Backend {
 
             writer.close();
 
-        } catch (IOException e) {
-             System.err.println("Error when writing file");
+        } catch (Exception e) {
+             System.err.println("Error writing file");
              e.printStackTrace();
-        } catch (ModelWriterException e) {
-            e.printStackTrace();
-            System.err.println("ModelWriterException:  " + e.getMessage());
+             ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error writing file", e.getMessage());
         }
     }
     
@@ -196,28 +188,8 @@ public class FileBackend implements Backend {
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
 		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
 		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
-		_queryEngineToQueryConfigMapping.put(_lastQueryEngine, new QuerySettings(_parserName, _filename));
 		return queryResult;
 	}
-	
-//	public QueryEngine getQueryEngine() {
-//		return _lastQueryEngine;
-//	}
-//
-//	/**
-//	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
-//	 */
-//	public void setQueryEngine(QueryEngine queryEngine) {
-//		_lastQueryEngine = queryEngine;
-//		/// @todo this a hack - trying to revert to old config settings. Need to think 
-//		/// how to fix this.
-//		QuerySettings querySettings = (QuerySettings) _queryEngineToQueryConfigMapping.get(queryEngine);
-//		if (querySettings != null) {
-//			_parserName = querySettings.getParserPackageName();
-//			_filename = querySettings.getSourceUri();
-//		}
-//	}
-	
 
 	/**
 	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query, org.tockit.events.EventBroker)

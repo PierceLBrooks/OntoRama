@@ -66,10 +66,6 @@ public class OntoramaConfig {
      */
     private static final String sourcePackagePathPrefix = "ontorama.webkbtools.inputsource";
 
-    /**
-     *
-     */
-//    private static RelationLinkDetails[] allRelationsArray;
 
     private static Hashtable edgesConfig;
 
@@ -79,11 +75,6 @@ public class OntoramaConfig {
      * type.
      */
     private static Hashtable conceptPropertiesDetails;
-
-    /**
-     *
-     */
-    private static HashSet relationLinksSet;
 
     /**
      *
@@ -235,9 +226,6 @@ public class OntoramaConfig {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         edgesConfig = xmlConfig.getDisplayInfo();
-        //allRelationsArray = xmlConfig.getRelationLinksArray();
-        //MAXTYPELINK = allRelationsArray.length;
-        relationLinksSet = buildRelationLinksSet();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
         conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
@@ -248,8 +236,7 @@ public class OntoramaConfig {
      * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static List getRelationLinksList() {
-
+    public static List getEdgeTypesList() {
         LinkedList allRelations = new LinkedList();
 
         Enumeration e = edgesConfig.keys();
@@ -257,12 +244,6 @@ public class OntoramaConfig {
             EdgeType edgeType = (EdgeType) e.nextElement();
             allRelations.add(edgeType);
         }
-//
-//        for (int i = 0; i < allRelationsArray.length; i++) {
-//            if (allRelationsArray[i] != null) {
-//                allRelations.add(new Integer(i));
-//            }
-//        }
         return allRelations;
     }
 
@@ -271,54 +252,20 @@ public class OntoramaConfig {
         return displayInfo;
     }
 
-    /**
-     * @todo added this method while refactoring - shouldn't need this when finished. Remove!
-     * @return
-     */
-    public static HashSet getTempRelationLinksSet () {
-        List allRel = getRelationLinksList();
-        return new HashSet(allRel);
-    }
 
-
-    /**
-     * @todo we are assuming that allRelationsArray got all relations id's in order
-     * from 1 to n. If this is not a case -> what we are doing here could be wrong
-     */
-    private static HashSet buildRelationLinksSet() {
-
-        List allRelations = getRelationLinksList();
-        return new HashSet(allRelations);
-    }
 
     /**
      *
      */
-    public static HashSet getRelationLinksSet() {
-        return relationLinksSet;
+    public static HashSet getEdgeTypesSet() {
+        List allRelations = getEdgeTypesList();
+        return new HashSet(allRelations);
     }
-
-//    /**
-//     *
-//     */
-//    public static RelationLinkDetails[] getRelationLinkDetails() {
-//        return allRelationsArray;
-//    }
-
-//    public static List getRelationLinkDetailsList () {
-//        LinkedList allRelations = new LinkedList();
-//        for (int i = 0; i < allRelationsArray.length; i++) {
-//            if (allRelationsArray[i] != null) {
-//                allRelations.add(allRelationsArray[i]);
-//            }
-//        }
-//        return allRelations;
-//    }
 
     /**
      *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
      */
-    public static EdgeType getRelationLinkDetails(String edgeName) throws NoSuchRelationLinkException {
+    public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
         System.out.println("edgeName = " + edgeName);
         EdgeType result = null;
         Iterator it = edgesConfig.keySet().iterator();

@@ -136,7 +136,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * link image + node image connected by line
      */
     private void initRelationLinkImages() {
-        HashSet relLinksSet = OntoramaConfig.getRelationLinksSet();
+        HashSet relLinksSet = OntoramaConfig.getEdgeTypesSet();
         Iterator it = relLinksSet.iterator();
         while (it.hasNext()) {
             EdgeType cur = (EdgeType) it.next();

@@ -114,8 +114,8 @@ public class XmlParserFull implements Parser {
         List relationLinksElementsList = top.getChildren("relationLink");
         Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
 
-//        RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();
-        Iterator edgeTypesIterator = OntoramaConfig.getRelationLinksSet().iterator();
+//        RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getEdgeType();
+        Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
 
         while (relationLinksElementsIterator.hasNext()) {
             Element relLinkEl = (Element) relationLinksElementsIterator.next();

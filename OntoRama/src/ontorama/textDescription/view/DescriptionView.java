@@ -63,7 +63,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private String _reverseRelationLinkName;
-    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getRelationLinksList().get(0);
+    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
 
     /**
      *
@@ -148,7 +148,7 @@ public class DescriptionView extends JPanel implements GraphView {
     private void initPropertiesPanels() {
 
         List edgeTypesToDisplay = new LinkedList();
-        List edgeTypesList = OntoramaConfig.getRelationLinksList();
+        List edgeTypesList = OntoramaConfig.getEdgeTypesList();
         Iterator it = edgeTypesList.iterator();
         while (it.hasNext()) {
             EdgeType edgeType = (EdgeType) it.next();
@@ -269,7 +269,7 @@ public class DescriptionView extends JPanel implements GraphView {
     public void focus(Node node) {
 
 //        List edgeTypesToDisplay = new LinkedList();
-//        List edgeTypesList = OntoramaConfig.getRelationLinksList();
+//        List edgeTypesList = OntoramaConfig.getEdgeTypesList();
 //        Iterator it = edgeTypesList.iterator();
 //        while (it.hasNext()) {
 //            EdgeType edgeType = (EdgeType) it.next();
@@ -289,7 +289,7 @@ public class DescriptionView extends JPanel implements GraphView {
                 NodePropertiesPanel propPanel =
                         (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
                 List value = new LinkedList();
-                EdgeType edgeType = OntoramaConfig.getRelationLinkDetails(edgeName);
+                EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
                 if (displayInfo.isDisplayInDescription()) {
                     value = _graph.getOutboundEdgeNodes(node, edgeType);

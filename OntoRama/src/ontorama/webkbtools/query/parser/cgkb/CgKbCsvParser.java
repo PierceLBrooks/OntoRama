@@ -80,7 +80,7 @@ public class CgKbCsvParser implements Parser {
         String shortNameObj2 = obj2;
 
         try {
-            Iterator edgeTypesIterator = OntoramaConfig.getRelationLinksSet().iterator();
+            Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
             Node fromNode = getNodeForName(shortNameObj1,  obj1);
             Node toNode = getNodeForName(shortNameObj2, obj2);
             Edge edge = null;

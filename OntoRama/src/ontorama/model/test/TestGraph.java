@@ -81,12 +81,12 @@ public class TestGraph extends TestCase {
         _nodesList.add(gn6);
         _nodesList.add(gn7);
 
-        Edge e = new EdgeImpl(gn, gn1,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e1 = new EdgeImpl(gn, gn2,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar));
-        Edge e2 = new EdgeImpl(gn, gn3,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar));
-        Edge e4 = new EdgeImpl(gn2, gn5,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e5 = new EdgeImpl(gn6, gn7,  OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e = new EdgeImpl(gn, gn1,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e1 = new EdgeImpl(gn, gn2,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
+        Edge e2 = new EdgeImpl(gn, gn3,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
+        Edge e4 = new EdgeImpl(gn2, gn5,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge e5 = new EdgeImpl(gn6, gn7,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
         _edgesList.add(e);
         _edgesList.add(e1);
         _edgesList.add(e2);
@@ -156,11 +156,11 @@ public class TestGraph extends TestCase {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
                 // should be edge to node1.1 with type 1
-                assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), cur.getEdgeType());
+                assertEquals( OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype), cur.getEdgeType());
             }
             if ((cur.getToNode().getName()).equals("node1.2")) {
                 // should be edge to node1.2 with type2
-                assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar), cur.getEdgeType());
+                assertEquals( OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar), cur.getEdgeType());
             }
         }
     }
@@ -176,7 +176,7 @@ public class TestGraph extends TestCase {
             Edge inEdge = (Edge) inboundEdges.next();
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
-            assertEquals( OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), inEdge.getEdgeType());
+            assertEquals( OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype), inEdge.getEdgeType());
         }
     }
 

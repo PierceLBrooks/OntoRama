@@ -69,25 +69,25 @@ public class TestQueryEngine extends TestCase {
         OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
 
-        edgeType1 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype);
-        edgeType2 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar);
-        edgeType3 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_reverse);
-        edgeType4 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_part);
-        edgeType5 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_substance);
-        edgeType6 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance);
-        edgeType7 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_complement);
-        edgeType8 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_location);
-        edgeType9 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member);
-        edgeType10 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_object);
-        edgeType11 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_url);
-        edgeType12 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_nounType);
+        edgeType1 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
+        edgeType2 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar);
+        edgeType3 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_reverse);
+        edgeType4 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_part);
+        edgeType5 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_substance);
+        edgeType6 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance);
+        edgeType7 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_complement);
+        edgeType8 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_location);
+        edgeType9 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member);
+        edgeType10 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_object);
+        edgeType11 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_url);
+        edgeType12 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_nounType);
 
 
         queryTerm = OntoramaConfig.ontologyRoot;
         relationLinksList = new LinkedList();
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_reverse));
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance));
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member));
+        relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_reverse));
+        relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance));
+        relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member));
 
         query1 = new Query(queryTerm);
         queryEngine1 = new QueryEngine(query1);

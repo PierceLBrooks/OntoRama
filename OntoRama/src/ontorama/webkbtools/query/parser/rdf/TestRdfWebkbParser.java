@@ -80,8 +80,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 1
      */
     public void testEdge_chair_subtype() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), testNode_chair, "test#armchair", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype), testNode_furniture, "test#chair", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype), testNode_chair, "test#armchair", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype), testNode_furniture, "test#chair", 1);
     }
 
     /**
@@ -89,7 +89,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 2
      */
     public void testEdge_chair_similar() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar), testNode_chair, "test#other_chairs", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar), testNode_chair, "test#other_chairs", 1);
     }
 
     /**
@@ -107,7 +107,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
     public void testEdge_chair_part() throws NoSuchRelationLinkException {
         // these links are in reversed order, so we are testing
         // types chair, backrest and leg.
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_part), testNode_chair, "test#backrest", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_part), testNode_chair, "test#backrest", 1);
         //testingRelationLink("part", 4, testType_chair, "leg", 2);
     }
 
@@ -116,8 +116,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 5
      */
     public void testEdge_chair_substance() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_substance), testNode_chair, "test#some_substance_node", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_substance), testNode_chair, "test#some_substance_node", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_substance), testNode_chair, "test#some_substance_node", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_substance), testNode_chair, "test#some_substance_node", 1);
     }
 
     /**
@@ -125,10 +125,10 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 6
      */
     public void testEdge_chair_instance() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance), testNode_chair, "test#my_chair", 0);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance), testNode_chair, "test#my_chair", 0);
         // 2 here to account for a fact that rdf resource is an instance of rdf-schema#Class
         // so we have 1 type that instance of type 'chair' + 1 rdf-schema#Class
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance), testNode_myChair, "test#chair", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance), testNode_myChair, "test#chair", 1);
     }
 
     /**
@@ -136,8 +136,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 7
      */
     public void testEdge_chair_complement() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_complement), testNode_chair, "test#table", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_complement), testNode_table, "test#chair", 0);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_complement), testNode_chair, "test#table", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_complement), testNode_table, "test#chair", 0);
     }
 
     /**
@@ -145,8 +145,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 8
      */
     public void testEdge_chair_location() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_location), testNode_chair, "test#some_location", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_location), testNode_someLocation, "test#chair", 0);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_location), testNode_chair, "test#some_location", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_location), testNode_someLocation, "test#chair", 0);
     }
 
     /**
@@ -154,8 +154,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 9
      */
     public void testEdge_chair_member() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member), testNode_chair, "test#all_chairs", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member), testNode_allChairs, "test#chair", 0);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member), testNode_chair, "test#all_chairs", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_member), testNode_allChairs, "test#chair", 0);
     }
 
     /**
@@ -163,8 +163,8 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
      * id = 10
      */
     public void testEdge_chair_object() throws NoSuchRelationLinkException {
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_object), testNode_chair, "test#some_object", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_object), testNode_chair, "test#ACHRONYM", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_object), testNode_chair, "test#some_object", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_object), testNode_chair, "test#ACHRONYM", 1);
     }
 
 
@@ -175,7 +175,7 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
     public void testEdge_chair_url() throws NoSuchRelationLinkException {
         //System.out.println("testType_chair = " + testType_chair);
         //System.out.println("testType_url = " + testType_url);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_url), testNode_chair, "http://www.webkb.org/OntoRama", 1);
-        testingEdge(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_url), testNode_url, "test#chair", 0);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_url), testNode_chair, "http://www.webkb.org/OntoRama", 1);
+        testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_url), testNode_url, "test#chair", 0);
     }
 }

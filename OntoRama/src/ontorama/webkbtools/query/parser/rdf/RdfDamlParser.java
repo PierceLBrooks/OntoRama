@@ -1,33 +1,24 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import java.io.Reader;
 import java.io.FileReader;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import java.util.Enumeration;
-import java.util.Collection;
-
+import java.io.Reader;
 import java.security.AccessControlException;
+import java.util.*;
 
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.*;
-import com.hp.hpl.mesa.rdf.jena.vocabulary.*;
-import com.hp.hpl.jena.daml.*;
-import com.hp.hpl.jena.daml.common.DAMLModelImpl;
-import com.hp.hpl.jena.daml.common.*;
-
-
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.*;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.webkbtools.datamodel.OntologyType;
+import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
+import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.util.*;
+
+import com.hp.hpl.mesa.rdf.jena.common.*;
+import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.*;
+import com.hp.hpl.mesa.rdf.jena.vocabulary.RDF;
+import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
+
 
 
 /**
@@ -44,14 +35,33 @@ public class RdfDamlParser implements Parser {
 
     /**
      * Hashtable to hold all OntologyTypes that we are creating
+     * keys - strings - ontology type names
+     * values - OntologyType objects
      */
-    private Hashtable ontHash;
+    private Hashtable _ontHash;
+    
+    /**
+     * 
+     */
+	private String _rdfsNamespace = null;
+	private String _rdfSyntaxTypeNamespace = null;
+	/// @this definition doesnt work due to the schema namespace WebKB is using
+	//private static final String _rdfsNamespaceSuffix = "rdf-schema#";
+	private static final String _rdfsNamespaceSuffix = "rdf-schema";
+	private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
+	
+	/**
+	 * @todo these should not be here
+	 */
+	private static final int CLASS = 1;
+	private static final int PROPERTY = 2;
+    
 
     /**
      * Constructor
      */
     public RdfDamlParser() {
-        ontHash = new Hashtable();
+        _ontHash = new Hashtable();
     }
 
     /**
@@ -74,9 +84,28 @@ public class RdfDamlParser implements Parser {
             //model = new DAMLModelImpl();
             Model model = new ModelMem();
             model.read(reader, "");
+            
+			findNamespaces(model);
+            
+
+            
+            /// @todo following is an  attempt to classify rdf objects into Classes 
+            // and Properties. This may not work very well for some rdf files.
+    		Property typeProperty = new PropertyImpl(_rdfSyntaxTypeNamespace, "type");
+    		System.out.println("property = " + typeProperty);
+    		
+    		Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
+    		System.out.println("class resource = " + classResource);
+    		Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
+    		System.out.println("property resource = " + propertyResource);
+            
+			//runSelector(model, null, RDF.type, RDFS.Class);
+			//runSelector(model, null, RDF.type, RDF.Property);
+			List rdfClassesList = runSelector(model, null, typeProperty, classResource);
+			List rdfPropertiesList = runSelector(model, null, typeProperty, propertyResource);
 
             // get Iterator of all subjects, then go through each of them
-            // and get Iterator of statements. Process each statement
+            // and get Iterator of statements. Process each statement           
             ResIterator resIt = model.listSubjects();
 
             while (resIt.hasNext()) {
@@ -84,15 +113,32 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
+
                     //System.out.println(s);
                     if (s.getPredicate().toString().endsWith("rdf-syntax-ns#type")) {
-                    	if ( (s.getObject().toString().endsWith("rdf-syntax-ns#Property"))
-                    			|| (s.getObject().toString().endsWith("#Class")) ) {
-                    		//System.out.println("skipping statement...");
+                    	if  (s.getObject().toString().endsWith("rdf-syntax-ns#Property")) {
+                    		//System.out.println("skipping Property statement...");
+                    		continue;
+	                   	}
+                    	if (s.getObject().toString().endsWith("#Class"))  {
+                    		//System.out.println("skipping Class statement...");
                     		continue;
 	                   	}
                 	}
-                    processStatement(s);
+
+                    
+                    /// @todo we are ignoring rdf properties for the moment
+                    if (rdfClassesList.contains(s.getSubject())) {
+                    	if (s.getPredicate().equals(RDFS.subClassOf)) {
+                    		if ( !rdfClassesList.contains(s.getObject()) ) {
+	                    		System.out.println("***found Class: " + s.getObject());
+	                    		rdfClassesList.add(s.getObject());
+                    		}
+                    	}
+                		processStatement(s);
+                    }
+
+//                    processStatement(s);
                 }
             }
         }
@@ -107,8 +153,50 @@ public class RdfDamlParser implements Parser {
           throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
         }
         //System.out.println("\n\nreturning result collection: " + ontHash.values().size());
-        return ontHash.values();
+        return _ontHash.values();
     }
+    
+    
+    /**
+     * 
+     */
+	private void findNamespaces(Model model) throws RDFException {
+		NsIterator nsIterator = model.listNameSpaces();
+		while (nsIterator.hasNext()) {
+			String namespace = (String) nsIterator.next();
+			if (namespace.endsWith(_rdfSyntaxTypeNamespaceSuffix)) {
+				_rdfSyntaxTypeNamespace = namespace;
+			}
+			/// @todo commented out is the better way to do this,
+			// but in WebKB rdfs namespace ends with something
+			// like "rdf-shema-199990808#" which is not usefull for us.
+			int index = namespace.toString().indexOf(_rdfsNamespaceSuffix);
+			if (index > 0) {
+			//if (namespace.endsWith(_rdfsNamespaceSuffix)) {
+				_rdfsNamespace = namespace;
+			}
+		}
+	}
+    
+    /**
+     * 
+     */
+	private List runSelector(Model model, Resource r, Property p, Object o) throws RDFException {
+		//Selector selectorClasses = new SelectorImpl(r, p, o);        
+		//ResIterator it = model.listSubjects();
+		LinkedList result = new LinkedList();
+		ResIterator it = model.listSubjectsWithProperty(p,o);
+		System.out.println("\n\n\n\n");
+		int count = 0;
+		while (it.hasNext()) {
+			Resource res = it.next();
+			System.out.println(res);
+			result.add(res);
+			count++;
+		}
+		System.out.println("count = " + count + "\n\n\n\n");
+		return result;
+	}
 
     /**
      * Process RDF statement and create corresponding Ontology types.
@@ -120,6 +208,7 @@ public class RdfDamlParser implements Parser {
       Property predicate = st.getPredicate();
       Resource resource = st.getSubject();
       RDFNode object = st.getObject();
+      
 
       //System.out.println( "resource = " + resource + ", predicate = " + predicate + ", object = " + object);
 
@@ -299,7 +388,7 @@ public class RdfDamlParser implements Parser {
      * @return boolean
      */
     protected boolean ontTypeExists (String ontTypeName) {
-      if (ontHash.containsKey(ontTypeName)) {
+      if (_ontHash.containsKey(ontTypeName)) {
         return true;
       }
       return false;
@@ -315,14 +404,14 @@ public class RdfDamlParser implements Parser {
       public OntologyType getOntTypeByName (String ontTypeName,
       							String fullOntTypeName) {
         OntologyType ontType = null;
-        if (ontHash.containsKey(ontTypeName)) {
-          ontType = (OntologyType) ontHash.get(ontTypeName);
+        if (_ontHash.containsKey(ontTypeName)) {
+          ontType = (OntologyType) _ontHash.get(ontTypeName);
         }
         else {
           ontType = new OntologyTypeImplementation(ontTypeName, fullOntTypeName);
           //System.out.println("created type: " + ontType.toString());
           //System.out.println("full name = " + ontType.getFullName());
-          ontHash.put(ontTypeName,ontType);
+          _ontHash.put(ontTypeName,ontType);
         }
         return ontType;
       }

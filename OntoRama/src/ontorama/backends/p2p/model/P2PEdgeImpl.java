@@ -8,10 +8,13 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 
 /**
- * Description: EdgeImpl between nodes. Edges correspond to relation links between concept types.
+ * Description: Edge Implementation between nodes. Edges correspond to relation links between concept types.
+ * 
  * Copyright:    Copyright (c) 2001
  * Company: DSTC
  * @version 1.0
+ * 
+ * @todo should we override equals() here to take into account assertion and rejection information?
  */
 
 public class P2PEdgeImpl implements P2PEdge {

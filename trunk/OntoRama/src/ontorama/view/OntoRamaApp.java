@@ -3,13 +3,18 @@ package ontorama.view;
 import ontorama.OntoramaConfig;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;
+import ontorama.model.GraphImpl;
+import ontorama.model.events.GraphChangedEvent;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.textDescription.view.DescriptionView;
 import ontorama.tree.view.OntoTreeView;
 import ontorama.util.Debug;
 import ontorama.view.action.*;
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
+import org.tockit.events.Event;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -152,6 +157,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * progress on worker thread and update status and progress bar.
      */
     private static final int TIMER_INTERVAL = 100;
+
+    private class ViewUpdateHandler implements EventListener {
+        public void processEvent(Event e) {
+            /// @todo this is pretty ugly, the transformation should probably done through another layer for trees.
+            GraphImpl graph = (GraphImpl) e.getSubject();
+            try {
+                graph.transformGraphIntoTree();
+            } catch (NoSuchRelationLinkException e1) {
+                e1.printStackTrace();
+            }
+            updateViews();
+        }
+    }
 
     /**
      *
@@ -405,6 +423,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
                 return;
             }
             _graph = graph;
+            /// @todo nasty shortcut, fix
+            GraphImpl graphImpl = (GraphImpl) _graph;
+            graphImpl.getEventBroker().subscribe(new ViewUpdateHandler(), GraphChangedEvent.class, Graph.class);
             updateViews();
 //            showUnconnectedNodes();
         }

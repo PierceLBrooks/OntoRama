@@ -5,12 +5,15 @@ import ontorama.model.util.AddUnconnectedNodeIsDisallowedException;
 import ontorama.model.util.NodeAlreadyExistsException;
 import ontorama.model.util.GraphModificationException;
 import ontorama.model.util.EdgeAlreadyExistsException;
+import ontorama.model.events.*;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 import java.util.*;
+
+import org.tockit.events.EventBroker;
 
 /**
  * Build a collection of GraphNodes and Edges that form a Graph.
@@ -57,6 +60,18 @@ public class GraphImpl implements Graph {
      *
      */
     Debug debug = new Debug(false);
+
+    /**
+     * @todo EventBroker object should be passed into constructor and not created locally.
+     */
+    EventBroker eventBroker = new EventBroker();
+
+    /**
+     * @todo should go away once we have external broker
+     */
+    public EventBroker getEventBroker() {
+        return eventBroker;
+    }
 
     /**
      * Constructor for GraphImpl
@@ -145,7 +160,7 @@ public class GraphImpl implements Graph {
 //        }
     }
 
-    private void transformGraphIntoTree () throws NoSuchRelationLinkException {
+    public void transformGraphIntoTree () throws NoSuchRelationLinkException {
         _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
         listItemsToRemove(_topLevelUnconnectedNodes);
 
@@ -493,44 +508,22 @@ public class GraphImpl implements Graph {
 
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
-        boolean isInList = false;
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
+            /// @todo we might want to implement equality here
             if ((edge.getFromNode().equals(cur.getFromNode())) &&
                     (edge.getToNode().equals(cur.getToNode())) &&
                     (edge.getEdgeType() == cur.getEdgeType())) {
                 // this edge is already registered
-                isInList = true;
+                throw new EdgeAlreadyExistsException(edge);
             }
         }
-        if (isInList) {
-            throw new EdgeAlreadyExistsException(edge);
-        }
-        if (!isInList) {
-            _graphEdges.add(edge);
-        }
+        _graphEdges.add(edge);
         Node fromNode = edge.getFromNode();
         Node toNode = edge.getToNode();
         addNodesForNewEdge(fromNode, toNode);
-//        EdgeType edgeType = edge.getEdgeType();
-//        if (fromNode.hasClones()) {
-//            Iterator clonesIt = fromNode.getClones().iterator();
-//            while (clonesIt.hasNext()) {
-//                Node clone = (Node) clonesIt.next();
-//                Node toNodeClone = toNode.makeClone();
-//                deepCopy(clone, toNodeClone);
-//                Edge newEdgeForClone = new EdgeImpl(clone, toNodeClone, edgeType);
-//                addEdge(newEdgeForClone);
-//            }
-//        }
-//        // check if toNode has multiple parents after adding new edge
-//        List inboundEdgesForToNode = getInboundEdges(toNode);
-//        if (inboundEdgesForToNode.size() > 1) {
-//            convertIntoTree(root);
-//        }
-//        calculateDepths(fromNode, fromNode.getDepth());
-
+        eventBroker.processEvent(new EdgeAddedEvent(this,edge));
     }
 
     /**
@@ -595,6 +588,7 @@ public class GraphImpl implements Graph {
             throw new NodeAlreadyExistsException(node);
         }
         _graphNodes.add(node);
+        eventBroker.processEvent(new NodeAddedEvent(this, node));
     }
 
     /**
@@ -602,6 +596,7 @@ public class GraphImpl implements Graph {
      */
     public void removeEdge(Edge remEdge) {
         _graphEdges.remove(remEdge);
+        eventBroker.processEvent(new EdgeRemovedEvent(this, remEdge));
     }
 
     /**
@@ -609,6 +604,8 @@ public class GraphImpl implements Graph {
      */
     public void removeAllEdges() {
         _graphEdges.clear();
+        /// @todo do we want to sent one event each time? Or maybe a specific one?
+        eventBroker.processEvent(new GraphReducedEvent(this));
     }
 
     /**
@@ -617,8 +614,8 @@ public class GraphImpl implements Graph {
      * @param node
      */
     public void removeNode (Node node) {
-
         _graphNodes.remove(node);
+        eventBroker.processEvent(new NodeRemovedEvent(this, node));
     }
 
     public List getEdgesList() {

@@ -26,6 +26,10 @@ public class LabelView extends CanvasItem {
      * The maximum number of fonts.
      */
     private static final int MAXFONTS = 10;
+    
+	private static final int MIN_FONT_SIZE = 3;
+
+	private static final int MAX_FONT_SIZE = 15;
 
     /**
      * Stores the different size fonts to enable the labels
@@ -42,7 +46,7 @@ public class LabelView extends CanvasItem {
      */
     static {
         for (int i = 0; i < MAXFONTS; i++) {
-            fonts[i] = new Font("Arial", Font.PLAIN, i + 3);
+            fonts[i] = new Font("Arial", Font.PLAIN, (int)(MIN_FONT_SIZE + i * ((MAX_FONT_SIZE - MIN_FONT_SIZE) / (MAXFONTS-1))));
         }
     }
 

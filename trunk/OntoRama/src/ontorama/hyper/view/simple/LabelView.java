@@ -23,11 +23,8 @@ public class LabelView extends CanvasItem{
     /**
      * Hold the model for this view.
      */
-    private HyperNodeView hyperNodeView;
+    private HyperNodeView hyperNodeView = null;
 
-    public LabelView( HyperNodeView hyperNodeView ) {
-        this.hyperNodeView = hyperNodeView;
-    }
     /**
      * The maximum number of fonts.
      */
@@ -52,6 +49,17 @@ public class LabelView extends CanvasItem{
         }
     }
 
+    public LabelView( HyperNodeView hyperNodeView ) {
+        this.hyperNodeView = hyperNodeView;
+    }
+
+    /**
+     * Return HyperNodeView.
+     */
+    public boolean hasHyperNodeView( HyperNodeView hyperNodeView) {
+        return this.hyperNodeView == hyperNodeView;
+    }
+
     /**
      * Get the font size to display.
      */
@@ -65,13 +73,9 @@ public class LabelView extends CanvasItem{
 
     public void draw( Graphics2D g2d ) {
         double scale = hyperNodeView.getScale();
-//        System.out.println( "scale: " + scale );
         if( scale < .1 ) {
             return;
         }
-//      removed for now to improve performance
-//      float fontSize = (float)(14 * scale);
-//      g2d.setFont(g2d.getFont().deriveFont(fontSize));
         g2d.setFont( getFontToDisplay( scale ) );
         FontMetrics fm = g2d.getFontMetrics();
         String label = this.hyperNodeView.getName();
@@ -82,8 +86,10 @@ public class LabelView extends CanvasItem{
         double labelHeight = fm.getHeight();
         double xPos = x - labelWidth/2;
         double yPos = y - labelHeight/2;
-        AlphaComposite myAlpha = AlphaComposite.getInstance( AlphaComposite.SRC_OVER,0.6f);
-        g2d.setComposite(myAlpha);
+        if( !(CanvasManager.getSelectedLabelView() == this) ) {
+            AlphaComposite myAlpha = AlphaComposite.getInstance( AlphaComposite.SRC_OVER,0.6f);
+            g2d.setComposite(myAlpha);
+        }
         g2d.setColor( Color.white);
         g2d.fill( new RoundRectangle2D.Double( xPos, yPos, labelWidth, labelHeight, 8, 8 ) );
         g2d.setComposite(AlphaComposite.SrcOver);

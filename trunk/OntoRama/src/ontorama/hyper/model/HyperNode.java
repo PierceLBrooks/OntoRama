@@ -91,6 +91,13 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     }
 
     /**
+     * Returns GraphNode.
+     */
+    public GraphNode getGraphNode() {
+        return graphNode;
+    }
+
+    /**
      * Return true if GraphNode has clones.
      */
     public boolean hasClones() {

@@ -49,7 +49,6 @@ public class JoinGroupDialog extends JDialog {
 
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ok button action");
                 if (verifyInputCorrect() ) {
                     _cancelled = false;
                     setVisible(false);

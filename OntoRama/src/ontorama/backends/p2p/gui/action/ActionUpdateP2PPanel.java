@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.P2PBackend;
 
 /*
  * Created by IntelliJ IDEA.
@@ -14,17 +14,17 @@ import ontorama.backends.p2p.p2pmodule.P2PSender;
  * To change this template use Options | File Templates.
  */
 public class ActionUpdateP2PPanel extends AbstractAction {
-    private P2PSender _p2pSender;
+    private P2PBackend _p2pBackend;
 
-    public ActionUpdateP2PPanel(String name, P2PSender p2pSender) {
+    public ActionUpdateP2PPanel(String name, P2PBackend p2pBackend) {
         super(name);
-        _p2pSender = p2pSender;
+        _p2pBackend = p2pBackend;
     }
 
     public void actionPerformed(ActionEvent e) {
         System.out.println("...action updatePanel");
 
-        _p2pSender.peerDiscovery();
+        _p2pBackend.getSender().peerDiscovery();
     }
 
 }

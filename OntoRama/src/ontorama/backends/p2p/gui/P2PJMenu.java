@@ -25,13 +25,11 @@ import ontorama.backends.p2p.gui.action.ActionJoinGroup;
 import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
 import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
-import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.ui.OntoRamaApp;
 
 public class P2PJMenu extends JMenu {
 
     private P2PBackend _p2pBackend;
-    private P2PSender _p2pSender;
     private Frame _parentFrame;
 
     private static boolean p2pEnabled = false;
@@ -47,28 +45,27 @@ public class P2PJMenu extends JMenu {
     
     private JFileChooser _fileChooser;
 
-    public P2PJMenu (P2PBackend p2pBackend, P2PSender p2pSender) {
+    public P2PJMenu (P2PBackend p2pBackend) {
         super();
         _p2pBackend = p2pBackend;
-        _p2pSender = p2pSender;
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
         
-        _enableP2PAction = new ActionEnableP2P("Show P2P updates window");
+        _enableP2PAction = new ActionEnableP2P("Activate P2P");
         add(_enableP2PAction);
         addSeparator();
 
-        _searchAction = new ActionGroupSearch("Group search", _p2pSender);
+        _searchAction = new ActionGroupSearch("Group search", p2pBackend);
         add(_searchAction);
         addSeparator();
 
-        _joinGroupAction = new ActionJoinGroup("Join Group", _p2pSender);
+        _joinGroupAction = new ActionJoinGroup("Join Group", p2pBackend);
         add(_joinGroupAction);
-        _leaveGroupAction = new ActionLeaveGroup("Leave Group", _p2pSender);
+        _leaveGroupAction = new ActionLeaveGroup("Leave Group", _p2pBackend);
         add(_leaveGroupAction);
         addSeparator();
 
-        _updatePanelAction = new ActionUpdateP2PPanel("Update Peer Panel",_p2pSender);
+        _updatePanelAction = new ActionUpdateP2PPanel("Update Peer Panel",_p2pBackend);
         add(_updatePanelAction);
 
         _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel", _p2pBackend);
@@ -86,6 +83,8 @@ public class P2PJMenu extends JMenu {
     		}
     	};
     	add(openAction);
+    	
+    	setActionsEnabled(false);
         
     }
 
@@ -97,10 +96,18 @@ public class P2PJMenu extends JMenu {
         public void actionPerformed(ActionEvent e) {
             _p2pBackend.activate();
             _p2pBackend.showPanels(true);
-
+            setActionsEnabled(true);
         }
 
     }
+    
+    private void setActionsEnabled (boolean isEnabled) {
+    	_searchAction.setEnabled(isEnabled);
+    	_joinGroupAction.setEnabled(isEnabled);
+    	_leaveGroupAction.setEnabled(isEnabled);
+    	_updatePanelAction.setEnabled(isEnabled);
+    	_resetChangePanelAction.setEnabled(isEnabled);
+    }   
     
     private class P2PFileFilter extends FileFilter {
     	

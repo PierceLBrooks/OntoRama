@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.LeaveGroupDialog;
-import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.ui.OntoRamaApp;
 
 /*
@@ -17,15 +17,15 @@ import ontorama.ui.OntoRamaApp;
  */
 public class ActionLeaveGroup extends AbstractAction {
 
-    private P2PSender _p2pSender;
+    private P2PBackend _p2pBackend;
 
-     public ActionLeaveGroup(String name, P2PSender p2pSender) {
+     public ActionLeaveGroup(String name, P2PBackend p2pBackend) {
          super(name);
-        _p2pSender = p2pSender;
+        _p2pBackend = p2pBackend;
      }
      public void actionPerformed(ActionEvent e) {
          System.out.println("...action leave group");
-         new LeaveGroupDialog(OntoRamaApp.getMainFrame(), _p2pSender);
+         new LeaveGroupDialog(OntoRamaApp.getMainFrame(), _p2pBackend);
      }
 
 }

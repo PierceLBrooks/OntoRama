@@ -1,14 +1,15 @@
 package ontorama.backends.p2p.gui.action;
 
+import java.awt.event.ActionEvent;
+import java.util.Enumeration;
+import java.util.Vector;
+
+import javax.swing.AbstractAction;
+
 import ontorama.backends.p2p.gui.GroupSearchDialog;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 import ontorama.view.OntoRamaApp;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.util.Enumeration;
-import java.util.Vector;
 
 /*
  * Created by IntelliJ IDEA.

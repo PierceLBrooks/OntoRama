@@ -1,145 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ontology top="root">
-    <conceptType name="root" creator="OntoRama">
-        <description>Root conceptType</description>
-        <synonym>syn1</synonym>
-        <relationship type="subtype" to="node1"/>
-        <relationship type="subtype" to="node2"/>
-        <relationship type="subtype" to="node3"/>
-        <relationship type="subtype" to="node4"/>
-        <relationship type="subtype" to="node5"/>
-        <relationLink type="part" to="part1"/>
-    </conceptType>
-    <conceptType name="node1" creator="OntoRama">
-        <description>Node1</description>
-        <relationLink type="subtype" to="node1.1"/>
-        <relationLink type="subtype" to="node1.2"/>
-    </conceptType>
-    <conceptType name="node2" creator="OntoRama">
-        <description>Node2</description>
-        <relationLink type="subtype" to="node2.1"/>
-        <relationLink type="subtype" to="node2.2"/>
-        <relationLink type="member" to="member2.2.1"/>
-        <relationLink type="subtype" to="node3.2"/>
-    </conceptType>
-    <conceptType name="node3" creator="OntoRama">
-        <description>Node3</description>
-        <relationship type="subtype" to="node3.1"/>
-        <relationship type="subtype" to="node3.2"/>
-        <relationship type="subtype" to="node3.3"/>
-    </conceptType>
-    <conceptType name="node4" creator="OntoRama">
-        <description>Node4</description>
-        <relationship type="subtype" to="node4.1"/>
-        <relationship type="subtype" to="node3.2"/>
-        <relationship type="subtype" to="node4.2"/>
-        <relationship type="subtype" to="node4.3"/>
-        <relationship type="subtype" to="node4.4"/>
-        <relationship type="subtype" to="node4.5"/>
-        <relationship type="subtype" to="node4.6"/>
-        <relationship type="subtype" to="node4.7"/>
-        <relationship type="subtype" to="node4.8"/>
-        <relationship type="subtype" to="node4.9"/>
-        <relationship type="subtype" to="branch2_node4"/>
-    </conceptType>
-    <conceptType name="node5">
-        <description>Node5</description>
-        <creator>OntoRama</creator>
-    </conceptType>
-    <conceptType name="node6">
-        <description>Node6</description>
-        <creator>OntoRama</creator>
-        <relationship type="supertype" to="root"/>
-    </conceptType>
-    <conceptType name="syn1">
-        <description>Syn1 - synonym for node1</description>
-        <creator>OntoRama</creator>
-    </conceptType>
-    <conceptType name="part1"/>
-    <conceptType name="node1.1"/>
-    <conceptType name="node1.2"/>
-    <conceptType name="node2.1"/>
-    <conceptType name="node2.2">
-        <synonym>syn2.2.1</synonym>
-    </conceptType>
-    <conceptType name="syn2.2.1"/>
-    <conceptType name="member2.2.1"/>
-    <conceptType name="node3.1"/>
-    <conceptType name="node3.2">
-        <synonym>syn3.2.1</synonym>
-        <synonym>syn3.2.2</synonym>
-        <synonym>syn3.2.3</synonym>
-        <relationship type="subtype" to="node3.2.1"/>
-        <relationship type="subtype" to="node3.2.2"/>
-        <relationship type="subtype" to="node3.2.3"/>
-    </conceptType>
-    <conceptType name="syn3.2.1"/>
-    <conceptType name="syn3.2.2"/>
-    <conceptType name="syn3.2.3"/>
-    <conceptType name="node3.3"/>
-    <conceptType name="node4.1"/>
-    <conceptType name="node4.2"/>
-    <conceptType name="node4.3"/>
-    <conceptType name="node4.4"/>
-    <conceptType name="node4.5"/>
-    <conceptType name="node4.6">
-        <relationship type="subtype" to="node4.6.1"/>
-        <relationship type="subtype" to="node4.6.2"/>
-        <relationship type="subtype" to="node4.6.3"/>
-        <relationship type="subtype" to="node4.1"/>
-    </conceptType>
-    <conceptType name="node4.7"/>
-    <conceptType name="node4.8"/>
-    <conceptType name="node4.9"/>
-    <conceptType name="node3.2.1"/>
-    <conceptType name="node3.2.2"/>
-    <conceptType name="node3.2.3"/>
-    <conceptType name="node4.6.1"/>
-    <conceptType name="node4.6.2"/>
-    <conceptType name="node4.6.3"/>
-
-
-    <conceptType name="branch1_root">
-        <relationship type="subtype" to="branch1_node1"/>
-        <relationship type="subtype" to="branch1_node2"/>
-    </conceptType>
-    <conceptType name="branch1_node1"/>
-    <conceptType name="branch1_node2"/>
-    <conceptType name="branch1_node1.1"/>
-    <conceptType name="branch1_node1.2"/>
-    <conceptType name="branch2_root">
-        <relationship type="subtype" to="branch2_node1"/>
-        <relationship type="subtype" to="branch2_node2"/>
-        <relationship type="subtype" to="branch2_node3"/>
-        <relationship type="subtype" to="branch2_node4"/>
-    </conceptType>
-    <conceptType name="branch2_node1">
-        <relationship type="subtype" to="branch2_node1.1"/>
-    </conceptType>
-    <conceptType name="branch2_node2">
-        <relationship type="subtype" to="branch2_node4"/>
-        <relationship type="subtype" to="branch2_node2.1"/>
-        <relationship type="subtype" to="branch2_node2.2"/>
-    </conceptType>
-    <conceptType name="branch2_node3"/>
-    <conceptType name="branch2_node4">
-        <relationship type="subtype" to="branch2_node4.1"/>
-        <relationship type="subtype" to="branch2_node4.2"/>
-    </conceptType>
-    <conceptType name="branch2_node1.1"/>
-    <conceptType name="branch2_node2.1"/>
-    <conceptType name="branch2_node2.2"/>
-    <conceptType name="branch2_node4.1"/>
-    <conceptType name="branch2_node4.2">
-        <relationship type="subtype" to="branch2_node4.2.1"/>
-        <relationship type="subtype" to="branch2_node4.2.2"/>
-    </conceptType>
-    <conceptType name="branch2_node4.2.1"/>
-    <conceptType name="branch2_node4.2.2"/>
-
-    <relationType name="generalRelationType" domain="root" range="root"/>
-    <relationType name="subtype" domain="root" range="root">
-        <relationship type="subtype" to="generalRelationType"/>
-    </relationType>
-
+<ontology top="root" xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance" xsi:noNamespaceSchemaLocation="E:\projects\OntoRama\doc\schemas\ontoramaXml.xsd">
+	<conceptType name="root" creator="OntoRama">
+		<description>Root conceptType</description>
+		<synonym>syn1</synonym>
+		<relationship type="subtype" to="node1"/>
+		<relationship type="subtype" to="node2"/>
+		<relationship type="subtype" to="node3"/>
+		<relationship type="subtype" to="node4"/>
+		<relationship type="subtype" to="node5"/>
+		<relationship type="part" to="part1"/>
+	</conceptType>
+	<conceptType name="node1" creator="OntoRama">
+		<description>Node1</description>
+		<relationship type="subtype" to="node1.1"/>
+		<relationship type="subtype" to="node1.2"/>
+	</conceptType>
+	<conceptType name="node2" creator="OntoRama">
+		<description>Node2</description>
+		<relationship type="subtype" to="node2.1"/>
+		<relationship type="subtype" to="node2.2"/>
+		<relationship type="member" to="member2.2.1"/>
+		<relationship type="subtype" to="node3.2"/>
+	</conceptType>
+	<conceptType name="node3" creator="OntoRama">
+		<description>Node3</description>
+		<relationship type="subtype" to="node3.1"/>
+		<relationship type="subtype" to="node3.2"/>
+		<relationship type="subtype" to="node3.3"/>
+	</conceptType>
+	<conceptType name="node4" creator="OntoRama">
+		<description>Node4</description>
+		<relationship type="subtype" to="node4.1"/>
+		<relationship type="subtype" to="node3.2"/>
+		<relationship type="subtype" to="node4.2"/>
+		<relationship type="subtype" to="node4.3"/>
+		<relationship type="subtype" to="node4.4"/>
+		<relationship type="subtype" to="node4.5"/>
+		<relationship type="subtype" to="node4.6"/>
+		<relationship type="subtype" to="node4.7"/>
+		<relationship type="subtype" to="node4.8"/>
+		<relationship type="subtype" to="node4.9"/>
+		<relationship type="subtype" to="branch2_node4"/>
+	</conceptType>
+	<conceptType name="node5" creator="OntoRama">
+		<description>Node5</description>
+	</conceptType>
+	<conceptType name="node6" creator="OntoRama">
+		<description>Node6</description>
+		<relationship type="supertype" to="root"/>
+	</conceptType>
+	<conceptType name="syn1" creator="OntoRama">
+		<description>Syn1 - synonym for node1</description>
+	</conceptType>
+	<conceptType name="part1"/>
+	<conceptType name="node1.1"/>
+	<conceptType name="node1.2"/>
+	<conceptType name="node2.1"/>
+	<conceptType name="node2.2">
+		<synonym>syn2.2.1</synonym>
+	</conceptType>
+	<conceptType name="syn2.2.1"/>
+	<conceptType name="member2.2.1"/>
+	<conceptType name="node3.1"/>
+	<conceptType name="node3.2">
+		<synonym>syn3.2.1</synonym>
+		<synonym>syn3.2.2</synonym>
+		<synonym>syn3.2.3</synonym>
+		<relationship type="subtype" to="node3.2.1"/>
+		<relationship type="subtype" to="node3.2.2"/>
+		<relationship type="subtype" to="node3.2.3"/>
+	</conceptType>
+	<conceptType name="syn3.2.1"/>
+	<conceptType name="syn3.2.2"/>
+	<conceptType name="syn3.2.3"/>
+	<conceptType name="node3.3"/>
+	<conceptType name="node4.1"/>
+	<conceptType name="node4.2"/>
+	<conceptType name="node4.3"/>
+	<conceptType name="node4.4"/>
+	<conceptType name="node4.5"/>
+	<conceptType name="node4.6">
+		<relationship type="subtype" to="node4.6.1"/>
+		<relationship type="subtype" to="node4.6.2"/>
+		<relationship type="subtype" to="node4.6.3"/>
+		<relationship type="subtype" to="node4.1"/>
+	</conceptType>
+	<conceptType name="node4.7"/>
+	<conceptType name="node4.8"/>
+	<conceptType name="node4.9"/>
+	<conceptType name="node3.2.1"/>
+	<conceptType name="node3.2.2"/>
+	<conceptType name="node3.2.3"/>
+	<conceptType name="node4.6.1"/>
+	<conceptType name="node4.6.2"/>
+	<conceptType name="node4.6.3"/>
+	<conceptType name="branch1_root">
+		<relationship type="subtype" to="branch1_node1"/>
+		<relationship type="subtype" to="branch1_node2"/>
+	</conceptType>
+	<conceptType name="branch1_node1"/>
+	<conceptType name="branch1_node2"/>
+	<conceptType name="branch1_node1.1"/>
+	<conceptType name="branch1_node1.2"/>
+	<conceptType name="branch2_root">
+		<relationship type="subtype" to="branch2_node1"/>
+		<relationship type="subtype" to="branch2_node2"/>
+		<relationship type="subtype" to="branch2_node3"/>
+		<relationship type="subtype" to="branch2_node4"/>
+	</conceptType>
+	<conceptType name="branch2_node1">
+		<relationship type="subtype" to="branch2_node1.1"/>
+	</conceptType>
+	<conceptType name="branch2_node2">
+		<relationship type="subtype" to="branch2_node4"/>
+		<relationship type="subtype" to="branch2_node2.1"/>
+		<relationship type="subtype" to="branch2_node2.2"/>
+	</conceptType>
+	<conceptType name="branch2_node3"/>
+	<conceptType name="branch2_node4">
+		<relationship type="subtype" to="branch2_node4.1"/>
+		<relationship type="subtype" to="branch2_node4.2"/>
+	</conceptType>
+	<conceptType name="branch2_node1.1"/>
+	<conceptType name="branch2_node2.1"/>
+	<conceptType name="branch2_node2.2"/>
+	<conceptType name="branch2_node4.1"/>
+	<conceptType name="branch2_node4.2">
+		<relationship type="subtype" to="branch2_node4.2.1"/>
+		<relationship type="subtype" to="branch2_node4.2.2"/>
+	</conceptType>
+	<conceptType name="branch2_node4.2.1"/>
+	<conceptType name="branch2_node4.2.2"/>
+	<relationType name="generalRelationType" domain="root" range="root" creator="OntoRama"/>
+	<relationType name="subtype" domain="root" range="root">
+		<relationship type="subtype" to="generalRelationType"/>
+	</relationType>
+	<relationType name="part" domain="root" range="root" creator="OntoRama">
+		<description>relation type for 'part' relationships</description>
+		<synonym>Part</synonym>
+		<relationship type="subtype" to="generalRelationType"/>
+	</relationType>
 </ontology>

@@ -1,7 +1,8 @@
 package ontorama.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+
+import javax.swing.JOptionPane;
 
 /**
  * <p>Title: </p>
@@ -17,7 +18,7 @@ public class ErrorPopupMessage extends JOptionPane {
     public ErrorPopupMessage(String message, Component parent) {
         //message = "Sorry, " + message;
         JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE);
-        optionPane.showMessageDialog(parent, message);
+    	JOptionPane.showMessageDialog(parent, message);
 
     }
 

@@ -1,13 +1,13 @@
 package ontorama.model.test;
 
-import junit.framework.TestCase;
-import ontorama.model.Node;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
-
-import java.util.Iterator;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
 
 /**
  * <p>Title: </p>

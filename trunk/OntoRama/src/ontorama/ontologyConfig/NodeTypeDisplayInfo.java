@@ -8,7 +8,8 @@
  */
 package ontorama.ontologyConfig;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 
 public class NodeTypeDisplayInfo {
 

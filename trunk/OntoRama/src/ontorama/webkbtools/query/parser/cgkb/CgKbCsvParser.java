@@ -8,19 +8,30 @@
  */
 package ontorama.webkbtools.query.parser.cgkb;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.security.AccessControlException;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
+import ontorama.webkbtools.inputsource.JarSource;
+import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.inputsource.SourceResult;
+import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.inputsource.*;
-import ontorama.OntoramaConfig;
-import ontorama.model.*;
-
-import java.util.*;
-import java.io.*;
-import java.security.AccessControlException;
-import java.net.URI;
+import ontorama.webkbtools.util.ParserException;
 
 public class CgKbCsvParser implements Parser {
 

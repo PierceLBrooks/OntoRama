@@ -1,23 +1,30 @@
 package ontorama.webkbtools.query.parser.rdf.test;
 
-import junit.framework.TestCase;
-import ontorama.OntoramaConfig;
-import ontorama.model.*;
-import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
-import ontorama.util.TestingUtils;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
-import ontorama.webkbtools.util.*;
-import ontorama.webkbtools.TestWebkbtoolsPackage;
-
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.model.NodeType;
+import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.util.TestingUtils;
+import ontorama.webkbtools.TestWebkbtoolsPackage;
+import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
+import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.SourceException;
 
 /**
  * <p>Title: </p>

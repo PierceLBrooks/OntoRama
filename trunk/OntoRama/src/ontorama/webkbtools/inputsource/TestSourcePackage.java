@@ -3,6 +3,7 @@ package ontorama.webkbtools.inputsource;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import ontorama.webkbtools.inputsource.webkb.TestWebkbQueryStringConstructor;
 
 /**

@@ -1,42 +1,34 @@
 package ontorama.backends.filemanager;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JMenu;
+
+import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNode;
-import ontorama.model.util.GraphModificationException;
-import ontorama.model.events.GraphChangedEvent;
+import ontorama.controller.GeneralQueryEvent;
+import ontorama.controller.GraphLoadedEvent;
 import ontorama.model.Graph;
 import ontorama.model.NoTypeFoundInResultSetException;
-import ontorama.model.NodeImpl;
+import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.writer.ModelWriter;
 import ontorama.webkbtools.writer.ModelWriterException;
-import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
 import ontorama.webkbtools.writer.rdf.RdfModelWriter;
-import ontorama.controller.QueryEvent;
-import ontorama.controller.GeneralQueryEvent;
-import ontorama.controller.NodeSelectedEvent;
-import ontorama.controller.GraphLoadedEvent;
-import ontorama.OntoramaConfig;
-import ontorama.view.OntoRamaApp;
-
-import javax.swing.*;
-
-import org.tockit.events.EventBroker;
 import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
 
 

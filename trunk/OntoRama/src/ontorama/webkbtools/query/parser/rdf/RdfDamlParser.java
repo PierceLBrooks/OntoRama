@@ -1,25 +1,40 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
-import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.*;
-import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.DAML_OIL;
-import com.hp.hpl.jena.daml.DAMLClass;
-import com.hp.hpl.jena.daml.DAMLOntology;
+import java.io.FileReader;
+import java.io.Reader;
+import java.security.AccessControlException;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import ontorama.OntoramaConfig;
-import ontorama.model.*;
+import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
+import ontorama.model.NodeType;
 import ontorama.ontologyConfig.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.security.AccessControlException;
-import java.util.*;
+import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
+import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
+import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.NsIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
+import com.hp.hpl.mesa.rdf.jena.model.RDFError;
+import com.hp.hpl.mesa.rdf.jena.model.RDFException;
+import com.hp.hpl.mesa.rdf.jena.model.RDFNode;
+import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Resource;
+import com.hp.hpl.mesa.rdf.jena.model.Statement;
+import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
 
 
 /**

@@ -1,13 +1,13 @@
 package ontorama.backends.p2p.model;
 
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
+
 import ontorama.model.EdgeImpl;
 import ontorama.model.EdgeType;
 import ontorama.model.Node;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-
-import java.net.URI;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.

@@ -1,11 +1,18 @@
 package ontorama.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
 
 /**
  * <p>Title: </p>

@@ -1,11 +1,12 @@
 package ontorama.webkbtools.query;
 
-import junit.framework.TestCase;
-import ontorama.util.IteratorUtil;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import ontorama.util.IteratorUtil;
 
 /**
  * <p>Title: </p>

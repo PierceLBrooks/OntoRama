@@ -1,14 +1,15 @@
 package ontorama.tree.model;
 
-import ontorama.model.Graph;
-import ontorama.model.Node;
-import ontorama.util.Debug;
+import java.util.Iterator;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.util.Iterator;
+
+import ontorama.model.Graph;
+import ontorama.model.Node;
+import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeModel takes graph of GraphNodes and
@@ -41,7 +42,7 @@ public class OntoTreeModel implements TreeModel {
      * Constructor
      */
     public OntoTreeModel(Graph graph) {
-        this.graph = graph;
+        OntoTreeModel.graph = graph;
         this.ontoTreeBuilder = new OntoTreeBuilder(graph);
     }
 
@@ -62,9 +63,9 @@ public class OntoTreeModel implements TreeModel {
      * @return the root of the tree
      */
     public Object getRoot() {
-        Node rootGraphNode = this.graph.getRootNode();
-        debug.message("OntoTreeModel", "getRoot()", "returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
-        return this.ontoTreeBuilder.getTreeNode(rootGraphNode);
+        Node rootGraphNode = OntoTreeModel.graph.getRootNode();
+        debug.message("OntoTreeModel", "getRoot()", "returning " + OntoTreeBuilder.getTreeNode(rootGraphNode));
+        return OntoTreeBuilder.getTreeNode(rootGraphNode);
     }
 
     /**

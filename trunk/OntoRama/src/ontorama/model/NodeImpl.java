@@ -1,8 +1,10 @@
 package ontorama.model;
 
 
-import java.util.*;
 import java.net.URI;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Basic NodeImpl for ontology viewers.

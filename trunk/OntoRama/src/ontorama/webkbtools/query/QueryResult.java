@@ -1,6 +1,7 @@
 package ontorama.webkbtools.query;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Title:

@@ -8,14 +8,20 @@
  */
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.gui.action.*;
-import ontorama.view.OntoRamaApp;
-
-import javax.swing.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.*;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JMenu;
+
+import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.action.ActionJoinGroup;
+import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
+import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
+import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
+import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.view.OntoRamaApp;
 
 public class P2PJMenu extends JMenu {
 

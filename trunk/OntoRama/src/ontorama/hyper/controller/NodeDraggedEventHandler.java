@@ -8,10 +8,12 @@
  */
 package ontorama.hyper.controller;
 
-import org.tockit.events.*;
-import org.tockit.canvas.events.CanvasItemDraggedEvent;
-import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.hyper.view.simple.HyperNodeView;
+import ontorama.hyper.view.simple.SimpleHyperView;
+import org.tockit.canvas.events.CanvasItemDraggedEvent;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 public class   NodeDraggedEventHandler implements EventListener {
     private SimpleHyperView simpleHyperView;

@@ -8,13 +8,13 @@
  */
 package ontorama.backends.p2p.model;
 
+import java.net.URI;
+
 import ontorama.model.Graph;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-
-import java.net.URI;
 
 public interface P2PGraph extends Graph {
 	public P2PGraph search(Query query);

@@ -1,18 +1,27 @@
 package ontorama.textDescription.view;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
-import ontorama.model.*;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
+import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * Title:        OntoRama

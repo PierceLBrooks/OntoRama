@@ -8,8 +8,10 @@
  */
 package ontorama.ontologyConfig;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 public class EdgeTypeDisplayInfo {
 

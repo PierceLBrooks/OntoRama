@@ -3,23 +3,28 @@
  */
 package ontorama.hyper.controller;
 
-import org.tockit.events.*;
-import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
-import ontorama.hyper.view.simple.SimpleHyperView;
-import ontorama.hyper.view.simple.HyperNodeView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import ontorama.OntoramaConfig;
 import ontorama.controller.NodeSelectedEvent;
-import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
+import ontorama.hyper.view.simple.HyperNodeView;
+import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.EdgeType;
-import ontorama.model.Node;
 import ontorama.model.Graph;
-
-import javax.swing.*;
-import java.awt.geom.Point2D;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.List;
-import java.util.Iterator;
+import ontorama.model.Node;
+import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
+import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 /**
  *

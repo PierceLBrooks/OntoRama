@@ -1,12 +1,14 @@
 package ontorama.backends.p2p.model.test;
 
-import junit.framework.TestCase;
-import ontorama.backends.p2p.model.*;
-
-import java.util.HashSet;
-import java.util.Iterator;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+
+import ontorama.backends.p2p.model.P2PNode;
+import ontorama.backends.p2p.model.P2PNodeImpl;
 
 /**
  * <p>Title: </p>

@@ -9,27 +9,33 @@ package ontorama.webkbtools.inputsource;
  * @version 1.0
  */
 
-import ontorama.OntoramaConfig;
-import ontorama.view.OntoRamaApp;
-import ontorama.model.Node;
-import ontorama.model.Edge;
-import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
-import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.webkbtools.util.ParserException;
-import ontorama.webkbtools.util.SourceException;
-
-import java.awt.*;
-import java.io.*;
+import java.awt.Frame;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.AccessControlException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.Node;
+import ontorama.view.OntoRamaApp;
+import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
+import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
+import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
+import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.SourceException;
 
 
 public class WebKB2Source implements Source {

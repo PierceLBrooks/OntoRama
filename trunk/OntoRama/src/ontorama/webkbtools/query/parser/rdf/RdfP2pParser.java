@@ -1,27 +1,43 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import com.hp.hpl.jena.rdf.query.QueryResults;
-import com.hp.hpl.jena.rdf.query.ResultBinding;
-import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
-import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.*;
-import com.hp.hpl.mesa.rdf.jena.model.Property;
+import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.AccessControlException;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.p2p.model.*;
-import ontorama.model.*;
+import ontorama.backends.p2p.model.P2PEdge;
+import ontorama.backends.p2p.model.P2PEdgeImpl;
+import ontorama.backends.p2p.model.P2PNode;
+import ontorama.backends.p2p.model.P2PNodeImpl;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
 
-import java.io.Reader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.AccessControlException;
-import java.util.*;
+import com.hp.hpl.jena.rdf.query.QueryResults;
+import com.hp.hpl.jena.rdf.query.ResultBinding;
+import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
+import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
+import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
+import com.hp.hpl.mesa.rdf.jena.model.Literal;
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.NsIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
+import com.hp.hpl.mesa.rdf.jena.model.RDFError;
+import com.hp.hpl.mesa.rdf.jena.model.RDFException;
+import com.hp.hpl.mesa.rdf.jena.model.RDFNode;
+import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Resource;
+import com.hp.hpl.mesa.rdf.jena.model.Statement;
+import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
 
 /*
  * Created by IntelliJ IDEA.
@@ -284,7 +300,7 @@ public class RdfP2pParser implements Parser {
             queryStr3 = queryStr3 +  "(?x, ?y, \"" + object + "\")";
         }
         query = new com.hp.hpl.jena.rdf.query.Query(queryStr3);
-        result = query.exec(queryStr3, model);
+        result =  com.hp.hpl.jena.rdf.query.Query.exec(queryStr3, model);
         resBindList = result.getAll();
         resBindIterator = resBindList.iterator();
         while (resBindIterator.hasNext()) {
@@ -317,7 +333,7 @@ public class RdfP2pParser implements Parser {
             queryStr1 = queryStr1 +  "(?x, ?y, \"" + object + "\")";
         }
         com.hp.hpl.jena.rdf.query.Query query = new com.hp.hpl.jena.rdf.query.Query(queryStr1);
-        QueryResults result = query.exec(queryStr1, model);
+        QueryResults result = com.hp.hpl.jena.rdf.query.Query.exec(queryStr1, model);
         List resBindList = result.getAll();
         Iterator resBindIterator = resBindList.iterator();
         while (resBindIterator.hasNext()) {

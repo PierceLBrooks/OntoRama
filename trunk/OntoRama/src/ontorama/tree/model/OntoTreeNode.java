@@ -1,12 +1,19 @@
 package ontorama.tree.model;
 
-import ontorama.model.*;
-import ontorama.util.Debug;
-import ontorama.OntoramaConfig;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.util.*;
+
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.util.Debug;
 
 /**
  * Description: OntoTreeNode is implementation of javax.swing.TreeNode

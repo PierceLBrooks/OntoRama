@@ -8,10 +8,10 @@
  */
 package ontorama.backends.p2p.model;
 
-import ontorama.model.Edge;
-
 import java.net.URI;
 import java.util.Set;
+
+import ontorama.model.Edge;
 
 public interface P2PEdge extends Edge {
     /**

@@ -1,13 +1,11 @@
 package ontorama.backends.p2p.p2pprotocol;
 
-import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
-
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
-import net.jxta.pipe.InputPipe;
+import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
 
 /**
  * This class handles the P2P communication and implements the 
@@ -67,7 +65,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											null,
 											communicationSender.getPeerIDasString(),
 											null,
-											communicationSender.TAGLOGOUT,
+											Communication.TAGLOGOUT,
 											"");
 			//Takes care of the cache problem at remote peers
 			//otherwise other peers still thinks this peer is online
@@ -117,7 +115,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 		   									recieverPipeAdvID, 
 		   									null, 
 		   									null, 
-		   									communicationSender.TAGSEARCHRESPONSE, 
+		   									Communication.TAGSEARCHRESPONSE, 
 		   									body);
 		} catch (GroupExceptionThread e) {
 			throw (GroupExceptionThread) e.fillInStackTrace();	
@@ -304,7 +302,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 											null,
 											peerIDasString,
 											groupIDasString,
-											communicationInit.TAGFLUSHPEER,
+											Communication.TAGFLUSHPEER,
 											"");
 		} catch (GroupExceptionFlush e) {
 			throw (GroupExceptionFlush) e.fillInStackTrace();	

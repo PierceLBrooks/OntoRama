@@ -1,17 +1,26 @@
 package ontorama.ontologyConfig;
 
 
-import ontorama.OntoramaConfig;
-import ontorama.model.*;
-import ontorama.util.Debug;
-import org.jdom.*;
-import org.jdom.input.SAXBuilder;
-
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.awt.*;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.EdgeType;
+import ontorama.model.EdgeTypeImpl;
+import ontorama.util.Debug;
+import org.jdom.Attribute;
+import org.jdom.DataConversionException;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 /**
  * Title:
@@ -321,7 +330,7 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     public List getRelationRdfMappingList() {
-        return this.relationRdfMappingList;
+        return XmlConfigParser.relationRdfMappingList;
     }
 
     public List getEdgesOrdering() {

@@ -1,8 +1,8 @@
 package ontorama.model;
 
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-
 import java.net.URI;
+
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.

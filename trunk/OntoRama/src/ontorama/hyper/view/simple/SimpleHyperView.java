@@ -1,23 +1,37 @@
 package ontorama.hyper.view.simple;
 
 
-import ontorama.graph.controller.GraphViewFocusEventHandler;
-import ontorama.graph.view.GraphView;
-import ontorama.hyper.model.HyperNode;
-import ontorama.hyper.controller.*;
-import ontorama.model.*;
-import ontorama.OntoramaConfig;
-import org.tockit.canvas.Canvas;
-import org.tockit.canvas.CanvasItem;
-import org.tockit.canvas.events.*;
-import org.tockit.events.EventBroker;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.InputEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+
+import ontorama.OntoramaConfig;
+import ontorama.graph.controller.GraphViewFocusEventHandler;
+import ontorama.graph.view.GraphView;
+import ontorama.hyper.controller.DraggedEventHandler;
+import ontorama.hyper.controller.NodeActivatedEventHandler;
+import ontorama.hyper.controller.NodeContextMenuHandler;
+import ontorama.hyper.controller.NodePointedEventHandler;
+import ontorama.hyper.controller.NodeSelectedEventTransformer;
+import ontorama.hyper.controller.SphereMouseMovedEventHandler;
+import ontorama.hyper.model.HyperNode;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
+import ontorama.model.NodeType;
+import org.tockit.canvas.Canvas;
+import org.tockit.canvas.CanvasItem;
+import org.tockit.canvas.events.CanvasItemDraggedEvent;
+import org.tockit.canvas.events.CanvasItemMouseMovementEvent;
+import org.tockit.events.EventBroker;
 
 
 public class SimpleHyperView extends Canvas implements GraphView {
@@ -102,7 +116,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new NodeContextMenuHandler(this, eventBroker);
         new SphereMouseMovedEventHandler(this, eventBroker);
         new DraggedEventHandler(this, eventBroker);
-        this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
+        SimpleHyperView.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
     public Graph getGraph() {
@@ -228,7 +242,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         end = System.currentTimeMillis();
         System.out.println("Time taken: " + ((end - start)) + "ms");
 
-        addCanvasItem(this.sphereView);
+        addCanvasItem(SimpleHyperView.sphereView);
         addLinesToHyperNodeViews(hypernodeviews, root);
         addHyperNodeViews();
         addLabelViews();
@@ -849,7 +863,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         this.hypernodeviews.clear();
         this.focusNode = null;
         this.currentHighlightedView = null;
-        this.labelView = null;
+    	SimpleHyperView.labelView = null;
         this.canvasScale = 1;
 
     }
@@ -883,14 +897,14 @@ public class SimpleHyperView extends Canvas implements GraphView {
             CanvasItem canvasItem = (CanvasItem) it.previous();
             if (canvasItem instanceof LabelView) {
                 if (((LabelView) canvasItem).hasHyperNodeView(selectedNodeView) == true) {
-                    this.labelView = (LabelView) canvasItem;
+                	SimpleHyperView.labelView = (LabelView) canvasItem;
                     break;
                 }
             }
         }
         if (labelView != null) {
-            canvasItems.remove(this.labelView);
-            canvasItems.add(this.labelView);
+            canvasItems.remove(SimpleHyperView.labelView);
+            canvasItems.add(SimpleHyperView.labelView);
         }
     }
 

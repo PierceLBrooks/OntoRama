@@ -3,10 +3,11 @@ package ontorama.webkbtools.query;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ontorama.webkbtools.query.parser.rdf.test.TestRdfDamlParser;
-import ontorama.webkbtools.query.parser.rdf.test.TestRdfWebkbParser;
-import ontorama.webkbtools.query.parser.rdf.test.TestRdfP2pParser;
+
 import ontorama.webkbtools.query.parser.cgkb.TestCgKbCsvParser;
+import ontorama.webkbtools.query.parser.rdf.test.TestRdfDamlParser;
+import ontorama.webkbtools.query.parser.rdf.test.TestRdfP2pParser;
+import ontorama.webkbtools.query.parser.rdf.test.TestRdfWebkbParser;
 
 /**
  * <p>Title: </p>

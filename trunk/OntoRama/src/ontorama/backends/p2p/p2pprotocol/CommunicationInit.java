@@ -9,11 +9,9 @@ import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupFactory;
-import net.jxta.pipe.PipeService;
 import net.jxta.pipe.OutputPipe;
-import net.jxta.pipe.InputPipe;
+import net.jxta.pipe.PipeService;
 import net.jxta.protocol.PipeAdvertisement;
-import net.jxta.protocol.ModuleImplAdvertisement;
 
 /**
  * This class handles the P2P communication which is related to Initialization 
@@ -158,7 +156,7 @@ System.out.println("CommunicationInit::startPropEndpoint, outputPIPE:" + outputP
 			//Publish the pipes advertisement both localy and global
 			discServ.publish(pipeAdvert,
 							DiscoveryService.ADV,
-							discServ.DEFAULT_LIFETIME,
+							DiscoveryService.DEFAULT_LIFETIME,
 							30*1000);
 							
 			discServ.remotePublish(pipeAdvert,

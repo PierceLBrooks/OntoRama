@@ -1,13 +1,15 @@
 package ontorama.tree.model;
 
-import ontorama.model.*;
-import ontorama.OntoramaConfig;
-
-import javax.swing.tree.TreeNode;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Enumeration;
+
+import javax.swing.tree.TreeNode;
+
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph

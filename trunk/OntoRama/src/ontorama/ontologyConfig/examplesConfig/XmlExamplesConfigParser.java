@@ -1,5 +1,11 @@
 package ontorama.ontologyConfig.examplesConfig;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.XmlParserAbstract;
@@ -9,12 +15,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Title:

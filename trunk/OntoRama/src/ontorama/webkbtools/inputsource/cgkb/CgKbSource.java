@@ -8,15 +8,27 @@
  */
 package ontorama.webkbtools.inputsource.cgkb;
 
-import ontorama.webkbtools.inputsource.*;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.SourceException;
-import ontorama.webkbtools.util.CancelledQueryException;
-import ontorama.model.EdgeType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import ontorama.model.EdgeType;
+import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.inputsource.SourceResult;
+import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
+import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.SourceException;
 
 public class CgKbSource implements Source {
 

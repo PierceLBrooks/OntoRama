@@ -1,23 +1,26 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
-import ontorama.backends.p2p.p2pprotocol.GroupExceptionThread;
-import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
-import ontorama.backends.p2p.p2pprotocol.GroupException;
-import ontorama.view.ErrorPopupMessage;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.util.Vector;
-import java.util.Iterator;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Vector;
 
-import net.jxta.peergroup.PeerGroupID;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+
+import ontorama.backends.p2p.p2pmodule.P2PSender;
+import ontorama.backends.p2p.p2pprotocol.GroupException;
+import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
+import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.view.ErrorPopupMessage;
 
 /*
  * Created by IntelliJ IDEA.

@@ -1,19 +1,38 @@
 package ontorama.view;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import ontorama.OntoramaConfig;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
 import ontorama.graph.view.GraphQuery;
 import ontorama.graph.view.GraphView;
-import ontorama.model.*;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * QueryPanel is responsible for building an interface for a query that
@@ -92,11 +111,12 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
                 try {
                     depth = (new Integer(_depthField.getText())).intValue();
                 } catch (NumberFormatException nfe) {
-                    _ontoRamaApp.showErrorDialog("Please use integers to specify depth");
+                	/// @todo instead of calling error dialog on static - should use event broker for this
+                    OntoRamaApp.showErrorDialog("Please use integers to specify depth");
                     _depthField.selectAll();
                 }
                 if (depth > 4) {
-                    _ontoRamaApp.showErrorDialog("Please choose smaller integers " +
+                    OntoRamaApp.showErrorDialog("Please choose smaller integers " +
                             "for depth setting. " +
                             "Large setting for this parameter may result in long load times");
                     _depthField.selectAll();

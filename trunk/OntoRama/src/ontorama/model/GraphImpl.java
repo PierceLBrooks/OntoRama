@@ -2,18 +2,26 @@ package ontorama.model;
 
 
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import ontorama.OntoramaConfig;
-import ontorama.model.util.NodeAlreadyExistsException;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.events.EdgeAddedEvent;
+import ontorama.model.events.EdgeRemovedEvent;
+import ontorama.model.events.GraphReducedEvent;
+import ontorama.model.events.NodeAddedEvent;
+import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.util.EdgeAlreadyExistsException;
-import ontorama.model.events.*;
+import ontorama.model.util.GraphModificationException;
+import ontorama.model.util.NodeAlreadyExistsException;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-
-import java.util.*;
-
 import org.tockit.events.EventBroker;
 
 /**

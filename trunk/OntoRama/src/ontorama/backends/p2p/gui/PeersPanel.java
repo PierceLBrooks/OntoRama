@@ -1,10 +1,20 @@
 package ontorama.backends.p2p.gui;
 
-import javax.swing.*;
-import java.util.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Vector;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 
 /*

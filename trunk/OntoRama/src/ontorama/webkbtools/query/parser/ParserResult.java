@@ -9,7 +9,7 @@
 package ontorama.webkbtools.query.parser;
 
 
-import java.util.*;
+import java.util.List;
 
 public class ParserResult {
     List nodes;

@@ -1,19 +1,19 @@
 package ontorama.backends.p2p.p2pprotocol;
 
-import java.util.Enumeration;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
-import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryEvent;
-import net.jxta.protocol.PipeAdvertisement;
+import net.jxta.discovery.DiscoveryListener;
 import net.jxta.document.AdvertisementFactory;
+import net.jxta.document.MimeMediaType;
+import net.jxta.endpoint.Message;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.pipe.OutputPipe;
-import net.jxta.endpoint.Message;
-import net.jxta.document.MimeMediaType;
 import net.jxta.pipe.PipeService;
+import net.jxta.protocol.PipeAdvertisement;
 
 
 /**

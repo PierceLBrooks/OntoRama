@@ -1,31 +1,33 @@
 package ontorama.webkbtools.writer.rdf;
 
-import ontorama.webkbtools.writer.ModelWriter;
-import ontorama.webkbtools.writer.ModelWriterException;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.model.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.P2PNode;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
 import ontorama.ontologyConfig.RdfMapping;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.writer.ModelWriter;
+import ontorama.webkbtools.writer.ModelWriterException;
 
-import java.io.Writer;
-import java.io.StringWriter;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import com.hp.hpl.mesa.rdf.jena.model.*;
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
-import com.hp.hpl.mesa.rdf.jena.common.prettywriter.PrettyWriter;
-import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
-import com.hp.hpl.mesa.rdf.jena.vocabulary.RDF;
-import com.hp.hpl.jena.daml.DAMLModel;
-import com.hp.hpl.jena.daml.DAMLClass;
-import com.hp.hpl.jena.daml.common.DAMLModelImpl;
-import com.hp.hpl.jena.daml.common.DAMLClassImpl;
+import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
+import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
+import com.hp.hpl.mesa.rdf.jena.model.RDFException;
+import com.hp.hpl.mesa.rdf.jena.model.Resource;
 
 /*
  * Created by IntelliJ IDEA.

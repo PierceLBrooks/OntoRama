@@ -8,8 +8,8 @@
  */
 package ontorama.controller;
 
-import org.tockit.events.Event;
 import ontorama.webkbtools.query.Query;
+import org.tockit.events.Event;
 
 public class GeneralQueryEvent implements Event {
 

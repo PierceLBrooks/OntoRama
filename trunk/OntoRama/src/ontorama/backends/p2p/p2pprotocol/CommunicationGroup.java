@@ -10,6 +10,7 @@ import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.StructuredDocument;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.exception.ProtocolNotSupportedException;
+import net.jxta.impl.membership.NullMembershipService.NullAuthenticator;
 import net.jxta.membership.MembershipService;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
@@ -17,7 +18,6 @@ import net.jxta.protocol.ModuleImplAdvertisement;
 import net.jxta.protocol.PeerAdvertisement;
 import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
-import net.jxta.impl.membership.NullMembershipService.NullAuthenticator;
 
 /**
  * This class handles the P2P communication which is related to group functionality.
@@ -200,7 +200,7 @@ public class CommunicationGroup extends Communication {
 
 			//Flushs the advertisment from the parent group (in this case the Global Group)
 			DiscoveryService discServGlobal = this.getGlobalPG().getDiscoveryService();
-			discServGlobal.flushAdvertisements(groupIDasString, discServGlobal.GROUP);
+			discServGlobal.flushAdvertisements(groupIDasString, DiscoveryService.GROUP);
 
 			//if leaved group, then update memberOfGroups
 			this.removeElementFromMembersOfGroup(groupIDasString);
@@ -208,7 +208,7 @@ public class CommunicationGroup extends Communication {
 			
 			//remove the inputpipe by flushing it from local cache
 			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
-			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), discServ.ADV);
+			discServ.flushAdvertisements(pipeAdv.getPipeID().toString(), DiscoveryService.ADV);
 							
 		} catch (PeerGroupException e) {
 				throw new GroupException(e,"Could not leave the peer group");
@@ -241,13 +241,13 @@ public class CommunicationGroup extends Communication {
 				
 		//Send a request to other peers
 		discServ.getRemoteAdvertisements(null,
-										discServ.GROUP,
+									DiscoveryService.GROUP,
 										searchAttrib,
 										searchString,
 										20);
 
 		discServ.getRemoteAdvertisements(null,
-										discServ.GROUP,
+									DiscoveryService.GROUP,
 										null,
 										null,
 										10);
@@ -257,7 +257,7 @@ public class CommunicationGroup extends Communication {
 			Thread.sleep(3*1000);
 
 			//Collect adv from local cache
-			enum = discServ.getLocalAdvertisements(discServ.GROUP,
+			enum = discServ.getLocalAdvertisements(DiscoveryService.GROUP,
 														searchAttrib,
 														searchString);
 		} catch (InterruptedException e) {
@@ -306,13 +306,13 @@ public class CommunicationGroup extends Communication {
 
 		//Send a request to other peers
 		discServ1.getRemoteAdvertisements(null,
-										discServ.PEER,
+									DiscoveryService.PEER,
 										null,null,
 										10);
 		try {
 			Thread.sleep(3*1000);
 
-			enum = discServ1.getLocalAdvertisements(discServ.PEER,
+			enum = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
 													null,null);
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();

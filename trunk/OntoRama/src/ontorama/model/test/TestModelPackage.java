@@ -3,9 +3,6 @@ package ontorama.model.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ontorama.model.test.TestEdge;
-import ontorama.model.test.TestGraph;
-import ontorama.model.test.TestNode;
 
 /**
  * <p>Title: </p>

@@ -1,5 +1,11 @@
 package ontorama.webkbtools.query;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import ontorama.OntoramaConfig;
 import ontorama.model.Edge;
 import ontorama.model.Node;
@@ -8,11 +14,10 @@ import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.*;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
+import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.NoSuchTypeInQueryResult;
+import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.SourceException;
 
 /**
  * Description: Query Engine will query Ontology Server with the given

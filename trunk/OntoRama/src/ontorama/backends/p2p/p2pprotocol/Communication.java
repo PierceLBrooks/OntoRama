@@ -9,10 +9,10 @@ import net.jxta.discovery.DiscoveryService;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
+import net.jxta.pipe.InputPipe;
+import net.jxta.pipe.OutputPipe;
 import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
-import net.jxta.pipe.OutputPipe;
-import net.jxta.pipe.InputPipe;
 
 /**
  * This base class handles the common P2P functionality.
@@ -56,7 +56,7 @@ public class Communication {
 
     public Communication() {
 		this.setMemberOfGroups(new Hashtable());
-		this.inputPipeAdvertisement = new Hashtable();
+    	Communication.inputPipeAdvertisement = new Hashtable();
         outputPropagatePipe = new Hashtable();
         inputPropagatePipe = new Hashtable();
 	}
@@ -73,7 +73,7 @@ public class Communication {
 	*/
 	
 	protected Vector getSearchResult() {
-		return this.searchResult;
+		return Communication.searchResult;
 	}
 	
 
@@ -86,7 +86,7 @@ public class Communication {
 	*
 	*/
 	protected void setSearchResult(Vector obj) {
-		this.searchResult = obj;
+		Communication.searchResult = obj;
 	}
 
 
@@ -99,7 +99,7 @@ public class Communication {
 	*
 	*/
 	protected PeerGroup getGlobalPlatform() {
-		return this.globalP2PPlatform;
+		return Communication.globalP2PPlatform;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class Communication {
 	*
 	*/
 	protected void setGlobalPlatform(PeerGroup obj)  {
-		this.globalP2PPlatform = obj;
+		Communication.globalP2PPlatform = obj;
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class Communication {
 	*
 	*/
 	private void setMemberOfGroups(Hashtable obj)  {
-		this.memberOfGroups = obj;
+		Communication.memberOfGroups = obj;
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class Communication {
 	*
 	*/	
 	protected Hashtable getMemberOfGroups() {
-		return this.memberOfGroups;
+		return Communication.memberOfGroups;
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class Communication {
 	*
 	*/
 	protected void setInputPipeAdvertisement(PeerGroupID groupID,PipeAdvertisement obj)  {
-		this.inputPipeAdvertisement.put(groupID,obj);
+		Communication.inputPipeAdvertisement.put(groupID,obj);
 	}
 	
 
@@ -177,7 +177,7 @@ public class Communication {
 	*
 	*/
 	protected PipeAdvertisement getInputPipeAdvertisement(PeerGroupID groupID)  {
-		return (PipeAdvertisement) this.inputPipeAdvertisement.get(groupID);
+		return (PipeAdvertisement) Communication.inputPipeAdvertisement.get(groupID);
 	}
 
 
@@ -191,7 +191,7 @@ public class Communication {
     *
     */
     protected void setOutputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
-        this.outputPropagatePipe.put(groupID,obj);
+    	Communication.outputPropagatePipe.put(groupID,obj);
     }
 
 
@@ -205,7 +205,7 @@ public class Communication {
     *
     */
     protected OutputPipe getOutputPropagatePipe(PeerGroupID groupID)  {
-        return (OutputPipe) this.outputPropagatePipe.get(groupID);
+        return (OutputPipe) Communication.outputPropagatePipe.get(groupID);
     }
 
     /**
@@ -218,7 +218,7 @@ public class Communication {
     *
     */
     protected void setinputPropagatePipe(PeerGroupID groupID,OutputPipe obj)  {
-        this.inputPropagatePipe.put(groupID,obj);
+        Communication.inputPropagatePipe.put(groupID,obj);
     }
 
 
@@ -232,7 +232,7 @@ public class Communication {
     *
     */
     protected InputPipe getInputPropagatePipe(PeerGroupID groupID)  {
-        return (InputPipe) this.inputPropagatePipe.get(groupID);
+        return (InputPipe) Communication.inputPropagatePipe.get(groupID);
     }
 
 	/**
@@ -243,7 +243,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	public PeerGroup getGlobalPG() {
-		return this.globalP2PGroup;
+		return Communication.globalP2PGroup;
 	}
 	
 	/**
@@ -255,7 +255,7 @@ public class Communication {
 	*
 	*/
 	protected void setGlobalPG(PeerGroup obj)  {
-		this.globalP2PGroup = obj;
+		Communication.globalP2PGroup = obj;
 	}	
 
 

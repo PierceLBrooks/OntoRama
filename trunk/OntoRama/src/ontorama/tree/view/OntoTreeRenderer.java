@@ -1,19 +1,31 @@
 package ontorama.tree.view;
 
-import ontorama.OntoramaConfig;
-import ontorama.model.*;
-import ontorama.ontologyConfig.ImageMaker;
-import ontorama.tree.model.OntoTreeNode;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Polygon;
+import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Enumeration;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Graph;
+import ontorama.model.Node;
+import ontorama.model.NodeType;
+import ontorama.ontologyConfig.ImageMaker;
+import ontorama.tree.model.OntoTreeNode;
 
 /**
  * Renderer for TreeView

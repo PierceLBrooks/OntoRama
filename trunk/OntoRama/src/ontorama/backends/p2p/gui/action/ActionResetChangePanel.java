@@ -1,12 +1,11 @@
 package ontorama.backends.p2p.gui.action;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.ChangePanel;
-import ontorama.backends.p2p.p2pmodule.P2PSender;
-
-import java.awt.event.ActionEvent;
 
 /*
  * Created by IntelliJ IDEA.

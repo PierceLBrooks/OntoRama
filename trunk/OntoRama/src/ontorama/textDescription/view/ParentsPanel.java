@@ -1,12 +1,14 @@
 package ontorama.textDescription.view;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
 import ontorama.controller.QueryEvent;
 import ontorama.model.Node;
 import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * @author nataliya

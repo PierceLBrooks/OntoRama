@@ -48,9 +48,6 @@ public class P2PNodeImpl extends ontorama.model.graph.NodeImpl implements P2PNod
             super(node.getName(),node.getIdentifier());
             this.setCreatorUri(node.getCreatorUri());
             this.setNodeType(node.getNodeType());
-            this.setDepth(node.getDepth());
-            this.setFoldState(node.getFoldedState());
-            this.addClones(node.getClones());
             this.asserters = new HashSet();
             this.rejecters = new HashSet();
         }

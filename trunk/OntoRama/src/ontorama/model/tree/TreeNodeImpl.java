@@ -39,11 +39,6 @@ public class TreeNodeImpl implements TreeNode {
     private TreeNode _parent;
 
     /**
-     * distance to the root node
-     */
-    private int _depth = 0;
-
-    /**
      *
      * @param graphNode
      */
@@ -145,16 +140,6 @@ public class TreeNodeImpl implements TreeNode {
     public TreeNode getParent() {
     	return _parent;
     }
-
-
-	public int getDepth() {
-		return _depth;
-	}
-
-	public void setDepth(int depth) {
-		_depth = depth;
-	}
-
 
     public String toString () {
         String res = "TreeNode: " + this.getName();

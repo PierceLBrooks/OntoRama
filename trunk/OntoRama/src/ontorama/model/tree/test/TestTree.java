@@ -185,7 +185,6 @@ public class TestTree extends TestCase{
         Iterator topLevelChildren = rootNode.getChildren().iterator();
         while (topLevelChildren.hasNext()) {
             TreeNode child = (TreeNode) topLevelChildren.next();
-            TreeEdge curEdge = rootNode.getEdge(child);
             branchDepth = calcBranchDepth(1, child);
             if (branchDepth > treeDepth) {
                 treeDepth = branchDepth;
@@ -194,12 +193,6 @@ public class TestTree extends TestCase{
         assertEquals("branchDepth of the tree should be ", 4, treeDepth);
     }
     
-    public void testDepth () {
-    	TreeNode node1 = getNodeByName("node1");
-    	assertEquals("tree should contain node1 ", true, (node1 != null));
-    	assertEquals("depth for root node node1 ", 0, node1.getDepth());
-    }
-
     public void testAddNode () throws TreeModificationException {
         int originalNodeCount = countNumOfNodes();
 

@@ -57,7 +57,6 @@ public class TreeImpl implements Tree {
 				TreeNode curNewNode = addTreeNode(graphNode);
 				addTreeEdge(graphEdge, curClone, curNewNode);
 			}
-			calculateDepths(_root, 0);
 			_eventBroker.processEvent(new TreeNodeAddedEvent(this, newNode));
 			return newNode;
 		}
@@ -107,7 +106,6 @@ public class TreeImpl implements Tree {
     private void buildTree (Node topGraphNode) {
         _root = addTreeNode(topGraphNode);
         traverseBuild(topGraphNode, _root);
-        calculateDepths(_root, 0);
     }
 
     private void traverseBuild (Node topGraphNode, TreeNode topTreeNode ) {
@@ -151,18 +149,5 @@ public class TreeImpl implements Tree {
     	toNode.setParent(fromNode);
         return treeEdge;
     }
-
-	/**
-	 * Calculate the depths of all children in respect to this node.
-	 */
-	public void calculateDepths(TreeNode top, int depth) {
-		top.setDepth(depth);
-		Iterator it = top.getChildren().iterator();
-		while (it.hasNext()) {
-			TreeNode childNode = (TreeNode) it.next();
-			childNode.setDepth(depth + 1);
-			calculateDepths(childNode, depth + 1);
-		}
-	}
 
 }

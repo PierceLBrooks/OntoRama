@@ -60,8 +60,8 @@ public class TestRdfP2pParser extends TestCase {
         while (it.hasNext()) {
             P2PEdge edge = (P2PEdge) it.next();
             System.out.println("edge = " + edge);
-            System.out.println("\trejections: " + edge.getRejectionsList());
-            System.out.println("\tassertions: " + edge.getAssertionsList());
+            System.out.println("\trejections: " + edge.getRejections());
+            System.out.println("\tassertions: " + edge.getAssertions());
         }
     }
 
@@ -92,8 +92,8 @@ public class TestRdfP2pParser extends TestCase {
         P2PNode fromNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth");
         P2PEdge edge = getEdgeFromList(fromNode, toNode);
         assertEquals("edge should exist in the edgesList ", true, (edge != null));
-        assertEquals("number of asserstions for edge ", 1, edge.getAssertionsList().size());
-        assertEquals("number of rejections for edge ", 1, edge.getRejectionsList().size());
+        assertEquals("number of asserstions for edge ", 1, edge.getAssertions().size());
+        assertEquals("number of rejections for edge ", 1, edge.getRejections().size());
     }
 
     private P2PNode getNodeFromList (String nodeName) {

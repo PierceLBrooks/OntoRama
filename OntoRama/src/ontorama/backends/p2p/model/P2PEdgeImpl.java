@@ -95,7 +95,7 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      *
      * @return a list of the asserter
      */
-     public Set getAssertionsList () {
+     public Set getAssertions () {
     	return this.asserters;
     }
     
@@ -104,7 +104,7 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      *
      * @return a list of the rejecters
      */
-     public Set getRejectionsList () {
+     public Set getRejections () {
     	return this.rejecters;
     }
 }

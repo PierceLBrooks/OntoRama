@@ -56,6 +56,9 @@ public class TestTypeQueryImplementation extends TestCase {
    *
    */
   protected void setUp() throws Exception {
+     OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
+                            "ontorama.properties","examples/test/data/config.xml");
+
 
     queryTerm = OntoramaConfig.ontologyRoot;
 

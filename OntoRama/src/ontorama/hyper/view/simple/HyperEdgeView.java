@@ -31,9 +31,9 @@ public class HyperEdgeView extends CanvasItem {
     /**
      * Store the relation type for this edge
      */
-    private int relLink;
+    private RelationLinkDetails relLink;
 
-    public HyperEdgeView(HyperNodeView from, HyperNodeView to, int relLink) {
+    public HyperEdgeView(HyperNodeView from, HyperNodeView to, RelationLinkDetails relLink) {
         this.from = from;
         this.to = to;
         this.relLink = relLink;
@@ -43,8 +43,7 @@ public class HyperEdgeView extends CanvasItem {
         if (!this.to.getVisible()) {
             return;
         }
-        RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
-        ImageIcon iconImg = relLinkDetails.getDisplayIcon();
+        ImageIcon iconImg = relLink.getDisplayIcon();
         double x1 = from.getProjectedX();
         double y1 = from.getProjectedY();
         double x2 = to.getProjectedX();

@@ -246,7 +246,7 @@ public class OntoramaConfig {
      * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static List getRelationLinksList() {
+    private static List getRelationLinksList() {
         LinkedList allRelations = new LinkedList();
         for (int i = 0; i < allRelationsArray.length; i++) {
             if (allRelationsArray[i] != null) {
@@ -256,13 +256,22 @@ public class OntoramaConfig {
         return allRelations;
     }
 
+    /**
+     * @todo added this method while refactoring - shouldn't need this when finished. Remove!
+     * @return
+     */
+    public static HashSet getTempRelationLinksSet () {
+        List allRel = getRelationLinksList();
+        return new HashSet(allRel);
+    }
+
 
     /**
      * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static HashSet buildRelationLinksSet() {
-        List allRelations = getRelationLinksList();
+    private static HashSet buildRelationLinksSet() {
+        List allRelations = getRelationLinkDetailsList();
         return new HashSet(allRelations);
     }
 
@@ -278,6 +287,16 @@ public class OntoramaConfig {
      */
     public static RelationLinkDetails[] getRelationLinkDetails() {
         return allRelationsArray;
+    }
+
+    public static List getRelationLinkDetailsList () {
+        LinkedList allRelations = new LinkedList();
+        for (int i = 0; i < allRelationsArray.length; i++) {
+            if (allRelationsArray[i] != null) {
+                allRelations.add(allRelationsArray[i]);
+            }
+        }
+        return allRelations;
     }
 
     /**

@@ -161,7 +161,7 @@ public class GraphImpl implements Graph {
     /**
      * Process given OntologyType, create Node for it and all corresponding Edges.
      *
-     * @param   ot  - ontoogy type to process
+     * @param   ot  - ontoogy edgeType to process
      * @param   rootName - name of the root node
      */
     private void processOntologyType(OntologyType ot, String rootName)
@@ -190,21 +190,26 @@ public class GraphImpl implements Graph {
         }
 
         // Go through relation links and make Edges
-        Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
-        while (relLinks.hasNext()) {
-            Integer relLink = (Integer) relLinks.next();
-            Iterator relatedTypes = ot.getIterator(relLink.intValue());
+        RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
+
+        for (int i = 0; i < relationLinksDetails.length; i++) {
+            RelationLinkDetails relLinkType = relationLinksDetails[i];
+
+//        Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
+//        while (relLinks.hasNext()) {
+//            Integer relLink = (Integer) relLinks.next();
+            Iterator relatedTypes = ot.getIterator(i);
             while (relatedTypes.hasNext()) {
                 OntologyType relatedType = (OntologyType) relatedTypes.next();
 
                 GraphNode relNode = getNodeFromNodesList(relatedType.getName(), relatedType.getFullName());
-                Edge oneWayEdge = Edge.getEdge(node, relNode, relLink.intValue());
-                Edge reversedEdge = Edge.getEdge(relNode, node, relLink.intValue());
+                Edge oneWayEdge = Edge.getEdge(node, relNode, relLinkType);
+                Edge reversedEdge = Edge.getEdge(relNode, node, relLinkType);
                 if ((oneWayEdge != null) || (reversedEdge != null)) {
                     String message = "Relation links: ";
-                    message = message + "edge: " + node + " -> " + relNode + " , type = " + relLink.intValue();
+                    message = message + "edge: " + node + " -> " + relNode + " , edgeType = " + relLinkType;
                     message = message + " and ";
-                    message = message + "edge: " + relNode + " -> " + node + " , type = " + relLink.intValue();
+                    message = message + "edge: " + relNode + " -> " + node + " , edgeType = " + relLinkType;
                     message = message + " are reversable. This is not going to work in the current graph model, ";
                     message = message + " we won't display this relation link here.";
                     message = message + " Please consider moving this relation link into concept properties in the config file.";
@@ -217,14 +222,14 @@ public class GraphImpl implements Graph {
                     }
                     OntoRamaApp.showErrorDialog(message);
                 } else {
-                    new Edge(node, relNode, relLink.intValue());
+                    new Edge(node, relNode, relLinkType);
                     debug.message(
                             "\t edge: "
                             + node
                             + " -> "
                             + relNode
-                            + " , type = "
-                            + relLink.intValue());
+                            + " , edgeType = "
+                            + relLinkType);
                     //processOntologyType(relatedType, rootName);
                 }
             }
@@ -492,15 +497,15 @@ public class GraphImpl implements Graph {
                     GraphNode cloneNode = curNode.makeClone();
                     _graphNodes.add(cloneNode);
 
-                    // add edge from cloneNode to a NodeParent with this rel type and
-                    // remove edge from curNode to a NodeParent with this rel type
+                    // add edge from cloneNode to a NodeParent with this rel edgeType and
+                    // remove edge from curNode to a NodeParent with this rel edgeType
                     Iterator it = Edge.getInboundEdges(curNode);
                     if (it.hasNext()) {
                         Edge firstEdge = (Edge) it.next();
                         new Edge(
                                 firstEdge.getFromNode(),
                                 cloneNode,
-                                firstEdge.getType());
+                                firstEdge.getEdgeType());
                         Edge.removeEdge(firstEdge);
                     }
 
@@ -531,7 +536,7 @@ public class GraphImpl implements Graph {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
             GraphNode toNode = curEdge.getToNode();
             GraphNode cloneToNode = toNode.makeClone();
-            new Edge(cloneNode, cloneToNode, curEdge.getType());
+            new Edge(cloneNode, cloneToNode, curEdge.getEdgeType());
             deepCopy(toNode, cloneToNode);
         }
     }
@@ -626,9 +631,7 @@ public class GraphImpl implements Graph {
             Edge curEdge = (Edge) edgesIterator.next();
             GraphNode fromNode = curEdge.getFromNode();
             GraphNode toNode = curEdge.getToNode();
-            int type = curEdge.getType();
-            RelationLinkDetails relLinkDetails =
-                    OntoramaConfig.getRelationLinkDetails(type);
+            RelationLinkDetails relLinkDetails = curEdge.getEdgeType();
             resultStr = resultStr + tab + tab + "<relationLink";
             resultStr =
                     resultStr + " name='" + relLinkDetails.getLinkName() + "'";

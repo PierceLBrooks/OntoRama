@@ -12,6 +12,7 @@ package ontorama.webkbtools.datamodel;
 
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.ontologyConfig.RelationLinkDetails;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,12 +32,12 @@ public interface OntologyType {
     /**
      * Returns an iterator for relation links between the types.
      * Relation links are specified by a defined constance
-     * @param relationLink
+     * @param relationLinkType
      * @return    Iterator   returns Iterator of OntologyTypes related to
      *                    this OntologyType by relationLink
      * @throws    NoSuchRelationLinkException
      */
-    public Iterator getIterator(int relationLink) throws NoSuchRelationLinkException;
+    public Iterator getIterator(int relationLinkType) throws NoSuchRelationLinkException;
 
 
     /**

@@ -189,6 +189,14 @@ public class XmlParserFull implements Parser {
         URI creator = getCreator(typeElement);
         if (creator != null) {
             node.setCreatorUri(creator);
+            /// @todo dont think it is a good idea to hardcode "creator" 
+            // edge name here. A way to fix it would be to have
+            // description view explicitely displaying creator node property 
+            // and not to have creator as edge type. not sure though
+            // if this would work with the rest of the application well. at least
+            // it may not be as dynamic.
+            Node creatorNode = makeNode(creator.toString(), conceptNodeType);
+            makeEdge(node, creatorNode, "creator");
         }
 
         processTypeProperty(typeElement, node, "description");

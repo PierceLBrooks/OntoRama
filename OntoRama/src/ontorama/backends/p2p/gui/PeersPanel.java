@@ -162,4 +162,5 @@ System.out.println("GroupPanel::removePeer:" + peerName + "(" + peersList + ")")
             }
         }
     }
+
 }

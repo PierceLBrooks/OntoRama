@@ -15,7 +15,6 @@ public class QueryStartEvent implements Event {
 
     public QueryStartEvent(Query subject) {
         this.subject = subject;
-        System.out.println("new QueryStartEvent() for query " + subject);
     }
 
     public Object getSubject() {

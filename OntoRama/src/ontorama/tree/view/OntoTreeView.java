@@ -1,4 +1,4 @@
-package ontorama.tree.view;
+package ontorama.view.tree.view;
 
 import java.awt.Event;
 import java.awt.event.InputEvent;
@@ -23,9 +23,9 @@ import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
-import ontorama.tree.model.OntoTreeBuilder;
-import ontorama.tree.model.OntoTreeModel;
-import ontorama.tree.model.OntoTreeNode;
+import ontorama.view.tree.model.OntoTreeBuilder;
+import ontorama.view.tree.model.OntoTreeModel;
+import ontorama.view.tree.model.OntoTreeNode;
 import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
 

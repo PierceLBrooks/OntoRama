@@ -245,8 +245,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         });
 
-        _query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getEdgeTypesList());
-        executeQuery(_query);
+        if (!OntoramaConfig.loadBlank()) {
+            _progressBar.setIndeterminate(true);
+            _query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getEdgeTypesList());
+            executeQuery(_query);
+        }
     }
 
 
@@ -642,7 +645,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _statusLabel = new JLabel();
         _progressBar = new JProgressBar();
-        _progressBar.setIndeterminate(true);
+
 
         _statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
         _statusBar.add(_statusLabel, BorderLayout.WEST);

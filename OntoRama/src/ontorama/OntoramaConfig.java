@@ -119,6 +119,7 @@ public class OntoramaConfig {
     private static Properties properties = new Properties();
 
     private static List backends = new LinkedList();
+    private static boolean loadBlankOnStartUp = false;
 
     /**
      * Values of vars that are set here should be read from
@@ -203,6 +204,7 @@ public class OntoramaConfig {
         properties.load(propertiesFileIn);
         DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
+        loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
     }
 
     /**
@@ -358,6 +360,10 @@ public class OntoramaConfig {
         backends.add("ontorama.backends.p2p.P2PBackend");
         backends.add("ontorama.backends.filemanager.FileBackend");
         return backends;
+    }
+
+    public static boolean loadBlank () {
+        return loadBlankOnStartUp;
     }
 }
 

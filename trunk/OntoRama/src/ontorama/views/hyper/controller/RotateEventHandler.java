@@ -19,20 +19,20 @@ import org.tockit.events.EventBrokerListener;
 import org.tockit.events.filters.EventFilter;
 import org.tockit.events.filters.EventTypeFilter;
 
-public class DraggedEventHandler implements EventBrokerListener {
+public class RotateEventHandler implements EventBrokerListener {
     private SimpleHyperView simpleHyperView;
 
-    public DraggedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
+    public RotateEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
         this.simpleHyperView = simpleHyperView;
         eventBroker.subscribe(this, new EventFilter[]{new EventTypeFilter(CanvasItemDraggedEvent.class),
-                          new CanvasItemEventFilter(InputEvent.BUTTON1_DOWN_MASK, 
+                          new CanvasItemEventFilter(InputEvent.CTRL_DOWN_MASK | InputEvent.BUTTON1_DOWN_MASK, 
                           						    InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
         						 					InputEvent.ALT_DOWN_MASK | InputEvent.ALT_GRAPH_DOWN_MASK |
-        						 					InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)});
+        						 					InputEvent.SHIFT_DOWN_MASK)});
     }
 
     public void processEvent(Event e) {
         CanvasItemDraggedEvent draggedEvent = (CanvasItemDraggedEvent) e;
-        simpleHyperView.drag(draggedEvent);
+        simpleHyperView.rotate(draggedEvent);
     }
 }

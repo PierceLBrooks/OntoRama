@@ -20,6 +20,7 @@ import ontorama.views.hyper.controller.NodeActivatedEventHandler;
 import ontorama.views.hyper.controller.NodeContextMenuHandler;
 import ontorama.views.hyper.controller.NodePointedEventHandler;
 import ontorama.views.hyper.controller.NodeSelectedEventTransformer;
+import ontorama.views.hyper.controller.RotateEventHandler;
 import ontorama.views.hyper.controller.SphereMouseMovedEventHandler;
 import ontorama.views.hyper.model.HyperNode;
 import org.tockit.canvas.Canvas;
@@ -112,7 +113,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         	new NodeContextMenuHandler(this, eventBroker);
         }
         new SphereMouseMovedEventHandler(this, eventBroker);
-        new DraggedEventHandler(this, eventBroker);
+    	new DraggedEventHandler(this, eventBroker);
+    	new RotateEventHandler(this, eventBroker);
         SimpleHyperView.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
@@ -963,34 +965,40 @@ public class SimpleHyperView extends Canvas implements GraphView {
     public void dragNode(HyperNodeView nodeView, CanvasItemDraggedEvent draggedEvent) {
         drag(draggedEvent);
     }
-    /**
-     *
-     */
-    public void drag(CanvasItemDraggedEvent draggedEvent) {
-        labelView = null;
-        this.focusNode = null;
-        currentHighlightedView = null;
 
-        double x = draggedEvent.getCanvasToPosition().getX();
-        double y = draggedEvent.getCanvasToPosition().getY();
-        double lpx = draggedEvent.getCanvasFromPosition().getX();
-        double lpy = draggedEvent.getCanvasFromPosition().getY();
+	public void drag(CanvasItemDraggedEvent draggedEvent) {
+		SimpleHyperView.labelView = null;
+		this.focusNode = null;
+		this.currentHighlightedView = null;
 
-        int onmask = InputEvent.BUTTON1_DOWN_MASK | InputEvent.CTRL_DOWN_MASK;
-        int offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
-                      InputEvent.SHIFT_DOWN_MASK | InputEvent.ALT_DOWN_MASK;
-        if ((draggedEvent.getModifiers() & (onmask | offmask)) == onmask) {
-            // calculate angle of rotation
-            double angle = Math.atan2(lpx, lpy) - Math.atan2(x, y);
-            this.rotateNodes(angle);
-        } else {
-            double xDif = (lpx - x);
-            double yDif = (lpy - y);
-            moveCanvasItems(xDif, yDif);
-        }
-        //lastPoint.setLocation(x, y);
-        repaint();
-    }
+		double x = draggedEvent.getCanvasToPosition().getX();
+		double y = draggedEvent.getCanvasToPosition().getY();
+		double lpx = draggedEvent.getCanvasFromPosition().getX();
+		double lpy = draggedEvent.getCanvasFromPosition().getY();
+
+		double xDif = (lpx - x);
+		double yDif = (lpy - y);
+
+		moveCanvasItems(xDif, yDif);
+		repaint();
+	}
+
+	public void rotate(CanvasItemDraggedEvent draggedEvent) {
+		SimpleHyperView.labelView = null;
+		this.focusNode = null;
+		this.currentHighlightedView = null;
+
+		double x = draggedEvent.getCanvasToPosition().getX();
+		double y = draggedEvent.getCanvasToPosition().getY();
+		double lpx = draggedEvent.getCanvasFromPosition().getX();
+		double lpy = draggedEvent.getCanvasFromPosition().getY();
+
+		// calculate angle of rotation
+		double angle = Math.atan2(lpx, lpy) - Math.atan2(x, y);
+		this.rotateNodes(angle);
+
+		repaint();
+	}
 
 
     /**

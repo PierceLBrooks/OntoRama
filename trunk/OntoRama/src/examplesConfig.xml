@@ -9,7 +9,7 @@
 
 
     <example name="Comms Ontology" root="comms#CommsObject" dataFormatMapping="RDF" loadOnStart="yes">
-        <source uri="examples/comms_comms_object-children.rdf" sourcePackagePathSuffix="JarSource"/>
+        <source uri="examples/comms_comms_object-children.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
 
     <example name="Wordnet: cat" root="wn#Cat" dataFormatMapping="RDF" loadOnStart="yes">
@@ -55,7 +55,7 @@
 	<!--
     <example name="Technology Requirement" root="#TechnologyRequirement">
         <source uri="examples/web-examples/technical.rdf"
-            sourcePackagePathSuffix="JarSource"/>
+            sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
 	-->
@@ -79,7 +79,7 @@
 	<!--
     <example name="BibLink" root="SubjectScheme">
         <source uri="examples/web-examples/BibLink.rdf"
-            sourcePackagePathSuffix="JarSource"/>
+            sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
     -->

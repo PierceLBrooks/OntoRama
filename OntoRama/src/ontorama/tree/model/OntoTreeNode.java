@@ -16,9 +16,16 @@ import javax.swing.tree.TreePath;
 import ontorama.model.GraphNode;
 import ontorama.model.NodeObserver;
 
+import ontorama.tree.util.Debug;
+
 /**
- * Basic GraphNode for ontology viewers.
+ * Description: OntoTreeNode is implementation of javax.swing.TreeNode
+ * and contains GraphNode as a part of OntoTreeNode.
+ *
+ * Copyright:    Copyright (c) 2001
+ * Company:     DSTC
  */
+
 public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable {
 
     /**
@@ -28,53 +35,64 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
     private boolean allowChildren = true;
 
     /**
-     *
+     * GraphNode that is a base for this OntoTreeNode
      */
     private GraphNode graphNode;
 
     /**
-     *
+     * Observers list
      */
     private LinkedList observers = new LinkedList();
 
     /**
-     *
+     * debug
+     */
+    private boolean debugOn = false;
+    Debug debug;
+
+    /**
+     *  Constructor
+     *  @param graphNode
      */
     public OntoTreeNode ( GraphNode graphNode ) {
         this.graphNode = graphNode;
         this.graphNode.addObserver(this);
+        debug = new Debug (this.debugOn);
     }
 
-
     /**
-     * Update method called from observable (GraphNode)
+     * Update method called from NodeObservable (GraphNode)
+     * Communication from GraphNode to OntoTreeNode.
+     * @param   obj
      */
     public void update( Object obj ) {
+        debug.message("OntoTreeNode","update", this.graphNode.getName());
         System.out.println("OntoTreeNode method update: " + this.graphNode.getName());
-
-        notifyChangeTree();
+        notifyTreeChange();
     }
 
     /**
-     * Add observers to the list of observers.
+     * Add observer to the list of OntoTree observers.
+     * @param observer
+     * @return  -
      */
     public void addOntoObserver( Object observer ) {
         this.observers.add( observer );
     }
 
     /**
-     * Update all view of change.
+     * Update all views of change.
+     * In this case - tell OntoTreeNode observers to update.
+     * (OntoTreeView is an observer for each OntoTreeNode).
      */
-    public void notifyChangeTree () {
-        // get TreePath for this node and tell tree to update?
+    private void notifyTreeChange () {
+        // get TreePath for this node and tell tree to update
         TreePath path = getTreePath();
 
         Iterator it = observers.iterator();
-        //System.out.println("number of GraphNode observers " + observers.size());
         while(it.hasNext()) {
-            //NodeObserver cur = (NodeObserver) it.next();
             OntoNodeObserver cur = (OntoNodeObserver) it.next();
-            cur.updateOnto( path );
+            cur.updateOntoTree( path );
         }
     }
 
@@ -82,7 +100,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      *
      */
     private Stack buildPath (OntoTreeNode node, Stack stack) {
-        //GraphNode graphNode = node.getGraphNode();
+
         stack.push(node);
         OntoTreeNode parent = (OntoTreeNode) node.getParent();
         if (parent != null) {
@@ -90,7 +108,6 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
             return newStack;
         }
         return stack;
-
     }
 
     /**
@@ -105,7 +122,6 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
             // if this node is root - don't need to build stack
             stack = buildPath(parent,stack);
         }
-        //System.out.println ("stack = " + stack);
 
         // now reverse stack as it is backwards: starting at
         // node and finishing at root
@@ -115,7 +131,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
         }
 
         TreePath path = new TreePath(reverseStack.toArray());
-        //System.out.println("TreePath = " + path);
+        debug.message("OntoTreeNode","getTreePath", "TreePath = " + path);
         return path;
     }
 
@@ -138,7 +154,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
         List childrenList = this.graphNode.getChildrenList();
         GraphNode childGraphNode = (GraphNode) childrenList.get(childIndex);
         TreeNode childNode = OntoTreeBuilder.getTreeNode(childGraphNode);
-        //System.out.println("getChildAt(index): , node = " + this.graphNode.getName() + " returning " + childNode + " for index " + childIndex );
+        debug.message("OntoTreeNode","getChildAt", "node = " + this.graphNode.getName() + " returning " + childNode + " for index " + childIndex);
         return childNode;
     }
 
@@ -150,7 +166,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
      */
     public int getChildCount() {
         List childrenList = this.graphNode.getChildrenList();
-        //System.out.println("getChildCount(): node = " + this.graphNode.getName() + " returning "  + childrenList.size());
+        debug.message("OntoTreeNode","getChildCount","node = " + this.graphNode.getName() + " returning "  + childrenList.size());
         return childrenList.size();
     }
 
@@ -166,10 +182,11 @@ public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable 
         Iterator parentsIterator = this.graphNode.getParents();
         if (parentsIterator.hasNext()) {
             GraphNode parentGraphNode = (GraphNode) parentsIterator.next();
-            //System.out.println("getParent(): , node = " + this.graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
+            debug.message("OntoTreeNode","getParent","node = " + this.graphNode.getName() + " returning "  + (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
             return ( (TreeNode) OntoTreeBuilder.getTreeNode(parentGraphNode));
         }
         //System.out.println("getParent(): , node = " + this.graphNode.getName() + " returning null");
+        debug.message("OntoTreeNode","getParent","node = " + this.graphNode.getName() + " returning null");
         return null;
     }
 

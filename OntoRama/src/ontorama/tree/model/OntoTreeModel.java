@@ -20,6 +20,14 @@ import javax.swing.event.TreeSelectionListener;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
+/**
+ * Description: OntoTreeModel takes graph of GraphNodes and
+ * converts each GraphNode into OntoTreeNode, effectively
+ * building a TreeModel of TreeNodes
+ *
+ * Copyright:    Copyright (c) 2001
+ * Company:     DSTC
+ */
 public class OntoTreeModel implements TreeModel {
 
     private Graph graph;
@@ -34,7 +42,9 @@ public class OntoTreeModel implements TreeModel {
     }
 
     /**
-     *
+     * Returns Iterator of OntoTreeNodes
+     * @param   -
+     * @return  Iterator of OntoTreeNodes
      */
     public Iterator getOntoTreeIterator () {
         return this.ontoTreeBuilder.getIterator();

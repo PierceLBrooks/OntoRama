@@ -10,13 +10,22 @@ import javax.swing.tree.TreeNode;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
+/**
+ * Description: Build Tree of OntoTreeNodes from given graph
+ * with given GraphNodes
+ *
+ * Copyright:    Copyright (c) 2001
+ * Company:     DSTC
+ */
+
 public class OntoTreeBuilder {
 
     private static Hashtable ontoHash = new Hashtable();
     private Graph graph;
 
     /**
-     *
+     * Constructor
+	 * @param	graph
      */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
@@ -36,32 +45,22 @@ public class OntoTreeBuilder {
             ontoHash.put(curNode,treeNode);
         }
     }
+
     /**
-     *
+     * Get TreeNode associated with given GraphNode
+	 * @param	graphNode
+	 * @return	treeNode
      */
     public static TreeNode getTreeNode (GraphNode graphNode) {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
     }
     /**
-     *
+     * Get Iterator of TreeNodes for this tree
+	 * @param	-
+	 * @return	iterator of treeNodes
      */
     public Iterator getIterator () {
         return (ontoHash.values()).iterator();
     }
-    /**
-     *
-     */
-     /*
-   public static GraphNode getGraphNode (TreeNode treeNode) {
-        Enumeration en = ontoHash.keys();
-        while (en.hasMoreElements()) {
-            GraphNode graphNode = (GraphNode) en.nextElement();
-            if ( treeNode.equals( (TreeNode) ontoHash.get(graphNode)) ) {
-                return graphNode;
-            }
-        }
-        return null;
-    }
-    */
 }

@@ -293,9 +293,10 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         double x = model.getX();
         double y = model.getY();
 
-        Shape displayShape = nodeType.getDisplayShape();
+		NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(nodeType);
+        Shape displayShape = displayInfo.getShape();
         AffineTransform oldTransform = g2d.getTransform();
-        if(!nodeType.forceUprightShape()) {
+        if(!displayInfo.forceUprightShape()) {
         	Point2D projectedPos = projection.project(x,y);
         	g2d.rotate(Math.atan2(projectedPos.getX(), -projectedPos.getY()), projectedPos.getX(), projectedPos.getY());
         }        		

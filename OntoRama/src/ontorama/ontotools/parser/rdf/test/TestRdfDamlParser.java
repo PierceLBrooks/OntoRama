@@ -345,11 +345,12 @@ public class TestRdfDamlParser extends TestCase {
         while (it.hasNext()) {
             Node cur = (Node) it.next();
             NodeType curNodeType = cur.getNodeType();
-            if (curNodeType.getDisplayName().equals("concept")) {
+            if (curNodeType == OntoramaConfig.CONCEPT_TYPE) {
                 conceptsList.add(cur);
-            }
-            else {
+            } else if (curNodeType == OntoramaConfig.RELATION_TYPE) {
                 relationsList.add(cur);
+            } else {
+            	fail("unknown node type");
             }
         }
         System.out.println("concepts list = " + conceptsList);

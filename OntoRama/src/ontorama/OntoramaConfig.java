@@ -137,8 +137,11 @@ public class OntoramaConfig {
     private static List backends = new LinkedList();
     private static boolean loadBlankOnStartUp = false;
 
-    private static List nodeTypesList;
-    private static Hashtable nodesConfig;
+    private static Hashtable nodesConfig = new Hashtable();
+    
+    public static NodeType CONCEPT_TYPE;
+    public static NodeType RELATION_TYPE;
+    public static NodeType UNKNOWN_TYPE;
 
     /**
      * Values of vars that are set here should be read from
@@ -157,8 +160,7 @@ public class OntoramaConfig {
         }
 
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
-        nodeTypesList = buildNodeTypesList();
-        nodesConfig = buildNodeTypeDisplayMapping(nodeTypesList);
+        buildNodeTypes();
         System.out.println("--------- end of config--------------");
     }
 
@@ -342,7 +344,7 @@ public class OntoramaConfig {
         return loadBlankOnStartUp;
     }
 
-    private static List buildNodeTypesList () {
+    private static void buildNodeTypes() {
     	/// @todo check why we do only half the width here
     	int width = 30;
     	int height = 30;
@@ -365,56 +367,27 @@ public class OntoramaConfig {
         int yb[] = {y1,y0,y0,y1,y2,y3,y3,y2};
         Shape unknownShape = new Polygon(xb, yb, 8); 
 
-        int xair[] = {-23,-21,-23,-20,-15,-13,-4,-4,-4,-3,-3,-3,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-8,-7,-6,-6,-6,-5,-5,-4,-4,-4,-4,-4,-4,-3,-3,-2,-2,0,0,1,1,1,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,1,1,1,0,3,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,6,6,5,10,14,19,20,21,21,22,22,22,22,22,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,22,22,22,22,21,21,21,19,18,12,10,5,6,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,6,6,6,5,3,0,1,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,1,1,1,1,0,0,-2,-2,-3,-3,-4,-4,-4,-4,-4,-5,-5,-6,-6,-6,-7,-8,-3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-2,-3,-3,-4,-4,-4,-15,-20,-23,-21,-23};
-        int yair[] = {0,0,8,7,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,5,5,6,9,23,23,23,23,23,23,23,23,22,22,22,22,22,22,21,20,19,18,18,18,18,18,18,18,18,17,17,17,17,17,16,16,16,16,16,16,16,16,16,15,15,15,15,15,15,15,15,10,10,11,11,11,11,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,2,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-10,-10,-10,-10,-10,-10,-10,-10,-10,-10,-11,-11,-11,-11,-11,-11,-15,-15,-15,-15,-15,-15,-16,-16,-16,-16,-16,-16,-16,-16,-16,-16,-17,-17,-17,-17,-17,-17,-17,-18,-18,-18,-18,-18,-18,-18,-18,-19,-20,-21,-21,-22,-22,-22,-22,-22,-23,-23,-23,-23,-23,-23,-23,-10,-6,-5,-4,-4,-4,-4,-3,-3,-3,-3,-3,-3,-3,-3,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-7,-8,0,0};
-		Shape airplaneShape = new Polygon(xair, yair, xair.length);
-		
 		// try finding a special node shape
         try {
             SAXBuilder builder = new SAXBuilder(false);
 
             Document doc = builder.build(streamReader.getInputStreamFromResource("node.svg"));
             Element svgElem = doc.getRootElement();
-            airplaneShape = SVG2Shape.importShape(svgElem, 35, 35);
+            conceptShape = SVG2Shape.importShape(svgElem, width, height);
         } catch (Exception e) {
         	// we just stick with the default
         }
 		
-        List nodeTypes = new LinkedList();
-        NodeType typeConcept = new NodeTypeImpl("concept", airplaneShape , false, Color.BLUE);
-        nodeTypes.add(typeConcept);
-        NodeType typeRelation = new NodeTypeImpl("relation", relationShape, false, Color.GREEN);
-        nodeTypes.add(typeRelation);
-        NodeType typeUnknown = new NodeTypeImpl("unknown", unknownShape, false, Color.WHITE);
-        nodeTypes.add(typeUnknown);
-
-        return nodeTypes;
-    }
-
-    /**
-     * @todo this method is a temp hack untill node types display info can be
-     * put into the config file.
-     */
-    private static Hashtable buildNodeTypeDisplayMapping (List nodeTypesList) {
-        Hashtable result = new Hashtable();
-        Iterator it = nodeTypesList.iterator();
-        while (it.hasNext()) {
-            NodeType curNodeType = (NodeType) it.next();
-            NodeTypeDisplayInfo displayInfo = new NodeTypeDisplayInfo();
-            displayInfo.setColor(curNodeType.getDisplayColor());
-            result.put(curNodeType, displayInfo);
-        }
-        return result;
-    }
-
-
-    public static List getNodeTypesList() {
-        return nodeTypesList;
+        CONCEPT_TYPE = new NodeTypeImpl();
+        nodesConfig.put(CONCEPT_TYPE, new NodeTypeDisplayInfo("concept", conceptShape, false, Color.BLUE, Color.RED));
+        RELATION_TYPE = new NodeTypeImpl(); 
+        nodesConfig.put(RELATION_TYPE, new NodeTypeDisplayInfo("relation", relationShape, false, Color.GREEN, Color.YELLOW));
+        UNKNOWN_TYPE = new NodeTypeImpl();
+        nodesConfig.put(UNKNOWN_TYPE, new NodeTypeDisplayInfo("unknown", unknownShape, false, Color.WHITE, Color.BLACK));
     }
 
     public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
         return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
     }
-
 }
 

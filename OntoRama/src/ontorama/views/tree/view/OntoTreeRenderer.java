@@ -6,12 +6,8 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import javax.swing.Icon;
@@ -52,12 +48,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     private ImageIcon _lineIcon;
 
     /**
-     * keys - node types
-     * values - corresponding images
-     */
-    private static Hashtable _nodeTypeToImageMapping = new Hashtable();
-
-    /**
      * Renderer for OntoTree View
      * @todo shouldn't have to pass graph to the renderer. doing this only to be able to display
      * relation type signatures. Possible solutions:
@@ -69,27 +59,11 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
 
-        Iterator nodeTypesIterator = OntoramaConfig.getNodeTypesList().iterator();
-        while (nodeTypesIterator.hasNext()) {
-            ontorama.model.graph.NodeType nodeType = (ontorama.model.graph.NodeType) nodeTypesIterator.next();
-            Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
-            ImageIcon image = makeNodeIcon(iconW/2, iconH, color, nodeType);
-            _nodeTypeToImageMapping.put(nodeType, image);
-
-        }
-
-        /// @todo hack, parsing null for node type here
-        _cloneNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _cloneNodeColor, null);
-        _unknownNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _unknownNodeColor, null);
-
         _lineIcon = makeLineIcon(iconW / 2, iconH);
 
         //initRelationLinkImages();
     }
 
-    /**
-     *
-     */
     public Component getTreeCellRendererComponent(
                                         JTree tree,
                                         Object value,
@@ -107,19 +81,12 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         NodeType nodeType = treeNode.getModelTreeNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
-            Iterator it = OntoramaConfig.getNodeTypesList().iterator();
-            while (it.hasNext()) {
-                ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
-                if (cur.getDisplayName().equals("unknown")) {
-                    nodeType = cur;
-                }
-            }
+        	nodeType = OntoramaConfig.UNKNOWN_TYPE;
         }
 
         String nodeTextStr = treeNode.getModelTreeNode().getName();
 
-        // @todo shouldn't hardcode string 'relation' here.
-        if (nodeType.getDisplayName().equals("relation")) {
+        if (nodeType == OntoramaConfig.RELATION_TYPE) {
             String sign1 = null;
             String sign2 = null;
             Iterator it = treeNode.getModelTreeNode().getChildren().iterator();
@@ -156,22 +123,21 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         setToolTipText(getToolTipText(value, edge));
 
-        ImageIcon image;
-
         /// @todo should always have nodeType != null, when editing graph - it should be able
         // to figure out node type.
         if (nodeType == null) {
-            image = _unknownNodeImageIcon;
+            nodeType = OntoramaConfig.UNKNOWN_TYPE;
         }
-        else {
-            image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
+
+        ImageIcon image;
+        if (treeNode.getModelTreeNode().getClones().size() != 0) {
+        	image = new ImageIcon(OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getCloneImage());
+        } else {
+            image = new ImageIcon(OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getImage());
         }
         
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(image);
-        } else if (treeNode.getModelTreeNode().getClones().size() != 0) {
-            Icon icon = getIcon(edge, image, true);
-            setIcon(icon);
         } else {
             Icon icon = getIcon(edge, image, false);
             setIcon(icon);
@@ -264,60 +230,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                     nodeImage.getImageObserver());
         }
         return image;
-    }
-
-    /**
-     * make icon for nodes
-     * 
-     * @todo this code seems to be extremely close to NodeListViewer.
-     * makeNodeIcon(..) -- refactor
-     */
-    private ImageIcon makeNodeIcon(int width, int height, Color color, ontorama.model.graph.NodeType nodeType) {
-
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        Graphics2D g2 = image.createGraphics();
-
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, width, height);
-        g2.drawRect(0, 0, width, height);
-
-        g2.setColor(color);
-
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        Shape displayShape;
-        if(nodeType == null) {
-            /// @todo this check for null is a hack. have to change all following
-            // if's and else's to a meaninfull  flow.
-            int ovalSize = width - (width * 12) / 100;
-            int ovalX = 0;
-            int ovalY = (height - ovalSize) / 2;
-            displayShape = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-        }
-        else {
-            displayShape = nodeType.getDisplayShape();
-        }
-        Rectangle2D bounds = displayShape.getBounds2D();
-
-        double scale;
-        double xOffset = -bounds.getX();
-        double yOffset = -bounds.getY();
-        if(bounds.getWidth()/width > bounds.getHeight()/height) {
-            scale = width/bounds.getWidth();
-            yOffset += (bounds.getHeight() - scale * height)/2;
-        } else {
-            scale = height/bounds.getHeight();
-            xOffset += (bounds.getWidth() - scale * width)/2;
-        }
-
-        g2.scale(scale,scale);
-        g2.translate(xOffset, yOffset);
-        g2.fill(displayShape);
-        g2.setColor(Color.black);
-        g2.draw(displayShape);
-
-        return (new ImageIcon(image));
     }
 
     /**

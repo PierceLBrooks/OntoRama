@@ -17,7 +17,7 @@ public class Util {
 	protected static int getStmtIteratorSize (StmtIterator it) throws RDFException {
 		int res = 0;
 		while (it.hasNext()) {
-			Object element = it.next();
+			it.next();
 			res++;
 		}
 		return res;
@@ -26,7 +26,7 @@ public class Util {
 	protected static int getResIteratorSize (ResIterator it) throws RDFException {
 		int res = 0;
 		while (it.hasNext()) {
-			Object element = (Object) it.next();
+			it.next();
 			res++;
 		}
 		return res;
@@ -35,7 +35,7 @@ public class Util {
 	protected static int getNsIteratorSize (NsIterator it) throws RDFException {
 		int res = 0;
 		while (it.hasNext()) {
-			Object element = it.next();
+			it.next();
 			res++;
 		}
 		return res;

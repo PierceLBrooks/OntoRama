@@ -56,7 +56,8 @@ public class TestTypeQueryImplementation extends TestCase {
    *
    */
   protected void setUp() throws Exception {
-     OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
+
+    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
                             "ontorama.properties","examples/test/data/config.xml");
 
 
@@ -123,6 +124,17 @@ public class TestTypeQueryImplementation extends TestCase {
 
     expectedTypesList.add(type_Mouse);
 
+    OntologyType type_rdf_Class = new  OntologyTypeImplementation("PR-rdf-schema-19990303#Class");
+    type_CottonMouse.addRelationType(type_rdf_Class,6);
+    type_CactusMouse.addRelationType(type_rdf_Class,6);
+    type_DeerMouse.addRelationType(type_rdf_Class, 6);
+    type_PygmyMouse.addRelationType(type_rdf_Class, 6);
+    type_White_footedMouse.addRelationType(type_rdf_Class, 6);
+    type_WoodMouse.addRelationType(type_rdf_Class, 6);
+
+
+
+    expectedTypesList.add(type_rdf_Class);
   }
 
   /**
@@ -133,7 +145,7 @@ public class TestTypeQueryImplementation extends TestCase {
     int queryIteratorSize = IteratorUtil.getIteratorSize(typeQuery.getTypeRelative(queryTerm));
     int expectedIteratorSize = expectedTypesList.size();
 
-    assertEquals(expectedIteratorSize, queryIteratorSize);
+    assertEquals("results iterator size", expectedIteratorSize, queryIteratorSize);
 
     Iterator queryIterator = typeQuery.getTypeRelative(queryTerm);
 
@@ -161,7 +173,8 @@ public class TestTypeQueryImplementation extends TestCase {
                     String propName = (String) e.nextElement();
                     List curTypePropValue = cur.getTypeProperty(propName);
                     List expectedTypePropValue = type.getTypeProperty(propName);
-                    assertEquals(expectedTypePropValue, curTypePropValue);
+                    assertEquals("property " + propName + " for ontology type " + curName,
+                                  expectedTypePropValue, curTypePropValue);
                 }
                 // compare relation links
                 Set relLinksSet = OntoramaConfig.getRelationLinksSet();
@@ -171,7 +184,10 @@ public class TestTypeQueryImplementation extends TestCase {
                     Iterator curTypeRel = cur.getIterator(relLink);
                     Iterator expectedTypeRel = type.getIterator(relLink);
                     //// what should happen here???
-                    assertEquals(IteratorUtil.getIteratorSize(expectedTypeRel), IteratorUtil.getIteratorSize(curTypeRel));
+                    assertEquals("iterator size for relation link id=" + relLink +
+                              " for ontology type " + curName,
+                              IteratorUtil.getIteratorSize(expectedTypeRel),
+                              IteratorUtil.getIteratorSize(curTypeRel));
                 }
             }
         }

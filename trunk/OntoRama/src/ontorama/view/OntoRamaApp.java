@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 import ontorama.OntoramaConfig;
 
@@ -92,7 +93,7 @@ public class OntoRamaApp extends JFrame {
      * the hyper view. the rest of the split panel will be taken up
      * by tree view
      */
-    int leftSplitPanelWidthPercent = 80;
+    int leftSplitPanelWidthPercent = 70;
 
     /**
      * height and width of main window
@@ -114,7 +115,7 @@ public class OntoRamaApp extends JFrame {
     /**
      * what part of a screen this app window should take (percentage)
      */
-    private int appWindowPercent = 80;
+    private int appWindowPercent = 85;
 
     /**
      *
@@ -159,12 +160,6 @@ public class OntoRamaApp extends JFrame {
         // Create OntoTreeView
         treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
 
-        // Create HyperView
-        hyperView = new SimpleHyperView(viewListener);
-        hyperView.setGraph(graph);
-        //hyperView.saveCanvasToFile( "hyperView" );
-
-
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);
         //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
@@ -176,6 +171,12 @@ public class OntoRamaApp extends JFrame {
         // create a query panel
         queryPanel = new QueryPanel(hyperView, viewListener, this);
         queryPanel.setQueryField(termName);
+
+        // Create HyperView
+        hyperView = new SimpleHyperView(viewListener);
+        hyperView.setGraph(graph);
+        //hyperView.saveCanvasToFile( "hyperView" );
+
 
         //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(hyperView, treeView);
@@ -294,16 +295,19 @@ public class OntoRamaApp extends JFrame {
       }
       catch (NoTypeFoundInResultSetException noTypeExc) {
           System.err.println(noTypeExc);
-          System.exit(-1);
+          showErrorDialog(noTypeExc.getMessage());
+          //System.exit(-1);
       }
       catch (NoSuchRelationLinkException noRelExc) {
           System.err.println(noRelExc);
-          System.exit(-1);
+          showErrorDialog(noRelExc.getMessage());
+          //System.exit(-1);
       }
       catch (Exception e) {
           System.err.println("Unable to build graph: " + e);
           e.printStackTrace();
-          System.exit(-1);
+          showErrorDialog(e.getMessage());
+          //System.exit(-1);
       }
       return graph;
     }
@@ -315,39 +319,19 @@ public class OntoRamaApp extends JFrame {
         System.out.println(".............. EXECUTE QUERY for " + queryPanel.getQueryField() + " ...................");
 
         List wantedLinks = queryPanel.getWantedRelationLinks();
+        // debug
         Iterator it = wantedLinks.iterator();
         while (it.hasNext()) {
           Integer relLink = (Integer) it.next();
           System.out.println("--wanted link: " + relLink);
         }
+        //end of debug
         System.out.println("wanted links list: " + wantedLinks);
         System.out.println("building graph with root = " + queryPanel.getQueryField());
 
         Query query = new Query (queryPanel.getQueryField(), wantedLinks);
-        //Query query = new Query (queryPanel.getQueryField());
-
         graph = getGraphFromQuery(query);
-
         executeQueryForNewGraph(graph);
-        /*
-
-        hyperView = new SimpleHyperView(viewListener);
-        hyperView.setGraph(graph);
-
-        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
-
-        addComponentsToScrollPanel(hyperView, treeView);
-
-        hyperView.repaint();
-        treeView.repaint();
-        splitPane.repaint();
-
-
-        //graphBuilder = new GraphBuilder(queryField.getText());
-        //graph = graphBuilder.getGraph();
-        // update views
-        */
-
     }
 
     /**
@@ -361,6 +345,8 @@ public class OntoRamaApp extends JFrame {
 
         treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
 
+        queryPanel.setQueryField(graph.getRootNode().getName());
+
         addComponentsToScrollPanel(hyperView, treeView);
 
         hyperView.repaint();
@@ -368,7 +354,13 @@ public class OntoRamaApp extends JFrame {
         splitPane.repaint();
     }
 
-
+    /**
+     *
+     */
+    public void showErrorDialog (String message) {
+      JOptionPane optionPane = new JOptionPane(message,JOptionPane.ERROR_MESSAGE);
+      optionPane.showMessageDialog(this,message);
+    }
 
     /**
      * main

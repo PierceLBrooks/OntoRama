@@ -88,7 +88,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         this.ontoRamaApp = ontoRamaApp;
 
         // create a query panel
-        queryField = new JTextField(10);
+        queryField = new JTextField(25);
         querySubmitButton = new JButton("Get");
         querySubmitButton.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
@@ -222,17 +222,17 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       ontoRamaApp.executeQuery();
     }
 
-    //////////////////////////ViewEventObserver interface implementation////////////////
+	//////////////////////////ViewEventObserver interface implementation////////////////
 
-    /**
-     *
-     */
-    public void focus ( GraphNode node) {
-            System.out.println();
-            System.out.println("******* queryPanel got focus for node " + node.getName());
-            this.queryField.setText(node.getName());
-            System.out.println();
-    }
+	/**
+	 *
+	 */
+	public void focus ( GraphNode node) {
+		System.out.println();
+		System.out.println("******* queryPanel got focus for node " + node.getName());
+		this.queryField.setText(node.getName());
+		System.out.println();
+	}
 
     /**
      *

@@ -1,13 +1,13 @@
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
- * Date: Sep 9, 2002
- * Time: 1:07:04 PM
+ * Date: 18/09/2002
+ * Time: 09:09:47
  * To change template for new interface use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
 package ontorama.model;
 
-public interface NodeTypeInterface {
-    public String getNodeType ();
+public interface EdgeTypeInterface {
+    public String getName();
 }

@@ -14,18 +14,13 @@ import java.awt.*;
 
 public class NodeType implements NodeTypeInterface {
     private String _nodeTypeName;
-    private Color _displayColor;
 
-    public NodeType (String typeName, Color displayColor) {
+    public NodeType (String typeName) {
         _nodeTypeName = typeName;
-        _displayColor = displayColor;
     }
 
     public String getNodeType() {
         return _nodeTypeName;
     }
 
-    public Color getDisplayColor() {
-        return _displayColor;
-    }
 }

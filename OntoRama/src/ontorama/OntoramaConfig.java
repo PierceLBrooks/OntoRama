@@ -22,6 +22,8 @@ import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+import ontorama.webkbtools.inputsource.JarSource;
+import ontorama.webkbtools.util.SourceException;
 
 
 /**
@@ -163,6 +165,11 @@ public class OntoramaConfig {
      */
     public static boolean VERBOSE;
 
+    /**
+     *
+     */
+    private static JarSource streamReader = new JarSource();
+
 
     /**
      *
@@ -216,8 +223,11 @@ public class OntoramaConfig {
           loadPropertiesFile(propertiesFileLocation);
           loadConfiguration(configFileLocation);
         }
-        catch (IOException ioe) {
-          fatalExit("Unable to read xml configuration file, IOException", ioe);
+//        catch (IOException ioe) {
+//          fatalExit("Unable to read xml configuration file, IOException", ioe);
+//        }
+        catch (SourceException sourceExc) {
+          fatalExit("Unable properties or configuration file in, SourceException", sourceExc);
         }
         catch ( ConfigParserException cpe ) {
           fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
@@ -235,13 +245,14 @@ public class OntoramaConfig {
      * load examples
      */
     private static void loadExamples (String examplesConfigLocation)
-                            throws IOException, ConfigParserException {
+                            throws SourceException, ConfigParserException, IOException {
         // loading examples
         if (VERBOSE) {
           System.out.println("loading examples");
         }
         //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
-        InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
+        //InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
+        InputStream examplesConfigStream = streamReader.getInputStreamFromResource(examplesConfigLocation);
         XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
         examplesList = examplesConfig.getExamplesList();
         mainExample = examplesConfig.getMainExample();
@@ -255,9 +266,10 @@ public class OntoramaConfig {
      * load properties from ontorama.properties file
      */
     private static void loadPropertiesFile (String propertiesFileLocation)
-                            throws IOException {
+                            throws SourceException, IOException {
         //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
-        InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
+        //InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
+        InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
         DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean ( properties.getProperty("VERBOSE"))).booleanValue();
@@ -267,9 +279,10 @@ public class OntoramaConfig {
      * load Config
      */
     private static void loadConfiguration (String configFileLocation)
-                            throws IOException, ConfigParserException {
+                            throws SourceException, ConfigParserException, IOException {
         //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
-        InputStream configInStream = getInputStreamFromResource(configFileLocation);
+        //InputStream configInStream = getInputStreamFromResource(configFileLocation);
+        InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
 
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         allRelationsArray = xmlConfig.getRelationLinksArray();
@@ -442,53 +455,5 @@ public class OntoramaConfig {
      public static ClassLoader getClassLoader() {
       return OntoramaConfig.classLoader;
      }
-
-
-    /**
-    *
-    * @todo	need an exception for an unknown protocol
-    * @todo       maybe there is a better way to handle that hack with stripping off protocol and "://" from url
-    */
-    //public static InputStream getInputStreamFromResource (ClassLoader classLoader,
-    public static InputStream getInputStreamFromResource (String resourceName)
-                                               throws IOException {
-
-          InputStream resultStream = null;
-          if (VERBOSE) {
-            System.out.println("resourceName = " + resourceName);
-          }
-          URL url = OntoramaConfig.classLoader.getResource(resourceName);
-          if (VERBOSE) {
-            System.out.println("url = " + url);
-          }
-
-          if (url.getProtocol().equalsIgnoreCase("jar")) {
-            //System.out.println("found JAR");
-            //System.out.println("file = " + url.getFile());
-            String pathString = url.getFile();
-            int index = pathString.indexOf("!");
-            String filePath = pathString.substring(0,index);
-            // a hack: strip string 'protocol:/" from the path
-            if (filePath.startsWith("file")) {
-                    int index1 = pathString.indexOf(":") + 1;
-                    filePath = filePath.substring(index1, filePath.length());
-            }
-
-            //System.out.println("filePath = " + filePath);
-            File file = new File(filePath);
-            ZipFile zipFile = new ZipFile (file);
-            ZipEntry zipEntry = zipFile.getEntry(resourceName);
-            resultStream = (InputStream) zipFile.getInputStream(zipEntry);
-          }
-          else if (url.getProtocol().equalsIgnoreCase("file")) {
-            resultStream = url.openStream();
-          }
-          else {
-            System.err.println("Dont' know about this protocol: " + url.getProtocol());
-            System.exit(-1);
-          }
-          return resultStream;
-    }
-
 }
 

@@ -7,7 +7,7 @@
   <rdf:Description rdf:about='#A0'>
     <rdf:type rdf:resource='http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement'/>
     <rdf:subject rdf:resource='http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail'/>
-    <rdf:predicate rdf:resource='http://www.w3.org/2000/01/rdf-schema#subClassOf'/>
+    <rdf:predicate rdf:resource='http://www.w3.org/1999/02/22-rdf-syntax-ns#part'/>
     <rdf:object rdf:resource='http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4'/>
     <ontP2P:asserted>mailto:johan@ontorama.org</ontP2P:asserted>
   </rdf:Description>

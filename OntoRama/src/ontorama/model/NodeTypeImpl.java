@@ -23,4 +23,8 @@ public class NodeTypeImpl implements NodeType {
         return _nodeTypeName;
     }
 
+    public String toString () {
+        return _nodeTypeName;
+    }
+
 }

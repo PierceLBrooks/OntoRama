@@ -23,6 +23,7 @@
   <pm:location rdf:resource="http://www.webkb.org/ontorama/test#SomeLocation"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#SomeObject"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#ACHRONYM"/>
+  <daml:complementOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relation"/>
 </rdfs:Class>
 
 <rdfs:Class rdf:about="http://www.webkb.org/ontorama/test#Armchair">
@@ -31,5 +32,31 @@
   <rdfs:comment>test term 'armchair'</rdfs:comment>
   <rdfs:subClassOf rdf:resource="http://www.webkb.org/ontorama/test#Chair"/>
 </rdfs:Class>
+
+
+<rdf:Property rdf:about="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relation">
+  <rdfs:label xml:lang="en">relation</rdfs:label>
+  <rdfs:label xml:lang="en">related_with</rdfs:label>
+  <dc:Creator>philippe.martin@gu.edu.au</dc:Creator>
+  <rdfs:comment>type for any relation (unary, binary, ..., *-ary) and instance of rdf#property</rdfs:comment>
+  <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  <daml:complementOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/test#Chair"/>
+</rdf:Property>
+
+   <rdf:Property rdf:about="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relationFromType">
+     <rdfs:label xml:lang="en">relation_from_type</rdfs:label>
+     <dc:Creator>philippe.martin@gu.edu.au</dc:Creator>
+     <rdfs:domain rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#Type"/>
+     <rdfs:comment>type of relations from a concept/relation type, i.e. in RDFS terminology, from a class or a property</rdfs:comment>
+     <rdfs:subPropertyOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relation"/>
+   </rdf:Property>
+
+      <rdf:Property rdf:about="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relationFromProperty">
+        <rdfs:label xml:lang="en">relation_from_property</rdfs:label>
+        <dc:Creator>philippe.martin@gu.edu.au</dc:Creator>
+        <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:subPropertyOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/pm#relationFromType"/>
+      </rdf:Property>
+
 </rdf:RDF>
 

@@ -13,5 +13,6 @@ import ontorama.model.Node;
 public class QueryEvent extends NodeEvent {
     public QueryEvent(Node subject) {
         super(subject);
+        System.out.println("new QueryEvent()");
     }
 }

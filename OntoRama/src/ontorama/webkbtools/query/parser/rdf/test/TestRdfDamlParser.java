@@ -336,6 +336,15 @@ public class TestRdfDamlParser extends TestCase {
         testingEdge(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_url), testNode_url, "test#Chair", 0);
     }
 
+    public void testTemporaryTest () {
+        System.out.println("\n\nNodes: ");
+        Iterator it = parserResult.getNodesList().iterator();
+        while (it.hasNext()) {
+            Node cur = (Node) it.next();
+            System.out.println("node '" + cur.getName() + "', type = " + cur.getNodeType().getNodeType());
+        }
+    }
+
 
 
     protected void testingEdge (EdgeType edgeType, Node fromNode, String toNodeName,

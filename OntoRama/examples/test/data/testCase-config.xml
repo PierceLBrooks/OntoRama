@@ -1,87 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="E:\projects\OntoRama\doc\xslt\transform-config.xslt"?>
+<!--
+http://www.gotomy.com/color.html
+-->
 <ontConfig>
 	<ontology>
 		<relation id="1">
-			<relationType name="subtype" mappingSymbol="&lt;"/>
-			<relationType name="supertype" mappingSymbol="&gt;"/>
-			<display color="#33CCFF" symbol="&lt;"/>
+			<relationType name="subtype"/>
+			<relationType name="supertype"/>
 		</relation>
 		<relation id="2">
-			<relationType name="similar" mappingSymbol="~"/>
-			<relationType name="equal" mappingSymbol="="/>
-			<display color="#33CCFF" symbol="~"/>
+			<relationType name="similar"/>
+			<relationType name="equal"/>
 		</relation>
 		<relation id="3">
-			<relationType name="reverse" mappingSymbol="-"/>
-			<display color="#33CCFF" symbol="-"/>
+			<relationType name="reverse"/>
 		</relation>
 		<relation id="4">
-			<relationType name="part" mappingSymbol="p"/>
-			<relationType name="partOf" mappingSymbol="P"/>
-			<display color="#00FFCC" symbol="p"/>
+			<relationType name="part"/>
+			<relationType name="partOf"/>
 		</relation>
 		<relation id="5">
-			<relationType name="substance" mappingSymbol="s"/>
-			<relationType name="substanceOf" mappingSymbol="S"/>
-			<display color="#FF99CC" symbol="s"/>
+			<relationType name="substance"/>
+			<relationType name="substanceOf"/>
 		</relation>
 		<relation id="6">
-			<relationType name="instance" mappingSymbol=":"/>
-			<relationType name="instanceOf" mappingSymbol="^"/>
-			<display color="#FF99CC" symbol="^"/>
+            <relationType name="instance"/>
+            <relationType name="instanceOf"/>
 		</relation>
 		<relation id="7">
-			<relationType name="complement" mappingSymbol="/"/>
-			<relationType name="exclusion" mappingSymbol="!"/>
-			<display color="#FF99CC" symbol="/"/>
+			<relationType name="complement"/>
+			<relationType name="exclusion"/>
 		</relation>
 		<relation id="8">
-			<relationType name="location" mappingSymbol="l"/>
-			<relationType name="locationOf" mappingSymbol="L"/>
-			<display color="#FF99CC" symbol="l"/>
+			<relationType name="location"/>
+			<relationType name="locationOf"/>
 		</relation>
 		<relation id="9">
-			<relationType name="member" mappingSymbol="m"/>
-			<relationType name="memberOf" mappingSymbol="M"/>
-			<display color="#FFFFCC" symbol="m"/>
+			<relationType name="member"/>
+			<relationType name="memberOf"/>
 		</relation>
 		<relation id="10">
-			<relationType name="object" mappingSymbol="o"/>
-			<relationType name="objectOf" mappingSymbol="0"/>
-			<display color="#C0C0C0" symbol="0"/>
+			<relationType name="object"/>
+			<relationType name="objectOf"/>
 		</relation>
 		<relation id="11">
-			<relationType name="url" mappingSymbol="u"/>
-			<relationType name="urlOf" mappingSymbol="U"/>
-			<display color="#C0C0C0" symbol="u"/>
+			<relationType name="url"/>
+			<relationType name="urlOf"/>
 		</relation>
 		<relation id="12">
-			<relationType name="nounType" mappingSymbol="n"/>
-			<relationType name="nounTypeOf" mappingSymbol="N"/>
-			<display color="#C0C0C0" symbol="N"/>
+			<relationType name="nounType"/>
+			<relationType name="nounTypeOf"/>
 		</relation>
-		<conceptProperty id="Description"/>
-		<conceptProperty id="Creator"/>
-		<conceptProperty id="Synonym"/>
+        <relation id="13">
+            <relationType name="description"/>
+        </relation>
+        <relation id="14">
+            <relationType name="creator"/>
+        </relation>
+        <relation id="15">
+            <relationType name="synonym"/>
+        </relation>
 	</ontology>
+    <displayInfo>
+        <relation id="1">
+            <displayInGraphView>
+                <createIcon color="#33CCFF">
+                    <relationType name="subtype" mappingSymbol="&lt;"/>
+                    <relationType name="supertype" mappingSymbol="&gt;"/>
+                </createIcon>
+            </displayInGraphView>
+            <displayInDescriptionWindow>
+                <relationType name="supertype" displayLabel="Parents"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="2">
+            <displayInGraphView>
+                <createIcon color="#FF99CC">
+                    <relationType name="similar" mappingSymbol="~"/>
+                    <relationType name="equal" mappingSymbol="="/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="3">
+            <displayInGraphView>
+                <createIcon color="#FFCC99">
+                    <relationType name="reverse" mappingSymbol="-"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="4">
+            <displayInGraphView>
+                <createIcon color="#00FFCC">
+                    <relationType name="part" mappingSymbol="p"/>
+                    <relationType name="partOf" mappingSymbol="P"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="5">
+            <displayInGraphView>
+                <createIcon color="#C0C0C0">
+                    <relationType name="substance" mappingSymbol="s"/>
+                    <relationType name="substanceOf" mappingSymbol="S"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="6">
+            <displayInGraphView>
+                <createIcon color="#9999FF">
+                    <relationType name="instance" mappingSymbol=":"/>
+                    <relationType name="instanceOf" mappingSymbol="^"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="7">
+            <displayInGraphView>
+                <createIcon color="#FF3366">
+                    <relationType name="complement" mappingSymbol="/"/>
+                    <relationType name="exclusion" mappingSymbol="!"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="8">
+            <displayInGraphView>
+                <createIcon color="#008080">
+                    <relationType name="location" mappingSymbol="l"/>
+                    <relationType name="locationOf" mappingSymbol="L"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="9">
+            <displayInGraphView>
+                <createIcon color="#FFFFCC">
+                    <relationType name="member" mappingSymbol="m"/>
+                    <relationType name="memberOf" mappingSymbol="M"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="10">
+            <displayInGraphView>
+                <createIcon color="#FA8072">
+                    <relationType name="object" mappingSymbol="o"/>
+                    <relationType name="objectOf" mappingSymbol="0"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="11">
+            <displayInGraphView>
+                <createIcon color="#708090">
+                    <relationType name="url" mappingSymbol="u"/>
+                    <relationType name="urlOf" mappingSymbol="U"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="12">
+            <displayInGraphView>
+                <createIcon color="#996666">
+                    <relationType name="nounType" mappingSymbol="n"/>
+                    <relationType name="nounTypeOf" mappingSymbol="N"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="13">
+            <displayInDescriptionWindow>
+                <relationType name="description" displayLabel="Description"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="14">
+            <displayInDescriptionWindow>
+                <relationType name="creator" displayLabel="Creator"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="15">
+            <displayInDescriptionWindow>
+                <relationType name="synonym" displayLabel="Synonym"/>
+            </displayInDescriptionWindow>
+        </relation>
+    </displayInfo>
 	<rdfMapping>
-		<relationLinks>
-			<map id="1" type="supertype" tag="subClassOf"/>
-			<map id="2" type="similar" tag="similar"/>
-			<map id="4" type="part" tag="part"/>
-			<map id="5" type="substance" tag="substance"/>
-			<map id="6" type="instanceOf" tag="type"/>
-			<map id="7" type="complement" tag="complementOf"/>
-			<map id="8" type="location" tag="location"/>
-			<map id="9" type="member" tag="wnMember"/>
-			<map id="10" type="object" tag="wnObject"/>
-			<map id="11" type="url" tag="url"/>
-		</relationLinks>
-		<conceptProperties>
-			<map id="Description" tag="comment"/>
-			<map id="Creator" tag="Creator"/>
-			<map id="Synonym" tag="label"/>
-		</conceptProperties>
+        <map id="1" type="supertype" tag="subClassOf"/>
+        <map id="2" type="similar" tag="similar"/>
+        <map id="4" type="part" tag="part"/>
+        <map id="5" type="substance" tag="substance"/>
+        <map id="6" type="instanceOf" tag="type"/>
+        <map id="7" type="complement" tag="complementOf"/>
+        <map id="8" type="location" tag="location"/>
+        <map id="9" type="member" tag="wnMember"/>
+        <map id="10" type="object" tag="wnObject"/>
+        <map id="11" type="url" tag="url"/>
+        <map id="13" type="description" tag="comment"/>
+        <map id="14" type="creator" tag="Creator"/>
+        <map id="15" type="synonym" tag="label"/>
 	</rdfMapping>
 </ontConfig>

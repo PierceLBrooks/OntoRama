@@ -26,7 +26,7 @@ public class GraphViewQueryEventHandler implements EventListener {
 
     public void processEvent(Event e) {
         Node node = (Node) e.getSubject();
-        //System.out.println("GraphViewQueryEventHandler for graphQuery = " + this.graphQuery);
+        System.out.println("\n\nGraphViewQueryEventHandler for graphQuery = " + this.graphQuery);
         this.graphQuery.query(node);
     }
 }

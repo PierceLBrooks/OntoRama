@@ -3,7 +3,7 @@
 package ontorama;
 
 import java.util.Properties;
-import java.io.FileInputStream;
+import java.io.*;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.HashSet;
@@ -11,6 +11,10 @@ import java.util.Set;
 import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Enumeration;
+import java.util.zip.*;
+import java.net.URLConnection;
+import java.net.URL;
 
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
@@ -79,7 +83,8 @@ public class OntoramaConfig {
     /**
      *
      */
-    private static final String configsDirLocation = "./classes";
+    //private static final String configsDirLocation = "./classes";
+    private static final String configsDirLocation = "./";
 
     /**
      *
@@ -110,12 +115,26 @@ public class OntoramaConfig {
      */
      private static Hashtable conceptPropertiesRdfMapping;
 
+     /**
+      * Get current classloader
+      */
+      private static Class curClass;
+     private static ClassLoader cl;
+
 
     /**
      * Max value for realtionLinks.
      */
     public static int MAXTYPELINK;
 
+    //private static String propertiesFileLocation = configsDirLocation + "/ontorama.properties";
+    //private static String xmlConfigFileLocation = configsDirLocation + "/config.xml";
+
+
+    // things needed for java webstart
+    //
+    private static URL propertiesFileLocation;
+    private static URL xmlConfigFileLocation;
 
     /**
      * debug
@@ -131,10 +150,28 @@ public class OntoramaConfig {
      */
      static {
 
+        try {
+
+            curClass = Class.forName("ontorama.OntoramaConfig");
+            cl = curClass.getClassLoader();
+        }
+        catch (ClassNotFoundException classException ) {
+            System.err.println("ClassNotFoundException : " + classException);
+            System.exit(-1);
+        }
+
+
         Properties properties = new Properties();
+		
+		propertiesFileLocation = cl.getResource("ontorama.properties");
+    	xmlConfigFileLocation = cl.getResource("config.xml");
+		
         //Properties properties = new Properties(System.getProperties());
         try {
-          FileInputStream propertiesFileIn = new FileInputStream (configsDirLocation + "/ontorama.properties");
+          //FileInputStream propertiesFileIn = new FileInputStream (propertiesFileLocation);
+		  
+		  //InputStream propertiesFileIn = propertiesFileLocation.openConnection().getInputStream();
+		  InputStream propertiesFileIn = getInputStreamFromResource(cl,"ontorama.properties");
 
           properties.load(propertiesFileIn);
 
@@ -147,6 +184,8 @@ public class OntoramaConfig {
 
           parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
           sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
+		  
+		  System.out.println("sourceUri = " + sourceUri);
 
 
         }
@@ -157,8 +196,15 @@ public class OntoramaConfig {
         }
 
         try {
-            FileInputStream configInStream = new FileInputStream(configsDirLocation + "/config.xml");
-            XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
+            //FileInputStream configInStream = new FileInputStream(configsDirLocation + "/config.xml");
+
+            //FileInputStream configInStream = new FileInputStream(xmlConfigFileLocation);
+            //InputStream configInStream = xmlConfigFileLocation.openConnection().getInputStream();
+			//InputStream configInStream = cl.getResourceAsStream("config.xml");
+			InputStream configInStream = getInputStreamFromResource(cl,"config.xml");
+			//System.out.println("input stream = " + configInStream.getClass());
+			
+			XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
             allRelationsArray = xmlConfig.getRelationLinksArray();
             MAXTYPELINK = allRelationsArray.length;
             relationLinksSet = buildRelationLinksSet (allRelationsArray);
@@ -262,5 +308,86 @@ public class OntoramaConfig {
      public static Hashtable getConceptPropertiesRdfMapping () {
         return conceptPropertiesRdfMapping;
      }
+	 
+	 /**
+	  *
+	  * @todo	need an exception for an unknown protocol
+	  */
+	 private static InputStream getInputStreamFromResource (ClassLoader cl,
+	 											String resourceName)  
+												throws IOException {
+	 	InputStream resultStream = null;
+		String className = cl.getResourceAsStream(resourceName).getClass().getName();
+		System.out.println("getResourceAsStream class name = " + className);
+		String className2 = cl.getResource(resourceName).getClass().getName();
+		System.out.println("getResource class name = " + className2);	
+		
+		Enumeration e = cl.getResources(resourceName);
+		while (e.hasMoreElements() ) {
+			Object obj = e.nextElement();
+			System.out.println("---obj class name = " + obj.getClass().getName());
+			URL url = (URL) obj;
+			System.out.println("url = " + url.toString());
+			System.out.println("protocol = " + url.getProtocol());
+			if (url.getProtocol().equalsIgnoreCase("jar")) {
+				System.out.println("found JAR");
+				System.out.println("path = " + url.getPath());
+				System.out.println("file = " + url.getFile());
+				System.out.println("content = " + url.getContent());
+				Object content = url.getContent();
+				System.out.println("content class: " + content.getClass().getName());
+				
+				//ZipFile zipFile = (ZipFile) content;
+				String pathString = url.getPath();
+				int index = pathString.indexOf("!");
+				String filePath = pathString.substring(0,index);
+				// a hack: strip string 'protocol:/" from the path
+				if (filePath.startsWith("file")) {
+					int index1 = pathString.indexOf(":") + 1;
+					filePath = filePath.substring(index1, filePath.length());
+				}
+				
+				System.out.println("filePath = " + filePath);
+				File file = new File(filePath);
+				System.out.println("file absolute path = " + file.getAbsolutePath());
+				ZipFile zipFile = new ZipFile (file);
+				
+				//Enumeration en = zipFile.entries();
+				//while (en.hasMoreElements()) {
+				//	System.out.println("next entry = " + en.nextElement());
+				//}
+				
+				ZipEntry zipEntry = zipFile.getEntry(resourceName);
+				//System.out.println("zip entry for resourceName = " + resourceName + ", " + zipEntry);
+				
+				resultStream = (InputStream) zipFile.getInputStream(zipEntry);
+				System.out.println("resultStream class name = " + resultStream.getClass().getName());
+				zipFile.close();
+
+			}
+			else if (url.getProtocol().equalsIgnoreCase("file")) {
+				System.out.println("found FILE");
+				resultStream = url.openStream();
+			}
+			else {
+				System.err.println("Dont' know about this protocol: "
+				+ url.getProtocol());
+				System.exit(-1);
+			}
+		}
+/*
+		if (className.startsWith("ZipFile")) {
+			ZipFile zipFile = (ZipFile) cl.getResourceAsStream(resourceName);
+			//ZipInputStream zipStream = (ZipInputStream) cl.getResourceAsStream(resourceName);
+			System.out.println("clas name = " + zipFile.getClass().getName());
+			//ZipEntry zipEntry = zipFile.getEntry(resourceName);
+			//resultStream = zipFile.getInputStream(zipFile.getEntry(resourceName));
+		}
+		else {
+			resultStream = cl.getResourceAsStream(resourceName);
+		}
+		*/
+		return resultStream;
+	 }
 }
 

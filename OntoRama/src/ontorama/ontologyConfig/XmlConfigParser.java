@@ -81,6 +81,7 @@ public class XmlConfigParser {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException {
+		System.out.println("XmlConfigParser");
         conceptPropertiesConfig = new Hashtable();
         conceptPropertiesMapping = new Hashtable();
         relationRdfMappingList = new LinkedList();
@@ -135,6 +136,7 @@ public class XmlConfigParser {
         while (relationElementsIterator.hasNext()) {
             Element relationElement = (Element) relationElementsIterator.next();
             Attribute idAttr = relationElement.getAttribute("id");
+			
             checkCompulsoryAttr(idAttr, "id", "relation");
 
             List relationTypeElementsList = relationElement.getChildren("relationType");
@@ -229,7 +231,7 @@ public class XmlConfigParser {
      *
      */
     public List getRelationRdfMappingList () {
-        return this.relationRdfMappingList;
+		return this.relationRdfMappingList;		
     }
 
     /**

@@ -79,7 +79,7 @@ inclusive: 	purple:9999FF
 		<conceptProperties>
 			<map id="Description" tag="comment"/>
 			<map id="Creator" tag="Creator"/>
-			<map id="Synonyms" tag="label"/>
+			<map id="Synonym" tag="label"/>
 		</conceptProperties>
 	</rdfMapping>
 </ontConfig>

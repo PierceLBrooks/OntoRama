@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for OntoRama Application -->
+<jnlp spec="1.0+" codebase="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/web" href="OntoRama.jnlp">
+	<information>
+		<title>OntoRama Demo Application</title>
+		<vendor>DSTC, KVO (GU)</vendor>
+		<homepage href="http://dstc.edu.au"/>
+		<homepage href="http://www.int.gu.edu.au/~kvo"/>
+		<description>Ontology Browser Prototype</description>
+		<description kind="tooltip">GO OntoRama!</description>
+		<icon href="img/ontorama.jpeg"/> -->
+	</information>
+	<resources>
+		<j2se version="1.3 1.2+"/>
+		<jar href="lib/OntoRama.jar"/>
+		<jar href="lib/jdom.jar"/>
+		<jar href="lib/jena.jar"/>
+		<jar href="lib/junit.jar"/>
+		<jar href="lib/xerces.jar"/>
+		<jar href="lib/rdffilter.jar"/>
+		<jar href="lib/aelfred.jar"/>
+		<jar href="lib/sax2beta.jar"/>
+		<jar href="lib/batik-awt-util.jar"/>
+		<jar href="lib/batik-dom.jar"/>
+		<jar href="lib/batik-svggen.jar"/>
+		<jar href="lib/batik-util.jar"/>
+		<jar href="lib/batik-xml.jar"/>
+	</resources>
+	<application-desc main-class="ontorama.view.OntoRamaApp"/>
+</jnlp>

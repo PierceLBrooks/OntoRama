@@ -5,10 +5,7 @@ import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.controller.*;
-import ontorama.model.Edge;
-import ontorama.model.Graph;
-import ontorama.model.GraphNode;
-import ontorama.model.GraphImpl;
+import ontorama.model.*;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
@@ -48,7 +45,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
     /**
      * Stores the hyperNodeView that is having its
-     * Edge highlighted back to the root node.
+     * EdgeImpl highlighted back to the root node.
      */
     private HyperNodeView currentHighlightedView = null;
 
@@ -910,7 +907,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
             Iterator outboundEdges = graph.getOutboundEdges(curGraphNode);
             while (outboundEdges.hasNext()) {
-                Edge edge = (Edge) outboundEdges.next();
+                EdgeIterface edge = (EdgeIterface) outboundEdges.next();
                 RelationLinkDetails edgeType = edge.getEdgeType();
                 GraphNode outboundGraphNode = edge.getToNode();
                 HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);

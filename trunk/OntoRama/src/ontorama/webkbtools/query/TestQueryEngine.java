@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.model.GraphNode;
-import ontorama.model.Edge;
+import ontorama.model.EdgeIterface;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -132,7 +132,7 @@ public class TestQueryEngine extends TestCase {
 
         Iterator edgesIt = queryResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            Edge cur = (Edge) edgesIt.next();
+            EdgeIterface cur = (EdgeIterface) edgesIt.next();
             String edgeTypeName = cur.getEdgeType().getLinkName();
             if ((cur.getFromNode().equals(fromNode)) && (edgeType.getLinkName().equals(edgeTypeName)) ) {
                 outboundEdges.add(cur);

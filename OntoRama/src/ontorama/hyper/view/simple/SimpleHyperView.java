@@ -260,6 +260,16 @@ public class SimpleHyperView extends Canvas implements GraphView {
     private void makeHyperNodes(Node node) {
         HyperNode hn = new HyperNode(node);
         NodeType nodeType = node.getNodeType();
+        // @todo hack for unknown node type
+        if (nodeType == null) {
+            Iterator it = OntoramaConfig.getNodeTypesList().iterator();
+            while (it.hasNext()) {
+                NodeType cur = (NodeType) it.next();
+                if (cur.getNodeType().equals("unknown")) {
+                    nodeType = cur;
+                }
+            }
+        }
         hn.addFocusChangedObserver(this);
         HyperNodeView hnv = new HyperNodeView(hn, OntoramaConfig.getNodeTypeDisplayInfo(nodeType));
         hypernodes.put(node, hn);

@@ -43,6 +43,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
     private EventBroker eventBroker;
 
+    private Graph graph;
+
     private boolean KEY_IS_PRESSED = false;
     private boolean MOUSE_IS_PRESSED = false;
     private int pressedKey = -1;
@@ -71,6 +73,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      *
      */
     public void setGraph(Graph graph) {
+        this.graph = graph;
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
         this.tree = new JTree(ontoTreeModel);
@@ -293,6 +296,10 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      * @todo	shouldn't need to check if treeNode == null. This is a hack! this should be fixed in graphBuilder
      */
     public void focus(GraphNode node) {
+        Iterator it = node.getClones();
+        while (it.hasNext()) {
+            System.out.println("\t...clone: " + it.next());
+        }
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
         //System.out.println("FOCUS: ontotreenode = " + node.getName());
         //if (treeNode == null) {
@@ -301,6 +308,14 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         TreePath path = treeNode.getTreePath();
         this.tree.setSelectionPath(path);
         this.tree.scrollPathToVisible(path);
+    }
+
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+    public void repaint() {
+        super.repaint();
     }
 
 

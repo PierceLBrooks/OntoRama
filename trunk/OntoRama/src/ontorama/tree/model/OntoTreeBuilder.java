@@ -32,35 +32,29 @@ public class OntoTreeBuilder {
     /**
      * Constructor
      * @param	graph
-     * @todo  hack for case when we don't have any edges. Rethink this!
-     *        Especially hardcoding setRelLink to '1'.
      */
     public OntoTreeBuilder(Graph graph) {
         this.graph = graph;
 
-        Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
+        Iterator topLevelNodes = graph.getUnconnectedNodesList().iterator();
+        while (topLevelNodes.hasNext()) {
+            GraphNode topLevelNode = (GraphNode) topLevelNodes.next();
 
-        // take care of a case when we only have one node and no edges
-        if (!outboundEdges.hasNext()) {
-            OntoTreeNode ontoTreeNode = new OntoTreeNode(graph.getRootNode());
-            ontoTreeNode.setRelLink(1);
-            ontoHash.put(graph.getRootNode(), ontoTreeNode);
-        }
+            //Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
+            Iterator outboundEdges = Edge.getOutboundEdges(topLevelNode);
 
-        while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            graphNodeToOntoTreeNode(graph.getRootNode(), edge.getType());
+            // take care of a case when we only have one node and no edges
+            if (!outboundEdges.hasNext()) {
+                OntoTreeNode ontoTreeNode = new OntoTreeNode(graph.getRootNode());
+                ontoHash.put(graph.getRootNode(), ontoTreeNode);
+            }
+
+            while (outboundEdges.hasNext()) {
+                Edge edge = (Edge) outboundEdges.next();
+                graphNodeToOntoTreeNode(graph.getRootNode(), edge.getType());
+            }
         }
     }
-
-    /**
-     *
-     */
-    /*
-    public int getSize() {
-      return ontoHash.size();
-    }
-    */
 
     /**
      * Convert each GraphNode to OntoTreeNode
@@ -76,19 +70,6 @@ public class OntoTreeBuilder {
             GraphNode toGraphNode = (GraphNode) edge.getToNode();
             graphNodeToOntoTreeNode(toGraphNode, edge.getType());
         }
-
-//        Iterator outboundNodes = Edge.getOutboundEdgeNodes(top);
-//        while (outboundNodes.hasNext()) {
-//            GraphNode gn = (GraphNode) outboundNodes.next();
-//            graphToOntoTree(gn);
-//        }
-
-//        Iterator it = this.graph.iterator();
-//        while (it.hasNext()) {
-//            GraphNode curNode = (GraphNode) it.next();
-//            TreeNode treeNode = new OntoTreeNode (curNode);
-//            ontoHash.put(curNode,treeNode);
-//        }
     }
 
     /**
@@ -103,15 +84,11 @@ public class OntoTreeBuilder {
 
     /**
      * Get Iterator of TreeNodes for this tree
-     * @param	-
      * @return	iterator of treeNodes
      */
     public Iterator getIterator() {
         return (ontoHash.values()).iterator();
     }
 
-    /**
-     *
-     */
 
 }

@@ -1,4 +1,4 @@
-package ontorama.model;
+package ontorama.model.tree;
 
 import ontorama.model.graph.Node;
 

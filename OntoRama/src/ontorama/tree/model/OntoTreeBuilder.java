@@ -46,6 +46,12 @@ public class OntoTreeBuilder {
     /**
      *
      */
+    public Iterator getIterator () {
+        return (ontoHash.values()).iterator();
+    }
+    /**
+     *
+     */
      /*
    public static GraphNode getGraphNode (TreeNode treeNode) {
         Enumeration en = ontoHash.keys();

@@ -12,6 +12,6 @@ public interface OntoNodeObservable {
 	/**
 	 * Add an observer to model.
 	 */
-	public void addObserver( Object obj );
+	public void addOntoObserver( Object obj );
 
 }

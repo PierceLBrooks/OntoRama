@@ -19,7 +19,7 @@ import ontorama.model.NodeObserver;
 /**
  * Basic GraphNode for ontology viewers.
  */
-public class OntoTreeNode implements TreeNode, NodeObserver {
+public class OntoTreeNode implements TreeNode, NodeObserver, OntoNodeObservable {
 
     /**
      * Set to true if this node can have children
@@ -35,6 +35,11 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
     /**
      *
      */
+    private LinkedList observers = new LinkedList();
+
+    /**
+     *
+     */
     public OntoTreeNode ( GraphNode graphNode ) {
         this.graphNode = graphNode;
         this.graphNode.addObserver(this);
@@ -46,26 +51,31 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      */
     public void update( Object obj ) {
         System.out.println("OntoTreeNode method update: " + this.graphNode.getName());
-        //TreeNode treeNode = OntoTreeBuilder.getTreeNode(this.graphNode);
 
+        notifyChangeTree();
+    }
+
+    /**
+     * Add observers to the list of observers.
+     */
+    public void addOntoObserver( Object observer ) {
+        this.observers.add( observer );
+    }
+
+    /**
+     * Update all view of change.
+     */
+    public void notifyChangeTree () {
         // get TreePath for this node and tell tree to update?
+        TreePath path = getTreePath();
 
-        OntoTreeNode parent = (OntoTreeNode) this.getParent();
-        Stack stack = new Stack();
-        stack.push(this);
-        stack = buildPath(parent,stack);
-        System.out.println ("stack = " + stack);
-        int stackSize = stack.size();
-        System.out.println ("stack size = " + stackSize);
-        Stack reverseStack = new Stack();
-        while (!stack.isEmpty()) {
-            reverseStack.push(stack.pop());
+        Iterator it = observers.iterator();
+        //System.out.println("number of GraphNode observers " + observers.size());
+        while(it.hasNext()) {
+            //NodeObserver cur = (NodeObserver) it.next();
+            OntoNodeObserver cur = (OntoNodeObserver) it.next();
+            cur.updateOnto( path );
         }
-        Object nodesPathArray[] = reverseStack.toArray();
-        TreePath path = new TreePath(nodesPathArray);
-
-        System.out.println("TreePath = " + path);
-
     }
 
     /**
@@ -84,9 +94,36 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
     }
 
     /**
+     * Build TreePath for this node (path from root to the node)
+     */
+    public TreePath getTreePath () {
+        OntoTreeNode parent = (OntoTreeNode) this.getParent();
+
+        Stack stack = new Stack();
+        stack.push(this);
+        if ( this.getParent() != null) {
+            // if this node is root - don't need to build stack
+            stack = buildPath(parent,stack);
+        }
+        //System.out.println ("stack = " + stack);
+
+        // now reverse stack as it is backwards: starting at
+        // node and finishing at root
+        Stack reverseStack = new Stack();
+        while (!stack.isEmpty()) {
+            reverseStack.push(stack.pop());
+        }
+
+        TreePath path = new TreePath(reverseStack.toArray());
+        //System.out.println("TreePath = " + path);
+        return path;
+    }
+
+    /**
      *
      */
-    public void hasFocus() {
+    //public void hasFocus() {
+    public void setFocus() {
         this.graphNode.hasFocus();
     }
 
@@ -113,7 +150,7 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      */
     public int getChildCount() {
         List childrenList = this.graphNode.getChildrenList();
-        //System.out.println("getChildCount(): , node = " + this.graphNode.getName() + " returning "  + childrenList.size());
+        //System.out.println("getChildCount(): node = " + this.graphNode.getName() + " returning "  + childrenList.size());
         return childrenList.size();
     }
 
@@ -167,13 +204,13 @@ public class OntoTreeNode implements TreeNode, NodeObserver {
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-      if (this.getChildCount() < 0 ) {
-        //System.out.println("isLeaf(): , node = " + this.graphNode.getName() +
+      if (this.getChildCount() <= 0 ) {
+        //System.out.println("isLeaf(): node = " + this.graphNode.getName() +
         //            " returning true");
         return true;
       }
-        //System.out.println("isLeaf(): , node = " + this.graphNode.getName() +
-        //            " returning false");
+        //System.out.println("isLeaf(): node = " + this.graphNode.getName() +
+        //           " returning false");
 
       return false;
     }

@@ -15,10 +15,10 @@ import java.awt.event.ActionEvent;
 
 public class ShowUnconnectedNodesAction extends AbstractAction {
 
-    private static final String ACTION_COMMAND_KEY_COPY = "show-unconnected-nodes-command";
-    private static final String NAME_COPY = "Show Unconnected Nodes";
-    private static final String SHORT_DESCRIPTION_COPY = "Show Unconnected Nodes";
-    private static final String LONG_DESCRIPTION_COPY = "Show list of nodes that are not connected to root node via relation links";
+    private static final String ACTION_COMMAND_KEY_STR = "show-unconnected-nodes-command";
+    private static final String NAME_STR = "Toggle Unconnected Nodes View";
+    private static final String LONG_DESCRIPTION_STR = "Show list of nodes that are not connected to root node via relation links";
+    private static final String SHORT_DESCRIPTION_STR = LONG_DESCRIPTION_STR;
 
     private boolean _unconnectedNodesIsShowing = false;
 
@@ -26,10 +26,10 @@ public class ShowUnconnectedNodesAction extends AbstractAction {
      *
      */
     public ShowUnconnectedNodesAction( boolean unconnectedNodesIsOn) {
-        putValue(Action.NAME, NAME_COPY);
-        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
-        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
+        putValue(Action.NAME, NAME_STR);
+        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_STR);
+        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_STR);
+        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_STR);
         _unconnectedNodesIsShowing = unconnectedNodesIsOn;
     }
 
@@ -40,9 +40,8 @@ public class ShowUnconnectedNodesAction extends AbstractAction {
         System.out.println("\n****************\nShowUnconnectedNodesAction, current status = " + _unconnectedNodesIsShowing);
         _unconnectedNodesIsShowing = !_unconnectedNodesIsShowing;
         System.out.println(", new status = " + _unconnectedNodesIsShowing);
-        OntoRamaApp.showUnconnectedNodesList(_unconnectedNodesIsShowing);
+        OntoRamaApp.showUnconnectedNodesList();
     }
-
 
     /**
      *
@@ -55,7 +54,5 @@ public class ShowUnconnectedNodesAction extends AbstractAction {
     public void setUnconnectedNodesShowingStatus (boolean showUnconnectedNodes) {
         _unconnectedNodesIsShowing = showUnconnectedNodes;
     }
-
-
 
 }

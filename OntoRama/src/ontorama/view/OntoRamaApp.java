@@ -202,7 +202,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 //        addComponentsToScrollPanel(_hyperView, _treeView);
         addComponentsToScrollPanel(_hyperView, _treeSubSplitPane);
         //setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 100);
-        showUnconnectedNodesList(_unconnectedNodesAction.unconnectedNodesListIsShowing());
+        showUnconnectedNodesList();
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.add(_queryPanel, BorderLayout.NORTH);
@@ -395,8 +395,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _backForwardToolBar.addSeparator();
 
-        JButton unconnectedNodesButton = _backForwardToolBar.add(_unconnectedNodesAction);
+        JToggleButton unconnectedNodesButton = new JToggleButton(_unconnectedNodesAction);
+        //unconnectedNodesButton.setSelected(false);
         _backForwardToolBar.add(unconnectedNodesButton);
+//        JButton unconnectedNodesButton = _backForwardToolBar.add(_unconnectedNodesAction);
+//        _backForwardToolBar.add(unconnectedNodesButton);
     }
 
     /**
@@ -480,13 +483,13 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             System.out.println("\n num of unconnected nodes > 0");
             _unconnectedNodesAction.setEnabled(true);
             _unconnectedNodesAction.setUnconnectedNodesShowingStatus(true);
-            OntoRamaApp.showUnconnectedNodesList(true);
+            OntoRamaApp.showUnconnectedNodesList();
         }
         else {
             System.out.println("\n num of unconnected nodes <= 0");
             _unconnectedNodesAction.setEnabled(false);
             _unconnectedNodesAction.setUnconnectedNodesShowingStatus(false);
-            OntoRamaApp.showUnconnectedNodesList(false);
+            OntoRamaApp.showUnconnectedNodesList();
         }
     }
 
@@ -599,9 +602,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     }
 
 
-    public static void showUnconnectedNodesList (boolean showList) {
-        System.out.println("\nshowUnconnectedNodesList(), showList =  " + showList);
-        if (showList) {
+    public static void showUnconnectedNodesList () {
+        System.out.println("\nshowUnconnectedNodesList()");
+        System.out.println("status from the action: " + _unconnectedNodesAction.unconnectedNodesListIsShowing());
+        if (_unconnectedNodesAction.unconnectedNodesListIsShowing()) {
             System.out.println("TRUE");
             _treeSubSplitPane.add(_listViewer);
             setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 80);
@@ -611,6 +615,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             System.out.println("FALSE");
             _treeSubSplitPane.remove(_listViewer);
             setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 100);
+            _listViewer.setVisible(false);
         }
         _treeSubSplitPane.repaint();
     }

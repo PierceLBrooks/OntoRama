@@ -120,11 +120,9 @@ public abstract class AbstractMultiValuesPanel extends JPanel {
         // button'
         _propValuePanel.updateUI();
         _componentToPropValueMapping = new Hashtable();
-        System.out.println("\n\nCLONES: ");
         while (propValuesIterator.hasNext()) {
           GraphNode curNode = (GraphNode) propValuesIterator.next();
           JComponent component = createPropertyComponent(curNode);
-          System.out.println("clone = " + curNode.getName() + ", address = " + curNode);
           _propValuePanel.add(component);
           _componentToPropValueMapping.put(component, curNode);
         }

@@ -38,9 +38,9 @@ public class AboutOntoRamaAction extends AbstractAction {
         System.out.println("___action: about ontorama");
         Frame[] frames = ontorama.ui.OntoRamaApp.getFrames();
         if (frames.length > 0) {
-            AboutOntoRamaDialog dialog = new AboutOntoRamaDialog(frames[0]);
+            new AboutOntoRamaDialog(frames[0]);
         } else {
-            AboutOntoRamaDialog dialog = new AboutOntoRamaDialog(null);
+            new AboutOntoRamaDialog(null);
         }
     }
 }

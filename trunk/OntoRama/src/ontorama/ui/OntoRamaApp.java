@@ -58,37 +58,44 @@ import org.tockit.events.LoggingEventListener;
  * Main Application class. This class start OntoRama application.
  */
 public class OntoRamaApp extends JFrame implements ActionListener {
-    private static final double FOCAL_RADIUS_CHANGE = 1.1;
+    
     /**
      * holds hyper ui
      */
     private SimpleHyperView _hyperView;
+
     /**
      * holds tree ui
      */
     private OntoTreeView _treeView;
+
     /**
      * hold query panel
      */
     public QueryPanel _queryPanel;
+
     /**
      * split panel will contain hyper ui and tree ui
      */
     private JSplitPane _splitPane;
+
     /**
      * ontorama menu bar
      */
     private JMenuBar _menuBar;
+
     /**
      * ontorama menus
      */
     private JMenu _fileMenu;
     private HistoryMenu _historyMenu;
     private JMenu _helpMenu;
+
     /**
      * back_forward toolbar
      */
     private JToolBar _toolBar;
+
     /**
      * actions
      */
@@ -99,6 +106,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * desctiption ui panel contains concept properties details
      */
     private DescriptionView _descriptionViewPanel;
+
     /**
      * status bar
      */
@@ -106,16 +114,18 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     private JLabel _statusLabel;
     private JProgressBar _progressBar;
     private Timer _timer;
+
     /**
      * holds thread that will do all the work: querying ont server
      * and building graph
      */
-    //private QueryEngineTask _worker;
     private QueryEngineThread _worker;
+
     /**
      * holds current query
      */
     private Query _query;
+
     /**
      *
      */
@@ -135,10 +145,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      * by tree ui
      */
     private static int _leftSplitPanelWidthPercent = 65;
-    /**
-     * location of split panel's divider
-     */
-    private int _dividerBarLocation = -1;
+
     /**
      * nodes list viewer, used to show unconnected nodes
      */
@@ -163,7 +170,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private class ViewUpdateHandler implements EventBrokerListener {
         public void processEvent(Event e) {
-            TreeImpl tree = (TreeImpl) e.getSubject();
+            //TreeImpl tree = (TreeImpl) e.getSubject();
             updateViews();
         }
     }
@@ -325,21 +332,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         });
 
-        if (!OntoramaConfig.loadBlank()) {
-        	/// @todo fix commented out
-//            _progressBar.setIndeterminate(true);
-//            if ((OntoramaConfig.ontologyRoot.equals("null"))
-//                || (OntoramaConfig.ontologyRoot.length() == 0)) {
-//                _query = new Query();
-//            } else {
-//                _query =
-//                    new Query(
-//                        OntoramaConfig.ontologyRoot,
-//                        OntoramaConfig.getEdgeTypesList());
-//            }
-//            _modelEventBroker.processEvent(new QueryStartEvent(_query));
-        }
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle rect = new Rectangle(10, 10, (int)screenSize.getWidth() - 20, (int)screenSize.getHeight() - 20);
         ConfigurationManager.restorePlacement(CONFIGURATION_SECTION_NAME, this, rect);
@@ -365,26 +357,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             examplesConfigFilePath);
         new OntoRamaApp();
     }
-
-    /**
-     * @todo this approach is a hack to make distillery work. need to rethink
-     * whole process
-     */
-    public OntoRamaApp(String examplesConfigFilePath,
-				        String ontoramaPropertiesPath,
-				        String configFilePath,
-				        String exampleRoot,
-				        String exampleURL)
-    {
-        OntoramaConfig.loadAllConfig(
-            configFilePath,
-            ontoramaPropertiesPath,
-            examplesConfigFilePath);
-    	/// @todo fix commented out
-        //OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
-        new OntoRamaApp();
-    }
-    
+   
     private void initBackend() {
     	String backendName = OntoramaConfig.getBackendPackageName();
         if (backendName == null) {
@@ -575,10 +548,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             new OntoRamaApp();
         } else if (args.length == 3) {
             new OntoRamaApp(args[0], args[1], args[2]);
-        } else if (args.length == 5) {
-            /// @todo need some errorchecking here, or should pass parameters with options: --root=Root and
-            /// then split them into proper parameteres
-            new OntoRamaApp(args[0], args[1], args[2], args[3], args[4]);
         } else {
             String usage = " Usage: \n";
             usage =

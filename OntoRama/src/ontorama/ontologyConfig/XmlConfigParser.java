@@ -12,6 +12,8 @@ import org.jdom.*;
 import org.jdom.input.*;
 //import org.jdom.output.*;
 
+import ontorama.util.Debug;
+
 /**
  * Title:
  * Description:
@@ -37,6 +39,11 @@ public class XmlConfigParser {
      *
      */
     private static LinkedList relationRdfMappingList;
+
+    /**
+     *
+     */
+     private Debug debug = new Debug(false);
 
 
     /**
@@ -135,9 +142,6 @@ public class XmlConfigParser {
                 }
                 if (i==1) {
                     relationLinkDetails.setReversedLinkName(nameAttr.getValue());
-
-                    System.out.println("setReversedLinkName to " + nameAttr.getValue());
-                    System.out.println("getReversedLinkName = " + relationLinkDetails.getReversedLinkName());
                     if (mappingSymbolAttr != null) {
                         relationLinkDetails.setReversedLinkSymbol(mappingSymbolAttr.getValue());
                     }
@@ -148,14 +152,10 @@ public class XmlConfigParser {
 
             Attribute colorAttr = displayElement.getAttribute("color");
             checkCompulsoryAttr(colorAttr, "color", "display");
-            System.out.println("relationLinkDetails = " + relationLinkDetails);
-            System.out.println("colorAttr.getValue() = " + colorAttr.getValue());
-
             relationLinkDetails.setDisplayColor(colorAttr.getValue());
 
             Attribute iconAttr = displayElement.getAttribute("icon");
             if ( iconAttr != null) {
-                System.out.println("\ticon = " + iconAttr.getValue());
                 relationLinkDetails.setDisplayImage(iconAttr.getValue());
             }
 

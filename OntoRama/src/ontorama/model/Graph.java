@@ -17,12 +17,19 @@ import java.util.Hashtable;
 import java.util.ConcurrentModificationException;
 
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.util.Debug;
 
 
 public class Graph implements GraphInterface {
 
     private List treeNodes = new LinkedList ();
     private GraphNode root;
+    private GraphNode edgeRoot;
+
+    /**
+     * debug vars
+     */
+     Debug debug = new Debug(false);
 
 
     // for debugging purposes only, remove later!!!
@@ -30,52 +37,36 @@ public class Graph implements GraphInterface {
 
     public Graph(Collection graphNodes, GraphNode root, GraphNode edgeRoot) {
         //this.nodes = nodes;
+        //this.root = root;
         this.root = root;
+        this.edgeRoot = edgeRoot;
 
         // debug
-
         Iterator edges = Edge.edges.iterator();
         while (edges.hasNext()) {
             Edge cur = (Edge) edges.next();
-            System.out.println("****" + cur);
+            debug.message("Graph","constructor","*****" + cur);
             if ( (cur.getFromNode().getName().equals("node3"))  || (cur.getToNode().getName().equals("node3")) ) {
                 GraphNode node = cur.getFromNode();
                 Iterator it = Edge.getOutboundEdgeNodes(node);
-                System.out.println("\t" + cur.getFromNode());
-                System.out.println("\t it.hasNext = " + it.hasNext());
+                debug.message("Graph","constructor","\t" + cur.getFromNode());
+                debug.message("Graph","constructor","\t it.hasNext = " + it.hasNext());
             }
         }
 
 
         System.out.println("-------graph size: " + graphNodes.size() + "------------------------------");
 
-//        System.out.println("-------------------------------------");
-//        System.out.println("--------------graph-----------------------");
-//        printTree(root);
-//        System.out.println("-------------------------------------");
-//        System.out.println("-------------------------------------");
-
-        //System.out.println("-------------------------------------");
-        //System.out.println("--------------tree-----------------------");
-        //printXmlTree(root);
-        //System.out.println("-------------------------------------");
-        //System.out.println("-------------------------------------");
-
         convertIntoTree();
         System.out.println("converted graph into tree");
         makeTreeList(root);
 
-        //LinkedList allNodes = new LinkedList(nodes);
-        //allNodes.addAll(clones);
-
         // calculate the depth of each node
         root.calculateDepths();
 
+
         System.out.println("-------check if tree returned: " + checkIfTree(root) + "------------------------------");
         System.out.println("-------tree size: " + getSize() + "------------------------------");
-
-        //testIfTree(edgeRoot, new LinkedList());
-        //testIfTree(edgeRoot);
 
         System.out.println();
         System.out.println();
@@ -86,15 +77,18 @@ public class Graph implements GraphInterface {
         System.out.println();
         System.out.println();
         System.out.println("before convertIntoTree testIfTree(): " + testIfTree(edgeRoot));
+        System.out.println("before convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
 
         try {
             convertIntoTree(edgeRoot);
+            edgeRoot.calculateDepths();
         }
         catch (NoSuchRelationLinkException e ) {
             System.out.println("NoSuchRelationLinkException: " + e.getMessage());
             System.exit(-1);
         }
         System.out.println("after convertIntoTree testIfTree(): " + testIfTree(edgeRoot));
+        System.out.println("after convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
         System.out.println();
         System.out.println();
         System.out.println();
@@ -105,6 +99,13 @@ public class Graph implements GraphInterface {
      */
     public GraphNode getRootNode() {
         return root;
+    }
+
+    /**
+     * Returns the root node of the graph.
+     */
+    public GraphNode getEdgeRootNode() {
+        return edgeRoot;
     }
 
     /**
@@ -148,9 +149,6 @@ public class Graph implements GraphInterface {
                     cur.addChild( clone );
                     child.removeParent(cur);
                     clone.setParent(cur);
-                    //System.out.println("\tafter cloning");
-                    //System.out.println("\tchild = " + child);
-                    //System.out.println("\tclone = " + clone);
                 }
                 count++;
                 queue.add( child );
@@ -247,7 +245,6 @@ public class Graph implements GraphInterface {
           System.out.println("GraphNode with more than one parent: " + child);
           return false;
         }
-
       }
       return isTree;
     }
@@ -263,9 +260,6 @@ public class Graph implements GraphInterface {
 
         while ( !queue.isEmpty()) {
             GraphNode nextQueueNode = (GraphNode) queue.remove(0);
-
-            //System.out.println("--- processing node " + nextQueueNode.getName() + " -----");
-
             Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
 
             while (allOutboundNodes.hasNext()) {
@@ -279,7 +273,6 @@ public class Graph implements GraphInterface {
                     inboundEdges.next();
                 }
                 if (count > 1) {
-                    //System.out.println("current node " + curNode.getName() + " has multiple inbound edges, num = " + count);
                     isTree = false;
                 }
             }
@@ -299,41 +292,36 @@ public class Graph implements GraphInterface {
         while ( !queue.isEmpty()) {
             GraphNode nextQueueNode = (GraphNode) queue.remove(0);
 
-            System.out.println("--- processing node " + nextQueueNode.getName() + " -----");
+            debug.message("Graph", "convertIntoTree", "--- processing node " + nextQueueNode.getName() + " -----");
 
             Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
 
             while (allOutboundNodes.hasNext()) {
                 GraphNode curNode = (GraphNode) allOutboundNodes.next();
                 queue.add(curNode);
-
-
-
                 int[] typeCount = getTypeCount(Edge.getInboundEdges(curNode));
                 for (int i = 0; i < typeCount.length; i++) {
                     while (typeCount[i] > 1) {
-                    //if (typeCount[i] > 1) {
-                        System.out.println("current node " + curNode.getName() + " has multiple inbound edges, num = " + typeCount[i] + " for type = " + i);
+                        debug.message("Graph", "convertIntoTree", "current node " + curNode.getName() + " has multiple inbound edges, num = " + typeCount[i] + " for type = " + i);
 
                         // clone the node
                         GraphNode cloneNode = curNode.makeClone();
 
                         // add edge from cloneNode to a NodeParent with this rel type and
                         // remove edge from curNode to a NodeParent with this rel type
+
                         Iterator inboundEdges = Edge.getInboundEdges(curNode, i);
                         if (inboundEdges.hasNext()) {
                             Edge firstEdge = (Edge) inboundEdges.next();
                             Edge newEdge = new Edge (firstEdge.getFromNode(), cloneNode, i);
                             Edge.removeEdge(firstEdge);
-
                         }
 
                         // copy/clone all structure below
-                        deepCopy(curNode);
+                        deepCopy(curNode, cloneNode);
 
                         // indicate that we processed one edge
                         typeCount[i]--;
-                        System.out.println("current num = " + typeCount[i]);
                     }
                 }
 
@@ -345,7 +333,7 @@ public class Graph implements GraphInterface {
     /**
      *
      */
-    private void deepCopy (GraphNode node) throws NoSuchRelationLinkException {
+    private void deepCopy (GraphNode node, GraphNode cloneNode ) throws NoSuchRelationLinkException {
 
         Iterator outboundEdgesIterator = Edge.getOutboundEdges(node);
 
@@ -353,8 +341,8 @@ public class Graph implements GraphInterface {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
             GraphNode toNode = curEdge.getToNode();
             GraphNode cloneToNode = toNode.makeClone();
-            Edge newEdge = new Edge(node,cloneToNode,curEdge.getType());
-            deepCopy(toNode);
+            Edge newEdge = new Edge(cloneNode,cloneToNode,curEdge.getType());
+            deepCopy(toNode, cloneToNode);
         }
     }
 

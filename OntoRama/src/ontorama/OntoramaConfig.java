@@ -123,13 +123,6 @@ public class OntoramaConfig {
           parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffix;
           sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffix;
 
-          System.out.println("---------config--------------");
-          System.out.println("sourceUri = " + sourceUri);
-          System.out.println("queryOutputFormat = " + queryOutputFormat);
-          System.out.println("DEBUG = " + DEBUG);
-          System.out.println("parserPackageName = " + parserPackageName);
-          System.out.println("sourcePackageName = " + sourcePackageName);
-          System.out.println("--------- end of config--------------");
 
         }
         catch (Exception e) {
@@ -142,22 +135,9 @@ public class OntoramaConfig {
             FileInputStream configInStream = new FileInputStream(configsDirLocation + "/config.xml");
             XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
             allRelationsArray = xmlConfig.getRelationLinksArray();
-            for (int i = 0; i < allRelationsArray.length; i++ ) {
-                if ( allRelationsArray[i] != null ) {
-                    System.out.println("i = " + i + ", object = " + allRelationsArray[i].getLinkName());
-                }
-            }
             MAXTYPELINK = allRelationsArray.length;
             relationLinksSet = buildRelationLinksSet (allRelationsArray);
-            System.out.println("MAXTYPELINK = " + MAXTYPELINK);
-
-
             relationRdfMapping = xmlConfig.getRelationRdfMappingList();
-
-
-
-
-            //System.exit(0);
         }
         catch (IOException ioe) {
           System.err.println("Unable to read xml configuration file");
@@ -173,6 +153,20 @@ public class OntoramaConfig {
             System.err.println("ArrayIndexOutOfBoundsException: " + arrayExc);
             System.exit(-1);
         }
+        System.out.println("---------config--------------");
+        System.out.println("sourceUri = " + sourceUri);
+        System.out.println("queryOutputFormat = " + queryOutputFormat);
+        System.out.println("DEBUG = " + DEBUG);
+        System.out.println("parserPackageName = " + parserPackageName);
+        System.out.println("sourcePackageName = " + sourcePackageName);
+        /*
+        for (int i = 0; i < allRelationsArray.length; i++ ) {
+            if ( allRelationsArray[i] != null ) {
+                System.out.println("i = " + i + ", object = " + allRelationsArray[i].getLinkName());
+            }
+        }
+        */
+        System.out.println("--------- end of config--------------");
     }
 
 
@@ -195,6 +189,13 @@ public class OntoramaConfig {
      */
     public static HashSet getRelationLinksSet () {
         return relationLinksSet;
+    }
+
+    /**
+     *
+     */
+    public static RelationLinkDetails[] getRelationLinkDetails () {
+        return allRelationsArray;
     }
 
     /**

@@ -221,23 +221,21 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
             System.out.println("relLinkDetails.getReversedLinkName() = " + relLinkDetails.getReversedLinkName());
 
             try {
-
                 if ( mappingType.equals(relLinkDetails.getLinkName()) ) {
                     System.out.println("case 1");
-                    objectType.addRelationType(subjectType, mappingId);
-                    System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
+                    subjectType.addRelationType(objectType,mappingId);
+                    System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
                 }
                 else if ( mappingType.equals(relLinkDetails.getReversedLinkName()) ) {
                     // reverse
                     System.out.println("case 2");
-                    subjectType.addRelationType(objectType,mappingId);
-                    System.out.println(subjectType.getName() + " -> " + objectType.getName() + ", rel = " + mappingId);
+                    objectType.addRelationType(subjectType, mappingId);
+                    System.out.println(objectType.getName() + " -> " + subjectType.getName() + ", rel = " + mappingId);
                 }
                 else {
                     // ERROR
                     // throw exception here
                     System.out.println("case 3");
-
                 }
             }
             catch (NoSuchRelationLinkException e) {

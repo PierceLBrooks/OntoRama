@@ -19,6 +19,7 @@ import ontorama.*;
 import ontorama.webkbtools.query.*;
 import ontorama.webkbtools.datamodel.*;
 import ontorama.webkbtools.util.*;
+import ontorama.util.Debug;
 
 
 public class GraphBuilder {
@@ -40,6 +41,11 @@ public class GraphBuilder {
 
     /**
      *
+     */
+     Debug debug = new Debug(false);
+
+    /**
+     *
      * @todo: should never return null!!! need to introduce exception chain up to the parser??
      * @todo:  replace parseTypeToNode(ot,1) below with something more meaninfull (instead
      * of hardcoding int=1 use iterator on a set of relation types)
@@ -47,29 +53,20 @@ public class GraphBuilder {
     public GraphBuilder(QueryResult queryResult)
                 throws NoSuchRelationLinkException, NoTypeFoundInResultSetException {
 
-
         String termName = queryResult.getQuery().getQueryTypeName();
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
         processedTypes = new LinkedList();
         try {
           while (ontIterator.hasNext()) {
               OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-                //Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
-                //while (relLinks.hasNext()) {
-                    //Integer relLink = (Integer) relLinks.next();
-                      //parseTypeToNode(ot,relLink.intValue());
 
-                      //parseTypeToNode(ot,OntoramaConfig.SUBTYPE);
-                      parseTypeToNode(ot,1);
-
-
-                      //parseTypeToNode(ot,OntoramaConfig.SUPERTYPE);
-
-                      makeEdges(ot,termName);
-
-                //}
-              //parseTypeToEdge(ot);
-
+              Set relationLinksSet = OntoramaConfig.getRelationLinksSet();
+              Iterator relationLinksIterator = relationLinksSet.iterator();
+              while (relationLinksIterator.hasNext()) {
+                Integer nextRelLink = (Integer) relationLinksIterator.next();
+                parseTypeToNode(ot,nextRelLink.intValue());
+              }
+              makeEdges(ot,termName);
           }
 
           GraphNode root = (GraphNode) nodes.get(termName);
@@ -80,20 +77,13 @@ public class GraphBuilder {
           Iterator it = collection.iterator();
           while (it.hasNext()) {
             GraphNode n = (GraphNode) it.next();
-            System.out.println(n.getName());
+            debug.message("GraphBuilder","constructor", n.getName());
           }
           graph = new Graph( collection, root, edgeRoot );
         }
         catch (NoSuchRelationLinkException e) {
             throw e;
         }
-        //catch (ClassNotFoundException ce) {
-        //    System.out.println("ClassNotFoundException: " + ce);
-        //    System.exit(1);
-        //}
-        //catch (Exception e) {
-        //    System.out.println("Exception: " + e);
-        //}
     }
 
     /**
@@ -112,21 +102,10 @@ public class GraphBuilder {
         }
 
         if (rootName.equals(node.getName())) {
-        //if (processedTypes.size() == 1) {
-        //if (processedTypes.size() == 1) {
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println("edgeRoot = " + node.getName());
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println();
-
             edgeRoot = node;
+            System.out.println();
+            debug.message("GraphBuilder","makeEdges","edgeRoot = " + edgeRoot.getName());
+            System.out.println();
         }
 
         Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
@@ -147,20 +126,12 @@ public class GraphBuilder {
         }
     }
 
-
     /**
      *
      */
      private void parseTypeToEdge (OntologyType ot) throws NoSuchRelationLinkException {
 
-
         GraphNode outboundNode = new GraphNode (ot.getName());
-        /*
-        if (outboundNode.getName() == termName) {
-            root = outboundNode;
-        }
-        */
-
         Iterator allRelationLinks = relationLinksSet.iterator();
         while (allRelationLinks.hasNext()) {
             Integer curRel = (Integer) allRelationLinks.next();
@@ -178,7 +149,6 @@ public class GraphBuilder {
      * Read nodes into hashtable
      */
     private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException {
-        System.out.println("--parseTypeToNode--" + ot + ", relLink = " + relLink);
 
         // find node with name
         String nodeName = ot.getName();
@@ -191,11 +161,9 @@ public class GraphBuilder {
         }
         //get children
 
-        //Iterator it = ot.getIterator(OntoramaConfig.SUBTYPE);
         Iterator it = ot.getIterator(relLink);
         while(it.hasNext()) {
             OntologyType child = (OntologyType) it.next();
-            System.out.println("........................child = " + child);
 
             // find node with name of child
             nodeName = child.getName();

@@ -94,7 +94,16 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         setToolTipText(getToolTipText(value, edge));
 
-        ImageIcon image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
+        ImageIcon image;
+
+        /// @todo should always have nodeType != null, when editing graph - it should be able
+        // to figure out node type.
+        if (nodeType == null) {
+            image = _unknownNodeImageIcon;
+        }
+        else {
+            image = (ImageIcon) _nodeTypeToImageMapping.get(nodeType);
+        }
 
         if (treeNode.getTreePath().getPathCount() == 1) {
             setIcon(image);

@@ -24,7 +24,6 @@ import ontorama.model.tree.TreeView;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
 import ontorama.ui.events.QueryNodeEvent;
-import ontorama.util.Debug;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;
 import ontorama.views.tree.model.OntoTreeBuilder;
@@ -44,17 +43,11 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         TreeSelectionListener, TreeView {
 
     private JTree _treeView;
-    //private OntoTreeNode focusedNode;
-
-    private Debug debug = new Debug(false);
 
     private EventBroker _eventBroker;
 
     private Tree _tree;
 
-    /**
-     * Constructor
-     */
     public OntoTreeView( EventBroker eventBroker) {
         super();
 
@@ -69,9 +62,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         }
     }
 
-    /**
-     *
-     */
     public void setTree(Tree tree) {
         _tree = tree;
         OntoTreeModel ontoTreeModel = new OntoTreeModel(_tree);
@@ -143,17 +133,11 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         TreeNode modelNode = getModelNodeFromInputEvent(e);
         if (modelNode == null ) return;
         int onmask = InputEvent.BUTTON1_DOWN_MASK;
-        //int offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
-        //                InputEvent.ALT_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK
-        //                | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
         if ( e.getModifiersEx() == onmask) {
             _eventBroker.processEvent(new TreeNodeSelectedEvent(modelNode, _eventBroker));
             return;
         }
         onmask = InputEvent.BUTTON1_DOWN_MASK | InputEvent.CTRL_DOWN_MASK;
-        //offmask = InputEvent.BUTTON2_DOWN_MASK | InputEvent.BUTTON3_DOWN_MASK |
-        //                InputEvent.ALT_DOWN_MASK | InputEvent.ALT_DOWN_MASK
-        //                | InputEvent.META_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK;
         if ( e.getModifiersEx() == onmask) {
             System.out.println("query for modelNode = " + modelNode);
             _eventBroker.processEvent(new QueryNodeEvent(modelNode));
@@ -173,13 +157,13 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     public void mouseReleased(MouseEvent e) {
     }
     
-    private ontorama.model.tree.TreeNode getModelNodeFromInputEvent (InputEvent event) {
+    private TreeNode getModelNodeFromInputEvent (InputEvent event) {
         if (event instanceof KeyEvent) {
             OntoTreeNode treeNode = (OntoTreeNode) _treeView.getLastSelectedPathComponent();
             if (treeNode == null) {
                 return null;
             }
-            ontorama.model.tree.TreeNode modelNode = treeNode.getModelTreeNode();
+            TreeNode modelNode = treeNode.getModelTreeNode();
             return modelNode;
         }
         if (event instanceof MouseEvent) {
@@ -194,19 +178,14 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         return null;
     }
    
-	/**
-	 * 
-	 */
-	private ontorama.model.tree.TreeNode getModelNodeFromTreePath(TreePath selPath) {
+	private TreeNode getModelNodeFromTreePath(TreePath selPath) {
 		OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
-		ontorama.model.tree.TreeNode modelNode = treeNode.getModelTreeNode();
+		TreeNode modelNode = treeNode.getModelTreeNode();
 		return modelNode;
 	}
 
     //////////////////////////ViewEventObserver interface implementation////////////////
 
-    /**
-     */
     public void focus(TreeNode node) {
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
         TreePath path = treeNode.getTreePath();

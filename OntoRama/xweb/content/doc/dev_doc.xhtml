@@ -28,22 +28,50 @@
 			All examples loaded by OntoRama are described in examplesConfig.xml file. Here is brief description of this file
 			Here is a sniplet of Ontorama Examples config file:
 		</p>
+		
+<xml>
+<ontoramaExamples>
+  <example name="Ontorama Xml Test" root="root">
+    <source relativeUri= "examples/ontorama-test.xml"	
+		sourcePackagePathSuffix= "JarSource"/>
+	<queryOutputFormat> XML </queryOutputFormat>
+	<parserPackagePathSuffix> xml.XmlParserFull </parserPackagePathSuffix>
+  </example>
+  ......
+  <example name="International Movies 
+    Database" root="#IMdb">
+	<source relativeUri= "examples/web-examples/imdb.rdf" 
+		sourcePackagePathSuffix= "JarSource"/>
+	<queryOutputFormat> RDF </queryOutputFormat>
+	<parserPackagePathSuffix> rdf.RdfDamlParser </parserPackagePathSuffix>
+	<displayMenu subfolder= "Web Examples"/>
+  </example>			
+</ontoramaExamples>
+</xml>		
+<!--
 		<pre>
 &lt;ontoramaExamples&gt;
-	&lt;example name="Ontorama Xml Test" root="root"&gt;
-		&lt;source relativeUri="examples/ontorama-test.xml"	sourcePackagePathSuffix="JarSource"/&gt;
-		&lt;queryOutputFormat&gt;XML&lt;/queryOutputFormat&gt;
-		&lt;parserPackagePathSuffix&gt;xml.XmlParserFull&lt;/parserPackagePathSuffix&gt;
-	&lt;/example&gt;
-	......
-	&lt;example name="International Movies Database" root="#IMdb"&gt;
-		&lt;source relativeUri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="JarSource"/&gt;
-		&lt;queryOutputFormat&gt;RDF&lt;/queryOutputFormat&gt;
-		&lt;parserPackagePathSuffix&gt;rdf.RdfDamlParser&lt;/parserPackagePathSuffix&gt;
-		&lt;displayMenu subfolder="Web Examples"/&gt;
-	&lt;/example&gt;			
+  &lt;example name="Ontorama Xml Test" root="root"&gt;
+    &lt;source relativeUri="examples/ontorama-test.xml"	
+		sourcePackagePathSuffix="JarSource"/&gt;
+	&lt;queryOutputFormat&gt;XML&lt;/queryOutputFormat&gt;
+	&lt;parserPackagePathSuffix&gt;
+	  xml.XmlParserFull
+	&lt;/parserPackagePathSuffix&gt;
+  &lt;/example&gt;
+  ......
+  &lt;example name="International Movies Database" root="#IMdb"&gt;
+	&lt;source relativeUri="examples/web-examples/imdb.rdf" 
+		sourcePackagePathSuffix="JarSource"/&gt;
+	&lt;queryOutputFormat&gt;RDF&lt;/queryOutputFormat&gt;
+	&lt;parserPackagePathSuffix&gt;
+	  rdf.RdfDamlParser
+	&lt;/parserPackagePathSuffix&gt;
+	&lt;displayMenu subfolder="Web Examples"/&gt;
+  &lt;/example&gt;			
 &lt;/ontoramaExamples&gt;
 		</pre>
+-->
 		<p>
 			Root Element: 'ontoramaExamples'.
 			Root Element can contain any number of 'example' elements.

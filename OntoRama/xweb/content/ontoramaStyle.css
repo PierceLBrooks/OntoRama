@@ -1,8 +1,9 @@
+@page { size : portrait; margin : 1in }
 .TITLE {display: block; font-size: 36pt; font-weigth: bold;  text-decoration: underline; font-style: italic; color: navy}
 p,ul,dl,ol { display: block; margin-top: 10 ; font-family:	Arial, Helvetica, sans-serif; font-size: 12pt}
 .OntoRama {font-size: 18pt; font-style: italic; }
 .firstLetter { color:rgb(25,76,191); font-weight:bold; }
-.xmlSnipplet { display: block; background-color: gray }
+.xmlSnipplet { display: block; background-color: #D3D3D3; font-family:	Arial, Helvetica, sans-serif; font-size: 12pt }
 pre { display: block; background-color: #D3D3D3 }
 hr { border-color:rgb(25,76,191); color:rgb(0,0,55); border-bottom-style:solid; border-bottom-width:2px; }
 h1 {  color:rgb(0,0,55);  font-family:Georgia; font-size:20pt; text-align:left; margin-left: 10 }

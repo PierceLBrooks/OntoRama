@@ -199,6 +199,38 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 			</tr>
 		</xsl:if>
 	</xsl:template>
+	<!-- rewrite xml so it's not ignored by browsers-->
+	<xsl:template match="xml" mode="body">
+		<span class="xmlSnipplet">
+			 <xsl:apply-templates select="node()" mode="serialise"/>
+		</span>
+	</xsl:template>
+	<xsl:template match="node()" mode="xmlSnipplet">
+		<blockquote>
+			<xsl:copy>
+      				<xsl:copy-of select="@*" />
+      				<xsl:apply-templates mode="serialise" />
+				<xsl:apply-templates select="@*" mode="xmlSnipplet"/>
+				<xsl:apply-templates mode="xmlSnipplet"/>
+			</xsl:copy>
+		</blockquote>
+	</xsl:template>
+	<xsl:template match="*" mode="serialise">
+		<blockquote>
+		   <xsl:text />&lt;<xsl:value-of select="name()" />
+		   <xsl:for-each select="@*">
+		      <xsl:text> </xsl:text>
+		      <xsl:value-of select="name()" />="<xsl:value-of select="." />"<xsl:text />
+		   </xsl:for-each>
+		   <xsl:choose>
+		      <xsl:when test="* or normalize-space(.)">
+		         <xsl:text />&gt;<xsl:apply-templates mode="serialise" />
+		         <xsl:text />&lt;/<xsl:value-of select="name()" />&gt;<xsl:text />
+		      </xsl:when>
+		      <xsl:otherwise> /&gt;</xsl:otherwise>
+		   </xsl:choose>
+		</blockquote>
+	</xsl:template>
 	<!-- Body mode: if first letter should be highlighted, switch into paragraph mode for paragraphs -->
 	<xsl:template match="p" mode="body">
 		<xsl:copy>

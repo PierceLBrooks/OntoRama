@@ -1,0 +1,52 @@
+<ontology top="root">
+   <node name="root">
+      <child name="node1" />
+      <child name="node2" />
+      <child name="node3" />
+      <child name="node4" />
+      <child name="node5" />
+      <child name="node6" />
+   </node>
+
+   <node name="node1">
+      <child name="node1.1" />
+      <child name="node1.2" />
+   </node>
+
+   <node name="node2">
+      <child name="node2.1" />
+      <child name="node2.2" />
+      <child name="node3.2" />
+   </node>
+
+   <node name="node3">
+      <child name="node3.1" />
+      <child name="node3.2" />
+      <child name="node3.3" />
+   </node>
+
+   <node name="node4">
+      <child name="nodeOrama4.1" />
+      <child name="nodeOrama4.2" />
+      <child name="nodeOrama4.3" />
+      <child name="nodeOrama4.4" />
+      <child name="nodeOrama4.5" />
+      <child name="nodeOrama4.6" />
+      <child name="nodeOrama4.7" />
+      <child name="nodeOrama4.8" />
+      <child name="nodeOrama4.9" />
+   </node>
+   <node name="node3.2">
+      <child name="node3.2.1" />
+      <child name="node3.2.2" />
+      <child name="node3.2.3" />
+   </node>
+   
+   <node name="nodeOrama4.6">
+      <child name="node4.6.1" />
+      <child name="node4.6.2" />
+      <child name="node4.6.3" />
+      <child name="nodeOrama4.1" />
+   </node>
+</ontology>
+

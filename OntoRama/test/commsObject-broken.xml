@@ -1,0 +1,90 @@
+<ontology top="comms_CommsObject">
+	<node name="comms_CommsObject">
+		<child name="comms_NetworkObject"/>
+		<child name="comms_TelecomObject"/>
+		<child name="comms_SwitchingObject"/>
+		<child name="comms_TransmissionObject"/>
+	</node>
+	<node name="comms_NetworkObject">
+		<child name="comms_TMN"/>
+		<child name="comms_CMIP"/>
+		<child name="comms_SMTP"/>
+		<child name="comms_TrafficObject"/>
+	</node>
+	<node name="comms_TrafficObject">
+		<child name="comms_TelecomAndTrafficObject"/>
+	</node>
+	<node name="comms_TelecomAndTrafficObject">
+		<child name="wn_AsynchronousTransferMode"/>
+		<child name="comms_SubscriberLine"/>
+		<child name="comms_FrameRelay"/>
+		<child name="comms_ISDN"/>
+	</node>
+	<node name="comms_SubscriberLine">
+		<child name="comms_ADSL"/>
+		<child name="comms_DSL"/>
+	</node>
+	<node name="comms_TelecomObject">
+		<child name="comms_TelecomAndTrafficObject"/>
+		<child name="comms_VPN"/>
+		<child name="comms_IBDN"/>
+		<child name="comms_CTI"/>
+		<child name="comms_GSM"/>
+	</node>
+	<node name="comms_TelecomAndTrafficObject">
+		<child name="wn_AsynchronousTransferMode"/>
+		<child name="comms_SubscriberLine"/>
+		<child name="comms_FrameRelay"/>
+		<child name="comms_ISDN"/>
+	</node>
+	<node name="comms_SubscriberLine">
+		<child name="comms_ADSL"/>
+		<child name="comms_DSL"/>
+	</node>
+	<node name="comms_SwitchingObject">
+		<child name="comms_TollSwitch"/>
+		<child name="comms_OfficeSwitch"/>
+		<child name="comms_TandemSwitch"/>
+		<child name="comms_PBX"/>
+		<child name="comms_InternationalGateway"/>
+		<child name="comms_Router"/>
+	</node>
+	<node name="comms_TransmissionObject">
+		<child name="comms_WDM"/>
+		<child name="wn_Cable_2"/>
+		<child name="wn_Microwave"/>
+		<child name="wn_Satellite"/>
+		<child name="comms_WirelessNetwork"/>
+		<child name="comms_BroadbandNetwork"/>
+	</node>
+	<node name="wn_Cable_2">
+		<child name="wn_CoaxialCable"/>
+		<child name="wn_FiberOpticCable"/>
+		<child name="wn_PowerLine"/>
+		<child name="wn_PrinterCable"/>
+	</node>
+	<node name="wn_CoaxialCable">
+		<child name="wn_EthernetCable"/>
+	</node>
+	<node name="wn_Satellite">
+		<child name="wn_AstronomySatellite"/>
+		<child name="wn_CommunicationsSatellite"/>
+		<child name="wn_Spacecraft"/>
+		<child name="wn_SpaceStation"/>
+		<child name="wn_Sputnik"/>
+		<child name="wn_SpySatellite"/>
+		<child name="wn_WeatherSatellite"/>
+		<child name="comms_VSAT"/>
+	</node>
+	<node name="wn_Spacecraft">
+		<child name="wn_LunarExcursionModule"/>
+		<child name="wn_SpaceCapsule"/>
+	</node>
+	<node name="wn_SpaceCapsule">
+		<child name="wn_CommandModule"/>
+	</node>
+	<node name="wn_SpaceStation">
+		<child name="wn_Salyut"/>
+		<child name="wn_Skylab"/>
+	</node>
+</ontology>

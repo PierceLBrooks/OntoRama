@@ -148,7 +148,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 * the hyper view. the rest of the split panel will be taken up
 	 * by tree view
 	 */
-	int _leftSplitPanelWidthPercent = 70;
+	int _leftSplitPanelWidthPercent = 65;
 
 	/**
 	 * height and width of main window

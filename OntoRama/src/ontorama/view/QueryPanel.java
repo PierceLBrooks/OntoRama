@@ -1,44 +1,21 @@
-
 package ontorama.view;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.ImageIcon;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-
-import java.awt.event.ActionListener;
-import java.awt.event.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.TextField;
-import java.awt.Image;
-
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Hashtable;
-import java.util.Enumeration;
-
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.*;
-
-import ontorama.view.action.StopQueryAction;
-
-import ontorama.hyper.view.simple.*;
-
+import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.GraphNode;
-
-import ontorama.webkbtools.query.Query;
-
-
+import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
+import ontorama.webkbtools.query.Query;
+import org.tockit.events.EventBroker;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * QueryPanel is responsible for building an interface for a query that
@@ -46,18 +23,18 @@ import ontorama.util.event.ViewEventObserver;
  *
  */
 public class QueryPanel extends JPanel implements ViewEventObserver, ActionListener {
-	
-	private int _depth = -1;
+
+    private int _depth = -1;
 
     private JTextField _queryField;
     private JButton _querySubmitButton;
     private JButton _queryStopButton;
     private JTextField _depthField;
     private JLabel _depthLabel = new JLabel("depth: ");
-    
+
     private static final String _queryFieldToolTip = "Type query term here";
     private static final String _depthFieldToolTip = "Specify query depth (integer from 1 to 9). This feature is only available for Dynamic sources.";
-  
+
 
     /**
      *
@@ -73,12 +50,13 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     /**
      * relation links that user has chosen to display
      */
-    private List _wantedRelationLinks = new LinkedList ();
+    private List _wantedRelationLinks = new LinkedList();
 
     /**
      *
      */
     private ViewEventListener _viewListener;
+    private EventBroker _eventBroker;
 
     /**
      *
@@ -90,10 +68,14 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      *        (this is done for executing queries). Better way to do this is to follow
      *        Observer Pattern
      */
-    public QueryPanel (ViewEventListener viewListener, OntoRamaApp ontoRamaApp) {
+    public QueryPanel(ViewEventListener viewListener, OntoRamaApp ontoRamaApp, EventBroker eventBroker) {
 
         _viewListener = viewListener;
         _viewListener.addObserver(this);
+
+        _eventBroker = eventBroker;
+        new GraphViewFocusEventHandler(eventBroker, this);
+
 
         _ontoRamaApp = ontoRamaApp;
 
@@ -103,36 +85,37 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
         _queryField.setToolTipText(_queryFieldToolTip);
         _queryField.addActionListener(this);
 
-		_depthField = new JTextField(1);
-		_depthField.setToolTipText(_depthFieldToolTip);
-		_depthField.addActionListener(this);
-		_depthField.addKeyListener(new KeyListener() {
-			public void keyPressed (KeyEvent ke) {
-			}
-			public void keyTyped (KeyEvent ke) {
-			}
-			public void keyReleased (KeyEvent ke) {
-				//System.out.println("key char = " + ke.getKeyChar() + ", isDigit = " + Character.isDigit(ke.getKeyChar()) );
-				if ( ( ! Character.isDigit(ke.getKeyChar()) ) && ( ! Character.isLetter(ke.getKeyChar()) ) ){
-					return;
-				}
-				int depth = -1;
-		    	try {
-		    		depth = (new Integer(_depthField.getText())).intValue();
-		    	}
-		    	catch (NumberFormatException nfe) {
-		    		_ontoRamaApp.showErrorDialog("Please use integers to specify depth");
-		    		_depthField.selectAll();
-		    	}
-				if (depth > 4) {
-					_ontoRamaApp.showErrorDialog("Please choose smaller integers " + 
-					"for depth setting. " + 
-					"Large setting for this parameter may result in long load times");
-		    		_depthField.selectAll();
-				}
-				_depth = depth;
-			}
-		});
+        _depthField = new JTextField(1);
+        _depthField.setToolTipText(_depthFieldToolTip);
+        _depthField.addActionListener(this);
+        _depthField.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent ke) {
+            }
+
+            public void keyTyped(KeyEvent ke) {
+            }
+
+            public void keyReleased(KeyEvent ke) {
+                //System.out.println("key char = " + ke.getKeyChar() + ", isDigit = " + Character.isDigit(ke.getKeyChar()) );
+                if ((!Character.isDigit(ke.getKeyChar())) && (!Character.isLetter(ke.getKeyChar()))) {
+                    return;
+                }
+                int depth = -1;
+                try {
+                    depth = (new Integer(_depthField.getText())).intValue();
+                } catch (NumberFormatException nfe) {
+                    _ontoRamaApp.showErrorDialog("Please use integers to specify depth");
+                    _depthField.selectAll();
+                }
+                if (depth > 4) {
+                    _ontoRamaApp.showErrorDialog("Please choose smaller integers " +
+                            "for depth setting. " +
+                            "Large setting for this parameter may result in long load times");
+                    _depthField.selectAll();
+                }
+                _depth = depth;
+            }
+        });
 
         _querySubmitButton = new JButton(new QueryAction());
         _queryStopButton = new JButton(_ontoRamaApp._stopQueryAction);
@@ -145,9 +128,9 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
 //        newButton.setLabel("test button label");
 //		//newButton.setEnabled(false);
 
-		queryFieldPanel.add(new JLabel("Search for: "));
+        queryFieldPanel.add(new JLabel("Search for: "));
         queryFieldPanel.add(_queryField);
-        
+
         queryFieldPanel.add(_depthLabel);
         queryFieldPanel.add(_depthField);
 
@@ -159,153 +142,150 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
         setBorder(BorderFactory.createEtchedBorder());
 
         buildRelationLinksQueryPanel();
-        add(_relationLinksPanel,BorderLayout.NORTH);
+        add(_relationLinksPanel, BorderLayout.NORTH);
 
         add(queryFieldPanel, BorderLayout.CENTER);
     }
-    
+
     /**
      * implementation of action performed
      */
-    public void actionPerformed (ActionEvent ae) {
-    	
-    	if (ae.getSource() == _queryField) {
-    		_querySubmitButton.doClick();
-    	}
-    	if  (ae.getSource() == _depthField) {
-    		_querySubmitButton.doClick();
-    	}
+    public void actionPerformed(ActionEvent ae) {
+
+        if (ae.getSource() == _queryField) {
+            _querySubmitButton.doClick();
+        }
+        if (ae.getSource() == _depthField) {
+            _querySubmitButton.doClick();
+        }
     }
-    
+
     /**
-     * 
+     *
      */
-    public Query getQuery () {
-    	return buildNewQuery();
+    public Query getQuery() {
+        return buildNewQuery();
     }
-    
+
     /**
-     * 
+     *
      */
-    public void setQuery (Query query) {
-    	//System.out.println("query panel, setting query: " + query.toString());
-    	setQueryField(query.getQueryTypeName());
-    	setWantedRelationLinks(query.getRelationLinksList());
-    	if (query.getDepth() > 0 ) {
-    		setDepthField(query.getDepth());
-    	}
-    	else {
-    		_depthField.setText("");
-    	}
+    public void setQuery(Query query) {
+        //System.out.println("query panel, setting query: " + query.toString());
+        setQueryField(query.getQueryTypeName());
+        setWantedRelationLinks(query.getRelationLinksList());
+        if (query.getDepth() > 0) {
+            setDepthField(query.getDepth());
+        } else {
+            _depthField.setText("");
+        }
     }
-    
+
     /**
-     * 
+     *
      */
-    public void enableDepth () {
-    	_depthLabel.setEnabled(true);
-    	_depthField.setEnabled(true);
-    	
-    	_depthLabel.setVisible(true);
-    	_depthField.setVisible(true);
+    public void enableDepth() {
+        _depthLabel.setEnabled(true);
+        _depthField.setEnabled(true);
+
+        _depthLabel.setVisible(true);
+        _depthField.setVisible(true);
     }
-    
+
     /**
-     * 
+     *
      */
     public void disableDepth() {
-    	_depthLabel.setEnabled(false);
-    	_depthField.setEnabled(false);
+        _depthLabel.setEnabled(false);
+        _depthField.setEnabled(false);
 
-    	_depthLabel.setVisible(false);
-    	_depthField.setVisible(false);
+        _depthLabel.setVisible(false);
+        _depthField.setVisible(false);
     }
-    
+
 
     /**
      *
      */
-    private String getQueryField () {
-    	return _queryField.getText();
+    private String getQueryField() {
+        return _queryField.getText();
     }
 
     /**
      *
      */
-    public void setQueryField (String queryString) {
+    public void setQueryField(String queryString) {
         _queryField.setText(queryString);
     }
-    
+
     /**
-     * 
+     *
      */
-    private int getDepthField () {
-		return _depth;
-		//return (new Integer(_depthField.getText())).intValue();
-    }
-    
-    /**
-     * 
-     */
-    private void setDepthField (int depth) {
-    	_depthField.setText( String.valueOf(depth));
+    private int getDepthField() {
+        return _depth;
+        //return (new Integer(_depthField.getText())).intValue();
     }
 
     /**
      *
      */
-    private List getWantedRelationLinks () {
-	    _wantedRelationLinks = new LinkedList();
-	    Enumeration en = _relationLinksCheckBoxes.keys();
-	    while (en.hasMoreElements()) {
-	      JCheckBox key = (JCheckBox) en.nextElement();
-	      if (key.isSelected()) {
-	        Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
-	        _wantedRelationLinks.add(relLinkType);
-	      }
-	    }  	
-    	return _wantedRelationLinks;
+    private void setDepthField(int depth) {
+        _depthField.setText(String.valueOf(depth));
     }
 
     /**
      *
      */
-    private void setWantedRelationLinks (List wantedLinks) {
-      Enumeration enum = _relationLinksCheckBoxes.keys();
-      while (enum.hasMoreElements()) {
-        JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
-        Integer correspondingRelLink = (Integer) _relationLinksCheckBoxes.get(curCheckBox);
-        if (wantedLinks.contains(correspondingRelLink)) {
-          curCheckBox.setSelected(true);
+    private List getWantedRelationLinks() {
+        _wantedRelationLinks = new LinkedList();
+        Enumeration en = _relationLinksCheckBoxes.keys();
+        while (en.hasMoreElements()) {
+            JCheckBox key = (JCheckBox) en.nextElement();
+            if (key.isSelected()) {
+                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
+                _wantedRelationLinks.add(relLinkType);
+            }
         }
-        else {
-          curCheckBox.setSelected(false);
+        return _wantedRelationLinks;
+    }
+
+    /**
+     *
+     */
+    private void setWantedRelationLinks(List wantedLinks) {
+        Enumeration enum = _relationLinksCheckBoxes.keys();
+        while (enum.hasMoreElements()) {
+            JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
+            Integer correspondingRelLink = (Integer) _relationLinksCheckBoxes.get(curCheckBox);
+            if (wantedLinks.contains(correspondingRelLink)) {
+                curCheckBox.setSelected(true);
+            } else {
+                curCheckBox.setSelected(false);
+            }
         }
-      }
     }
 
     /**
      *
      */
     private void buildRelationLinksQueryPanel() {
-      RelationLinkDetails[] relationLinksDetails =  OntoramaConfig.getRelationLinkDetails();
+        RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
 
-      for (int i = 0; i < relationLinksDetails.length; i++) {
-        RelationLinkDetails cur = relationLinksDetails[i];
-        if (cur == null) {
-          System.out.println("i = " + i);
+        for (int i = 0; i < relationLinksDetails.length; i++) {
+            RelationLinkDetails cur = relationLinksDetails[i];
+            if (cur == null) {
+                System.out.println("i = " + i);
+            } else {
+                JCheckBox curCheckBox = new JCheckBox(cur.getLinkName());
+                ImageIcon displayIcon = cur.getDisplayIcon();
+                JLabel displayIconLabel = new JLabel(displayIcon);
+                curCheckBox.setSelected(true);
+                curCheckBox.addItemListener(new CheckBoxListener());
+                _relationLinksCheckBoxes.put(curCheckBox, new Integer(i));
+                _relationLinksPanel.add(displayIconLabel);
+                _relationLinksPanel.add(curCheckBox);
+            }
         }
-        else {
-          JCheckBox curCheckBox = new JCheckBox(cur.getLinkName());
-          ImageIcon displayIcon = cur.getDisplayIcon();
-          JLabel displayIconLabel = new JLabel (displayIcon);
-          curCheckBox.setSelected(true);
-          curCheckBox.addItemListener(new CheckBoxListener());
-          _relationLinksCheckBoxes.put(curCheckBox,new Integer(i));
-          _relationLinksPanel.add(displayIconLabel);
-          _relationLinksPanel.add(curCheckBox);
-        }
-      }
 
     }
 
@@ -340,7 +320,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      */
     class CheckBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-        	_wantedRelationLinks = getWantedRelationLinks();
+            _wantedRelationLinks = getWantedRelationLinks();
 //            _wantedRelationLinks = new LinkedList();
 //            Object source = e.getItemSelectable();
 //            //if (source == buttonX) { }
@@ -361,53 +341,52 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      */
     class QueryAction extends AbstractAction {
 
-      private static final String ACTION_COMMAND_KEY_COPY = "execute-query-command";
-      private static final String NAME_COPY = "Get";
-      private static final String SHORT_DESCRIPTION_COPY = "Execute Query";
-      private static final String LONG_DESCRIPTION_COPY = "Execute Query";
+        private static final String ACTION_COMMAND_KEY_COPY = "execute-query-command";
+        private static final String NAME_COPY = "Get";
+        private static final String SHORT_DESCRIPTION_COPY = "Execute Query";
+        private static final String LONG_DESCRIPTION_COPY = "Execute Query";
 
-      /**
-       *
-       */
-      public QueryAction() {
-        putValue(Action.NAME, NAME_COPY);
-        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
-        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
-      }
+        /**
+         *
+         */
+        public QueryAction() {
+            putValue(Action.NAME, NAME_COPY);
+            putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
+            putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
+            putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
+        }
 
-      /**
-       *
-       */
-      public void actionPerformed(ActionEvent parm1) {
-        /**@todo: implement this javax.swing.AbstractAction abstract method*/
-        System.out.println("___action: query");
-        doQuery();
-      }
-  }
-
+        /**
+         *
+         */
+        public void actionPerformed(ActionEvent parm1) {
+            /**@todo: implement this javax.swing.AbstractAction abstract method*/
+            System.out.println("___action: query");
+            doQuery();
+        }
+    }
 
 
     /**
      *
      */
-    private Query buildNewQuery () {
-      //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
-      Query query = new Query (getQueryField(), getWantedRelationLinks());
-      query.setDepth(getDepthField());
-      //System.out.println("building new query: " + query.toString());
-      return query;
+    private Query buildNewQuery() {
+        //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
+        Query query = new Query(getQueryField(), getWantedRelationLinks());
+        query.setDepth(getDepthField());
+        //System.out.println("building new query: " + query.toString());
+        return query;
     }
 
     /**
      *
      */
-    protected void doQuery () {
-      Query newQuery = buildNewQuery();
-      _ontoRamaApp.executeQuery(newQuery);
-      _ontoRamaApp.appendHistoryMenu(newQuery);
+    protected void doQuery() {
+        Query newQuery = buildNewQuery();
+        _ontoRamaApp.executeQuery(newQuery);
+        _ontoRamaApp.appendHistoryMenu(newQuery);
     }
-    
+
 
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -415,15 +394,15 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     /**
      *
      */
-    public void focus ( GraphNode node) {
-      _queryField.setText(node.getName());
+    public void focus(GraphNode node) {
+        _queryField.setText(node.getName());
     }
 
     /**
      */
-    public void query ( GraphNode node) {
-      _queryField.setText(node.getName());
-      doQuery();
+    public void query(GraphNode node) {
+        _queryField.setText(node.getName());
+        doQuery();
     }
 
 

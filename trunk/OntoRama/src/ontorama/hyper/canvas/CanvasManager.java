@@ -5,32 +5,34 @@ package ontorama.hyper.canvas;
  * for drawing canvas items.
  */
 
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JComponent;
+
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.hyper.view.simple.LabelView;
 import ontorama.model.Edge;
 import ontorama.model.GraphNode;
-import ontorama.util.event.ViewEventListener;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
 import org.tockit.events.EventBroker;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
-import java.util.*;
-import java.util.List;
-import java.util.Timer;
-
 
 public class CanvasManager extends JComponent
         implements MouseListener, MouseMotionListener {
-
-    protected ViewEventListener viewListener;
 
     private EventBroker eventBroker;
 
@@ -123,10 +125,8 @@ public class CanvasManager extends JComponent
      */
     private Timer singleClickTimer = new Timer();
 
-    public CanvasManager(ViewEventListener viewListener, EventBroker eventBroker) {
-        this.viewListener = viewListener;
+    public CanvasManager(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
-        this.viewListener.addObserver(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.setDoubleBuffered(true);
@@ -264,7 +264,6 @@ public class CanvasManager extends JComponent
                 System.out.println();
                 System.out.println();
 
-//                this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
                 eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, null, null));
             }
             repaint();

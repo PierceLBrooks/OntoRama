@@ -180,11 +180,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         EventBroker eventBroker = new EventBroker();
 
-        _queryPanel = new QueryPanel(_viewListener, this, eventBroker);
+        _queryPanel = new QueryPanel(this, eventBroker);
 
 
-        _treeView = new OntoTreeView(_viewListener, eventBroker);
-        _hyperView = new SimpleHyperView(_viewListener, eventBroker);
+        _treeView = new OntoTreeView(eventBroker);
+        _hyperView = new SimpleHyperView(eventBroker);
 
         //Add the scroll panes to a split pane.
         addComponentsToScrollPanel(_hyperView, _treeView);

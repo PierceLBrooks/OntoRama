@@ -1,7 +1,11 @@
 package ontorama.view;
 
 import ontorama.OntoramaConfig;
+import ontorama.controller.QueryEvent;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
+import ontorama.graph.controller.GraphViewQueryEventHandler;
+import ontorama.graph.view.GraphQuery;
+import ontorama.graph.view.GraphView;
 import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.event.ViewEventListener;
@@ -22,7 +26,7 @@ import java.util.List;
  * will be used to query Ontology Server (using GraphBuilder)
  *
  */
-public class QueryPanel extends JPanel implements ViewEventObserver, ActionListener {
+public class QueryPanel extends JPanel implements ActionListener, GraphQuery, GraphView {
 
     private int _depth = -1;
 
@@ -55,7 +59,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     /**
      *
      */
-    private ViewEventListener _viewListener;
     private EventBroker _eventBroker;
 
     /**
@@ -68,13 +71,11 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      *        (this is done for executing queries). Better way to do this is to follow
      *        Observer Pattern
      */
-    public QueryPanel(ViewEventListener viewListener, OntoRamaApp ontoRamaApp, EventBroker eventBroker) {
-
-        _viewListener = viewListener;
-        _viewListener.addObserver(this);
+    public QueryPanel(OntoRamaApp ontoRamaApp, EventBroker eventBroker) {
 
         _eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
+        new GraphViewQueryEventHandler(eventBroker, this);
 
 
         _ontoRamaApp = ontoRamaApp;

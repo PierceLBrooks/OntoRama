@@ -269,8 +269,6 @@ public class RdfP2pParser implements Parser {
     }
 
     private void mapSimpleTripleIntoModel(SimpleTriple triple) throws NoSuchRelationLinkException {
-        P2PNode fromNode = getNodeForName(triple.getSubject().toString());
-        P2PNode toNode = getNodeForName(triple.getObject().toString());
         P2PEdge edge = mapEdgeIntoModel(triple.getSubject().toString(), triple.getPredicate().toString(), triple.getObject().toString());
         Iterator assertions = triple.getAssertions().iterator();
         while (assertions.hasNext()) {
@@ -344,7 +342,6 @@ public class RdfP2pParser implements Parser {
         else if (object instanceof Literal) {
             queryStr1 = queryStr1 +  "(?x, ?y, \"" + object + "\")";
         }
-        com.hp.hpl.jena.rdf.query.Query query = new com.hp.hpl.jena.rdf.query.Query(queryStr1);
         QueryResults result = com.hp.hpl.jena.rdf.query.Query.exec(queryStr1, model);
         List resBindList = result.getAll();
         Iterator resBindIterator = resBindList.iterator();

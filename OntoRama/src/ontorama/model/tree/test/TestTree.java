@@ -254,15 +254,16 @@ public class TestTree extends TestCase{
 
 
     private int calcBranchDepth (int depth, TreeNode top) {
+    	int res = depth;
         Iterator children = top.getChildren().iterator();
         if (children.hasNext()) {
-            depth++;
+            res++;
         }
         while (children.hasNext()) {
 			TreeNode childNode = (TreeNode) children.next();
-            depth = calcBranchDepth(depth, childNode);
+            res = calcBranchDepth(res, childNode);
         }
-        return depth;
+        return res;
     }
       
     private TreeNode getNodeByName (String nodeName) {

@@ -18,14 +18,6 @@ import ontorama.ontotools.query.Query;
  */
 public interface Source {
 
-//    /**
-//     *  Get a Reader from given object.
-//     *  @param  object  this object specified resource location
-//     *  @return reader
-//     *  @throws SourceException
-//     */
-//    public Reader getReader (String uri, Query query) throws SourceException;
-
     /**
      *  Get a SourceResult from given uri and using given query.
      *  @param  uri -  specified resource location

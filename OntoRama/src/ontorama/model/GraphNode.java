@@ -133,7 +133,6 @@ public class GraphNode implements Cloneable {
      *
      */
     public void setFoldState (boolean isFolded) {
-//        System.out.println("GraphNode: " + name + " folded state is being set to " + isFolded);
         this.isFolded = isFolded;
     }
 
@@ -143,7 +142,6 @@ public class GraphNode implements Cloneable {
     public boolean getFoldedState () {
         return this.isFolded;
     }
-
 
     /**
      * Make a clone for this GraphNode (make a new GraphNode with the same

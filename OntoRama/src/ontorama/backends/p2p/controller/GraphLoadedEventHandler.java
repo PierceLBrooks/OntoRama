@@ -5,7 +5,6 @@ import org.tockit.events.EventBroker;
 import org.tockit.events.Event;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.events.GraphLoadedEvent;
 
 /**

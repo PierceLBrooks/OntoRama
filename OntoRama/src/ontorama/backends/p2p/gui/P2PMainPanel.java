@@ -65,6 +65,9 @@ public class P2PMainPanel extends JFrame {
     }
 
     private void setLocationOnScreen (Frame parent) {
+    	if (parent == null) {
+    		return;
+    	}
         Dimension parentSize = parent.getSize();
         Point parentLocation = parent.getLocation();
 

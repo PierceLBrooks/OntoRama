@@ -1,259 +1,77 @@
 package ontorama.model;
 
 /**
- * Graph takes an acrylic graph and converts it into a tree.
- * Graph removers all duplicate parents by cloning the children
+ * Graph takes an acyclic graph and converts it into a tree.
+ * Graph removes all duplicate parents by cloning the children (Removes all
+ * duplicate inbound edges by cloning outbound edges)
  *
- * Graph holds the root node of the graph, and a list of nodes in the graph.
+ * Graph holds the root node of the graph.
+ *
  */
-
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Hashtable;
+import java.util.Enumeration;
 
 import java.util.ConcurrentModificationException;
 
+import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.*;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.util.Debug;
 
 
 public class Graph implements GraphInterface {
 
-    private List treeNodes = new LinkedList ();
+    /**
+     * root node
+     */
     private GraphNode root;
-    private GraphNode edgeRoot;
 
     /**
      * debug vars
      */
-     Debug debug = new Debug(false);
+    Debug debug = new Debug(false);
 
+    /**
+     * Create a Graph with given root
+     *
+     * @param root
+     */
+    public Graph( GraphNode root) {
+        this.root = root;
 
-    // for debugging purposes only, remove later!!!
-    private Hashtable printedGraphNodes;
-
-    //public Graph(Collection graphNodes, GraphNode root, GraphNode edgeRoot) {
-    public Graph( GraphNode edgeRoot) {
-        //this.nodes = nodes;
-        //this.root = root;
-
-        //this.root = root;
-        this.edgeRoot = edgeRoot;
-
-        // debug
-        Iterator edges = Edge.edges.iterator();
-        while (edges.hasNext()) {
-            Edge cur = (Edge) edges.next();
-            debug.message("Graph","constructor","*****" + cur);
-            if ( (cur.getFromNode().getName().equals("node3"))  || (cur.getToNode().getName().equals("node3")) ) {
-                GraphNode node = cur.getFromNode();
-                Iterator it = Edge.getOutboundEdgeNodes(node);
-                debug.message("Graph","constructor","\t" + cur.getFromNode());
-                debug.message("Graph","constructor","\t it.hasNext = " + it.hasNext());
-            }
-        }
-
-
-        //System.out.println("-------graph size: " + graphNodes.size() + "------------------------------");
-
-        //convertIntoTree();
-        //System.out.println("converted graph into tree");
-        //makeTreeList(root);
-
-        // calculate the depth of each node
-        //root.calculateDepths();
-
-
-        //System.out.println("-------check if tree returned: " + checkIfTree(root) + "------------------------------");
-        //System.out.println("-------tree size: " + getSize() + "------------------------------");
-
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-        System.out.println("before convertIntoTree testIfTree(): " + testIfTree(edgeRoot));
-        System.out.println("before convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
-
+        debug.message("Graph","constructor","before convertIntoTree testIfTree(): " + testIfTree(root));
+        debug.message("Graph","constructor","before convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
         try {
-            convertIntoTree(edgeRoot);
-            edgeRoot.calculateDepths();
+            //System.out.println( printXml());
+            convertIntoTree(root);
+            root.calculateDepths();
         }
         catch (NoSuchRelationLinkException e ) {
             System.out.println("NoSuchRelationLinkException: " + e.getMessage());
             System.exit(-1);
         }
-        System.out.println("after convertIntoTree testIfTree(): " + testIfTree(edgeRoot));
-        System.out.println("after convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        debug.message("Graph","constructor","after convertIntoTree testIfTree(): " + testIfTree(root));
+        debug.message("Graph","constructor","after convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
     }
 
     /**
      * Returns the root node of the graph.
-     */
-//    public GraphNode getRootNode() {
-//        return root;
-//    }
-
-    /**
-     * Returns the root node of the graph.
-     */
-    //public GraphNode getEdgeRootNode() {
-    public GraphNode getRootNode() {
-        return edgeRoot;
-    }
-
-    /**
-     * Returns and iterator of nodes.
-     */
-//    public Iterator iterator() {
-//        return treeNodes.iterator();
-//    }
-
-    /**
-     * Return collection of nodes
-     */
-    public List getList() {
-        return treeNodes;
-    }
-
-    /**
-     * Returns size of the graph (number of nodes)
-     */
-    public int getSize () {
-        return treeNodes.size();
-    }
-
-//    /**
-//     * Removes all duplicate parents by cloning the children.
-//     */
-//    private void convertIntoTree() {
-//        List queue = new LinkedList();
-//        queue.add(root);
-//        while( !queue.isEmpty() ) {
-//            GraphNode cur = (GraphNode)queue.remove(0);
-//            List childrenList = cur.getChildrenList();
-//            int count = 0;
-//            int size = childrenList.size();
-//            while( count < size ) {
-//                GraphNode child = (GraphNode)childrenList.get( count );
-//                if(child.getNumberOfParents() > 1) {
-//                    //System.out.println("node with multiple parents: " + child);
-//                    GraphNode clone = child.deepCopy();
-//                    cur.removeChild( child );
-//                    cur.addChild( clone );
-//                    child.removeParent(cur);
-//                    clone.setParent(cur);
-//                }
-//                count++;
-//                queue.add( child );
-//            }
-//        }
-//    }
-
-//    /**
-//     * Build a list of nodes including all clones.
-//     * At this stage we should have a tree
-//     * @param   root
-//     * @return  -
-//     */
-//     public void makeTreeList (GraphNode root) {
-//
-//        Iterator it = root.getChildrenIterator();
-//        treeNodes.add(root);
-//        while (it.hasNext()) {
-//            GraphNode child = (GraphNode) it.next();
-//            makeTreeList(child);
-//        }
-//     }
-
-//    /**
-//     * debug method
-//     */
-//    private void printTree (GraphNode node) {
-//
-//      Iterator children = node.getChildrenIterator();
-//      int depth = node.getDepth();
-//      String tabs = "";
-//      for(int i = 0; i < depth; i++) {
-//        tabs = tabs + "\t";
-//      }
-//      tabs = tabs + "> ";
-//      System.out.println(tabs + node.getName());
-//      while (children.hasNext()) {
-//        GraphNode child = (GraphNode) children.next();
-//        printTree(child);
-//
-//      }
-//    }
-
-//    /**
-//     *
-//     */
-//    private void printXmlTree (GraphNode node) {
-//
-//      printedGraphNodes = new Hashtable ();
-//
-//      System.out.println("<ontology top=\"" + node.getName().replace('#','_') + "\">");
-//      printXmlGraphNode (node);
-//      System.out.println("</ontology>");
-//    }
-
-//    /**
-//     * debug method
-//     */
-//    private void printXmlGraphNode (GraphNode node) {
-//
-//      String tabs = "\t";
-//
-//      //if ( printedGraphNodes.containsKey(node)) {
-//       // return;
-//      //}
-//      System.out.println(tabs + "<node name=\"" + node.getName().replace('#','_') + "\">");
-//      printedGraphNodes.put(node,node);
-//
-//      Iterator children = node.getChildrenIterator();
-//      while (children.hasNext()) {
-//        GraphNode child = (GraphNode) children.next();
-//        System.out.println ( tabs + tabs + "<child name=\"" + child.getName().replace('#','_') + "\"/>");
-//      }
-//      System.out.println(tabs + "</node>");
-//      children = node.getChildrenIterator();
-//      while (children.hasNext()) {
-//        GraphNode child = (GraphNode) children.next();
-//        if ( (child.getChildrenList()).size() > 0) {
-//          printXmlGraphNode(child);
-//        }
-//      }
-//    }
-
-//    /**
-//     * debug method
-//     */
-//    private boolean checkIfTree (GraphNode node) {
-//      boolean isTree = true;
-//      Iterator children = node.getChildrenIterator();
-//      while (children.hasNext()) {
-//        GraphNode child = (GraphNode) children.next();
-//        isTree = checkIfTree (child);
-//        if(child.getNumberOfParents() > 1) {
-//          System.out.println("GraphNode with more than one parent: " + child);
-//          return false;
-//        }
-//      }
-//      return isTree;
-//    }
-
-    /**
      *
+     * @return GraphNode root
+     */
+    public GraphNode getRootNode() {
+        return root;
+    }
+
+    /**
+     * Test if current Graph is a Tree
+     *
+     * @param root  - root GraphNode
      */
     private boolean testIfTree (GraphNode root) {
         LinkedList queue = new LinkedList();
@@ -284,7 +102,10 @@ public class Graph implements GraphInterface {
     }
 
     /**
+     * Convert Graph into Tree by cloning nodes with duplicate parents (inbound edges)
      *
+     * @param   GraphNode root
+     * @throws  NoSuchRelationLinkException
      */
     private void convertIntoTree (GraphNode root) throws NoSuchRelationLinkException {
         LinkedList queue = new LinkedList();
@@ -312,7 +133,6 @@ public class Graph implements GraphInterface {
 
                         // add edge from cloneNode to a NodeParent with this rel type and
                         // remove edge from curNode to a NodeParent with this rel type
-
                         Iterator inboundEdges = Edge.getInboundEdges(curNode, i);
                         if (inboundEdges.hasNext()) {
                             Edge firstEdge = (Edge) inboundEdges.next();
@@ -334,7 +154,13 @@ public class Graph implements GraphInterface {
 
 
     /**
+     * Recursively copy all node's outbound edges into cloneNode, so we
+     * and up with cloneNode that has exactly the same children as given node.
+     * These children are not first node's descendants themselfs - but their clones.
      *
+     * @param   node    original node
+     * @param   cloneNode   copy node that needs all outbound edges filled in
+     * @throws   NoSuchRelationLinkException
      */
     private void deepCopy (GraphNode node, GraphNode cloneNode ) throws NoSuchRelationLinkException {
 
@@ -364,6 +190,90 @@ public class Graph implements GraphInterface {
             typeCount[type]++;
         }
         return typeCount;
+    }
+
+    /**
+     * Print Graph into XML tree
+     */
+    public String printXml () {
+        String resultStr = "<ontology top='" + this.root.getName() + "'>";
+        resultStr = resultStr + "\n";
+        resultStr = resultStr + printXmlConceptTypesEl();
+        resultStr = resultStr + printXmlRelationLinksEl();
+        resultStr = resultStr + "\n";
+        resultStr = resultStr + "</ontology>";
+        resultStr = resultStr + "\n";
+
+        return resultStr;
+    }
+
+    /**
+     *
+     */
+    private String printXmlConceptTypesEl () {
+        String tab = "\t";
+        String resultStr = tab + "<conceptTypes>";
+        resultStr = resultStr + "\n";
+        LinkedList queue = new LinkedList();
+        queue.add(root);
+
+        while ( !queue.isEmpty()) {
+            GraphNode nextQueueNode = (GraphNode) queue.remove(0);
+            Iterator allOutboundNodes = Edge.getOutboundEdgeNodes(nextQueueNode);
+
+            while (allOutboundNodes.hasNext()) {
+                GraphNode curNode = (GraphNode) allOutboundNodes.next();
+                queue.add(curNode);
+
+                resultStr =  resultStr + tab + tab +"<conceptType name='" + curNode.getName() + "'>";
+                resultStr = resultStr + "\n";
+
+                Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
+                Enumeration e = conceptPropertiesConfig.keys();
+                while (e.hasMoreElements()) {
+                    String propName = (String) e.nextElement();
+                    String propValue = (String) curNode.getProperty(propName);
+                    if (propValue != null) {
+                        resultStr = resultStr + tab + tab + tab + "<" + propName + ">";
+                        resultStr = resultStr + propValue;
+                        resultStr = resultStr + "</" + propName + ">";
+                        resultStr = resultStr + "\n";
+                    }
+                }
+                resultStr = resultStr + tab + tab + "</conceptType>";
+                resultStr = resultStr + "\n";
+            }
+        }
+        resultStr = resultStr + tab + "</conceptTypes>";
+        resultStr = resultStr + "\n";
+        return resultStr;
+    }
+
+    /**
+     *
+     */
+    private String printXmlRelationLinksEl () {
+        String tab = "\t";
+        String resultStr = tab + "<relationLinks>";
+        resultStr = resultStr + tab + "\n";
+
+        Iterator edgesIterator = Edge.edges.iterator();
+        while (edgesIterator.hasNext()) {
+            Edge curEdge = (Edge) edgesIterator.next();
+            GraphNode fromNode = curEdge.getFromNode();
+            GraphNode toNode = curEdge.getToNode();
+            int type = curEdge.getType();
+            RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(type);
+            resultStr = resultStr + tab + tab + "<relationLink";
+            resultStr = resultStr + " name='" + relLinkDetails.getLinkName() + "'";
+            resultStr = resultStr + " from='" + fromNode.getName() + "'";
+            resultStr = resultStr + " to='" + toNode.getName() + "'";
+            resultStr = resultStr + "/>";
+            resultStr = resultStr + "\n";
+        }
+        resultStr = resultStr + tab + "</relationLinks>";
+        resultStr = resultStr + "\n";
+        return resultStr;
     }
 
 }

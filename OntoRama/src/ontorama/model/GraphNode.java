@@ -11,8 +11,6 @@ import java.util.Hashtable;
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 
-
-
 /**
  * Basic GraphNode for ontology viewers.
  *
@@ -188,10 +186,10 @@ public class GraphNode implements Cloneable, NodeObservable {
      * @todo    should we throw NoSuchPropertyException?
      */
     public String getProperty (String propertyName) {
-        if (nodeDetails.contains(propertyName)) {
+        //if (nodeDetails.contains(propertyName)) {
             return (String) nodeDetails.get(propertyName);
-        }
-        return null;
+        //}
+        //return null;
     }
 
     /**

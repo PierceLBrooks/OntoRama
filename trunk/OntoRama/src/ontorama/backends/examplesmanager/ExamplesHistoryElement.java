@@ -15,7 +15,7 @@ import ontorama.ui.events.HistoryQueryStartEvent;
  * <p>Company: DSTC</p>
  * @version 1.0
  */
-public class HistoryElement implements HistoryElementInterface {
+public class ExamplesHistoryElement implements HistoryElementInterface {
 
     private Query _query;
     private String _menuDisplayName;
@@ -27,7 +27,7 @@ public class HistoryElement implements HistoryElementInterface {
      * @param	menuDisplayName - is a string that appears on the lable on corresponding menu
      * item for this _example. also may be used as an id.
      */
-    public HistoryElement(String menuDisplayName, Query query, QueryEngine queryEngine, EventBroker eventBroker) {
+    public ExamplesHistoryElement(String menuDisplayName, Query query, QueryEngine queryEngine, EventBroker eventBroker) {
         _menuDisplayName = menuDisplayName;
         _query = query;
         _queryEngine = queryEngine;

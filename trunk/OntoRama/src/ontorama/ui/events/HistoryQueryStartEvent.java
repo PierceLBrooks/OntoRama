@@ -2,7 +2,7 @@ package ontorama.ui.events;
 
 import org.tockit.events.Event;
 
-import ontorama.backends.examplesmanager.HistoryElement;
+import ontorama.backends.examplesmanager.ExamplesHistoryElement;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,9 +12,9 @@ import ontorama.backends.examplesmanager.HistoryElement;
  * To change this template use Options | File Templates.
  */
 public class HistoryQueryStartEvent implements Event {
-    protected HistoryElement subject;
+    protected ExamplesHistoryElement subject;
 
-    public HistoryQueryStartEvent(HistoryElement subject) {
+    public HistoryQueryStartEvent(ExamplesHistoryElement subject) {
         this.subject = subject;
     }
 

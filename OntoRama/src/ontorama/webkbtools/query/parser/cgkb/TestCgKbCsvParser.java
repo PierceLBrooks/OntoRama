@@ -8,16 +8,17 @@
  */
 package ontorama.webkbtools.query.parser.cgkb;
 
+import java.io.Reader;
+
 import junit.framework.TestCase;
+
 import ontorama.OntoramaConfig;
-import ontorama.webkbtools.inputsource.*;
+import ontorama.webkbtools.inputsource.JarSource;
+import ontorama.webkbtools.inputsource.Source;
+import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.util.TestingUtils;
-
-import java.io.Reader;
 
 public class TestCgKbCsvParser extends TestCase {
 

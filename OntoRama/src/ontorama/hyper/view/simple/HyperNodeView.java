@@ -4,20 +4,28 @@ package ontorama.hyper.view.simple;
  *
  */
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Hashtable;
+import java.util.Iterator;
+
+import ontorama.OntoramaConfig;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChangedObserver;
 import ontorama.model.Node;
-import ontorama.model.EdgeImpl;
-import ontorama.model.Node;
 import ontorama.model.NodeType;
 import ontorama.ontologyConfig.NodeTypeDisplayInfo;
-import ontorama.OntoramaConfig;
 import org.tockit.canvas.CanvasItem;
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 //import java.awt.geom.Ellipse2D.Double;
 

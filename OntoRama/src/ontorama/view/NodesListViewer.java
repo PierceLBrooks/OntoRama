@@ -1,25 +1,37 @@
 package ontorama.view;
 
-import ontorama.controller.QueryEvent;
-import ontorama.controller.GeneralQueryEvent;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
-import ontorama.model.Graph;
-import ontorama.model.GraphImpl;
-import ontorama.graph.controller.GraphViewQueryEventHandler;
-import ontorama.OntoramaConfig;
-import ontorama.webkbtools.query.Query;
-import ontorama.ontologyConfig.ImageMaker;
-import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import ontorama.OntoramaConfig;
+import ontorama.controller.GeneralQueryEvent;
+import ontorama.model.Graph;
+import ontorama.model.GraphImpl;
+import ontorama.model.Node;
+import ontorama.model.NodeType;
+import ontorama.ontologyConfig.ImageMaker;
+import ontorama.webkbtools.query.Query;
+import org.tockit.events.EventBroker;
 
 /**
  * @author nataliya

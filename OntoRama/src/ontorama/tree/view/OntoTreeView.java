@@ -1,10 +1,26 @@
 package ontorama.tree.view;
 
+import java.awt.Event;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Iterator;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.controller.QueryEvent;
-import ontorama.graph.controller.*;
+import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
-import ontorama.graph.view.GraphQuery;
 import ontorama.model.Graph;
 import ontorama.model.Node;
 import ontorama.tree.model.OntoTreeBuilder;
@@ -12,15 +28,6 @@ import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.util.Debug;
 import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Iterator;
 
 
 /**
@@ -166,7 +173,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      *
      */
     public void keyTyped(KeyEvent e) {
-        debug.message("keyTyped, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + e.getKeyText(e.getKeyCode()));
+        debug.message("keyTyped, key char " + e.getKeyChar() + ", key code" + e.getKeyCode() + ", keyText = " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     /**

@@ -1,9 +1,11 @@
 package ontorama.view.action;
 
-import ontorama.view.OntoRamaApp;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+import ontorama.view.OntoRamaApp;
 
 /**
  * Action to stop current query

@@ -8,10 +8,10 @@
  */
 package ontorama.webkbtools.inputsource;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class UrlQueryStringConstructor {
     /**

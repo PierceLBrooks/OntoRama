@@ -1,7 +1,7 @@
 package ontorama.controller;
 
-import org.tockit.events.Event;
 import ontorama.model.Graph;
+import org.tockit.events.Event;
 
 /*
  * Created by IntelliJ IDEA.

@@ -1,24 +1,30 @@
 
 package ontorama;
 
-import ontorama.ontologyConfig.*;
+import java.awt.Color;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+
+import ontorama.model.EdgeType;
+import ontorama.model.NodeType;
+import ontorama.model.NodeTypeImpl;
+import ontorama.ontologyConfig.ConfigParserException;
+import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
+import ontorama.ontologyConfig.NodeTypeDisplayInfo;
+import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
 import ontorama.view.ErrorPopupMessage;
 import ontorama.webkbtools.inputsource.JarSource;
-import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.model.EdgeType;
-import ontorama.model.NodeType;
-import ontorama.model.NodeTypeImpl;
-import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.filemanager.FileBackend;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-import java.util.List;
-import java.awt.*;
+import ontorama.webkbtools.util.SourceException;
 
 
 /**

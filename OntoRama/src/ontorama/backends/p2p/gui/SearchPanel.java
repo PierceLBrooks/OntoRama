@@ -1,13 +1,16 @@
 package ontorama.backends.p2p.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import ontorama.backends.BackendSearch;
 import ontorama.view.ErrorPopupMessage;
 import ontorama.view.OntoRamaApp;
-import ontorama.backends.BackendSearch;
 import ontorama.webkbtools.query.Query;
-
-import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /*
  * Created by IntelliJ IDEA.

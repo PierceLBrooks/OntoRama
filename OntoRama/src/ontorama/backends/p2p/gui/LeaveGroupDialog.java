@@ -1,16 +1,19 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.util.Vector;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
 import net.jxta.peergroup.PeerGroup;
+import ontorama.backends.p2p.p2pmodule.P2PSender;
 
 
 /*

@@ -8,10 +8,12 @@
  */
 package ontorama.hyper.controller;
 
-import org.tockit.events.*;
-import org.tockit.canvas.events.CanvasItemMouseMovementEvent;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.hyper.view.simple.SphereView;
+import org.tockit.canvas.events.CanvasItemMouseMovementEvent;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 /**
  *

@@ -8,10 +8,12 @@
  */
 package ontorama.hyper.controller;
 
-import org.tockit.events.*;
-import org.tockit.canvas.events.CanvasItemSelectedEvent;
-import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.controller.NodeSelectedEvent;
+import ontorama.hyper.view.simple.HyperNodeView;
+import org.tockit.canvas.events.CanvasItemSelectedEvent;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 public class NodeSelectedEventTransformer implements EventListener {
     private EventBroker eventBroker;

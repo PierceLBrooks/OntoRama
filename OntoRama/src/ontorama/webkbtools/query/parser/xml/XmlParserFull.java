@@ -10,8 +10,22 @@ package ontorama.webkbtools.query.parser.xml;
  */
 
 
+import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.AccessControlException;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import ontorama.OntoramaConfig;
-import ontorama.model.*;
+import ontorama.model.Edge;
+import ontorama.model.EdgeImpl;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.model.NodeImpl;
+import ontorama.model.NodeType;
 import ontorama.util.Debug;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -21,12 +35,6 @@ import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
-
-import java.io.Reader;
-import java.util.*;
-import java.security.AccessControlException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 
 public class XmlParserFull implements Parser {

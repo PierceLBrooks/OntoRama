@@ -1,16 +1,17 @@
 package ontorama.webkbtools.inputsource;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.TestCase;
+
 import ontorama.OntoramaConfig;
 import ontorama.model.Node;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.CancelledQueryException;
 import ontorama.webkbtools.util.SourceException;
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * <p>Title: </p>

@@ -2,14 +2,13 @@ package ontorama.backends;
 
 import java.util.Iterator;
 
-import ontorama.backends.filemanager.FileBackend;
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
-import ontorama.backends.p2p.P2PBackend;
+import ontorama.model.util.GraphModificationException;
+import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.view.OntoRamaApp;
-import ontorama.model.util.GraphModificationException;
 
 
 /**

@@ -6,16 +6,17 @@ package ontorama.hyper.view.simple;
  * represent the relationship type between the two nodes.
  */
 
-import ontorama.model.EdgeType;
-import ontorama.OntoramaConfig;
-import org.tockit.canvas.CanvasItem;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
+
+import javax.swing.ImageIcon;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.EdgeType;
+import org.tockit.canvas.CanvasItem;
 
 public class HyperEdgeView extends CanvasItem {
 

@@ -7,11 +7,11 @@ package ontorama.hyper.model;
  * views is via GrapNode hasFocus() method.
  */
 
-import ontorama.model.Node;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import ontorama.model.Node;
 
 public class HyperNode implements PositionChangedObservable {
 

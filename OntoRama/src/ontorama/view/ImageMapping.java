@@ -1,9 +1,10 @@
 package ontorama.view;
 
-import ontorama.OntoramaConfig;
-
-import javax.swing.*;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
+
+import ontorama.OntoramaConfig;
 
 
 /**

@@ -1,8 +1,8 @@
 package ontorama.webkbtools.writer;
 
-import ontorama.model.Graph;
-
 import java.io.Writer;
+
+import ontorama.model.Graph;
 
 /*
  * Created by IntelliJ IDEA.

@@ -1,12 +1,6 @@
 package ontorama.view;
 
-import ontorama.model.*;
-import ontorama.webkbtools.query.*;
-import ontorama.webkbtools.util.*;
-
-import java.io.IOException;
-
-import org.tockit.events.EventBroker;
+import java.io.IOException;import ontorama.model.Graph;import ontorama.model.GraphImpl;import ontorama.model.NoTypeFoundInResultSetException;import ontorama.webkbtools.query.Query;import ontorama.webkbtools.query.QueryEngine;import ontorama.webkbtools.query.QueryResult;import ontorama.webkbtools.util.CancelledQueryException;import ontorama.webkbtools.util.NoSuchRelationLinkException;import ontorama.webkbtools.util.NoSuchTypeInQueryResult;import ontorama.webkbtools.util.ParserException;import ontorama.webkbtools.util.SourceException;import org.tockit.events.EventBroker;
 
 
 /**

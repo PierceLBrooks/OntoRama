@@ -1,18 +1,17 @@
 package ontorama.backends.p2p.controller;
 
-import org.tockit.events.EventBroker;
-import org.tockit.events.Event;
-import org.tockit.events.EventListener;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
-import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.events.EdgeAddedEvent;
-import ontorama.model.Graph;
 import ontorama.model.Edge;
+import ontorama.model.Graph;
+import ontorama.model.events.EdgeAddedEvent;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 /*
  * Created by IntelliJ IDEA.

@@ -1,14 +1,18 @@
 package ontorama.webkbtools.inputsource;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.CancelledQueryException;
 import ontorama.webkbtools.util.SourceException;
-
-import java.io.*;
-import java.net.URL;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  * <p>Title: </p>

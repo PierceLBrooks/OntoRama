@@ -10,9 +10,8 @@ package ontorama.graph.controller;
 
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.view.GraphView;
-import ontorama.model.NodeImpl;
-import ontorama.model.Graph;
 import ontorama.model.Node;
+import ontorama.model.NodeImpl;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;

@@ -1,12 +1,9 @@
 package ontorama.webkbtools.inputsource.webkb;
 
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Hashtable;
+
+import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
+import ontorama.webkbtools.query.Query;
 
 /**
  * Description:   Implementation of QueryStringConstructorInterface that can

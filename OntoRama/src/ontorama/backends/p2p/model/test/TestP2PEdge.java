@@ -1,14 +1,20 @@
 package ontorama.backends.p2p.model.test;
 
-import junit.framework.TestCase;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.backends.p2p.model.*;
-import ontorama.model.EdgeType;
-import ontorama.OntoramaConfig;
-
-import java.util.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+
+import junit.framework.TestCase;
+
+import ontorama.OntoramaConfig;
+import ontorama.backends.p2p.model.P2PEdge;
+import ontorama.backends.p2p.model.P2PEdgeImpl;
+import ontorama.backends.p2p.model.P2PNode;
+import ontorama.backends.p2p.model.P2PNodeImpl;
+import ontorama.model.EdgeType;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * Title:

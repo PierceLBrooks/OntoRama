@@ -1,8 +1,12 @@
 package ontorama.backends.p2p.gui;
 
-import javax.swing.*;
-import java.awt.*;
-import ontorama.backends.p2p.gui.PeersPanel;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
+
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 /*
  * Created by IntelliJ IDEA.

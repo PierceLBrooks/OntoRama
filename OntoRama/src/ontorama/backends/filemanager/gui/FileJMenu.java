@@ -1,11 +1,14 @@
 package ontorama.backends.filemanager.gui;
 
-import ontorama.OntoramaConfig;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.view.OntoRamaApp;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /*
  * Created by IntelliJ IDEA.

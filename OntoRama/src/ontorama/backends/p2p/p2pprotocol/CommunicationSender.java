@@ -10,7 +10,6 @@ import net.jxta.endpoint.Message;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.OutputPipe;
-import net.jxta.pipe.PipeService;
 import net.jxta.protocol.PipeAdvertisement;
 
 
@@ -122,7 +121,7 @@ public class CommunicationSender extends Communication {
           queryTobeSent.newMessageElement(
                             "TAG", 
                             mimeType, 
-                            new Integer(this.TAGSEARCH).toString().getBytes()));
+                            new Integer(Communication.TAGSEARCH).toString().getBytes()));
                         
          queryTobeSent.addElement(
           queryTobeSent.newMessageElement(
@@ -238,7 +237,7 @@ public class CommunicationSender extends Communication {
 			}
 			try {
 				//Flush the peer advertisement localy
-				discServ.flushAdvertisements(peerIDasString, discServ.PEER);				
+				discServ.flushAdvertisements(peerIDasString, DiscoveryService.PEER);				
 			} catch (IOException e) {
 				throw new GroupExceptionFlush(e, "Could not flush advertisements on this peer");				
 			}

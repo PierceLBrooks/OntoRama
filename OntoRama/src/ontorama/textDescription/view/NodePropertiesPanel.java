@@ -1,11 +1,12 @@
 package ontorama.textDescription.view;
 
-import ontorama.model.Node;
-
-import javax.swing.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.JLabel;
+
+import ontorama.model.Node;
 
 /**
  *

@@ -1,9 +1,9 @@
 package ontorama.model;
 
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.model.util.GraphModificationException;
-
 import java.util.List;
+
+import ontorama.model.util.GraphModificationException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * @todo it might be a pretty good idea to put factory methods for nodes and edges on this interface.

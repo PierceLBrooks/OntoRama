@@ -1,11 +1,14 @@
 package ontorama.textDescription.view;
 
+import java.awt.Component;
+import java.util.Iterator;
+
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import ontorama.model.Node;
 import org.tockit.events.EventBroker;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Iterator;
 
 /**
  * Title:        OntoRama

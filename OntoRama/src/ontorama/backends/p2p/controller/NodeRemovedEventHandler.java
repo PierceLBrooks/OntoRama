@@ -1,16 +1,15 @@
 package ontorama.backends.p2p.controller;
 
-import org.tockit.events.EventListener;
-import org.tockit.events.Event;
-import org.tockit.events.EventBroker;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.backends.p2p.model.P2PGraphImpl;
-import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.Graph;
 import ontorama.model.Node;
+import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.util.GraphModificationException;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 /*
  * Created by IntelliJ IDEA.

@@ -1,9 +1,15 @@
 package ontorama.hyper.view.simple;
 
-import org.tockit.canvas.CanvasItem;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
-import java.awt.*;
-import java.awt.geom.*;
+import org.tockit.canvas.CanvasItem;
 
 /**
  * For now labels are just drawn on top of nodes.

@@ -1,11 +1,13 @@
 package ontorama.backends.p2p.gui;
 
-import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import java.awt.Component;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 
 import net.jxta.peergroup.PeerGroup;
+import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 
 /*
  * Created by IntelliJ IDEA.

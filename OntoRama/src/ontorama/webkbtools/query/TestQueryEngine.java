@@ -1,13 +1,18 @@
 package ontorama.webkbtools.query;
 
-import junit.framework.TestCase;
-import ontorama.OntoramaConfig;
-import ontorama.model.*;
-import ontorama.util.TestingUtils;
-import ontorama.webkbtools.util.NoSuchRelationLinkException;
-import ontorama.webkbtools.TestWebkbtoolsPackage;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.util.*;
+import junit.framework.TestCase;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.util.TestingUtils;
+import ontorama.webkbtools.TestWebkbtoolsPackage;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
  * <p>Title: </p>

@@ -1,13 +1,19 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import ontorama.model.*;
-import ontorama.webkbtools.util.*;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.OntoramaConfig;
-
 import java.io.Reader;
 import java.security.AccessControlException;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import ontorama.OntoramaConfig;
+import ontorama.model.Edge;
+import ontorama.model.EdgeType;
+import ontorama.model.Node;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
 
 /**
  * <p>Title: </p>
@@ -239,7 +245,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         for (int i = 0; i < in.length(); i++) {
             char ch = in.charAt(i);
             Character chObj = new Character(ch);
-            if (chObj.isUpperCase(ch)) {
+            if (Character.isUpperCase(ch)) {
                 if (i == 0) {
                     // need this so we don't end up with something like
                     // "_true_cat" instead of "true_cat"
@@ -263,7 +269,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
             Character chObj = new Character(ch);
-            if (chObj.isLowerCase(ch)) {
+            if (Character.isLowerCase(ch)) {
                 allCapitals = false;
             }
         }

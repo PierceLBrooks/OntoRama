@@ -1,17 +1,26 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
-import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
-import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.*;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.util.ParserException;
-
 import java.io.Reader;
 import java.security.AccessControlException;
 import java.util.Collection;
 import java.util.Iterator;
+
+import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.webkbtools.util.ParserException;
+
+import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
+import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
+import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.NsIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
+import com.hp.hpl.mesa.rdf.jena.model.RDFError;
+import com.hp.hpl.mesa.rdf.jena.model.RDFException;
+import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
+import com.hp.hpl.mesa.rdf.jena.model.Resource;
+import com.hp.hpl.mesa.rdf.jena.model.Statement;
+import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
 
 
 /**

@@ -1,12 +1,12 @@
 package ontorama.webkbtools.inputsource;
 
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.SourceException;
-import ontorama.webkbtools.util.CancelledQueryException;
-
-import java.io.Reader;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
+
+import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.SourceException;
 
 /*
  * Created by IntelliJ IDEA.

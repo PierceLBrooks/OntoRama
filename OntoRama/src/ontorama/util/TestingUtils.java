@@ -1,9 +1,9 @@
 package ontorama.util;
 
+import java.util.List;
+
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
-
-import java.util.List;
 
 /**
  * <p>Title: </p>

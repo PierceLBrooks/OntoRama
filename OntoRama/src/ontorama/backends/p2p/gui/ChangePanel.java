@@ -1,11 +1,13 @@
 package ontorama.backends.p2p.gui;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.Dimension;
-import java.util.List;
 import java.util.LinkedList;
-import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 /*
  * Created by IntelliJ IDEA.

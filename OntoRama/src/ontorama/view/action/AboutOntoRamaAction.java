@@ -1,10 +1,12 @@
 package ontorama.view.action;
 
-import ontorama.view.AboutOntoRamaDialog;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+import ontorama.view.AboutOntoRamaDialog;
 
 /**
  * <p>Title: </p>

@@ -1,10 +1,11 @@
 package ontorama.webkbtools.writer.test;
 
-import junit.framework.TestCase;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ontorama.webkbtools.writer.rdf.test.TestRdfWriter;
+
 import ontorama.webkbtools.writer.rdf.test.TestRdfP2PWriter;
+import ontorama.webkbtools.writer.rdf.test.TestRdfWriter;
 
 /*
  * Created by IntelliJ IDEA.

@@ -38,6 +38,7 @@ import javax.swing.event.ListSelectionEvent;
 
 
 import ontorama.OntoramaConfig;
+import ontorama.controller.NodeSelectedEvent;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 import ontorama.view.action.*;
@@ -65,6 +66,9 @@ import ontorama.textDescription.view.DescriptionView;
 
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.Debug;
+import org.tockit.events.EventBroker;
+import org.tockit.events.DebugEventListener;
+import org.tockit.canvas.events.CanvasItemEvent;
 
 /**
  * Main Application class. This class start OntoRama application.
@@ -229,8 +233,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 		//_listViewer = new NodesListViewer(this);
 
-		_treeView = new OntoTreeView(_viewListener);
-		_hyperView = new SimpleHyperView(_viewListener);
+        EventBroker eventBroker = new EventBroker();
+		_treeView = new OntoTreeView(_viewListener, eventBroker);
+		_hyperView = new SimpleHyperView(_viewListener, eventBroker);
+
 		//Add the scroll panes to a split pane.
 		addComponentsToScrollPanel(_hyperView, _treeView);
 
@@ -239,7 +245,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		 *  because then a view that is created after description panel doesn't
 		 *  display clones for the first time a user clicks on a clone in one of the views
 		 */
-		_descriptionViewPanel = new DescriptionView(_viewListener);
+		_descriptionViewPanel = new DescriptionView(_viewListener, eventBroker);
 
 		JPanel mainContentPanel = new JPanel(new BorderLayout());
 		mainContentPanel.add(_queryPanel, BorderLayout.NORTH);

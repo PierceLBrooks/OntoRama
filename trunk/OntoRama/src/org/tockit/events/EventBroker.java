@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: EventBroker.java,v 1.1 2002-08-01 04:53:45 johang Exp $
+ * $Id: EventBroker.java,v 1.2 2002-08-01 07:14:01 johang Exp $
  */
 package org.tockit.events;
 
@@ -87,6 +87,9 @@ public class EventBroker implements EventListener {
      * or interface).
      */
     public void subscribe(EventListener listener, Class eventType, Class subjectType) {
+        if(listener == this) {
+            throw new RuntimeException("Trying to subscribe EventBroker to itself");
+        }
         try {
             Class eventClass = Class.forName(PACKAGE_NAME + ".Event");
             if (!implementsInterface(eventType, eventClass)) {

@@ -2,29 +2,16 @@
 package ontorama.util.event;
 
 import ontorama.model.GraphNode;
+import ontorama.graph.view.GraphView;
 
 /**
  * ViewEventObserver
  */
 
 
-public interface ViewEventObserver {
-
-	/**
-	 *
-	 */
-	public void focus ( GraphNode node);
-	
-	/**
-	 *
-	 */
-	public void toggleFold ( GraphNode node);
-	
+public interface ViewEventObserver extends GraphView {
 	/**
 	 *
 	 */
 	public void query ( GraphNode node);
-	
-	
-
 }

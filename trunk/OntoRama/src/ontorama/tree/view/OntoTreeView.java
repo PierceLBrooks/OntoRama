@@ -37,10 +37,13 @@ import ontorama.model.Edge;
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoTreeBuilder;
+import ontorama.tree.controller.GraphViewFocusEventHandler;
 
 import ontorama.util.Debug;
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.event.ViewEventObserver;
+import ontorama.controller.NodeSelectedEvent;
+import org.tockit.events.EventBroker;
 
 
 /**
@@ -69,6 +72,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     private Debug debug = new Debug(false);
 
     private ViewEventListener viewListener;
+    private EventBroker eventBroker;
 
     private boolean KEY_IS_PRESSED = false;
     private boolean MOUSE_IS_PRESSED = false;
@@ -84,12 +88,14 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      * Constructor
      */
-    public OntoTreeView(ViewEventListener viewListener)  {
+    public OntoTreeView(ViewEventListener viewListener, EventBroker eventBroker)  {
         super();
 
         this.viewListener = viewListener;
         this.viewListener.addObserver(this);
 
+        this.eventBroker = eventBroker;
+        new GraphViewFocusEventHandler(eventBroker, this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -340,18 +346,12 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
          if(e.getClickCount() == 1) {
              debug.message("mousePressed, single click,  row=" + selRow);
              if (this.KEY_IS_PRESSED) {
-                 //this.pressedMouseButton = e.getModifiers();
                  notifyMouseKeyEvent (this.curKeyEvent, e, graphNode);
              }
              else {
-                viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_SINGLECLICK);
-                //viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
+                 eventBroker.processEvent(new NodeSelectedEvent(graphNode));
              }
          }
-//         else if(e.getClickCount() == 2) {
-//             debug.message("mousePressed, double click,  row=" + selRow);
-//             viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_DOUBLECLICK);
-//         }
       }
     }
 

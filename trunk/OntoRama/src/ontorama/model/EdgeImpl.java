@@ -3,6 +3,8 @@ package ontorama.model;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
+import java.net.URI;
+
 /**
  * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.
  * Copyright:    Copyright (c) 2001
@@ -15,17 +17,23 @@ public class EdgeImpl implements Edge {
     /**
      * inboundNode
      */
-    Node fromNode;
+    private Node fromNode;
 
     /**
      * outboundNodes
      */
-    Node toNode;
+    private Node toNode;
 
     /**
      * edgeType
      */
-    RelationLinkDetails edgeType;
+    private RelationLinkDetails edgeType;
+
+    /**
+     * URI for this edge (unique identifier of creator)
+     */
+    private URI uri;
+
 
 
     /**
@@ -51,16 +59,18 @@ public class EdgeImpl implements Edge {
         return this.toNode;
     }
 
-    /**
-     *
-     */
+    public URI getUri() {
+        return this.uri;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
     public RelationLinkDetails getEdgeType() {
         return this.edgeType;
     }
 
-    /**
-     *
-     */
     public Node getEdgeNode(boolean isFromNode) {
         if (isFromNode == true) {
             return this.fromNode;
@@ -68,13 +78,10 @@ public class EdgeImpl implements Edge {
         return this.toNode;
     }
 
-
-    /**
-     *
-     */
     public String toString() {
-        String str = "EdgeImpl from '" + this.fromNode + "' to '" + this.toNode + "', edgeType = " + edgeType.getLinkName();
-        //String str = "EdgeImpl from '" + this.fromNode.getName() + "' = " + this.fromNode +  " to '" + this.toNode.getName() + "' = " + this.toNode + ", edgeType = " + edgeType;
+        String str = "Edge from '" + this.fromNode + "' to '";
+        str = str + this.toNode + "', edgeType = " + edgeType.getLinkName();
+        str = str + ", URI = " + this.uri;
         return str;
     }
 

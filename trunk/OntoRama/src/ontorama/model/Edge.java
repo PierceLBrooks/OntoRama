@@ -10,10 +10,15 @@ package ontorama.model;
 
 import ontorama.ontologyConfig.RelationLinkDetails;
 
+import java.net.URI;
+
 public interface Edge {
     public Node getFromNode();
 
     public Node getToNode();
+
+    public URI getUri();
+    public void setUri(URI uri);
 
     public RelationLinkDetails getEdgeType();
 }

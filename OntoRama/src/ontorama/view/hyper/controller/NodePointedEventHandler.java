@@ -8,8 +8,8 @@
  */
 package ontorama.view.hyper.controller;
 
-import ontorama.view.hyper.view.simple.HyperNodeView;
-import ontorama.view.hyper.view.simple.SimpleHyperView;
+import ontorama.view.hyper.view.HyperNodeView;
+import ontorama.view.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemPointedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

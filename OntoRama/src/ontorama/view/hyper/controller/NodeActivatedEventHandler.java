@@ -9,8 +9,8 @@
 package ontorama.view.hyper.controller;
 
 import ontorama.model.graph.controller.NodeSelectedEvent;
-import ontorama.view.hyper.view.simple.HyperNodeView;
-import ontorama.view.hyper.view.simple.SimpleHyperView;
+import ontorama.view.hyper.view.HyperNodeView;
+import ontorama.view.hyper.view.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 //import java.awt.*;
 import java.awt.event.*;
 
@@ -18,29 +19,48 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
+import javax.swing.BorderFactory;
+import javax.swing.border.*;
+
 
 public class AboutOntoRamaDialog extends JDialog {
 
-  //Frame owner;
+  private Color backgroundColor = Color.white;
 
-  //public AboutOntoRamaDialog(Frame owner) {
   public AboutOntoRamaDialog(Component owner) {
-    //this.owner = owner;
     System.out.println("AboutOntoRamaDialog");
 
     ImageMapping.loadImages();
 
-    JLabel label1 = new JLabel ("OntoRama");
-    JLabel label2 = new JLabel ("Version: 0.0");
+    JPanel mainPanel = new JPanel();
+    mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+    Dimension d = new Dimension(20,20);
+    mainPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+    mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-    //JPanel panel3 = new JPanel ();
-    //panel3.add(ImageMapping.dstcLogoImage.getImage());
 
-    JLabel label3 = new JLabel ("Brought to you by      ");
-    JLabel label4 = new JLabel ("DSTC ", (Icon) ImageMapping.dstcLogoImage, JLabel.CENTER);
-    JLabel label5 = new JLabel (" and ");
-    JLabel label6 = new JLabel ("KVO ", (Icon) ImageMapping.kvoLogoImage, JLabel.CENTER);
-    //panel3.add(label3);
+    JLabel headingLabel = new JLabel ("OntoRama");
+    headingLabel.setFont(new java.awt.Font("Dialog", 1, 26));
+    headingLabel.setForeground(Color.blue);
+    headingLabel.setBackground(backgroundColor);
+    headingLabel.setText("OntoRama");
+    headingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    JLabel label2 = new JLabel ("Brought to you by  DSTC and KVO");
+    label2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    JPanel imagesPanel = new JPanel();
+    BoxLayout imagesLayout = new BoxLayout(imagesPanel, BoxLayout.X_AXIS);
+    imagesPanel.setLayout(imagesLayout);
+    imagesPanel.setBackground(backgroundColor);
+    imagesPanel.add(new JLabel ( (Icon) ImageMapping.dstcLogoImage));
+    Dimension d2 = new Dimension (80, 0);
+    imagesPanel.add(Box.createRigidArea(d2));
+    imagesPanel.add(new JLabel ( (Icon) ImageMapping.kvoLogoImage));
+    imagesPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    JLabel copyrightLabel = new JLabel("Copyright (c) 1999-2002 DSTC");
+    copyrightLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
     JButton okButton = new JButton("OK");
     okButton.addActionListener(new ActionListener() {
@@ -48,28 +68,33 @@ public class AboutOntoRamaDialog extends JDialog {
         close();
       }
     });
-    JPanel buttonPanel = new JPanel();
-    buttonPanel.add(okButton, BorderLayout.WEST);
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    buttonPanel.setBackground(backgroundColor);
+    buttonPanel.add(okButton);
 
 
 
-    getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
-    Dimension d = new Dimension(10,20);
-    getContentPane().add(Box.createRigidArea(d));
 
 
-    getContentPane().add(label1);
-    getContentPane().add(label2);
-    getContentPane().add(label3);
-    getContentPane().add(label4);
-    getContentPane().add(label5);
-    getContentPane().add(label6);
-    getContentPane().add(buttonPanel);
+    mainPanel.setBackground(backgroundColor);
 
+    mainPanel.add(headingLabel);
+    mainPanel.add(Box.createRigidArea(d));
+    mainPanel.add(label2);
+    mainPanel.add(Box.createRigidArea(d));
+    mainPanel.add(imagesPanel);
+    mainPanel.add(Box.createRigidArea(d));
+    mainPanel.add(copyrightLabel);
+    mainPanel.add(Box.createRigidArea(d));
+
+
+    getContentPane().setLayout(new BorderLayout());
+    getContentPane().add(mainPanel, BorderLayout.CENTER);
+    getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
     setTitle("About OntoRama");
     setBackground(Color.white);
-    setSize(200,200);
+    //setSize(400,400);
     setLocationRelativeTo(owner);
 
     pack();
@@ -88,6 +113,5 @@ public class AboutOntoRamaDialog extends JDialog {
    */
   public void close () {
     dispose();
-
   }
 }

@@ -19,7 +19,7 @@ import ontorama.OntoramaConfig;
  */
 
 public class ImageMapping {
-  private static String dstcLogoLocation = "img/dstc.gif";
+  private static String dstcLogoLocation = "img/dstcLogo.png";
   private static String kvoLogoLocation = "img/kvo-logo.gif";
 
   public static ImageIcon dstcLogoImage;
@@ -32,6 +32,7 @@ public class ImageMapping {
 
   private static ImageIcon loadImage (String relativeUri) {
     URL url =  OntoramaConfig.getClassLoader().getResource(relativeUri);
+    System.out.println("image url = " + url + " for relativeUri = " + relativeUri);
     ImageIcon imageIcon = new ImageIcon(url);
     return imageIcon;
   }

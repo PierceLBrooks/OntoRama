@@ -43,4 +43,6 @@ public class P2PGlobals {
 	public final static String ADV_Name = "Name";
 	public final static String ADV_InputPipe = "InputPipe";
 	public final static String ADV_Id = "Id";
+
+	public static final String ontoP2P_namespace = "http://www.ontorama.org/ontoP2P#";
 }

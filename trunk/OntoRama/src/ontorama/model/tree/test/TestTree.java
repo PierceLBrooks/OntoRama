@@ -43,7 +43,6 @@ public class TestTree extends TestCase{
 
     public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
     	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(backend);
     	
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();

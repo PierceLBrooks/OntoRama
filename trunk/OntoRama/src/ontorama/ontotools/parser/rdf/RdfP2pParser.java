@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.p2p.P2PGlobals;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.conf.RdfMapping;
@@ -93,7 +94,7 @@ public class RdfP2pParser implements Parser {
                 _statementsList.add(next);
             }
 
-        	String namespace_ontoP2P = OntoramaConfig.ontoP2P_namespace;
+        	String namespace_ontoP2P = P2PGlobals.ontoP2P_namespace;
         	_assertedProp = new PropertyImpl(namespace_ontoP2P + _rdf_tag_asserted);
         	_rejectedProp = new PropertyImpl(namespace_ontoP2P + _rdf_tag_rejected);
 

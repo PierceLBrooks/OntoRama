@@ -73,7 +73,6 @@ public class TestQueryEngine extends TestCase {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
 		Backend backend = (Backend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(backend);
 
         edgeType1 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
         edgeType2 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar);

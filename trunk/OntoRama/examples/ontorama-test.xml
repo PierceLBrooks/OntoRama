@@ -2,7 +2,7 @@
 <ontology top="root"  
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns="http://kvo.itee.uq.edu.au/~nataliya/ont"
-		xsi:schemaLocation="http://kvo.itee.uq.edu.au/~nataliya/ont ontoramaXml.xsd">
+		xsi:schemaLocation="http://kvo.itee.uq.edu.au/~nataliya/ont http://kvo.itee.uq.edu.au/~nataliya/ontoramaXml.xsd">
 	<conceptType name="root" creator="OntoRama">
 		<description>Root conceptType</description>
 		<synonym>syn1</synonym>

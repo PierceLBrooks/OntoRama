@@ -123,7 +123,7 @@ public class TestTree extends TestCase{
         _graph = new GraphImpl(queryRes, new EventBroker());
 
 
-        _tree = new TreeImpl(_graph, _graph.getRootNode(), new EventBroker());
+        _tree = new TreeImpl(_graph, _graph.getRootNode());
 
     }
 

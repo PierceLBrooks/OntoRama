@@ -29,9 +29,9 @@ public class TreeImpl implements Tree {
      * @param graph
      * @param graphRootNode
      */
-    public TreeImpl (Graph graph, Node graphRootNode, EventBroker eventBroker) {
+    public TreeImpl (Graph graph, Node graphRootNode) {
         _graph = graph;
-        _eventBroker = eventBroker;
+        _eventBroker = new EventBroker();
         buildTree(graphRootNode);
     }
 
@@ -81,6 +81,10 @@ public class TreeImpl implements Tree {
 			removeTreeNode(clone);
 		}
 		_eventBroker.processEvent(new TreeNodeRemovedEvent(this, nodeToRemove));
+	}
+	
+	public EventBroker getEventBroker() {
+		return _eventBroker;
 	}
 	
 	public Graph getGraph() {

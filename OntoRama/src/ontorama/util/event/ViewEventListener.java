@@ -7,7 +7,7 @@ import java.util.Iterator;
 import ontorama.model.GraphNode;
 
 public class ViewEventListener implements ViewEventObservable {
-	
+
 	/**
 	 * constants for different events
 	 */
@@ -18,24 +18,24 @@ public class ViewEventListener implements ViewEventObservable {
 	public static final int KEY_CTRL = 5;
 	public static final int KEY_SHIFT = 6;
 	public static final int MOUSE_SINGLECLICK_KEY_CTRL = 7;
-	
+
 	/**
 	 * observers list
 	 */
 	private LinkedList observers  = new LinkedList();
-	
+
 	/**
 	 * Add an observer
-	 * interface implementation method. 
+	 * interface implementation method.
 	 */
 	public void addObserver( Object obj ) {
 		observers.add(obj);
 	}
-	
+
 	/**
 	 * Notify all observers that an event has occured.
 	 * @param	node - node that event has occured on
-	 * @param	eventType - type of event, should be one of contants 
+	 * @param	eventType - type of event, should be one of contants
 	 *			declared in ViewEventListener
 	 */
 	public void notifyChange (GraphNode node, int eventType) {
@@ -47,6 +47,7 @@ public class ViewEventListener implements ViewEventObservable {
 					cur.focus (node);
 					break;
 				case 2:
+                    //System.out.println("SENDING TOGGLE FOLD EVENT");
 					cur.toggleFold (node);
 					break;
 				case 3:
@@ -63,7 +64,7 @@ public class ViewEventListener implements ViewEventObservable {
 			}
 		}
 	}
-	
+
 	/**
 	 *
 	 */

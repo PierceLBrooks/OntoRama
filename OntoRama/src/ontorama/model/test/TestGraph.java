@@ -1,8 +1,6 @@
 package ontorama.model.test;
 
 import junit.framework.TestCase;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;

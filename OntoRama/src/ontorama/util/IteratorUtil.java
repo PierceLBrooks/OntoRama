@@ -1,8 +1,5 @@
 package ontorama.util;
 
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,20 +52,4 @@ public class IteratorUtil {
         return result;
     }
 
-    /**
-     * Find an ontology type in a list by given name
-     *
-     * Assumption: name is unique identifier for an ontology type
-     */
-    public static OntologyType getOntologyTypeFromList(String name, List list) {
-        Iterator it = list.iterator();
-        while (it.hasNext()) {
-            OntologyType cur = (OntologyTypeImplementation) it.next();
-            //System.out.println("cur = " + cur);
-            if (cur.getName().equals(name)) {
-                return cur;
-            }
-        }
-        return null;
-    }
 }

@@ -2,8 +2,8 @@ package ontorama.webkbtools.inputsource;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.CancelledQueryException;
 import ontorama.webkbtools.util.SourceException;
@@ -170,7 +170,7 @@ public class TestWebKB2Source extends TestCase {
         assertEquals("size of choices list for term " + termName, expectedChoices.size(), returnedChoicesList.size());
         Iterator it = returnedChoicesList.iterator();
         while (it.hasNext()) {
-            OntologyType cur = (OntologyType) it.next();
+            GraphNode cur = (GraphNode) it.next();
             assertEquals("choices list for " + termName + " should contain type " + cur.getName(),
                     true, expectedChoices.contains(cur.getName()));
         }

@@ -124,8 +124,9 @@ public abstract class AbstractMultiValuesPanel extends JPanel {
         while (propValuesIterator.hasNext()) {
           GraphNode curNode = (GraphNode) propValuesIterator.next();
           JComponent component = createPropertyComponent(curNode);
-          System.out.println("clone = " + curNode.getName());
+          System.out.println("clone = " + curNode.getName() + ", address = " + curNode);
           _propValuePanel.add(component);
+          _componentToPropValueMapping.put(component, curNode);
         }
         _propValuePanel.update(_propValuePanel.getGraphics());
     }
@@ -144,18 +145,7 @@ public abstract class AbstractMultiValuesPanel extends JPanel {
      * for given node and implement action listener for this 
      * component
      */
-    private JComponent createPropertyComponent (GraphNode node) {
-          JButton button = new JButton();
-//          button.setText(node.getName());
-//          _componentToPropValueMapping.put(button,node);
-//          button.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                //GraphNode node = (GraphNode) _componentToPropValueMapping.get(e.getSource());
-//                //_viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
-//            }
-//          });
-          return (JComponent) button;
-    }
+    protected abstract JComponent createPropertyComponent (GraphNode node) ;
     
 
 }

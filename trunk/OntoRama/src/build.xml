@@ -7,6 +7,8 @@
   <property name="javadoc.home"   value="${basedir}/doc/api"/>
   <property name="examples.dir.name"   value="examples"/>
   <property name="examples.home"   value="${basedir}/${examples.dir.name}"/>
+  <property name="img.dir.name"   value="img"/>
+  <property name="img.home"   value="${src.home}/${img.dir.name}"/>
   <property name="jar.file"	value="${basedir}/OntoRama.jar"/>
   <property name="jenaJar.file"	value="${basedir}/jenaOntorama.jar"/>
   <property name="deploy.webstart"	value="${basedir}/deployWebstart"/>
@@ -38,19 +40,20 @@
 
   <!-- Targets and Rules -->
   <target name="all" depends="clean,prepare,compile"/>
-  
-  <!--<target name="prepare" depends="clean">-->
-  <target name="prepare">
+  <target name="mkDir">
     <mkdir  dir="${deploy.home}"/>
     <mkdir  dir="${javadoc.home}"/>
+  </target>
+  
+  <!--<target name="prepare" depends="clean">-->
+ <target name="prepare" depends="mkDir,copyExamples,copyImages">
     <copy   todir="${deploy.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
       <fileset dir="${src.home}" includes="**/config.xml"/>
       <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
       <fileset dir="${src.home}" includes="MANIFEST.MF"/>
-	</copy>
-	
-  </target>
+	</copy>	
+ </target>
 
   <target name="clean">
     <delete dir="${deploy.home}"/>
@@ -64,7 +67,13 @@
 	</copy>  
   </target>
   
-  <target name="compile" depends="prepare,copyExamples">
+  <target name="copyImages">
+    <copy   todir="${deploy.home}/${img.dir.name}">
+      <fileset dir="${img.home}"/>
+	</copy>  
+  </target>  
+  
+  <target name="compile" depends="prepare">
     <javac destdir="${deploy.home}"  debug="on" optimize="off"	deprecation="off">
 		<src path="${src.home}"/>
 		<classpath refid="project.class.path"/>
@@ -95,7 +104,7 @@
   <target name="webstartDeploy" depends="jar">
   	<delete dir="${deploy.webstart}"/>
   	<mkdir dir="${deploy.webstart}"/>
-	<mkdir dir="${deploy.webstart}/lib"/>
+	<mkdir dir="${deploy.webstart}/lib"/>	
 	<copy todir="${deploy.webstart}">
 		<fileset dir="${src.webstart}" includes="**/*"/>
 	</copy>
@@ -105,6 +114,18 @@
 	<copy todir="${deploy.webstart}/lib">
 		<fileset dir="${basedir}" includes="OntoRama.jar"/>
 	</copy>
+  </target>
+  
+  <target name="zip" depends="webstartDeploy">
+	<zip zipfile="${basedir}/ontorama.zip"
+       basedir="${deploy.webstart}"
+	/>
+	<copy todir="${deploy.webstart}">
+		<fileset dir="${basedir}" includes="ontorama.zip"/>
+	</copy>
+  </target>
+  
+  <target name="webstart" depends="webstartDeploy,zip">
   </target>
 
   

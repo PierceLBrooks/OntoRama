@@ -282,7 +282,7 @@ public class CommunicationGroup  {
 			//found at least one adv
 			//populate SearchGroupResult from incoming advertisments
 			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
-			ItemReference groupRes = new ItemReference (
+			GroupItemReference groupRes = new GroupItemReference (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
 			result.add(groupRes);				
@@ -329,7 +329,7 @@ public class CommunicationGroup  {
 				PeerAdvertisement peerAdv = (PeerAdvertisement) enum1.nextElement();
 				System.out.println("\t.peerAdv.getName() = " + peerAdv.getName()
 									+ ", group = " + peerAdv.getPeerGroupID());
-				searchGroupResult.add(new ItemReference(peerAdv.getPeerID(),
+				searchGroupResult.add(new GroupItemReference(peerAdv.getPeerID(),
 														peerAdv.getName(),
 														peerAdv.getDescription()));
 			}
@@ -432,7 +432,7 @@ public class CommunicationGroup  {
 			while (e.hasMoreElements()){
 				PeerAdvertisement cur = (PeerAdvertisement) e.nextElement();
 				System.out.println("\npeerDiscoveryForGlobalGroup: peer = " + cur.getName() + ", group = " +  cur.getPeerGroupID());
-				ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
+				GroupItemReference element = new GroupItemReference(cur.getID(), cur.getName(), cur.getDescription());
 			  	result.addElement(element);
 			}
 		}

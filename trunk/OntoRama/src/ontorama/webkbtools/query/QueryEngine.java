@@ -4,7 +4,6 @@ import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
 import ontorama.util.Debug;
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
 import ontorama.webkbtools.query.parser.Parser;

@@ -1,7 +1,7 @@
 package ontorama.webkbtools.inputsource.webkb;
 
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.util.NoSuchPropertyException;
+import ontorama.model.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -105,10 +105,10 @@ public class AmbiguousChoiceDialog extends JDialog {
         group = new ButtonGroup();
 
         for (int i = 0; i < numChoices; i++) {
-            OntologyType curType = (OntologyType) choiceList.get(i);
-            JButton curButton = new JButton(curType.getName());
+            GraphNode node= (GraphNode) choiceList.get(i);
+            JButton curButton = new JButton(node.getName());
             try {
-                List descrPropValue = curType.getTypeProperty(descrPropName);
+                List descrPropValue = node.getProperty(descrPropName);
                 if (descrPropValue.size() > 0) {
                     curButton.setToolTipText((String) descrPropValue.get(0));
                 }
@@ -145,7 +145,7 @@ public class AmbiguousChoiceDialog extends JDialog {
 
     /**
      * get text of selected button (which should correspond to the selected
-     * ontology type name)
+     * node name)
      */
     public String getSelected() {
         //Object[] selectedObjects = group.getSelection().getSelectedObjects();

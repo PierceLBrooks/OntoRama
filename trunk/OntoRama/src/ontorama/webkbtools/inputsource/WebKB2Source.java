@@ -11,7 +11,6 @@ package ontorama.webkbtools.inputsource;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.GraphNode;
-import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.query.Query;
@@ -33,10 +32,6 @@ import java.util.List;
 
 public class WebKB2Source implements Source {
 
-    /**
-     * uri of WebKB cgi script
-     */
-    private String uri;
 
     /**
      * query we want to post to webkb
@@ -87,7 +82,8 @@ public class WebKB2Source implements Source {
      *  @param  uri - base uri for the WebKB cgi script
      *  @param  query - object Query holding details of a query we are executing
      *  @return sourceResult
-     *  @throws SourceException, CancelledQueryException
+     *  @throws SourceException
+     *  @throws CancelledQueryException
      *
      *  @todo mechanism for stopping interrupted queries seems hacky. at the moment
      *  we only check in the one method if thread is interrupted (because this loop is most time consuming)
@@ -96,7 +92,6 @@ public class WebKB2Source implements Source {
      */
     public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException {
         this.query = query;
-        this.uri = uri;
 
         // reinitialise all global vars
         this.docs = new LinkedList();
@@ -247,7 +242,7 @@ public class WebKB2Source implements Source {
         getRootTypesFromStreams();
 
         Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
-        String selectedType = ((OntologyType) typesList.get(0)).getName();
+        String selectedType = ((GraphNode) typesList.get(0)).getName();
         if (frames.length > 0) {
             AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
             selectedType = dialog.getSelected();
@@ -282,9 +277,9 @@ public class WebKB2Source implements Source {
             StringReader curReader = new StringReader(nextDocStr);
             List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
             for (int i = 0; i < curTypesList.size(); i++) {
-                OntologyType type = (OntologyType) curTypesList.get(i);
-                if (!typesList.contains(type)) {
-                    typesList.add(type);
+                GraphNode node = (GraphNode) curTypesList.get(i);
+                if (!typesList.contains(node)) {
+                    typesList.add(node);
                 }
             }
         }

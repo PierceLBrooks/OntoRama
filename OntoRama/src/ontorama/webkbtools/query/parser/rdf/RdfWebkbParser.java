@@ -125,17 +125,17 @@ public class RdfWebkbParser extends RdfDamlParser {
 
       if (linkName.equals(urlLinkName)) {
         if (ontTypeExists(fromTypeName)) {
-          toType = getOntTypeByName(toTypeResource.toString());
-          fromType = getOntTypeByName(fromTypeName);
+          toType = getOntTypeByName(toTypeResource.toString(), toTypeResource.toString());
+          fromType = getOntTypeByName(fromTypeName, fromTypeResource.toString());
         }
         else {
-          fromType = getOntTypeByName(fromTypeResource.toString());
-          toType = getOntTypeByName(toTypeName);
+          fromType = getOntTypeByName(fromTypeResource.toString(), fromTypeResource.toString());
+          toType = getOntTypeByName(toTypeName, toTypeResource.toString());
         }
       }
       else {
-        fromType = getOntTypeByName(fromTypeName);
-        toType = getOntTypeByName(toTypeName);
+        fromType = getOntTypeByName(fromTypeName, fromTypeResource.toString());
+        toType = getOntTypeByName(toTypeName, toTypeResource.toString());
       }
       //System.out.println("relLink = " + linkName + ", fromType = " + fromType + ", toType = " + toType);
       fromType.addRelationType(toType,relLinkId);
@@ -253,7 +253,7 @@ public class RdfWebkbParser extends RdfDamlParser {
       }
       OntologyType newType = (OntologyType) newTypesMapping.get(newTypeName);
       if (newType == null) {
-        newType = new OntologyTypeImplementation(newTypeName);
+        newType = new OntologyTypeImplementation(newTypeName, origType.getFullName());
       }
       return newType;
     }

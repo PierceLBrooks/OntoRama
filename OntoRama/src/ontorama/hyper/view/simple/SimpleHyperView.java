@@ -44,12 +44,12 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 250;
+    private static double springLength = 200;
 
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .7;
+    private double STIFFNESS = .2;
 
     /**
      * Determines strength of repulsion betweeen two nodes
@@ -88,7 +88,7 @@ public class SimpleHyperView  extends CanvasManager {
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-        layoutNodes( 500 );
+        layoutNodes( 250 );
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -280,7 +280,7 @@ public class SimpleHyperView  extends CanvasManager {
 //            System.out.println("* * * minMoveDiff: " + minMoveDiff);
             numOfItorations++;
         }while( numOfItorations < iteration  && minMoveDiff > .00001 );
-        System.out.println("Iterated " + numOfItorations);
+        System.out.println("Iterated " + numOfItorations + " times");
         return numOfItorations;
     }
 
@@ -344,7 +344,8 @@ public class SimpleHyperView  extends CanvasManager {
             double vectorLength = curHyperNode.distance( curHyperNodeOther );
             if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
                 int levelDiff = Math.abs( cur.getDepth() - other.getDepth() + 1 );
-                double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+                //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+                double force = ELECTRIC_CHARGE / (vectorLength * vectorLength);
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
                 xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());

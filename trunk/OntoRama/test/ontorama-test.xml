@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ontology top="root">
+	<conceptTypes>
+		<conceptType name="root">
+			<description>Root conceptType</description>
+			<creator>OntoRama</creator>
+		</conceptType>
+		<conceptType name="node1"/>
+		<conceptType name="node2"/>
+		<conceptType name="node3"/>
+		<conceptType name="node4"/>
+		<conceptType name="node5"/>
+		<conceptType name="node6"/>
+		<conceptType name="syn1"/>
+		<conceptType name="part1"/>
+		<conceptType name="node1.1"/>
+		<conceptType name="node1.2"/>
+		<conceptType name="node2.1"/>
+		<conceptType name="node2.2"/>
+		<conceptType name="syn2.2.1"/>
+		<conceptType name="member2.2.1"/>
+		<conceptType name="node3.1"/>
+		<conceptType name="node3.2"/>
+		<conceptType name="syn3.2.1"/>
+		<conceptType name="syn3.2.2"/>
+		<conceptType name="syn3.2.3"/>
+		<conceptType name="node3.3"/>
+		<conceptType name="node4.1"/>
+		<conceptType name="node4.2"/>
+		<conceptType name="node4.3"/>
+		<conceptType name="node4.4"/>
+		<conceptType name="node4.5"/>
+		<conceptType name="node4.6"/>
+		<conceptType name="node4.7"/>
+		<conceptType name="node4.8"/>
+		<conceptType name="node4.9"/>
+		<conceptType name="node3.2.1"/>
+		<conceptType name="node3.2.2"/>
+		<conceptType name="node3.2.3"/>
+		<conceptType name="node4.6.1"/>
+		<conceptType name="node4.6.2"/>
+		<conceptType name="node4.6.3"/>
+	</conceptTypes>
+	<relationLinks>
+		<relationLink name="subtype" from="root" to="node1"/>
+		<relationLink name="subtype" from="root" to="node2"/>
+		<relationLink name="subtype" from="root" to="node3"/>
+		<relationLink name="subtype" from="root" to="node4"/>
+		<relationLink name="subtype" from="root" to="node5"/>
+		<relationLink name="supertype" from="node6" to="root"/>
+		<relationLink name="synonym" from="root" to="syn1"/>
+		<relationLink name="part" from="root" to="part1"/>
+		
+		<relationLink name="subtype" from="node1" to="node1.1"/>
+		<relationLink name="subtype" from="node1" to="node1.2"/>
+		
+		<relationLink name="subtype" from="node2" to="node2.1"/>
+		<relationLink name="subtype" from="node2" to="node2.2"/>
+		<relationLink name="synonym" from="node2.2" to="syn2.2.1"/>
+		<relationLink name="member" from="node2" to="member2.2.1"/>
+		<relationLink name="subtype" from="node2" to="node3.2"/>
+		
+		<relationLink name="subtype" from="node3" to="node3.1"/>
+		<relationLink name="subtype" from="node3" to="node3.2"/>
+		<relationLink name="subtype" from="node3" to="node3.3"/>
+
+		<relationLink name="subtype" from="node3.2" to="node3.2.1"/>
+		<relationLink name="subtype" from="node3.2" to="node3.2.2"/>
+		<relationLink name="subtype" from="node3.2" to="node3.2.3"/>
+
+		<relationLink name="subtype" from="node3.2" to="syn3.2.1"/>
+		<relationLink name="subtype" from="node3.2" to="syn3.2.2"/>
+		<relationLink name="subtype" from="node3.2" to="syn3.2.3"/>
+
+		<relationLink name="subtype" from="node4" to="node4.1"/>
+		<relationLink name="subtype" from="node4" to="node4.2"/>
+		<relationLink name="subtype" from="node4" to="node4.3"/>
+		<relationLink name="subtype" from="node4" to="node4.4"/>
+		<relationLink name="subtype" from="node4" to="node4.5"/>
+		<relationLink name="subtype" from="node4" to="node4.6"/>
+		<relationLink name="subtype" from="node4" to="node4.7"/>
+		<relationLink name="subtype" from="node4" to="node4.8"/>
+		<relationLink name="subtype" from="node4" to="node4.9"/>
+
+		<relationLink name="subtype" from="node4.6" to="node4.6.1"/>
+		<relationLink name="subtype" from="node4.6" to="node4.6.2"/>
+		<relationLink name="subtype" from="node4.6" to="node4.6.3"/>
+		<relationLink name="subtype" from="node4.6" to="node4.1"/>
+
+	</relationLinks>
+</ontology>

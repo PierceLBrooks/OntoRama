@@ -374,7 +374,6 @@ public class P2PBackend implements Peer2PeerBackend {
              	// @todo a hack here for node type. Need to fix where adding nodes.
              	nodeType = OntoramaConfig.UNKNOWN_TYPE;
              }
-             System.out.println("node = " + node + ", nodeType = " + nodeType);
              Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.toString(), Change.ASSERT, asserterStr);
              String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
@@ -394,6 +393,7 @@ public class P2PBackend implements Peer2PeerBackend {
 
     public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
         try {
+			System.out.println("\n\nP2PBackend::rejectNode sending propagate for node " + node.getName());
             String rejectorStr = "";
             if (rejecter == null) {
                 rejectorStr = _defaultUserUri;
@@ -401,27 +401,58 @@ public class P2PBackend implements Peer2PeerBackend {
             else {
                 rejectorStr = rejecter.toString();
             }
-             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-             		"New node was rejected: "
-             		+ node.getIdentifier()
-             		+ " by : " + rejectorStr);
+//             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
+//             		"New node was rejected: "
+//             		+ node.getIdentifier()
+//             		+ " by : " + rejectorStr);
+             
+			NodeType nodeType = node.getNodeType();
+			if (nodeType == null) {
+			   // @todo a hack here for node type. Need to fix where adding nodes.
+			   nodeType = OntoramaConfig.UNKNOWN_TYPE;
+			}
+
+			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.toString(), Change.REJECT, rejectorStr);
+			String message = XmlMessageProcessor.createMessage(nodeChange);
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
+             		
 			this.graph.rejectNode(node,rejecter);
         } catch (GroupExceptionThread e) {
-               System.err.println("An error accured in assertConcept()");
                e.printStackTrace();
 		} catch (GraphModificationException e) {
 			throw e;
+		}
+		catch (XmlMessageCreatorException e) {
+			e.printStackTrace();
+			// @todo not sure what to do with this exception
 		}
       }
 
 
     public void rejectEdge(P2PEdge edge, URI rejecter) throws GraphModificationException, NoSuchRelationLinkException{
 		try {
-			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null,
-             		"Rejected relation from "
-             		+ edge.getFromNode().getIdentifier() + " to "
-             		+ edge.getToNode().getIdentifier()
-             		+ " with type: " + edge.getEdgeType());
+			System.out.println("\n\nP2PBackend::rejectEdge sending propagate for edge " + edge);
+			String rejectorStr = "";
+			if (rejecter == null) {
+				rejectorStr = _defaultUserUri;
+			}
+			else {
+				rejectorStr = rejecter.toString();
+			}
+
+//			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null,
+//             		"Rejected relation from "
+//             		+ edge.getFromNode().getIdentifier() + " to "
+//             		+ edge.getToNode().getIdentifier()
+//             		+ " with type: " + edge.getEdgeType());
+
+			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
+										edge.getToNode().getIdentifier(), 
+										edge.getEdgeType().getName(), 
+										Change.ASSERT, rejectorStr);
+			String message = XmlMessageProcessor.createMessage(edgeChange);
+			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
+             		
 			this.graph.rejectEdge(edge,rejecter);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in rejectRelation()");
@@ -430,6 +461,10 @@ public class P2PBackend implements Peer2PeerBackend {
 			throw e;
 		} catch (NoSuchRelationLinkException e) {
 			throw e;
+        }
+        catch (XmlMessageCreatorException e) {
+        	e.printStackTrace();
+        	// @todo not sure what to do with the exception here
         }
     }
 

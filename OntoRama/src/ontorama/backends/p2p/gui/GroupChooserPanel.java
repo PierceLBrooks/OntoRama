@@ -2,18 +2,12 @@ package ontorama.backends.p2p.gui;
 
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
@@ -26,59 +20,17 @@ import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
  */
 public class GroupChooserPanel extends JPanel {
 
-    private JRadioButton _nameButton;
-    private JRadioButton _descriptionButton;
-
-    private JComboBox _nameChooser;
-    private JComboBox _descriptionChooser;
-
-    private Object _value = null;
+    private GroupChooserComboBox _nameChooser;
 
     private Vector _groups;
-
+    
     public GroupChooserPanel (Vector groups, String labelString) {
         super();
         _groups = groups;
 
-        _nameButton = new JRadioButton("Name");
-        _nameButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _value =  _nameChooser.getSelectedItem();
-            }
-        });
-
-        _descriptionButton = new JRadioButton("Description");
-        _descriptionButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _value =  _descriptionChooser.getSelectedItem();
-            }
-        });
-
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(_nameButton);
-        buttonGroup.add(_descriptionButton);
-
         Vector sortedGroups = bubbleSort(_groups.toArray(), _groups.size());
-        _nameChooser = new JComboBox(sortedGroups);
+        _nameChooser = new GroupChooserComboBox(sortedGroups);
         _nameChooser.setRenderer(new GroupNamesComboBoxRenderer());
-
-        _nameChooser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _nameButton.setSelected(true);
-                _value = _nameChooser.getSelectedItem();
-            }
-        });
-
-
-        _descriptionChooser = new JComboBox(_groups);
-        _descriptionChooser.setRenderer(new GroupDescriptionsComboBoxRenderer());
-
-        _descriptionChooser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _descriptionButton.setSelected(true);
-                _value =  _descriptionChooser.getSelectedItem();
-            }
-        });
 
         setLayout(new BorderLayout());
 
@@ -86,21 +38,12 @@ public class GroupChooserPanel extends JPanel {
         p.add(new JLabel(labelString));
         add(p, BorderLayout.NORTH);
 
-        JPanel p1 = new JPanel(new FlowLayout());
-        p1.add(_nameButton);
-        p1.add(_nameChooser);
-        add(p1, BorderLayout.CENTER);
-
-//        JPanel p2 = new JPanel(new FlowLayout());
-//        p2.add(_descriptionButton);
-//        p2.add(_descriptionChooser);
-//        add(p2, BorderLayout.SOUTH);
+        add(_nameChooser, BorderLayout.CENTER);
     }
 
-
-    public Object getValue () {
-        System.out.println("group chooser returning value = " + _value + ", class = " + _value.getClass());
-        return _value;
+   
+    public GroupChooser getGroupChooser () {
+    	return (GroupChooser) _nameChooser;
     }
 
     /*

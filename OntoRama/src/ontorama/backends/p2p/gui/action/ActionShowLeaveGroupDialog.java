@@ -15,11 +15,11 @@ import ontorama.ui.OntoRamaApp;
  * Time: 12:11:12
  * To change this template use Options | File Templates.
  */
-public class ActionLeaveGroup extends AbstractAction {
+public class ActionShowLeaveGroupDialog extends AbstractAction {
 
     private P2PBackend _p2pBackend;
 
-     public ActionLeaveGroup(String name, P2PBackend p2pBackend) {
+     public ActionShowLeaveGroupDialog(String name, P2PBackend p2pBackend) {
          super(name);
         _p2pBackend = p2pBackend;
      }

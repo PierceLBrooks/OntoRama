@@ -12,8 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import net.jxta.peergroup.PeerGroup;
+import org.tockit.events.Event;
+import org.tockit.events.EventBrokerListener;
+
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.events.GroupJoinedEvent;
+import ontorama.backends.p2p.events.LeaveGroupEvent;
+import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
+import ontorama.ui.ErrorDialog;
+import ontorama.ui.OntoRamaApp;
 
 
 /*
@@ -29,20 +36,27 @@ public class LeaveGroupDialog extends JDialog {
 
     private P2PBackend _p2pBackend;
 
+	private class LocalGroupJoinedEventHandler implements EventBrokerListener {
+		JDialog dialog;
+		LocalGroupJoinedEventHandler(JDialog dialog) {
+			this.dialog = dialog;
+		}
+		public void processEvent(Event event) {
+			dialog.setVisible(false);
+		}
+
+	}
+
     public LeaveGroupDialog(Frame parent, P2PBackend p2pBackend)  {
         super(parent, _title, true);
         _p2pBackend = p2pBackend;
+        
+        _p2pBackend.getEventBroker().subscribe(new LocalGroupJoinedEventHandler(this), GroupJoinedEvent.class, GroupReferenceElement.class);
 
         Vector foundGroups = new Vector();
         try {
-            //foundGroups = _p2pSender.sendSearchGroup(null, null);
             foundGroups = _p2pBackend.getSender().joinedGroups();
-            System.out.println("joined groups: ");
             Iterator it = foundGroups.iterator();
-            while (it.hasNext()) {
-                Object obj = it.next();
-                System.out.println("next = " + obj + ", class: " + obj.getClass());
-            }
         }
         catch (Exception e) {
             /// @todo deal with exceptions propertly
@@ -58,23 +72,19 @@ public class LeaveGroupDialog extends JDialog {
                 setVisible(false);
             }
         });
+        
+    	okButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			GroupReferenceElement groupToLeave = groupsPanel.getGroupChooser().getSelectedGroup();
+    			if (groupToLeave == null) {
+    				ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", "Please choose a group you wish to leave");
+    			}
+    			else {
+    				_p2pBackend.getEventBroker().processEvent(new LeaveGroupEvent(groupToLeave));
+    			}
+    		}
+    	});
 
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PeerGroup selectedGroup = (PeerGroup) groupsPanel.getValue();
-                String groupId = selectedGroup.getPeerGroupID().toString();
-                System.out.println("trying to leave group: name = " + selectedGroup.getPeerGroupName() + ", id = " + groupId);
-                try {
-
-                    _p2pBackend.getSender().sendLeaveGroup(groupId);
-                }
-                catch (Exception exc) {
-                    /// @todo handle exception properly!
-                    exc.printStackTrace();
-                }
-                setVisible(false);
-            }
-        });
         getRootPane().setDefaultButton(okButton);
 
         JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);

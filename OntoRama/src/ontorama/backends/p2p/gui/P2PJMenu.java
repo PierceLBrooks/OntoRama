@@ -22,7 +22,7 @@ import ontorama.backends.filemanager.Util;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.ActionGroupSearch;
 import ontorama.backends.p2p.gui.action.ActionShowJoinGroupDialog;
-import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
+import ontorama.backends.p2p.gui.action.ActionShowLeaveGroupDialog;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
 import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
 import ontorama.ui.OntoRamaApp;
@@ -62,7 +62,7 @@ public class P2PJMenu extends JMenu {
 
         _joinGroupAction = new ActionShowJoinGroupDialog("Join Group", p2pBackend);
         add(_joinGroupAction);
-        _leaveGroupAction = new ActionLeaveGroup("Leave Group", _p2pBackend);
+        _leaveGroupAction = new ActionShowLeaveGroupDialog("Leave Group", _p2pBackend);
         add(_leaveGroupAction);
         addSeparator();
 

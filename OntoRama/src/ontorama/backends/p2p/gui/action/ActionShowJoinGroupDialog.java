@@ -27,15 +27,6 @@ public class ActionShowJoinGroupDialog extends AbstractAction{
         public void actionPerformed(ActionEvent e) {
             JoinGroupDialog dialog = new JoinGroupDialog(OntoRamaApp.getMainFrame(), _p2pBackend);
             dialog.show();
-            if (dialog.actionWasCancelled()) {
-            }
-            else {
-                int selectedOption = dialog.getSelectedOption();
-                if (selectedOption == JoinGroupDialog.OPTION_EXISTING_GROUP) {
-                }
-                if (selectedOption == JoinGroupDialog.OPTION_NEW_GROUP) {
-                }
-            }
         }
 
 }

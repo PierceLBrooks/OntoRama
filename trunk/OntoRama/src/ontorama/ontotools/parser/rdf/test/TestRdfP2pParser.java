@@ -29,7 +29,8 @@ public class TestRdfP2pParser extends TestCase {
     private List _edgesList;
     
     private final String sourcePackageName = "ontorama.ontotools.source.JarSource";
-    private final String sourceUri = "examples/test/p2p/short.rdf";
+    //private final String sourceUri = "examples/test/p2p/short.rdf";
+	private final String sourceUri = "examples/test/p2p/verboseRDF.rdf";
 
    public TestRdfP2pParser(String name) {
         super(name);
@@ -68,11 +69,11 @@ public class TestRdfP2pParser extends TestCase {
     }
 
     public void testNodesNum () {
-        assertEquals("number of nodes ", 11, _nodesList.size() );
+        assertEquals("number of nodes ", 6, _nodesList.size() );
     }
 
     public void testEdgesNum () {
-        assertEquals("number of edges ", 11, _edgesList.size());
+        assertEquals("number of edges ", 5, _edgesList.size());
     }
 
     public void testNode_tail () {

@@ -4,9 +4,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 
-import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.Node;
 
 /**
@@ -16,7 +14,14 @@ import ontorama.model.graph.Node;
  * @version 1.0
  */
 
-public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
+public class P2PEdgeImpl implements P2PEdge {
+	
+	private P2PNode fromNode;
+	private P2PNode toNode;
+	private EdgeType edgeType;
+	
+	private URI creatorUri;
+	
     /**
      * Store the asserters
      */
@@ -30,8 +35,10 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
     /**
      * Create a new P2PEdgeImpl with given name and asserter or rejecter
      */
-	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
-		super(fromNode,toNode,edgeType);
+	public P2PEdgeImpl(P2PNode fromNode, P2PNode toNode, EdgeType edgeType)  {
+		this.fromNode = fromNode;
+		this.toNode = toNode;
+		this.edgeType = edgeType;
         this.assertions = new HashSet();
         this.rejections = new HashSet();
 	}
@@ -72,4 +79,55 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      public Collection getRejections () {
     	return this.rejections;
     }
+    
+    
+	/**
+	 * @see ontorama.model.graph.Edge#getCreatorUri()
+	 */
+	public URI getCreatorUri() {
+		return this.creatorUri;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#getEdgeType()
+	 */
+	public EdgeType getEdgeType() {
+		return this.edgeType;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#getFromNode()
+	 */
+	public Node getFromNode() {
+		return this.fromNode;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#getToNode()
+	 */
+	public Node getToNode() {
+		return this.toNode;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#setCreatorUri(java.net.URI)
+	 */
+	public void setCreatorUri(URI creatorUri) {
+		this.creatorUri = creatorUri;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#setFromNode(ontorama.model.graph.Node)
+	 */
+	public void setFromNode(Node node) {
+		this.fromNode = (P2PNode) node;
+	}
+
+	/**
+	 * @see ontorama.model.graph.Edge#setToNode(ontorama.model.graph.Node)
+	 */
+	public void setToNode(Node node) {
+		this.toNode = (P2PNode) node;
+	}
+
 }

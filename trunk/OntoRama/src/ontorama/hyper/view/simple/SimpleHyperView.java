@@ -1,7 +1,6 @@
 package ontorama.hyper.view.simple;
 
 
-import ontorama.controller.NodeSelectedEvent;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.view.GraphView;
 import ontorama.hyper.model.HyperNode;
@@ -67,7 +66,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         public void processEvent(Event e) {
             HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-            CanvasItemPointedEvent pointedEvent = (CanvasItemPointedEvent) e;
             System.out.println("processEvent: NodePointed: " + nodeView);
             highlightNodePathToRoot(nodeView);
             //highlightPathToRoot(pointedEvent);
@@ -77,13 +75,13 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    private class SpherePointedEventHandler implements EventListener {
-        public SpherePointedEventHandler(EventBroker eventBroker) {
-            eventBroker.subscribe(this, CanvasItemPointedEvent.class, SphereView.class);
+    private class SphereMouseMovedEventHandler implements EventListener {
+        public SphereMouseMovedEventHandler(EventBroker eventBroker) {
+            eventBroker.subscribe(this, CanvasItemMouseMovementEvent.class, SphereView.class);
         }
 
         public void processEvent(Event e) {
-            CanvasItemPointedEvent pointedEvent = (CanvasItemPointedEvent) e;
+            CanvasItemMouseMovementEvent pointedEvent = (CanvasItemMouseMovementEvent) e;
             System.out.println("processEvent: SpherePointed ");
             highlightPathToRoot(pointedEvent);
         }
@@ -173,7 +171,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
         new NodeActivatedEventHandler(eventBroker);
         new NodeDraggedEventHandler(eventBroker);
         new NodePointedEvent(eventBroker);
-        new SpherePointedEventHandler(eventBroker);
+        new SphereMouseMovedEventHandler(eventBroker);
         this.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
@@ -377,7 +375,6 @@ public class SimpleHyperView extends Canvas implements GraphView {
     private void radialLayout(GraphNode root, double rads, double startAngle) {
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         int numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
-        int numOfInboundNodes = Edge.getIteratorSize(Edge.getInboundEdgeNodes(root));
         if (numOfOutboundNodes == 0) {
             return;
         }
@@ -1012,31 +1009,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
     }
 
     /**
-     * Find HyperNodeView that has been clicked on.
-     */
-    private HyperNodeView getClickedItem(MouseEvent e) {
-        Iterator it = canvasItems.iterator();
-        while (it.hasNext()) {
-            CanvasItem cur = (CanvasItem) it.next();
-            if (cur instanceof HyperNodeView) {
-                double curX = e.getX() - getSize().width / 2;
-                double curY = e.getY() - getSize().height / 2;
-                curX = curX * (1 / canvasScale);
-                curY = curY * (1 / canvasScale);
-                boolean found = cur.containsPoint(new Point2D.Double(curX, curY));
-                if (found == true) {
-                    return (HyperNodeView) cur;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Add lines to join HyperNodeViews.
      *
-     * ///TODO lines should eventually represent the binary relationship
-     * between nodes.
      */
     private void addLinesToHyperNodeViews(Hashtable hypernodeviews, GraphNode root) {
         List queue = new LinkedList();
@@ -1135,9 +1109,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
 
     /**
-     *
+     * Highlight all edges on the path from the root to a closest node for current mouse event
      */
-    public void highlightPathToRoot (CanvasItemPointedEvent pointedEvent) {
+    public void highlightPathToRoot (CanvasItemMouseMovementEvent pointedEvent) {
         Iterator it = canvasItems.iterator();
         double minDist = this.getWidth();
         double dist = 0;

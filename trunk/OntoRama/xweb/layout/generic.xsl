@@ -39,10 +39,23 @@ div.sectionBanner, div.entryBanner: the banner sections (if banners were found)
 a.xwebLink: an internal link resolved by XWeb (if $feature.internalLink.token is set)
 a.*Link: (where * is a protocol name like http, ftp, etc): a link using some specific protocol (if $style.markup.linkTypes is turned on)
 a.localLink: a local link, without protocol given (if $style.markup.linkTypes is turned on)
+
+
+Additional notes:
+===================
+- if source file has element "xml" - this element is reformatted 
+- if source file contains element /html/body/insertPrintLink - a link to a specified printable page 
+will be inserted as well as javascript function to launch this link in the separate window. Here is 
+an example of usage: <insertPrintLink href="add_ont_server_print.html"/>
+
  -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output method="html" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" indent="yes" doctype-system="http://www.w3.org/TR/html4/loose.dtd"></xsl:output>
 	<!-- Setting up the navigation -->
+	<!-- switch navigation on and off: true or false -->
+	<xsl:param name="nav.on"></xsl:param>
+	<!-- The position of the main (i.e. toplevel) navigation: left or top -->
+	<xsl:param name="nav.main.pos">left</xsl:param>
 	<!-- The position of the secondary navigation: either "nested" (between the sections) or "below". -->
 	<xsl:param name="nav.sec.pos">nested</xsl:param>
 	<!-- Determines if all second level entries are visible ("all") or only the ones in the currently selected toplevel element ("current"). "all" currently works only in nested navigation. -->
@@ -64,11 +77,11 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 	<!-- If set to "on" links ("a") will get a CSS class identifier for the protocol: if a colon is found in the href, the substring before the colon is used to create a class like "httpLink" for http links, if no colon is found it will be called "localLink". If a class attribute already exists it will not be changed.-->
 	<xsl:param name="style.markup.linkTypes">off</xsl:param>
 	<!-- Can be used to turn "off" all JavaScript (mouseOver effects). -->
-	<xsl:param name="feature.javascript">off</xsl:param>
+	<xsl:param name="feature.javascript">on</xsl:param>
 	<!-- If nonempty the given file name (relative to the stylesheet position) will be included as header. The input file has to be XML with the root element "header" and XHTML code in between. -->
 	<xsl:param name="feature.include.header"></xsl:param>
 	<!-- If nonempty the given file name (relative to the stylesheet position) will be included as footer. The input file has to be XML with the root element "footer" and XHTML code in between. -->
-	<xsl:param name="feature.include.footer">on</xsl:param>
+	<xsl:param name="feature.include.footer"></xsl:param>
 	<!-- Internationalisation features -->
 	<!-- The text put behind the alt text for normal pages -->
 	<xsl:param name="i18n.normalEntryMarker"></xsl:param>
@@ -99,27 +112,62 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 						<link rel="stylesheet" href="{//file[@id=$stylesheet.id]/@src}" type="text/css"></link>
 					</xsl:when>
 				</xsl:choose>
+
+				<!-- check if need to insert javascript to open a window for pritable page-->
+				<!--<xsl:if test="$feature.insertPrintableLink='on'">-->
+				<xsl:if test="/html/body/insertPrintLink">
+					<script language="JavaScript" type="text/javascript">
+						<xsl:comment>Begin
+							function OpenWindow(page) {
+								OpenWin = this.open(page, "CtrlWindow", "toolbar=yes,menubar=yes,location=yes,scrollbars=yes,resizable=yes");
+							}
+	                   	// End</xsl:comment>
+						</script>				
+				</xsl:if>
 				<!-- preload all needed xweb images if JavaScript is used -->
 				<xsl:if test="$feature.javascript='on'">
 					<script language="JavaScript" type="text/javascript">
-					<xsl:comment>Begin
-                        <!-- the section buttons -->
-						<xsl:for-each select="//img[contains(@xwebtype,'activeSection')]">
-							<xsl:value-of select="@name"/> = new Image( <xsl:value-of select="@width"/>,
-                                                                        <xsl:value-of select="@height"/>);
-                            <xsl:value-of select="@name"/>.src = "<xsl:value-of select="@src"/>";
-                        </xsl:for-each>
-						<!-- the page buttons for the currently active section -->
-						<xsl:for-each select="//section[@active='true']">
-							<xsl:for-each select=".//img[@xwebtype='active']">
-								<xsl:value-of select="@name"/> = new Image( <xsl:value-of select="@width"/>,
-                                                                            <xsl:value-of select="@height"/>);
-                                <xsl:value-of select="@name"/>.src = "<xsl:value-of select="@src"/>";
-                            </xsl:for-each>
-						</xsl:for-each>
-
-                    // End</xsl:comment>
-
+						<xsl:comment>Begin
+                        <!-- the first level mouse over buttons -->
+							<xsl:for-each select="/html/section">
+								<xsl:choose>
+									<xsl:when test="img[starts-with(@xwebtype, 'mouseOverSectionButton')]">
+										<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'mouseOverSectionButton')]"></xsl:apply-templates>
+									</xsl:when>
+									<xsl:when test="img[starts-with(@xwebtype, 'activeSectionButton')]">
+										<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'activeSectionButton')]"></xsl:apply-templates>
+									</xsl:when>
+								</xsl:choose>
+							</xsl:for-each>
+							<!-- second level mouse over buttons -->
+							<!-- TODO: restrict -->
+							<xsl:if test="$nav.sec.visible='all'">
+								<!-- the page buttons for all sections -->
+								<xsl:for-each select="/html/section/entry">
+									<xsl:choose>
+										<xsl:when test="img[starts-with(@xwebtype, 'mouseOverEntryButton')]">
+											<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'mouseOverEntryButton')]"></xsl:apply-templates>
+										</xsl:when>
+										<xsl:when test="img[starts-with(@xwebtype, 'activeEntryButton')]">
+											<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'activeEntryButton')]"></xsl:apply-templates>
+										</xsl:when>
+									</xsl:choose>
+								</xsl:for-each>
+							</xsl:if>
+							<xsl:if test="$nav.sec.visible='current'">
+								<!-- the page buttons for the currently active section -->
+								<xsl:for-each select="/html/section[@active='true']/entry">
+									<xsl:choose>
+										<xsl:when test="img[starts-with(@xwebtype, 'mouseOverEntryButton')]">
+											<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'mouseOverEntryButton')]"></xsl:apply-templates>
+										</xsl:when>
+										<xsl:when test="img[starts-with(@xwebtype, 'activeEntryButton')]">
+											<xsl:apply-templates mode="insertImagePreload" select="img[starts-with(@xwebtype, 'activeEntryButton')]"></xsl:apply-templates>
+										</xsl:when>
+									</xsl:choose>
+								</xsl:for-each>
+							</xsl:if>
+                   // End</xsl:comment>
 					</script>
 				</xsl:if>
 			</head>
@@ -133,43 +181,197 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
                            internet claim that they tried to reengineer it but failed. Basic concept: values are minimum
                            widths and the rest is distributed across the columns. If the sum of the widths is more than
                            the screen width, a scrollbar appears (and printouts are cut) -->
-					<table cellspacing="0" cellpadding="10" border="0" width="100%">
-						<tr valign="top">
-							<!-- the navigation -->
-							<td align="center">
-								<table cellspacing="0" cellpadding="0" border="0" class="navigation">
-									<xsl:if test="//file[@id='firstLogo']">
-										<tr>
-											<td valign="top" class="firstLogo">
-												<img src="{//file[@id='firstLogo']/@src}" border="0" alt="{//file[@id='firstLogo']/@name}"></img>
-											</td>
-										</tr>
+				<xsl:choose>
+					<xsl:when test="$nav.on = 'false' " >
+								<table width="100%">
+									<tr>
+										<xsl:if test="//file[@id='firstLogo']">
+												<td valign="top" class="firstLogo">
+													<img src="{//file[@id='firstLogo']/@src}" border="0" alt="{//file[@id='firstLogo']/@name}"></img>
+												</td>
+										</xsl:if>
+										<xsl:if test="//file[@id='secondLogo']">
+												<td valign="bottom" class="secondLogo">
+													<img src="{//file[@id='secondLogo']/@src}" border="0" alt="{//file[@id='secondLogo']/@name}"></img>
+												</td>
+										</xsl:if>
+									<!-- insert banners if found -->
+									<!-- check for site banner -->
+									<xsl:if test="//file[@id='siteBanner']">
+										<td>
+										<div class="siteBanner">
+											<img src="{//file[@id='siteBanner']/@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}"></img>
+										</div>
+										<p>
+										<xsl:text>&#32;</xsl:text>
+										</p>
+										</td>
 									</xsl:if>
-									<xsl:apply-templates mode="navLeft" select="section"></xsl:apply-templates>
-								</table>
-							</td>
-							<!-- the main body -->
-							<td width="90%">
-								<!-- insert banners if found -->
-								<xsl:if test="//file[@id='ontoramaBanner']">
-									<div class="ontoramaBanner">
-										<img src="{//file[@id='ontoramaBanner']/@src}" border="0" alt="{//file[@id='ontoramaBanner']/@name}"></img>
-									</div>
-									<p>
-									<xsl:text>&#32;</xsl:text>
-									</p>
+									</tr>
+									</table>
+									
+									<!-- check for section banner -->
+									<xsl:if test="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+										<div class="sectionBanner">
+											<xsl:for-each select="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+												<!-- should select exactly one -->
+												<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+											</xsl:for-each>
+										</div>
+									</xsl:if>
+									<!-- check for page banner -->
+									<xsl:if test="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+										<div class="entryBanner">
+											<xsl:for-each select="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+												<!-- should select exactly one -->
+												<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+											</xsl:for-each>
+										</div>
+									</xsl:if>
+									<!-- recurse for first letter and internal linking support (could be dropped if both not needed) -->
+									<xsl:apply-templates select="body/node()" mode="body"></xsl:apply-templates>
+
+										
+					</xsl:when>
+					<xsl:when test="$nav.main.pos = 'left' ">
+						<table cellspacing="0" cellpadding="10" border="0" width="100%">
+							<tr valign="top">
+								<!-- the navigation -->
+								<td align="center">
+									<table cellspacing="0" cellpadding="0" border="0" class="navigation">
+										<xsl:if test="//file[@id='firstLogo']">
+											<tr>
+												<td valign="top" class="firstLogo">
+													<img src="{//file[@id='firstLogo']/@src}" border="0" alt="{//file[@id='firstLogo']/@name}"></img>
+												</td>
+											</tr>
+										</xsl:if>
+										<xsl:apply-templates mode="navLeft" select="section"></xsl:apply-templates>
+										<xsl:if test="$nav.sec.pos = 'below' ">
+											<!-- empty cell behind sections -->
+											<tr class="spacingBehindSections">
+												<td>&#160;</td>
+											</tr>
+											<xsl:for-each select="section[@active='true']/entry">
+												<xsl:if test="position() !=1 or $nav.sec.firstEntry = 'normal' ">
+													<tr>
+														<xsl:apply-templates select="." mode="insertButton"></xsl:apply-templates>
+													</tr>
+												</xsl:if>
+											</xsl:for-each>
+										</xsl:if>
+										<xsl:if test="//file[@id='secondLogo']">
+											<tr>
+												<td valign="bottom" class="secondLogo">
+													<img src="{//file[@id='secondLogo']/@src}" border="0" alt="{//file[@id='secondLogo']/@name}"></img>
+												</td>
+											</tr>
+										</xsl:if>
+									</table>
+								</td>
+								<!-- the main body -->
+								<td width="90%">
+									<!-- insert banners if found -->
+									<!-- check for site banner -->
+									<xsl:if test="//file[@id='siteBanner']">
+										<div class="siteBanner">
+											<img src="{//file[@id='siteBanner']/@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}"></img>
+										</div>
+										<p>
+										<xsl:text>&#32;</xsl:text>
+										</p>
+									</xsl:if>
+									
+									<!-- check for section banner -->
+									<xsl:if test="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+										<div class="sectionBanner">
+											<xsl:for-each select="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+												<!-- should select exactly one -->
+												<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+											</xsl:for-each>
+										</div>
+									</xsl:if>
+									<!-- check for page banner -->
+									<xsl:if test="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+										<div class="entryBanner">
+											<xsl:for-each select="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+												<!-- should select exactly one -->
+												<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+											</xsl:for-each>
+										</div>
+									</xsl:if>
+									
+									<!-- printable link options -->
+									<xsl:if test="/html/body/insertPrintLink">
+									<xsl:variable name="printUri" select="/html/body/insertPrintLink/@href"/>
+									<div class="printLink">
+									<a>
+										<xsl:attribute name="href">
+											<xsl:text>javascript:OpenWindow('</xsl:text><xsl:value-of select="$printUri"/><xsl:text>');</xsl:text>
+										</xsl:attribute>								
+										Printer friendly
+									</a>					
+									</div>			
+									</xsl:if>
+									<!-- recurse for first letter and internal linking support (could be dropped if both not needed) -->
+									<xsl:apply-templates select="body/node()" mode="body"></xsl:apply-templates>
+								</td>
+							</tr>
+						</table>
+					</xsl:when>
+					<xsl:when test="$nav.main.pos = 'top'">
+						<!-- insert banners if found -->
+						<!-- check for section banner -->
+						<xsl:if test="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+							<div class="sectionBanner">
+								<xsl:for-each select="/html/section[@active='true']/img[@xwebtype='sectionBanner']">
+									<!-- should select exactly one -->
+									<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+								</xsl:for-each>
+							</div>
+						</xsl:if>
+						<!-- check for page banner -->
+						<xsl:if test="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+							<div class="entryBanner">
+								<xsl:for-each select="/html/section[@active='true']/entry[@active='true']/img[@xwebtype='entryBanner']">
+									<!-- should select exactly one -->
+									<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.bannerMarker)}" width="{@width}" height="{@height}"></img>
+								</xsl:for-each>
+							</div>
+						</xsl:if>
+						<table class="navigation">
+							<tr valign="top">
+								<!-- the navigation -->
+								<xsl:if test="//file[@id='firstLogo']">
+									<td valign="top" class="firstLogo">
+										<img src="{//file[@id='firstLogo']/@src}" border="0" alt="{//file[@id='firstLogo']/@name}"></img>
+									</td>
 								</xsl:if>
-								<!-- recurse for first letter and internal linking support (could be dropped if both not needed) -->
-								<xsl:apply-templates select="body/node()" mode="body"></xsl:apply-templates>
-							</td>
-						</tr>
-					</table>
+								<xsl:apply-templates mode="navTop" select="section"></xsl:apply-templates>
+								<xsl:if test="//file[@id='secondLogo']">
+									<td class="secondLogo">
+										<img src="{//file[@id='secondLogo']/@src}" border="0" alt="{//file[@id='secondLogo']/@name}"></img>
+									</td>
+								</xsl:if>
+							</tr>
+							<xsl:if test="$nav.sec.pos = 'below' ">
+								<tr>
+									<xsl:for-each select="section[@active='true']/entry">
+										<xsl:if test="position() !=1 or $nav.sec.firstEntry = 'normal' ">
+											<xsl:apply-templates select="." mode="insertButton"></xsl:apply-templates>
+										</xsl:if>
+									</xsl:for-each>
+								</tr>
+							</xsl:if>
+						</table>
+						<!-- the main body -->
+						<!-- recurse for first letter and internal linking support (could be dropped if both not needed) -->
+						<xsl:apply-templates select="body/node()" mode="body"></xsl:apply-templates>
+					</xsl:when>
+				</xsl:choose>
 				<!-- insert the footer -->
 				<xsl:if test="$feature.include.footer != '' ">
-					<!--
 					<xsl:copy-of select="document($feature.include.footer)/footer/node()"></xsl:copy-of>
-					-->
-					<xsl:apply-templates select="." mode="footer"></xsl:apply-templates>
 				</xsl:if>
 			</body>
 		</html>
@@ -197,6 +399,25 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
             &#160;
           </td>
 			</tr>
+		</xsl:if>
+	</xsl:template>
+	<!-- top navigation mode: the section buttons -->
+	<xsl:template match="section" mode="navTop">
+		<xsl:apply-templates mode="insertButton" select="."></xsl:apply-templates>
+		<xsl:if test="$nav.sec.pos = 'nested' and ($nav.sec.visible = 'all' or @active = 'true' )">
+			<xsl:apply-templates mode="navTop" select="entry"></xsl:apply-templates>
+		</xsl:if>
+	</xsl:template>
+	<!-- top navigation mode: the page buttons -->
+	<xsl:template match="entry" mode="navTop">
+		<xsl:if test="position() !=1 or $nav.sec.firstEntry = 'normal' ">
+			<xsl:apply-templates select="." mode="insertButton"></xsl:apply-templates>
+		</xsl:if>
+		<!-- put an empty row behind the last entry of a section to get some spacing -->
+		<xsl:if test="position() = last()">
+			<td class="marginInSection">
+            &#160;
+          </td>
 		</xsl:if>
 	</xsl:template>
 	<!-- rewrite xml tags  so it's not ignored by browsers. Wrap xml snipplets
@@ -228,7 +449,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 		      <xsl:otherwise> /&gt;</xsl:otherwise>
 		   </xsl:choose>
 		</blockquote>
-	</xsl:template>
+	</xsl:template>	
 	<!-- Body mode: if first letter should be highlighted, switch into paragraph mode for paragraphs -->
 	<xsl:template match="p" mode="body">
 		<xsl:copy>
@@ -377,16 +598,14 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 			<xsl:choose>
 				<!-- active section has to be linked to first entry -->
 				<xsl:when test="$nav.sec.firstEntry = 'section' and @active and not(entry[1]/@active)">
+					<xsl:attribute name="class">navActiveSection</xsl:attribute>
 					<a>
 						<xsl:attribute name="href"><xsl:value-of select="entry[1]/@src"></xsl:value-of></xsl:attribute>
 						<xsl:choose>
 							<xsl:when test="$activeImageExists">
 								<xsl:for-each select="img[starts-with(@xwebtype, 'activeSectionButton')]">
 									<!-- should select exactly one -->
-									<!--
 									<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.activeSectionMarker)}" width="{@width}" height="{@height}"></img>
-									-->
-									<img src="{@src}" name="{@name}" border="0" alt="{concat(@alt,$i18n.activeSectionMarker)}"></img>
 								</xsl:for-each>
 							</xsl:when>
 							<xsl:when test="$normalImageExists">
@@ -403,6 +622,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 				</xsl:when>
 				<!-- section is active and does not need a link-->
 				<xsl:when test="@active">
+					<xsl:attribute name="class">navActiveSection</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="$activeImageExists">
 							<xsl:for-each select="img[starts-with(@xwebtype, 'activeSectionButton')]">
@@ -423,6 +643,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 				</xsl:when>
 				<!-- section has to be linked to first entry -->
 				<xsl:when test="$nav.sec.firstEntry = 'section' or $nav.sec.visible = 'current' or $nav.sec.pos ='below' ">
+					<xsl:attribute name="class">navNormalSection</xsl:attribute>
 					<a>
 						<xsl:attribute name="href"><xsl:value-of select="entry[1]/@src"></xsl:value-of></xsl:attribute>
 						<xsl:choose>
@@ -450,6 +671,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 					</a>
 				</xsl:when>
 				<xsl:otherwise>
+					<xsl:attribute name="class">navNormalSection</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="$normalImageExists">
 							<xsl:for-each select="img[starts-with(@xwebtype, 'normalSectionButton')]">
@@ -523,59 +745,5 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 				</xsl:otherwise>
 			</xsl:choose>
 		</td>
-	</xsl:template>
-	<xsl:template match="*" mode="footer">
-		<hr/>
-		<table align="center" border="0" class="footer">
-			<tr>
-				<td cellspacing="30" cellpadding="30">
-					<a href="http://www.dstc.edu.au">
-						<xsl:if test="//file[@id='dstcLogo']">
-							<div class="dstcLogo">
-								<img src="{//file[@id='dstcLogo']/@src}" border="0" alt="DSTC Logo"></img>
-							</div>
-						</xsl:if>
-
-						<!--<img border="0" src="../img/dstc-crc.gif" width="85" height="107"/>-->
-					</a>
-				</td>
-				<td width="40">
-					<xsl:text>&#32;</xsl:text>
-				</td>
-				<!--
-				<td cellspacing="30" cellpadding="30">
-					OntoRama footer here
-				</td>
-				-->
-				<td cellspacing="30" cellpadding="30">
-					<a href="http://www.int.gu.edu.au/kvo/">
-						<xsl:if test="//file[@id='kvoLogo']">
-							<div class="kvoLogo">
-								<img src="{//file[@id='kvoLogo']/@src}" border="0" alt="KVO Logo"></img>
-							</div>
-						</xsl:if>
-
-						<!--<img border="0" src="../img/kvo-logo.gif" width="100" height="86"/>-->
-					</a>
-					<!--
-					<a href="http://jigsaw.w3.org/css-validator/check/referer">
-						<img border="0" src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" height="31" width="88"/>
-					</a>
-					-->
-				</td>
-				<td width="40">
-					<xsl:text>&#32;</xsl:text>
-				</td>
-
-				<td cellspacing="30" cellpadding="30">
-					<a href="http://xweb.sourceforge.net">
-					Made with XWeb
-					<!--
-						<img border="0" src="http://xweb.sourceforge.net/images/madewithxweb.png" alt="Made with XWeb" height="31" width="88"/>
-					-->
-					</a>
-				</td>
-			</tr>
-		</table>
 	</xsl:template>
 </xsl:stylesheet>

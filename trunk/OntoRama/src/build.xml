@@ -49,6 +49,10 @@
 	  </copy>
   </target>
 
+  <target name="jar" depends="compile">
+    <jar jarfile="${app.home}/OntoRama.jar" basedir="${classes.home}"/>
+  </target>
+
 
   <target name="javadoc" depends="prepare">
     <javadoc sourcepath="${src.home}" 

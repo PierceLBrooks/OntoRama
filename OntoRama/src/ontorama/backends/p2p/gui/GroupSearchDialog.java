@@ -16,9 +16,9 @@ public class GroupSearchDialog extends JDialog {
 
     private static final String _title = "Group Search";
 
-    private static int OPTION_NAME = 1;
-    private static int OPTION_DESCR = 2;
-    private static int OPTION_ALL = 3;
+    public static final int OPTION_NAME = 1;
+    public static final int OPTION_DESCR = 2;
+    public static final int OPTION_ALL = 3;
 
     private JRadioButton _nameButton;
     private JRadioButton _descriptionButton;
@@ -40,7 +40,7 @@ public class GroupSearchDialog extends JDialog {
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 _cancelled = true;
-                showDialog(false);
+                setVisible(false);
             }
         });
 
@@ -48,14 +48,16 @@ public class GroupSearchDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if (verifyAllFieldsInputIsCorrect()) {
                    _cancelled = false;
-                    showDialog(false);
+                    setVisible(false);
                 }
             }
         });
+        getRootPane().setDefaultButton(okButton);
+
 
         JPanel mainContentPanel = buildMainContentPanel();
         JPanel topPanel = buildTopDescriptionPanel();
-        JPanel buttonPanel = buildButtonsPanel(okButton, cancelButton);
+        JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
 
         Container contentPane = getContentPane();
         contentPane.add(topPanel, BorderLayout.NORTH);
@@ -64,18 +66,6 @@ public class GroupSearchDialog extends JDialog {
 
         pack();
         DialogUtil.centerDialog(parent, this);
-    }
-
-    private JPanel buildButtonsPanel(final JButton okButton, JButton cancelButton) {
-        JPanel buttonPanel = new JPanel();
-        getRootPane().setDefaultButton(okButton);
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonPanel.add(okButton);
-        return buttonPanel;
     }
 
     private JPanel buildTopDescriptionPanel() {
@@ -133,14 +123,14 @@ public class GroupSearchDialog extends JDialog {
 
     private boolean verifyAllFieldsInputIsCorrect () {
         if (_nameButton.isSelected()) {
-            if (textInputIsValid(_nameField.getText(), " name ")) {
+            if (DialogUtil.textInputIsValid(this,_nameField.getText(), " name ")) {
                 _value = _nameField.getText();
                 _selectedOption = GroupSearchDialog.OPTION_NAME;
                 return true;
             }
         }
         else if (_descriptionButton.isSelected()) {
-            if (textInputIsValid(_descriptionField.getText(), " description ")) {
+            if (DialogUtil.textInputIsValid(this, _descriptionField.getText(), " description ")) {
                 _value = _descriptionField.getText();
                 _selectedOption = GroupSearchDialog.OPTION_DESCR;
                 return true;
@@ -153,21 +143,10 @@ public class GroupSearchDialog extends JDialog {
         return false;
     }
 
-    private void showDialog (boolean isVisible) {
-        setVisible(isVisible);
-    }
-
     public String getValue() {
         return _value;
     }
 
-    private boolean textInputIsValid (String text, String promptName) {
-        if (text.length() <= 0) {
-            JOptionPane.showMessageDialog(this, "Please enter " + promptName + ".");
-            return false;
-        }
-        return true;
-    }
 
     public boolean actionIsCancelled () {
         return _cancelled;

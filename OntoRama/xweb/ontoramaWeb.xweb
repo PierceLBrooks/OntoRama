@@ -12,7 +12,7 @@
 			<entry name="Configuration" sourceFile="config.xhtml" targetFile="config.html" type="XHTML"/>
 			<entry name="Future Plans" sourceFile="plans.xhtml"	targetFile="plans.html" type="XHTML"/>
 			<entry name="Menus Behaviour" sourceFile="menus.xhtml" targetFile="menus.html" type="XHTML"/>
-			<entry name="Adding Ontology Server" sourceFile="add_ont_server.xhtml" targetFile="add_ont_server.xhtml" type="XHTML"/>
+			<entry name="Adding Ontology Server" sourceFile="add_ont_server.xhtml" targetFile="add_ont_server.html" type="XHTML"/>
 			<entry name="WebKB Notes" sourceFile="webkbNotes.xhtml" targetFile="webkbNotes.html" type="XHTML"/>
 			<file sourceFile="webkb-rdf-mappings.txt" targetFile="webkb-rdf-mappings.txt" type="copy"/>
 			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>

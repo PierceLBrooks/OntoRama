@@ -20,15 +20,18 @@ import java.net.MalformedURLException;
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.CancelledQueryException;
 
 public class UrlSource implements Source {
     /**
      *  Get a SourceResult from given uri.
      *  @param  uri  this object specified resource file
      *  @return sourceResult
-     *  @throws SourceException
+     *  @throws SourceException, CancelledQueryException
+     *
+     *  @todo implement if needed: throw CancelledQueryException
      */
-    public SourceResult getSourceResult (String uri, Query query) throws SourceException {
+    public SourceResult getSourceResult (String uri, Query query) throws SourceException, CancelledQueryException {
       Reader reader = getReader(uri, query);
       return ( new SourceResult(true, reader, null) );
     }

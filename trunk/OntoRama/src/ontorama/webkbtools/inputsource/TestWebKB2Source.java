@@ -13,7 +13,9 @@ import ontorama.util.TestingUtils;
 
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.datamodel.OntologyType;
+
 import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.CancelledQueryException;
 
 /**
  * <p>Title: </p>
@@ -81,7 +83,7 @@ public class TestWebKB2Source extends TestCase {
   /**
    *
    */
-  public void testForUnexistingTerm () {
+  public void testForUnexistingTerm () throws CancelledQueryException {
     try {
       query_nonExistentTerm = new Query("fjldsjf");
       sourceResult_nonExistentTerm = webkbSource.getSourceResult(sourceUri, query_nonExistentTerm);
@@ -95,7 +97,7 @@ public class TestWebKB2Source extends TestCase {
   /**
    *
    */
-  public void testAmbiguousQuery () throws SourceException {
+  public void testAmbiguousQuery () throws SourceException, CancelledQueryException {
     query_cat = new Query("cat");
     sourceResult_cat = webkbSource.getSourceResult(sourceUri, query_cat);
     //webkbSource.getReader(sourceUri, new Query("cat"));
@@ -123,7 +125,7 @@ public class TestWebKB2Source extends TestCase {
   /**
    *
    */
-  public void testQueryForAName () throws SourceException {
+  public void testQueryForAName () throws SourceException, CancelledQueryException {
     query_woodMouse = new Query("wood_mouse");
     sourceResult_woodMouse = webkbSource.getSourceResult(sourceUri, query_woodMouse);
     queryIsAmbiguous_woodMouse = webkbSource.resultIsAmbiguous();
@@ -143,7 +145,7 @@ public class TestWebKB2Source extends TestCase {
   /**
    *
    */
-  public void testForARPException () {
+  public void testForARPException () throws CancelledQueryException {
     try {
       query_dog = new Query("dog");
       sourceResult_dog = webkbSource.getSourceResult(sourceUri, query_dog);

@@ -42,7 +42,7 @@ public class CgKbCsvParser implements Parser {
                 int count = 0;
                 char quoteChar = '"';
                 String quoteStr = new Character(quoteChar).toString();
-                //.out.println("line = " + line);
+                System.out.println(line);
                 StringTokenizer st = new StringTokenizer(line, quoteStr);
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();
@@ -68,12 +68,6 @@ public class CgKbCsvParser implements Parser {
             throw new ParserException(e.getMessage());
         }
 
-        Iterator it = ontHash.values().iterator();
-        while (it.hasNext()) {
-            OntologyType ot = (OntologyType) it.next();
-            //System.out.println("ot = " + ot);
-        }
-
         return ontHash.values();
     }
 
@@ -81,7 +75,7 @@ public class CgKbCsvParser implements Parser {
         String obj1 = tokens[0];
         String rel = tokens[1];
         String obj2 = tokens[2];
-        System.out.println(obj1 + "," + rel + "," + obj2 + ".");
+        //System.out.println(obj1 + "," + rel + "," + obj2 + ".");
 //        String shortNameObj1 = stripFullName(obj1);
 //        String shortNameObj2 = stripFullName(obj2);
         String shortNameObj1 = obj1;

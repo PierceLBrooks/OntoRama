@@ -33,7 +33,7 @@ import org.tockit.events.EventBroker;
 
 
 public class CanvasManager extends JComponent
-        implements MouseListener, MouseMotionListener {
+         {
 
 //    private EventBroker eventBroker;
 //
@@ -89,59 +89,13 @@ public class CanvasManager extends JComponent
 
     public CanvasManager(EventBroker eventBroker) {
 //        this.eventBroker = eventBroker;
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
+//        this.addMouseListener(this);
+//        this.addMouseMotionListener(this);
         this.setDoubleBuffered(true);
         this.setOpaque(true);
     }
 
 
-    public void addCanvasItem(CanvasItem item) {
-        this.canvasItems.add(item);
-    }
-
-
-    public void mouseClicked(MouseEvent e) {
-    }
-
-
-
-
-    public void mousePressed(MouseEvent e) {
-        lastPoint.setLocation(e.getPoint());
-    }
-
-    public void mouseReleased(MouseEvent e) {
-//        if (dragmode == true) {
-//            dragmode = false;
-//            repaint();
-//        } else {
-//            HyperNodeView focusedHyperNodeView = getClickedItem(e);
-//            if (focusedHyperNodeView == null) {
-//                return;
-//            }
-//            if (e.getClickCount() == 1) {
-//                this.singleClickTimer = new Timer();
-//                this.singleClickTimer.schedule(new CanvasItemSingleClicked(focusedHyperNodeView), 300);
-//            } else if (e.getClickCount() == 2) {
-////                this.singleClickTimer.cancel();
-//                System.out.println();
-//                System.out.println("CanvasManager is sending DoubleClick");
-//                System.out.println();
-//                System.out.println();
-//                eventBroker.processEvent(new CanvasItemActivatedEvent(focusedHyperNodeView, 0, null, null));
-//            }
-//            repaint();
-//        }
-    }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    public void mouseExited(MouseEvent e) {
-
-    }
 
     public void mouseDragged(MouseEvent e) {
 //        double lpx = lastPoint.getX();

@@ -85,6 +85,9 @@ public class PeersPanel extends JPanel  implements GroupView {
         refreshButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				_p2pBackend.getSender().peerDiscovery();
+//				addPeer("peer1", "peer1", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
+//				addPeer("peer2", "peer2", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
+//				addPeer("peer2", "peer2", "urn:jxta:uuid-FAD1DD91D8C04FA8A1A38892821BB43C02");
 			}
         	
         });
@@ -117,6 +120,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     public void addPeer (String peerId, String peerName, String groupId) {
     	System.out.println("PeersPanel::addPeer, peerName = " + peerName + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
+        System.out.println("group panel: " + groupPanel + ", isVisible = " + groupPanel.isVisible());
         groupPanel.addPeer(peerId, peerName);
         groupPanel.repaint();
         repaint();

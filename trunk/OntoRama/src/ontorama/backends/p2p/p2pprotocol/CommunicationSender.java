@@ -143,7 +143,7 @@ public class CommunicationSender extends Communication {
         System.out.println("queryTobeSent = " + queryTobeSent + ", pipeAdv " + pipeAdv);
 
 
-        Enumeration enum = this.getMemberOfGroups().elements();
+        Enumeration enum = this.memberOfGroupsEnumeration();
         while (enum.hasMoreElements()) {
             PeerGroup pg = (PeerGroup) enum.nextElement();
             discoveryService = pg.getDiscoveryService();
@@ -181,7 +181,7 @@ public class CommunicationSender extends Communication {
 		//Use the GroupMember object to keep track of which group we are 
 		//in at the moment. Call callFlushPeerAdvertisement for every group 
 		//in this object.
-		Enumeration enum = this.getMemberOfGroups().elements();
+		Enumeration enum = this.memberOfGroupsEnumeration();
 		PeerGroupID groupID = null;
 		
 		while (enum.hasMoreElements()) {

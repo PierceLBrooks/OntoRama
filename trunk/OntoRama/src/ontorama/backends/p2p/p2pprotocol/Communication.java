@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -112,6 +113,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	private void setMemberOfGroups(Hashtable obj)  {
+		System.out.println("Communication::setMemberOfGroups, hashtable size = " + obj.size());
 		Communication.memberOfGroups = obj;
 	}
 	
@@ -121,9 +123,52 @@ public class Communication {
 	* @return cointaining the groups the peer belongs to.
 	* @version P2P-OntoRama 1.0.0
 	*/
-	protected Hashtable getMemberOfGroups() {
-		return Communication.memberOfGroups;
+//	protected Hashtable getMemberOfGroups() {
+//		System.out.println("Communication::setMemberOfGroups, hashtable size = " + Communication.memberOfGroups.size());
+//		return Communication.memberOfGroups;
+//	}
+	
+	protected void addToMemberOfGroups (PeerGroup pg) {
+		Communication.memberOfGroups.put(pg.getPeerGroupID(), pg);
+		System.out.println("Communication::addToMemberOfGroups, adding " + pg.getPeerGroupName() +", hashtable size = " + Communication.memberOfGroups.size());
 	}
+	
+	protected Enumeration memberOfGroups () {
+		return memberOfGroups.keys();
+	}
+	
+	protected Collection memberOfGroupsByValues () {
+		return memberOfGroups.values();
+	}
+
+	protected Enumeration memberOfGroupsEnumeration () {
+		return memberOfGroups.elements();
+	}
+	
+	protected void removeFromMemberOfGroups (String groupIDasString) {
+		PeerGroup pg = getMemberOfGroups(groupIDasString);
+		if (pg != null) {
+			Communication.memberOfGroups.remove(pg.getPeerGroupID());
+		}
+	}
+
+	protected PeerGroup getMemberOfGroups (String groupIDasString) {
+		Enumeration enum = Communication.memberOfGroups.elements();
+		while (enum.hasMoreElements()) {
+			PeerGroup pg = (PeerGroup) enum.nextElement();
+			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
+				return pg;
+			} 
+		}
+		return null;
+	}
+	
+	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
+		return memberOfGroups.contains(peerGroupId);
+	}
+	
+
+
 
 	/**
 	* Sets the pipe advertisement for the own peer, which the peer uses to revieve incoming messages

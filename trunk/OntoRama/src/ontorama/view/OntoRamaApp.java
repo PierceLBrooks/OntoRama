@@ -23,11 +23,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.Action;
 
 import ontorama.OntoramaConfig;
+import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 import ontorama.view.action.*;
 
@@ -64,7 +66,6 @@ public class OntoRamaApp extends JFrame {
     /**
      * holds tree view
      */
-    //private JComponent treeView;
     private OntoTreeView treeView;
 
     /**
@@ -87,6 +88,23 @@ public class OntoRamaApp extends JFrame {
      * split panel will contain hyper view and tree view
      */
     private JSplitPane splitPane;
+
+    /**
+     * ontorama menus
+     */
+    private JMenu _fileMenu;
+    private ExamplesMenu _examplesMenu;
+    private HistoryMenu _historyMenu;
+    private JMenu _helpMenu;
+
+    /**
+     * toolbar
+     */
+
+    /**
+     *
+     */
+    private JMenuBar _menuBar;
 
     /**
      * left side of split panel holds hyper view.
@@ -123,15 +141,10 @@ public class OntoRamaApp extends JFrame {
      */
     ViewEventListener viewListener = new ViewEventListener();
 
-    /**
-     *
-     */
-    private OntoRamaMenu menu;
 
     /**
      *
      */
-    //private OntoRamaToolBar toolBar;
     private JToolBar toolBar;
 
     /**
@@ -162,10 +175,6 @@ public class OntoRamaApp extends JFrame {
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-//        termName = OntoramaConfig.ontologyRoot;
-//        Query query = new Query (termName);
-//        graph = getGraphFromQuery(query);
-
         /**
          * find preferred sizes for application window.
          */
@@ -178,38 +187,31 @@ public class OntoRamaApp extends JFrame {
         /**
          * create Menu Bar
          */
-        menu = new OntoRamaMenu(this);
-        this.setJMenuBar(menu);
+         buildMenuBar();
+//        _menuBar = new OntoRamaMenu(this);
+        this.setJMenuBar(_menuBar);
 
         /**
          * create tool bar
          */
-        //toolBar = new OntoRamaToolBar();
         toolBar = new OntoRamaToolBar(this);
-        //toolBar = menu.getToolBar();
-        //toolBar.setFloatable(false);
         JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
         combinedToolBarQueryPanel.add(toolBar,BorderLayout.NORTH);
 
         /**
          * Create OntoTreeView
          */
-        //treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
         treeView = new OntoTreeView(graph, viewListener);
-//        treeView.setGraph(graph);
-
 
         /**
          * Create HyperView
          */
         hyperView = new SimpleHyperView(viewListener);
-//        hyperView.setGraph(graph);
 
         /**
          * create a query panel
          */
         queryPanel = new QueryPanel(hyperView, viewListener, this);
-//        queryPanel.setQueryField(termName);
         combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
 
         /** create description panel
@@ -221,7 +223,6 @@ public class OntoRamaApp extends JFrame {
         //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
                                //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                                //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//        descriptionViewPanel.setFocus(graph.getRootNode());
         JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
         //Add the scroll panes to a split pane.
@@ -242,8 +243,6 @@ public class OntoRamaApp extends JFrame {
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-              //closeMainApp();
-              //new ExitAction().actionPerformed(e);
               System.exit(0);
             }
         });
@@ -254,6 +253,8 @@ public class OntoRamaApp extends JFrame {
         hyperView.setGraph(graph);
         queryPanel.setQueryField(termName);
         descriptionViewPanel.setFocus(graph.getRootNode());
+        setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
+        setSelectedHistoryMenuItem(OntoramaConfig.getCurrentExample());
         repaint();
     }
 
@@ -353,6 +354,31 @@ public class OntoRamaApp extends JFrame {
         this.splitPane.setLeftComponent(leftComp);
         this.splitPane.setRightComponent(rightComp);
         this.splitPane.setOneTouchExpandable(true);
+    }
+
+    /**
+     *
+     */
+    private void buildMenuBar () {
+      _menuBar = new JMenuBar();
+
+      _fileMenu = new JMenu("File");
+      _fileMenu.setMnemonic(KeyEvent.VK_F);
+      _fileMenu.add(_exitAction);
+
+      _examplesMenu = new ExamplesMenu(this);
+
+      _historyMenu = new HistoryMenu(this);
+
+      _helpMenu = new JMenu("Help");
+      _helpMenu.add(_aboutAction);
+
+      _menuBar.add(_fileMenu);
+      _menuBar.add(_examplesMenu);
+      _menuBar.add(_historyMenu);
+      _menuBar.add(_helpMenu);
+
+
     }
 
     /**
@@ -461,7 +487,46 @@ public class OntoRamaApp extends JFrame {
      *
      */
     public void appendHistoryMenu (Query query) {
-      menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
+      _historyMenu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
+    }
+
+    /**
+     *
+     */
+    protected void appendHistoryForGivenExample (String termName, OntoramaExample example) {
+      _historyMenu.appendHistory(termName, example);
+    }
+
+    /**
+     *
+     */
+    protected void setSelectedHistoryMenuItem (OntoramaExample example) {
+      _historyMenu.setSelectedHistoryMenuItem(example);
+    }
+
+    /**
+     *
+     */
+    protected void setSelectedExampleMenuItem (OntoramaExample example) {
+      _examplesMenu.setSelectedExampleMenuItem(example);
+    }
+
+    /**
+     *
+     */
+    protected boolean executeQueryForGivenExample (String termName, OntoramaExample example) {
+
+      // reset details in OntoramaConfig
+      OntoramaConfig.setCurrentExample(example);
+
+      // create a new query
+      Query query = new Query(termName);
+
+      // get graph for this query and load it into app
+      if (executeQuery(query)) {
+        return true;
+      }
+      return false;
     }
 
     /**

@@ -19,6 +19,7 @@ import javax.swing.Action;
 
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+
 import ontorama.view.action.*;
 /**
  * <p>Title: </p>
@@ -56,15 +57,15 @@ public class ExamplesMenu extends JMenu {
   /**
    * @todo  shouldn't have this reference in this class
    */
-  private OntoRamaMenu _ontoramaMenu;
+  private OntoRamaApp _mainApp;
 
   /**
    *
-   * @todo  shouldn't have to get reference to OntoRamaMenu
+   * @todo  shouldn't have to get reference to mainApp
    */
-  public ExamplesMenu(OntoRamaMenu ontoramaMenu) {
+  public ExamplesMenu(OntoRamaApp mainApp) {
     super ("Examples");
-    _ontoramaMenu = ontoramaMenu;
+    _mainApp = mainApp;
     _examplesList = OntoramaConfig.getExamplesList();
     _menuItemExampleMapping = new Hashtable();
     _submenusMapping = new Hashtable();
@@ -84,12 +85,12 @@ public class ExamplesMenu extends JMenu {
     OntoramaExample example = (OntoramaExample) _menuItemExampleMapping.get(menuItem);
 
     //boolean querySuccessfull = _ontoramaMenu.executeQuery(example.getRoot(), example, menuItem);
-    boolean querySuccessfull = _ontoramaMenu.executeQuery(example.getRoot(), example);
+    boolean querySuccessfull = _mainApp.executeQueryForGivenExample(example.getRoot(), example);
     if (!querySuccessfull) {
       return;
     }
     // append history
-    _ontoramaMenu.appendHistory(example.getRoot(),example);
+    _mainApp.appendHistoryForGivenExample(example.getRoot(),example);
 
     // select corresponding example menu item
     setSelectedExampleMenuItem(example);

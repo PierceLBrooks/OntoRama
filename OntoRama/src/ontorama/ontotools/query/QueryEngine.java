@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
@@ -75,16 +76,14 @@ public class QueryEngine implements QueryEngineInterface {
             ClassNotFoundException, InstantiationException,
             IllegalAccessException, SourceException, NoSuchTypeInQueryResult, CancelledQueryException {
         this.query = query;
-
-        String queryUrl = OntoramaConfig.sourceUri;
-
-        Parser parser = (Parser) (Class.forName(OntoramaConfig.getParserPackageName()).newInstance());
+        Backend backend = OntoramaConfig.getBackend();
+        String queryUrl = backend.getSourceUri();
+        Parser parser = (Parser) (Class.forName(backend.getParser()).newInstance());
         if (OntoramaConfig.DEBUG) {
-            System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-            System.out.println("OntoramaConfig.parserPackageName = " + OntoramaConfig.getParserPackageName());
+            System.out.println("OntoramaConfig.sourceUri = " + backend.getSourceUri());
+            System.out.println("OntoramaConfig.parserPackageName = " + backend.getParser());
         }
-
-        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
+        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
 
         this.queryResult = executeQuery(source, parser, queryUrl, query);
     }

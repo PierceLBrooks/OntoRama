@@ -7,6 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
@@ -71,7 +72,8 @@ public class TestQueryEngine extends TestCase {
     protected void setUp() throws NoSuchRelationLinkException, Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
+		ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();                
+        backend.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
 
         edgeType1 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
@@ -88,7 +90,7 @@ public class TestQueryEngine extends TestCase {
         edgeType12 = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_nounType);
 
 
-        queryTerm = OntoramaConfig.ontologyRoot;
+        queryTerm = backend.getOntologyRoot();
         relationLinksList = new LinkedList();
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_reverse));
         relationLinksList.add(OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_instance));

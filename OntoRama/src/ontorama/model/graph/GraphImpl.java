@@ -132,7 +132,7 @@ public class GraphImpl implements Graph {
         if (termName == null) {
             root = findRootNode();
             /// @todo a hack here for rdf distillery
-            OntoramaConfig.getCurrentExample().setRoot(root.getName());
+            //OntoramaConfig.getCurrentExample().setRoot(root.getName());
         }
         else {
             root = findRootNode(termName);

@@ -7,7 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.ontotools.parser.Parser;
@@ -34,15 +34,17 @@ public class TestRdfP2pParser extends TestCase {
     }
     protected void setUp() throws Exception {
     	
-    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
-    	OntoramaConfig.activateBackend(backend);
+//    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
+//    	OntoramaConfig.activateBackend(backend);
 
+		ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();
+		
         OntoramaConfig.loadAllConfig("examples/test/p2p/examplesConfig.xml",
                 "ontorama.properties", "examples/test/p2p/config.xml");
-        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("p2p_test1"));
+        backend.setCurrentExample(TestingUtils.getExampleByName("p2p_test1"));
 
-        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("wn#Tail")).getReader();
+        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("wn#Tail")).getReader();
 
         Parser parser = new RdfP2pParser();
         ParserResult parserResult = parser.getResult(r);

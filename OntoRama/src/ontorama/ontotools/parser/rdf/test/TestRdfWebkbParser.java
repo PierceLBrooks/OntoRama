@@ -3,6 +3,7 @@ package ontorama.ontotools.parser.rdf.test;
 import java.io.Reader;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.examplesmanager.ExamplesBackend;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
@@ -41,10 +42,12 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
             InstantiationException, Exception, ParserException {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-        OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
+        
+        ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();
+        backend.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
 
-        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
-        Reader r = source.getSourceResult(OntoramaConfig.sourceUri, new Query("test#Chair")).getReader();
+        Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
         //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
 
         RdfDamlParser parser = new RdfWebkbParser();

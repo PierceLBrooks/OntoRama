@@ -37,14 +37,27 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlParserFull implements Parser {
 	
-    private Hashtable _nodes;
+	
+	private Hashtable _nodes;
     private List _edges;
 
     private Element rootElement;
     private Namespace ns;
 
+	private static final String descriptionElementName = "description";
+
     private static final String conceptTypeElementName = "conceptType";
     private static final String relationTypeElementName = "relationType";
+    
+    
+	// hardcoded  edge names (creator, relSignature1 and relSignature2) - 
+	// will cause a problem when config.xml file changes!
+	// However, can't see another solution without making whole OntoRama less dynamic
+	// for now will add test cases to test whether or not these edge types
+	// are in the config file.
+    private static final String edgeTypeName_relSignature1 = "relSignature1";
+	private static final String edgeTypeName_relSignature2 = "relSignature2";
+	private static final String edgeTypeName_creator = "creator";
 
     /**
      *
@@ -59,13 +72,15 @@ public class XmlParserFull implements Parser {
     }
 
     /**
-     * @todo    should return proper ParserResult (not null)
      * @param reader
      * @return
      * @throws ParserException
      * @throws AccessControlException
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+		checkEdgeTypeInConfig(edgeTypeName_creator);
+		checkEdgeTypeInConfig(edgeTypeName_relSignature1);
+		checkEdgeTypeInConfig(edgeTypeName_relSignature2);
     	init();
         try {
             SAXBuilder builder = new SAXBuilder();
@@ -86,8 +101,6 @@ public class XmlParserFull implements Parser {
             e.printStackTrace();
         	throw new ParserException(e.getMessage());            
         }
-        System.out.println("\n\nreturning nodes: " + new LinkedList(_nodes.values()));
-        System.out.println("returning edges: " + _edges);
         return new ParserResult(new LinkedList(_nodes.values()), _edges);
     }
 
@@ -115,9 +128,8 @@ public class XmlParserFull implements Parser {
 
             Node node = makeNode(nodeName, OntoramaConfig.RELATION_TYPE);
             
-            /// @todo hardcoded relSignature1 and relSignature2 edge names - will cause a problem when config.xml file changes!
-            processSignatureItem(node, relationTypeEl, "domain", "relSignature1");
-        	processSignatureItem(node, relationTypeEl, "range", "relSignature2");
+            processSignatureItem(node, relationTypeEl, "domain", edgeTypeName_relSignature1);
+        	processSignatureItem(node, relationTypeEl, "range", edgeTypeName_relSignature2);
 
             processTypeDetails(relationTypeEl, node);
         }
@@ -170,17 +182,13 @@ public class XmlParserFull implements Parser {
         URI creator = getCreator(typeElement);
         if (creator != null) {
             node.setCreatorUri(creator);
-            /// @todo dont think it is a good idea to hardcode "creator" 
-            // edge name here. A way to fix it would be to have
-            // description ui explicitely displaying creator node property
-            // and not to have creator as edge type. not sure though
-            // if this would work with the rest of the application well. at least
-            // it may not be as dynamic.
             Node creatorNode = makeNode(creator.toString(), OntoramaConfig.CONCEPT_TYPE);
-            makeEdge(node, creatorNode, "creator");
+            makeEdge(node, creatorNode, edgeTypeName_creator);
         }
 
-        processTypeProperty(typeElement, node, "description");
+        String description = getDescription(typeElement);
+        node.setDescription(description);
+
         processTypeProperty(typeElement, node, "synonym");
 
         processRelationLinks(typeElement, node);
@@ -205,6 +213,14 @@ public class XmlParserFull implements Parser {
         }
         return null;
     }
+
+	private String getDescription (Element typeElement)  {
+		Element descrElement = typeElement.getChild(descriptionElementName, ns);
+		if (descrElement != null) {
+			return descrElement.getText();
+		}
+		return null;
+	}
 
     private List getTypeProperty (Element typeElement, String subelementName) {
         List retVal = new LinkedList();
@@ -288,5 +304,21 @@ public class XmlParserFull implements Parser {
             throw new ParserException("Attribute '" + attrName + "' in Element '" + elementName + "' can't be empty");
         }
     }
+
+
+	private void checkEdgeTypeInConfig (String edgeTypeName) throws ParserException {
+		String errMsg = "config xml file should contain edge type " + edgeTypeName;
+		try {
+			EdgeType edgeType = OntoramaConfig.getEdgeType(edgeTypeName);
+			if (edgeType == null) {
+				throw new ParserException(errMsg);
+			}
+		}
+		catch (NoSuchRelationLinkException e) {
+			e.fillInStackTrace();
+			throw new ParserException(errMsg);
+		}
+
+	}
 
 }

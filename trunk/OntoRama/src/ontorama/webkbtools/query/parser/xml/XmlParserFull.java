@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Enumeration;
 import java.io.Reader;
 
 import ontorama.webkbtools.query.parser.Parser;
@@ -93,8 +94,6 @@ public class XmlParserFull implements Parser {
             Element conceptTypeEl = (Element) conceptTypeElementsIterator.next();
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", "conceptType");
-            Element descriptionEl = conceptTypeEl.getChild("description");
-            Element creatorEl = conceptTypeEl.getChild("creator");
 
             OntologyType type = (OntologyTypeImplementation) ontHash.get (nameAttr.getValue());
 
@@ -103,13 +102,17 @@ public class XmlParserFull implements Parser {
                 // add child to hashtable
                 ontHash.put(nameAttr.getValue(), type );
             }
-            if (descriptionEl != null) {
-                //type.setDescription(descriptionEl.getText());
-                type.addTypeProperty("description", descriptionEl.getText());
-            }
-            if (creatorEl != null ) {
-                //type.setCreator(creatorEl.getText());
-                type.addTypeProperty("creator", creatorEl.getText());
+            Enumeration conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable().keys();
+            while (conceptPropertiesConfig.hasMoreElements()) {
+              String propName = (String) conceptPropertiesConfig.nextElement();
+              Element propEl = conceptTypeEl.getChild(propName);
+              // this is a hack!!!!
+              if (propEl == null) {
+                propEl = conceptTypeEl.getChild(propName.toLowerCase());
+              }
+              if (propEl != null) {
+                type.addTypeProperty(propName,propEl.getText());
+              }
             }
 
             debug.message("XmlParserFull", "readConceptTypes", "created type: " + type);

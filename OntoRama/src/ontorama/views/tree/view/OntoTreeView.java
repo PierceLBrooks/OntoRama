@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Enumeration;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -93,15 +96,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         _treeView.setCellRenderer(new OntoTreeRenderer());
 
-//        Iterator it = ontoTreeModel.getOntoTreeIterator();
-//        while (it.hasNext()) {
-//            OntoTreeNode node = (OntoTreeNode) it.next();
-//            ontorama.model.graph.Node curGraphNode = node.getGraphNode();
-//            TreePath path = node.getTreePath();
-//            if (!curGraphNode.getFoldedState()) {
-//                this._treeView.expandPath(path);
-//            }
-//        }
+        unfoldTree(ontoTreeModel);
 
         setViewportView(_treeView);
 
@@ -110,6 +105,23 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         repaint();
         _treeView.repaint();
+    }
+
+    private void unfoldTree(OntoTreeModel ontoTreeModel) {
+        List q = new LinkedList();
+        OntoTreeNode rootNode = (OntoTreeNode) ontoTreeModel.getRoot();
+        q.add(rootNode);
+
+        while (! q.isEmpty()) {
+            OntoTreeNode curNode = (OntoTreeNode) q.remove(0);
+            Enumeration children = curNode.children();
+            while (children.hasMoreElements())  {
+                OntoTreeNode curChild = (OntoTreeNode) children.nextElement();
+                q.add(curChild);
+            }
+            TreePath path = curNode.getTreePath();
+            _treeView.expandPath(path);
+        }
     }
 
     /**

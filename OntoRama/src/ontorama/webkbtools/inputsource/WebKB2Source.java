@@ -107,27 +107,31 @@ public class WebKB2Source implements Source {
 
         try {
           Reader reader = executeWebkbQuery(fullUri);
+          System.out.println("got stream back from webkb");
 
           br = new BufferedReader( reader );
+
+          System.out.println("checking for multi documents");
           checkForMultiRdfDocuments(br);
+          System.out.println("docs size = " + docs.size());
           if( resultIsAmbiguous() ) {
             System.out.println("\n\nresult is ambiguous");
             this.newQuery = processAmbiguousResultSet();
             return ( new SourceResult(false, null, this.newQuery));
           }
           reader.close();
-          resultReader = getInputStreamReader(fullUri);
+          //resultReader = getInputStreamReader(fullUri);
 //          System.out.println("docs size = " + docs.size());
 //          System.out.println("*********************************");
 //          System.out.println((String) docs.get(0));
 //          System.out.println("*********************************");
-//          resultReader = new StringReader((String) docs.get(0));
+          resultReader = new StringReader((String) docs.get(0));
 
         }
         catch (IOException ioExc) {
           throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
         }
-        //System.out.println("resultReader = " + resultReader.toString());
+        System.out.println("resultReader = " + resultReader);
        return (new SourceResult (true, resultReader, null));
        //return (new SourceResult (true, br, null));
     }
@@ -173,29 +177,32 @@ public class WebKB2Source implements Source {
      * Read RDF documents into list.
      * If the list contains more then one document, the query
      * is ambugious. i.e "cat" can be (big_cat, Caterpillar, true_cat, etc)
+     *
+     * @todo remove count and debugging print statement
      */
-    private void checkForMultiRdfDocuments(BufferedReader br) {
+    private void checkForMultiRdfDocuments(BufferedReader br)
+                          throws IOException {
         String token;
         String buf = "";
-        try {
-            String line = br.readLine();
-            StringTokenizer st;
-            while(line != null) {
-                st = new StringTokenizer(line, "<", true);
+        String line = br.readLine();
+        StringTokenizer st;
+        int count = 1;
+        while(line != null) {
+          System.out.print(count + ".");
+          count++;
+            st = new StringTokenizer(line, "<", true);
 
-                while(st.hasMoreTokens()) {
-                    token = st.nextToken();
-                    buf = buf + token;
-                    if(token.equals("/rdf:RDF>")) {
-                        docs.add(new String(buf));
-                        buf = "";
-                    }
+            while(st.hasMoreTokens()) {
+                token = st.nextToken();
+                buf = buf + token;
+                if(token.equals("/rdf:RDF>")) {
+                    docs.add(new String(buf));
+                    buf = "";
                 }
-                buf = buf + "\n";
-                line = br.readLine();
             }
+            buf = buf + "\n";
+            line = br.readLine();
         }
-        catch(IOException ioe){}
     }
 
     /**

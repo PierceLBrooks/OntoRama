@@ -101,6 +101,7 @@ public class QueryEngine implements QueryEngineInterface {
         Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
 
         this.queryResult = executeQuery(source, parser, queryUrl, query);
+        System.out.println("QueryEngine: got query result from executeQuery method");
         //Reader r = source.getReader(queryUrl, query);
 //        Reader r = null;
 //        Query newQuery = null;
@@ -127,18 +128,25 @@ public class QueryEngine implements QueryEngineInterface {
       Query newQuery = null;
       System.out.println("\n\n\n Executing query for " + query.getQueryTypeName() + "\n");
       SourceResult sourceResult = source.getSourceResult(queryUrl, query);
+      System.out.println(sourceResult.toString());
       if (! sourceResult.queryWasSuccess()) {
+        System.out.println("successfull: NO");
         newQuery = sourceResult.getNewQuery();
-        executeQuery(source, parser, queryUrl, newQuery);
+        queryResult = executeQuery(source, parser, queryUrl, newQuery);
+        System.out.println("executeQuery returned from recursive");
       }
-      r = sourceResult.getReader();
-      this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
-      r.close();
-      checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
-      System.out.println("query result list = " + getQueryTypesList().size());
-      queryResult = new QueryResult(query, getQueryTypesList().iterator());
+      else {
+        System.out.println("successfull: YES");
+        r = sourceResult.getReader();
+        this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
+        r.close();
+        checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+        System.out.println("query result list = " + getQueryTypesList().size());
+        queryResult = new QueryResult(query, getQueryTypesList().iterator());
 
-      System.out.println("Returning query result for " + query.getQueryTypeName() );
+        //System.out.println("Returning query result for " + query.getQueryTypeName() + "\n");
+      }
+      System.out.println("Returning query result " + queryResult + "\n");
       return queryResult;
     }
 
@@ -229,7 +237,6 @@ public class QueryEngine implements QueryEngineInterface {
      *
      */
      public QueryResult getQueryResult () {
-
         return ( this.queryResult);
      }
 

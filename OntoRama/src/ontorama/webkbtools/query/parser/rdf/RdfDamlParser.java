@@ -82,7 +82,7 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
-                    System.out.println(s);
+                    //System.out.println(s);
                     processStatement(s);
                 }
             }

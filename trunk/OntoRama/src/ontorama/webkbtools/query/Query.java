@@ -39,6 +39,7 @@ public class Query {
      */
     public Query (String typeName) {
         _typeName = typeName;
+        System.out.println("created new query: " + this.toString());
     }
 
     /**
@@ -48,6 +49,7 @@ public class Query {
     public Query (String typeName,List relationLinks) {
         _typeName = typeName;
         _relationLinks = relationLinks;
+        System.out.println("created new query: " + this.toString());
     }
 
     /**
@@ -94,6 +96,7 @@ public class Query {
      */
     public void setDepth (int depth) {
     	_depth = depth;
+        System.out.println("created new query: " + this.toString());
     }
     
     /**
@@ -101,6 +104,16 @@ public class Query {
      */
     public int getDepth () {
     	return _depth;
+    }
+    
+    /**
+     * 
+     */
+    public String toString() {
+    	String str = "Query: ";
+    	str = str + "termName = " + _typeName + ", depth = " + _depth;
+    	str = str + ", relation links: " + _relationLinks;
+    	return str;
     }
 
 }

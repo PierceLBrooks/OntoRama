@@ -123,7 +123,11 @@ public class HistoryMenu extends JMenu {
     //int historyItemsCount = this.menuItemHistoryMapping.size();
     Enumeration historyItemsEnum =  _menuItemHistoryMapping.keys();
 
+    //String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
     String historyItemLabelName = query.getQueryTypeName() + " (" + example.getName() + ") ";
+    historyItemLabelName = historyItemLabelName + ", depth = " + query.getDepth();
+    historyItemLabelName = historyItemLabelName + ", rel links = " + query.getRelationLinksList();
+    
 
     if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
       // need to remove first item
@@ -134,7 +138,7 @@ public class HistoryMenu extends JMenu {
       remove(firstMenuItem);
     }
     
-    System.out.println("example = " + example);
+    //System.out.println("example = " + example);
     HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, example);
 
     JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
@@ -266,17 +270,11 @@ public class HistoryMenu extends JMenu {
     while (enum.hasMoreElements()) {
       JCheckBoxMenuItem historyMenuItem = (JCheckBoxMenuItem) enum.nextElement();
       HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyMenuItem);
-      System.out.println("historyElement = " + historyElement);
       OntoramaExample curExample = historyElement.getExample();
-      System.out.println("curExample = " + curExample);
       if (curExample.equals(example)) {
         setSelectedMenuItem(historyMenuItem);
         return;
-//        historyMenuItem.setSelected(true);
-        //return historyMenuItem;
       }
-//      historyMenuItem.setSelected(false);
     }
-    //return null;
    }
 }

@@ -37,7 +37,7 @@ public class ForwardHistoryAction extends AbstractAction {
 
   /**
    *
-   * @todo remove static reference to HistoryMenu.   *
+   * @todo remove static reference to HistoryMenu.   
    */
   public void actionPerformed(ActionEvent parm1) {
     int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();

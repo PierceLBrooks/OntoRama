@@ -119,7 +119,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 						</xsl:for-each>
 
                     // End</xsl:comment>
-					
+
 					</script>
 				</xsl:if>
 			</head>
@@ -165,7 +165,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 						</tr>
 					</table>
 				<!-- insert the footer -->
-				<xsl:if test="$feature.include.footer != '' ">					
+				<xsl:if test="$feature.include.footer != '' ">
 					<!--
 					<xsl:copy-of select="document($feature.include.footer)/footer/node()"></xsl:copy-of>
 					-->
@@ -199,21 +199,17 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 			</tr>
 		</xsl:if>
 	</xsl:template>
-	<!-- rewrite xml so it's not ignored by browsers-->
+	<!-- rewrite xml tags  so it's not ignored by browsers. Wrap xml snipplets
+        in a table and 'code' tags. W3C site is using following around snipplets:
+        <table border="1" width="95%"><tr><td><pre><code>
+        .....
+        </code></pre></td></tr></table>-->
 	<xsl:template match="xml" mode="body">
 		<span class="xmlSnipplet">
+                        <table><tr><td><code>
 			 <xsl:apply-templates select="node()" mode="serialise"/>
+                        </code></td></tr></table>
 		</span>
-	</xsl:template>
-	<xsl:template match="node()" mode="xmlSnipplet">
-		<blockquote>
-			<xsl:copy>
-      				<xsl:copy-of select="@*" />
-      				<xsl:apply-templates mode="serialise" />
-				<xsl:apply-templates select="@*" mode="xmlSnipplet"/>
-				<xsl:apply-templates mode="xmlSnipplet"/>
-			</xsl:copy>
-		</blockquote>
 	</xsl:template>
 	<xsl:template match="*" mode="serialise">
 		<blockquote>
@@ -539,9 +535,9 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 								<img src="{//file[@id='dstcLogo']/@src}" border="0" alt="DSTC Logo"></img>
 							</div>
 						</xsl:if>
-					
+
 						<!--<img border="0" src="../img/dstc-crc.gif" width="85" height="107"/>-->
-					</a>			
+					</a>
 				</td>
 				<td width="40">
 					<xsl:text>&#32;</xsl:text>
@@ -558,7 +554,7 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 								<img src="{//file[@id='kvoLogo']/@src}" border="0" alt="KVO Logo"></img>
 							</div>
 						</xsl:if>
-	
+
 						<!--<img border="0" src="../img/kvo-logo.gif" width="100" height="86"/>-->
 					</a>
 					<!--
@@ -580,6 +576,6 @@ a.localLink: a local link, without protocol given (if $style.markup.linkTypes is
 					</a>
 				</td>
 			</tr>
-		</table>	
+		</table>
 	</xsl:template>
 </xsl:stylesheet>

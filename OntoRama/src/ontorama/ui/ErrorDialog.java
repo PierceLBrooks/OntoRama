@@ -59,7 +59,12 @@ public class ErrorDialog {
     private void showDetailedErrorMsg(Component component, Throwable e, String title, String errorMsg) {
         Throwable original = e.getCause();
         if (original == null) {
-            new ErrorDialog(component, title, errorMsg);
+        	if (e instanceof NullPointerException) {
+        		new ErrorDialog(component, title, "Null Pointer Exception");
+        	}
+        	else {
+            	new ErrorDialog(component, title, errorMsg);
+        	}
             return;
         }
         Object[] options = {"OK", "Details"};

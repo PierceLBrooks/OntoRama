@@ -61,7 +61,7 @@ public class OntoRamaMenu extends JMenuBar {
    *
    */
   //private JToolBar toolBar;
-  private OntoRamaToolBar toolBar;
+  //private OntoRamaToolBar toolBar;
 
 
 
@@ -76,22 +76,21 @@ public class OntoRamaMenu extends JMenuBar {
 
     this.fileMenu = new JMenu("File");
     this.fileMenu.setMnemonic(KeyEvent.VK_F);
-    Action exitAction = new ExitAction();
-    this.fileMenu.add(exitAction);
+    this.fileMenu.add(mainApp._exitAction);
 
     this.examplesMenu = new ExamplesMenu(this);
 
-    this.historyMenu = new HistoryMenu(this);
+    this.historyMenu = new HistoryMenu(this, this.mainApp);
 
     this.helpMenu = new JMenu("Help");
-    Action about = new AboutOntoRamaAction();
-    this.helpMenu.add(about);
+    this.helpMenu.add(mainApp._aboutAction);
 
     add(this.fileMenu);
     add(this.examplesMenu);
     add(this.historyMenu);
     add(this.helpMenu);
   }
+
 
   /**
    * @todo  fix commented out

@@ -24,18 +24,19 @@ public class OntoRamaToolBar extends JToolBar {
 
   /**
    *
+   * @todo  should not pass reference to OntoRamaApp here
    */
-  public OntoRamaToolBar() {
+  public OntoRamaToolBar(OntoRamaApp mainApp) {
 
     super();
 
-    Action backAction = new BackHistoryAction();
-    JButton backButton = add(backAction);
+//    Action backAction = new BackHistoryAction();
+    JButton backButton = add(mainApp._backAction);
 
     add(backButton);
 
-    Action forwardAction = new ForwardHistoryAction();
-    JButton forwardButton = add(forwardAction);
+//    Action forwardAction = new ForwardHistoryAction();
+    JButton forwardButton = add(mainApp._forwardAction);
     add(forwardButton);
   }
 

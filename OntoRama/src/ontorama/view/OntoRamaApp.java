@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
+import javax.swing.Action;
 
 import ontorama.OntoramaConfig;
 
@@ -144,10 +145,20 @@ public class OntoRamaApp extends JFrame {
     Debug debug = new Debug(false);
 
     /**
+     *
+     */
+    public Action _backAction;
+    public Action _forwardAction;
+    public Action _exitAction;
+    public Action _aboutAction;
+
+    /**
      * @todo: introduce error dialogs for exception
      */
     public OntoRamaApp() {
         super("OntoRamaApp");
+
+        initActions();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
@@ -174,7 +185,7 @@ public class OntoRamaApp extends JFrame {
          * create tool bar
          */
         //toolBar = new OntoRamaToolBar();
-        toolBar = new OntoRamaToolBar();
+        toolBar = new OntoRamaToolBar(this);
         //toolBar = menu.getToolBar();
         //toolBar.setFloatable(false);
         JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
@@ -245,6 +256,17 @@ public class OntoRamaApp extends JFrame {
         descriptionViewPanel.setFocus(graph.getRootNode());
         repaint();
     }
+
+    /**
+     *
+     */
+    private void initActions () {
+      _backAction = new BackHistoryAction();
+      _forwardAction = new ForwardHistoryAction();
+      _exitAction = new ExitAction();
+      _aboutAction = new AboutOntoRamaAction();
+    }
+
 
     /**
      *

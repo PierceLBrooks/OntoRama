@@ -53,6 +53,7 @@ public class TestRdfDamlParser extends TestCase {
   protected OntologyType testType_url;
   protected OntologyType testType_someObject;
   protected OntologyType testType_allChairs;
+  protected OntologyType testType_ACHRONYM;
 
 
   /**
@@ -103,9 +104,9 @@ public class TestRdfDamlParser extends TestCase {
    *
    */
   public void testResultSize () {
-    // expecting 14 types in the result: 13 are ours and 1 is
+    // expecting 15 types in the result: 14 are ours and 1 is
     // default produced by rdf parser: rdf-schema#Class
-    assertEquals(14,resultCollection.size());
+    assertEquals(15,resultCollection.size());
   }
 
   /**
@@ -242,7 +243,7 @@ public class TestRdfDamlParser extends TestCase {
    * id = 10
    */
   public void testTypeRelationLinks_chair_object () throws NoSuchRelationLinkException {
-    testingRelationLink("object", 10, testType_chair, "test#SomeObject", 1);
+    testingRelationLink("object", 10, testType_chair, "test#SomeObject", 2);
     testingRelationLink("object", 10, testType_someObject, "test#Chair", 0);
   }
 

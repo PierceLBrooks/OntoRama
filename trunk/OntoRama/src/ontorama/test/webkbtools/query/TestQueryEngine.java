@@ -83,7 +83,7 @@ public class TestQueryEngine extends TestCase {
    *
    */
   public void testGetQueryResultForQuery1 () throws NoSuchRelationLinkException {
-    assertEquals("size of query result iterator for query1", 14, queryResultList1.size());
+    assertEquals("size of query result iterator for query1", 15, queryResultList1.size());
     testType_chair = IteratorUtil.getOntologyTypeFromList("test#Chair", queryResultList1);
     checkRelationIteratorSize("query1", testType_chair, 1, 1);
     checkRelationIteratorSize("query1", testType_chair, 2, 1);
@@ -94,7 +94,7 @@ public class TestQueryEngine extends TestCase {
     checkRelationIteratorSize("query1", testType_chair, 7, 1);
     checkRelationIteratorSize("query1", testType_chair, 8, 1);
     checkRelationIteratorSize("query1", testType_chair, 9, 1);
-    checkRelationIteratorSize("query1", testType_chair, 10, 1);
+    checkRelationIteratorSize("query1", testType_chair, 10, 2);
     checkRelationIteratorSize("query1", testType_chair, 11, 1);
     checkRelationIteratorSize("query1", testType_chair, 12, 0);
   }
@@ -103,7 +103,7 @@ public class TestQueryEngine extends TestCase {
    *
    */
   public void testGetQueryResultForQuery2 () throws NoSuchRelationLinkException  {
-    assertEquals("size of query result iterator for query2", 14, queryResultList2.size());
+    assertEquals("size of query result iterator for query2", 15, queryResultList2.size());
     testType_chair = IteratorUtil.getOntologyTypeFromList("test#Chair", queryResultList2);
     checkRelationIteratorSize("query2", testType_chair, 3, 0);
     checkRelationIteratorSize("query2", testType_chair, 6, 0);

@@ -64,6 +64,8 @@ public class RdfDamlParser implements Parser {
 
     /**
      *
+     * @todo  rewrite part where skipping statements if they are connected to rdf#Property
+     * or rdf#Class - these properties shouldn't be hardcoded to start with...
      */
     public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
         try {
@@ -82,11 +84,11 @@ public class RdfDamlParser implements Parser {
                 StmtIterator stIt = r.listProperties();
                 while (stIt.hasNext()) {
                     Statement s = stIt.next();
-                    System.out.println(s);
+                    //System.out.println(s);
                     if (s.getPredicate().toString().endsWith("rdf-syntax-ns#type")) {
                     	if ( (s.getObject().toString().endsWith("rdf-syntax-ns#Property"))
                     			|| (s.getObject().toString().endsWith("#Class")) ) {
-                    		System.out.println("skipping statement...");
+                    		//System.out.println("skipping statement...");
                     		continue;
 	                   	}
                 	}

@@ -395,6 +395,10 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return nodeShape.getBounds2D();
     }
 
+    public boolean hasAutoRaise() {
+            return false;
+        }
+
     public String toString() {
         return "Node view for " + this.model.getName();
     }

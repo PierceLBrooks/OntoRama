@@ -30,7 +30,7 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
 	protected JComponent createPropertyComponent(GraphNode node) {
 		String labelText = "<html><font color=blue><u>" + node.getName() + "</u></font></html>";
 		JLabel label = new JLabel(labelText);
-		label.setToolTipText("Click to browse to this parent");
+		label.setToolTipText("Click to browse to this term");
 		_componentToPropValueMapping.put(label, node);
 		label.addMouseListener(new MouseListener() {
 			public void mouseClicked (MouseEvent me) {

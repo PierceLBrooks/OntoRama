@@ -205,16 +205,19 @@ public class OntologyTypeImplementation implements OntologyType {
    * toString method
    */
   public String toString () {
-    String str = "name: " + typeName + "\n";
+    String str = "name: " + typeName + ", relations: ";
     try {
       Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
       while (relLinks.hasNext()) {
           Integer relLink = (Integer) relLinks.next();
-          //str = str + "relation link: " + relLink.intValue() + "\n";
           Iterator relatedTypes = this.getIterator(relLink.intValue());
           while (relatedTypes.hasNext()) {
               OntologyType relatedType = (OntologyType) relatedTypes.next();
-              str = str + "... " + relatedType.getName() + " ( relation link: " + relLink.intValue() + ") " + "\n";
+              //str = str + "... " + relatedType.getName() + " ( relation link: " + relLink.intValue() + ") " + "\n";
+              str = str + relatedType.getName() + " (" + relLink.intValue() + ")";
+              if (relatedTypes.hasNext()) {
+                str = str + ", ";
+              }
           }
       }
     }

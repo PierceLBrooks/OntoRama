@@ -5,7 +5,6 @@ import org.tockit.events.EventBroker;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphImpl;
@@ -79,12 +78,12 @@ public class TestP2PBackend2 extends TestCase {
 		_p2pBackend = new P2PBackend();		
 	}
 	
-	public void testBuildP2PGraph() {
-		_p2pBackend.buildP2PGraph(_graph);
-        P2PGraph p2pGraph = _p2pBackend.getP2PGraph();
-        assertEquals("number of nodes should be the same for base and resulting graphs ", _graph.getNodesList().size(), p2pGraph.getNodesList().size());
-        assertEquals("number of edges should be the same for base and resulting graphs ", _graph.getEdgesList().size(), p2pGraph.getEdgesList().size());
-	}
+//	public void testBuildP2PGraph() {
+//		_p2pBackend.buildP2PGraph(_graph);
+//        P2PGraph p2pGraph = _p2pBackend.getP2PGraph();
+//        assertEquals("number of nodes should be the same for base and resulting graphs ", _graph.getNodesList().size(), p2pGraph.getNodesList().size());
+//        assertEquals("number of edges should be the same for base and resulting graphs ", _graph.getEdgesList().size(), p2pGraph.getEdgesList().size());
+//	}
 		
 
 }

@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.BackendSearch;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.ErrorPopupMessage;
@@ -39,7 +41,8 @@ public class SearchPanel extends JPanel {
                     new ErrorPopupMessage("Please type search term", OntoRamaApp.getMainFrame());
                 }
                 else {
-                    Query tmpQuery = new Query(searchTerm);
+                	Backend backend = OntoramaConfig.getBackend();
+                    Query tmpQuery = new Query(searchTerm, backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
                     tmpQuery.setDepth(2);
                     BackendSearch.search(tmpQuery);
                 }

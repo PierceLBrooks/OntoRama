@@ -84,7 +84,7 @@ public class ExamplesMenu extends JMenu {
         _backend.setCurrentExample(example);
 
         // create a new query
-        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList());
+        Query query = new Query(example.getRoot(), OntoramaConfig.getEdgeTypesList(), _backend.getSourcePackageName(), _backend.getParser(), _backend.getSourceUri());
 
         // get graph for this query and load it into app
         _eventBroker.processEvent(new QueryStartEvent(query));

@@ -1,5 +1,7 @@
 package ontorama.ui.action;
 
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.ui.QueryPanel;
@@ -42,7 +44,8 @@ public class QueryAction extends AbstractAction {
      *
      */
     public void actionPerformed(ActionEvent parm1) {
-        Query query = new Query(_queryPanel.getQueryField(), _queryPanel.getWantedRelationLinks());
+    	Backend backend = OntoramaConfig.getBackend();
+        Query query = new Query(_queryPanel.getQueryField(), _queryPanel.getWantedRelationLinks(), backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
         query.setDepth(_queryPanel.getDepthField());
         _eventBroker.processEvent(new GeneralQueryEvent(query));
     }

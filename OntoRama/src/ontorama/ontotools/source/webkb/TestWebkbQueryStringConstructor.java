@@ -37,10 +37,10 @@ public class TestWebkbQueryStringConstructor extends TestCase {
         expectedQueryString = "?term=wn%23cat&recursLink=%3E&format=RDF&noHTML";
         expectedQueryStringWithDepth = "?term=wn%23cat&recursLink=%3E&format=RDF&depth=3&noHTML";
 
-        query = new Query("wn#cat");
+        query = new Query("wn#cat", "", "", "");
         queryOutputFormat = "RDF";
 
-        queryWithDepth = new Query("wn#cat");
+        queryWithDepth = new Query("wn#cat", "", "", "");
         queryWithDepth.setDepth(3);
     }
 

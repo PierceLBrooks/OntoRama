@@ -95,7 +95,7 @@ public class TestRdfDamlParser extends TestCase {
         backend.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
         source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair", "", "", "")).getReader();
 
         parser = new RdfDamlParser();
         buildResult(parser, r);
@@ -135,7 +135,7 @@ public class TestRdfDamlParser extends TestCase {
         backend.setCurrentExample(testCaseToLoad);
 
         source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair", "", "", "")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);
@@ -156,7 +156,7 @@ public class TestRdfDamlParser extends TestCase {
         backend.setCurrentExample(testCaseToLoad);
 
         source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
-        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair")).getReader();
+        Reader r = source.getSourceResult(backend.getSourceUri(), new Query("test#Chair", "", "", "")).getReader();
         parser = new RdfDamlParser();
         try {
             parser.getResult(r);

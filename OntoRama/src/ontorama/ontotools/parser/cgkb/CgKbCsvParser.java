@@ -25,10 +25,6 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.source.JarSource;
-import ontorama.ontotools.source.Source;
-import ontorama.ontotools.source.SourceResult;
 
 public class CgKbCsvParser implements Parser {
 	
@@ -166,18 +162,18 @@ public class CgKbCsvParser implements Parser {
     }
 
     public static void main(String[] args) {
-        try {
-            Source source = new JarSource();
-            SourceResult sr = source.getSourceResult("examples/cgkb/test.cgkb", new Query("KVO"));
-            Reader r = sr.getReader();
-
-            Parser parser = new CgKbCsvParser();
-            parser.getResult(r);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+//        try {
+//            Source source = new JarSource();
+//            SourceResult sr = source.getSourceResult("examples/cgkb/test.cgkb", new Query("KVO"));
+//            Reader r = sr.getReader();
+//
+//            Parser parser = new CgKbCsvParser();
+//            parser.getResult(r);
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            System.exit(-1);
+//        }
 
     }
 

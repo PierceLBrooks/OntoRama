@@ -18,6 +18,9 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
+import ontorama.model.graph.GraphImpl;
+import ontorama.model.graph.GraphModificationException;
+import ontorama.model.graph.NoTypeFoundInResultSetException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.ui.ErrorPopupMessage;
@@ -26,6 +29,7 @@ import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;
 import ontorama.ontotools.writer.rdf.RdfModelWriter;
@@ -124,7 +128,7 @@ public class FileBackend implements Backend {
     
     	System.out.println("FileBackend::parserName = " + _parserName);
        
-       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
+       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query(getSourcePackageName(), getParser(), getSourceUri()));
        _eventBroker.processEvent(queryEvent);
     }
 
@@ -198,6 +202,18 @@ public class FileBackend implements Backend {
 	 */
 	public String getSourceUri() {
 		return _filename;
+	}
+
+	/**
+	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
+	 */
+	public Graph createGraph(QueryResult qr, EventBroker eb)
+												throws
+													GraphModificationException,
+													NoSuchRelationLinkException,
+													NoTypeFoundInResultSetException {
+		Graph res = new GraphImpl(qr, eb);
+		return res;
 	}
 
 }

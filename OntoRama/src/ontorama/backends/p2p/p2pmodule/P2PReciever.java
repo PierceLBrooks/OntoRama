@@ -100,7 +100,7 @@ public class P2PReciever implements P2PRecieverInterface{
             //Parse the input recieved from the new peer
             //RdfDamlParser parser = new RdfDamlParser();
             /// @todo shouldn't have empty query here
-            QueryResult qr = P2PBackend.getQueryResult(result, new Query());
+            QueryResult qr = P2PBackend.getQueryResult(result, new Query(backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri()));
 			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
             System.err.println("Error in recieveSearchResponse");
@@ -132,7 +132,7 @@ public class P2PReciever implements P2PRecieverInterface{
 			//Parse the input recieved from the new peer
 			//RdfDamlParser parser = new RdfDamlParser();
             /// @todo shouldn't have empty query here
-            QueryResult qr = P2PBackend.getQueryResult(internalModel, new Query());
+            QueryResult qr = P2PBackend.getQueryResult(internalModel, new Query(backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri()));
 			backend.getP2PGraph().add(qr);
 		} catch (GraphModificationException e) {
         	System.err.println("An error accured");

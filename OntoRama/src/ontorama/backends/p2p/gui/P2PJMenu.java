@@ -10,11 +10,15 @@ package ontorama.backends.p2p.gui;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
+import javax.swing.filechooser.FileFilter;
 
+import ontorama.backends.filemanager.Util;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.ActionGroupSearch;
 import ontorama.backends.p2p.gui.action.ActionJoinGroup;
@@ -40,6 +44,8 @@ public class P2PJMenu extends JMenu {
     private Action _leaveGroupAction;
     private Action _updatePanelAction;
     private Action _resetChangePanelAction;
+    
+    private JFileChooser _fileChooser;
 
     public P2PJMenu (P2PBackend p2pBackend, P2PSender p2pSender) {
         super();
@@ -47,7 +53,7 @@ public class P2PJMenu extends JMenu {
         _p2pSender = p2pSender;
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
-
+        
         _enableP2PAction = new ActionEnableP2P("Show P2P updates window");
         add(_enableP2PAction);
         addSeparator();
@@ -68,6 +74,19 @@ public class P2PJMenu extends JMenu {
         _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel", _p2pBackend);
         add(_resetChangePanelAction);
         addSeparator();
+        
+        _fileChooser = new JFileChooser();
+        _fileChooser.addChoosableFileFilter(new P2PFileFilter(p2pBackend.getFileExtension()));
+    	Action openAction = new AbstractAction("Load from file") {
+    		public void actionPerformed(ActionEvent e) {
+    			int returnValue = _fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
+    			if (returnValue == JFileChooser.APPROVE_OPTION) {
+    				_p2pBackend.loadFile(_fileChooser.getSelectedFile());
+    			}
+    		}
+    	};
+    	add(openAction);
+        
     }
 
     private class ActionEnableP2P extends AbstractAction {
@@ -82,5 +101,46 @@ public class P2PJMenu extends JMenu {
         }
 
     }
+    
+    private class P2PFileFilter extends FileFilter {
+    	
+    	private String p2pExtension;
+    	
+		/**
+		 * Constructor for P2PFileFilter.
+		 */
+		public P2PFileFilter(String extension) {
+			this.p2pExtension = extension;
+		}
+
+    	/**
+		 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+		 */
+		public boolean accept(File file) {
+			if (file.isDirectory()) {
+				return true;
+			}
+
+			/// @todo shouldn't have to reference stuff from the file backend.
+			String extension = Util.getExtension(file);
+			if (extension == null) {
+				return false;
+			}
+
+			if (extension.equals(this.p2pExtension)) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * @see javax.swing.filechooser.FileFilter#getDescription()
+		 */
+		public String getDescription() {
+			String descr = "OntoRama P2P files";
+			return descr;
+		}
+
+	}
 
 }

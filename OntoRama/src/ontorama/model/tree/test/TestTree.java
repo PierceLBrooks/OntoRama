@@ -121,7 +121,7 @@ public class TestTree extends TestCase{
         graphEdgesList.add(e6_8);
 
 
-        QueryResult queryRes = new QueryResult(new Query("node1"), graphNodesList, graphEdgesList);
+        QueryResult queryRes = new QueryResult(new Query("node1", "", "", ""), graphNodesList, graphEdgesList);
         _graph = new GraphImpl(queryRes, new EventBroker());
 
 

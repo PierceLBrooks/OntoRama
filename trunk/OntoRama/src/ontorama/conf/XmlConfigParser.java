@@ -16,7 +16,6 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.EdgeTypeImpl;
 import ontorama.ontotools.source.JarSource;
-import ontorama.util.SVG2Shape;
 
 import org.jdom.Attribute;
 import org.jdom.DataConversionException;

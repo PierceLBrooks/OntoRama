@@ -75,7 +75,6 @@ System.out.println("PeersPanel, selectedGroupName:" + selectedGroupName + "(" + 
 
     public void addGroup(String groupId, String groupName) {
         if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
-System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
             _groupsVector.add(groupName);
             GroupPanel groupPanel = new GroupPanel(groupId);
             _cardLayout.addLayoutComponent(groupPanel, groupId);
@@ -89,11 +88,19 @@ System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
 
     public void addPeer (String peerId, String peerName, String groupId) {
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
-        groupPanel.addPeer(peerName);
+        groupPanel.addPeer(peerId, peerName);
     }
 
-    public void removePeer(String senderPeerID) {
-        /// @todo implement
+    public void removePeer(String senderPeerID, String groupID) {
+        GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
+        if (groupPanel != null) {
+            groupPanel.removePeer(senderPeerID);
+        }
+    }
+
+    public void removePeerFromAllGroups(String senderPeerID) {
+System.out.println("PeerPanel::removePeerFromAllGRoups:" + senderPeerID);
+        //@todo implement should remove the id from every group
     }
 
     public void removeGroup(String groupID) {
@@ -124,6 +131,7 @@ System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
     private class GroupPanel extends JPanel {
         Vector peersList;
         JList jlist;
+        Hashtable _peerIdToPeerNameMapping = new Hashtable();
 
         public GroupPanel(String groupId) {
             peersList = new Vector();
@@ -134,17 +142,24 @@ System.err.println("PeersPanel::addGroup:" + groupName + "(" + groupId + ")");
             add(scrollPanel);
         }
 
-        public void addPeer (String name) {
-            peersList.add(name);
-System.out.println("PeersPanel::GroupPanel::AddPeer" + name + "(peers in list after add:" + peersList + ")");
+        public void addPeer (String peerID, String peerName) {
+            _peerIdToPeerNameMapping.put(peerID, peerName);
+            peersList.add(peerName);
+System.out.println("PeersPanel::GroupPanel::AddPeer" + peerName + "(peers in list after add:" + peersList + ")");
             jlist.setListData(peersList);
             repaint();
+            //@todo repaint problem on peer panel update, works fine for recieveJoinGroup but NOT update panel
         }
 
-        public void removePeer (String name) {
-            peersList.remove(name);
-            jlist.setListData(peersList);
-            repaint();
+        public void removePeer (String peerID) {
+            String peerName = null;
+            peerName = (String) _peerIdToPeerNameMapping.remove(peerID);
+            if (peerName != null) {
+                peersList.remove(peerName);
+System.out.println("GroupPanel::removePeer:" + peerName + "(" + peersList + ")");
+                jlist.setListData(peersList);
+                repaint();
+            }
         }
     }
 }

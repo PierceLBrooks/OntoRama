@@ -31,6 +31,7 @@ public class TestQueryPackage extends TestCase {
 
      suite.addTest( new TestSuite(TestQuery.class) );
      suite.addTest( new TestSuite(TestQueryEngine.class));
+     suite.addTest( new TestSuite(TestQueryResult.class));
 
      return suite;
   }

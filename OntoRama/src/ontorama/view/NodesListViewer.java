@@ -1,14 +1,16 @@
 package ontorama.view;
 
 import ontorama.model.GraphNode;
+import ontorama.controller.QueryEvent;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
+
+import org.tockit.events.EventBroker;
 
 /**
  * @author nataliya
@@ -18,11 +20,6 @@ import java.util.Vector;
 public class NodesListViewer extends JScrollPane {
 
     /**
-     * array of nodes to display
-     */
-    private GraphNode[] _nodes;
-
-    /**
      *
      */
     private JList _nodesList;
@@ -30,21 +27,14 @@ public class NodesListViewer extends JScrollPane {
     /**
      *
      */
-    private OntoRamaApp _mainApp;
+    private EventBroker _eventBroker;
 
     /**
      *
      */
-    public NodesListViewer(OntoRamaApp ontoramaApp, List nodes)  {
-        _mainApp = ontoramaApp;
-//        setTitle("Unconnected Nodes");
-
+    public NodesListViewer(EventBroker eventBroker, List nodes)  {
+        _eventBroker = eventBroker;
         setNodesList(nodes);
-
-
-//        getContentPane().add(scrollPane);
-//
-//        pack();
     }
 
 
@@ -52,12 +42,7 @@ public class NodesListViewer extends JScrollPane {
      *
      */
     public void setNodesList (List nodes) {
-        System.out.println("\n\n\nsetNodesList, nodes list = " + nodes);
-        System.out.println("num of components = " + getComponents().length);
-//        if (getComponents().length != 0) {
-//            remove(_nodesList);
-//        }
-        Vector nodesVector = new Vector((Collection) nodes);
+        Vector nodesVector = new Vector(nodes);
         _nodesList = new JList(nodesVector);
         _nodesList.setCellRenderer(new NodeListCellRenderer());
         _nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -66,11 +51,11 @@ public class NodesListViewer extends JScrollPane {
             public void valueChanged(ListSelectionEvent e) {
                 GraphNode selectedNode =
                         (GraphNode) _nodesList.getSelectedValue();
-                _mainApp.resetGraphRoot(selectedNode);
+                //System.out.println("selected node = " + selectedNode);
+                _eventBroker.processEvent(new QueryEvent(selectedNode));
             }
         });
         setViewportView(_nodesList);
-        //add(_nodesList);
         repaint();
     }
 
@@ -81,19 +66,6 @@ public class NodesListViewer extends JScrollPane {
         setVisible(setVisibleFlag);
     }
 
-//    /**
-//     *
-//     */
-//    public void close() {
-//        dispose();
-//    }
-
-    //        /**
-    //         *
-    //         */
-    //        public JList getList () {
-    //          return _nodesList;
-    //        }
 
     class NodeListCellRenderer extends DefaultListCellRenderer {
 
@@ -109,9 +81,9 @@ public class NodesListViewer extends JScrollPane {
 
             GraphNode node = (GraphNode) value;
             String s = node.getName();
-            s = s + "   (" + node.getBranchNodesNum() + ")";
+//            s = s + "   (" + node.getBranchNodesNum() + ")";
             setText(s);
-            setToolTipText("number of all children: " + node.getBranchNodesNum());
+            setToolTipText("number of all children: ???? not implemented yet..");
             return this;
         }
     }

@@ -366,10 +366,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
         _graph = graph;
     }
 
-    public Graph getGraph () {
-        return _graph;
-    }
-
     public void repaint () {
         super.repaint();
     }

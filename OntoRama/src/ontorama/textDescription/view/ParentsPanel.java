@@ -35,7 +35,7 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
             }
         });
 
-        return (JComponent) label;
+        return label;
     }
 
 }

@@ -190,7 +190,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _treeView = new OntoTreeView(eventBroker);
         _hyperView = new SimpleHyperView(eventBroker);
 
-        _listViewer = new NodesListViewer(this, new LinkedList());
+        _listViewer = new NodesListViewer(eventBroker, new LinkedList());
 
         JSplitPane  treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -470,9 +470,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _queryPanel.setGraph(graph);
         _descriptionViewPanel.setGraph(graph);
 
-        List testList = new LinkedList();
-        testList.add(graph.getRootNode());
-        _listViewer.setNodesList(testList);
+        _listViewer.setNodesList(graph.getUnconnectedNodesList());
     }
 
 
@@ -575,14 +573,14 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 //        }
 //    }
 
-    /**
-     *
-     */
-    protected void resetGraphRoot(GraphNode newRootNode) {
-        setGraphInViews(_graph);
-        _graph.setRoot(newRootNode);
-        updateViews();
-    }
+//    /**
+//     *
+//     */
+//    protected void resetGraphRoot(GraphNode newRootNode) {
+//        setGraphInViews(_graph);
+//        _graph.setRoot(newRootNode);
+//        updateViews();
+//    }
 
     /**
      *

@@ -59,7 +59,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
-        new GraphRootResetEventHandler(eventBroker, this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -306,9 +305,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         this.tree.scrollPathToVisible(path);
     }
 
-    public Graph getGraph() {
-        return this.graph;
-    }
 
     public void repaint() {
         super.repaint();

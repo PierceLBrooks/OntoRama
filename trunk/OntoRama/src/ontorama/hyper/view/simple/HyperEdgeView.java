@@ -51,14 +51,14 @@ public class HyperEdgeView extends CanvasItem{
         double xDiff = x2 - x1;
         double yDiff = y2 - y1;
         double nodeViewRadius = to.getViewRadius();
-        double distancebetweenTwoNodes = Math.sqrt( ( x2 - x1) * ( x2 - x1) + ( y2 - y1) * ( y2 - y1) );
+        double distanceBetweenTwoNodes = Math.sqrt( ( x2 - x1) * ( x2 - x1) + ( y2 - y1) * ( y2 - y1) );
         double viewScale = to.getScale();
         double imgW = iconImg.getIconWidth() * viewScale;
         double imgH = iconImg.getIconHeight() * viewScale;
         double imgHyp = Math.sqrt( imgW * imgW + imgH * imgH);
-        double scale = (nodeViewRadius + imgHyp) / distancebetweenTwoNodes;
-        double imgX = x2 - ( xDiff * scale);
-        double imgY = y2 - ( yDiff * scale);
+        double scale = (nodeViewRadius + imgHyp) / distanceBetweenTwoNodes;
+        double imgX = x2 - ( xDiff * scale) - imgW/2;
+        double imgY = y2 - ( yDiff * scale) - imgH/2;
 
 
         g2d.setColor( Color.lightGray );

@@ -1,12 +1,12 @@
 package ontorama.view;
 
 import ontorama.OntoramaConfig;
-import ontorama.controller.QueryEvent;
 import ontorama.graph.controller.GraphViewFocusEventHandler;
 import ontorama.graph.controller.GraphViewQueryEventHandler;
-import ontorama.graph.view.*;
-import ontorama.model.GraphNode;
+import ontorama.graph.view.GraphQuery;
+import ontorama.graph.view.GraphView;
 import ontorama.model.Graph;
+import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
@@ -14,9 +14,7 @@ import org.tockit.events.EventBroker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 /**

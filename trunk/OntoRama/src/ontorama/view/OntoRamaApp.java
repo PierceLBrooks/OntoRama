@@ -3,7 +3,6 @@ package ontorama.view;
 import ontorama.OntoramaConfig;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.model.Graph;
-import ontorama.model.GraphNode;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.textDescription.view.DescriptionView;
 import ontorama.tree.view.OntoTreeView;
@@ -11,14 +10,11 @@ import ontorama.util.Debug;
 import ontorama.view.action.*;
 import ontorama.webkbtools.query.Query;
 import org.tockit.events.EventBroker;
-import org.tockit.events.LoggingEventListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.LinkedList;
-import java.util.Iterator;
 
 /**
  * Main Application class. This class start OntoRama application.

@@ -55,7 +55,8 @@ public class OntoTreeBuilder {
 			_ontoHash.put(topTreeNode, ontoTreeNode);
 		}    	
     	while (children.hasNext()) {
-    		TreeEdge edge = (TreeEdge) children.next();
+    		ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) children.next();
+    		TreeEdge edge = topTreeNode.getEdge(curNode);
     		createOntoTreeNode (topTreeNode, edge);
     	}
     }
@@ -68,12 +69,13 @@ public class OntoTreeBuilder {
         ontoTreeNode.setRelLink(edge.getEdgeType());
         _ontoHash.put(top, ontoTreeNode);
 
-		Iterator childrenEdges = top.getChildren().iterator();
-        while (childrenEdges.hasNext()) {
-            TreeEdge curEdge = (TreeEdge) childrenEdges.next();
+		Iterator children = top.getChildren().iterator();
+        while (children.hasNext()) {
+        	ontorama.model.tree.TreeNode toModelTreeNode = (ontorama.model.tree.TreeNode) children.next();
+        	
+            TreeEdge curEdge = top.getEdge(toModelTreeNode);
             EdgeType curEdgeType = curEdge.getEdgeType();
 
-            ontorama.model.tree.TreeNode toModelTreeNode = edge.getToNode();
             createOntoTreeNode(toModelTreeNode, curEdge);
         }
     }

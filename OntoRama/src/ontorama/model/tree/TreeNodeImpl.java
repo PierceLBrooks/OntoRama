@@ -1,9 +1,11 @@
 package ontorama.model.tree;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,9 +27,10 @@ public class TreeNodeImpl implements TreeNode {
     private List _clones;
 
     /**
-     * list of children - outbound TreeEdges
+     * list of children - object ChildNodeReference containing
+     * a pair: node and edge
      */
-    private List _childEdges;
+    private List _children;
     
     /**
      * parent tree node
@@ -46,35 +49,77 @@ public class TreeNodeImpl implements TreeNode {
     public TreeNodeImpl (Node graphNode) {
         _graphNode = graphNode;
         _clones = new LinkedList();
-        _childEdges = new LinkedList();
+        _children = new LinkedList();
     }
 
-    public Node getGraphNode() {
-        return _graphNode;
-    }
+	protected Node getGraphNode() {
+		return _graphNode;
+	}
+
+	public String getName() {
+		return _graphNode.getName();
+	}
+	
+	public NodeType getNodeType() {
+		return _graphNode.getNodeType();
+	}
 
     public void addClone(TreeNode cloneNode) {
         if (! _clones.contains(cloneNode)) {
             _clones.add(cloneNode);
         }
     }
+    
+	public boolean isClone (TreeNode node) {
+		TreeNodeImpl treeNode = (TreeNodeImpl) node;
+		if (treeNode.getGraphNode().equals(_graphNode)) {
+			return true;
+		}
+		return false;
+	}
+    
 
     public List getClones() {
         return _clones;
     }
 
     public List getChildren() {
-        return _childEdges;
+    	Iterator it = _children.iterator();
+    	List childNodesList = new LinkedList();
+    	while (it.hasNext()) {
+    		ChildNodeReference cur = (ChildNodeReference) it.next();
+    		childNodesList.add(cur.node);
+    	}
+        return childNodesList;
+    }
+    
+    public TreeEdge getEdge (TreeNode childNode) {
+    	TreeEdge result = null;
+    	Iterator it = _children.iterator();
+    	while (it.hasNext()) {
+    		ChildNodeReference cur = (ChildNodeReference) it.next();
+    		if (cur.node.equals(childNode)) {
+    			result = cur.edge;
+    		}
+    	}
+    	return result;
     }
 
-    public void addChild(TreeEdge childEdge) {
-        if (! _childEdges.contains(childEdge)) {
-              _childEdges.add(childEdge);
+    public void addChild(TreeNode childNode, TreeEdge childEdge) {
+        ChildNodeReference ref = new ChildNodeReference(childNode, childEdge);
+        if (!_children.contains(ref)) {
+        	_children.add(ref);
         }
     }
 
-    public boolean removeChild(TreeEdge childEdge) {
-        return _childEdges.remove(childEdge);
+    public void removeChild(TreeNode childNode, TreeEdge childEdge) {
+        Iterator it = _children.iterator();
+        while (it.hasNext()) {
+        	ChildNodeReference cur = (ChildNodeReference) it.next();
+        	if ( (cur.node.equals(childNode)) && (cur.edge.equals(childEdge)) ) {
+        		_children.remove(cur);
+        	}
+        }
     }
 
 	public void setParent(TreeNode parent) {
@@ -97,7 +142,17 @@ public class TreeNodeImpl implements TreeNode {
     
 
     public String toString () {
-        String res = "TreeNode: " + this.getGraphNode().getName();
+        String res = "TreeNode: " + this.getName();
         return res;
+    }
+    
+    class ChildNodeReference {
+    	public TreeNode node;
+    	public TreeEdge edge;
+    	
+    	public ChildNodeReference (TreeNode node, TreeEdge edge) {
+    		this.node = node;
+    		this.edge = edge;	
+    	}
     }
 }

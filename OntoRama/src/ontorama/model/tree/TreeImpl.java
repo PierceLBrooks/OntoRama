@@ -48,7 +48,7 @@ public class TreeImpl implements Tree {
 			addTreeEdge(graphEdge, parentTreeNode, curNewNode);
 		}
 		
-		//    	//_eventBroker.processEvent(new NodeAddedEvent(this, node));
+		//_eventBroker.processEvent(new NodeAddedEvent(this, node));
 		return newNode;
 	}    
 
@@ -76,20 +76,19 @@ public class TreeImpl implements Tree {
         Iterator it = _nodes.iterator();
         while (it.hasNext()) {
             TreeNode cur = (TreeNode) it.next();
-            if (cur.getGraphNode().equals(treeNode.getGraphNode())) {
+            if (cur.isClone(treeNode)) {
                     cur.addClone(treeNode);
                     treeNode.addClone(cur);
             }
         }
         _nodes.add(treeNode);
-    	//_eventBroker.processEvent(new NodeAddedEvent(this, node));
         return treeNode;
     }
 
     private TreeEdge addTreeEdge (Edge graphEdge, TreeNode fromNode, TreeNode toNode) {
         TreeEdge treeEdge = new TreeEdgeImpl(graphEdge, toNode);
         _edges.add(treeEdge);
-    	fromNode.addChild(treeEdge);
+    	fromNode.addChild(toNode, treeEdge);
     	toNode.setParent(fromNode);
         return treeEdge;
     }
@@ -101,8 +100,7 @@ public class TreeImpl implements Tree {
 		top.setDepth(depth);
 		Iterator it = top.getChildren().iterator();
 		while (it.hasNext()) {
-			TreeEdge childEdge = (TreeEdge) it.next();
-			TreeNode childNode = childEdge.getToNode();
+			TreeNode childNode = (TreeNode) it.next();
 			childNode.setDepth(depth + 1);
 			calculateDepths(childNode, depth + 1);
 		}

@@ -23,6 +23,7 @@ import ontorama.conf.ImageMaker;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
 import ontorama.model.tree.TreeEdge;
+import ontorama.model.tree.TreeNode;
 import ontorama.views.tree.model.OntoTreeNode;
 
 /**
@@ -102,7 +103,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         OntoTreeNode treeNode = (OntoTreeNode) value;
         EdgeType edge = treeNode.getEdgeType();
 
-        NodeType nodeType = treeNode.getModelTreeNode().getGraphNode().getNodeType();
+        NodeType nodeType = treeNode.getModelTreeNode().getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
@@ -114,7 +115,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
             }
         }
 
-        String nodeTextStr = treeNode.getModelTreeNode().getGraphNode().getName();
+        String nodeTextStr = treeNode.getModelTreeNode().getName();
 
         // @todo shouldn't hardcode string 'relation' here.
         if (nodeType.getNodeType().equals("relation")) {
@@ -122,15 +123,16 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
             String sign2 = null;
             Iterator it = treeNode.getModelTreeNode().getChildren().iterator();
             while (it.hasNext()) {
-                TreeEdge curEdge = (TreeEdge) it.next();
+            	TreeNode curNode = (TreeNode) it.next();
+                TreeEdge curEdge = treeNode.getModelTreeNode().getEdge(curNode);
                 EdgeType edgeType = curEdge.getEdgeType();
                 // @todo again hardcoding relation name - if config.xml file changes - this won't work.
                 // probably need RelationNode to fix this.
                 if (edgeType.getName().equals("relSignature1")) {
-                    sign1 = curEdge.getToNode().getGraphNode().getName();
+                    sign1 = curEdge.getToNode().getName();
                 }
                 if (edgeType.getName().equals("relSignature2")) {
-                    sign2 = curEdge.getToNode().getGraphNode().getName();
+                    sign2 = curEdge.getToNode().getName();
                 }
             }
             nodeTextStr = nodeTextStr + " (";
@@ -202,7 +204,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         String result = "";
         OntoTreeNode treeNode = (OntoTreeNode) value;
         ontorama.model.tree.TreeNode node = treeNode.getModelTreeNode();
-        NodeType nodeType = node.getGraphNode().getNodeType();
+        NodeType nodeType = node.getNodeType();
 //        if (nodeType == null) {
 //            result = "???";
 //        }
@@ -211,7 +213,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 //        }
 
         if (edgeType == null) {
-            result = result + "Node: " + treeNode.getModelTreeNode().getGraphNode().getName();
+            result = result + "Node: " + treeNode.getModelTreeNode().getName();
         }
         else {
             String edgeTypeName = edgeType.getName();

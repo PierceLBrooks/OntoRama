@@ -56,7 +56,7 @@ public class NodeContextMenuHandler implements EventBrokerListener {
                         NewRelatedNodeCreator creator =
                                         new NewRelatedNodeCreator(_simpleHyperView, nodeView.getTreeNode(), edgeType);
                         TreeNode newNode = creator.createNewRelatedNode();
-                        System.out.println("created new node " + newNode.getGraphNode().getName());
+                        System.out.println("created new node " + newNode.getName());
 //                        _eventBroker.processEvent(new TreeNodeSelectedEvent(newNode, _eventBroker));
                     }
                 });

@@ -95,7 +95,7 @@ public class HyperNode implements PositionChangedObservable {
      * Get the concept name.
      */
     public String getName() {
-        return _treeNode.getGraphNode().getName();
+        return _treeNode.getName();
     }
 
     /**

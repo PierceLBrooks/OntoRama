@@ -28,7 +28,6 @@ import junit.framework.TestCase;
 public class TestP2PBackend2 extends TestCase {
 	
 	private Graph _graph;
-	private P2PGraph _p2pGraph;
 	private P2PBackend _p2pBackend;
 
 	/**
@@ -82,6 +81,9 @@ public class TestP2PBackend2 extends TestCase {
 	
 	public void testBuildP2PGraph() {
 		_p2pBackend.buildP2PGraph(_graph);
+        P2PGraph p2pGraph = _p2pBackend.getP2PGraph();
+        assertEquals("number of nodes should be the same for base and resulting graphs ", _graph.getNodesList().size(), p2pGraph.getNodesList().size());
+        assertEquals("number of edges should be the same for base and resulting graphs ", _graph.getEdgesList().size(), p2pGraph.getEdgesList().size());
 	}
 		
 

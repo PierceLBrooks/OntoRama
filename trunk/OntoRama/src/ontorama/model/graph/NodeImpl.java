@@ -2,9 +2,6 @@ package ontorama.model.graph;
 
 
 import java.net.URI;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Basic NodeImpl for ontology viewers.
@@ -37,21 +34,6 @@ public class NodeImpl implements Cloneable, Node {
      * store type of this node
      */
     private NodeType nodeType;
-
-    /**
-     * Stores the depth of the node in the graph (distance to the root element).
-     */
-    private int depth = 0;
-
-    /**
-     * Stores if this ui is folded.
-     */
-    private boolean isFolded = false;
-
-    /**
-     * Holds the list of all GraphNodes that refer to the same ontology term..
-     */
-    private List clones = new LinkedList();
 
     /**
      * Create a new NodeImpl with given name
@@ -105,105 +87,6 @@ public class NodeImpl implements Cloneable, Node {
      */
     public void setIdentifier(String identifier) {
         this.fullName = identifier;
-    }
-
-    /**
-     * Return true if NodeImpl has clones.
-     */
-    public boolean hasClones() {
-        return !this.clones.isEmpty();
-    }
-
-    /**
-     * Return a list of all clones.
-     * @return clones list
-     */
-    public List getClones() {
-        return clones;
-    }
-
-    /**
-     * Adds a new clone o this Node.
-     * @param  clone  Node that is clone for this Node
-     */
-    public void addClone(Node clone) {
-        if (! clones.contains(clone)) {
-            clones.add(clone);
-        }
-    }
-
-    /**
-     * add list of new clones to this node's clones list
-     * @param clones
-     */
-    public void addClones(List clones) {
-        Iterator it = clones.iterator();
-        while (it.hasNext()) {
-            Node cloneNode = (Node) it.next();
-            addClone(cloneNode);
-        }
-    }
-
-    /**
-     * Returns the distance to the root node.
-     * @return node depth
-     */
-    public int getDepth() {
-        return this.depth;
-    }
-
-    /**
-     * set distance to the root node
-     * @param depth
-     */
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    /**
-     * set node's folded state
-     * @param isFolded
-     * @todo perhaps this shouldn't be in the model
-     */
-    public void setFoldState(boolean isFolded) {
-        this.isFolded = isFolded;
-    }
-
-    /**
-     * returns true if this node is folded.
-     * @return isFolded
-     * @todo perhaps this shouldn't be in the model
-     */
-    public boolean getFoldedState() {
-        return this.isFolded;
-    }
-
-    /**
-     * Make a clone for this Node (make a new Node with the same
-     * name and add new node (clone) to appropriate lists of clones)
-     *
-     * @return cloneNode
-     */
-    public Node makeClone() {
-        // clone curNode to cloneNode
-        Node cloneNode = new NodeImpl(name);
-        cloneNode.setNodeType(this.getNodeType());
-
-        // iterate through existing clones and add new clone to all of them
-        Iterator it = clones.iterator();
-        while (it.hasNext()) {
-            Node cur = (Node) it.next();
-            cur.addClone(cloneNode);
-        }
-
-        // add all clones of this Node to the new node (clone node)
-        cloneNode.addClones(this.clones);
-        // add the clone to the list of clones of this Node
-        this.addClone(cloneNode);
-        // add this Node to the list of clones for clonedNode
-        cloneNode.addClone(this);
-
-        return cloneNode;
     }
 
     /**

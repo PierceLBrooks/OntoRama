@@ -53,9 +53,6 @@ public class TestP2PNode extends TestCase {
         node2 = new P2PNodeImpl("node2", creatorUri1,null);
         node3 = new P2PNodeImpl("node3", null,creatorUri2);
 
-        node1.setFoldState(true);
-        node3.setFoldState(false);
-
         node1.setCreatorUri(creatorUri1);
         node2.setCreatorUri(creatorUri2);
     }
@@ -87,26 +84,6 @@ public class TestP2PNode extends TestCase {
 
         assertEquals("testing setIdentifier() for node1", testIdentifier1, node1.getIdentifier());
         assertEquals("testing setIdentifier() for node2", testIdentifier2, node2.getIdentifier());
-    }
-
-
-    /**
-     * test method setFoldedState
-     */
-    public void testSetFoldedState() {
-        node2.setFoldState(true);
-        node3.setFoldState(false);
-
-        assertEquals("cloneNode2 should have folded state true", true, node2.getFoldedState());
-        assertEquals("cloneNode3 should have folded state false", false, node3.getFoldedState());
-    }
-
-    /**
-     * test method getFoldedState
-     */
-    public void testGetFoldedState() {
-        assertEquals("node1 is folded, folded state should be true", true, node1.getFoldedState());
-        assertEquals("node3 is unfolded, folded state should be false", false, node3.getFoldedState());
     }
 
     public void testGetCreator() {

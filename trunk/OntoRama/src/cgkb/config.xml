@@ -22,57 +22,130 @@ non-transitive:
 <ontConfig>
 	<ontology>
         <relation id="1">
-            <relationType name="contains" mappingSymbol="c"/>
-            <relationType name="-contains" mappingSymbol="c"/>
-            <display color="#33CCFF" symbol="c"/>
+            <relationType name="contains"/>
+            <relationType name="-contains"/>
         </relation>
 
 		<relation id="2">
-			<relationType name="is-a" mappingSymbol="is"/>
-			<relationType name="-is-a" mappingSymbol="is"/>
-			<display color="#FF99CC" symbol="is"/>
+			<relationType name="is-a" />
+			<relationType name="-is-a" />
 		</relation>
 		<relation id="3">
-			<relationType name="return" mappingSymbol="r"/>
-			<relationType name="-return" mappingSymbol="r"/>
-			<display color="#FFCC99" symbol="r"/>
+			<relationType name="return"/>
+			<relationType name="-return"/>
 		</relation>
 		<relation id="4">
-			<relationType name="extends" mappingSymbol="e"/>
-			<relationType name="-extends" mappingSymbol="e"/>
-			<display color="#00FFCC" symbol="e"/>
+			<relationType name="extends"/>
+			<relationType name="-extends"/>
 		</relation>
 		<relation id="5">
-			<relationType name="calls" mappingSymbol="c"/>
-			<relationType name="-calls" mappingSymbol="c"/>
-			<display color="#C0C0C0" symbol="c"/>
+			<relationType name="calls"/>
+			<relationType name="-calls"/>
 		</relation>
 		<relation id="6">
-			<relationType name="name" mappingSymbol="n"/>
-			<relationType name="-name" mappingSymbol="n"/>
-			<display color="#FF3366" symbol="n"/>
+			<relationType name="name"/>
+			<relationType name="-name"/>
 		</relation>
 		<relation id="7">
-			<relationType name="scope" mappingSymbol="s"/>
-			<relationType name="-scope" mappingSymbol="s"/>
-			<display color="#008080" symbol="s"/>
+			<relationType name="scope"/>
+			<relationType name="-scope"/>
 		</relation>
 		<relation id="8">
-			<relationType name="has-param" mappingSymbol="p"/>
-			<relationType name="-has-param" mappingSymbol="p"/>
-			<display color="#FFFFCC" symbol="p"/>
+			<relationType name="has-param"/>
+			<relationType name="-has-param"/>
 		</relation>
 		<relation id="9">
-			<relationType name="implements" mappingSymbol="i"/>
-			<relationType name="-implements" mappingSymbol="i"/>
-			<display color="#FA8072" symbol="i"/>
+			<relationType name="implements"/>
+			<relationType name="-implements"/>
 		</relation>
 		<relation id="10">
-			<relationType name="throws" mappingSymbol="t"/>
-			<relationType name="-throws" mappingSymbol="t"/>
-			<display color="#708090" symbol="t"/>
+			<relationType name="throws"/>
+			<relationType name="-throws"/>
 		</relation>
 	</ontology>
+    <displayInfo>
+        <relation id="1">
+            <displayInGraphView>
+                <createIcon color="#33CCFF">
+                    <relationType name="contains" mappingSymbol="c"/>
+                    <relationType name="-contains" mappingSymbol="C"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="2">
+            <displayInGraphView>
+                <createIcon color="#FF99CC">
+                    <relationType name="is-a" mappingSymbol="is"/>
+                    <relationType name="-is-a" mappingSymbol="is"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="3">
+            <displayInGraphView>
+                <createIcon color="#FFCC99">
+                    <relationType name="return" mappingSymbol="r"/>
+                    <relationType name="-return" mappingSymbol="R"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="4">
+            <displayInGraphView>
+                <createIcon color="#00FFCC">
+                    <relationType name="extends" mappingSymbol="e"/>
+                    <relationType name="-extends" mappingSymbol="E"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="5">
+            <displayInGraphView>
+                <createIcon color="#C0C0C0">
+                    <relationType name="calls" mappingSymbol="c"/>
+                    <relationType name="-calls" mappingSymbol="C"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="6">
+            <displayInGraphView>
+                <createIcon color="#FF336">
+                    <relationType name="name" mappingSymbol="n"/>
+                    <relationType name="-name" mappingSymbol="N"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="7">
+            <displayInGraphView>
+                <createIcon color="#008080">
+                    <relationType name="scope" mappingSymbol="s"/>
+                    <relationType name="-scope" mappingSymbol="S"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="8">
+            <displayInGraphView>
+                <createIcon color="#FFFFCC">
+                    <relationType name="has-param" mappingSymbol="p"/>
+                    <relationType name="-has-param" mappingSymbol="P"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="9">
+            <displayInGraphView>
+                <createIcon color="#FA8072">
+                    <relationType name="implements" mappingSymbol="i"/>
+                    <relationType name="-implements" mappingSymbol="I"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+        <relation id="10">
+            <displayInGraphView>
+                <createIcon color="#708090">
+                    <relationType name="throws" mappingSymbol="t"/>
+                    <relationType name="-throws" mappingSymbol="T"/>
+                </createIcon>
+            </displayInGraphView>
+        </relation>
+    </displayInfo>
+
 
 </ontConfig>
 

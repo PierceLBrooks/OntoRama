@@ -291,7 +291,7 @@ public class DescriptionView extends JPanel implements GraphView {
             }
         }
         // deal with clones
-        _clonesPanel.update(node.getClones().iterator());
+        //_clonesPanel.update(node.getClones().iterator());
 
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getIdentifier());

@@ -7,6 +7,9 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
 import ontorama.util.TestingUtils;
@@ -38,21 +41,21 @@ public class TestQueryEngine extends TestCase {
     private QueryResult queryResult2;
     private List queryResultList2;
 
-    private ontorama.model.graph.Node testNode_chair;
+    private Node testNode_chair;
 
 
-    ontorama.model.graph.EdgeType edgeType1;
-    ontorama.model.graph.EdgeType edgeType2;
-    ontorama.model.graph.EdgeType edgeType3;
-    ontorama.model.graph.EdgeType edgeType4;
-    ontorama.model.graph.EdgeType edgeType5;
-    ontorama.model.graph.EdgeType edgeType6;
-    ontorama.model.graph.EdgeType edgeType7;
-    ontorama.model.graph.EdgeType edgeType8;
-    ontorama.model.graph.EdgeType edgeType9;
-    ontorama.model.graph.EdgeType edgeType10;
-    ontorama.model.graph.EdgeType edgeType11;
-    ontorama.model.graph.EdgeType edgeType12;
+    EdgeType edgeType1;
+    EdgeType edgeType2;
+    EdgeType edgeType3;
+    EdgeType edgeType4;
+    EdgeType edgeType5;
+    EdgeType edgeType6;
+    EdgeType edgeType7;
+    EdgeType edgeType8;
+    EdgeType edgeType9;
+    EdgeType edgeType10;
+    EdgeType edgeType11;
+    EdgeType edgeType12;
 
     /**
      *
@@ -105,7 +108,7 @@ public class TestQueryEngine extends TestCase {
      *
      */
     public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException {
-        assertEquals("size of query result iterator for query1", 14, queryResultList1.size());
+        assertEquals("size of query result iterator for query1", 34, queryResultList1.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult1.getNodesList());
         checkOutboundEdge(queryResult1, testNode_chair, edgeType1 ,1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType2, 1);
@@ -113,7 +116,7 @@ public class TestQueryEngine extends TestCase {
         checkOutboundEdge(queryResult1, testNode_chair, edgeType4, 2);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType5, 1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType6, 0);
-        checkOutboundEdge(queryResult1, testNode_chair, edgeType7, 1);
+        checkOutboundEdge(queryResult1, testNode_chair, edgeType7, 2);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType8, 1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType9, 1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType10, 2);
@@ -136,8 +139,8 @@ public class TestQueryEngine extends TestCase {
     /**
      *
      */
-    private void checkOutboundEdge(QueryResult queryResult, ontorama.model.graph.Node fromNode,
-                                           ontorama.model.graph.EdgeType edgeType, int expectedListSize) {
+    private void checkOutboundEdge(QueryResult queryResult, Node fromNode,
+                                           EdgeType edgeType, int expectedListSize) {
         String message = "query " + queryResult.getQuery().getQueryTypeName();
         message = message + ", iterator size for ";
         message = message + " ontology type " + fromNode.getName() + " and relation link ";
@@ -147,7 +150,7 @@ public class TestQueryEngine extends TestCase {
 
         Iterator edgesIt = queryResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            ontorama.model.graph.Edge cur = (ontorama.model.graph.Edge) edgesIt.next();
+            Edge cur = (Edge) edgesIt.next();
             String edgeTypeName = cur.getEdgeType().getName();
             if ((cur.getFromNode().equals(fromNode)) && (edgeType.getName().equals(edgeTypeName)) ) {
                 outboundEdges.add(cur);
@@ -156,10 +159,10 @@ public class TestQueryEngine extends TestCase {
         assertEquals(message, expectedListSize, outboundEdges.size());
     }
 
-    private ontorama.model.graph.Node getNodeFromList (String nodeName, List nodesList) {
+    private Node getNodeFromList (String nodeName, List nodesList) {
         Iterator it = nodesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
+            Node cur = (Node) it.next();
             if (cur.getName().equals(nodeName)) {
                 return cur;
             }

@@ -89,7 +89,9 @@ public class TestRdfDamlParser extends TestCase {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
                 
-        backend = (ExamplesBackend) OntoramaConfig.getBackend();
+        backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(backend);
+        
         backend.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
         source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
@@ -127,7 +129,9 @@ public class TestRdfDamlParser extends TestCase {
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
 
+		backend = (ExamplesBackend) OntoramaConfig.getBackend();
         OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 1");
+        System.out.println("\n\n\n\n\ntestCaseToLoad = " + testCaseToLoad + ", backend = " + (ExamplesBackend) OntoramaConfig.getBackend());
         backend.setCurrentExample(testCaseToLoad);
 
         source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
@@ -147,6 +151,7 @@ public class TestRdfDamlParser extends TestCase {
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
 
+        backend = (ExamplesBackend) OntoramaConfig.getBackend();
         OntoramaExample testCaseToLoad = TestingUtils.getExampleByName("testCase: invalid RDF 2");
         backend.setCurrentExample(testCaseToLoad);
 

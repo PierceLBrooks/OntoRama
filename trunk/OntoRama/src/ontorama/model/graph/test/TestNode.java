@@ -26,7 +26,7 @@ import ontorama.model.graph.Node;
 
 public class TestNode extends TestCase {
 	
-	private Backend _backend = OntoramaConfig.getBackend();
+	private Backend _backend;
 
     private Node node1;
     private Node node2;
@@ -51,6 +51,9 @@ public class TestNode extends TestCase {
      *
      */
     protected void setUp() throws URISyntaxException {
+    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(_backend);    	
+    	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
         node1 = _backend.createNode("node1", nodeIdentifier1);

@@ -37,13 +37,15 @@ public class TestRdfP2pParser extends TestCase {
 //    	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
 //    	OntoramaConfig.activateBackend(backend);
 
-		ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();
-		
         OntoramaConfig.loadAllConfig("examples/test/p2p/examplesConfig.xml",
                 "ontorama.properties", "examples/test/p2p/config.xml");
+    	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(backend);
+    	
         backend.setCurrentExample(TestingUtils.getExampleByName("p2p_test1"));
 
         Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());
+        
         Reader r = source.getSourceResult(backend.getSourceUri(), new Query("wn#Tail")).getReader();
 
         Parser parser = new RdfP2pParser();
@@ -51,7 +53,6 @@ public class TestRdfP2pParser extends TestCase {
 
         _nodesList = parserResult.getNodesList();
         _edgesList = parserResult.getEdgesList();
-
 
         System.out.println("\n\n\n");
         Iterator it = parserResult.getNodesList().iterator();

@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TestTreeNode  extends TestCase{
 	
-	private Backend _backend = OntoramaConfig.getBackend();
+	private Backend _backend;
 
     Node _graphNode;
     TreeNode _treeNode;
@@ -36,6 +36,9 @@ public class TestTreeNode  extends TestCase{
     }
 
     public void setUp () throws NoSuchRelationLinkException {
+    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(_backend);
+    	
         _graphNode = _backend.createNode("node", "node");
         _treeNode = new TreeNodeImpl(_graphNode);
 

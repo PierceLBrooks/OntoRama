@@ -43,7 +43,9 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
         
-        ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();
+        ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+		OntoramaConfig.activateBackend(backend);
+        
         backend.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
 
         Source source = (Source) (Class.forName(backend.getSourcePackageName()).newInstance());

@@ -101,6 +101,8 @@ public class OntoramaConfig {
     
     
     public static String examplesConfigLocation = "examplesConfig.xml";
+    
+    public static String defaultBackend;
 
 	/// @todo not sure if this should be static - need to check
 	private static Backend _activeBackend;
@@ -126,6 +128,8 @@ public class OntoramaConfig {
         buildDefaultNodeTypes();
         
         loadAllConfig(examplesConfigLocation, "ontorama.properties", "config.xml");
+        
+        System.out.println("declaring class: " + curClass.getDeclaringClass());
         System.out.println("--------- end of config--------------");
     }
 
@@ -188,6 +192,15 @@ public class OntoramaConfig {
             if (str.startsWith("backend")) {
                 backends.add(properties.getProperty(str));
             }
+            if (str.startsWith("backendDefault")) {
+            	defaultBackend = properties.getProperty(str);
+            }
+        }
+        if (defaultBackend == null) {
+        	String message = "Default backend is not specified in ontorama.properties (key: backendDefault)";
+        	System.err.println(message);
+        	new ErrorPopupMessage(message, null);
+        	System.exit(1);
         }
 
     }
@@ -316,6 +329,7 @@ public class OntoramaConfig {
     }
 
 	public static void activateBackend (Backend backend) {
+		System.out.println("OntoramaConfig::activateBackend: " + backend);
 		/// @todo should have some more functionality: closing off previously active backend, 
 		/// perhaps saving data, etc.
 		OntoramaConfig._activeBackend = backend;
@@ -328,7 +342,6 @@ public class OntoramaConfig {
 	public static Backend instantiateBackend(String backendName, Frame parentFrame) {
 		try {
 			Backend backend = (Backend) Class.forName(backendName).newInstance();
-			OntoramaConfig.activateBackend(backend);
 			System.out.println("OntoramaConfig::instantiateBackend: " + backend);
 			return backend;
 		} catch (ClassNotFoundException e) {

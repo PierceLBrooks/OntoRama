@@ -20,52 +20,59 @@ import ontorama.model.GraphNode;
  * Display selectable list of nodes
  */
 public class NodesListViewer extends JFrame {
-	
+
 	/**
 	 * array of nodes to display
 	 */
 	private GraphNode[] _nodes;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public JList _nodesList;
-	
+
 	/**
-	 * 
+	 *
 	 */
-	public NodesListViewer () {
-	}
-	
-	/**
-	 * 
-	 */
-	public void setNodesList (List nodes) {
+	public NodesListViewer (List nodes) {
 		Vector nodesVector = new Vector((Collection) nodes);
 		_nodesList = new JList(nodesVector);
 		_nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		JScrollPane scrollPane = new JScrollPane(_nodesList);
-		
-		_nodesList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged (ListSelectionEvent e) {
-				GraphNode selectedNode = (GraphNode) _nodesList.getSelectedValue();
-				System.out.println("selected node = " + selectedNode.getName());
-			}
-		});
-		
+
+//		_nodesList.addListSelectionListener(new ListSelectionListener() {
+//			public void valueChanged (ListSelectionEvent e) {
+//				GraphNode selectedNode = (GraphNode) _nodesList.getSelectedValue();
+//				System.out.println("selected node = " + selectedNode.getName());
+//			}
+//		});
+
 		getContentPane().add(scrollPane);
-		
+
 		pack();
 	}
-	
+
+//	/**
+//	 *
+//	 */
+//	public void setNodesList (List nodes) {
+//	}
+
 
 	/**
-	 * 
+	 *
 	 */
 	public void showList (boolean setVisibleFlag) {
 		setVisible(setVisibleFlag);
 	}
+
+        /**
+         *
+         */
+        public JList getList () {
+          return _nodesList;
+        }
 
 }
 

@@ -114,7 +114,9 @@ sienna	A0522D
 	</ontology>
 	<rdfMapping>
 		<relationLinks>
-			<map id="1" type="supertype" tag="subClassOf"/>
+			<map id="1" type="supertype" tag="subClassOf">
+				<tag>subPropertyOf</tag>
+			</map>
 			<map id="2" type="similar" tag="similar"/>
 			<map id="4" type="part" tag="part"/>
 			<map id="5" type="substance" tag="substance"/>

@@ -1,5 +1,8 @@
 package ontorama.ontologyConfig;
 
+import java.util.List;
+import java.util.LinkedList;
+
 /**
  * Title:
  * Description:
@@ -13,45 +16,55 @@ public class RdfMapping {
     /**
      *
      */
-    private int id;
+    private int _id;
 
     /**
      *
      */
-    private String type;
+    private String _type;
 
     /**
      *
      */
-    private String rdfTag;
+    private String _rdfTag;
+    private List _rdfTagsList;
 
     /**
      *
      */
     public RdfMapping(int id, String type, String rdfTag) {
-        this.id = id;
-        this.type = type;
-        this.rdfTag = rdfTag;
+        _id = id;
+        _type = type;
+        _rdfTag = rdfTag;
+        _rdfTagsList = new LinkedList();
+        _rdfTagsList.add(_rdfTag);
     }
 
     /**
      *
      */
     public int getId () {
-        return this.id;
+        return _id;
     }
 
     /**
      *
      */
     public String getType () {
-        return this.type;
+        return _type;
     }
 
     /**
      *
      */
-    public String getRdfTag () {
-        return this.rdfTag;
+    public List getRdfTags () {
+        return _rdfTagsList;
+    }
+
+    /**
+     *
+     */
+    public void addRdfTag (String tag) {
+      _rdfTagsList.add(tag);
     }
 }

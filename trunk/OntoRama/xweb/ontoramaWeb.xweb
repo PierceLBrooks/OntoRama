@@ -19,8 +19,8 @@
 			<file sourceFile="img/kb.gif" targetFile="img/kb.gif" type="copy"/>
 			<file sourceFile="img/package_webkbtools.png" targetFile="img/package_webkbtools.png" type="copy"/>
 			<file sourceFile="img/query-engine-message-passing.png" targetFile="img/query-engine-message-passing.png" type="copy"/>
-            <file sourceFile="img/ontorama-small.gif" targetFile="img/ontorama-small.gif" type="copy"/>
-            <file sourceFile="img/ontorama-small-clones.gif" targetFile="img/ontorama-small-clones.gif" type="copy"/>
+            <file sourceFile="img/ontorama-small.png" targetFile="img/ontorama-small.png" type="copy"/>
+            <file sourceFile="img/ontorama-small-clones.png" targetFile="img/ontorama-small-clones.png" type="copy"/>
 		</section>
 		<directory sourceDir="doc" targetDir="doc">
 			<entry name="print Introduction" sourceFile="intro.xhtml" targetFile="intro_print.html" type="Printable"/>
@@ -29,6 +29,7 @@
 			<entry name="printMenus" sourceFile="menus.xhtml" targetFile="menus_print.html" type="Printable"/>
 			<entry name="printAddOntServer" sourceFile="add_ont_server.xhtml" targetFile="add_ont_server_print.html" type="Printable"/>
 			<entry name="printWebkbNotes" sourceFile="webkbNotes.xhtml" targetFile="webkbNotes_print.html" type="Printable"/>
+            <entry name="printUserGuide" sourceFile="user_doc.xhtml" targetFile="user_doc_print.html" type="Printable"/>
 		</directory>
 		<section name="Demo" title="Demo" sourceDir="demo" targetDir="demo" type="demo">
 			<entry name="Demo" sourceFile="index.xhtml" targetFile="index.html" type="XHTML"/>
@@ -107,51 +108,6 @@
 			<!--<image type="banner"/>-->
 		</documentStyle>
 
-		<!--
-		<documentStyle type="XMLCurrentProjects">
-			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
-				<parameter name="nav.main.pos" value="left"/>
-				<parameter name="nav.sec.pos" value="below"/>
-				<parameter name="nav.sec.visible" value="current"/>
-				<parameter name="nav.sec.firstEntry" value="section"/>
-				<parameter name="style.markup.firstLetter" value="on"/>
-				<parameter name="style.markup.linkTypes" value="on"/>
-				<parameter name="feature.include.footer" value="footer.xml"/>
-				<parameter name="feature.internalLink.token" value="!"/>
-				<xsl stylesheet="layout/projects.xsl">
-					<parameter name="type" value="Current"/>
-				</xsl>
-			</xsl>
-		</documentStyle>
-		-->
-		<!--
-		<documentStyle type="XMLPeople">
-			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
-				<parameter name="nav.main.pos" value="left"/>
-				<parameter name="nav.sec.pos" value="below"/>
-				<parameter name="nav.sec.visible" value="current"/>
-				<parameter name="nav.sec.firstEntry" value="section"/>
-				<parameter name="style.markup.firstLetter" value="on"/>
-				<parameter name="style.markup.linkTypes" value="on"/>
-				<parameter name="feature.include.footer" value="footer.xml"/>
-				<parameter name="feature.internalLink.token" value="!"/>
-				<xsl stylesheet="layout/person.xsl" navigationElement="person"/>
-			</xsl>
-		</documentStyle>
-		<documentStyle type="XMLResources">
-			<xsl stylesheet="layout/generic.xsl" navigationElement="html">
-				<parameter name="nav.main.pos" value="left"/>
-				<parameter name="nav.sec.pos" value="below"/>
-				<parameter name="nav.sec.visible" value="current"/>
-				<parameter name="nav.sec.firstEntry" value="section"/>
-				<parameter name="style.markup.firstLetter" value="on"/>
-				<parameter name="style.markup.linkTypes" value="on"/>
-				<parameter name="feature.include.footer" value="footer.xml"/>
-				<parameter name="feature.internalLink.token" value="!"/>
-				<xsl stylesheet="layout/resources.xsl"/>
-			</xsl>
-		</documentStyle>
-		-->
 		<documentStyle type="copy">
 			<copy/>
 		</documentStyle>

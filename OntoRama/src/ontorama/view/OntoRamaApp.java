@@ -66,7 +66,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
     public Action _exitAction;
     public Action _aboutAction;
     public StopQueryAction _stopQueryAction;
-    public ShowUnconnectedNodesAction _unconnectedNodesAction;
 
     /**
      * desctiption view panel contains concept properties details
@@ -227,7 +226,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _aboutAction = new AboutOntoRamaAction();
         _stopQueryAction = new StopQueryAction(this);
         _stopQueryAction.setEnabled(false);
-        _unconnectedNodesAction = new ShowUnconnectedNodesAction(false);
     }
 
     /**

@@ -19,7 +19,6 @@ import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.ui.events.HistoryQueryStartEvent;
-import ontorama.ui.events.QueryStartEvent;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;

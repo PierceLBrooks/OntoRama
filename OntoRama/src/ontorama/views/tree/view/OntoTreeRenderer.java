@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Iterator;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,8 +18,6 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.ImageMaker;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
-import ontorama.model.tree.TreeEdge;
-import ontorama.model.tree.TreeNode;
 import ontorama.views.tree.model.OntoTreeNode;
 
 /**

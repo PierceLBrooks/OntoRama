@@ -37,6 +37,8 @@ public class ViewEventListener implements ViewEventObservable {
 	 * @param	node - node that event has occured on
 	 * @param	eventType - type of event, should be one of contants
 	 *			declared in ViewEventListener
+         *
+         * @todo  remove debugging code for printing parents of the focused node
 	 */
 	public void notifyChange (GraphNode node, int eventType) {
 		Iterator i = observers.iterator();
@@ -45,6 +47,12 @@ public class ViewEventListener implements ViewEventObservable {
 			switch (eventType) {
 				case 1:
 					cur.focus (node);
+                                        System.out.println("focus on node " + node.getName());
+                                        java.util.Iterator it = ontorama.model.Edge.getInboundEdgeNodes(node,1);
+                                        while (it.hasNext()) {
+                                          GraphNode parent = (GraphNode) it.next();
+                                          System.out.println("  parent: " + parent.getName());
+                                        }
 					break;
 				case 2:
                     System.out.println("SENDING TOGGLE FOLD EVENT for node " + node.getName());

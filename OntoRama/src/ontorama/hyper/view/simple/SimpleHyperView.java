@@ -271,7 +271,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
         }
         hn.addFocusChangedObserver(this);
-        HyperNodeView hnv = new HyperNodeView(hn, OntoramaConfig.getNodeTypeDisplayInfo(nodeType));
+        HyperNodeView hnv = new HyperNodeView(hn, nodeType);
         hypernodes.put(node, hn);
         hypernodeviews.put(node, hnv);
         Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(node).iterator();

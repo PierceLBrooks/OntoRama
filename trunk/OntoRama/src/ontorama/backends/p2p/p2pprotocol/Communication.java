@@ -144,6 +144,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*/
 	protected PipeAdvertisement getInputPipeAdvertisement(PeerGroupID groupID)  {
+		System.out.println("Communication::getInputPipeAdvertisement hashtable size = " + Communication.inputPipeAdvertisement.size());
 		System.out.println("Communication::getInputPipeAdvertisement for group id " + groupID +
 						" returning " + (PipeAdvertisement) Communication.inputPipeAdvertisement.get(groupID));
 		return (PipeAdvertisement) Communication.inputPipeAdvertisement.get(groupID);

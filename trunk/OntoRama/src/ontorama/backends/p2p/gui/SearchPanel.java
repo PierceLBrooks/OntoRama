@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.backends.BackendSearch;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.ErrorDialog;
@@ -24,9 +26,12 @@ public class SearchPanel extends JPanel {
     private JTextField queryField;
     private JButton submitButton;
     
+    private EventBroker _eventBroker;
+    
 
-    public SearchPanel() {
+    public SearchPanel(EventBroker eventBroker) {
         super();
+        _eventBroker = eventBroker;
 
         queryField = new JTextField(10);
 
@@ -41,7 +46,7 @@ public class SearchPanel extends JPanel {
                 else {
                     Query tmpQuery = new Query(searchTerm);
                     tmpQuery.setDepth(2);
-                    BackendSearch.search(tmpQuery);
+                    BackendSearch.search(tmpQuery, _eventBroker);
                 }
             }
         });

@@ -4,29 +4,30 @@
 	<information>
 		<title>OntoRama Demo Application</title>
 		<vendor>DSTC, KVO (GU)</vendor>
-		<homepage href="http://dstc.edu.au"/>
-		<homepage href="http://www.int.gu.edu.au/~kvo"/>
+		<!-- home page for the application ->
+		<homepage href="http://www.webkb.org/ontorama"/>
 		<description>Ontology Browser Prototype</description>
 		<description kind="tooltip">GO OntoRama!</description>
-		<icon href="img/OntoramaLogo-smaller.jpg"/> -->
+		<icon href="img/OntoramaLogo-smaller.jpg"/>
+		<offline-alowed/>
 	</information>
 	<resources>
 		<j2se version="1.3 1.2+"/>
-		<jar href="lib/OntoRama.jar"/>
-		<jar href="lib/jdom.jar"/>
-		<jar href="lib/rdf-api-2001-01-19.jar"/>
-		<!--<jar href="lib/jena.jar"/>-->
-		<jar href="lib/jenaOntorama.jar"/>
-		<jar href="lib/junit.jar"/>
-		<jar href="lib/xerces.jar"/>
-		<jar href="lib/rdffilter.jar"/>
-		<jar href="lib/aelfred.jar"/>
-		<jar href="lib/sax2beta.jar"/>
-		<jar href="lib/batik-awt-util.jar"/>
-		<jar href="lib/batik-dom.jar"/>
-		<jar href="lib/batik-svggen.jar"/>
-		<jar href="lib/batik-util.jar"/>
-		<jar href="lib/batik-xml.jar"/>
+		<jar href="lib/OntoRama.jar" download="eager"/>
+		<jar href="lib/jdom.jar" download="eager"/>
+		<jar href="lib/rdf-api-2001-01-19.jar" download="eager"/>
+		<!--<jar href="lib/jena.jar" download="eager"/>-->
+		<jar href="lib/jenaOntorama.jar" download="eager"/>
+		<jar href="lib/junit.jar" download="lazy"/>
+		<jar href="lib/xerces.jar" download="eager"/>
+		<jar href="lib/rdffilter.jar" download="lazy"/>
+		<jar href="lib/aelfred.jar" download="lazy"/>
+		<jar href="lib/sax2beta.jar" download="eager"/>
+		<jar href="lib/batik-awt-util.jar" download="lazy"/>
+		<jar href="lib/batik-dom.jar" download="lazy"/>
+		<jar href="lib/batik-svggen.jar" download="lazy"/>
+		<jar href="lib/batik-util.jar" download="lazy"/>
+		<jar href="lib/batik-xml.jar" download="lazy"/>
 	</resources>
 	<application-desc main-class="ontorama.view.OntoRamaApp"/>
 	<!--<security>

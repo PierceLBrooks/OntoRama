@@ -23,6 +23,7 @@
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
 	<pathelement path="${lib.home}/jenaOntorama.jar/"/>
+	
 	<pathelement path="${lib.home}/junit.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
     <pathelement path="${lib.home}/events.jar/"/>

@@ -59,11 +59,11 @@ inclusive: 	purple:9999FF
 			<display color="#C0C0C0" symbol="s"/>
 		</relation>
 		<relation id="6">
-			<relationType name="inclusive"/>
+			<relationType name="inclusion"/>
 			<display color="#9999FF" symbol="i"/>
 		</relation>
 		<relation id="7">
-			<relationType name="exclusive"/>
+			<relationType name="exclusion"/>
 			<display color="#9999FF" symbol="e"/>
 		</relation>
 		<conceptProperty id="Description"/>

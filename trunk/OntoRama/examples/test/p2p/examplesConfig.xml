@@ -1,5 +1,5 @@
 <ontoramaExamples>
-    <example name="p2p" root="" loadOnStart="yes">
+    <example name="p2p" root="wn#Tail" loadOnStart="yes">
         <source uri="examples/test/p2p"
             isSourceDynamic="true"
             sourcePackagePathSuffix="JarSource"/>

@@ -586,11 +586,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     public static void showErrorDialog(String message) {
+        Frame parentFrame = getMainFrame();
+        new ErrorPopupMessage(message, parentFrame);
+    }
+
+    public static Frame getMainFrame () {
         Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
         if (frames.length == 0) {
-            return;
+            return null;
         }
-        new ErrorPopupMessage(message, frames[0]);
+        return frames[0];
     }
 
     /**

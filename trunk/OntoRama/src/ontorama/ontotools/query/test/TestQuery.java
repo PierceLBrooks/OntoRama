@@ -1,8 +1,10 @@
-package ontorama.ontotools.query;
+package ontorama.ontotools.query.test;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import ontorama.ontotools.query.Query;
 
 import junit.framework.TestCase;
 

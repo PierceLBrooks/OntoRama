@@ -28,6 +28,9 @@ import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
 
+import ontorama.util.event.ViewEventListener;
+import ontorama.util.event.ViewEventObserver;
+
 /**
  * Title:        OntoRama
  * Description:
@@ -37,7 +40,7 @@ import ontorama.OntoramaConfig;
  * @version 1.0
  */
 
-public class DescriptionView extends JPanel implements NodeObserver  {
+public class DescriptionView extends JPanel implements ViewEventObserver {
 
   /**
    * this hashtable will hold labels of concept property names as keys
@@ -60,16 +63,23 @@ public class DescriptionView extends JPanel implements NodeObserver  {
    * @todo  think of a way to not hardcode clones
    */
   String clonesLabelName = "Clones";
+  
+  private ViewEventListener viewListener;
+  
 
-  public DescriptionView(Graph graph) {
+  public DescriptionView(Graph graph, ViewEventListener viewListener) {
+	  this.viewListener = viewListener;
+	  this.viewListener.addObserver(this);	
 
     // add this view to the list of GraphNode  observers
+	/*
     List graphNodesList = graph.getNodesList();
     Iterator graphNodesIterator = graphNodesList.iterator();
     while (graphNodesIterator.hasNext()) {
       GraphNode curNode = (GraphNode) graphNodesIterator.next();
       curNode.addObserver(this);
     }
+	*/
 
     // set up hashtable of labels
     //initLabels();
@@ -98,7 +108,7 @@ public class DescriptionView extends JPanel implements NodeObserver  {
             NodePropertiesPanel propPanel = new NodePropertiesPanel(propName,new LinkedList());
             nodePropertiesPanels.put(propName,propPanel);
         }
-        this.clonesPanel = new ClonesPanel();
+        this.clonesPanel = new ClonesPanel(viewListener);
    }
 
   /**
@@ -132,6 +142,7 @@ public class DescriptionView extends JPanel implements NodeObserver  {
    * Communication from GraphNode to DescriptionView
    * @todo  think of a way to not hardcode clones
    */
+   /*
   public void update( Object observer, Object observable ) {
     GraphNode node = (GraphNode) observable;
     //System.out.println(".......method update, node = " + node.getName());
@@ -145,4 +156,39 @@ public class DescriptionView extends JPanel implements NodeObserver  {
     // deal with clones
     clonesPanel.update(node.getClones());
   }
+  */
+  
+	//////////////////////////ViewEventObserver interface implementation////////////////
+	
+	/**
+	 *
+	 */
+	public void focus ( GraphNode node) {
+		System.out.println();
+		System.out.println("******* desciptionView got focus for node " + node.getName());
+	    //System.out.println(".......method update, node = " + node.getName());
+	    Enumeration e = this.nodePropertiesPanels.keys();
+	    while (e.hasMoreElements()) {
+	      String propertyName = (String) e.nextElement();
+	      NodePropertiesPanel propPanel = (NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
+	      propPanel.update(node.getProperty(propertyName));
+	
+	    }
+	    // deal with clones
+	    clonesPanel.update(node.getClones());		
+		System.out.println();
+	}
+	
+	/**
+	 *
+	 */
+	public void toggleFold ( GraphNode node) {
+	}
+	
+	/**
+	 *
+	 */
+	public void query ( GraphNode node) {
+	}
+  
 }

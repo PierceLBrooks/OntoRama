@@ -30,12 +30,16 @@ import java.awt.event.*;
 import ontorama.ontologyConfig.*;
 
 import ontorama.model.Graph;
+import ontorama.model.GraphNode;
 
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
+import ontorama.tree.model.OntoTreeBuilder;
 import ontorama.tree.model.OntoNodeObserver;
 
 import ontorama.util.Debug;
+import ontorama.util.event.ViewEventListener;
+import ontorama.util.event.ViewEventObserver;
 
 
 /**
@@ -49,7 +53,8 @@ import ontorama.util.Debug;
 
 public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
                                       TreeWillExpandListener,
-                                      KeyListener, MouseListener {
+                                      KeyListener, MouseListener,
+									  ViewEventObserver {
 
 
     private JScrollPane treeView;
@@ -57,12 +62,16 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
     private OntoTreeNode focusedNode;
 
     private Debug debug = new Debug(false);
+	
+	private ViewEventListener viewListener;
 
 
     /**
      * Constructor
      */
-    public OntoTreeView(Graph graph)  {
+    public OntoTreeView(Graph graph, ViewEventListener viewListener)  {
+		this.viewListener = viewListener;
+		this.viewListener.addObserver(this);
 
         // build OntoTreeModel for this graph
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
@@ -113,7 +122,7 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
       OntoTreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
       //if ( !node.equals(focusedNode)) {
         debug.message("TreeSelectionListener ******** node " + node);
-        node.setFocus();
+        //node.setFocus();
       //}
     }
 
@@ -217,15 +226,23 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
     public void mousePressed(MouseEvent e) {
       int selRow = tree.getRowForLocation(e.getX(), e.getY());
       TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+	  if (selPath == null) {
+		  // mouse clicked not on a node, but somewhere else in the tree view
+		  return;
+	  }
+	  OntoTreeNode treeNode = (OntoTreeNode) selPath.getLastPathComponent();
+	  GraphNode graphNode = treeNode.getGraphNode();
       if(selRow != -1) {
          if(e.getClickCount() == 1) {
              debug.message("mousePressed, single click,  row=" + selRow);
+			 viewListener.notifyChange(graphNode, ViewEventListener.MOUSE_SINGLECLICK);
          }
          else if(e.getClickCount() == 2) {
              debug.message("mousePressed, double click,  row=" + selRow);
          }
       }
     }
+	
     public void mouseClicked (MouseEvent e) {
       int selRow = tree.getRowForLocation(e.getX(), e.getY());
       TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
@@ -342,5 +359,38 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
         }
     }
 
+	
+	//////////////////////////ViewEventObserver interface implementation////////////////
+	
+	/**
+	 * @todo	shouldn't need to check if treeNode == null. This is a hack! this should be fixed in graphBuilder
+	 */
+	public void focus ( GraphNode node) {
+		System.out.println();
+		System.out.println("******* treeView got focus for node " + node.getName());
+
+		OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
+		if (treeNode == null) {
+			return;
+		}
+		TreePath path = treeNode.getTreePath();
+		this.tree.setSelectionPath(path);
+
+		//treeNode.setFocus();
+		System.out.println();
+	}
+	
+	/**
+	 *
+	 */
+	public void toggleFold ( GraphNode node) {
+	}
+	
+	/**
+	 *
+	 */
+	public void query ( GraphNode node) {
+	}
+			
 }
 

@@ -9,9 +9,13 @@ import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Enumeration;
 
+import java.security.AccessControlException;
+
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
 import com.hp.hpl.mesa.rdf.jena.vocabulary.*;
+import com.hp.hpl.jena.daml.*;
+import com.hp.hpl.jena.daml.common.*;
 
 
 import ontorama.webkbtools.query.parser.Parser;
@@ -54,15 +58,28 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException {
+    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException, AccessControlException {
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+		System.out.println("RDFDamlParser, method getOntologyTypeIterator");
         try {
+            DAMLModelImpl model;
+
+            System.out.println("...will try to create rdf model DAMLModelImpl");
             // create an empty model
-            Model model = new ModelMem();
+            //Model model = new ModelMem();
+            model = new DAMLModelImpl();
+            System.out.println("...created rdf model, will call reader now");
             model.read(reader, "");
+            System.out.println("...called reader, will try to get iterator of subjects");
 
             // get Iterator of all subjects, then go through each of them
             // and get Iterator of statements. Process each statement
             ResIterator resIt = model.listSubjects();
+
+            System.out.println("... iterating");
 
             while (resIt.hasNext()) {
                 Resource r = resIt.next();
@@ -75,6 +92,9 @@ public class RdfDamlParser implements Parser {
                 }
             }
         }
+		catch (AccessControlException secExc) {
+			throw secExc;
+		}		
         catch (RDFException e) {
             throw new ParserException("Error in parsing RDF: " + e.getMessage());
         }

@@ -45,6 +45,7 @@ import ontorama.tree.view.OntoTreeView;
 
 import ontorama.textDescription.view.DescriptionView;
 
+import ontorama.util.event.ViewEventListener;
 
 public class OntoRamaApp extends JFrame {
     /**
@@ -113,6 +114,11 @@ public class OntoRamaApp extends JFrame {
      * what part of a screen this app window should take (percentage)
      */
     private int appWindowPercent = 80;
+	
+	/**
+	 *
+	 */
+	ViewEventListener viewListener = new ViewEventListener();
 
     /**
      * @todo: introduce error dialogs for exception
@@ -166,13 +172,13 @@ public class OntoRamaApp extends JFrame {
         this.appHeight = (this.screenHeight * this.appWindowPercent) /100;
 
         // Create HyperView
-        hyperView = new SimpleHyperView();
+        hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
-        hyperView.saveCanvasToFile( "hyperView" );
+        //hyperView.saveCanvasToFile( "hyperView" );
 
 
         // create a query panel
-        queryPanel = new QueryPanel(hyperView);
+        queryPanel = new QueryPanel(hyperView, viewListener);
         queryPanel.setQueryField(termName);
         queryPanel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -197,7 +203,7 @@ public class OntoRamaApp extends JFrame {
 
 
         // Create OntoTreeView
-        treeView = (new OntoTreeView(graph)).getTreeViewPanel();
+        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
 
         //Add the scroll panes to a split pane.
         setSplitPanelSizes(appWidth, appHeight);
@@ -206,7 +212,7 @@ public class OntoRamaApp extends JFrame {
         splitPane.setOneTouchExpandable(true);
 
         // create description panel
-        DescriptionView descriptionViewPanel = new DescriptionView(graph);
+        DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);
         //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
                                //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                                //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);

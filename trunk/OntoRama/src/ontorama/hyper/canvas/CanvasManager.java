@@ -11,6 +11,9 @@ import ontorama.hyper.view.simple.LabelView;
 import ontorama.model.Edge;
 import ontorama.model.GraphNode;
 
+import ontorama.util.event.ViewEventListener;
+import ontorama.util.event.ViewEventObserver;
+
 import javax.swing.JComponent;
 
 import java.awt.Graphics2D;
@@ -30,7 +33,10 @@ import java.util.TimerTask;
 
 
 public class CanvasManager extends JComponent
-        implements MouseListener, MouseMotionListener, FocusChangedObserver {
+        implements MouseListener, MouseMotionListener, 
+		ViewEventObserver {
+			
+	protected ViewEventListener viewListener;
 
     /**
      * Inner class to handle canvasItem single click
@@ -42,7 +48,8 @@ public class CanvasManager extends JComponent
         }
 
         public void run() {
-            hyperNodeView.hasFocus();
+            //hyperNodeView.hasFocus();
+			viewListener.notifyChange(hyperNodeView.getGraphNode() , ViewEventListener.MOUSE_SINGLECLICK);
         }
     }
 
@@ -350,11 +357,12 @@ public class CanvasManager extends JComponent
      * emit a change in which node has focus.
      * The node that has focus is centered.
      */
-    public void focusChanged( Object obj ){
-        focusNode = (HyperNode)obj;
+    public void focusChanged( GraphNode graphNode ){
+		
+        focusNode = (HyperNode) this.hypernodes.get (graphNode);
         // set focused node label to selected
-        testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( focusNode.getGraphNode()) );
-        setLabelSelected( (HyperNodeView)(hypernodeviews.get(focusNode.getGraphNode()) ) );
+        testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
+        setLabelSelected( (HyperNodeView)(hypernodeviews.get(graphNode) ) );
         //place the label last in the list so that it gets drawn last.
         // calculate the length of the animation as a function of the distance
         // in the euclidian space (before hyperbolic projection)
@@ -444,4 +452,30 @@ public class CanvasManager extends JComponent
             }
         }
     }
+	
+	//////////////////////////ViewEventObserver interface implementation////////////////
+	
+	/**
+	 *
+	 */
+	public void focus ( GraphNode node) {
+		System.out.println();
+		System.out.println("******* hyperView got focus for node " + node.getName());
+		focusChanged(node);
+        //hyperNodeView.hasFocus();
+		System.out.println();
+	}
+	
+	/**
+	 *
+	 */
+	public void toggleFold ( GraphNode node) {
+	}
+	
+	/**
+	 *
+	 */
+	public void query ( GraphNode node) {
+	}
+					
  }

@@ -30,6 +30,8 @@ import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
 
+import ontorama.util.event.ViewEventListener;
+
 /**
  * Title:        OntoRama
  * Description:
@@ -46,8 +48,11 @@ public class ClonesPanel extends JPanel {
     int minPadding = 15;
 
     Hashtable buttonCloneMapping = new Hashtable();
+	
+	private ViewEventListener viewListener;
 
-    public ClonesPanel () {
+    public ClonesPanel (ViewEventListener viewListener) {
+		this.viewListener = viewListener;
         //this.clones = clones;
 
         initLabels();
@@ -93,7 +98,8 @@ public class ClonesPanel extends JPanel {
           button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GraphNode node = (GraphNode) buttonCloneMapping.get(e.getSource());
-                node.hasFocus();
+				viewListener.notifyChange(node, ViewEventListener.MOUSE_SINGLECLICK);
+                //node.hasFocus();
             }
           });
           clonesValuePanel.add(button);

@@ -71,7 +71,7 @@ public class TestRdfP2pParser extends TestCase {
     }
 
     public void testEdgesNum () {
-        assertEquals("number of edges ", 10, _edgesList.size());
+        assertEquals("number of edges ", 11, _edgesList.size());
     }
 
     public void testNode_tail () {

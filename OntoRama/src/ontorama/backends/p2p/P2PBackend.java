@@ -259,7 +259,6 @@ public class P2PBackend implements Peer2PeerBackend {
         P2PGraph retVal = new P2PGraphImpl(_eventBroker);
        //Emtpy the previus graph model and set it to what ontoRama returns
        //TODO this should be used when everything is working
-//       ((ChangePanel) this.getPanel().get(1)).empty();
        mainPanel.getChangePanel().empty();
        //Ask the other peers what they got
          try {
@@ -321,11 +320,6 @@ public class P2PBackend implements Peer2PeerBackend {
 			else {
 				asserterStr = asserter.toString();
 			}
-//			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-//             	"New relation from: "
-//             	+ edge.getFromNode().getIdentifier()
-//             	+ " to: " + edge.getToNode().getIdentifier() + " of type: " + edge.getEdgeType());
-
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 
 										edge.getEdgeType().getName(), 
@@ -364,17 +358,14 @@ public class P2PBackend implements Peer2PeerBackend {
                 asserterStr = asserter.toString();
             }
             System.out.println("\n\nP2PBackend::assertNode sending propagate for node " + node.getName());
-//             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-//             		"New node was added: "
-//             		+ node.getIdentifier()
-//             		+ " by : " + asserterStr);
              
              NodeType nodeType = node.getNodeType();
              if (nodeType == null) {
              	// @todo a hack here for node type. Need to fix where adding nodes.
              	nodeType = OntoramaConfig.UNKNOWN_TYPE;
              }
-             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.toString(), Change.ASSERT, asserterStr);
+			System.out.println("\nnode type for new node: " + nodeType.getName());
+             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserterStr);
              String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 			this.graph.assertNode(node,asserter);
@@ -400,19 +391,14 @@ public class P2PBackend implements Peer2PeerBackend {
             }
             else {
                 rejectorStr = rejecter.toString();
-            }
-//             this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null,
-//             		"New node was rejected: "
-//             		+ node.getIdentifier()
-//             		+ " by : " + rejectorStr);
-             
+            }            
 			NodeType nodeType = node.getNodeType();
 			if (nodeType == null) {
 			   // @todo a hack here for node type. Need to fix where adding nodes.
 			   nodeType = OntoramaConfig.UNKNOWN_TYPE;
 			}
 
-			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.toString(), Change.REJECT, rejectorStr);
+			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejectorStr);
 			String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
              		
@@ -439,12 +425,6 @@ public class P2PBackend implements Peer2PeerBackend {
 			else {
 				rejectorStr = rejecter.toString();
 			}
-
-//			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null,
-//             		"Rejected relation from "
-//             		+ edge.getFromNode().getIdentifier() + " to "
-//             		+ edge.getToNode().getIdentifier()
-//             		+ " with type: " + edge.getEdgeType());
 
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 

@@ -11,11 +11,9 @@ import ontorama.model.GraphNode;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
- * Title:
- * Description:
+ * Description: Edge between nodes. Edges correspong to relation links between concept types.
  * Copyright:    Copyright (c) 2001
- * Company:
- * @author
+ * Company: DSTC
  * @version 1.0
  */
 
@@ -37,7 +35,7 @@ public class Edge {
     int type;
 
     /**
-     *
+     * list holding all edges
      */
     public static List edges = new LinkedList();
 

@@ -6,13 +6,10 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 /**
- * Title:
  * Description: Holds all relavant details for Relation Link (such as:
  *  name, symbol, display color, etc)
  * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
+ * Company: DSTC
  */
 
 public class RelationLinkDetails {

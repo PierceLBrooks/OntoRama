@@ -60,6 +60,12 @@ http://www.gotomy.com/color.html
         <relation id="15">
             <relationType name="synonym"/>
         </relation>
+        <relation id="16">
+            <relationType name="relSignature1"/>
+        </relation>
+        <relation id="17">
+            <relationType name="relSignature2"/>
+        </relation>
 	</ontology>
     <displayInfo>
         <relation id="1">
@@ -175,6 +181,16 @@ http://www.gotomy.com/color.html
                 <relationType name="synonym" displayLabel="Synonym"/>
             </displayInDescriptionWindow>
         </relation>
+        <relation id="16">
+            <displayInDescriptionWindow>
+                <relationType name="relSignature1" displayLabel="Signature 1"/>
+            </displayInDescriptionWindow>
+        </relation>
+        <relation id="17">
+            <displayInDescriptionWindow>
+                <relationType name="relSignature2" displayLabel="Signature 2"/>
+            </displayInDescriptionWindow>
+        </relation>
     </displayInfo>
 	<rdfMapping>
         <map id="1" type="supertype" tag="subClassOf"/>
@@ -191,5 +207,7 @@ http://www.gotomy.com/color.html
         <map id="13" type="description" tag="comment"/>
         <map id="14" type="creator" tag="Creator"/>
         <map id="15" type="synonym" tag="label"/>
+        <map id="16" type="relSignature1" tag="range"/>
+        <map id="17" type="relSignature2" tag="domain"/>
 	</rdfMapping>
 </ontConfig>

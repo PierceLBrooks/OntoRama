@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: CanvasController.java,v 1.3 2002-08-01 09:00:05 johang Exp $
+ * $Id: CanvasController.java,v 1.4 2002-08-02 07:44:20 pbecker Exp $
  */
 package org.tockit.canvas.controller;
 
@@ -22,10 +22,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.Timer;
 
-/**
- * @todo pass event broker at construction instead of creating one
- * @todo remove callbacks on the canvas items, force using event broker
- */
 public class CanvasController implements MouseListener, MouseMotionListener {
 
     private Canvas canvas;

@@ -27,8 +27,8 @@ non-transitive:
 			<display color="#33CCFF" symbol="in"/>
 		</relation>
 		<relation id="2">
-			<relationType name="is" mappingSymbol="is"/>
-			<relationType name="-is" mappingSymbol="is"/>
+			<relationType name="is-a" mappingSymbol="is"/>
+			<relationType name="-is-a" mappingSymbol="is"/>
 			<display color="#FF99CC" symbol="is"/>
 		</relation>
 		<relation id="3">

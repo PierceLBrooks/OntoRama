@@ -38,7 +38,7 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * Temp flag to turn off spring and force algorithms.
      */
-    private boolean runSpringForceAlgorithms = false;
+    private boolean runSpringForceAlgorithms = true;
 
 
     /**
@@ -59,7 +59,7 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private double ELECTRIC_CHARGE = 50;
+    private double ELECTRIC_CHARGE = 10;
 
     /**
      * Path for test output files.
@@ -93,10 +93,24 @@ public class SimpleHyperView  extends CanvasManager {
 
         // (Math.PI * 2) is the number of radians in a circle
         //basicLayout(root, Math.PI * 2, 0);
+
+        System.out.println("Running radial layout...");
         radialLayout(root, Math.PI * 2, 0);
-        if( runSpringForceAlgorithms == true ) {
-            layoutNodes( 250 );
-        }
+//        //if( runSpringForceAlgorithms == true ) {
+        long start = System.currentTimeMillis();
+//        layoutNodes( 100 );
+        long end = System.currentTimeMillis();
+//        //}
+//        System.out.println("Time taken: " + ( (end - start)) + "ms");
+
+
+//        System.out.println("Running radial layout...");
+//        radialLayout(root, Math.PI * 2, 0);
+//        System.out.println("Running layoutNodes2( 100 )...");
+//        start = System.currentTimeMillis();
+//        layoutNodes2( 100 );
+//        end = System.currentTimeMillis();
+//        System.out.println("Time taken: " + ( (end - start)) + "ms");
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -257,7 +271,7 @@ public class SimpleHyperView  extends CanvasManager {
      */
     private void radialLayout(GraphNode root, double wedge, double startAngle) {
         double rootNodeLeafTotal = getLeafNodeTotal( root );
-        System.out.println("GraphNode root node is: " + root.getName());
+//        System.out.println("GraphNode root node is: " + root.getName());
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes < 1) {
@@ -265,17 +279,17 @@ public class SimpleHyperView  extends CanvasManager {
         }
         double x = 0, y = 0, radius = 0, count = 1;
         outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
-        double angle;// = wedge/numOfOutboundNodes;
         double sumOfSlices = 0;
         while (outboundNodesIterator.hasNext()) {
             GraphNode curNode = (GraphNode) outboundNodesIterator.next();
             double curNodeLeafTotal = getLeafNodeTotal( curNode );
             double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
-
             if( slice == 0 ) {
-                slice = .075;
-                //slice = wedge / numOfOutboundNodes;
+                slice = .1;//(wedge/numOfOutboundNodes);
             }
+//            if( (sumOfSlices + slice ) >= wedge ) {
+//                slice = 0;
+//            }
             double drawAngle = (sumOfSlices + ( slice / 2 ) )  + startAngle;
 //            System.out.println(curNode.getName() + " has " + curNodeLeafTotal + " curNodeLeafTotal");
 //            System.out.println(curNode.getName() + " has " + (slice*(180/Math.PI)) + " slice");
@@ -285,13 +299,12 @@ public class SimpleHyperView  extends CanvasManager {
 //            System.out.println(curNode.getName() + " has " + (drawAngle*(180/Math.PI)) + " drawAngle");
             sumOfSlices = sumOfSlices + slice;
             count++;
-            radius = springLength * curNode.getDepth();
+            radius = springLength  * curNode.getDepth();
             x = Math.cos(drawAngle) * radius;
             y = Math.sin(drawAngle) * radius;
             HyperNode hn = (HyperNode)hypernodes.get(curNode);
             hn.setLocation( x, y);
             radialLayout( curNode, slice, ( drawAngle - (slice/2) ) );
-
         }
     }
 
@@ -362,6 +375,130 @@ public class SimpleHyperView  extends CanvasManager {
      * Adjust the position of the node using spring algorithm.
      */
     public double  adjustPosition( GraphNode cur ) {
+        // calculate spring forces for edges to parents
+        double sumOfMoves = 0;
+        int count = 0;
+        double xMove = 0;
+        double yMove = 0;
+        double curX = 0;
+        double curY = 0;
+        Iterator it = Edge.getInboundEdgeNodes(cur);
+        while( it.hasNext() ) {
+            GraphNode parent = (GraphNode)it.next();
+            HyperNode curHyperNodeParent = (HyperNode)hypernodes.get( parent );
+            HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
+            double vectorLength = curHyperNode.distance( curHyperNodeParent );
+            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
+                double springlength = springLength;
+                //double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
+                double force = STIFFNESS * ( springlength - vectorLength ) / vectorLength;
+                curX = curHyperNode.getX();
+                curY = curHyperNode.getY();
+                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeParent.getX());
+                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeParent.getY());
+                curHyperNode.setLocation( xMove, yMove);
+                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
+                count++;
+            }
+            else {
+                curHyperNode.setLocation( curHyperNode.getX() + (Math.random() - 0.5),
+                                          curHyperNode.getY() + (Math.random() - 0.5) );
+            }
+        }
+        // calculate the electrical (repulsory) forces
+        List queue = new LinkedList();
+        queue.add( root );
+        mainWhile: while(!queue.isEmpty()) {
+            GraphNode other = (GraphNode) queue.remove(0);
+            //it = other.getChildrenIterator();
+            it = Edge.getOutboundEdgeNodes( other );
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                queue.add( node );
+            }
+            if(other == cur) {
+                continue;
+            }
+            //it = cur.getParents();
+            it = Edge.getInboundEdgeNodes(cur);
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                if(node == other) {
+                    continue mainWhile;
+                }
+            }
+            HyperNode curHyperNodeOther = (HyperNode)hypernodes.get( other );
+            HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
+            double vectorLength = curHyperNode.distance( curHyperNodeOther );
+            if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero0.00001
+                int levelDiff = Math.abs( cur.getDepth() - other.getDepth() + 1 );
+                //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+                double force = (ELECTRIC_CHARGE)/ (vectorLength * vectorLength);
+                curX = curHyperNode.getX();
+                curY = curHyperNode.getY();
+                xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());
+                yMove = curHyperNode.getY() + force * (curHyperNode.getY() - curHyperNodeOther.getY());
+                curHyperNode.setLocation( xMove, yMove );
+                sumOfMoves = sumOfMoves + ( Math.abs(xMove - curX) + Math.abs(yMove - curY) ) / 2;
+                count++;
+            }
+            else {
+                curHyperNode.setLocation(curHyperNode.getX() + (Math.random() - 0.5),
+                                curHyperNode.getY() + (Math.random() - 0.5) );
+            }
+        }
+        double averageMove = sumOfMoves / count;
+//        System.out.println("averageMove: " + averageMove);
+//        if( averageMove < minNodeMove && averageMove > .008) {
+//            minNodeMove = averageMove;
+//        }
+        return averageMove;
+    }
+
+   /**
+     * Use a spring algorithm to layout nodes.
+     */
+    public int layoutNodes2( int iteration) {
+        List finishedNodes = new LinkedList();
+        List queue = new LinkedList();
+        int numOfItorations = 0;
+        double averageMove;
+        boolean loopAgain;
+        System.out.println("Starting spring and force algorthms: ");
+        do {
+            loopAgain = false;
+            Iterator it = Edge.getOutboundEdgeNodes(root);
+            while( it.hasNext() ) {
+                GraphNode node = (GraphNode)it.next();
+                queue.add( node );
+            }
+            while( !queue.isEmpty() ) {
+                GraphNode cur = (GraphNode)queue.remove( 0 );
+                if( !finishedNodes.contains( cur ) ) {
+                    averageMove = adjustPosition2( cur );
+                    loopAgain = true;
+                    if( averageMove < ELECTRIC_CHARGE*STIFFNESS*( 1 - (1/springLength)) ) {
+                        finishedNodes.add( cur );
+                    }
+                }
+                it = Edge.getOutboundEdgeNodes(cur);
+                while( it.hasNext() ) {
+                    GraphNode node = (GraphNode)it.next();
+                    queue.add( node );
+                }
+            }
+            System.out.print(".");
+//            System.out.println("* * * minMoveDiff: " + minMoveDiff);
+            numOfItorations++;
+        }while( numOfItorations < iteration && loopAgain == true);
+        System.out.println("Iterated " + numOfItorations + " times");
+        return numOfItorations;
+    }
+
+    /**
+     * Adjust the position of the node using spring algorithm.
+     */
+    public double  adjustPosition2( GraphNode cur ) {
         // calculate spring forces for edges to parents
         double sumOfMoves = 0;
         int count = 0;

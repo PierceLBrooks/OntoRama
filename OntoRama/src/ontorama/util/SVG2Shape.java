@@ -13,54 +13,72 @@ import org.jdom.Element;
 /**
  * This class imports simple SVG images into AWT Shape objects.
  * 
- * Supported are only rectangles, ellipses and polygon objects. No recursion is
- * done, do group and other nestings are ignored. No styles are supported, just
- * the pure shapes are imported.
+ * Supported are: <rect>, <circle>, <ellipse>, <line>, <polyline>, <polygon>.
  * 
- * @todo adding line and path would greatly enhance this
+ * Styles are ignored, transformations are ignored. Group elements are
+ * processed via recursion, but ignored otherwise, the result is the same as
+ * if the group elements have been removed before. The methods work for simple
+ * SVG, but have not been tested on anything complex.
+ * 
+ * @todo adding path would greatly enhance this
+ * @todo add tests
  */
 public class SVG2Shape {
 	public static GeneralPath importShape(Element svgElement) {
-		GeneralPath shape = new GeneralPath();
-		Iterator it = svgElement.getChildren().iterator();
-		while(it.hasNext()) {
-			Element cur = (Element) it.next();
-			if(cur.getName().equals("rect")) {
-			    double x = Double.parseDouble(cur.getAttributeValue("x"));
-			    double y = Double.parseDouble(cur.getAttributeValue("y"));
-			    double width = Double.parseDouble(cur.getAttributeValue("width"));
-			    double height = Double.parseDouble(cur.getAttributeValue("height"));
-				shape.append(new Rectangle2D.Double(x, y, width, height),false);
-		    } else if(cur.getName().equals("circle")) {
-			    double cx = Double.parseDouble(cur.getAttributeValue("cx"));
-			    double cy = Double.parseDouble(cur.getAttributeValue("cy"));
-			    double r = Double.parseDouble(cur.getAttributeValue("r"));
-			    shape.append(new Ellipse2D.Double(cx - r, cy - r, r, r),false);
-		    } else if(cur.getName().equals("ellipse")) {
-			    double cx = Double.parseDouble(cur.getAttributeValue("cx"));
-			    double cy = Double.parseDouble(cur.getAttributeValue("cy"));
-			    double rx = Double.parseDouble(cur.getAttributeValue("rx"));
-			    double ry = Double.parseDouble(cur.getAttributeValue("ry"));
-			    shape.append(new Ellipse2D.Double(cx - rx, cy - ry, rx, ry),false);
-		    } else if(cur.getName().equals("polygon")) {
-		    	StringTokenizer tokenizer = new StringTokenizer(cur.getAttributeValue("points"), " ,");
-		    	boolean first = true;
-		    	while(tokenizer.hasMoreElements()) {
-		    	    float x = Float.parseFloat(tokenizer.nextToken());
-		    	    float y = Float.parseFloat(tokenizer.nextToken());
-		    	    if(first) {
-		    	    	shape.moveTo(x,y);
-		    	    	first = false;
-		    	    } else {
-		    	    	shape.lineTo(x,y);
-		    	    }
-		    	}
-		    } else if(cur.getName().equals("g")) {
-		    	shape.append(importShape(cur),false);
-			}
-		}
+        GeneralPath shape = importShapeUncentered(svgElement);
         return centerShape(shape);
 	}
+
+    private static GeneralPath importShapeUncentered(Element svgElement) {
+        GeneralPath shape = new GeneralPath();
+        Iterator it = svgElement.getChildren().iterator();
+        while(it.hasNext()) {
+        	Element cur = (Element) it.next();
+        	if(cur.getName().equals("rect")) {
+        	    double x = Double.parseDouble(cur.getAttributeValue("x"));
+        	    double y = Double.parseDouble(cur.getAttributeValue("y"));
+        	    double width = Double.parseDouble(cur.getAttributeValue("width"));
+        	    double height = Double.parseDouble(cur.getAttributeValue("height"));
+        		shape.append(new Rectangle2D.Double(x, y, width, height),false);
+            } else if(cur.getName().equals("circle")) {
+        	    double cx = Double.parseDouble(cur.getAttributeValue("cx"));
+        	    double cy = Double.parseDouble(cur.getAttributeValue("cy"));
+        	    double r = Double.parseDouble(cur.getAttributeValue("r"));
+        	    shape.append(new Ellipse2D.Double(cx - r, cy - r, 2*r, 2*r),false);
+            } else if(cur.getName().equals("ellipse")) {
+                double cx = Double.parseDouble(cur.getAttributeValue("cx"));
+                double cy = Double.parseDouble(cur.getAttributeValue("cy"));
+                double rx = Double.parseDouble(cur.getAttributeValue("rx"));
+                double ry = Double.parseDouble(cur.getAttributeValue("ry"));
+                shape.append(new Ellipse2D.Double(cx - rx, cy - ry, 2*rx, 2*ry),false);
+            } else if(cur.getName().equals("line")) {
+                double x1 = Double.parseDouble(cur.getAttributeValue("x1"));
+                double y1 = Double.parseDouble(cur.getAttributeValue("y1"));
+                double x2 = Double.parseDouble(cur.getAttributeValue("x2"));
+                double y2 = Double.parseDouble(cur.getAttributeValue("y2"));
+                shape.append(new Line2D.Double(x1, y1, x2, y2),false);
+            } else if(cur.getName().equals("polyline") || cur.getName().equals("polygon")) {
+            	StringTokenizer tokenizer = new StringTokenizer(cur.getAttributeValue("points"), " ,");
+            	boolean first = true;
+            	while(tokenizer.hasMoreElements()) {
+            	    float x = Float.parseFloat(tokenizer.nextToken());
+            	    float y = Float.parseFloat(tokenizer.nextToken());
+            	    if(first) {
+            	    	shape.moveTo(x,y);
+            	    	first = false;
+            	    } else {
+            	    	shape.lineTo(x,y);
+            	    }
+            	}
+            	if(cur.getName().equals("polygon")) {
+            		shape.closePath();
+            	}
+            } else if(cur.getName().equals("g")) {
+            	shape.append(importShapeUncentered(cur),false);
+        	}
+        }
+        return shape;
+    }
 	
     private static GeneralPath centerShape(GeneralPath shape) {
     	GeneralPath retVal = new GeneralPath();

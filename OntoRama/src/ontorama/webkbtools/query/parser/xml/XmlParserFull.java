@@ -91,6 +91,7 @@ public class XmlParserFull implements Parser {
             }
 
             readConceptTypes(rootElement.getChildren(conceptTypeElementName));
+        	readRelationTypes(rootElement.getChildren(relationTypeElementName));
         } catch (URISyntaxException e) {
             System.out.println("URISyntaxException: " + e);
             e.printStackTrace();
@@ -98,7 +99,7 @@ public class XmlParserFull implements Parser {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
             e.printStackTrace();
-            System.exit(-1);
+        	throw new ParserException(e.getMessage());            
         }
         return new ParserResult(new LinkedList(_nodes.values()), _edges);
     }
@@ -108,7 +109,7 @@ public class XmlParserFull implements Parser {
         while (conceptTypeElementsIterator.hasNext()) {
             Element conceptTypeEl = (Element) conceptTypeElementsIterator.next();
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
-            checkCompulsoryAttr(nameAttr, "name", "conceptType");
+            checkCompulsoryAttr(nameAttr, "name", conceptTypeElementName);
             String nodeName = nameAttr.getValue();
 
             Node node = makeNode(nodeName, conceptNodeType);
@@ -122,14 +123,29 @@ public class XmlParserFull implements Parser {
         while (relationTypeElementsIterator.hasNext()) {
             Element relationTypeEl = (Element) relationTypeElementsIterator.next();
             Attribute nameAttr = relationTypeEl.getAttribute("name");
-            checkCompulsoryAttr(nameAttr, "name", "relationType");
+            checkCompulsoryAttr(nameAttr, "name", relationTypeElementName);
             String nodeName = nameAttr.getValue();
 
             Node node = makeNode(nodeName, relationNodeType);
+            
+            /// @todo hardcoded relSignature1 and relSignature2 edge names - will cause a problem when config.xml file changes!
+            processSignatureItem(node, relationTypeEl, "domain", "relSignature1");
+        	processSignatureItem(node, relationTypeEl, "range", "relSignature2");
 
             processTypeDetails(relationTypeEl, node);
         }
     }
+
+	private void processSignatureItem (Node node, Element relationTypeEl, 
+									String signatureItemAttrName, String edgeName) 
+									throws ParserException, NoSuchRelationLinkException {
+		Attribute signatureAttr = relationTypeEl.getAttribute(signatureItemAttrName);
+		if (signatureAttr != null) {
+			Node toNode = makeNode(signatureAttr.getValue(), conceptNodeType);
+			Edge edge = makeEdge(node, toNode, edgeName);
+		}
+		
+	}
 
     private Node makeNode(String nodeName, NodeType nodeType) {
         Node node = (Node) _nodes.get(nodeName);
@@ -173,21 +189,16 @@ public class XmlParserFull implements Parser {
         processTypeProperty(typeElement, node, "synonym");
 
         processRelationLinks(typeElement, node);
-
-
-
     }
 
-    private void processTypeProperty(Element typeElement, Node node, String typePropertyName) throws NoSuchRelationLinkException {
+    private void processTypeProperty(Element typeElement, Node node, String typePropertyName) 
+    						throws NoSuchRelationLinkException, ParserException {
         List descr = getTypeProperty(typeElement, typePropertyName);
         Iterator it = descr.iterator();
         while (it.hasNext()) {
             String cur = (String) it.next();
             Node toNode = makeNode(cur, null);
             Edge edge = makeEdge(node, toNode, typePropertyName);
-            if (! edgeAlreadyInList(edge)) {
-                 _edges.add(edge);
-            }
         }
     }
 
@@ -228,28 +239,27 @@ public class XmlParserFull implements Parser {
             Node toNode = makeNode(toAttr.getValue(), toNodeType);
             debug.message("XmlParserFull", "processRelationLinks", "fromType = " + fromNode.getName() + ", toType = " + toNode.getName() + " , relationLink = " + typeAttr.getValue());
             Edge edge = makeEdge(fromNode, toNode, typeAttr.getValue());
-            if (edge == null) {
-                throw new ParserException("Attribute name '" + typeAttr.getValue() + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
-            }
-            if (! edgeAlreadyInList(edge)) {
-                 _edges.add(edge);
-            }
         }
     }
 
-    private Edge makeEdge(Node fromNode, Node toNode, String edgeName) throws NoSuchRelationLinkException {
+    private Edge makeEdge(Node fromNode, Node toNode, String edgeName) throws NoSuchRelationLinkException, ParserException {
         Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
+        Edge edge = null;
         while (edgeTypesIterator.hasNext()) {
             EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
             if ((edgeType.getName()).equals(edgeName)) {
-                Edge edge = new EdgeImpl(fromNode, toNode, edgeType);
-                return edge;
+                edge = new EdgeImpl(fromNode, toNode, edgeType);
             } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(edgeName)) ) {
-                Edge edge = new EdgeImpl(toNode, fromNode, edgeType);
-                return edge;
+                edge = new EdgeImpl(toNode, fromNode, edgeType);
             }
         }
-        return null;
+    	if (edge == null) {
+    		throw new ParserException("Attribute name '" + edgeName + "' describes unknown Relation Link. Check config.xml for declared Relation Links");
+    	}
+    	if (! edgeAlreadyInList(edge)) {
+    		 _edges.add(edge);
+    	}
+        return edge;
     }
 
     private boolean edgeAlreadyInList (Edge edge) {
@@ -264,7 +274,7 @@ public class XmlParserFull implements Parser {
             EdgeType edgeType = cur.getEdgeType();
             if (edge.getFromNode().getName().equals(fromNode.getName())) {
                 if (edge.getToNode().getName().equals(toNode.getName())) {
-                    if (edge.getEdgeType().getName().equals(edge.getEdgeType().getName())) {
+                    if (edge.getEdgeType().getName().equals(cur.getEdgeType().getName())) {
                         return true;
                     }
                 }

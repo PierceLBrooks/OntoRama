@@ -131,13 +131,13 @@
 	</conceptType>
 	<conceptType name="branch2_node4.2.1"/>
 	<conceptType name="branch2_node4.2.2"/>
-	<relationType name="generalRelationType" domain="root" range="root" creator="OntoRama"/>
-	<relationType name="subtype" domain="root" range="root">
-		<relationship type="subtype" to="generalRelationType"/>
+	<relationType name="generalRelationType" domain="root" range="root" creator="OntoRama">
+		<relationship type="subtype" to="subtype"/>
+		<relationship type="subtype" to="part"/>
 	</relationType>
+	<relationType name="subtype" domain="root" range="root"/>
 	<relationType name="part" domain="root" range="root" creator="OntoRama">
 		<description>relation type for 'part' relationships</description>
 		<synonym>Part</synonym>
-		<relationship type="subtype" to="generalRelationType"/>
 	</relationType>
 </ontology>

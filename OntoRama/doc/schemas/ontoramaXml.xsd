@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Schema for validation of XML input for OntoRama application -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2000/10/XMLSchema" elementFormDefault="qualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:ont="http://www.ontorama.org/ont"
+  	targetNamespace="http://www.ontorama.org/ont"
+	elementFormDefault="qualified">
+
+	<!--Schema for validation of XML input for OntoRama application -->
 
 	<xsd:element name="ontology">
 		<xsd:annotation>
@@ -29,7 +33,7 @@
 				<xsd:element name="relationship" minOccurs="0" maxOccurs="unbounded">
 					<xsd:complexType>
 						<xsd:attribute name="type" use="required" type="xsd:string"/>
-						<xsd:attribute name="to" use="required"  type="xsd:string" />
+						<xsd:attribute name="to" use="required"  type="ont:ontologyType" />
 					</xsd:complexType>
 				</xsd:element>
 		</xsd:sequence>

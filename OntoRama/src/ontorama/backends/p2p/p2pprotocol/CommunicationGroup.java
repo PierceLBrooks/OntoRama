@@ -1,6 +1,7 @@
 package ontorama.backends.p2p.p2pprotocol;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -33,12 +34,28 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Copyright:</b>		Copyright (c) 2002<br>
  * <b>Company:</b>			DSTC<br>
  */
-public class CommunicationGroup extends Communication {
-	private CommunicationProtocolJxta commProt = null;
+//public class CommunicationGroup extends Communication {
+public class CommunicationGroup  {
+
+//	private CommunicationProtocol commProt = null;
+
+	private Communication comm;
+
+	//Keeps track of which group this peer belongs to
+	private Hashtable _memberOfGroups;
+	
+	
+	
 	private Hashtable createdGroups = null;
 
-	public CommunicationGroup(CommunicationProtocolJxta commProt) {
-		this.commProt = commProt;
+	public CommunicationGroup(Communication comm) {
+//		public CommunicationGroup(CommunicationProtocolJxta commProt) {
+//		this.commProt = commProt;
+
+		this.comm = comm;
+		
+		_memberOfGroups = new Hashtable();
+		
 		this.createdGroups = new Hashtable();
 	}
 
@@ -90,13 +107,15 @@ public class CommunicationGroup extends Communication {
 	 */
 	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
 		System.out.println("CommunicationGroup::joinGroup, groupIDasString = " + groupIDasString);
-		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
+//		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
+		PeerGroupID groupID = getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
 		//Get PeerGroup
 		System.out.println("CommunicationGroup::joinGroup, groupID = " + groupID);
         try {
 			//if (this.getMemberOfGroups().containsKey(groupID)) {
-			if (this.memberOfGroupsContains(groupID)) {            
+//			if (this.memberOfGroupsContains(groupID)) {            
+			if (memberOfGroupsContains(groupID)) {            
                 return null;
             } else {
                 pg = (PeerGroup) this.createdGroups.get(groupID);
@@ -148,7 +167,8 @@ public class CommunicationGroup extends Communication {
 
 				//If joined, then update the memberOfGroups
 				//this.getMemberOfGroups().put(pg.getPeerGroupID(), pg);
-				this.addToMemberOfGroups(pg);
+//				this.addToMemberOfGroups(pg);
+				addToMemberOfGroups(pg);
 				
 				System.out.println("CommunicationGroup::joinGroup(pg): joined group " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
 	           				
@@ -176,7 +196,8 @@ public class CommunicationGroup extends Communication {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public boolean leaveGroup(String groupIDasString) throws GroupException, IOException{
-		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
+//		PeerGroupID groupID = this.getPeerGroupID(groupIDasString);
+		PeerGroupID groupID = getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
 		MembershipService member = null;
 		DiscoveryService discServ = null;		
@@ -215,12 +236,14 @@ public class CommunicationGroup extends Communication {
 			//if left group, then update memberOfGroups
 
 			//this.removeElementFromMembersOfGroup(groupIDasString);
+//			removeFromMemberOfGroups(groupIDasString);
 			removeFromMemberOfGroups(groupIDasString);
 
 			//this.getMemberOfGroups().remove(groupIDasString);
 			
 			//remove the inputpipe by flushing it from local cache
-			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
+//			pipeAdv = this.getInputPipeAdvertisement(pg.getPeerGroupID());
+			pipeAdv = this.comm.getInputPipeAdvertisement(pg.getPeerGroupID());
 			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
 									+ pipeAdv);
 			if (pipeAdv == null) {
@@ -323,7 +346,8 @@ public class CommunicationGroup extends Communication {
 		Enumeration enum = null;
        		
 		//Get the group the the peer answering the question belongs to. 
-		pg = getPeerGroup(groupIDasString);
+//		pg = getPeerGroup(groupIDasString);
+		pg = this.comm.getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
 		DiscoveryService discServ1 = pg.getDiscoveryService();
@@ -362,6 +386,90 @@ public class CommunicationGroup extends Communication {
 		}
 		return searchGroupResult;
 	}
+	
+	
+	protected void addToMemberOfGroups (PeerGroup pg) {
+		_memberOfGroups.put(pg.getPeerGroupID(), pg);
+	}
+	
+	protected Collection memberOfGroupsByValues () {
+		return _memberOfGroups.values();
+	}
+
+	protected Enumeration memberOfGroupsEnumeration () {
+		return _memberOfGroups.elements();
+	}
+	
+	protected void removeFromMemberOfGroups (String groupIDasString) {
+		PeerGroup pg = getPeerGroupFromMemberOfGroups(groupIDasString);
+		if (pg != null) {_memberOfGroups.remove(pg.getPeerGroupID());
+		}
+	}
+
+	protected PeerGroup getPeerGroupFromMemberOfGroups (String groupIDasString) {
+		Enumeration enum = _memberOfGroups.elements();
+		while (enum.hasMoreElements()) {
+			PeerGroup pg = (PeerGroup) enum.nextElement();
+			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
+				return pg;
+			} 
+		}
+		return null;
+	}
+	
+	protected boolean memberOfGroupsContains (PeerGroupID peerGroupId) {
+		return _memberOfGroups.containsKey(peerGroupId);
+	}
+	
+	
+	/**
+	* Transfer a peer group ID as a String to the actual object representing the group 
+	* @param groupIDasString the ID as a string
+	* @return the group ID as an object
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected PeerGroupID getPeerGroupID(String groupIDasString) {
+		PeerGroupID retVal = null;
+		PeerGroupAdvertisement pgAdv = null;
+		DiscoveryService discServ = Communication.getGlobalPG().getDiscoveryService();
+		Enumeration enum = null;
+		try {
+			enum = discServ.getLocalAdvertisements(
+													DiscoveryService.GROUP,
+													"GID",
+													groupIDasString);
+		} catch (IOException e) {
+			System.out.println("Error");
+			e.printStackTrace();
+			System.exit(1);   
+		}
+        
+		while (enum.hasMoreElements()) {
+		   //found at least one adv
+			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
+			retVal = pgAdv.getPeerGroupID();
+		}
+		return retVal;
+	}
+
+	/**
+	* Returns a PeerGroup with a certain groupID
+	* @param groupIDasString the ID as a string
+	* @return the object representing the group
+	* @version P2P-OntoRama 1.0.0
+	*/
+	protected PeerGroup getPeerGroup(String groupIDasString) {
+		PeerGroup pg = null;
+		try {
+			pg = Communication.getGlobalPG().newGroup(this.getPeerGroupID(groupIDasString));
+		} catch (PeerGroupException e) {
+			System.out.println("Error");
+			e.printStackTrace();			
+		}
+		return pg;
+	}
+	
+	
 	
 
 //	private void removeElementFromMembersOfGroup(String groupIDasString) {

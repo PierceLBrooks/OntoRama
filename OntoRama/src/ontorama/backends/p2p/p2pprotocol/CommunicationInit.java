@@ -26,6 +26,7 @@ import net.jxta.protocol.PipeAdvertisement;
  * <b>Company:</b>			DSTC<br>
  */
 public class CommunicationInit extends Communication {
+//public class CommunicationInit {
 	private CommunicationProtocolJxta commProt = null;
 
     private Hashtable inputPipes = null;

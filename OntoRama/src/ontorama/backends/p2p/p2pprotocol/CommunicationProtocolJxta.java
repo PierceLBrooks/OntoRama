@@ -21,7 +21,8 @@ import ontorama.backends.p2p.p2pmodule.P2PRecieverInterface;
  */
 
 public class CommunicationProtocolJxta implements CommunicationProtocol {
-	private CommunicationGroup communicationGroup = null;
+//	private CommunicationGroup communicationGroup = null;
+	private Communication communicationGroup = null;
 	private CommunicationInit communicationInit = null;
 	private CommunicationSender communicationSender = null;
 
@@ -35,7 +36,8 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public CommunicationProtocolJxta (P2PRecieverInterface recieverObject) throws GroupExceptionInit {
-		communicationGroup = new CommunicationGroup(this);
+//		communicationGroup = new CommunicationGroup(this);
+		communicationGroup = new Communication();
 		communicationInit = new CommunicationInit(this);
 		communicationSender = new CommunicationSender(this);	
 		

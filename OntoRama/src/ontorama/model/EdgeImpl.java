@@ -47,19 +47,25 @@ public class EdgeImpl implements Edge {
     }
 
     /**
-     *
+     * get a 'start' node for this edge.
+     * @return fromNode
      */
     public Node getFromNode() {
         return this.fromNode;
     }
 
     /**
-     *
+     * get an 'end' node for this edge.
+     * @return toNode
      */
     public Node getToNode() {
         return this.toNode;
     }
 
+    /**
+     * get edge type.
+     * @return edgeType
+     */
     public EdgeType getEdgeType() {
         return this.edgeType;
     }
@@ -71,10 +77,18 @@ public class EdgeImpl implements Edge {
         return this.toNode;
     }
 
+    /**
+     * set URI of creator of this edge.
+     * @param creatorUri
+     */
     public void setCreatorUri(URI creatorUri) {
         this.creatorUri = creatorUri;
     }
 
+    /**
+     * get URI of creator of this edge.
+     * @return
+     */
     public URI getCreatorUri() {
         return this.creatorUri;
     }

@@ -1,5 +1,5 @@
 /*
- * Created by IntelliJ IDEA.
+ * Models a graph node.
  * User: nataliya
  * Date: Sep 16, 2002
  * Time: 12:08:52 PM

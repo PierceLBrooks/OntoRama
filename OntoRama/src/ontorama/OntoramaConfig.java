@@ -152,7 +152,6 @@ public class OntoramaConfig {
      static {
 
         try {
-
             curClass = Class.forName("ontorama.OntoramaConfig");
             cl = curClass.getClassLoader();
         }
@@ -164,8 +163,8 @@ public class OntoramaConfig {
 
         Properties properties = new Properties();
 
-		propertiesFileLocation = cl.getResource("ontorama.properties");
-    	xmlConfigFileLocation = cl.getResource("config.xml");
+		//propertiesFileLocation = cl.getResource("ontorama.properties");
+    	//xmlConfigFileLocation = cl.getResource("config.xml");
 
         //Properties properties = new Properties(System.getProperties());
         try {

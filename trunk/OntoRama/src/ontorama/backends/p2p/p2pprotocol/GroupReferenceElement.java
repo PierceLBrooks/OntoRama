@@ -1,6 +1,6 @@
 package ontorama.backends.p2p.p2pprotocol;
 
-import net.jxta.id.ID;
+import net.jxta.peergroup.PeerGroupID;
 
 /**
  * This class contains the search result element from a search for peer groups. 
@@ -15,7 +15,7 @@ import net.jxta.id.ID;
  */
 public class GroupReferenceElement {
 
-	private ID id = null;
+	private PeerGroupID id = null;
 	private String name = null;
 	private String descr = null;
 
@@ -29,7 +29,7 @@ public class GroupReferenceElement {
 	 * 
 	 * @version P2P-OntoRama 1.0.0
 	 */	
-	public GroupReferenceElement(ID id, String name, String descr) {
+	public GroupReferenceElement(PeerGroupID id, String name, String descr) {
 		this.id = id;
 		this.name = name;
 		this.descr = descr;		
@@ -42,7 +42,7 @@ public class GroupReferenceElement {
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-	public ID getID () {
+	public PeerGroupID getID () {
 		return this.id;
 	}
 		

@@ -332,7 +332,7 @@ public class CommunicationGroup extends Communication {
 		while (enum.hasMoreElements()) {
 			//Add the peer information to the searchGroupResult
 			peerAdv = (PeerAdvertisement) enum.nextElement();
-			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerID(),
+			searchGroupResult.add(new GroupReferenceElement(peerAdv.getPeerGroupID(),
 								  									peerAdv.getName(),
 								  									peerAdv.getDescription()));
 		}

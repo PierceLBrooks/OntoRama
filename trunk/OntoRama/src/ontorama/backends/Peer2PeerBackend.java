@@ -2,6 +2,8 @@ package ontorama.backends;
 
 import java.net.URI;
 
+import org.tockit.events.EventBroker;
+
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PNode;
@@ -31,4 +33,5 @@ public interface Peer2PeerBackend extends Backend {
     public void rejectNode(P2PNode node, URI rejecter) 
     	throws GraphModificationException;
     
+    public EventBroker getEventBroker();
 }

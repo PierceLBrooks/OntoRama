@@ -13,6 +13,9 @@ import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -141,15 +144,8 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
                             hasFocus);
             setBackgroundNonSelectionColor(isChild(value));
             setBackgroundSelectionColor(isChild(value));
-            //if (leaf && isChild(value)) {
-//            if (isChild(value)) {
-//                setBackgroundNonSelectionColor(color1);
-//                setBackgroundSelectionColor(color2);
-//                //setIcon(tutorialIcon);
-//                setToolTipText("This book is in the Tutorial series.");
-//            } else {
-//                setToolTipText(null);
-//            }
+
+            setIcon(getIcon(value));
 
             return this;
         }
@@ -161,37 +157,21 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
             Color color = relLinkDetails.getDisplayColor();
             return color;
 
-//            String treeNodeStr = treeNode.getGraphNode().getName();
-//            System.out.println("......treeNodeStr = " + treeNodeStr);
-//            if (treeNodeStr.startsWith("node")) {
-//                System.out.println("startsWith(node)");
-//                return Color.yellow;
-//            }
-//            else if (treeNodeStr.startsWith("syn")) {
-//                System.out.println("startsWith(syn)");
-//                return Color.red;
-//            }
-//            else if (treeNodeStr.startsWith("part")) {
-//                System.out.println("startsWith(part)");
-//                return Color.blue;
-//            }
-//
-//
-//            return Color.white;
         }
 
-//        protected boolean isTutorialBook(Object value) {
-//            DefaultMutableTreeNode node =
-//                    (DefaultMutableTreeNode)value;
-//            BookInfo nodeInfo =
-//                    (BookInfo)(node.getUserObject());
-//            String title = nodeInfo.bookName;
-//            if (title.indexOf("Tutorial") >= 0) {
-//                return true;
-//            }
-//
-//            return false;
-//        }
+        protected Icon getIcon (Object value) {
+            OntoTreeNode treeNode = (OntoTreeNode) value;
+            int relLink = treeNode.getRelLink();
+            RelationLinkDetails relLinkDetails = ontorama.OntoramaConfig.getRelationLinkDetails(relLink);
+            Image image = relLinkDetails.getDisplayImage();
+            Icon icon = new ImageIcon(image);
+
+            return icon;
+
+        }
+
+
+
     }
 
 }

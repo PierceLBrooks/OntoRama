@@ -154,6 +154,11 @@ public class XmlConfigParser {
             checkCompulsoryAttr(colorAttr, "color", "display");
             relationLinkDetails.setDisplayColor(colorAttr.getValue());
 
+            Attribute displayMappingSymbolAttr = displayElement.getAttribute("symbol");
+            checkCompulsoryAttr(displayMappingSymbolAttr, "symbol", "display");
+            relationLinkDetails.setDisplaySymbol(displayMappingSymbolAttr.getValue());
+
+
             Attribute iconAttr = displayElement.getAttribute("icon");
             if ( iconAttr != null) {
                 relationLinkDetails.setDisplayImage(iconAttr.getValue());

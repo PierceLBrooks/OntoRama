@@ -26,39 +26,39 @@
 		<relation id="1">
 			<relationType name="subtype" mappingSymbol="&lt;"/>
 			<relationType name="supertype" mappingSymbol="&gt;"/>
-			<display color="#CCFFFF"/>
+			<display color="#CCFFFF" symbol="&lt;"/>
 		</relation>
 		<relation id="3">
-			<relationType name="instance" mappingSymbol=":" />
-			<relationType name="instanceOf" mappingSymbol="^" />
-			<display color="#0000ff"/>
+			<relationType name="instance" mappingSymbol=":"/>
+			<relationType name="instanceOf" mappingSymbol="^"/>
+			<display color="#0000ff" symbol=":"/>
 		</relation>
 		<relation id="2">
 			<relationType name="synonym"/>
-			<display color="#FF99FF"/>
+			<display color="#FF99FF" symbol="syn"/>
 		</relation>
 		<relation id="4">
 			<relationType name="part" mappingSymbol="p"/>
 			<relationType name="partOf" mappingSymbol="P"/>
-			<display color="#FFFF99"/>
+			<display color="#FFFF99" symbol="p"/>
 		</relation>
 		<relation id="5">
 			<relationType name="member" mappingSymbol="m"/>
 			<relationType name="memberOf" mappingSymbol="M"/>
-			<display color="#0000ff"/>
+			<display color="#0000ff" symbol="m"/>
 		</relation>
 		<relation id="6">
 			<relationType name="substance" mappingSymbol="s"/>
 			<relationType name="substanceOf" mappingSymbol="S"/>
-			<display color="#0000ff"/>
+			<display color="#0000ff" symbol="s"/>
 		</relation>
 		<relation id="7">
 			<relationType name="inclusive"/>
-			<display color="#0000ff"/>
+			<display color="#0000ff" symbol="i"/>
 		</relation>
 		<relation id="8">
 			<relationType name="exclusive"/>
-			<display color="#0000ff"/>
+			<display color="#0000ff" symbol="e"/>
 		</relation>
 		
 		<conceptProperty id="description"/>

@@ -33,12 +33,13 @@ public class DataFormatMapping {
 	/**
 	 * Constructor for DataFormatMapping.
 	 */
-	public DataFormatMapping(String name, String fileExtention, String parserName, String writerName) {
+	public DataFormatMapping(String name, String fileExtention, String parserName) {
 		_name = name;
 		_fileExtention = fileExtention;
 		_parserName = parserName;
-		_writerName = writerName;
 	}
+	
+	
 
 	/**
 	 * Returns the fileExtention.
@@ -72,4 +73,20 @@ public class DataFormatMapping {
 		return _writerName;
 	}
 	
+	/**
+	 * Sets the writer Name.
+	 * @param writerName The writerName to set
+	 */
+	public void setWriterName(String writerName) {
+		_writerName = writerName;
+	}
+	
+	public String toString() {
+		String str = "DataFormatMapping: name = " + _name + ", extension = " + _fileExtention + ", parser = " + _parserName;
+		if (_writerName != null) {
+			str = str + ", writer = " + _writerName;
+		}
+		return str;
+	}
+
 }

@@ -18,6 +18,7 @@ import java.util.Properties;
 
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
+import ontorama.conf.DataFormatConfigParser;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
 import ontorama.conf.XmlConfigParser;
@@ -147,6 +148,8 @@ public class OntoramaConfig {
 	/// at all. Presently this is used so TestCases can use this backend if 
 	/// nothing else is initialised by OntoRamaApp. Probably dont' need this at all?...
 	private static Backend _defaultBackend;
+	
+	private static List _dataFormatsMappingList;
 
     /**
      * Values of vars that are set here should be read from
@@ -165,6 +168,7 @@ public class OntoramaConfig {
         }
 
         buildDefaultNodeTypes();
+        
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
     	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.TestingBackend", null);
     	OntoramaConfig.activateBackend(_defaultBackend);
@@ -181,8 +185,10 @@ public class OntoramaConfig {
     public static void loadAllConfig(String examplesConfigLocation,
                                      String propertiesFileLocation, String configFileLocation) {
 
+		/// @todo perhaps ontorama.properties and dataFormatsConfig.xml only need to be loaded once
         try {
             loadPropertiesFile(propertiesFileLocation);
+        	loadDataFormatsConfig("dataFormatsConfig.xml");
             loadConfiguration(configFileLocation);
             loadExamples(examplesConfigLocation);
         }
@@ -201,6 +207,15 @@ public class OntoramaConfig {
             fatalExit("Unable to read properties file in", e);
         }
     }
+
+	private static void loadDataFormatsConfig (String configFileLocation)
+						throws SourceException, ConfigParserException {
+		InputStream inStream= streamReader.getInputStreamFromResource(configFileLocation);
+		DataFormatConfigParser config = new DataFormatConfigParser(inStream);
+		_dataFormatsMappingList = config.getDataFormatMappings();
+	}
+
+
 
     private static void loadExamples(String examplesConfigLocation)
             throws SourceException, ConfigParserException, IOException {
@@ -357,6 +372,10 @@ public class OntoramaConfig {
 
     public static boolean loadBlank () {
         return loadBlankOnStartUp;
+    }
+    
+    public static List getDataFormatsMapping () {
+    	return _dataFormatsMappingList;
     }
 
     private static void buildDefaultNodeTypes() {

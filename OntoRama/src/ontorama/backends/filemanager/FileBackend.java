@@ -48,10 +48,9 @@ public class FileBackend implements Backend {
     private List _panels = null;
     private EventBroker _eventBroker;
     
-    private List _dataFormatsMapping = new LinkedList();
+    private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 
 	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
-
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
@@ -68,18 +67,7 @@ public class FileBackend implements Backend {
 
     public FileBackend(){
         //We don't have any panels to this backend
-        _panels = new LinkedList();
-        
-    	/// @todo  data formats should be read from the config files.
-    	DataFormatMapping rdfDataFormat = new DataFormatMapping("RDF", "rdf",
-    						"ontorama.ontotools.parser.rdf.RdfDamlParser",
-    						"ontorama.ontotools.writer.rdf.RdfModelWriter");
-    	_dataFormatsMapping.add(rdfDataFormat);
-
-    	DataFormatMapping xmlDataFormat = new DataFormatMapping ("XML", "xml",
-    						"ontorama.ontotools.parser.xml.XmlParserFull",
-    						null);
-    	_dataFormatsMapping.add(xmlDataFormat);
+        _panels = new LinkedList();       
     }
 
     public void setEventBroker(EventBroker eventBroker) {

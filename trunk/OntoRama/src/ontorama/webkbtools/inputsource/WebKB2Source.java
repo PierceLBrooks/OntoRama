@@ -38,7 +38,7 @@ import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.webkbtools.inputsource.webkb.AmbuguousChoiceDialog;
+import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
@@ -103,11 +103,11 @@ public class WebKB2Source implements Source {
             //String selectedType = (String) typesList.get(0);
             String selectedType = ( (OntologyType) typesList.get(0)).getName();
             if (frames.length > 0) {
-              AmbuguousChoiceDialog dialog = new AmbuguousChoiceDialog(typesList, frames[0]);
+              AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frames[0]);
               selectedType = dialog.getSelected();
             }
             else {
-              AmbuguousChoiceDialog dialog = new AmbuguousChoiceDialog(typesList, null);
+              AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, null);
               selectedType = dialog.getSelected();
             }
             System.out.println("\n\n\nselectedType = " + selectedType);

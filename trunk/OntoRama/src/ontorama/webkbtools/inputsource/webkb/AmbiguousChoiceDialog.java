@@ -36,7 +36,7 @@ import ontorama.webkbtools.util.*;
  * @version 1.0
  */
 
-public class AmbuguousChoiceDialog extends JDialog {
+public class AmbiguousChoiceDialog extends JDialog {
 
   /**
    * list to hold objects to choose from
@@ -79,7 +79,7 @@ public class AmbuguousChoiceDialog extends JDialog {
    * @param typesList - list holding all alternative ontology types
    * @param frame - owner frame
    */
-  public AmbuguousChoiceDialog(List typesList, Frame frame) {
+  public AmbiguousChoiceDialog (List typesList, Frame frame) {
     super(frame);
     setTitle(titleStr);
 
@@ -92,9 +92,6 @@ public class AmbuguousChoiceDialog extends JDialog {
 
     JPanel choicesPanel = buildChoicePanel();
 
-    //contentPanel.add(choicesPanel);
-
-    //JPanel mainPanel = new JPanel();
     contentPanel.setLayout(new BorderLayout());
     contentPanel.add(choicesPanel, BorderLayout.NORTH);
 

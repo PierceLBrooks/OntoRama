@@ -177,7 +177,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			Query query = e.getQuery();
 			_lastQuery = _query;
 			_query = query;
-			_worker = new QueryEngineThread(queryEngine, _query, _modelEventBroker, _viewsEventBroker);
+			_worker = new QueryEngineThread(queryEngine, _query, _viewsEventBroker);
 			_modelEventBroker.removeSubscriptions(_viewsEventBroker);
 			_worker.start();
 			_timer.start();

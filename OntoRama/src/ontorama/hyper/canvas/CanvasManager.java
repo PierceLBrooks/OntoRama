@@ -5,7 +5,7 @@ package ontorama.hyper.canvas;
  * for drawing canvas items.
  */
 
-//import ontorama.model.GraphNode;
+import ontorama.hyper.model.HyperNode;
 
 import javax.swing.JComponent;
 
@@ -27,7 +27,7 @@ import java.util.LinkedList;
     /**
      * Store the last point.
      */
-    protected Point2D lastPoint;
+    protected Point2D lastPoint = new Point2D.Double( 0, 0 );
 
     /**
      * Holds the current canvas scale.
@@ -68,9 +68,6 @@ import java.util.LinkedList;
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
-            //if( noLabels == true && cur instanceof LabelView) {
-            //    continue;
-            //}
             cur.draw(g2d);
         }
     }
@@ -97,12 +94,16 @@ import java.util.LinkedList;
     }
 
     public void mouseDragged(MouseEvent e) {
-        /*double xDif = (lastPoint.getX() - e.getX());
+        double xDif = (lastPoint.getX() - e.getX());
         double yDif = (lastPoint.getY() - e.getY());
         lastPoint.setLocation( e.getX(), e.getY() );
-        root.move( xDif, yDif );
+        Iterator it = this.hypernodes.values().iterator();
+        while( it.hasNext() ) {
+            HyperNode hn = (HyperNode)it.next();
+            hn.move( xDif, yDif );
+        }
         noLabels = true;
-        repaint();*/
+        repaint();
     }
 
     public void mouseMoved(MouseEvent e) {

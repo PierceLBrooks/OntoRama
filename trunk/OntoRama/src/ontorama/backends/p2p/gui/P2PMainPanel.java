@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import ontorama.backends.p2p.P2PBackend;
+
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya
@@ -21,14 +23,22 @@ public class P2PMainPanel extends JPanel {
     private static final String _groupsPanelTitle = "Groups";
     private static final String _groupsPanelToolTip = "Join groups, create new groups";
 
-	GroupsPanel groupsPanel = new GroupsPanel();
+	GroupsPanel groupsPanel;
     PeersPanel peerPanel = new PeersPanel();
     ChangePanel changePanel = new ChangePanel();
     SearchPanel searchPanel = new SearchPanel();
 
 
-    public P2PMainPanel() {
+	/**
+	 * @todo don't like passing backend as parameter here (needed so we can
+	 * operate on groups in GroupsPanel). Better solution would be to handle
+	 * this with event instead.
+	 */
+    public P2PMainPanel(P2PBackend p2pBackend) {
         super();
+        
+    	groupsPanel = new GroupsPanel(p2pBackend);
+        
         this.setLayout(new GridLayout(1,1));
 
         JTabbedPane tabbedPanel = new JTabbedPane();

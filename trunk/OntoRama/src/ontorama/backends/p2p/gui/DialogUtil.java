@@ -1,5 +1,6 @@
 package ontorama.backends.p2p.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
@@ -50,9 +51,9 @@ public class DialogUtil{
         return buttonPanel;
     }
 
-    public static boolean textInputIsValid (JDialog dialog, String text, String promptName) {
+    public static boolean textInputIsValid (Component parent, String text, String promptName) {
         if (text.length() <= 0) {
-            JOptionPane.showMessageDialog(dialog, "Please enter " + promptName + ".");
+            JOptionPane.showMessageDialog(parent, "Please enter " + promptName + ".");
             return false;
         }
         return true;

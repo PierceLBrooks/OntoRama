@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.action.NewGroupAction;
+
 /**
  * @author nataliya
  */
@@ -21,9 +24,11 @@ public class GroupsPanel extends JPanel {
 
 	JPanel _newGroupPanel;
 	JPanel _allGroupsPanel;
+	P2PBackend _p2pBackend;
 
-	public GroupsPanel() {
+	public GroupsPanel(P2PBackend p2pBackend) {
 		super();
+		_p2pBackend = p2pBackend;
 		
 		buildNewGroupPanel();
 		buildAllGroupsPanel();
@@ -49,6 +54,7 @@ public class GroupsPanel extends JPanel {
 		
 		JButton cancelButton = new JButton("Clear");
 		JButton okButton = new JButton("Create group");
+		okButton.setAction(new NewGroupAction(this, newGroupNameField, newGroupDescrField, _p2pBackend));
 		JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
 
 		_newGroupPanel.add(new JLabel(DialogUtil.newGroupNameLabel));

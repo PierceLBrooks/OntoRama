@@ -283,10 +283,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
     private void makeHyperNodes(TreeNode node) {
         HyperNode hn = new HyperNode(node);
         NodeType nodeType = node.getNodeType();
-        // @todo hack for unknown node type
-        if (nodeType == null) {
-            nodeType = OntoramaConfig.UNKNOWN_TYPE;
-        }
         hn.addFocusChangedObserver(this);
         HyperNodeView hnv = new HyperNodeView(hn, nodeType, projection);
         hypernodes.put(node, hn);
@@ -359,17 +355,19 @@ public class SimpleHyperView extends Canvas implements TreeView {
      *
      * Using a simple bubble sort for now.
      */
-    private void sortNodeListAscending(NodePlacementDetails[] nodeList) {
+    private NodePlacementDetails[] sortNodeListAscending(NodePlacementDetails[] nodeList) {
+    	NodePlacementDetails[] result = nodeList;
         NodePlacementDetails temp;
         for (int i = 0; i < (nodeList.length - 1); i++) {
             for (int j = i + 1; j < nodeList.length; j++) {
-                if (nodeList[i].numOfLeaves < nodeList[j].numOfLeaves) {
-                    temp = nodeList[i];
-                    nodeList[i] = nodeList[j];
-                    nodeList[j] = temp;
+                if (result[i].numOfLeaves < result[j].numOfLeaves) {
+                    temp = result[i];
+                    result[i] = result[j];
+                    result[j] = temp;
                 }
             }
         }
+        return result;
     }
 
     /**
@@ -435,12 +433,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         // Position node in the euclidean plane.
         // Calculate node radius from the center.
         double radius = springLength * hn.getDepth();
-        if (radius != 0) { // Not _root node
-            // Not sure if I like this effect, but shall leave it here for now
-//            System.out.println("Radius before: " + radius + " numOfLeaves " + rootNode.numOfLeaves);
-//            radius = radius - ((springLength * rootNode.weight));
-//            System.out.println("Radius after: " + radius);
-        }
         double drawAngle = startAngle + rootNode.wedge / 2;
         double x = Math.cos(drawAngle) * radius;
         double y = Math.sin(drawAngle) * radius;
@@ -466,7 +458,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
             count = count + 1;
         }
 
-        sortNodeListAscending(nodeList);// sort list in ascending orde
+        nodeList = sortNodeListAscending(nodeList);// sort list in ascending orde
         // calculate each nodes wedge space.
         // node with no children will be at the end of the list.
         // they shall get a equal share of what ever wedge space is left

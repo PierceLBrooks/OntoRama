@@ -10,10 +10,12 @@ package ontorama.conf;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Shape;
 
 public class NodeTypeDisplayInfo {
 
     private Color _color;
+    private Shape _shape;
     private Image _image;
 
     public NodeTypeDisplayInfo() {
@@ -33,6 +35,14 @@ public class NodeTypeDisplayInfo {
 
     public void setImage(Image image) {
         _image = image;
+    }
+    
+    public void setShape (Shape shape) {
+    	_shape = shape;
+    }
+    
+    public Shape getShape () {
+    	return _shape;
     }
 
 

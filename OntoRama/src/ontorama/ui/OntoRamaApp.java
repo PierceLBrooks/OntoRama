@@ -265,6 +265,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_timer = new Timer(TIMER_INTERVAL, this);
 		initBackends();
 		_splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		_splitPane.setResizeWeight(_leftSplitPanelWidthPercent/100.0);
 		calculateAppPreferredSize();
 		buildMenuBar();
 		setJMenuBar(_menuBar);
@@ -315,7 +316,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             else {
 			    _query = new Query(OntoramaConfig.ontologyRoot,	OntoramaConfig.getEdgeTypesList());
             }
-			//executeQuery(_query);
             _modelEventBroker.processEvent(new QueryStartEvent(_query));
 		}
 	}
@@ -388,29 +388,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * repaint method. takes care of repositioning divider bar in split panel
-	 * @todo  not sure how to work out if divider location bar have been moved by a user.
 	 */
 	public void repaint() {
 		int curAppWidth = getContentPane().getWidth();
 		int curAppHeight = getContentPane().getHeight();
-		// recalculate percentage for _leftSplitPanelWidthPercent to
-		// account for user specified position of divider bar
-		int currentDividerBarLocation = _splitPane.getDividerLocation();
-		double scale = (double) curAppWidth / (double) this._appWidth;
-		double scaledDividerLocation =
-			((double) this._dividerBarLocation * scale);
-		int newLeftPanelPercent =
-			(currentDividerBarLocation * 100) / this._appWidth;
-		double scaledDividerPercent =
-			(scaledDividerLocation * 100) / curAppWidth;
-		if (((calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent) - scaledDividerLocation) > 25)
-			 || ((scaledDividerLocation - calculateLeftPanelWidth(curAppWidth, newLeftPanelPercent)) > 25)) {
-			if (((newLeftPanelPercent - scaledDividerPercent) > 10)	|| ((scaledDividerPercent - newLeftPanelPercent) > 10)) {
-				_leftSplitPanelWidthPercent = newLeftPanelPercent;
-			}
-		}
-		setSplitPanelSizes(curAppWidth, curAppHeight);
 		_appWidth = curAppWidth;
 		_appHeight = curAppHeight;
 		super.repaint();
@@ -428,31 +409,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Calculate width of left panel in the split panel
-	 */
-	private int calculateLeftPanelWidth(int _appWidth, int percent) {
-		return ((_appWidth * percent) / 100);
-	}
-
-	/**
-	 * Set sizes of left and right component in the split panel
-	 */
-	private void setSplitPanelSizes(
-		int applicationWidth,
-		int applicationHeigth) {
-		_mainSplitPaneWidth = applicationWidth;
-		_mainSplitPaneHeight = (applicationHeigth * 70) / 100;
-		int dividerBarWidth = _splitPane.getDividerSize();
-		int leftPanelWidth = calculateLeftPanelWidth(applicationWidth,this._leftSplitPanelWidthPercent);
-		int rigthPanelWidth = applicationWidth - leftPanelWidth;
-		_hyperView.setPreferredSize(new Dimension(leftPanelWidth - dividerBarWidth,	_mainSplitPaneHeight));
-		_treeView.setPreferredSize(new Dimension(rigthPanelWidth - dividerBarWidth,	_mainSplitPaneHeight));
-		_splitPane.setPreferredSize(new Dimension(_mainSplitPaneWidth, _mainSplitPaneHeight));
-		_dividerBarLocation = leftPanelWidth;
-		_splitPane.setDividerLocation(_dividerBarLocation);
-	}
-
-	/**
 	 * get position for center of the screen
 	 */
 	private Point centerAppWin() {
@@ -467,7 +423,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	private void addComponentsToScrollPanel(
 		JComponent leftComp,
 		JComponent rightComp) {
-		setSplitPanelSizes(_appWidth, _appHeight);
 		_splitPane.setLeftComponent(leftComp);
 		_splitPane.setRightComponent(rightComp);
 		_splitPane.setOneTouchExpandable(true);

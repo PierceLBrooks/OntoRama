@@ -95,17 +95,16 @@ public class OntoTreeModel implements TreeModel {
      * value the model should post a treeNodesChanged event.
      * @param  path - path to the node that the user has altered.
      *         newValue - the new value from the TreeCellEditor.
-     * @todo   not sure if implementation is correct, CHECK!!!
-     * @todo   hasn't finished this - not sure how to post treeNodesChanged event !!!!
+     * @todo   haven't finished this implementation - not sure how to post treeNodesChanged event !!!!
      */
     public void valueForPathChanged(TreePath path, Object newValue) {
         // get value if object in the tree path
         // assuming that its still old value there
         // this assumption may be WRONG!?
-        Object oldValue =  path.getLastPathComponent();
-        if (! oldValue.equals(newValue)) {
+        //Object oldValue =  path.getLastPathComponent();
+        //if (! oldValue.equals(newValue)) {
             // post treeNodesChanged event
-        }
+        //}
     }
 
     /**

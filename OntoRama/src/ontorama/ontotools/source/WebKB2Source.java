@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.SourceException;
@@ -123,7 +125,6 @@ public class WebKB2Source implements Source {
             // size == 0, this means that we didn't find RDF documents
             // in the reader. In this case - look for error message
             checkForMultiRdfDocuments(br);
-            System.out.println("docs size = " + docs.size());
             if (docs.size() == 0) {
                 String webkbError = checkForWebkbErrors(readerString);
                 throw new SourceException("WebKB Error: " + webkbError);
@@ -142,7 +143,6 @@ public class WebKB2Source implements Source {
         } catch (InterruptedException intExc) {
             throw new CancelledQueryException();
         }
-        System.out.println("resultReader = " + resultReader);
         return (new SourceResult(true, resultReader, null));
     }
 
@@ -171,7 +171,6 @@ public class WebKB2Source implements Source {
         if (OntoramaConfig.DEBUG) {
             System.out.println("fullUrl = " + fullUrl);
         }
-        System.out.println("class WebKB2Source, fullUrl = " + fullUrl);
         InputStreamReader reader = getInputStreamReader(fullUrl);
         return reader;
     }
@@ -248,10 +247,12 @@ public class WebKB2Source implements Source {
         getRootTypesFromStreams();
 
         Frame frame = OntoRamaApp.getMainFrame();
-        String selectedType = ((ontorama.model.graph.Node) typesList.get(0)).getName();
-        AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frame);
-        selectedType = dialog.getSelected();
-        System.out.println("\n\n\nselectedType = " + selectedType);
+        String selectedType = ((Node) typesList.get(0)).getName();
+        if (frame != null) {
+        	// if we are running test cases - no need to popup dialog box.
+        	AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frame);
+        	selectedType = dialog.getSelected();
+        }
 
         String newTermName = selectedType;
 
@@ -278,7 +279,7 @@ public class WebKB2Source implements Source {
             StringReader curReader = new StringReader(nextDocStr);
             List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
             for (int i = 0; i < curTypesList.size(); i++) {
-                ontorama.model.graph.Node node = (ontorama.model.graph.Node) curTypesList.get(i);
+                Node node = (Node) curTypesList.get(i);
                 if (!typesList.contains(node)) {
                     typesList.add(node);
                 }
@@ -318,7 +319,7 @@ public class WebKB2Source implements Source {
         List nodesList = parserResult.getNodesList();
         Iterator typesIt = nodesList.iterator();
         while (typesIt.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) typesIt.next();
+            Node curNode = (Node) typesIt.next();
             List synonyms = getSynonyms(curNode, parserResult.getEdgesList());
             if (synonyms.contains(termName)) {
                 typeNamesList.add(curNode);
@@ -327,14 +328,14 @@ public class WebKB2Source implements Source {
         return typeNamesList;
     }
 
-    private List getSynonyms (ontorama.model.graph.Node node, List edgesList) {
+    private List getSynonyms (Node node, List edgesList) {
         List result = new LinkedList();
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+            Edge edge = (Edge) it.next();
             if (edge.getFromNode().equals(node)) {
                 if (edge.getEdgeType().getName().equals(synPropName)) {
-                    ontorama.model.graph.Node synonymNode = edge.getToNode();
+                    Node synonymNode = edge.getToNode();
                     result.add(synonymNode.getName());
                 }
             }
@@ -347,7 +348,6 @@ public class WebKB2Source implements Source {
      */
     protected boolean resultIsAmbiguous() {
         if (docs.size() > 1) {
-            System.out.println("docs.size = " + docs.size());
             return true;
         }
         return false;

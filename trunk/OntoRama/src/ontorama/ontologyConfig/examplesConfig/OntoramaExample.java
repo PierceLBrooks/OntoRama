@@ -141,4 +141,18 @@ public class OntoramaExample {
   public boolean isLoadFirst () {
     return this.loadFirst;
   }
+
+  /**
+   *
+   */
+  public String toString () {
+    String str = "Example: ";
+    str = str + "name=" + this.name;
+    str = str + ", root=" + this.root;
+    str = str + ", relativeUri=" + this.relativeUri;
+    str = str + ", queryOutpurFormat=" + this.queryOutputFormat;
+    str = str + ", parserPackagePathSuffix=" + this.parserPackagePathSuffix;
+    str = str + ", sourcePackagePathSuffix=" + this.sourcePackagePathSuffix;
+    return str;
+  }
 }

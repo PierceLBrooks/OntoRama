@@ -1,0 +1,1006 @@
+<?xml version="1.0"?>
+<!--*****  slinks.rdf, version 1.0  11/10/99         *****
+     *  http://www.openly.com/slinks/slinks-19991110.rdf  *
+
+     *  The most recent version of this document          *
+     *  is located at                                     *
+     *  http://www.openly.com/slinks/slinks.rdf           *
+
+     *  The previous version of this document             *
+     *  is located at                                     *
+     *  http://www.openly.com/slinks/slinks-19991026.rdf  *
+    
+    =====================================================
+    This RDF Schema document defines a vocabulary of 
+    metadata useful for constructing internet links to 
+    resources relating to scholarly citations.
+    =====================================================
+Author: Eric S. Hellman, eric@openly.com
+Copyright (1999) by Openly Informatics, Inc.
+All Rights Reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+    Redistributions of source  must retain the above copyright
+    notice, this list of conditions and the following disclaimer. 
+
+    Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
+
+    The name(s) of the author(s) may not be used to endorse or promote
+    products derived from this software without specific prior written
+    permission. 
+
+THIS RESOURCE DESCRIPTION SCHEMA IS PROVIDED AS IS AND ANY EXPRESS
+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+
+ <!--=====================================================
+    This document applies the RDF Model and Syntax specification
+    described in the W3C Proposed Recommendation dated 22 February 
+    1999. (http://www.w3.org/TR/1999/REC-rdf-syntax-19990222) 
+    
+    This document applies the RDF Schema specification 
+    described in the W3C Working Draft dated 3 March 
+    1999. (http://www.w3.org/TR/PR-rdf-schema-19990303) 
+   
+   =====================================================-->
+ 
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"	
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+   <!--	xmlns:dc="http://purl.org/dc/elements/1.1/" -->
+   <!-- xmlns:dc=http://purl.org/metadata/dublin_core. This namespace is replaced by the newest version -->
+   <!-- xmlns:mde=http://www.openly.com/SLinkS/editor -->
+   <!-- xmlns:rdfs=http://www.w3.org/TR/1999/PR-rdf-schema-19990303#.This namespace is replaced by the newest version --> 
+
+<rdfs:Class rdf:ID="Publication">
+	<rdfs:comment>This is a class to represent any sort of publication, linkable or citable, in print or on-line. 
+	</rdfs:comment>
+<rdfs:label>PUBLICATION</rdfs:label>
+</rdfs:Class>
+	
+<!-- Core Classes -->
+<rdfs:Class rdf:ID="WebService">
+	<rdfs:comment>This is a class for representing a group of internet resources to which links can be made.  It is a subclass of Publication. A "WebService" should have linkMethod properties. </rdfs:comment>
+	<rdfs:label>WEB SERVICE</rdfs:label>
+	<rdfs:subClassOf rdf:resource="#Publication"/>
+</rdfs:Class>
+
+<rdfs:Class  rdf:ID="LinkMethod">
+	<rdfs:comment> A LinkMethod is a set of instructions for using a  WebService to provide information about a citeable Publication. It should have template and citeablePub properties to be useful.</rdfs:comment>
+	<rdfs:label>LINK METHOD</rdfs:label>
+</rdfs:Class>
+	
+<rdfs:Class  rdf:ID="CiteablePub">
+	<rdfs:comment>This is a class for representing a citeable resource or (more commonly) a class of citeable resources. It is an abstract entity, not a physical one. It is a subclass of Publication. It could represent articles in a journal, a book, a report etc.</rdfs:comment>
+	<rdfs:subClassOf  rdf:resource="#Publication"/>
+	<rdfs:label>CITEABLE PUBLICATION</rdfs:label>
+</rdfs:Class>
+
+<rdfs:Class  rdf:ID="Serial">
+	<rdfs:comment>if the CiteablePub is a Serial, then links into it are targeted at articles in the Serial.
+	</rdfs:comment>
+	<rdfs:label>Serial Publication</rdfs:label>
+	<rdfs:subClassOf  rdf:resource="#CiteablePub"/>
+</rdfs:Class>
+	
+<rdfs:Class  rdf:ID="Books">
+	<rdfs:comment>if the CiteablePub is Books, then links into it are targeted at a particular book.</rdfs:comment>
+	<rdfs:label>BOOKS</rdfs:label>
+	<rdfs:subClassOf  rdf:resource="#CiteablePub"/>
+</rdfs:Class>
+
+<!-- Core Properties -->
+<rdf:Property  rdf:ID="webService">
+	<rdfs:comment>This property attaches a Web Service object to this Link Method.</rdfs:comment>
+	<rdfs:range rdf:resource="#WebService"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Web Service</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="linkMethod">
+	<rdfs:comment>This property attaches a Link Method object to this Web Service.</rdfs:comment>
+	<rdfs:range rdf:resource="#LinkMethod"/>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:domain rdf:resource="#CiteablePub"/>
+	<rdfs:label>Link Method</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="citeablePub">
+	<rdfs:comment>This property declares a Citable Publication that a Link Method can be used for.</rdfs:comment>
+	<rdfs:range rdf:resource="#CiteablePub"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Citeable Publication</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="template">
+	<rdfs:comment>This is the heart of the S-Link-S specification- any Link Method should have at least one S-Link-S Template. A S-Link-S template is an XML document that conforms to the XML DTD  specified in the range attribute. In an RDF file, the template should be URL-encoded.</rdfs:comment>
+	<rdfs:isDefinedBy rdf:resource="http://www.openly.com/slinks/slinks.dtd"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Template</rdfs:label>
+</rdf:Property>
+
+<!--=====================================================
+    Properties used to describe  the WebService  resource.
+    =====================================================-->
+
+<rdf:Property  rdf:ID="webServiceType">
+	<rdfs:comment>This property describes what sort of service is being offered in a web service.</rdfs:comment>
+	<rdfs:range rdf:resource="#WebServiceType"/>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:label>Web Service Type</rdfs:label>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="WebServiceType">
+	<rdfs:comment>The allowed web service type. Only one type should be specified. Default is OnLineAccess.</rdfs:comment>
+	<rdfs:label>WEB SERVICE TYPE</rdfs:label>
+</rdfs:Class>		
+
+	<WebServiceType  rdf:ID="OnLineAccess">
+		<rdfs:comment>This Web Service provides on-line access to a citeable resource, or aggregates online access.</rdfs:comment>
+		<rdfs:label>On-Line Access</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Original">
+		<rdfs:comment>The Web Service is an original citeable resource, such as a web-only e-journal.</rdfs:comment>
+		<rdfs:label>Original Resource</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Translation">
+		<rdfs:comment>The Web Service provides a translation or translations of citeable resources.</rdfs:comment>
+		<rdfs:label>Translation Service</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Archive">
+		<rdfs:comment>The Web Service provides access to archives of citeable resources. A pre-print archive, for example.</rdfs:comment>
+		<rdfs:label>Archive</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="OPAC">
+		<rdfs:comment>The Web Service is the On-line Public Access Catalog of a library. </rdfs:comment>
+		<rdfs:label>Public Access Catalog</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Index">
+		<rdfs:comment>The Web Service is a bibliographic index.</rdfs:comment>
+		<rdfs:label>Bibliographic Index</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Delivery">
+		<rdfs:comment>The Web Service is an document delivery service or bookstore.</rdfs:comment>
+		<rdfs:label>Delivery Service</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Rights">
+		<rdfs:comment>The Web Service is a rights management service. </rdfs:comment>
+		<rdfs:label>Rights Service</rdfs:label>
+	</WebServiceType>
+
+	<WebServiceType  rdf:ID="Database">
+		<rdfs:comment>The Web Service is a database of a type that does not fit in the other categories. Use the Subject attribute to provide a further description.</rdfs:comment>
+		<rdfs:label>Other Database</rdfs:label>
+	</WebServiceType>
+		
+<!--=====================================================
+    Properties used to specify link policies    
+    =====================================================-->
+<rdf:Property  rdf:ID="restriction">
+	<rdfs:comment>restrictions are indications by a Linkee that the modified Link Method may only be used under specific conditions specified here. The specifications have legal definitions available at http://www.openly.com/SLinkS/legal.html </rdfs:comment>
+	<rdfs:seeAlso rdf:resource="http://www.openly.com/SLinkS/legal.html"/>
+	<rdfs:range rdf:resource="#Restriction"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Usage Restriction</rdfs:label>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="Restriction">
+	<rdfs:comment>This class is composed of S-Link-S Restriction types.  Default is Friendly. The terms have legal definitions available at http://www.openly.com/SLinkS/legal.html</rdfs:comment>	
+	<rdfs:label>RESTRICTION</rdfs:label>
+</rdfs:Class>
+
+	<Restriction  rdf:ID="Public">
+		<rdfs:comment>Use and transmittal of this Link Method is unrestricted.</rdfs:comment>
+		<rdfs:label>No Restriction</rdfs:label>
+	</Restriction>
+
+	<Restriction  rdf:ID="Friendly">
+		<rdfs:comment>This Link Method  shall be not public and must not be shared with entities not legally bound in a Hyperlink Specification and Usage Agreement with Openly Informatics, Inc.</rdfs:comment>
+		<rdfs:label>Usage Agreement</rdfs:label>
+	</Restriction>
+
+	<Restriction  rdf:ID="Contextual">
+		<rdfs:comment>Use of this Link Method is restricted to one or more Hyperlink Contexts and Linkers may not publish Hyperlinks constructed using this Link Methods in Hyperlink Contexts other than Hyperlinking without the written agreement of the Linkee.This Link Method  shall be not public and must not be shared with entities not legally bound in a Hyperlink Specification and Usage Agreement with Openly Informatics, Inc.</rdfs:comment>
+		<rdfs:label>Only Some Contexts</rdfs:label>
+	</Restriction>
+
+	<Restriction  rdf:ID="Private">
+		<rdfs:comment>Use of this Link Method is not permitted without the written agreement of the Linkee. This Link Method  shall be not public and must not be shared with entities not legally bound in a Hyperlink Specification and Usage Agreement with Openly Informatics, Inc.</rdfs:comment>
+		<rdfs:label>By Private Agreement</rdfs:label>
+	</Restriction>
+
+<rdf:Property  rdf:ID="allowedContext">
+	<rdfs:comment>restrictions are indications by a Linkee that the modified Link Method may only be used under specific conditions specified here. The specifications have legal definitions available at http://www.openly.com/SLinkS/legal.html </rdfs:comment>
+	<rdfs:range rdf:resource="#Context"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Allowed Contexts</rdfs:label>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="Context">
+	<rdfs:comment>A Hyperlink Context is a categorization of a Web Service in which a particular Hyperlink is embedded. The terms have legal definitions available at http://www.openly.com/SLinkS/legal.html</rdfs:comment>	
+	<rdfs:label>HYPERLINK CONTEXT</rdfs:label>
+</rdfs:Class>
+
+	<Context  rdf:ID="Citing">
+		<rdfs:comment>A Citing Resource Hyperlink Context occurs when the Resource which embeds the particular Hyperlink combines said Hyperlink with a Citation. A "Citation" is a textual presentation in an intellectual work of an conceptual pointer or conceptual reference to another intellectual work. </rdfs:comment>
+		<rdfs:label>Citing Resource</rdfs:label>
+	</Context>
+
+	<Context  rdf:ID="Linkable">
+		<rdfs:comment>A Linkable Resource Hyperlink Context occurs when the Resource which embeds the particular Hyperlink is part of a Web Service AND an S-Link-S Specification has been submitted for said Web Service, AND an abstract or full-text associated with the Resource is freely available using Link Methods of said S-Link-S Specification.</rdfs:comment>
+		<rdfs:label>Linkable Resource</rdfs:label>
+	</Context>
+
+	<Context  rdf:ID="Redirection">
+		<rdfs:comment>A Redirection Hyperlink Context occurs when the Hyperlink is not embedded in web pages, but rather is delivered as a redirection of other Hyperlinks. The DOI resolver is an example of a redirector.</rdfs:comment>
+		<rdfs:label>Redirection</rdfs:label>
+	</Context>
+
+	<Context  rdf:ID="Free">
+		<rdfs:comment>A Free Resource Hyperlink Context occurs when the Resource which embeds the particular Hyperlink is freely available on the internet.</rdfs:comment>
+		<rdfs:label>Free Resource</rdfs:label>
+	</Context>
+
+	<Context  rdf:ID="Indexed">
+		<rdfs:comment>An Indexed Resource Hyperlink Context occurs when the Resource which embeds the particular Hyperlink is freely available and open to indexing robots.</rdfs:comment>
+		<rdfs:label>Indexed Resource</rdfs:label>
+	</Context>
+
+<rdf:Property  rdf:ID="linkNotifyEmail">
+	<rdfs:comment>This Property indicates that a linker should notify the provider of a Web Service at the provided e-mail address. Notifications should be bundled and sent once a week or so.</rdfs:comment>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:label>Notification Address</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="linkButtonURL">
+	<rdfs:comment>This Property is used to specify the URL of a graphic that linkers may use to identify the Web Service. Include the "http://" at the front!</rdfs:comment>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:label>Link Button URL</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="serviceName">
+	<rdfs:comment>This is the name of the Web Service, as would be used to anchor a link.</rdfs:comment>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:label>Web Service Name</rdfs:label>
+</rdf:Property>
+
+
+<!--=====================================================
+    Properties used to describe what is available 
+    using the LinkMethod.
+    =====================================================-->
+
+<rdf:Property  rdf:ID="linkedObjectType">
+	<rdfs:comment>This property describes the type of object that a Link Method points at. Often, a variety of resource types may be available at a single URL. In such cases, it is best to make a separate Link Method for each type of resource that you wish to declare.</rdfs:comment>
+	<rdfs:range rdf:resource="#LinkedObjectType"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Linked Object Type</rdfs:label> 
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="LinkedObjectType">
+	<rdfs:comment>These are the allowed types of linkedObjectType, in order from most to least. The default is Abstract.</rdfs:comment>
+	<rdfs:label>LINKED OBJECT TYPE</rdfs:label>
+</rdfs:Class>
+
+	<LinkedObjectType  rdf:ID="FullText">
+		<rdfs:comment>The Link Method points to a full-text on-line version of the citeable resource.</rdfs:comment>
+		<rdfs:label>Full-Text Version</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="Partial">
+		<rdfs:comment>The Link Method points to a partial version of the citeable resource, for example the first chapter.</rdfs:comment>
+		<rdfs:label>Partial Version</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="Abstract">
+		<rdfs:comment>The Link Method points to a page presenting the abstract of the citeable resource.</rdfs:comment>
+		<rdfs:label>Abstract</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="TOC">
+		<rdfs:comment>The Link Method points to a Table of Contents containing the cited resource.</rdfs:comment>
+		<rdfs:label>Table of Contents</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="Metadata">
+		<rdfs:comment>The Link Method points to (machine-readable) metadata concerning the citeable resource.</rdfs:comment>
+		<rdfs:label>Metadata</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="Holding">
+		<rdfs:comment>The Link Method points to holdings information for the citeable resource.</rdfs:comment>
+		<rdfs:label>Holdings Information</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="ContainingSite">
+		<rdfs:comment>The Link Method points to a  Web site associated with something that includes the citeable resource. For example, this might be the web site for a journal in which an article appears.</rdfs:comment>
+		<rdfs:label>Enclosing Web-Site</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="RightsData">
+		<rdfs:comment>The Link Method points to a page containing rights information pertaining to the citeable resource.</rdfs:comment>
+		<rdfs:label>Rights Data</rdfs:label>
+	</LinkedObjectType>
+
+	<LinkedObjectType  rdf:ID="Auxiliary">
+		<rdfs:comment>The Link Method points to a service pertaining to the citeable resource. This could be a document delivery service, a forward citation list, or perhaps a discussion forum.</rdfs:comment>
+		<rdfs:label>Auxiliary Service</rdfs:label>
+	</LinkedObjectType>
+
+<rdf:Property  rdf:ID="mime-type">
+	<rdfs:comment>This property describes the media type of the object that a Link Method points at. This is particularly useful to linkers when the mime-type is something other than text/html. mime-type should not be specified if the returned mimetype is dynamic.</rdfs:comment>
+	<rdfs:range rdf:resource="#MIME-Type"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>MIME Type</rdfs:label> 
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="MIME-Type">
+	<rdfs:comment>These are the allowed MIME-types.</rdfs:comment>
+	<rdfs:label>MIME TYPES</rdfs:label>
+</rdfs:Class>
+
+<!--
+     It is expected that the enumeration of MIME-types will be removed in the future as standard RDF Schemas for MIME-types become available.
+-->
+	<MIME-Type  rdf:ID="text-html">
+		<rdfs:comment>The resource format is HTML text.</rdfs:comment>
+		<rdfs:label>text/html</rdfs:label>
+	</MIME-Type>
+
+	<MIME-Type  rdf:ID="text-plain">
+		<rdfs:comment>The resource format is plain text.</rdfs:comment>
+		<rdfs:label>text/plain</rdfs:label>
+	</MIME-Type>
+
+	<MIME-Type  rdf:ID="application-rtf">
+		<rdfs:comment>The resource format is Rich-Text Format (RTF).</rdfs:comment>
+		<rdfs:label>application/rtf</rdfs:label>
+	</MIME-Type>
+
+	<MIME-Type  rdf:ID="application-pdf">
+		<rdfs:comment>The resource format is Adobe Acrobat (PDF).</rdfs:comment>
+		<rdfs:label>application/pdf</rdfs:label>
+	</MIME-Type>
+
+	<MIME-Type  rdf:ID="application-msword">
+		<rdfs:comment>The resource format is Microsoft Word.</rdfs:comment>
+		<rdfs:label>application/msword</rdfs:label>
+	</MIME-Type>
+
+
+<rdf:Property  rdf:ID="clicksAway">
+	<rdfs:comment>This property is a positive integer giving the number of additional clicks a user must make to get to article-specific information. The property should be used when a Link Method points to a table of contents or a containing web-site so that software can choose between alternative Link Method's.</rdfs:comment>
+	<rdfs:label>Clicks From Article</rdfs:label>
+	<rdfs:range rdf:resource="#AllowedUser"/>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="allowedUser">
+	<rdfs:comment>This property describes the group of users who may access a Web Service using a Link Method. Occasionally, access restrictions may vary for a given Link Method. The "allowed user" for a Link Method should be the "smallest" group that a resource might be available to. Thus if a Link Method is usable by anyone on weekends, but only to subscribers on weekdays, the "allowed user" should be "Subscriber", not "Anyone".</rdfs:comment>
+	<rdfs:label>Allowed User</rdfs:label>
+	<rdfs:range rdf:resource="#AllowedUser"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="AllowedUser">
+	<rdfs:comment>This class is composed of the possible user types, in order from most to least restrictive. The default is Anyone.</rdfs:comment>
+	<rdfs:label>ALLOWED USER</rdfs:label>
+</rdfs:Class>
+
+	<AllowedUser  rdf:ID="Member">
+		<rdfs:comment>Only a predetermined group of users are allowed to use this Link Method. This choice is appropriate for clients on an intranet or in a library.</rdfs:comment>
+		<rdfs:label>Member</rdfs:label>
+	</AllowedUser>
+
+	<AllowedUser  rdf:ID="Subscriber">
+		<rdfs:comment>Only Subscribers may use this Link Method. This choice is appropriate if users of the Link Method must have previously obtained a subscription to gain immediate access to a requested item. In other words, if a WebService doesn't offer a method of on-line subscription purchase, then it isn't available to any Payer.</rdfs:comment>
+		<rdfs:label>Subscriber</rdfs:label>
+	</AllowedUser>
+
+	<AllowedUser  rdf:ID="Payer">
+		<rdfs:comment>This Link Method will provide immediate gratification to is anyone willing to pay with a credit card or who has already subscribed and can prove it.</rdfs:comment>
+		<rdfs:label>Payer</rdfs:label>
+	</AllowedUser>
+
+	<AllowedUser  rdf:ID="Registrant">
+		<rdfs:comment>This Link Method is usable by anyone willing to supply information embodied in a form or a cookie.</rdfs:comment>
+		<rdfs:label>Registrant</rdfs:label>
+	</AllowedUser>
+
+	<AllowedUser  rdf:ID="Anyone">
+		<rdfs:comment>This Link Method is usable by anyone human (no robots).</rdfs:comment>
+		<rdfs:label>Anyone</rdfs:label>
+	</AllowedUser>
+
+	<AllowedUser  rdf:ID="Everyone">
+		<rdfs:comment>This Link Method is usable by anyone, even robots.</rdfs:comment>
+		<rdfs:label>Everyone</rdfs:label>
+	</AllowedUser>
+
+<!--=====================================================
+    Properties used describe the applicability of the 
+    WebService
+    =====================================================-->
+<rdf:Property  rdf:ID="expires">
+	<rdfs:comment>This property indicates a date (or date and time) in (yyyy-mm-ddThh:mm:ssZ) format, after which the information contained in the attributes of the Link Method should be considered stale.</rdfs:comment>
+	<rdfs:range rdf:resource="http://www.w3.org/TR/NOTE-datetime-970915#date"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Expires</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="startDate">
+	<rdfs:comment>This property indicates a chronological starting point for the validity of a Link Method. The date is in (yyyy-mm-ddThh:mm:ssZ) format, and refers to the publication date of the Citable Publication.</rdfs:comment>
+	<rdfs:range rdf:resource="http://www.w3.org/TR/NOTE-datetime-970915#date"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>START DATE</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="endDate">
+	<rdfs:comment>This property indicates a chronological ending point for the validity of a Link Method. The date is in (yyyy-mm-ddThh:mm:ssZ) format, and refers to the publication date of the Citable Publication.</rdfs:comment>
+	<rdfs:range rdf:resource="http://www.w3.org/TR/NOTE-datetime-970915#date"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>END DATE</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="starts">
+	<rdfs:comment>This property indicates a bibliographic starting point for the validity of a Link Method.</rdfs:comment>
+	<rdfs:range rdf:resource="#BibData"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Starts</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="ends">
+	<rdfs:comment>This property indicates a bibliographic ending point for the validity of a Link Method.</rdfs:comment>
+	<rdfs:range rdf:resource="#BibData"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Ends</rdfs:label>
+</rdf:Property>
+
+<!--=====================================================
+    Properties used to set values 
+    for S-Link-S template entities   
+    =====================================================-->
+<rdf:Property  rdf:ID="baseURL">
+	<rdfs:comment>This Property is used to specify a base URL for a Web Service.</rdfs:comment>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:label>Base URL</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="jKey">
+	<rdfs:comment>This Property is used to specify the journal key string. Key strings are used as internal identifiers to distinguish one journal from another within a Web Service.</rdfs:comment>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:label>Journal Key String</rdfs:label>
+</rdf:Property>
+
+    
+<!--=====================================================
+    Meta-metadata (information about the S-Link-S data itself
+    =====================================================-->
+<rdfs:Class  rdf:ID="SLinkSFile">
+	<rdfs:comment>This class represents a S-Link-S RDF File. It is used as a domain for meta-metadata.</rdfs:comment>	
+	<rdfs:label>S-LINK-S FILE</rdfs:label>
+</rdfs:Class>
+
+<rdf:Property  rdf:ID="authority">
+	<rdfs:comment>This property describes the authoritativeness of the contributor of information in a Link Method.</rdfs:comment>
+	<rdfs:range rdf:resource="#Authority"/>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:domain rdf:resource="#WebService"/>
+	<rdfs:domain rdf:resource="#SLinkSFile"/>
+	<rdfs:label>My Authority Level</rdfs:label>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="Authority">
+	<rdfs:comment>This class is composed of the possible authority types, in order from most to least authoritative. The default is Owner.</rdfs:comment>	
+	<rdfs:label>MY AUTHORITATIVENESS</rdfs:label>
+</rdfs:Class>
+
+	<Authority  rdf:ID="Master">
+		<rdfs:comment>This indicates that information has been contributed by a person or organization having operating responsibility (webmaster, etc.) for the Web Service.</rdfs:comment>
+	</Authority>
+
+	<Authority  rdf:ID="Owner">
+		<rdfs:comment>This indicates that information has been contributed  by a person or organization with legal responsibility for the WebService resource.</rdfs:comment>
+	</Authority>
+
+	<Authority  rdf:ID="Friend">
+		<rdfs:comment>This indicates that information has been contributed  by a person or organization who lacks legal responsibility for the WebService.</rdfs:comment>
+	</Authority>
+
+<rdf:Property  rdf:ID="SLinkSCreator">
+	<rdfs:comment>This property identifies the person or entity that created the S-Link-S data.</rdfs:comment>
+	<rdfs:domain rdf:resource="#LinkMethod"/>
+	<rdfs:domain rdf:resource="#CiteablePub"/>
+	<rdfs:domain rdf:resource="#SLinkSFile"/>
+	<rdfs:label>S-Link-S Data Author</rdfs:label>
+</rdf:Property>
+
+
+<rdf:Property  rdf:ID="SLinkSLocation">
+	<rdfs:comment>This property gives a URI which can be used to retrieve the S-Link-S File.</rdfs:comment>
+	<rdfs:domain rdf:resource="#SLinkSFile"/>
+	<rdfs:label>S-Link-S URL</rdfs:label>
+</rdf:Property>
+
+
+
+<!--=====================================================
+    Properties used for identifying the CiteablePub   
+    =====================================================-->
+<rdf:Property  rdf:ID="ISSN">
+	<rdfs:comment>The ISSN of the journal. If there is a separate ISSN for an on-line version, this token refers to the print version ISSN. The match string for an ISSN is "[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9x]." The last character is a check digit.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Serial"/>
+	<rdfs:label>ISSN</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="CODEN">
+	<rdfs:comment>This Property is used to specify the CODEN of a Citeable Publication.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Serial"/>
+	<rdfs:label>CODEN</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="eISSN">
+	<rdfs:comment>This Property is used to specify the ISSN of the on-line version of a Citeable Publication.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Serial"/>
+	<rdfs:label>Electronic ISSN</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="ISBN">
+	<rdfs:comment>The International Standard Book Number for a book. The match string for an ISBN is [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9x]. The last digit is a check digit. Hyphens are omitted.</rdfs:comment>	
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>ISBN Number</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="title">
+	<rdfs:comment>This Property is used to specify the title of a Citeable Publication.</rdfs:comment>
+	<rdfs:domain rdf:resource="#Serial"/>
+	<rdfs:label>Title</rdfs:label>
+	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1#title"/>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="abbrevTitle">
+	<rdfs:comment>This Property is used to specify standard abbreviations of the title of a Citeable Publication, as they might appear in a citation.</rdfs:comment>
+	<rdfs:domain rdf:resource="#CiteablePub"/>
+	<rdfs:label>Abbreviated Title</rdfs:label>
+</rdf:Property>
+
+
+
+<!--=====================================================
+     Dublin Core Derived Properties
+    
+    The following S-Link-S properties are derived from corresponding 
+    Dublin Core properties should be used and have the same semantics.
+    
+    =====================================================-->
+    
+<rdf:Property  rdf:ID="publisher">
+	<rdfs:comment>The entity responsible for making the resource available in its present form, such as a publishing house, a university department, or a corporate entity.</rdfs:comment>
+	<rdfs:label>Publisher</rdfs:label>
+	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1#publisher"/>
+	<rdfs:domain rdf:resource="#Publication"/>
+</rdf:Property>
+    
+<rdf:Property  rdf:ID="subject">
+	<rdfs:comment>The topic of the resource. Typically, subject will be expressed as keywords or phrases that describe the subject or content of the resource.</rdfs:comment>
+	<rdfs:label>Subject</rdfs:label>
+	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1#subject"/>
+	<rdfs:range rdf:resource="#Subject"/>
+	<rdfs:domain rdf:resource="#Publication"/>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="Subject">
+	<rdfs:comment>This class represents all subject categories for Publication.</rdfs:comment>
+	<rdfs:label>SUBJECT</rdfs:label>
+</rdfs:Class>
+
+<!--
+     It is expected that the enumeration of subjects will be removed in the future as standard RDF Schemas for subjects become available.
+-->
+	<Subject  rdf:ID="biology">
+		<rdfs:comment>The subject is Biology.</rdfs:comment>
+		<rdfs:label>Biology</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="chemistry">
+		<rdfs:comment>The subject is Chemistry.</rdfs:comment>
+		<rdfs:label>Chemistry</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="physics">
+		<rdfs:comment>The subject is Physics.</rdfs:comment>
+		<rdfs:label>Physics</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="math">
+		<rdfs:comment>The subject is Math.</rdfs:comment>
+		<rdfs:label>Math</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="ecology">
+		<rdfs:comment>The subject is Ecology.</rdfs:comment>
+		<rdfs:label>Ecology</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="medical">
+		<rdfs:comment>The subject is Medical.</rdfs:comment>
+		<rdfs:label>Medical</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="engineering">
+		<rdfs:comment>The subject is Engineering.</rdfs:comment>
+		<rdfs:label>Engineering</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="psychology">
+		<rdfs:comment>The subject is Psychology.</rdfs:comment>
+		<rdfs:label>Psychology</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="astronomy">
+		<rdfs:comment>The subject is Astronomy.</rdfs:comment>
+		<rdfs:label>Astronomy</rdfs:label>
+	</Subject>
+	<Subject  rdf:ID="other">
+		<rdfs:comment>The subject is something other than represented.</rdfs:comment>
+		<rdfs:label>Other</rdfs:label>
+	</Subject>
+
+    
+<rdf:Property  rdf:ID="language">
+	<rdfs:comment>The language of the intellectual content of the resource. Where practical, the content of this field should coincide with RFC 1766 [Tags for the Identification of Languages, http://ds.internic.net/rfc/rfc1766.txt ]; examples include en, de,  es, fi, fr, ja, th, and zh.</rdfs:comment>
+	<rdfs:label>Language</rdfs:label>
+	<rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1#language"/>
+	<rdfs:range rdf:resource="#Language"/>
+	<rdfs:domain rdf:resource="#Publication"/>
+</rdf:Property>
+
+<rdfs:Class  rdf:ID="Language">
+	<rdfs:comment>This class represents all language types.</rdfs:comment>
+	<rdfs:label>LANGUAGE</rdfs:label>
+</rdfs:Class> 
+
+<!--
+     It is expected that the enumeration of languages will be removed in the future as standard RDF Schemas for languages become available.
+-->
+	<Language  rdf:ID="en">
+		<rdfs:comment>The language is English</rdfs:comment>
+		<rdfs:label>English</rdfs:label>
+	</Language>
+	<Language  rdf:ID="fr">
+		<rdfs:comment>The language is French.</rdfs:comment>
+		<rdfs:label>French</rdfs:label>
+	</Language>
+	<Language  rdf:ID="de">
+		<rdfs:comment>The language is German</rdfs:comment>
+		<rdfs:label>German</rdfs:label>
+	</Language>
+	<Language  rdf:ID="es">
+		<rdfs:comment>The language is Spanish</rdfs:comment>
+		<rdfs:label>Spanish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ru">
+		<rdfs:comment>The language is Russian</rdfs:comment>
+		<rdfs:label>Russian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ja">
+		<rdfs:comment>The language is Japanese</rdfs:comment>
+		<rdfs:label>Japanese</rdfs:label>
+	</Language>
+	<Language  rdf:ID="zh">
+		<rdfs:comment>The language is Chinese</rdfs:comment>
+		<rdfs:label>Chinese</rdfs:label>
+	</Language>
+	<Language  rdf:ID="af">
+		<rdfs:comment>The language is Afrikaans</rdfs:comment>
+		<rdfs:label>Afrikaans</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ar">
+		<rdfs:comment>The language is Arabic</rdfs:comment>
+		<rdfs:label>Arabic</rdfs:label>
+	</Language>
+	<Language  rdf:ID="bo">
+		<rdfs:comment>The language is Tibetan</rdfs:comment>
+		<rdfs:label>Tibetan</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ca">
+		<rdfs:comment>The language is Catalan</rdfs:comment>
+		<rdfs:label>Catalan</rdfs:label>
+	</Language>
+	<Language  rdf:ID="cs">
+		<rdfs:comment>The language is Czech</rdfs:comment>
+		<rdfs:label>Czech</rdfs:label>
+	</Language>
+	<Language  rdf:ID="cy">
+		<rdfs:comment>The language is Welsh</rdfs:comment>
+		<rdfs:label>Welsh</rdfs:label>
+	</Language>
+	<Language  rdf:ID="da">
+		<rdfs:comment>The language is Danish</rdfs:comment>
+		<rdfs:label>Danish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="el">
+		<rdfs:comment>The language is Greek</rdfs:comment>
+		<rdfs:label>Greek</rdfs:label>
+	</Language>
+	<Language  rdf:ID="eo">
+		<rdfs:comment>The language is Esperanto</rdfs:comment>
+		<rdfs:label>Esperanto</rdfs:label>
+	</Language>
+	<Language  rdf:ID="fi">
+		<rdfs:comment>The language is Finnish</rdfs:comment>
+		<rdfs:label>Finnish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ga">
+		<rdfs:comment>The language is Irish</rdfs:comment>
+		<rdfs:label>Irish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="he">
+		<rdfs:comment>The language is Hebrew</rdfs:comment>
+		<rdfs:label>Hebrew</rdfs:label>
+	</Language>
+	<Language  rdf:ID="hi">
+		<rdfs:comment>The language is Hindi</rdfs:comment>
+		<rdfs:label>Hindi</rdfs:label>
+	</Language>
+	<Language  rdf:ID="hr">
+		<rdfs:comment>The language is Croatian</rdfs:comment>
+		<rdfs:label>Croatian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="hu">
+		<rdfs:comment>The language is Hungarian</rdfs:comment>
+		<rdfs:label>Hungarian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="it">
+		<rdfs:comment>The language is Italian</rdfs:comment>
+		<rdfs:label>Italian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ko">
+		<rdfs:comment>The language is Korean</rdfs:comment>
+		<rdfs:label>Korean</rdfs:label>
+	</Language>
+	<Language  rdf:ID="nl">
+		<rdfs:comment>The language is Dutch</rdfs:comment>
+		<rdfs:label>Dutch</rdfs:label>
+	</Language>
+	<Language  rdf:ID="no">
+		<rdfs:comment>The language is Norwegian</rdfs:comment>
+		<rdfs:label>Norwegian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="ro">
+		<rdfs:comment>The language is Romanian</rdfs:comment>
+		<rdfs:label>Romanian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="sv">
+		<rdfs:comment>The language is Swedish</rdfs:comment>
+		<rdfs:label>Swedish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="sw">
+		<rdfs:comment>The language is Swahili</rdfs:comment>
+		<rdfs:label>Swahili</rdfs:label>
+	</Language>
+	<Language  rdf:ID="tr">
+		<rdfs:comment>The language is Turkish</rdfs:comment>
+		<rdfs:label>Turkish</rdfs:label>
+	</Language>
+	<Language  rdf:ID="uk">
+		<rdfs:comment>The language is Ukrainian</rdfs:comment>
+		<rdfs:label>Ukrainian</rdfs:label>
+	</Language>
+	<Language  rdf:ID="vi">
+		<rdfs:comment>The language is Vietnamese</rdfs:comment>
+		<rdfs:label>Vietnamese</rdfs:label>
+	</Language>
+
+
+
+<!--=====================================================
+    Properties used to point to points in a 
+    bibliographic sequence
+    =====================================================-->
+<rdfs:Class  rdf:ID="BibData">
+	<rdfs:comment>This class is a collection of bibliographic data identifying a point in a bibliographic sequence.</rdfs:comment>
+	<rdfs:label>Bibliographic Time</rdfs:label>
+</rdfs:Class>
+
+<rdf:Property  rdf:ID="volume">
+	<rdfs:comment>This property specifies a bibliographic volume.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Volume</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="issue">
+	<rdfs:comment>This property specifies a bibliographic issue.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Issue</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="artNum">
+	<rdfs:comment>This property specifies a bibliographic article number.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Article Number</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="startPage">
+	<rdfs:comment>This property specifies a bibliographic starting page.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Starting Page</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="endPage">
+	<rdfs:comment>A string denoting the page on which an article ends.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Ending Page</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="pSeq">
+	<rdfs:comment>This property specifies a bibliographic page sequence code.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Page Sequence</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="pages">
+	<rdfs:comment>A string denoting the page numbers.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Article Page Numbers</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="itemNum">
+	<rdfs:comment>This property specifies an item number. Used for databases, patents, archives, reports.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Item Number</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="itemNumExact">
+	<rdfs:comment>A string denoting an item number for databases, archives, reports, patents. Unlike itemNum, / is not normalized away.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Exact Item Number</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="ssn">
+	<rdfs:comment>A string representing the season of publication. This string should match (winter|spring|summer|fall).</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Season of Publication</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="quarter">
+	<rdfs:comment>A string representing the quarter of publication. This string should match (1|2|3|4).</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Quarter of Publication</rdfs:label>
+</rdf:Property>
+
+
+<!-- *****  Author data tokens ***** -->
+
+<rdf:Property  rdf:ID="authInit">
+	<rdfs:comment>A string with the first author s first and middle initials.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Authors First Name</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="authLast">
+	<rdfs:comment>A string representing the first authors last name.</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Author s Last Name</rdfs:label>
+</rdf:Property>
+
+
+<!-- *****  Publication Date Tokens  ***** -->
+
+<rdf:Property  rdf:ID="day">
+	<rdfs:comment>A 2-digit string representing the day of publication. This string should match [0-3][0-9].</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Two Digit Day</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="month">
+	<rdfs:comment>A string representing the month of publication. This string should match (january | february | march | april | may | june | july | august | september | october | november | december).</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Month</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="mon">
+	<rdfs:comment>A 3-letter string representing the month of publication. This string should match (jan | feb | mar | apr | may | jun | jul | aug | sep | oct | nov | dec).</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Three Letter Month</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="mo">
+	<rdfs:comment>A 2-digit string representing the month of publication. This string should match (01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12).</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Two Digit Month</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="year">
+	<rdfs:comment>A string denoting the year of publication. The match string is [0-2][0-9][0-9][0-9].</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Year</rdfs:label>
+</rdf:Property>
+
+<rdf:Property  rdf:ID="yr">
+	<rdfs:comment>A two-digit publication year string. The match string is [0-9][0-9]. Publishers are admonished not to use this because of Y2K. "00" shall be interpreted to mean "1900".</rdfs:comment>
+	<rdfs:domain rdf:resource="#BibData"/>
+	<rdfs:label>Two Digit Year</rdfs:label>
+</rdf:Property>
+
+	
+</rdf:RDF>
+
+<!-- revisions:
+0.2 1998-10-20  changed Bibdata to BibData
+0.3 1998-10-28  added jKey and password properties to allow metadata to set template entities.
+0.4 1998-10-29  Added the LinkMethod Class to make it easier to assign properties to the link rather than to the linkable resource; Added Translation to Relationships; fixed typos.
+0.5 1998-11-07  Revised UserType definitions; Added validQuery property and Class; 
+                added linkClassName Property; 
+                added useMarked value for Resolution
+0.6 1999-02-08  Name changes: 
+	               Linkable := WebService. 
+	               Citeable:=CiteablePub. 
+	               ClassSite:=ContainingSite. 
+	               Access:=LinkedObjectType. 
+	               access:=linkedObjectType.
+	            Added LinkedObjectType's TOC, RightsData.
+0.9 1999-02-23  Lots of Changes. This version aligns the schema with the more recent version of the RDF Schema Spec. 
+                The availability of "subPropertyOf" has led us to bring Dublin Core properties into the S-Link-S Scheme, where they are declared as Dublin Core subProperties.
+                Name changes:
+	               link := linkMethod. "link" was the property that had "LinkMethod" as content.
+	               relatedTo := citeablePub.
+	               UserType := AllowedUser
+	               userType := allowedUser
+	               linkPermission := linkPolicy
+	               LinkPermission := LinkPolicy
+	               linkPermissionURL := linkPolicyURL
+	               Friendly := Reciprocal
+	               linkNotify := linkNotifyEmail
+	               linkButton := linkButtonURL
+	            Added LinkedObjectType Abstract
+	            2 new attributes, "webServiceType" and "legalRelation" were added to replace "Relationship".
+	            new attribute for WebServices: serviceArea. dc:Coverage is omitted-it didn't mean what I thought it meant.
+	            Added Class SLinkSFile to serve as a domain for meta-metadata.
+	            Added property SLinkSFileLocation.
+	            linkPolicy is a property of a WebService, not a LinkMethod
+	            added subclasses of CiteablePub: Books and Serial
+	            Removed ISBN property
+	            Added clicksAway property
+                Added linkedObjectType "Holding"; removed "Biblio"
+0.92 1999-06-03 Removed Resolution, resolution; these functions have moved into the template language
+                Removed validQuery and linkClassName; these properties belong in another scheme.   
+0.93 1999-06-22 Corrected Syntax Errors  
+0.94 1999-07-06 Added labels; 
+                URL:=baseURL 
+                Removed legalRelation  
+                Edited Comments    
+0.95 1999-07-12 Added all the S-Link-S BibData tokens, mostly so that comments and labels in rdfs syntax can be added. 
+                Removed serviceArea because standards for the contents for this field have not emerged.
+                Removed linkPolicyURL- considered confusing when the environment is assumed to be automated.
+                Replace linkPolicy with restrictions and allowedContext based on the version 3 legal framework.
+                Removed password.
+0.96 1999-07-14 Added MIME type.
+0.97 1999-07-29 Labels changed, caps for classes, title caps for properties; 
+                added Language as an enumerated Class
+                added Subject as an enumerated Class
+                added MIME-type  as an enumerated Class
+0.98 1999-08-26 Added the redirection AllowedContext
+0.99 1999-10-14 Added webService to Core Properties section; added CiteablePub as domain of linkMethod
+1.0  1999-11-10 Changed the rdfs:range of template into isDefinedBy
+                Added rdfs:seeAlso of Restriction
+                Enumeration syntax corrected
+                Added Dublin Core rdfs:subProperty to Title
+                Added comments indication that enumerations of MIME-Type, language , and Subject are likely to be replaced by universal shemata
+
+-->
+
+
+

@@ -1,7 +1,8 @@
-package ontorama.view.ontotree;
+package ontorama.view.tree;
 
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+//import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreeSelectionModel;
@@ -15,10 +16,15 @@ import java.awt.*;
 import java.awt.event.*;
 
 import java.util.Iterator;
+import java.util.Collection;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 import ontorama.model.GraphBuilder;
+
+import ontorama.tree.model.OntoTreeModel;
+import ontorama.tree.model.OntoTreeNode;
+
 
 public class TreeRamaApp extends JFrame {
     private JEditorPane htmlPane;
@@ -36,11 +42,14 @@ public class TreeRamaApp extends JFrame {
 
         //Create a tree that allows one selection at a time.
         //final JTree tree = new JTree(top);
-        GraphBuilder xmlReader = new GraphBuilder();
-        Graph graph = xmlReader.getGraph();
+        GraphBuilder graphBuilder = new GraphBuilder();
+        Graph graph = graphBuilder.getGraph();
+        System.out.println("TreeRamaApp, graph size = " + graph.getSize());
+        OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
         //final JTree tree = new Graph ();
-        /*
+        final JTree tree = new JTree(ontoTreeModel);
+
 
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -48,12 +57,13 @@ public class TreeRamaApp extends JFrame {
         //Listen for when the selection changes.
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                                   tree.getLastSelectedPathComponent();
+                TreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
+                //DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
                 if (node == null) return;
 
-                Object nodeInfo = node.getUserObject();
+                //Object nodeInfo = node.getUserObject();
+                /*
                 if (node.isLeaf()) {
                     BookInfo book = (BookInfo)nodeInfo;
                     displayURL(book.bookURL);
@@ -66,6 +76,7 @@ public class TreeRamaApp extends JFrame {
                 if (DEBUG) {
                     System.out.println(nodeInfo.toString());
                 }
+                */
             }
         });
 
@@ -76,30 +87,18 @@ public class TreeRamaApp extends JFrame {
         //Create the scroll pane and add the tree to it.
         JScrollPane treeView = new JScrollPane(tree);
 
-        //Create the HTML viewing pane.
-        htmlPane = new JEditorPane();
-        htmlPane.setEditable(false);
-        initHelp();
-        JScrollPane htmlView = new JScrollPane(htmlPane);
-
         //Add the scroll panes to a split pane.
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setTopComponent(treeView);
-        splitPane.setBottomComponent(htmlView);
 
-        Dimension minimumSize = new Dimension(100, 50);
-        htmlView.setMinimumSize(minimumSize);
-        treeView.setMinimumSize(minimumSize);
-        splitPane.setDividerLocation(100); //XXX: ignored in some releases
-                                           //of Swing. bug 4101306
-        //workaround for bug 4101306:
-        //treeView.setPreferredSize(new Dimension(100, 100));
-
-        splitPane.setPreferredSize(new Dimension(500, 300));
+        //Dimension minimumSize = new Dimension(100, 300);
+        //treeView.setMinimumSize(minimumSize);
+        Dimension prefferredSize = new Dimension (500,300);
+        treeView.setPreferredSize(prefferredSize);
 
         //Add the split pane to this frame.
-        getContentPane().add(splitPane, BorderLayout.CENTER);
-        */
+        getContentPane().add(treeView, BorderLayout.CENTER);
+
     }
 
     /*

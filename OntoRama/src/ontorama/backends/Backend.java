@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JMenu;
 
+import ontorama.model.graph.Node;
 import org.tockit.events.EventBroker;
 
 /**
@@ -25,6 +26,8 @@ public interface Backend {
 	public JMenu getMenu();
 	
 	public void setEventBroker(EventBroker eventBroker);
+	
+	public Node createNode (String name, String fullName);
 	
 
 

@@ -1,6 +1,7 @@
 package ontorama.model.tree.test;
 
 import junit.framework.TestCase;
+import ontorama.backends.Backend;
 import ontorama.model.graph.*;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeNodeImpl;
@@ -19,6 +20,8 @@ import java.util.List;
  * To change this template use Options | File Templates.
  */
 public class TestTreeNode  extends TestCase{
+	
+	private Backend _backend = OntoramaConfig.getBackend();
 
     Node _graphNode;
     TreeNode _treeNode;
@@ -33,15 +36,15 @@ public class TestTreeNode  extends TestCase{
     }
 
     public void setUp () throws NoSuchRelationLinkException {
-        _graphNode = new NodeImpl("node");
+        _graphNode = _backend.createNode("node", "node");
         _treeNode = new TreeNodeImpl(_graphNode);
 
-        //Node graphNode2 = new NodeImpl("node2");
+        //Node graphNode2 = _backend.createNode("node2");
         _cloneNode = new TreeNodeImpl(_graphNode);
         _treeNode.addClone(_cloneNode);
 
-        Node childGraphNode1 = new NodeImpl("child1");
-        Node childGraphNode2 = new NodeImpl("child2");
+        Node childGraphNode1 = _backend.createNode("child1", "child1");
+        Node childGraphNode2 = _backend.createNode("child2", "child2");
         _childNode1 = new TreeNodeImpl(childGraphNode1);
         _childNode2 = new TreeNodeImpl(childGraphNode2);
         List edgeTypes = OntoramaConfig.getEdgeTypesList();

@@ -35,14 +35,6 @@ public class NodeImpl implements Cloneable, Node {
      */
     private NodeType nodeType;
 
-    /**
-     * Create a new NodeImpl with given name
-     *
-     * @param name
-     */
-    public NodeImpl(String name) {
-        this(name, name);
-    }
 
     /**
      * Create a new NodeImpl with given name and an alternative name

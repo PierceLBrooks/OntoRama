@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import ontorama.OntoramaConfig;
 import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.NodeType;
 
 /**
@@ -48,7 +48,7 @@ public class TreeNodeImpl implements TreeNode {
     }
 
     public TreeNodeImpl (String nodeName, NodeType nodeType) {
-    	_graphNode = new NodeImpl(nodeName);
+    	_graphNode = OntoramaConfig.getBackend().createNode(nodeName, nodeName);
     	_graphNode.setNodeType(nodeType);
     	init();
     }

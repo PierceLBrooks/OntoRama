@@ -15,10 +15,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
+import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
@@ -143,6 +145,14 @@ public class OntoramaConfig {
     public static NodeType RELATION_TYPE;
     public static NodeType UNKNOWN_TYPE;
 
+	/// @todo not sure if this should be static - need to check
+	private static Backend _activeBackend;
+	
+	/// @todo need some thought for default backend and if there is a need for one
+	/// at all. Presently this is used so TestCases can use this backend if 
+	/// nothing else is initialised by OntoRamaApp. Probably dont' need this at all?...
+	private static Backend _defaultBackend;
+
     /**
      * Values of vars that are set here should be read from
      * java properties file.
@@ -161,6 +171,22 @@ public class OntoramaConfig {
 
         loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
         buildNodeTypes();
+        
+        try {
+        	_defaultBackend = (Backend) Class.forName("ontorama.backends.TestingBackend").newInstance();
+        	OntoramaConfig.activateBackend(_defaultBackend);
+        }
+        catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+        	e.printStackTrace();
+        }
+        catch (IllegalAccessException e) {
+        	e.printStackTrace();
+        }
+        
+        
         System.out.println("--------- end of config--------------");
     }
 
@@ -389,5 +415,15 @@ public class OntoramaConfig {
     public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
         return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
     }
+
+	public static void activateBackend (Backend backend) {
+		/// @todo should have some more functionality: closing off previously active backend, 
+		/// perhaps saving data, etc.
+		OntoramaConfig._activeBackend = backend;
+	}
+
+	public static Backend getBackend () {
+		return OntoramaConfig._activeBackend;
+	}
 }
 

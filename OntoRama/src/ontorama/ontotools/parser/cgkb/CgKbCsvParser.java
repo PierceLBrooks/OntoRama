@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
@@ -29,6 +31,8 @@ import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
 
 public class CgKbCsvParser implements Parser {
+	
+	private Backend _backend = OntoramaConfig.getBackend();
 
     private Hashtable _nodes;
     private List _edges;
@@ -112,10 +116,10 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
-    private ontorama.model.graph.Node getNodeForName (String shortName, String nodeIdentifier) {
-        ontorama.model.graph.Node node = (ontorama.model.graph.Node) _nodes.get(shortName);
+    private Node getNodeForName (String shortName, String nodeIdentifier) {
+        Node node = (Node) _nodes.get(shortName);
         if (node == null) {
-            node = new ontorama.model.graph.NodeImpl(shortName);
+        	node = _backend.createNode(shortName, nodeIdentifier);
             _nodes.put(shortName, node);
             node.setIdentifier(nodeIdentifier);
         }

@@ -19,7 +19,8 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.NoTypeFoundInResultSetException;
-import ontorama.ui.OntoRamaApp;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
@@ -86,6 +87,8 @@ public class FileBackend implements Peer2PeerBackend{
         this.eventBroker = eventBroker;
         new GraphLoadedEventHandler(this.eventBroker);
     }
+    
+   
 
     public P2PGraph search(Query query){
         ///@todo temporarily commented out
@@ -150,7 +153,7 @@ public class FileBackend implements Peer2PeerBackend{
        OntoramaConfig.parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        eventBroker.processEvent(queryEvent);
-       OntoRamaApp.activateBackend(this);
+       OntoramaConfig.activateBackend(this);
     }
 
     public void saveFile(String filename){
@@ -180,5 +183,12 @@ public class FileBackend implements Peer2PeerBackend{
 
     public void showPanels(boolean show) {
     }
+
+	/**
+	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)
+	 */
+	public Node createNode(String name, String fullName) {
+		return new NodeImpl(name, fullName);
+	}
 
 }

@@ -511,17 +511,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	 *
 	 */
 	public void appendHistoryMenu(Query query) {
-		_historyMenu.appendHistory(
-			query.getQueryTypeName(),
-			OntoramaConfig.getCurrentExample());
+//		_historyMenu.appendHistory(query.getQueryTypeName(),
+//			OntoramaConfig.getCurrentExample());
+		_historyMenu.appendHistory(query, OntoramaConfig.getCurrentExample());
 	}
 
 	/**
 	 *
 	 */
-	protected void appendHistoryForGivenExample(
-		String termName,
-		OntoramaExample example) {
+	protected void appendHistoryForGivenExample(String termName,OntoramaExample example) {
+	//protected void appendHistoryForGivenExample(Query query,OntoramaExample example) {
 		_historyMenu.appendHistory(termName, example);
 	}
 
@@ -542,9 +541,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 	/**
 	 *
 	 */
-	protected boolean executeQueryForGivenExample(
-		String termName,
-		OntoramaExample example) {
+	protected boolean executeQueryForGivenExample(String termName,OntoramaExample example) {
 
 		// reset details in OntoramaConfig
 		OntoramaConfig.setCurrentExample(example);
@@ -558,6 +555,24 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		}
 		return false;
 	}
+
+
+	/**
+	 * @todo	do we need two methods: executeQueryForGivenExample and executeQueryForHistoryElement
+	 * probably not - think of a better way to handle this.
+	 */
+	protected boolean executeQueryForHistoryElement(HistoryElement historyElement) {
+
+		// reset details in OntoramaConfig
+		OntoramaConfig.setCurrentExample(historyElement.getExample());
+
+		// get graph for this query and load it into app
+		if (executeQuery(historyElement.getQuery())) {
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 *

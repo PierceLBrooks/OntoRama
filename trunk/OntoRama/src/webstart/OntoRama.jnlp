@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- JNLP File for OntoRama Application -->
-<jnlp spec="1.0+" codebase="http://www.webkb.org/ontorama/deployWebstart/" href="OntoRama.jnlp">
+<jnlp spec="1.0+" codebase="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/deployWebstart/" href="OntoRama.jnlp">
 	<information>
 		<title>OntoRama Demo Application</title>
 		<vendor>DSTC, KVO (GU)</vendor>
@@ -12,19 +12,13 @@
 	</information>
 	<application-desc main-class="ontorama.view.OntoRamaApp"/>
 	<resources>
-		<j2se version="1.3"/>
+		<j2se version="1.4"/>
 		<jar href="OntoRama.jar"/>
 		<jar href="lib/jdom.jar"/>
-		<jar href="lib/rdf-api-2001-01-19.jar"/>
 		<jar href="lib/jenaOntorama.jar"/>
 		<jar href="lib/junit.jar"/>
 		<jar href="lib/xerces.jar"/>
-		<jar href="lib/aelfred.jar"/>
-		<jar href="lib/sax2beta.jar"/>
-		<jar href="lib/batik-awt-util.jar"/>
-		<jar href="lib/batik-dom.jar"/>
-		<jar href="lib/batik-svggen.jar"/>
-		<jar href="lib/batik-util.jar"/>
-		<jar href="lib/batik-xml.jar"/>
+        <jar href="lib/canvas.jar"/>
+        <jar href="lib/event.jar"/>
 	</resources>
 </jnlp>

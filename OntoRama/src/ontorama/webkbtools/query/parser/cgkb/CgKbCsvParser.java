@@ -6,7 +6,7 @@
  * To change template for new class use
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.webkbtools.query.parser.cgkb;
+package ontorama.ontotools.query.parser.cgkb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,14 +24,14 @@ import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
-import ontorama.webkbtools.inputsource.JarSource;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.inputsource.SourceResult;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.inputsource.JarSource;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.inputsource.SourceResult;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
 
 public class CgKbCsvParser implements Parser {
 

@@ -1,4 +1,4 @@
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 /**
  * Title:
@@ -28,14 +28,14 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
 import ontorama.ui.OntoRamaApp;
-import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
-import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.ParserException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.inputsource.webkb.AmbiguousChoiceDialog;
+import ontorama.ontotools.inputsource.webkb.WebkbQueryStringConstructor;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.query.parser.rdf.RdfWebkbParser;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.ParserException;
+import ontorama.ontotools.SourceException;
 
 
 public class WebKB2Source implements Source {

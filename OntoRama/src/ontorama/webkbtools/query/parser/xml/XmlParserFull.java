@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.parser.xml;
+package ontorama.ontotools.query.parser.xml;
 
 /**
  * Title:        OntoRama
@@ -27,10 +27,10 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.NodeType;
 import ontorama.util.Debug;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
 
 import org.jdom.Attribute;
 import org.jdom.Document;

@@ -22,9 +22,9 @@ import ontorama.conf.XmlConfigParser;
 import ontorama.conf.examplesConfig.OntoramaExample;
 import ontorama.conf.examplesConfig.XmlExamplesConfigParser;
 import ontorama.ui.ErrorPopupMessage;
-import ontorama.webkbtools.inputsource.JarSource;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.inputsource.JarSource;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.SourceException;
 
 
 /**
@@ -58,7 +58,7 @@ public class OntoramaConfig {
 
     /**
      * Specify Parser to use with queryOutputFormat.
-     * All parsers should have ontorama.webkbtools.query.parser as root
+     * All parsers should have ontorama.ontotools.query.parser as root
      * and implement Parser iterface.
      */
     public static String parserPackageName;
@@ -71,12 +71,12 @@ public class OntoramaConfig {
     /**
      * where to find parser
      */
-    private static final String parserPackagePathPrefix = "ontorama.webkbtools.query.parser";
+    private static final String parserPackagePathPrefix = "ontorama.ontotools.query.parser";
 
     /**
      * where to find source package
      */
-    private static final String sourcePackagePathPrefix = "ontorama.webkbtools.inputsource";
+    private static final String sourcePackagePathPrefix = "ontorama.ontotools.inputsource";
 
 
     private static Hashtable edgesConfig;

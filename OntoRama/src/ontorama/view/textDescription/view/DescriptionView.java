@@ -20,7 +20,7 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.conf.EdgeTypeDisplayInfo;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
 /**

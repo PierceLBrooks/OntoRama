@@ -7,8 +7,8 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ui.OntoRamaApp;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 
 /**

@@ -1,9 +1,9 @@
-package ontorama.webkbtools.query.parser;
+package ontorama.ontotools.query.parser;
 
 import java.io.Reader;
 import java.security.AccessControlException;
 
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.ParserException;
 
 public interface Parser {
 

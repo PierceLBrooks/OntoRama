@@ -1,4 +1,4 @@
-package ontorama.webkbtools;
+package ontorama.ontotools;
 
 /**
  * <p>Title: </p>

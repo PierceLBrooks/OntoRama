@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.parser.rdf;
+package ontorama.ontotools.query.parser.rdf;
 
 import java.io.Reader;
 import java.security.AccessControlException;
@@ -11,9 +11,9 @@ import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
 
 /**
  * <p>Title: </p>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
  * @todo it might be a pretty good idea to put factory methods for nodes and edges on this interface.

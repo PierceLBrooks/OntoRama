@@ -1,4 +1,4 @@
-package ontorama.webkbtools;
+package ontorama.ontotools;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -46,11 +46,11 @@ public class TestWebkbtoolsPackage extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("ontorama.webkbtools");
+        TestSuite suite = new TestSuite("ontorama.ontotools");
 
-        suite.addTest(ontorama.webkbtools.inputsource.TestSourcePackage.suite());
-        suite.addTest(ontorama.webkbtools.query.TestQueryPackage.suite());
-        suite.addTest(ontorama.webkbtools.writer.test.TestWriterPackage.suite());
+        suite.addTest(ontorama.ontotools.inputsource.TestSourcePackage.suite());
+        suite.addTest(ontorama.ontotools.query.TestQueryPackage.suite());
+        suite.addTest(ontorama.ontotools.writer.test.TestWriterPackage.suite());
 
         return suite;
     }

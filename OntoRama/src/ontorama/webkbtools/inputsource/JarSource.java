@@ -1,4 +1,4 @@
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import ontorama.OntoramaConfig;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.SourceException;
 
 /**
  * <p>Title: </p>

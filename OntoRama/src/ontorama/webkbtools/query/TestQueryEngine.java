@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query;
+package ontorama.ontotools.query;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,8 +11,8 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.util.TestingUtils;
-import ontorama.webkbtools.TestWebkbtoolsPackage;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.TestWebkbtoolsPackage;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
  * <p>Title: </p>

@@ -23,7 +23,7 @@ public class TestPackage {
         TestSuite suite = new TestSuite("ontorama");
 
         suite.addTest(ontorama.model.graph.test.TestModelPackage.suite());
-        suite.addTest(ontorama.webkbtools.TestWebkbtoolsPackage.suite());
+        suite.addTest(ontorama.ontotools.TestWebkbtoolsPackage.suite());
 
         return suite;
     }

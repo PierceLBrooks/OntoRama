@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query.parser.rdf;
+package ontorama.ontotools.query.parser.rdf;
 
 import java.io.Reader;
 import java.net.URI;
@@ -17,10 +17,10 @@ import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.conf.RdfMapping;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
-import ontorama.webkbtools.NoSuchRelationLinkException;
-import ontorama.webkbtools.ParserException;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.ParserException;
 
 import com.hp.hpl.jena.rdf.query.QueryResults;
 import com.hp.hpl.jena.rdf.query.ResultBinding;

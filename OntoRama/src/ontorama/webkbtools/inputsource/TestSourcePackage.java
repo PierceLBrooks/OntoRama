@@ -1,10 +1,10 @@
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import ontorama.webkbtools.inputsource.webkb.TestWebkbQueryStringConstructor;
+import ontorama.ontotools.inputsource.webkb.TestWebkbQueryStringConstructor;
 
 /**
  * <p>Title: </p>

@@ -1,8 +1,8 @@
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 import java.io.Reader;
 
-import ontorama.webkbtools.query.Query;
+import ontorama.ontotools.query.Query;
 
 /**
  * <p>Description: Holds result returned from Ontology Server or

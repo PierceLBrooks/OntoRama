@@ -2,7 +2,7 @@ package ontorama.model.graph;
 
 import java.net.URI;
 
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.model.graph.Edge;
 
 /**

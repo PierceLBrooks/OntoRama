@@ -1,4 +1,4 @@
-package ontorama.webkbtools.writer;
+package ontorama.ontotools.writer;
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya

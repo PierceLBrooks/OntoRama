@@ -6,19 +6,19 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.webkbtools.query.parser.cgkb;
+package ontorama.ontotools.query.parser.cgkb;
 
 import java.io.Reader;
 
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.webkbtools.inputsource.JarSource;
-import ontorama.webkbtools.inputsource.Source;
-import ontorama.webkbtools.inputsource.SourceResult;
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.parser.Parser;
-import ontorama.webkbtools.query.parser.ParserResult;
+import ontorama.ontotools.inputsource.JarSource;
+import ontorama.ontotools.inputsource.Source;
+import ontorama.ontotools.inputsource.SourceResult;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.parser.Parser;
+import ontorama.ontotools.query.parser.ParserResult;
 
 public class TestCgKbCsvParser extends TestCase {
 

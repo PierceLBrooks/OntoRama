@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.2 2002-11-25 00:26:50 nataliya Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.3 2002-11-25 00:40:05 nataliya Exp $
  */
 package ontorama.view.hyper.controller;
 
@@ -24,7 +24,7 @@ import ontorama.model.graph.Graph;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.model.graph.GraphModificationException;
-import ontorama.webkbtools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 public class NewRelatedNodeCreator {
     private JDialog dialog;

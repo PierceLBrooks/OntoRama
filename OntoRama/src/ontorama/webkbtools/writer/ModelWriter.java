@@ -1,4 +1,4 @@
-package ontorama.webkbtools.writer;
+package ontorama.ontotools.writer;
 
 import java.io.Writer;
 

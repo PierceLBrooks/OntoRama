@@ -1,4 +1,4 @@
-package ontorama.webkbtools.query;
+package ontorama.ontotools.query;
 
 import java.util.Collection;
 import java.util.LinkedList;

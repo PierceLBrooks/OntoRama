@@ -1,4 +1,4 @@
-package ontorama.webkbtools.inputsource;
+package ontorama.ontotools.inputsource;
 
 /**
  * Title:
@@ -9,9 +9,9 @@ package ontorama.webkbtools.inputsource;
  * @version 1.0
  */
 
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.CancelledQueryException;
-import ontorama.webkbtools.SourceException;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.CancelledQueryException;
+import ontorama.ontotools.SourceException;
 
 /**
  * Model a Data Source.

@@ -581,13 +581,17 @@ public class GraphImpl implements Graph {
             if (getInboundEdges(node).size() == 0) {
                 continue;
             }
-            // added here to take care of a case where all
-            // nodes have the same number of descendants - we just take any node
-            rootNode = node;
             int numOfDescendants = calculateNodeDescendants(node);
             if (numOfDescendants > maxDescendants) {
                 maxDescendants = numOfDescendants;
                 rootNode = node;
+            }
+            if  (!it.hasNext()) { 
+            	if (rootNode == null) {
+					// added here to take care of a case where all
+					// nodes have the same number of descendants - we just take any node
+					rootNode = node;
+				}
             }
         }
         return rootNode;

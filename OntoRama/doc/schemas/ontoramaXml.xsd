@@ -19,6 +19,14 @@
 			</xsd:sequence>
 			<xsd:attribute name="top" type="xsd:string" use="required"/>
 		</xsd:complexType>
+		<xsd:key name="ontologyTypeName">
+		  <xsd:selector xpath="./conceptType" /> 
+  		  <xsd:field xpath="@name" /> 
+  		</xsd:key>
+		<xsd:keyref name="relationshipToOntologyType" refer="ontologyTypeName">
+			<xsd:selector xpath="./conceptType/relationship" /> 
+  			<xsd:field xpath="@to" /> 
+  		</xsd:keyref>
 	</xsd:element>
 
 	<xsd:complexType name="ontologyType">

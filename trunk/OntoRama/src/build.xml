@@ -1,23 +1,22 @@
-
 <project name="OntoRama Project" default="compile" basedir=".">
 
   <property name="ontorama.home"       value="H:/projects/OntoRama"/>
- 
+
   <property name="app.name"       value="OntoRama"/>
   <property name="src.home"   value="${ontorama.home}/src"/>
   <property name="lib.home"   value="${ontorama.home}/lib"/>
   <property name="classes.home"   value="${ontorama.home}/classes"/>
   <property name="javadoc.home"   value="${ontorama.home}/doc"/>
-  
+
   <!-- Set Classpath -->
   <path id="project.class.path">
+  	<pathelement location="${classes.home}/"/>
     <pathelement location="${lib.home}/"/>
 	<pathelement path="${lib.home}/jdom.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
 	<pathelement path="${lib.home}/rdffilter.jar/"/>
 	<pathelement path="${lib.home}/aelfred.jar/"/>
 	<pathelement path="${lib.home}/sax2beta.jar/"/>
-	<pathelement location="${classes.home}/"/>
   </path>
 
   <!-- Targets and Rules -->
@@ -34,10 +33,12 @@
   <target name="compile" depends="prepare">
     <!--<javac destdir="${classes.home}"  debug="on" optimize="off"
 	deprecation="off">-->
-	<javac destdir="${classes.home}"  debug="on" optimize="off" deprecation="on" >
+	<javac destdir="${classes.home}"  debug="on" optimize="off"
+			deprecation="on"
+			classpathref="project.class.path">
 		<src path="${src.home}"/>
-		<classpath refid="project.class.path"/>
-    </javac> 
+		<!--<classpath refid="project.class.path"/>-->
+    </javac>
     <copy   todir="${classes.home}">
       <fileset dir="${src.home}" includes="**/*.properties"/>
     </copy>
@@ -51,11 +52,13 @@
 
   <!--<target name="all" depends="clean,prepare,compile,javadoc"/>-->
   <target name="all" depends="clean,prepare,compile"/>
-  
-  <target name="run" depends="clean,prepare,compile">
-  	<java classname="ontorama.client.TestClient">
+
+  <!--<target name="run" depends="clean,prepare,compile">-->
+  <target name="run" depends="compile">
+  	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
+  	<!--<java classname="ontorama.view.OntoRamaApp">
 		<classpath refid="project.class.path"/>
-	</java>
+	</java>-->
   </target>
 
 </project>

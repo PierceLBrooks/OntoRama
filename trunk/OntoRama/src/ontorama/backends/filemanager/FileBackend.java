@@ -174,14 +174,15 @@ public class FileBackend implements Backend {
 
 
 
-	/**
-	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
-	 */
-	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
-		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
-		return queryResult;
-	}
+//	/**
+//	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
+//	 */
+//	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
+//		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
+//		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
+//		return queryResult;
+//		return null;
+//	}
 
 	/**
 	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query, org.tockit.events.EventBroker)
@@ -189,6 +190,12 @@ public class FileBackend implements Backend {
 	public HistoryElement createHistoryElement(Query query,EventBroker eventBroker) {
 		FileHistoryElement res = new FileHistoryElement(query, eventBroker, this, _querySettings);
 		return res;
+	}
+	
+
+	public QueryEngine getQueryEngine() throws QueryFailedException {
+		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
+		return _lastQueryEngine;
 	}
 
 }

@@ -15,6 +15,7 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.HistoryElement;
 
@@ -42,9 +43,11 @@ public interface Backend {
 	
 	public Graph createGraph (QueryResult qr, EventBroker eb) throws InvalidArgumentException;
 	
-	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
+//	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
 
 	public Collection getDataFormats();
 	
-	public HistoryElement createHistoryElement (Query query, EventBroker eventBroker);	
+	public HistoryElement createHistoryElement (Query query, EventBroker eventBroker);
+	
+	public QueryEngine getQueryEngine() throws QueryFailedException;	
 }

@@ -50,9 +50,7 @@ public class FileBackend implements Backend {
     private String _parserName;
     
     private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
-
 	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
-	
 	private String _filename;
 
     private class GraphLoadedEventHandler implements EventBrokerListener {

@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 public class FileJMenu extends JMenu {
     private FileBackend _fileBackend = null;
 
-    private String _menuName = "File Backend";
+    private String _menuName = "File";
     private String _menuItemOpen = "Open...";
     private String _menuItemSave = "Save...";
 

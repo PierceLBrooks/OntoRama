@@ -7,6 +7,8 @@ import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 
 import ontorama.ui.HistoryMenu;
+import ontorama.ui.events.DisplayHistoryItemEvent;
+import org.tockit.events.EventBroker;
 
 
 /**
@@ -25,17 +27,19 @@ public class BackHistoryAction extends AbstractAction {
     private static final String SHORT_DESCRIPTION_COPY = "Back to previous ontology";
     private static final String LONG_DESCRIPTION_COPY = "Back to previous ontology";
     //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
-//  private static final String ACCELERATOR_KEY="ALT+Left";
+    //private static final String ACCELERATOR_KEY="ALT+Left";
+
+    private EventBroker _eventBroker;
 
 
     /**
      *
      */
-    public BackHistoryAction() {
+    public BackHistoryAction(EventBroker eventBroker) {
+        _eventBroker = eventBroker;
         putValue(Action.NAME, NAME_COPY);
         putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
         putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-//    putValue(Action.ACCELERATOR_KEY, ACCELERATOR_KEY);
         putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
     }
 
@@ -46,8 +50,7 @@ public class BackHistoryAction extends AbstractAction {
         int indexOfCur = HistoryMenu.getIndexOfSelectedHistoryMenuItem();
         int backInd = indexOfCur - 1;
         JCheckBoxMenuItem backItem = HistoryMenu.getMenuItem(backInd);
-        System.out.println("___action: back");
-        HistoryMenu.displayHistoryItem(backItem);
+        _eventBroker.processEvent(new DisplayHistoryItemEvent(backItem));
     }
 
 

@@ -42,7 +42,7 @@ public class CanvasManager extends JComponent
     protected Hashtable hypernodes;
 
     /**
-     * Holds the mapping of HyperNodeView to HyperNode
+     * Holds the mapping of HyperNodeView to GraphNodes
      */
      protected Hashtable hypernodeviews;
 
@@ -50,11 +50,6 @@ public class CanvasManager extends JComponent
      * Store the hyper view canvas items.
      */
     protected List canvasItems = new LinkedList();
-
-    /**
-     * Flag to stop labels being drawn in drag mode.
-     */
-    private boolean noLabels = false;
 
     /**
      * Hosds the constant value to determine if we are in drag mode.
@@ -70,6 +65,11 @@ public class CanvasManager extends JComponent
      * Store the HyperNode that has focus.
      */
     private HyperNode focusNode = null;
+
+    /**
+     * Stores the LabelView that is selected.
+     */
+    private static LabelView labelView = null;
 
     /**
      * Holds the remaining length of the animation.
@@ -126,8 +126,41 @@ public class CanvasManager extends JComponent
                 boolean found = cur.isClicked( curX, curY);
                 if(  found == true ) {
                     ((HyperNodeView)cur).hasFocus();
+                    break;
                 }
             }
+        }
+    }
+
+    /**
+     * Return the selected LabelView.
+     */
+    public static LabelView getSelectedLabelView() {
+        return CanvasManager.labelView;
+    }
+
+    /**
+     * When a hyperNode has focus, its label is placed last in the
+     * canvasItems list ( so as to be drawn last), and is told
+     * that it has focus.
+     */
+    private void setLabelSelected( HyperNodeView selectedNodeView ) {
+        if( selectedNodeView == null ) {
+            return;
+        }
+        // find the LabelView for this HyperNodeView.
+        Iterator it = canvasItems.iterator();
+        while( it.hasNext() ) {
+            CanvasItem canvasItem = (CanvasItem)it.next();
+            if( canvasItem instanceof LabelView ) {
+                if( ((LabelView)canvasItem).hasHyperNodeView(selectedNodeView) == true) {
+                    this.labelView = (LabelView)canvasItem;
+                }
+            }
+        }
+        if( labelView != null ) {
+            canvasItems.remove(this.labelView);
+            canvasItems.add(this.labelView);
         }
     }
 
@@ -136,7 +169,6 @@ public class CanvasManager extends JComponent
     }
 
     public void mouseReleased(MouseEvent e) {
-        noLabels = false;
         dragmode = false;
         repaint();
     }
@@ -154,6 +186,7 @@ public class CanvasManager extends JComponent
         double lpy = lastPoint.getY();
         double x = e.getX();
         double y = e.getY();
+        labelView = null;
         if(dragmode == false) {
             double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
             if( dragedAmount > DRAG ) {
@@ -190,6 +223,9 @@ public class CanvasManager extends JComponent
      */
     public void focusChanged( Object obj ){
         focusNode = (HyperNode)obj;
+        // set focused node label to selected
+        setLabelSelected( (HyperNodeView)(hypernodeviews.get(focusNode.getGraphNode()) ) );
+        //place the label last in the list so that it gets drawn last.
         // calculate the length of the animation as a function of the distance
         // in the euclidian space (before hyperbolic projection)
         double distance = Math.sqrt( focusNode.getX() * focusNode.getX() +

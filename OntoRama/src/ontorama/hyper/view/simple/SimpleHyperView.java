@@ -74,11 +74,9 @@ public class SimpleHyperView  extends CanvasManager {
     public void setGraph( Graph graph ) {
         //Add HyperNodes to hashtabel stored in CanvasManager
         hypernodes = new Hashtable();
-        //temporary map HyperNodeViews to GraphNode to build LineViews
+        //Map HyperNodeViews to GraphNode to build LineViews
         hypernodeviews = new Hashtable();
         canvasItems.clear();
-        //GraphNode root = graph.getRootNode();
-        //root = graph.getEdgeRootNode();
         root = graph.getRootNode();
         System.out.println("root = " + root);
         if( root == null ) {
@@ -86,7 +84,7 @@ public class SimpleHyperView  extends CanvasManager {
             return;
         }
         makeHyperNodes(root);
-        System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
+        //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
@@ -269,7 +267,7 @@ public class SimpleHyperView  extends CanvasManager {
                 }
             }
             numOfItorations++;
-        }while( numOfItorations < iteration && minNodeMove > .005 );
+        }while( numOfItorations < iteration && minNodeMove > .05 );
         return numOfItorations;
     }
 

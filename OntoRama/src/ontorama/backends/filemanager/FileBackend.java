@@ -3,37 +3,33 @@ package ontorama.backends.filemanager;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.backends.DataFormatMapping;
-import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.filemanager.gui.FileJMenu;
-import ontorama.backends.p2p.model.P2PEdge;
-import ontorama.backends.p2p.model.P2PGraph;
-import ontorama.backends.p2p.model.P2PGraphImpl;
-import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.GraphModificationException;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.NoTypeFoundInResultSetException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
+import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;
 import ontorama.ontotools.writer.rdf.RdfModelWriter;
+
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -47,47 +43,32 @@ import org.tockit.events.EventBrokerListener;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class FileBackend implements Peer2PeerBackend{
-    private P2PGraph graph = null;
-    private ontorama.model.graph.Graph ontoramaGraph = null;
-    private List panels = null;
-    private EventBroker eventBroker;
-    private String filename;
+public class FileBackend implements Backend {
+    private Graph _graph = null;
+    private List _panels = null;
+    private EventBroker _eventBroker;
     
     private List _dataFormatsMapping = new LinkedList();
+
+	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
+
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
         public GraphLoadedEventHandler(EventBroker eventBroker)  {
             this.eventBroker = eventBroker;
-            eventBroker.subscribe(this, GraphLoadedEvent.class, ontorama.model.graph.Graph.class);
+            eventBroker.subscribe(this, GraphLoadedEvent.class, Graph.class);
         }
 
         public void processEvent(Event event) {
-            ontoramaGraph = (Graph) event.getSubject();
-            System.out.println("\n\nloaded graph = " + ontoramaGraph);
-            /// @todo total hack, need to work out workflows
-            // totally faked query and query result.
-            QueryResult queryResult = new QueryResult(new Query(), ontoramaGraph.getNodesList(), ontoramaGraph.getEdgesList());
-            try {
-                System.out.println("FileBackend: creating new p2p graph");
-                graph = new P2PGraphImpl(queryResult);
-            }
-            catch (NoSuchRelationLinkException e) {
-                /// @todo deal with the exceptions
-                e.printStackTrace();
-            }
-            catch (NoTypeFoundInResultSetException e) {
-                /// @todo deal with the exceptions
-                e.printStackTrace();
-            }
+            _graph = (Graph) event.getSubject();
+            System.out.println("\n\nloaded graph = " + _graph);
         }
     }
 
     public FileBackend(){
-        this.graph = new P2PGraphImpl();
         //We don't have any panels to this backend
-        this.panels = new LinkedList();
+        _panels = new LinkedList();
         
     	/// @todo  data formats should be read from the config files.
     	DataFormatMapping rdfDataFormat = new DataFormatMapping("RDF", "rdf",
@@ -102,57 +83,12 @@ public class FileBackend implements Peer2PeerBackend{
     }
 
     public void setEventBroker(EventBroker eventBroker) {
-        this.eventBroker = eventBroker;
-        new GraphLoadedEventHandler(this.eventBroker);
-    }
-    
-   
-
-    public P2PGraph search(Query query){
-        ///@todo temporarily commented out
-        //return this.graph.search(query);
-        return new P2PGraphImpl();
-    }
-
-    public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
-         try {
-			this.graph.assertEdge(edge, asserter);
-		} catch (GraphModificationException e) {
-				throw e;
-		} catch (NoSuchRelationLinkException e) {
-				throw e;
-		}
-    }
-
-
-    public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
-              try {
-				this.graph.assertNode(node,asserter);
-			} catch (GraphModificationException e) {
-				throw e;
-			}
-    }
-
-    public void rejectEdge(P2PEdge edge, URI rejecter) throws GraphModificationException, NoSuchRelationLinkException{
-        try {
-			this.graph.rejectEdge(edge,rejecter);
-		} catch (GraphModificationException e) {
-			throw e;
-		} catch (NoSuchRelationLinkException e) {
-			throw e;
-		}
-    }
-
-    public void rejectNode(P2PNode node, URI rejecter) throws GraphModificationException{
-        try {
-			this.graph.rejectNode(node,rejecter);
-		} catch (GraphModificationException e) {
-			throw e;
-		}
+        _eventBroker = eventBroker;
+        new GraphLoadedEventHandler(this._eventBroker);
     }
 
     public List getPanels(){
-        return this.panels;
+        return _panels;
     }
 
     public JMenu getMenu() {
@@ -160,17 +96,54 @@ public class FileBackend implements Peer2PeerBackend{
         return menu;
     }
 
-    public void loadFile(String filename){
-        System.out.println("Loading file = " + filename);
-        this.filename = filename;
+	/**
+	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)
+	 */
+	public Node createNode(String name, String fullName) {
+		return new NodeImpl(name, fullName);
+	}
+
+	/**
+	 * @see ontorama.backends.Backend#createEdge(Node, Node, EdgeType)
+	 */
+	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType)
+							throws NoSuchRelationLinkException {
+		return new EdgeImpl(fromNode, toNode, edgeType);
+	}
+	/**
+	 * @see ontorama.backends.Backend#getDataFormats()
+	 */
+	public Collection getDataFormats() {
+		return _dataFormatsMapping;
+	}
+
+    public void loadFile(File file){
+        String filename = file.getAbsolutePath();
+    	System.out.println("FileBackend::Loading file = " + filename);
+        
+        String extension = Util.getExtension(file);
+        Iterator it = _dataFormatsMapping.iterator();
+        DataFormatMapping mapping = getMappingForExtension(extension);
+        System.out.println("FileBackend::loadFile, mapping = " + mapping);
+        if ((mapping == null) || (mapping.getParserName() == null)) {
+        	/// @todo need to throw a 'parser not specified exception' here?
+        	new ErrorPopupMessage("There is no parser specified for this file type ", OntoRamaApp.getMainFrame());
+        	return;
+        }
+        String parserName = mapping.getParserName();
 
        /// @todo these values shouldn't be hardcoded here, but set in config file.
+       /// or ontorama config should contain current backend used and then
+       /// get relevant info from this backend.
        OntoramaConfig.ontologyRoot = null;
        OntoramaConfig.sourceUri = filename;
-       OntoramaConfig.sourcePackageName = "ontorama.ontotools.source.FileSource";
-       OntoramaConfig.parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
+       OntoramaConfig.sourcePackageName = _sourcePackageName;
+       OntoramaConfig.parserPackageName = parserName;
+       
+    	System.out.println("FileBackend::parserName = " + parserName);
+       
        GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
-       eventBroker.processEvent(queryEvent);
+       _eventBroker.processEvent(queryEvent);
        OntoramaConfig.activateBackend(this);
     }
 
@@ -180,13 +153,22 @@ public class FileBackend implements Peer2PeerBackend{
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
 
-//            ModelWriter modelWriter = new RdfP2PWriter();
-//            System.out.println("writing graph = " + graph);
-//            modelWriter.write(this.graph, writer);
+			String extension = Util.getExtension(filename);
+			
+			DataFormatMapping mapping = getMappingForExtension(extension);
+			
+			if ((mapping == null) || (mapping.getWriterName() == null)) {
+				/// @todo need exception here?
+				new ErrorPopupMessage("There is no writer specified for this file type ", OntoRamaApp.getMainFrame());
+				return;
+			}
+			
+			
+        	ModelWriter modelWriter = new RdfModelWriter();
 
-            ModelWriter modelWriter = new RdfModelWriter();
-            System.out.println("writing graph = " + ontoramaGraph);
-            modelWriter.write(this.ontoramaGraph, writer);
+        	System.out.println("FileBackend:: writerName = " + mapping.getWriterName());
+
+            modelWriter.write(_graph, writer);
 
             writer.close();
 
@@ -199,28 +181,16 @@ public class FileBackend implements Peer2PeerBackend{
         }
     }
 
-    public void showPanels(boolean show) {
-    }
-
-	/**
-	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)
-	 */
-	public Node createNode(String name, String fullName) {
-		return new NodeImpl(name, fullName);
-	}
-
-	/**
-	 * @see ontorama.backends.Backend#createEdge(ontorama.model.graph.Node, ontorama.model.graph.Node, ontorama.model.graph.EdgeType)
-	 */
-	public Edge createEdge(Node fromNode, Node toNode, EdgeType edgeType)
-							throws NoSuchRelationLinkException {
-		return new EdgeImpl(fromNode, toNode, edgeType);
-	}
-	/**
-	 * @see ontorama.backends.Backend#getDataFormats()
-	 */
-	public Collection getDataFormats() {
-		return _dataFormatsMapping;
+	
+	private DataFormatMapping getMappingForExtension (String extension) {
+		Iterator it = _dataFormatsMapping.iterator();
+		while (it.hasNext()) {
+			DataFormatMapping element = (DataFormatMapping) it.next();
+			if (element.getFileExtention().equals(extension)) {
+				return element;
+			}
+		}
+		return null;
 	}
 
 }

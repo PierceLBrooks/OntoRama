@@ -256,6 +256,9 @@ public class XmlParserFull implements Parser {
         Iterator it = _edges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
+            if (cur.equals(edge)) {
+            	return true;
+            }
             Node fromNode = cur.getFromNode();
             Node toNode = cur.getToNode();
             EdgeType edgeType = cur.getEdgeType();

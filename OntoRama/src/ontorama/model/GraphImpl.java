@@ -468,7 +468,7 @@ public class GraphImpl implements Graph {
             Edge edge = (Edge) inboundEdges.next();
             EdgeType edgeType = edge.getEdgeType();
             if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                edgesToCloneQueue.add(curEdge);
+                edgesToCloneQueue.add(edge);
             }
         }
 

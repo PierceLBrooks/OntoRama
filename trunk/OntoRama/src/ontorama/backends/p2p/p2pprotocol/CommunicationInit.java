@@ -29,6 +29,7 @@ public class CommunicationInit extends Communication {
 	private CommunicationProtocolJxta commProt = null;
 
     private Hashtable inputPipes = null;
+    
     /** The constructor
     * 
     * @param obj the object that is going to use this object.
@@ -36,33 +37,39 @@ public class CommunicationInit extends Communication {
     * @version P2P-On
     * toRama 1.0.0
     *
-    */ 
-    
+    */     
 	public CommunicationInit(CommunicationProtocolJxta obj) {
 		commProt = obj;
         this.inputPipes = new Hashtable();
 	}
+	
 	/** This method intiatiates all the communication by setting up the global p2p group, 
      * which every peer have to belong too.
-    * 
-    * @exception GroupExceptionInit
-    *
-    * @version P2P-OntoRama 1.0.0
-    *
-    */ 
+     * 
+     * @exception GroupExceptionInit
+     * @version P2P-OntoRama 1.0.0
+     */ 
 	protected void initJxtaTopGroup() throws GroupExceptionInit {
 		try {
+			System.out.println("CommunicationInit::intiJxtaTopGroup 1");			
 			//create and start the default JXTA Platform and NetPeerGroup
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
-			this.setGlobalPlatform(PeerGroupFactory.newPlatform());
+			System.out.println("CommunicationInit::intiJxtaTopGroup 2");
+			PeerGroup newPeerGroup = PeerGroupFactory.newPlatform();
+			System.out.println("CommunicationInit::intiJxtaTopGroup 2.2");
+			this.setGlobalPlatform(newPeerGroup);
+			System.out.println("CommunicationInit::intiJxtaTopGroup 3");
 			PeerGroup pg = PeerGroupFactory.newNetPeerGroup(this.getGlobalPlatform());
+			System.out.println("CommunicationInit::intiJxtaTopGroup 4");
 			this.setGlobalPG(pg);
-			}
-		catch (PeerGroupException e) {
+			System.out.println("CommunicationInit::intiJxtaTopGroup 5");			
+		} catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
 		} catch (ClassNotFoundException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
-        }
+		}
+		System.out.println("CommunicationInit::intiJxtaTopGroup end");
+        
 	}
 
 

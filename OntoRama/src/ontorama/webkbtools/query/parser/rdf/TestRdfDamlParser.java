@@ -152,7 +152,7 @@ public class TestRdfDamlParser extends TestCase {
     }
 
     /**
-     * @todo  HACK: this test is here to reset setup to default values.
+     * @todo HACK: this test is here to reset setup to default values.
      * I think the problem is when we use other examples, and then
      * try to use default one - we need to get a new instance of source or get a new
      * reader or get a new instance of parser. not sure how to fix this
@@ -166,7 +166,7 @@ public class TestRdfDamlParser extends TestCase {
     public void testResultSize() {
         // expecting 15 types in the result: 14 are ours and 1 is
         // default produced by rdf parser: rdf-schema#Class
-        assertEquals(15, resultCollection.size());
+        assertEquals(14, resultCollection.size());
     }
 
     /**

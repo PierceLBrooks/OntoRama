@@ -13,7 +13,6 @@ import ontorama.webkbtools.util.SourceException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.*;
 
 
@@ -54,10 +53,6 @@ public class OntoramaConfig {
     public static String parserPackageName;
 
     /**
-     * Specify query string constructor to use for dynamic ontology servers
-     */
-    public static String queryStringConstructorPackageName;
-    /**
      * boolean that specifies if input ontology source is static (file) or dynamic (cgi)
      */
     public static boolean isSourceDynamic;
@@ -71,22 +66,6 @@ public class OntoramaConfig {
      * where to find source package
      */
     private static final String sourcePackagePathPrefix = "ontorama.webkbtools.inputsource";
-
-    /**
-     *
-     */
-    private static String parserPackagePathSuffix;
-    private static String sourcePackagePathSuffix;
-
-
-    /**
-     * where to find package that builds query string in case of dynamic ontology server
-     */
-    private static final String queryStringConstructorPackagePathPrefix = "ontorama.webkbtools.query.cgi";
-    /**
-     * name of the package itself (supplied by the user in examples config file)
-     */
-    private static String queryStringConstructorPackagePathSuffix;
 
     /**
      *
@@ -128,11 +107,6 @@ public class OntoramaConfig {
      * Max value for realtionLinks.
      */
     public static int MAXTYPELINK;
-
-    // things needed for java webstart
-    //
-    private static URL propertiesFileLocation;
-    private static URL xmlConfigFileLocation;
 
     /**
      * examples list
@@ -179,6 +153,7 @@ public class OntoramaConfig {
             classLoader = curClass.getClassLoader();
         } catch (ClassNotFoundException classException) {
             System.err.println("ClassNotFoundException : " + classException);
+            classException.printStackTrace();
             System.exit(-1);
         }
 
@@ -232,15 +207,11 @@ public class OntoramaConfig {
         if (VERBOSE) {
             System.out.println("loading examples");
         }
-        //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
-        //InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
         InputStream examplesConfigStream = streamReader.getInputStreamFromResource(examplesConfigLocation);
         XmlExamplesConfigParser examplesConfig = new XmlExamplesConfigParser(examplesConfigStream);
         examplesList = examplesConfig.getExamplesList();
         mainExample = examplesConfig.getMainExample();
 
-        // overwrite sourceUri, ontologyRoot, etc
-        ///@todo  fix this later!!!
         setCurrentExample(mainExample);
     }
 
@@ -248,9 +219,7 @@ public class OntoramaConfig {
      * load properties from ontorama.properties file
      */
     private static void loadPropertiesFile(String propertiesFileLocation)
-            throws SourceException, IOException {
-        //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
-        //InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
+                                        throws SourceException, IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
         DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
@@ -261,11 +230,8 @@ public class OntoramaConfig {
      * load Config
      */
     private static void loadConfiguration(String configFileLocation)
-            throws SourceException, ConfigParserException, IOException {
-        //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
-        //InputStream configInStream = getInputStreamFromResource(configFileLocation);
+                                        throws SourceException, ConfigParserException, IOException {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
-        System.out.println("configInStrem = " + configInStream);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         allRelationsArray = xmlConfig.getRelationLinksArray();
         MAXTYPELINK = allRelationsArray.length;
@@ -287,7 +253,6 @@ public class OntoramaConfig {
                 allRelations.add(new Integer(i));
             }
         }
-        //System.out.println("\n\n\n returning list of relations: " + allRelations);
         return allRelations;
     }
 
@@ -403,30 +368,7 @@ public class OntoramaConfig {
     /**
      *
      */
-    public static String getQueryStringCostructorPackageName() {
-        return queryStringConstructorPackageName;
-    }
-
-    /**
-     *
-     */
-    public static void setQueryStringConstructorPackageName(String queryStringConstructorPackagePathSuffix) {
-        queryStringConstructorPackageName = queryStringConstructorPackagePathPrefix + "." + queryStringConstructorPackagePathSuffix;
-    }
-
-    /**
-     *
-     */
     public static OntoramaExample getCurrentExample() {
-        /*
-        System.out.println("getCurrentExample:");
-        System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-        System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
-        System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
-        System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
-        System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
-        */
-
         return OntoramaConfig.mainExample;
     }
 

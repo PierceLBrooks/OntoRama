@@ -143,31 +143,31 @@ public class TestEdge extends TestCase {
         List edgesList = Edge.edges;
         for (int i = 0; i <= edgesList.size(); i++) {
             if (i == 0) {
-                assertEquals(edge1, (Edge) Edge.edges.get(i));
+                assertEquals(edge1, Edge.edges.get(i));
                 continue;
             }
             if (i == 1) {
-                assertEquals(edge2, (Edge) Edge.edges.get(i));
+                assertEquals(edge2, Edge.edges.get(i));
                 continue;
             }
             if (i == 2) {
-                assertEquals(edge3, (Edge) Edge.edges.get(i));
+                assertEquals(edge3, Edge.edges.get(i));
                 continue;
             }
             if (i == 3) {
-                assertEquals(edge4, (Edge) Edge.edges.get(i));
+                assertEquals(edge4, Edge.edges.get(i));
                 continue;
             }
             if (i == 4) {
-                assertEquals(edge5, (Edge) Edge.edges.get(i));
+                assertEquals(edge5, Edge.edges.get(i));
                 continue;
             }
             if (i == 5) {
-                assertEquals(edge6, (Edge) Edge.edges.get(i));
+                assertEquals(edge6, Edge.edges.get(i));
                 continue;
             }
             if (i == 6) {
-                assertEquals(edge7, (Edge) Edge.edges.get(i));
+                assertEquals(edge7, Edge.edges.get(i));
                 continue;
             }
         }

@@ -1,36 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-<ontConfig>
-	<ontology>
-		<relation id="1">
-			<relationType name="subtype" mappingSymbol="&lt;"/>
-			<relationType name="supertype" mappingSymbol="&gt;"/>
-			<display color="#0000ff" icon="someIconPath"/>
-		</relation>
-		......
-		<conceptProperty id="description"/>
-		<conceptProperty id="creator"/>
-	</ontology>
-	<rdfMapping>
-		<map id="1" type="supertype" tag="subClassOf"/>
-		<map id="2" type="synonym" tag="label"/>
-		<map id="4" type="PartOf" tag="part"/>
-		<map id="7" type="inclusive" tag="jointWith"/>
-		<map id="description" tag="comment"/>
-		<map id="creator" tag="Creator"/>
-	</rdfMapping>
-</ontConfig>
--->
-<!--
-http://www.gotomy.com/color.html
-subtype:	blue:33CCFF
-instance:	pink:FF99CC
-synonym:	orange:FFCC99
-part:		green:00FFCC
-member:		yellow:FFFFCC
-substance: 	gray:C0C0C0 
-inclusive: 	purple:9999FF
--->
 <ontConfig>
 	<ontology>
 		<relation id="1">

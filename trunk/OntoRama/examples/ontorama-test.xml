@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ontology top="root" xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance" xsi:noNamespaceSchemaLocation="E:\projects\OntoRama\doc\schemas\ontoramaXml.xsd">
+<ontology top="root" xmlns="http://www.ontorama.org/ont" 
+		xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance" 
+		xsi:noNamespaceSchemaLocation="http://kvo.itee.uq.edu.au/~nataliya/ontoramaXml.xsd">
 	<conceptType name="root" creator="OntoRama">
 		<description>Root conceptType</description>
 		<synonym>syn1</synonym>

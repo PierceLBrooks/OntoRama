@@ -17,7 +17,6 @@ import java.util.List;
  */
 
 public class Query {
-
     /**
      * name of ontology type we are quering for
      */
@@ -25,7 +24,6 @@ public class Query {
 
     /**
      * list of relation links for the ontology type typeName.
-
      */
     private List _relationLinks = new LinkedList();
 
@@ -33,6 +31,14 @@ public class Query {
      * depth of recursive query
      */
     private int _depth = -1;
+
+    /**
+     * @todo not sure if this is a good idea - default constructor for reading files in when root couldn't be specified
+     * before hand.
+     */
+    public Query () {
+        _typeName = null;
+    }
 
     /**
      * Constructor. Initialise query type name
@@ -62,7 +68,7 @@ public class Query {
 
     /**
      * Set Relation types iterator.
-     * @param   List relationLinks
+     * @param   relationLinks List
      */
     public void setRelationLinks(List relationLinks) {
         _relationLinks = relationLinks;

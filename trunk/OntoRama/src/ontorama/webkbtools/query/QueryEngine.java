@@ -108,9 +108,11 @@ public class QueryEngine implements QueryEngineInterface {
             //this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
             _parserResult = parser.getResult(r);
             r.close();
-            String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
-            if (!newTermName.equals(query.getQueryTypeName())) {
-                query = new Query(newTermName, query.getRelationLinksList());
+            if (query.getQueryTypeName()!= null) {
+                String newTermName = checkResultSetContainsSearchTerm(_parserResult.getNodesList(), query.getQueryTypeName());
+                if (!newTermName.equals(query.getQueryTypeName())) {
+                    query = new Query(newTermName, query.getRelationLinksList());
+                }
             }
             filterUnwantedEdges();
             queryResult = new QueryResult(query, _resultNodesList, _resultEdgesList);

@@ -14,10 +14,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
+import ontorama.ui.ErrorPopupMessage;
+import ontorama.ui.OntoRamaApp;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeNode;
+import ontorama.model.tree.TreeModificationException;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.views.hyper.view.HyperNodeView;
 import ontorama.views.hyper.view.SimpleHyperView;
@@ -68,7 +71,12 @@ public class NodeContextMenuHandler implements EventBrokerListener {
             public void actionPerformed(ActionEvent e) {
                 Tree tree = _simpleHyperView.getTree();
                 TreeNode treeNode = nodeView.getTreeNode();
-                tree.removeNode(treeNode);
+                try {
+                    tree.removeNode(treeNode);
+                }
+                catch (TreeModificationException exc) {
+                    new ErrorPopupMessage(exc.getMessage(), OntoRamaApp.getMainFrame());
+                }
             }
         });
         menu.add(menuItem);

@@ -19,7 +19,6 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 public class TreeImpl implements Tree {
 
     private Graph _graph;
-    private Node _graphRootNode;
     private TreeNode _root;
     private EventBroker _eventBroker;
 
@@ -28,20 +27,18 @@ public class TreeImpl implements Tree {
      * is usefull when we have a graph that represents a forest of trees.
      * @param graph
      * @param graphRootNode
-     * @throws NoSuchRelationLinkException
      */
     public TreeImpl (Graph graph, Node graphRootNode, EventBroker eventBroker) {
         _graph = graph;
-        _graphRootNode = graphRootNode;
         _eventBroker = eventBroker;
         buildTree(graphRootNode);
     }
-    
+
     public TreeNode getRootNode() {
         return _root;
     }
 
-	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType) 
+	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType)
 											throws TreeModificationException {
 		Node graphNode = ((TreeNodeImpl) newNode).getGraphNode();
 		addTreeNode(newNode);
@@ -51,14 +48,14 @@ public class TreeImpl implements Tree {
 										edgeType);
 			_graph.addNode(graphNode);
 			_graph.addEdge(graphEdge);
-				
-			TreeEdge newEdge = addTreeEdge(graphEdge, parentTreeNode, newNode);
-			
+
+			addTreeEdge(graphEdge, parentTreeNode, newNode);
+
 			Iterator clones = parentTreeNode.getClones().iterator();
 			while (clones.hasNext()) {
 				TreeNode curClone = (TreeNode) clones.next();
 				TreeNode curNewNode = addTreeNode(graphNode);
-				addTreeEdge(graphEdge, parentTreeNode, curNewNode);
+				addTreeEdge(graphEdge, curClone, curNewNode);
 			}
 			calculateDepths(_root, 0);
 			_eventBroker.processEvent(new TreeNodeAddedEvent(this, newNode));
@@ -71,10 +68,13 @@ public class TreeImpl implements Tree {
 			throw new TreeModificationException(e.getMessage());
 		}
 	}
-	
-	public void removeNode (TreeNode nodeToRemove) {
+
+	public void removeNode (TreeNode nodeToRemove) throws TreeModificationException {
+        if (nodeToRemove.getChildren().size() > 0) {
+            throw new TreeModificationException("Node " + nodeToRemove.getName() + " has children, please remove them first");
+        }
 		removeTreeNode(nodeToRemove);
-		
+
 		Iterator clones = nodeToRemove.getClones().iterator();
 		while  (clones.hasNext()) {
 			TreeNode clone = (TreeNode) clones.next();
@@ -82,11 +82,11 @@ public class TreeImpl implements Tree {
 		}
 		_eventBroker.processEvent(new TreeNodeRemovedEvent(this, nodeToRemove));
 	}
-	
+
 	private void removeTreeNode(TreeNode nodeToRemove) {
 		TreeNode parent = nodeToRemove.getParent();
 		TreeEdge parentEdge = parent.getEdge(nodeToRemove);
-			
+
 		Node graphNode = ((TreeNodeImpl) nodeToRemove).getGraphNode();
 		Edge graphEdge = ((TreeEdgeImpl) parentEdge).getGraphEdge();
 		_graph.removeEdge(graphEdge);
@@ -94,7 +94,15 @@ public class TreeImpl implements Tree {
 			_graph.removeNode(graphNode);
 		}
 		parent.removeChild(nodeToRemove, parentEdge);
-	}	    
+
+        List clones = nodeToRemove.getClones();
+        Iterator it = clones.iterator();
+        while (it.hasNext()) {
+            TreeNode cur = (TreeNode) it.next();
+            List curClonesList = cur.getClones();
+            curClonesList.remove(nodeToRemove);
+        }
+	}
 
     private void buildTree (Node topGraphNode) {
         _root = addTreeNode(topGraphNode);
@@ -107,7 +115,7 @@ public class TreeImpl implements Tree {
         while (outboundEdges.hasNext()) {
             Edge curGraphEdge = (Edge) outboundEdges.next();
             TreeNode toNode = addTreeNode (curGraphEdge.getToNode());
-            TreeEdge curEdge = addTreeEdge (curGraphEdge, topTreeNode, toNode);
+            addTreeEdge (curGraphEdge, topTreeNode, toNode);
             traverseBuild(curGraphEdge.getToNode(), toNode);
         }
     }
@@ -156,12 +164,5 @@ public class TreeImpl implements Tree {
 			calculateDepths(childNode, depth + 1);
 		}
 	}
-	
-	private Edge findGraphEdge (TreeNode node1, TreeNode node2, EdgeType edgeType) {
-		TreeNodeImpl fromNode = (TreeNodeImpl) node1;
-		TreeNodeImpl toNode = (TreeNodeImpl) node2;
-		return _graph.getEdge(fromNode.getGraphNode(), toNode.getGraphNode(), edgeType);
-	}
-
 
 }

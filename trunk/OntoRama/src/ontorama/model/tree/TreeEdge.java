@@ -12,11 +12,9 @@ import ontorama.model.graph.EdgeType;
  */
 public interface TreeEdge {
 
-    public Edge getGraphEdge ();
-    
     /// @todo need to think through this: maybe should have a getter for
     // a fromNode, or maybe shouldn't have ability to get nodes at all....
     public TreeNode getToNode ();
-       
+
     public EdgeType getEdgeType ();
 }

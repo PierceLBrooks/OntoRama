@@ -54,12 +54,12 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .3;
+    private double STIFFNESS = .2;
 
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private double ELECTRIC_CHARGE = 500;
+    private double ELECTRIC_CHARGE = 50;
 
     /**
      * Path for test output files.
@@ -257,8 +257,7 @@ public class SimpleHyperView  extends CanvasManager {
      */
     private void radialLayout(GraphNode root, double wedge, double startAngle) {
         double rootNodeLeafTotal = getLeafNodeTotal( root );
-        System.out.println(root.getName() + " has " + rootNodeLeafTotal + " leaf nodes");
-        System.out.println("startAngle " + startAngle);
+        System.out.println("GraphNode root node is: " + root.getName());
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
         if (numOfOutboundNodes < 1) {
@@ -266,20 +265,33 @@ public class SimpleHyperView  extends CanvasManager {
         }
         double x = 0, y = 0, radius = 0, count = 1;
         outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
-        double angle = wedge/numOfOutboundNodes;
+        double angle;// = wedge/numOfOutboundNodes;
         double sumOfSlices = 0;
         while (outboundNodesIterator.hasNext()) {
             GraphNode curNode = (GraphNode) outboundNodesIterator.next();
             double curNodeLeafTotal = getLeafNodeTotal( curNode );
             double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
-            double ang = ((angle * count) + startAngle - (wedge / 2))%(Math.PI * 2);
+
+            if( slice == 0 ) {
+                slice = .075;
+                //slice = wedge / numOfOutboundNodes;
+            }
+            double drawAngle = (sumOfSlices + ( slice / 2 ) )  + startAngle;
+//            System.out.println(curNode.getName() + " has " + curNodeLeafTotal + " curNodeLeafTotal");
+//            System.out.println(curNode.getName() + " has " + (slice*(180/Math.PI)) + " slice");
+//            System.out.println(curNode.getName() + " has " + (sumOfSlices*(180/Math.PI)) + " sumOfSlices");
+//            System.out.println(curNode.getName() + " has " + (wedge*(180/Math.PI)) + " wedge");
+//            System.out.println(curNode.getName() + " has " + (startAngle*(180/Math.PI)) + " startAngle");
+//            System.out.println(curNode.getName() + " has " + (drawAngle*(180/Math.PI)) + " drawAngle");
+            sumOfSlices = sumOfSlices + slice;
             count++;
             radius = springLength * curNode.getDepth();
-            x = Math.cos(ang) * radius;
-            y = Math.sin(ang) * radius;
+            x = Math.cos(drawAngle) * radius;
+            y = Math.sin(drawAngle) * radius;
             HyperNode hn = (HyperNode)hypernodes.get(curNode);
             hn.setLocation( x, y);
-            radialLayout( curNode, slice, ang );
+            radialLayout( curNode, slice, ( drawAngle - (slice/2) ) );
+
         }
     }
 

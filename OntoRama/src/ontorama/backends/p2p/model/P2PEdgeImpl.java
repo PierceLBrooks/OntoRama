@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
@@ -16,7 +16,7 @@ import ontorama.webkbtools.NoSuchRelationLinkException;
  * @version 1.0
  */
 
-public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
+public class P2PEdgeImpl extends ontorama.model.graph.EdgeImpl implements P2PEdge {
 
     /**
      * Store the asserters
@@ -36,7 +36,7 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      * @param toNode
      * @param edgeType
      */
-	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
+	public P2PEdgeImpl(ontorama.model.graph.Node fromNode, ontorama.model.graph.Node toNode, ontorama.model.graph.EdgeType edgeType) throws NoSuchRelationLinkException {
 		super(fromNode,toNode,edgeType);
         this.asserters = new HashSet();
         this.rejecters = new HashSet();
@@ -52,7 +52,7 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      * @param asserter
      * @param rejecter
      */
-	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType,URI asserter, URI rejecter) throws NoSuchRelationLinkException {
+	public P2PEdgeImpl(ontorama.model.graph.Node fromNode, ontorama.model.graph.Node toNode, ontorama.model.graph.EdgeType edgeType,URI asserter, URI rejecter) throws NoSuchRelationLinkException {
 		super(fromNode,toNode,edgeType);
 
 		this.asserters = new HashSet();

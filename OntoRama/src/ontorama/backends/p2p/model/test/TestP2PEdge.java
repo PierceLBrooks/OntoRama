@@ -13,7 +13,7 @@ import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.EdgeType;
+import ontorama.model.graph.EdgeType;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
@@ -256,7 +256,7 @@ public class TestP2PEdge extends TestCase {
     /**
      * create a set of edge types
      */
-    private Set createSet(EdgeType det1, EdgeType det2) {
+    private Set createSet(ontorama.model.graph.EdgeType det1, ontorama.model.graph.EdgeType det2) {
         Set set = new HashSet();
         set.add(det1);
         set.add(det2);

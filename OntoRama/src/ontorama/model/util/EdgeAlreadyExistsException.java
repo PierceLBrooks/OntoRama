@@ -8,10 +8,10 @@
  */
 package ontorama.model.util;
 
-import ontorama.model.Edge;
+import ontorama.model.graph.Edge;
 
 public class EdgeAlreadyExistsException extends GraphModificationException {
-    public EdgeAlreadyExistsException(Edge edge) {
+    public EdgeAlreadyExistsException(ontorama.model.graph.Edge edge) {
         super("Edge " + edge + "already exists in the graph");
     }
 }

@@ -4,8 +4,8 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.backends.p2p.model.P2PNodeImpl;
-import ontorama.model.Edge;
-import ontorama.model.Graph;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Graph;
 import ontorama.model.events.EdgeAddedEvent;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.NoSuchRelationLinkException;
@@ -27,12 +27,12 @@ public class EdgeAddedEventHandler implements EventListener {
     public EdgeAddedEventHandler (EventBroker eventBroker, P2PBackend backend) {
         _eventBroker = eventBroker;
         _p2pBackend = backend;
-        _eventBroker.subscribe(this, EdgeAddedEvent.class, Graph.class);
+        _eventBroker.subscribe(this, EdgeAddedEvent.class, ontorama.model.graph.Graph.class);
     }
 
     public void processEvent(Event event) {
         EdgeAddedEvent edgeAddedEvent = (EdgeAddedEvent) event;
-        Edge edge = edgeAddedEvent.getEdge();
+        ontorama.model.graph.Edge edge = edgeAddedEvent.getEdge();
         try {
             P2PEdge p2pEdge = new P2PEdgeImpl(new P2PNodeImpl(edge.getFromNode()), new P2PNodeImpl(edge.getToNode()), edge.getEdgeType());
             _p2pBackend.assertEdge(p2pEdge, edge.getCreatorUri());

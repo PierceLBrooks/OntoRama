@@ -22,11 +22,11 @@ import ontorama.hyper.controller.NodePointedEventHandler;
 import ontorama.hyper.controller.NodeSelectedEventTransformer;
 import ontorama.hyper.controller.SphereMouseMovedEventHandler;
 import ontorama.hyper.model.HyperNode;
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemDraggedEvent;
@@ -49,9 +49,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Hold the top concept (root node) for current query.
      */
-    private Node root = null;
+    private ontorama.model.graph.Node root = null;
 
-    private Graph graph;
+    private ontorama.model.graph.Graph graph;
 
     /**
      * Store the HyperNode that has focus.
@@ -121,14 +121,14 @@ public class SimpleHyperView extends Canvas implements GraphView {
         SimpleHyperView.sphereView = new SphereView(HyperNodeView.getSphereRadius());
     }
 
-    public Graph getGraph() {
+    public ontorama.model.graph.Graph getGraph() {
         return graph;
     }
 
     /**
      *
      */
-    public void focus(Node graphNode) {
+    public void focus(ontorama.model.graph.Node graphNode) {
         if ((focusNode != null) && (graphNode.equals(focusNode.getGraphNode())) ) {
             return;
         }
@@ -153,7 +153,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    public void toggleFold(Node node) {
+    public void toggleFold(ontorama.model.graph.Node node) {
         HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
             return;
@@ -170,11 +170,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Method to fold and unfold HyperNodeViews.
      */
-    private void drawFolded(boolean foldedState, Node node) {
+    private void drawFolded(boolean foldedState, ontorama.model.graph.Node node) {
         Iterator it = graph.getOutboundEdgesDisplayedInGraph(node).iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node cur = curEdge.getToNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node cur = curEdge.getToNode();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView != null) {
                 hyperNodeView.setVisible(foldedState);
@@ -189,11 +189,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Unfold nodes back to root node.
      */
     private void unfoldNodes(HyperNodeView hyperNodeView) {
-        Node node = hyperNodeView.getGraphNode();
+        ontorama.model.graph.Node node = hyperNodeView.getGraphNode();
         Iterator it = graph.getInboundEdgesDisplayedInGraph(node).iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
-            Node cur = edge.getFromNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node cur = edge.getFromNode();
             HyperNodeView curHyperNode = (HyperNodeView) hypernodeviews.get(cur);
             if (!curHyperNode.getVisible()) {
                 unfoldNodes(curHyperNode);
@@ -224,7 +224,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Loads new ontology with top concept.
      */
-    public void setGraph(Graph graph) {
+    public void setGraph(ontorama.model.graph.Graph graph) {
         // reset canvas variables
         this.resetCanvas();
         this.root = graph.getRootNode();
@@ -274,14 +274,14 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      *
      */
-    private void makeHyperNodes(Node node) {
+    private void makeHyperNodes(ontorama.model.graph.Node node) {
         HyperNode hn = new HyperNode(node);
-        NodeType nodeType = node.getNodeType();
+        ontorama.model.graph.NodeType nodeType = node.getNodeType();
         // @todo hack for unknown node type
         if (nodeType == null) {
             Iterator it = OntoramaConfig.getNodeTypesList().iterator();
             while (it.hasNext()) {
-                NodeType cur = (NodeType) it.next();
+                ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
                 if (cur.getNodeType().equals("unknown")) {
                     nodeType = cur;
                 }
@@ -293,8 +293,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         hypernodeviews.put(node, hnv);
         Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(node).iterator();
         while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            Node gn = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdges.next();
+            ontorama.model.graph.Node gn = edge.getToNode();
             makeHyperNodes(gn);
         }
     }
@@ -304,7 +304,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Try to give the ontology a basic layout.
      * The spring and electrical algorthms shall they do the rest.
      */
-    private void radialLayout(Node root, double rads, double startAngle) {
+    private void radialLayout(ontorama.model.graph.Node root, double rads, double startAngle) {
         List outboundEdgesList = graph.getOutboundEdgesDisplayedInGraph(root);
         Iterator outboundEdgesIterator = outboundEdgesList.iterator();
         int numOfOutboundNodes = outboundEdgesList.size();
@@ -314,8 +314,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double angle = rads / numOfOutboundNodes;
         double x = 0, y = 0, radius = 0, count = 1;
         while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node node = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdgesIterator.next();
+            ontorama.model.graph.Node node = edge.getToNode();
             double ang = (angle * count) + startAngle - rads / 2;
             count = count + 1;
             radius = springLength * (node.getDepth());
@@ -334,7 +334,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Inner class to store graph node radial layouting info.
      */
     private class NodePlacementDetails {
-        public Node node = null;
+        public ontorama.model.graph.Node node = null;
         public double numOfLeaves = 0;
         // (Math.PI * 2) is the number of radians in a circle
         public double wedge = Math.PI * 2;
@@ -458,8 +458,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         //get graph node and their leaf count
         while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node cur = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdgesIterator.next();
+            ontorama.model.graph.Node cur = edge.getToNode();
             double numOfLeaves = getLeafNodeTotal(cur);
             nodeList[count].node = cur;
             nodeList[count].numOfLeaves = numOfLeaves;
@@ -499,12 +499,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * This method counts the number of leaves on a sub branch.
      */
-    private int getLeafNodeTotal(Node root) {
+    private int getLeafNodeTotal(ontorama.model.graph.Node root) {
         int sumOfLeafNodes = 0;
         Iterator outboundEdgesIterator = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
         while (outboundEdgesIterator.hasNext()) {
-            Edge edge = (Edge) outboundEdgesIterator.next();
-            Node cur = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdgesIterator.next();
+            ontorama.model.graph.Node cur = edge.getToNode();
             int numOfchildren = graph.getOutboundEdgesDisplayedInGraph(cur).size();
             if (numOfchildren == 0) {
                 sumOfLeafNodes++;
@@ -532,18 +532,18 @@ public class SimpleHyperView extends Canvas implements GraphView {
             sumOfAverageMoves = 0;
             Iterator it = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = edge.getToNode();
                 queue.add(node);
             }
             while (!queue.isEmpty()) {
-                Node cur = (Node) queue.remove(0);
+                ontorama.model.graph.Node cur = (ontorama.model.graph.Node) queue.remove(0);
                 sumOfAverageMoves += adjustPosition(cur);
                 count++;
                 it = graph.getOutboundEdgesDisplayedInGraph(cur).iterator();
                 while (it.hasNext()) {
-                    Edge edge = (Edge) it.next();
-                    Node node = edge.getToNode();
+                    ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                    ontorama.model.graph.Node node = edge.getToNode();
                     queue.add(node);
                 }
             }
@@ -560,7 +560,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Adjust the position of the node using spring algorithm.
      */
-    public double adjustPosition(Node cur) {
+    public double adjustPosition(ontorama.model.graph.Node cur) {
         // calculate spring forces for _graphEdges to parents
         double sumOfMoves = 0;
         int count = 0;
@@ -570,8 +570,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double curY = 0;
         Iterator it = graph.getInboundEdges(cur).iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node parent = curEdge.getFromNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node parent = curEdge.getFromNode();
             HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
             HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
             double vectorLength = curHyperNode.distance(curHyperNodeParent);
@@ -595,11 +595,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
         List queue = new LinkedList();
         queue.add(root);
         mainWhile: while (!queue.isEmpty()) {
-            Node other = (Node) queue.remove(0);
+            ontorama.model.graph.Node other = (ontorama.model.graph.Node) queue.remove(0);
             it = graph.getOutboundEdgesDisplayedInGraph(other).iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = edge.getToNode();
                 queue.add(node);
             }
             if (other == cur) {
@@ -607,8 +607,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
             it = graph.getInboundEdges(cur).iterator();
             while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
-                Node node = curEdge.getFromNode();
+                ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = curEdge.getFromNode();
                 if (node == other) {
                     continue mainWhile;
                 }
@@ -650,12 +650,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
             loopAgain = false;
             Iterator it = graph.getOutboundEdgesDisplayedInGraph(root).iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = edge.getToNode();
                 queue.add(node);
             }
             while (!queue.isEmpty()) {
-                Node cur = (Node) queue.remove(0);
+                ontorama.model.graph.Node cur = (ontorama.model.graph.Node) queue.remove(0);
                 if (!finishedNodes.contains(cur)) {
                     averageMove = adjustPosition2(cur);
                     loopAgain = true;
@@ -665,8 +665,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
                 }
                 it = graph.getOutboundEdgesDisplayedInGraph(cur).iterator();
                 while (it.hasNext()) {
-                    Edge edge = (Edge) it.next();
-                    Node node = edge.getToNode();
+                    ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                    ontorama.model.graph.Node node = edge.getToNode();
                     queue.add(node);
                 }
             }
@@ -678,7 +678,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Adjust the position of the node using spring algorithm.
      */
-    public double adjustPosition2(Node cur) {
+    public double adjustPosition2(ontorama.model.graph.Node cur) {
         // calculate spring forces for _graphEdges to parents
         double sumOfMoves = 0;
         int count = 0;
@@ -688,8 +688,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
         double curY = 0;
         Iterator it = graph.getInboundEdges(cur).iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node parent = curEdge.getFromNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node parent = curEdge.getFromNode();
             HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
             HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
             double vectorLength = curHyperNode.distance(curHyperNodeParent);
@@ -713,11 +713,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
         List queue = new LinkedList();
         queue.add(root);
         mainWhile: while (!queue.isEmpty()) {
-            Node other = (Node) queue.remove(0);
+            ontorama.model.graph.Node other = (ontorama.model.graph.Node) queue.remove(0);
             it = graph.getOutboundEdgesDisplayedInGraph(other).iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
-                Node node = edge.getToNode();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = edge.getToNode();
                 queue.add(node);
             }
             if (other == cur) {
@@ -725,8 +725,8 @@ public class SimpleHyperView extends Canvas implements GraphView {
             }
             it = graph.getInboundEdges(cur).iterator();
             while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
-                Node node = curEdge.getFromNode();
+                ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+                ontorama.model.graph.Node node = curEdge.getFromNode();
                 if (node == other) {
                     continue mainWhile;
                 }
@@ -797,12 +797,12 @@ public class SimpleHyperView extends Canvas implements GraphView {
         }
         else {
             if (focusNode.getGraphNode().hasClones()) {
-                Node graphNode = focusNode.getGraphNode();
+                ontorama.model.graph.Node graphNode = focusNode.getGraphNode();
                 HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(graphNode);
                 if (graphNode.hasClones()) {
                     Iterator it = graphNode.getClones().iterator();
                     while (it.hasNext()) {
-                        Node cloneNode = (Node) it.next();
+                        ontorama.model.graph.Node cloneNode = (ontorama.model.graph.Node) it.next();
                         unfoldNodes((HyperNodeView) hypernodeviews.get(cloneNode));
                     }
                     hyperNodeView.showClones(g2d, hypernodeviews);
@@ -873,11 +873,11 @@ public class SimpleHyperView extends Canvas implements GraphView {
     /**
      * Method called to highlight _graphEdges back to the root node.
      */
-    private void highlightEdge(Node node) {
+    private void highlightEdge(ontorama.model.graph.Node node) {
         Iterator it = graph.getInboundEdges(node).iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node cur = curEdge.getFromNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node cur = curEdge.getFromNode();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView != null) {
                 hyperNodeView.setHighlightEdge(true);
@@ -921,17 +921,17 @@ public class SimpleHyperView extends Canvas implements GraphView {
      * Add lines to join HyperNodeViews.
      *
      */
-    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, Node root) {
+    private void addLinesToHyperNodeViews(Hashtable hypernodeviews, ontorama.model.graph.Node root) {
         List queue = new LinkedList();
         queue.add(root);
         while (!queue.isEmpty()) {
-            Node curGraphNode = (Node) queue.remove(0);
+            ontorama.model.graph.Node curGraphNode = (ontorama.model.graph.Node) queue.remove(0);
             HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curGraphNode);
             Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(curGraphNode).iterator();
             while (outboundEdges.hasNext()) {
-                Edge edge = (Edge) outboundEdges.next();
-                EdgeType edgeType = edge.getEdgeType();
-                Node outboundGraphNode = edge.getToNode();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdges.next();
+                ontorama.model.graph.EdgeType edgeType = edge.getEdgeType();
+                ontorama.model.graph.Node outboundGraphNode = edge.getToNode();
                 HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(outboundGraphNode);
                 addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType));
                 queue.add(outboundGraphNode);

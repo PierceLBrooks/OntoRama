@@ -9,10 +9,10 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeType;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.TestWebkbtoolsPackage;
@@ -54,19 +54,19 @@ public class TestRdfDamlParser extends TestCase {
     protected String propName_creator = "Creator";
     protected String propName_synonym = "Synonym";
 
-    protected Node testNode_chair;
-    protected Node testNode_armchair;
-    protected Node testNode_furniture;
-    protected Node testNode_backrest;
-    protected Node testNode_leg;
-    protected Node testNode_myChair;
-    protected Node testNode_someSubstanceNode;
-    protected Node testNode_table;
-    protected Node testNode_someLocation;
-    protected Node testNode_url;
-    protected Node testNode_someObject;
-    protected Node testNode_allChairs;
-    protected Node testNode_ACHRONYM;
+    protected ontorama.model.graph.Node testNode_chair;
+    protected ontorama.model.graph.Node testNode_armchair;
+    protected ontorama.model.graph.Node testNode_furniture;
+    protected ontorama.model.graph.Node testNode_backrest;
+    protected ontorama.model.graph.Node testNode_leg;
+    protected ontorama.model.graph.Node testNode_myChair;
+    protected ontorama.model.graph.Node testNode_someSubstanceNode;
+    protected ontorama.model.graph.Node testNode_table;
+    protected ontorama.model.graph.Node testNode_someLocation;
+    protected ontorama.model.graph.Node testNode_url;
+    protected ontorama.model.graph.Node testNode_someObject;
+    protected ontorama.model.graph.Node testNode_allChairs;
+    protected ontorama.model.graph.Node testNode_ACHRONYM;
 
     private Source source;
     private Parser parser;
@@ -185,9 +185,9 @@ public class TestRdfDamlParser extends TestCase {
     public void testEdgesForNullNodes () {
         Iterator edgesIt = parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            Edge edge = (Edge) edgesIt.next();
-            Node fromNode = edge.getFromNode();
-            Node toNode = edge.getToNode();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) edgesIt.next();
+            ontorama.model.graph.Node fromNode = edge.getFromNode();
+            ontorama.model.graph.Node toNode = edge.getToNode();
             assertEquals("edge node should never be null", false, (fromNode == null));
             assertEquals("edge node should never be null", false, (toNode == null));
         }
@@ -349,8 +349,8 @@ public class TestRdfDamlParser extends TestCase {
         List relationsList = new LinkedList();
         Iterator it = nodesList.iterator();
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
-            NodeType curNodeType = cur.getNodeType();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
+            ontorama.model.graph.NodeType curNodeType = cur.getNodeType();
             if (curNodeType.getNodeType().equals("concept")) {
                 conceptsList.add(cur);
             }
@@ -369,7 +369,7 @@ public class TestRdfDamlParser extends TestCase {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    protected void testingEdge (EdgeType edgeType, Node fromNode, String toNodeName,
+    protected void testingEdge (ontorama.model.graph.EdgeType edgeType, ontorama.model.graph.Node fromNode, String toNodeName,
                                        int expectedIteratorSize)
             throws NoSuchRelationLinkException {
 
@@ -385,8 +385,8 @@ public class TestRdfDamlParser extends TestCase {
         if (edges.isEmpty()) {
             return;
         }
-        Edge firstEdge = (Edge) edges.get(0);
-        Node toNode = firstEdge.getToNode();
+        ontorama.model.graph.Edge firstEdge = (ontorama.model.graph.Edge) edges.get(0);
+        ontorama.model.graph.Node toNode = firstEdge.getToNode();
         String message2 = "related node (edge type: " + edgeType + "):" + toNodeName + ")";
         assertEquals(message2, toNodeName, toNode.getName());
     }
@@ -395,10 +395,10 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    protected Node getGraphNodeFromList (String name, List list) {
+    protected ontorama.model.graph.Node getGraphNodeFromList (String name, List list) {
         Iterator it = list.iterator();
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             if (cur.getName().equals(name)) {
                 return cur;
             }
@@ -406,14 +406,14 @@ public class TestRdfDamlParser extends TestCase {
         return null;
     }
 
-    protected List getEdgesFromList (Node fromNode, String toNodeName, EdgeType edgeType) {
+    protected List getEdgesFromList (ontorama.model.graph.Node fromNode, String toNodeName, ontorama.model.graph.EdgeType edgeType) {
         LinkedList result = new LinkedList();
         List allEdges = parserResult.getEdgesList();
         Iterator it = allEdges.iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
             if ( (edge.getFromNode().equals(fromNode)) && (edge.getEdgeType().equals(edgeType))  ){
-                Node toNode = edge.getToNode();
+                ontorama.model.graph.Node toNode = edge.getToNode();
                 if (toNode.getName().equals(toNodeName)) {
                     result.add(edge);
                 }

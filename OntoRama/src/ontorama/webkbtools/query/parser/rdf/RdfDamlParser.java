@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
-import ontorama.model.NodeType;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+import ontorama.model.graph.NodeType;
 import ontorama.ontologyConfig.RdfMapping;
 import ontorama.webkbtools.query.parser.Parser;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -72,8 +72,8 @@ public class RdfDamlParser implements Parser {
     private static final String _pmNamespaceSuffix = "pm#";
 
 
-    private static NodeType nodeTypeConcept;
-    private static NodeType nodeTypeRelation;
+    private static ontorama.model.graph.NodeType nodeTypeConcept;
+    private static ontorama.model.graph.NodeType nodeTypeRelation;
 
     /**
      * hold RDF resources that are potentials to be concept node types
@@ -97,7 +97,7 @@ public class RdfDamlParser implements Parser {
         List nodeTypesList = OntoramaConfig.getNodeTypesList();
         Iterator it = nodeTypesList.iterator();
         while (it.hasNext()) {
-            NodeType cur = (NodeType) it.next();
+            ontorama.model.graph.NodeType cur = (ontorama.model.graph.NodeType) it.next();
             if (cur.getNodeType().equals("concept")) {
                 nodeTypeConcept = cur;
             }
@@ -312,8 +312,8 @@ public class RdfDamlParser implements Parser {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
-        Node subjectNode = doNodeMapping(resource);
-        Node objectNode = doNodeMapping(object);
+        ontorama.model.graph.Node subjectNode = doNodeMapping(resource);
+        ontorama.model.graph.Node objectNode = doNodeMapping(object);
         doEdgesMapping(subjectNode, predicate, objectNode);
     }
 
@@ -321,13 +321,13 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected Node doNodeMapping (RDFNode object) throws ParserException {
+    protected ontorama.model.graph.Node doNodeMapping (RDFNode object) throws ParserException {
         String nodeName = stripUri(object);
-        Node node;
+        ontorama.model.graph.Node node;
         if (_nodesHash.containsKey(nodeName)) {
-            node = (Node) _nodesHash.get(nodeName);
+            node = (ontorama.model.graph.Node) _nodesHash.get(nodeName);
         } else {
-            node = new NodeImpl(nodeName, object.toString());
+            node = new ontorama.model.graph.NodeImpl(nodeName, object.toString());
             if ((resourceRelationNodeTypesList.contains(object)) && (resourceConceptNodeTypesList.contains(object)) ) {
             	System.out.println("node " + node.getName() + " is CLASS and PROPERTY");
             }
@@ -351,7 +351,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
+    protected void doEdgesMapping(ontorama.model.graph.Node subjectNode, Property predicate, ontorama.model.graph.Node objectNode) throws NoSuchRelationLinkException {
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
         boolean foundMapping = false;
@@ -362,7 +362,7 @@ public class RdfDamlParser implements Parser {
                 String mappingTag = (String) mappingTagsIterator.next();
                 if (predicate.getLocalName().endsWith(mappingTag)) {
                     String mappingType = rdfMapping.getType();
-                    EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
+                    ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
                     edgeType.setNamespace(predicate.getNameSpace());
                     try {
                         if (mappingType.equals(edgeType.getName())) {
@@ -393,14 +393,14 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected void addEdge(Node fromNode, EdgeType edgeType, Node toNode)
+    protected void addEdge(ontorama.model.graph.Node fromNode, ontorama.model.graph.EdgeType edgeType, ontorama.model.graph.Node toNode)
             throws NoSuchRelationLinkException {
 //        String fromNodeName = stripUri(fromNode);
 //        String toNodeName = stripUri(toNode);
 //        Node fromNode = getGraphNodeByName(fromNodeName, fromNode.toString());
 //        Node toNode = getGraphNodeByName(toNodeName, toNode.toString());
 
-        Edge newEdge = new EdgeImpl(fromNode, toNode, edgeType);
+        ontorama.model.graph.Edge newEdge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
         //System.out.println("creating edge: " + fromNode + ", " + toNode + ", edgeType = " + edgeType);
         _edgesList.add(newEdge);
     }
@@ -443,14 +443,14 @@ public class RdfDamlParser implements Parser {
      * @param fullNodeName
      * @return
      */
-    public Node getGraphNodeByName(String nodeName,
+    public ontorama.model.graph.Node getGraphNodeByName(String nodeName,
                                         String fullNodeName) {
-        Node node;
+        ontorama.model.graph.Node node;
         if (_nodesHash.containsKey(nodeName)) {
-            node = (Node) _nodesHash.get(nodeName);
+            node = (ontorama.model.graph.Node) _nodesHash.get(nodeName);
             return node;
         } else {
-            node = new NodeImpl(nodeName, fullNodeName);
+            node = new ontorama.model.graph.NodeImpl(nodeName, fullNodeName);
             _nodesHash.put(nodeName, node);
             return node;
         }

@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import ontorama.webkbtools.ParserException;
@@ -80,20 +80,20 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator nodesIterator = nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            Node cur = (Node) nodesIterator.next();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) nodesIterator.next();
             mapNewName(cur);
         }
 
 
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
-            Node fromNode = curEdge.getFromNode();
-            Node toNode = curEdge.getToNode();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) it.next();
+            ontorama.model.graph.Node fromNode = curEdge.getFromNode();
+            ontorama.model.graph.Node toNode = curEdge.getToNode();
             //System.out.println("cur edge = " + curEdge);
             mapNewName(fromNode);
 
-            EdgeType edgeType = curEdge.getEdgeType();
+            ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
             if (edgeType.getName().equals(urlLinkName)) {
                 toNode.setName(toNode.getIdentifier());
                 namesMapping.put(toNode, toNode.getIdentifier());
@@ -111,7 +111,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * First, check if this name is already in the hashtable, if not - then
      * get a new name and put it into the hashtable.
      */
-    protected void mapNewName(Node origNode) {
+    protected void mapNewName(ontorama.model.graph.Node origNode) {
         String newTypeName = (String) namesMapping.get(origNode.getName());
         if (newTypeName == null) {
             newTypeName = createNewNameForType(origNode);
@@ -131,15 +131,15 @@ public class RdfWebkbParser extends RdfDamlParser {
 
         Iterator edgesIterator = _edgesList.iterator();
         while (edgesIterator.hasNext()) {
-            Edge curEdge = (Edge) edgesIterator.next();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) edgesIterator.next();
             //System.out.println("cur edge = " + curEdge);
 
-            Node fromNode = curEdge.getFromNode();
+            ontorama.model.graph.Node fromNode = curEdge.getFromNode();
             if (!nodeNameIsAlreadyChanged(fromNode.getName())) {
                 String fromNodeNewName = (String) namesMapping.get(fromNode.getName());
                 fromNode.setName(fromNodeNewName);
             }
-            Node toNode = curEdge.getToNode();
+            ontorama.model.graph.Node toNode = curEdge.getToNode();
             if (!nodeNameIsAlreadyChanged(toNode.getName())) {
                 String toNodeNewName = (String) namesMapping.get(toNode.getName());
                 toNode.setName(toNodeNewName);
@@ -150,7 +150,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         // this is just in case we had some nodes not attached to _graphEdges.
         Iterator nodesIterator = _nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            Node curNode = (Node) nodesIterator.next();
+            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIterator.next();
             if (!nodeNameIsAlreadyChanged(curNode.getName())) {
                 String newNodeName = (String) namesMapping.get(curNode.getName());
                 curNode.setName(newNodeName);
@@ -173,7 +173,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * - if string equals 'rdf-schema#Class', it shouldn't be reformatted,
      * just return it.
      */
-    protected String createNewNameForType(Node node) {
+    protected String createNewNameForType(ontorama.model.graph.Node node) {
 
         String typeName = node.getName();
 
@@ -195,10 +195,10 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         try {
-            EdgeType edgeType = OntoramaConfig.getEdgeType("synonym");
+            ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType("synonym");
             Iterator it = _edgesList.iterator();
             while (it.hasNext()) {
-                Edge edge = (Edge) it.next();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
                 if (edge.getEdgeType().equals(edgeType)) {
                     if (edge.getFromNode().equals(node)) {
                         synonyms.add(edge.getToNode().getName());

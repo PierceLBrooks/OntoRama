@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-import ontorama.model.Edge;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
@@ -26,13 +26,13 @@ import ontorama.model.Node;
 public class OntoTreeBuilder {
 
     private static Hashtable ontoHash = new Hashtable();
-    private Graph graph;
+    private ontorama.model.graph.Graph graph;
 
     /**
      * Constructor
      * @param	graph
      */
-    public OntoTreeBuilder(Graph graph) {
+    public OntoTreeBuilder(ontorama.model.graph.Graph graph) {
         this.graph = graph;
 
         processNode(graph.getRootNode());
@@ -41,14 +41,14 @@ public class OntoTreeBuilder {
     /**
      *
      */
-    private void processNode (Node topGraphNode) {
+    private void processNode (ontorama.model.graph.Node topGraphNode) {
         List outboundEdgesList = graph.getOutboundEdgesDisplayedInGraph(topGraphNode);
         Iterator outboundEdges =outboundEdgesList.iterator();
 
         int countRootGraphEdges = 0;
         while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            EdgeType edgeType = edge.getEdgeType();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdges.next();
+            ontorama.model.graph.EdgeType edgeType = edge.getEdgeType();
             graphNodeToOntoTreeNode(topGraphNode, edgeType);
             countRootGraphEdges++;
         }
@@ -63,17 +63,17 @@ public class OntoTreeBuilder {
     /**
      * Convert each Node to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode(Node top, EdgeType edgeType) {
+    private void graphNodeToOntoTreeNode(ontorama.model.graph.Node top, ontorama.model.graph.EdgeType edgeType) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
         ontoTreeNode.setRelLink(edgeType);
         ontoHash.put(top, ontoTreeNode);
 
         Iterator outboundEdges = graph.getOutboundEdgesDisplayedInGraph(top).iterator();
         while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            EdgeType curEdgeType = edge.getEdgeType();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) outboundEdges.next();
+            ontorama.model.graph.EdgeType curEdgeType = edge.getEdgeType();
 
-            Node toGraphNode = edge.getToNode();
+            ontorama.model.graph.Node toGraphNode = edge.getToNode();
             graphNodeToOntoTreeNode(toGraphNode, curEdgeType);
         }
     }
@@ -83,7 +83,7 @@ public class OntoTreeBuilder {
      * @param	graphNode
      * @return	treeNode
      */
-    public static TreeNode getTreeNode(Node graphNode) {
+    public static TreeNode getTreeNode(ontorama.model.graph.Node graphNode) {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
     }

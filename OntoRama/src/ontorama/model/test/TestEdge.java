@@ -9,11 +9,11 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 
 /**
@@ -33,20 +33,20 @@ import ontorama.webkbtools.NoSuchRelationLinkException;
 
 public class TestEdge extends TestCase {
 
-    private Node node1;
-    private Node node2;
-    private Node node3;
-    private Node node4;
-    private Node node5;
-    private Node node6;
+    private ontorama.model.graph.Node node1;
+    private ontorama.model.graph.Node node2;
+    private ontorama.model.graph.Node node3;
+    private ontorama.model.graph.Node node4;
+    private ontorama.model.graph.Node node5;
+    private ontorama.model.graph.Node node6;
 
-    private Edge edge1;
-    private Edge edge2;
-    private Edge edge3;
-    private Edge edge4;
-    private Edge edge5;
-    private Edge edge6;
-    private Edge edge7;
+    private ontorama.model.graph.Edge edge1;
+    private ontorama.model.graph.Edge edge2;
+    private ontorama.model.graph.Edge edge3;
+    private ontorama.model.graph.Edge edge4;
+    private ontorama.model.graph.Edge edge5;
+    private ontorama.model.graph.Edge edge6;
+    private ontorama.model.graph.Edge edge7;
 
     private static final String edgeName_subtype = "subtype";
     private static final String edgeName_similar = "similar";
@@ -89,21 +89,21 @@ public class TestEdge extends TestCase {
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
 
 
-        node1 = new NodeImpl("node1");
-        node2 = new NodeImpl("node2");
-        node3 = new NodeImpl("node3");
-        node4 = new NodeImpl("node4");
-        node5 = new NodeImpl("node5");
-        node6 = new NodeImpl("node6");
+        node1 = new ontorama.model.graph.NodeImpl("node1");
+        node2 = new ontorama.model.graph.NodeImpl("node2");
+        node3 = new ontorama.model.graph.NodeImpl("node3");
+        node4 = new ontorama.model.graph.NodeImpl("node4");
+        node5 = new ontorama.model.graph.NodeImpl("node5");
+        node6 = new ontorama.model.graph.NodeImpl("node6");
 
         try {
-            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype));
-            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(edgeName_subtype));
-            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(edgeName_similar));
-            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getEdgeType(edgeName_reverse));
-            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(edgeName_subtype));
-            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(edgeName_similar));
-            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(edgeName_reverse));
+            edge1 = new ontorama.model.graph.EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(edgeName_subtype));
+            edge2 = new ontorama.model.graph.EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(edgeName_subtype));
+            edge3 = new ontorama.model.graph.EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(edgeName_similar));
+            edge4 = new ontorama.model.graph.EdgeImpl(node1, node5, OntoramaConfig.getEdgeType(edgeName_reverse));
+            edge5 = new ontorama.model.graph.EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(edgeName_subtype));
+            edge6 = new ontorama.model.graph.EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(edgeName_similar));
+            edge7 = new ontorama.model.graph.EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(edgeName_reverse));
 
             // create relation links set
             relLinksSet = createSet(OntoramaConfig.getEdgeType(edgeName_similar), OntoramaConfig.getEdgeType(edgeName_reverse));
@@ -209,7 +209,7 @@ public class TestEdge extends TestCase {
     /**
      * create a set of edge types
      */
-    private Set createSet(EdgeType det1, EdgeType det2) {
+    private Set createSet(ontorama.model.graph.EdgeType det1, ontorama.model.graph.EdgeType det2) {
         Set set = new HashSet();
         set.add(det1);
         set.add(det2);

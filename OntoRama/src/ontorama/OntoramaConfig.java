@@ -12,9 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import ontorama.model.EdgeType;
-import ontorama.model.NodeType;
-import ontorama.model.NodeTypeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.NodeType;
+import ontorama.model.graph.NodeTypeImpl;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.ontologyConfig.NodeTypeDisplayInfo;
@@ -271,7 +271,7 @@ public class OntoramaConfig {
 //        return allRelations;
 //    }
 
-    public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
+    public static EdgeTypeDisplayInfo getEdgeDisplayInfo (ontorama.model.graph.EdgeType edgeType) {
         EdgeTypeDisplayInfo displayInfo = (EdgeTypeDisplayInfo) edgesConfig.get(edgeType);
         return displayInfo;
     }
@@ -289,11 +289,11 @@ public class OntoramaConfig {
     /**
      *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
      */
-    public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
-        EdgeType result = null;
+    public static ontorama.model.graph.EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
+        ontorama.model.graph.EdgeType result = null;
         Iterator it = edgesConfig.keySet().iterator();
         while (it.hasNext()) {
-            EdgeType edgeType = (EdgeType) it.next();
+            ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) it.next();
             if (edgeType.getName().equals(edgeName)) {
                 result = edgeType;
             }
@@ -406,11 +406,11 @@ public class OntoramaConfig {
 
     private static List buildNodeTypesList () {
         List nodeTypes = new LinkedList();
-        NodeType typeConcept = new NodeTypeImpl("concept");
+        ontorama.model.graph.NodeType typeConcept = new ontorama.model.graph.NodeTypeImpl("concept");
         nodeTypes.add(typeConcept);
-        NodeType typeRelation = new NodeTypeImpl("relation");
+        ontorama.model.graph.NodeType typeRelation = new ontorama.model.graph.NodeTypeImpl("relation");
         nodeTypes.add(typeRelation);
-        NodeType typeUnknown = new NodeTypeImpl("unknown");
+        ontorama.model.graph.NodeType typeUnknown = new ontorama.model.graph.NodeTypeImpl("unknown");
         nodeTypes.add(typeUnknown);
 
         return nodeTypes;
@@ -426,7 +426,7 @@ public class OntoramaConfig {
         Hashtable result = new Hashtable();
         Iterator it = nodeTypesList.iterator();
         while (it.hasNext()) {
-            NodeType curNodeType = (NodeType) it.next();
+            ontorama.model.graph.NodeType curNodeType = (ontorama.model.graph.NodeType) it.next();
             NodeTypeDisplayInfo displayInfo = new NodeTypeDisplayInfo();
             if (curNodeType.getNodeType().equals("concept")) {
                 displayInfo.setColor(Color.blue);
@@ -447,7 +447,7 @@ public class OntoramaConfig {
         return nodeTypesList;
     }
 
-    public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
+    public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (ontorama.model.graph.NodeType nodeType) {
         return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
     }
 

@@ -3,7 +3,7 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: NewRelatedNodeCreator.java,v 1.6 2002-11-22 04:51:21 nataliya Exp $
+ * $Id: NewRelatedNodeCreator.java,v 1.7 2002-11-24 23:42:21 nataliya Exp $
  */
 package ontorama.hyper.controller;
 
@@ -17,23 +17,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import ontorama.hyper.view.simple.SimpleHyperView;
-import ontorama.model.Edge;
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 import ontorama.model.util.GraphModificationException;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 
 public class NewRelatedNodeCreator {
     private JDialog dialog;
     private SimpleHyperView view;
-    private Node graphNode;
-    private EdgeType edgeType;
+    private ontorama.model.graph.Node graphNode;
+    private ontorama.model.graph.EdgeType edgeType;
     private JTextField textField;
 
-    public NewRelatedNodeCreator(SimpleHyperView view, Node graphNode, EdgeType edgeType) {
+    public NewRelatedNodeCreator(SimpleHyperView view, ontorama.model.graph.Node graphNode, ontorama.model.graph.EdgeType edgeType) {
         this.view = view;
         this.graphNode = graphNode;
         this.edgeType = edgeType;
@@ -48,17 +48,17 @@ public class NewRelatedNodeCreator {
         dialog = pane.createDialog(view, "New Node");
     }
 
-    public Node createNewRelatedNode() {
+    public ontorama.model.graph.Node createNewRelatedNode() {
         dialog.show();
 
-        Node newNode = new NodeImpl(textField.getText());
+        ontorama.model.graph.Node newNode = new ontorama.model.graph.NodeImpl(textField.getText());
         List newEdges = new ArrayList();
         try {
-            newEdges.add(new EdgeImpl(graphNode, newNode, edgeType));
+            newEdges.add(new ontorama.model.graph.EdgeImpl(graphNode, newNode, edgeType));
             List clones = graphNode.getClones();
             for (Iterator iterator = clones.iterator(); iterator.hasNext();) {
-                Node node = (Node) iterator.next();
-                newEdges.add(new EdgeImpl(node, newNode.makeClone(), edgeType));
+                ontorama.model.graph.Node node = (ontorama.model.graph.Node) iterator.next();
+                newEdges.add(new ontorama.model.graph.EdgeImpl(node, newNode.makeClone(), edgeType));
             }
         } catch (NoSuchRelationLinkException e) {
             /// @todo what to do here? Do we get this?
@@ -66,10 +66,10 @@ public class NewRelatedNodeCreator {
             return null;
         }
 
-        Graph graph = view.getGraph();
+        ontorama.model.graph.Graph graph = view.getGraph();
         try {
             for (Iterator iterator = newEdges.iterator(); iterator.hasNext();) {
-                Edge edge = (Edge) iterator.next();
+                ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) iterator.next();
                 graph.addEdge(edge);
             }
         } catch (GraphModificationException e) {

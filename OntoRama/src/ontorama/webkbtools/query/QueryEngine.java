@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 import ontorama.util.Debug;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
@@ -147,7 +147,7 @@ public class QueryEngine implements QueryEngineInterface {
         Iterator it = nodesList.iterator();
         String newTermName = termName;
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
+            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
             String termIdentifierSuffix = "#" + termName;
             //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
             //System.out.println("fullName = " + cur.getIdentifier());
@@ -200,11 +200,11 @@ public class QueryEngine implements QueryEngineInterface {
 
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            Edge curEdge = (Edge) edgesIt.next();
+            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) edgesIt.next();
             if (wantedLinks.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
-                Node fromNode = curEdge.getFromNode();
-                Node toNode = curEdge.getToNode();
+                ontorama.model.graph.Node fromNode = curEdge.getFromNode();
+                ontorama.model.graph.Node toNode = curEdge.getToNode();
                 if (!_resultNodesList.contains(fromNode)) {
                      _resultNodesList.add(fromNode);
                     nodes.remove(fromNode);
@@ -218,7 +218,7 @@ public class QueryEngine implements QueryEngineInterface {
 
         Iterator nodesIt = nodes.iterator();
         while (nodesIt.hasNext()) {
-            Node curNode = (Node) nodesIt.next();
+            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIt.next();
             //System.out.println("left over node = " + curNode);
             _resultNodesList.add(curNode);
         }

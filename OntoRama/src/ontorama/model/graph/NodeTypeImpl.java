@@ -6,7 +6,9 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model;
+package ontorama.model.graph;
+
+import ontorama.model.graph.NodeType;
 
 
 public class NodeTypeImpl implements NodeType {

@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.model.Node;
+import ontorama.model.graph.Node;
 
 public class HyperNode implements PositionChangedObservable {
 
@@ -39,12 +39,12 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store the graph node for this hyper node.
      */
-    private Node graphNode;
+    private ontorama.model.graph.Node graphNode;
 
     /**
      * Constructor
      */
-    public HyperNode(Node graphNode) {
+    public HyperNode(ontorama.model.graph.Node graphNode) {
         this.graphNode = graphNode;
         /*
         this.graphNode.addObserver( this );
@@ -92,7 +92,7 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Returns NodeImpl.
      */
-    public Node getGraphNode() {
+    public ontorama.model.graph.Node getGraphNode() {
         return graphNode;
     }
 

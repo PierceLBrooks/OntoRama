@@ -16,9 +16,9 @@ import javax.swing.border.BevelBorder;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
@@ -66,7 +66,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private String _reverseRelationLinkName;
-    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
+    private ontorama.model.graph.EdgeType _firstRelationLink = (ontorama.model.graph.EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
 
     /**
      *
@@ -88,7 +88,7 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private EventBroker _eventBroker;
 
-    private Graph _graph;
+    private ontorama.model.graph.Graph _graph;
 
     /**
      *
@@ -158,7 +158,7 @@ public class DescriptionView extends JPanel implements GraphView {
         List edgeTypesList = OntoramaConfig.getEdgeTypesList();
         Iterator it = edgeTypesList.iterator();
         while (it.hasNext()) {
-            EdgeType edgeType = (EdgeType) it.next();
+            ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) it.next();
             EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
             if (displayInfo.isDisplayInDescription()) {
                 edgeTypesToDisplay.add(edgeType);
@@ -270,14 +270,14 @@ public class DescriptionView extends JPanel implements GraphView {
     /**
      *
      */
-    public void focus(Node node) {
+    public void focus(ontorama.model.graph.Node node) {
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String edgeName = (String) e.nextElement();
             try {
                 NodePropertiesPanel propPanel = (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
                 List value = new LinkedList();
-                EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
+                ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
                 if (displayInfo.isDisplayInDescription()) {
                     value = _graph.getOutboundEdgeNodes(node, edgeType);
@@ -303,7 +303,7 @@ public class DescriptionView extends JPanel implements GraphView {
     }
 
 
-    public void setGraph (Graph graph) {
+    public void setGraph (ontorama.model.graph.Graph graph) {
         _graph = graph;
     }
 

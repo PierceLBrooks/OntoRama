@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.Node;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
@@ -250,7 +250,7 @@ public class WebKB2Source implements Source {
         getRootTypesFromStreams();
 
         Frame frame = OntoRamaApp.getMainFrame();
-        String selectedType = ((Node) typesList.get(0)).getName();
+        String selectedType = ((ontorama.model.graph.Node) typesList.get(0)).getName();
         AmbiguousChoiceDialog dialog = new AmbiguousChoiceDialog(typesList, frame);
         selectedType = dialog.getSelected();
         System.out.println("\n\n\nselectedType = " + selectedType);
@@ -280,7 +280,7 @@ public class WebKB2Source implements Source {
             StringReader curReader = new StringReader(nextDocStr);
             List curTypesList = getTypesListFromRdfStream(curReader, query.getQueryTypeName());
             for (int i = 0; i < curTypesList.size(); i++) {
-                Node node = (Node) curTypesList.get(i);
+                ontorama.model.graph.Node node = (ontorama.model.graph.Node) curTypesList.get(i);
                 if (!typesList.contains(node)) {
                     typesList.add(node);
                 }
@@ -320,7 +320,7 @@ public class WebKB2Source implements Source {
         List nodesList = parserResult.getNodesList();
         Iterator typesIt = nodesList.iterator();
         while (typesIt.hasNext()) {
-            Node curNode = (Node) typesIt.next();
+            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) typesIt.next();
             List synonyms = getSynonyms(curNode, parserResult.getEdgesList());
             if (synonyms.contains(termName)) {
                 typeNamesList.add(curNode);
@@ -329,14 +329,14 @@ public class WebKB2Source implements Source {
         return typeNamesList;
     }
 
-    private List getSynonyms (Node node, List edgesList) {
+    private List getSynonyms (ontorama.model.graph.Node node, List edgesList) {
         List result = new LinkedList();
         Iterator it = edgesList.iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
+            ontorama.model.graph.Edge edge = (ontorama.model.graph.Edge) it.next();
             if (edge.getFromNode().equals(node)) {
                 if (edge.getEdgeType().getName().equals(synPropName)) {
-                    Node synonymNode = edge.getToNode();
+                    ontorama.model.graph.Node synonymNode = edge.getToNode();
                     result.add(synonymNode.getName());
                 }
             }

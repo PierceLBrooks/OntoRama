@@ -8,10 +8,10 @@
  */
 package ontorama.controller;
 
-import ontorama.model.Node;
+import ontorama.model.graph.Node;
 
 public class QueryEvent extends NodeEvent {
-    public QueryEvent(Node subject) {
+    public QueryEvent(ontorama.model.graph.Node subject) {
         super(subject);
         System.out.println("new QueryEvent()");
     }

@@ -2,7 +2,7 @@ package ontorama.webkbtools.writer;
 
 import java.io.Writer;
 
-import ontorama.model.Graph;
+import ontorama.model.graph.Graph;
 
 /*
  * Created by IntelliJ IDEA.
@@ -12,5 +12,5 @@ import ontorama.model.Graph;
  * To change this template use Options | File Templates.
  */
 public interface ModelWriter {
-    public void write(Graph graph, Writer out) throws ModelWriterException;
+    public void write(ontorama.model.graph.Graph graph, Writer out) throws ModelWriterException;
 }

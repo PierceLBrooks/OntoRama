@@ -1,4 +1,4 @@
-package ontorama.model;
+package ontorama.model.graph;
 
 
 
@@ -18,6 +18,10 @@ import ontorama.model.events.NodeRemovedEvent;
 import ontorama.model.util.EdgeAlreadyExistsException;
 import ontorama.model.util.GraphModificationException;
 import ontorama.model.util.NodeAlreadyExistsException;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
@@ -116,8 +120,8 @@ public class GraphImpl implements Graph {
      *  to it.
      *
      * @param   queryResult
-     * @throws  NoSuchRelationLinkException
-     * @throws  NoTypeFoundInResultSetException
+     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
+     * @throws  ontorama.model.graph.NoTypeFoundInResultSetException
      */
     public GraphImpl(QueryResult queryResult, EventBroker eventBroker)
             throws
@@ -429,7 +433,7 @@ public class GraphImpl implements Graph {
      * Convert Graph into Tree by cloning nodes with duplicate parents (inbound _graphEdges)
      *
      * @param   root - root node for the graph
-     * @throws  NoSuchRelationLinkException
+     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
      */
     private void convertIntoTree(Node root)
             throws NoSuchRelationLinkException {
@@ -500,7 +504,7 @@ public class GraphImpl implements Graph {
      *
      * @param   node    original node
      * @param   cloneNode   copy node that needs all outbound _graphEdges filled in
-     * @throws  NoSuchRelationLinkException
+     * @throws  ontorama.webkbtools.NoSuchRelationLinkException
      */
     private void deepCopy(Node node, Node cloneNode)
             throws NoSuchRelationLinkException {
@@ -558,7 +562,7 @@ public class GraphImpl implements Graph {
     /**
      *
      * @param node1 node2
-     * @throws GraphModificationException
+     * @throws ontorama.model.util.GraphModificationException
      * @todo stupid method - only for one purpose - not to throw and exception where we don't want it.
      * need to rethink exceptions structure.
      */

@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.Edge;
-import ontorama.model.EdgeImpl;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeImpl;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
 import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.inputsource.SourceResult;
@@ -93,15 +93,15 @@ public class CgKbCsvParser implements Parser {
 
         try {
             Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
-            Node fromNode = getNodeForName(shortNameObj1,  obj1);
-            Node toNode = getNodeForName(shortNameObj2, obj2);
-            Edge edge = null;
+            ontorama.model.graph.Node fromNode = getNodeForName(shortNameObj1,  obj1);
+            ontorama.model.graph.Node toNode = getNodeForName(shortNameObj2, obj2);
+            ontorama.model.graph.Edge edge = null;
             while (edgeTypesIterator.hasNext()) {
-                EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+                ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) edgeTypesIterator.next();
                 if (rel.equals(edgeType.getName())) {
-                    edge = new EdgeImpl(fromNode, toNode, edgeType);
+                    edge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
                 } else if (rel.equals(edgeType.getReverseEdgeName())) {
-                    edge = new EdgeImpl(fromNode, toNode, edgeType);
+                    edge = new ontorama.model.graph.EdgeImpl(fromNode, toNode, edgeType);
                 }
             }
             if (edge == null) {
@@ -117,10 +117,10 @@ public class CgKbCsvParser implements Parser {
         }
     }
 
-    private Node getNodeForName (String shortName, String nodeIdentifier) {
-        Node node = (Node) _nodes.get(shortName);
+    private ontorama.model.graph.Node getNodeForName (String shortName, String nodeIdentifier) {
+        ontorama.model.graph.Node node = (ontorama.model.graph.Node) _nodes.get(shortName);
         if (node == null) {
-            node = new NodeImpl(shortName);
+            node = new ontorama.model.graph.NodeImpl(shortName);
             _nodes.put(shortName, node);
             node.setIdentifier(nodeIdentifier);
         }

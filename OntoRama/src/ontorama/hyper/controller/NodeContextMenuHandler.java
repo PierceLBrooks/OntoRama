@@ -17,9 +17,9 @@ import ontorama.OntoramaConfig;
 import ontorama.controller.NodeSelectedEvent;
 import ontorama.hyper.view.simple.HyperNodeView;
 import ontorama.hyper.view.simple.SimpleHyperView;
-import ontorama.model.EdgeType;
-import ontorama.model.Graph;
-import ontorama.model.Node;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.ontologyConfig.EdgeTypeDisplayInfo;
 import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
 import org.tockit.events.Event;
@@ -47,7 +47,7 @@ public class NodeContextMenuHandler implements EventListener {
         JMenuItem menuItem;
         List edgeTypes = OntoramaConfig.getEdgeTypesList();
         for (Iterator iterator = edgeTypes.iterator(); iterator.hasNext();) {
-            final EdgeType edgeType = (EdgeType) iterator.next();
+            final ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) iterator.next();
             EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
             if(displayInfo.isDisplayInGraph()) {
                 menuItem = new JMenuItem(edgeType.getName());
@@ -55,7 +55,7 @@ public class NodeContextMenuHandler implements EventListener {
                     public void actionPerformed(ActionEvent e) {
                         NewRelatedNodeCreator creator =
                                         new NewRelatedNodeCreator(simpleHyperView, nodeView.getGraphNode(), edgeType);
-                        Node newNode = creator.createNewRelatedNode();
+                        ontorama.model.graph.Node newNode = creator.createNewRelatedNode();
                         eventBroker.processEvent(new NodeSelectedEvent(newNode));
                     }
                 });
@@ -66,11 +66,11 @@ public class NodeContextMenuHandler implements EventListener {
         menuItem = new JMenuItem("Delete node");
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Graph graph = simpleHyperView.getGraph();
-                Node graphNode = nodeView.getGraphNode();
+                ontorama.model.graph.Graph graph = simpleHyperView.getGraph();
+                ontorama.model.graph.Node graphNode = nodeView.getGraphNode();
                 graph.removeNode(graphNode);
                 for (Iterator iterator = graphNode.getClones().iterator(); iterator.hasNext();) {
-                    Node clone = (Node) iterator.next();
+                    ontorama.model.graph.Node clone = (ontorama.model.graph.Node) iterator.next();
                     graph.removeNode(clone);
                 }
             }

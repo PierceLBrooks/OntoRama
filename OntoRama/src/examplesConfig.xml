@@ -2,7 +2,8 @@
     <example name="WebKB2 Interface" root="comms#comms_object">
         <!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
         <!--<source uri="http://www.webkb.org/bin/termSearch.cgi"-->
-        <source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"
+        <!--<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"-->
+	  <source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi"
             isSourceDynamic="true"
             sourcePackagePathSuffix="WebKB2Source"/>
         <queryOutputFormat>RDF</queryOutputFormat>

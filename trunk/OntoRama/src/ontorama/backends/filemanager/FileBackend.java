@@ -18,10 +18,8 @@ import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphCyclesDisallowedException;
 import ontorama.model.graph.GraphImpl;
-import ontorama.model.graph.GraphModificationException;
-import ontorama.model.graph.NoTypeFoundInResultSetException;
+import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.ui.ErrorPopupMessage;
@@ -208,14 +206,19 @@ public class FileBackend implements Backend {
 	/**
 	 * @see ontorama.backends.Backend#createGraph(ontorama.ontotools.query.QueryResult, org.tockit.events.EventBroker)
 	 */
-	public Graph createGraph(QueryResult qr, EventBroker eb)
-												throws
-													GraphModificationException,
-													NoSuchRelationLinkException,
-													NoTypeFoundInResultSetException,
-													GraphCyclesDisallowedException {
+	public Graph createGraph(QueryResult qr, EventBroker eb) throws InvalidArgumentException  {
 		Graph res = new GraphImpl(qr, eb);
 		return res;
+	}
+
+
+
+	/**
+	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
+	 */
+	public QueryResult executeQuery(Query query) {
+		/// @todo implement!
+		return null;
 	}
 
 }

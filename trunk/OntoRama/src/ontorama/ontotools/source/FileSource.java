@@ -35,7 +35,7 @@ public class FileSource implements Source {
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new SourceException("Couldn't find file " + filename + ",\n error: " + e.getMessage());
+            throw new SourceException("Couldn't find file " + filename + ",\n error: " + e.getMessage(), e);
         }
         return sourceResult;
     }

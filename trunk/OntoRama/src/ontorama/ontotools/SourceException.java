@@ -9,15 +9,14 @@ package ontorama.ontotools;
  * @version 1.0
  */
 
-public class SourceException extends Exception {
-    private String errorMsg = "";
+public class SourceException extends QueryFailedException {
 
-    public SourceException(String message) {
-        //errorMsg = "\nSource failed:\n";
-        errorMsg = errorMsg + message;
+	public SourceException(String message) {
+		super(message);
+	}
+
+    public SourceException(String message, Throwable originalException) {
+    	super(message, originalException);
     }
 
-    public String getMessage() {
-        return errorMsg;
-    }
 }

@@ -41,8 +41,7 @@ public class TestTree extends TestCase{
         super(name);
     }
 
-    public void setUp () throws GraphModificationException, NoSuchRelationLinkException, 
-    								NoTypeFoundInResultSetException, GraphCyclesDisallowedException {
+    public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
     	ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	OntoramaConfig.activateBackend(backend);
     	

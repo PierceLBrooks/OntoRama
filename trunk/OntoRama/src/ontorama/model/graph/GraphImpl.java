@@ -115,31 +115,31 @@ public class GraphImpl implements Graph {
      * @throws  ontorama.ontotools.NoSuchRelationLinkException
      * @throws  ontorama.model.graph.NoTypeFoundInResultSetException
      */
-    public GraphImpl(QueryResult queryResult, EventBroker eventBroker)
-				            throws
-				            NoSuchRelationLinkException,
-				            NoTypeFoundInResultSetException,
-				            GraphCyclesDisallowedException {
-        this(eventBroker);
-        debug.message(
-                "******************* GraphBuilder constructor start *******************");
-
-        termName = queryResult.getQuery().getQueryTypeName();
-        List nodesList = queryResult.getNodesList();
-        List edgesList = queryResult.getEdgesList();
-
-        buildGraph( nodesList, edgesList);
-        if (termName == null) {
-            root = findRootNode();
-        }
-        else {
-            root = findRootNode(termName);
-            if (root == null) {
-                throw new NoTypeFoundInResultSetException(termName);
-            }
-        }
-        debug.message(
-                "******************* GraphBuilder constructor end *******************");
+    public GraphImpl(QueryResult queryResult, EventBroker eventBroker) throws InvalidArgumentException {
+       	this(eventBroker);
+       	try{
+	        debug.message(
+	                "******************* GraphBuilder constructor start *******************");
+	
+	        termName = queryResult.getQuery().getQueryTypeName();
+	        List nodesList = queryResult.getNodesList();
+	        List edgesList = queryResult.getEdgesList();
+	
+	        buildGraph( nodesList, edgesList);
+	        if (termName == null) {
+	            root = findRootNode();
+	        }
+	        else {
+	            root = findRootNode(termName);
+	            if (root == null) {
+	                throw new NoTypeFoundInResultSetException(termName);
+	            }
+	        }
+	        debug.message(
+	                "******************* GraphBuilder constructor end *******************");
+       	} catch (GraphCyclesDisallowedException e) {
+       		throw new InvalidArgumentException("Cyclic structure in query result", e);
+       	}
     }
 
     /**

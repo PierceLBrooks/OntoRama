@@ -54,9 +54,9 @@ public class UrlSource implements Source {
             URLConnection connection = url.openConnection();
             reader = new InputStreamReader(connection.getInputStream());
         } catch (MalformedURLException urlExc) {
-            throw new SourceException("Url " + uri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage());
+            throw new SourceException("Url " + uri + " specified for this ontology source is not well formed, error: " + urlExc.getMessage(), urlExc);
         } catch (IOException ioExc) {
-            throw new SourceException("Couldn't read input data source for " + uri + ", error: " + ioExc.getMessage());
+            throw new SourceException("Couldn't read input data source for " + uri + ", error: " + ioExc.getMessage(), ioExc);
         }
 
         return reader;

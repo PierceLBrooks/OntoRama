@@ -371,7 +371,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         if ((_worker.done()) || (_worker.isStopped())) {
             if (_worker.done()) {
                 graph = _worker.getGraph();
-                System.out.println(".....returned graph = " + graph);
             }
             _timer.stop();
             _progressBar.setIndeterminate(false);
@@ -398,8 +397,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         System.out.println("\n\n\n---------------------------------------------------------------");
         System.out.println("          method executeQuery(query)\n\n\n");
 
-        //_worker = new QueryEngineTask(query);
-        //_worker.go();
         _worker = new QueryEngineThread(_query);
         _worker.start();
 
@@ -416,9 +413,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     private void updateViews() {
-        _hyperView.setGraph(_graph);
-        _treeView.setGraph(_graph);
-        //_queryPanel.setQueryField(graph.getRootNode().getName());
+        setGraphInViews(_graph);
         _queryPanel.setQuery(_query);
         _descriptionViewPanel.clear();
         _descriptionViewPanel.focus(_graph.getRootNode());
@@ -434,6 +429,16 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         enableDisableDynamicFields();
 
         repaint();
+    }
+
+    /**
+     *
+     */
+    private void setGraphInViews (Graph graph) {
+        _hyperView.setGraph(graph);
+        _treeView.setGraph(graph);
+        _queryPanel.setGraph(graph);
+        _descriptionViewPanel.setGraph(graph);
     }
 
 
@@ -555,6 +560,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
      *
      */
     protected void resetGraphRoot(GraphNode newRootNode) {
+        setGraphInViews(_graph);
         _graph.setRoot(newRootNode);
         updateViews();
     }

@@ -221,8 +221,11 @@ public class OntoramaConfig {
     }
 
     /**
-     * @todo shouldn't just return edgeType for reversed name - user doesn't
-     * have a way to know that we switched direction here
+     * Find an edge type that corresponds to given edgeName.
+     * Basically we match name of edge type (both directions: 
+     * forward and reverse) to given edgeName. After that
+     * it is responsibility of method user to figure out
+     * which direction they want to use.
      */
     public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
         EdgeType result = null;

@@ -270,7 +270,11 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
             ImageIcon displayIcon = OntoramaConfig.getEdgeDisplayInfo(cur).getDisplayIcon();
             JLabel displayIconLabel = new JLabel(displayIcon);
             curCheckBox.setSelected(true);
-            curCheckBox.addItemListener(new CheckBoxListener());
+            curCheckBox.addItemListener(new ItemListener () {
+				public void itemStateChanged(ItemEvent e) {
+					_wantedRelationLinks = updateWantedRelationLinks();
+				}
+			});
             _relationLinksCheckBoxes.put(curCheckBox, cur);
             _relationLinksPanel.add(displayIconLabel);
             _relationLinksPanel.add(curCheckBox);
@@ -294,22 +298,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         return wantedRelationLinks;
     }
 
-    /**
-     * ItemListener
-     */
-    class CheckBoxListener implements ItemListener {
-        public void itemStateChanged(ItemEvent e) {
-            _wantedRelationLinks = updateWantedRelationLinks();
-        }
-    }
 
-
-
-    //////////////////////////ViewEventObserver interface implementation////////////////
-
-    /**
-     *
-     */
     public void focus(Node node) {
         _queryField.setText(node.getName());
     }

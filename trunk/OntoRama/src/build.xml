@@ -15,6 +15,7 @@
   <property name="deploy.webstart"	value="${basedir}/deployWebstart"/>
   <property name="src.webstart"	value="${src.home}/webstart"/>
   <property name="deploy.demo"	value="${basedir}/demo"/>
+  <property name="license.file.name"	value="LICENSE.txt"/>
 
   
   <!-- Set Classpath -->
@@ -62,6 +63,7 @@
       <fileset dir="${src.home}" includes="**/examplesConfig.xml"/>
       <fileset dir="${src.home}" includes="**/dataFormatsConfig.xml"/>
       <fileset dir="${src.home}" includes="MANIFEST.MF"/>
+      <fileset dir="${src.home}" includes="${license.file.name}"/>
 	</copy>
      <copy   todir="${deploy.home}/cgkb">
          <fileset dir="${src.home}/cgkb" includes="*"/>
@@ -164,6 +166,9 @@
 	</copy>
 	<copy todir="${deploy.webstart}">
 		<fileset dir="${basedir}" includes="OntoRama.jar"/>
+	</copy>
+	<copy todir="${deploy.webstart}">
+		<fileset dir="${src.home}" includes="${license.file.name}"/>
 	</copy>
   </target>
   

@@ -9,6 +9,8 @@ import java.util.Iterator;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
+import ontorama.util.TestingUtils;
+
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.util.SourceException;
@@ -46,6 +48,13 @@ public class TestWebKB2Source extends TestCase {
   private int numOfChoices_dog;
   private List choicesList_dog;
 
+
+  private Query query_nonExistentTerm;
+  private SourceResult sourceResult_nonExistentTerm;
+  private boolean queryIsAmbiguous_nonExistentTerm;
+  private int numOfChoices_nonExistentTerm;
+  private List choicesList_nonExistentTerm;
+
   /**
    * Execute queries to webkb, one with term name 'cat',
    * another with term name 'wn#cat'. Check both results for
@@ -59,31 +68,28 @@ public class TestWebKB2Source extends TestCase {
    *
    */
   protected void setUp() throws Exception {
-
-//    OntoramaConfig.loadAllConfig("examples/test/data/testWebkb-AmbuguousCase-cat-examplesConfig.xml",
-//               "ontorama.properties","examples/test/data/testCase-config.xml");
-
     OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                "ontorama.properties","examples/test/data/testCase-config.xml");
-
-    // load ambiguous case
-    List examplesList = OntoramaConfig.getExamplesList();
-    for (int i = 0; i < examplesList.size(); i++) {
-      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
-      if (curExample.getName().equals("test webkb: cat")) {
-        System.out.println("GOT cat example");
-        OntoramaConfig.setCurrentExample(curExample);
-      }
-    }
+    OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
 
     sourceUri = OntoramaConfig.sourceUri;
     //String parserPackage = OntoramaConfig.getParserPackageName();
 
     webkbSource = new WebKB2Source();
+  }
 
-
-
-
+  /**
+   *
+   */
+  public void testForUnexistingTerm () {
+    try {
+      query_nonExistentTerm = new Query("fjldsjf");
+      sourceResult_nonExistentTerm = webkbSource.getSourceResult(sourceUri, query_nonExistentTerm);
+      fail("Failed to catch expected SourceException (WebkbError)");
+    }
+    catch (SourceException e) {
+      //System.err.println("\n\n\nsource exception: " + e);
+    }
   }
 
   /**
@@ -152,6 +158,8 @@ public class TestWebKB2Source extends TestCase {
       */
     }
   }
+
+
 
   /**
    *

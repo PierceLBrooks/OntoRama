@@ -140,7 +140,10 @@ public class QueryEngine implements QueryEngineInterface {
         r = sourceResult.getReader();
         this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
         r.close();
-        checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+        String newTermName = checkResultSetContainsSearchTerm(this.typeRelativesCollection, query.getQueryTypeName());
+        if (newTermName.equals(query.getQueryTypeName())) {
+          query = new Query(newTermName, query.getRelationLinksList());
+        }
         System.out.println("query result list = " + getQueryTypesList().size());
         queryResult = new QueryResult(query, getQueryTypesList().iterator());
 
@@ -153,19 +156,26 @@ public class QueryEngine implements QueryEngineInterface {
     /**
      *
      */
-    private void checkResultSetContainsSearchTerm (Collection resultSet, String termName)
+    private String checkResultSetContainsSearchTerm (Collection resultSet, String termName)
                             throws NoSuchTypeInQueryResult {
       boolean found = false;
       Iterator it = resultSet.iterator();
+      String newTermName = termName;
       while (it.hasNext()) {
         OntologyType cur = (OntologyType) it.next();
+        System.out.println("cur = " + cur.getName() + " checking against " + termName);
         if (cur.getName().equals(termName)) {
           found = true;
+        }
+        if (cur.getName().endsWith("#" + termName)) {
+          found = true;
+          newTermName = cur.getName();
         }
       }
       if (!found) {
         throw new NoSuchTypeInQueryResult(termName);
       }
+      return newTermName;
     }
 
 

@@ -320,19 +320,21 @@ public class P2PBackendImpl implements P2PBackend {
     }
     
 
-    public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
+    public void assertEdge(P2PEdge edge, URI asserter) 
+    						throws GraphModificationException, NoSuchRelationLinkException{
+    	URI asserterUri = asserter;
         try {
-			if (asserter == null) {
-				asserter = _defaultUserUri;
+			if (asserterUri == null) {
+				asserterUri = _defaultUserUri;
 			}
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 
 										edge.getEdgeType().getName(), 
-										Change.ASSERT, asserter.toString());
+										Change.ASSERT, asserterUri.toString());
 			String message = XmlMessageProcessor.createMessage(edgeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
 
-			this.graph.assertEdge(edge, asserter);
+			this.graph.assertEdge(edge, asserterUri);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertRelation()");
                e.printStackTrace();
@@ -353,10 +355,12 @@ public class P2PBackendImpl implements P2PBackend {
 
 
 
-    public void assertNode(P2PNode node, URI asserter) throws GraphModificationException{
+    public void assertNode(P2PNode node, URI asserter) 
+    								throws GraphModificationException{
+        URI asserterUri = asserter;
         try {
-            if (asserter == null) {
-                asserter = _defaultUserUri;
+            if (asserterUri == null) {
+                asserterUri = _defaultUserUri;
             }
             System.out.println("\n\nP2PBackend::assertNode sending propagate for node " + node.getName());
              
@@ -366,10 +370,10 @@ public class P2PBackendImpl implements P2PBackend {
              	nodeType = OntoramaConfig.UNKNOWN_TYPE;
              }
 			System.out.println("\nnode type for new node: " + nodeType.getName());
-             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserter.toString());
+             Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.ASSERT, asserterUri.toString());
              String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEADD, null, message);
-			this.graph.assertNode(node,asserter);
+			this.graph.assertNode(node,asserterUri);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in assertConcept()");
                e.printStackTrace();
@@ -384,10 +388,11 @@ public class P2PBackendImpl implements P2PBackend {
 
 
     public void rejectNode(P2PNode node, URI rejector) throws GraphModificationException{
+        URI rejectorUri = rejector;
         try {
 			System.out.println("\n\nP2PBackend::rejectNode sending propagate for node " + node.getName());
-            if (rejector == null) {
-                rejector = _defaultUserUri;
+            if (rejectorUri == null) {
+                rejectorUri = _defaultUserUri;
             }
 			NodeType nodeType = node.getNodeType();
 			if (nodeType == null) {
@@ -395,11 +400,11 @@ public class P2PBackendImpl implements P2PBackend {
 			   nodeType = OntoramaConfig.UNKNOWN_TYPE;
 			}
 
-			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejector.toString());
+			Change nodeChange = new NodeChange(node.getIdentifier(), nodeType.getName(), Change.REJECT, rejectorUri.toString());
 			String message = XmlMessageProcessor.createMessage(nodeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
              		
-			this.graph.rejectNode(node,rejector);
+			this.graph.rejectNode(node,rejectorUri);
         } catch (GroupExceptionThread e) {
                e.printStackTrace();
 		} catch (GraphModificationException e) {
@@ -413,20 +418,21 @@ public class P2PBackendImpl implements P2PBackend {
 
 
     public void rejectEdge(P2PEdge edge, URI rejector) throws GraphModificationException, NoSuchRelationLinkException{
+		URI rejectorUri = rejector;
 		try {
 			System.out.println("\n\nP2PBackend::rejectEdge sending propagate for edge " + edge);
-			if (rejector == null) {
-				rejector = _defaultUserUri;
+			if (rejectorUri == null) {
+				rejectorUri = _defaultUserUri;
 			}
 
 			Change edgeChange = new EdgeChange(edge.getFromNode().getIdentifier(), 
 										edge.getToNode().getIdentifier(), 
 										edge.getEdgeType().getName(), 
-										Change.ASSERT, rejector.toString());
+										Change.ASSERT, rejectorUri.toString());
 			String message = XmlMessageProcessor.createMessage(edgeChange);
 			this.sender.sendPropagate(P2PSender.TAGPROPAGATEDELETE, null, message);
              		
-			this.graph.rejectEdge(edge,rejector);
+			this.graph.rejectEdge(edge,rejectorUri);
         } catch (GroupExceptionThread e) {
                System.err.println("An error accured in rejectRelation()");
                e.printStackTrace();
@@ -476,33 +482,6 @@ public class P2PBackendImpl implements P2PBackend {
         return retVal;
     }
 
-    private void makeP2PNode (Node node) throws GraphModificationException {
-        Enumeration e = _graphNodesMapping.keys();
-        while (e.hasMoreElements()) {
-            P2PNode p2pNode = (P2PNode) e.nextElement();
-            Node graphNode = (Node) _graphNodesMapping.get(p2pNode);
-            if (graphNode.equals(node)) {
-                return;
-            }
-        }
-        P2PNode p2pNode = (P2PNode) createNode(node.getName(), node.getIdentifier());
-        _graphNodesMapping.put(p2pNode, node);
-        this.graph.assertNode(p2pNode, node.getCreatorUri());
-    }
-
-    private void makeP2PEdge (Edge edge) throws NoSuchRelationLinkException, GraphModificationException {
-        Enumeration e = _graphEdgesMapping.keys();
-        while (e.hasMoreElements()) {
-            P2PEdge p2pEdge = (P2PEdge) e.nextElement();
-            Edge graphEdge = (Edge) _graphEdgesMapping.get(p2pEdge);
-            if (graphEdge.equals(edge)) {
-                return;
-            }
-        }
-        P2PEdge p2pEdge = (P2PEdge) createEdge(edge.getFromNode(), edge.getToNode(), edge.getEdgeType());
-        _graphEdgesMapping.put(p2pEdge, edge);
-        this.graph.assertEdge(p2pEdge, edge.getCreatorUri());
-    }
 
 	/**
 	 * @see ontorama.backends.Backend#createNode(java.lang.String, java.lang.String)

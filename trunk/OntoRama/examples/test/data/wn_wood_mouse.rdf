@@ -1,0 +1,57 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+         xmlns:dc="http://purl.org/metadata/dublin_core#"
+         xmlns:daml="http://www.daml.org/2000/10/daml-ont#"
+         xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
+
+
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse">
+  <rdfs:label xml:lang="en">wood_mouse</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>any of various New World woodland mice</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Mouse"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#White-footedMouse">
+     <rdfs:label xml:lang="en">white-footed_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">vesper_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">Peromyscus_leucopus</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>American woodland mouse with white feet and underparts</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#DeerMouse">
+     <rdfs:label xml:lang="en">deer_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">Peromyscus_maniculatus</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>brownish New World mouse; most widely distributed member of the genus</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#CactusMouse">
+     <rdfs:label xml:lang="en">cactus_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">Peromyscus_eremicus</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>burrowing mouse of desert areas of southwestern United States</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#CottonMouse">
+     <rdfs:label xml:lang="en">cotton_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">Peromyscus_gossypinus</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>large dark mouse of southeastern United States</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#PygmyMouse">
+     <rdfs:label xml:lang="en">pygmy_mouse</rdfs:label>
+     <rdfs:label xml:lang="en">Baiomys_taylori</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>very small dark grayish brown mouse resembling a house mouse; of Texas and Mexico</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#WoodMouse"/>
+   </rdfs:Class>
+
+
+</rdf:RDF>

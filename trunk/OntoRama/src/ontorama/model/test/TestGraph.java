@@ -44,8 +44,8 @@ public class TestGraph extends TestCase {
     private String rootNodeDescr = "root element here";
     private String node1Descr = "ontType1 for node1";
 
-    private GraphNode node1;
-    private GraphNode node1_2;
+    private NodeImpl node1;
+    private NodeImpl node1_2;
 
 
     /**
@@ -64,26 +64,26 @@ public class TestGraph extends TestCase {
             NoSuchPropertyException,
             NoTypeFoundInResultSetException {
         // set up some _graphEdges and nodes, so we can see if they are cleared properly
-        GraphNode tmpNode1 = new GraphNode("tmpNode1");
-        GraphNode tmpNode2 = new GraphNode("tmpNode2");
-        GraphNode tmpNode3 = new GraphNode("tmpNode3");
+        NodeImpl tmpNode1 = new NodeImpl("tmpNode1");
+        NodeImpl tmpNode2 = new NodeImpl("tmpNode2");
+        NodeImpl tmpNode3 = new NodeImpl("tmpNode3");
         Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
         Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
 
 
         // create queryResult
         Query query = new Query("root");
-        GraphNode gn = new GraphNode("root");
-        GraphNode gn1 = new GraphNode("node1");
-        GraphNode gn2 = new GraphNode("node2");
-        GraphNode gn3 = new GraphNode("node3");
-        GraphNode gn4 = new GraphNode("node1.1");
-        GraphNode gn5 = new GraphNode("node1.2");
+        NodeImpl gn = new NodeImpl("root");
+        NodeImpl gn1 = new NodeImpl("node1");
+        NodeImpl gn2 = new NodeImpl("node2");
+        NodeImpl gn3 = new NodeImpl("node3");
+        NodeImpl gn4 = new NodeImpl("node1.1");
+        NodeImpl gn5 = new NodeImpl("node1.2");
         // create ont types not traceble to root, so we can test
         // if GraphBuilder will ignore them or not. We will not include
         // these into ontTypesList as at the moment we are ignoring them.
-        GraphNode gn6 = new GraphNode("node4");
-        GraphNode gn7 = new GraphNode("node5");
+        NodeImpl gn6 = new NodeImpl("node4");
+        NodeImpl gn7 = new NodeImpl("node5");
 
         List prop1 = new LinkedList();
         prop1.add(rootNodeDescr);
@@ -129,7 +129,7 @@ public class TestGraph extends TestCase {
      * test graph root
      */
     public void testGraphRoot() throws NoSuchPropertyException {
-        GraphNode rootNode = graph.getRootNode();
+        NodeImpl rootNode = graph.getRootNode();
         assertEquals("root", rootNode.getName());
         List propList = rootNode.getProperty(typePropertyName);
         assertEquals(rootNodeDescr, propList.get(0));
@@ -212,11 +212,11 @@ public class TestGraph extends TestCase {
     /**
      *
      */
-    private GraphNode getNodeByName(List nodesList, String name) {
+    private NodeImpl getNodeByName(List nodesList, String name) {
         Iterator it = nodesList.iterator();
-        GraphNode resultNode = null;
+        NodeImpl resultNode = null;
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            NodeImpl cur = (NodeImpl) it.next();
             if ((cur.getName()).equals(name)) {
                 resultNode = cur;
             }

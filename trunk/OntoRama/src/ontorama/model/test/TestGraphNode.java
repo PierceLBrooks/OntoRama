@@ -3,7 +3,7 @@ package ontorama.model.test;
 import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchPropertyException;
-import ontorama.model.GraphNode;
+import ontorama.model.NodeImpl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,14 +25,14 @@ import java.util.List;
 
 public class TestGraphNode extends TestCase {
 
-    private GraphNode node1;
-    private GraphNode node2;
-    private GraphNode node3;
+    private NodeImpl node1;
+    private NodeImpl node2;
+    private NodeImpl node3;
 
     private String fullNameNode1 = "this is node1 full name";
 
-    private GraphNode cloneNode2;
-    private GraphNode cloneNode3;
+    private NodeImpl cloneNode2;
+    private NodeImpl cloneNode3;
 
     private String propName = "Description";
     private List propValue = new LinkedList();
@@ -48,9 +48,9 @@ public class TestGraphNode extends TestCase {
      *
      */
     protected void setUp() throws NoSuchPropertyException {
-        node1 = new GraphNode("node1", fullNameNode1);
-        node2 = new GraphNode("node2");
-        node3 = new GraphNode("node3");
+        node1 = new NodeImpl("node1", fullNameNode1);
+        node2 = new NodeImpl("node2");
+        node3 = new NodeImpl("node3");
 
         propValue.add("description str1");
         propValue.add("description str2");
@@ -146,7 +146,7 @@ public class TestGraphNode extends TestCase {
      */
     public void testMakeClone() throws NoSuchPropertyException {
 
-        GraphNode testCloneNode = node2.makeClone();
+        NodeImpl testCloneNode = node2.makeClone();
 
         assertEquals("number of clones for node2 and cloneNode2 should be the same",
                 IteratorUtil.getIteratorSize(node2.getClones()),
@@ -213,7 +213,7 @@ public class TestGraphNode extends TestCase {
      */
     public static boolean graphNodeNameIsInIterator(String name, Iterator it) {
         while (it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
+            NodeImpl cur = (NodeImpl) it.next();
             if (name.equals(cur.getName())) {
                 return true;
             }

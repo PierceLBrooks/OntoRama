@@ -92,8 +92,6 @@ public class TestGraphNode extends TestCase {
     public void testGetClones() {
 
         // test nodes with clones
-        System.out.println("clones fof node2: " + node2.getClones());
-        System.out.println("clones fof cloneNode2: " + cloneNode2.getClones());
         assertEquals("number of clones for node2", 2, node2.getClones().size());
         assertEquals("number of clones for cloneNode2", 2, cloneNode2.getClones().size());
 

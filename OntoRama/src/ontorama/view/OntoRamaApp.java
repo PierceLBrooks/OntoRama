@@ -574,28 +574,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _statusLabel.setText(statusMessage);
     }
 
-
-//    public static void showUnconnectedNodesList () {
-//        System.out.println("\nshowUnconnectedNodesList()");
-//        System.out.println("status from the action: " + _unconnectedNodesAction.unconnectedNodesListIsShowing());
-//        System.out.println("list isVisible = " + _listViewer.isVisible());
-//        if (_unconnectedNodesAction.unconnectedNodesListIsShowing()) {
-//            System.out.println("TRUE");
-//            _treeSubSplitPane.add(_listViewer);
-//            setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 80);
-//            _listViewer.setVisible(true);
-//        }
-//        else {
-//            System.out.println("FALSE");
-//            _treeSubSplitPane.remove(_listViewer);
-//            setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 100);
-//            _listViewer.setVisible(false);
-//        }
-//        _treeSubSplitPane.repaint();
-//    }
-
-
-
     /**
      * main
      */

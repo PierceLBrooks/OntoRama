@@ -9,11 +9,12 @@
 package ontorama.model.graph.events;
 
 import org.tockit.events.Event;
+import ontorama.model.graph.Node;
 
 public class NodeEvent implements Event {
-    protected ontorama.model.graph.Node subject;
+    protected Node subject;
 
-    public NodeEvent(ontorama.model.graph.Node subject) {
+    public NodeEvent(Node subject) {
         this.subject = subject;
     }
 

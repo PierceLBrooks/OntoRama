@@ -9,10 +9,11 @@
 package ontorama.model.graph.events;
 
 import ontorama.model.graph.events.NodeEvent;
+import ontorama.model.graph.Node;
 
 
 public class NodeSelectedEvent extends NodeEvent {
-    public NodeSelectedEvent(ontorama.model.graph.Node subject) {
+    public NodeSelectedEvent(Node subject) {
         super(subject);
     }
 }

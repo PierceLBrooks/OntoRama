@@ -339,7 +339,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         // draw lines to, and show clones
         Iterator it = this.getTreeNode().getClones().iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.Node cur = (ontorama.model.graph.Node) it.next();
+            TreeNode cur = (TreeNode) it.next();
             HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
             if (hyperNodeView == null) {
                 //System.out.println("HyperNodeView not found for " + cur.getName());

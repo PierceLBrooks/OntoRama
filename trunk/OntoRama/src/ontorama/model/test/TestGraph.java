@@ -31,14 +31,15 @@ import java.util.List;
  * - all private methods
  * - printXml method
  *
- * @think how can we check if nodes that are created are what we expect...
+ * @todo how can we check if nodes that are created are what we expect...
  */
 
 public class TestGraph extends TestCase {
 
     private Graph graph;
 
-    private LinkedList ontTypesList;
+    List _nodesList;
+    List _edgesList;
 
     private String typePropertyName = "Description";
 
@@ -74,38 +75,49 @@ public class TestGraph extends TestCase {
 
         // create queryResult
         Query query = new Query("root");
-        OntologyType ontType = new OntologyTypeImplementation("root");
-        OntologyType ontType1 = new OntologyTypeImplementation("node1");
-        OntologyType ontType2 = new OntologyTypeImplementation("node2");
-        OntologyType ontType3 = new OntologyTypeImplementation("node3");
-        OntologyType ontType4 = new OntologyTypeImplementation("node1.1");
-        OntologyType ontType5 = new OntologyTypeImplementation("node1.2");
+        GraphNode gn = new GraphNode("root");
+        GraphNode gn1 = new GraphNode("node1");
+        GraphNode gn2 = new GraphNode("node2");
+        GraphNode gn3 = new GraphNode("node3");
+        GraphNode gn4 = new GraphNode("node1.1");
+        GraphNode gn5 = new GraphNode("node1.2");
         // create ont types not traceble to root, so we can test
         // if GraphBuilder will ignore them or not. We will not include
         // these into ontTypesList as at the moment we are ignoring them.
-        OntologyType ontType6 = new OntologyTypeImplementation("node4");
-        OntologyType ontType7 = new OntologyTypeImplementation("node5");
+        GraphNode gn6 = new GraphNode("node4");
+        GraphNode gn7 = new GraphNode("node5");
 
-        ontType.addRelationType(ontType1, 1);
-        ontType.addRelationType(ontType2, 2);
-        ontType.addRelationType(ontType3, 1);
-        ontType1.addRelationType(ontType4, 1);
-        ontType1.addRelationType(ontType5, 2);
-        ontType2.addRelationType(ontType5, 1);
-        ontType6.addRelationType(ontType7, 1);
+        List prop1 = new LinkedList();
+        prop1.add(rootNodeDescr);
+        gn.setProperty(typePropertyName, prop1);
 
-        ontType.addTypeProperty(typePropertyName, rootNodeDescr);
-        ontType1.addTypeProperty(typePropertyName, node1Descr);
+        List prop2 = new LinkedList();
+        prop2.add(node1Descr);
+        gn1.setProperty(typePropertyName,prop2);
 
-        ontTypesList = new LinkedList();
-        ontTypesList.add(ontType);
-        ontTypesList.add(ontType1);
-        ontTypesList.add(ontType2);
-        ontTypesList.add(ontType3);
-        ontTypesList.add(ontType4);
-        ontTypesList.add(ontType5);
+        _nodesList.add(gn);
+        _nodesList.add(gn1);
+        _nodesList.add(gn2);
+        _nodesList.add(gn3);
+        _nodesList.add(gn4);
+        _nodesList.add(gn5);
+        _nodesList.add(gn6);
+        _nodesList.add(gn7);
 
-        QueryResult queryResult = new QueryResult(query, ontTypesList.iterator());
+        Edge e = new Edge(gn, gn1, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e1 = new Edge(gn, gn2, OntoramaConfig.getRelationLinkDetails()[2]);
+        Edge e2 = new Edge(gn, gn3, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e3 = new Edge(gn1, gn5, OntoramaConfig.getRelationLinkDetails()[2]);
+        Edge e4 = new Edge(gn2, gn5, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e5 = new Edge(gn6, gn7, OntoramaConfig.getRelationLinkDetails()[1]);
+        _edgesList.add(e);
+        _edgesList.add(e1);
+        _edgesList.add(e2);
+        _edgesList.add(e3);
+        _edgesList.add(e4);
+        _edgesList.add(e5);
+
+        QueryResult queryResult = new QueryResult(query, _nodesList, _edgesList);
 
         graph = new GraphImpl(queryResult);
 
@@ -131,7 +143,7 @@ public class TestGraph extends TestCase {
 
         // adding 1 to ontTypesList size to account for cloned node1.2
         assertEquals("number of nodes should equal number of ontTypes + 1",
-                ontTypesList.size() + 1, nodesList.size());
+                _nodesList.size() + 1, nodesList.size());
     }
 
     /**

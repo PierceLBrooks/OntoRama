@@ -4,8 +4,6 @@ import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.util.Debug;
 import ontorama.view.OntoRamaApp;
-import ontorama.webkbtools.datamodel.OntologyType;
-import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -29,12 +27,6 @@ import java.util.*;
  * Company:     DSTC
  */
 public class GraphImpl implements Graph {
-
-    /**
-     * Hold a list of processed ontology types (ontology types that have
-     * been converted into nodes already)
-     */
-    private List processedTypes = new LinkedList();
 
     /**
      * Hold processed nodes (nodes created for Graph)
@@ -110,9 +102,9 @@ public class GraphImpl implements Graph {
                 "******************* GraphBuilder constructor start *******************");
 
         String termName = queryResult.getQuery().getQueryTypeName();
-        Iterator ontIterator = queryResult.getOntologyTypesIterator();
+        List nodesList = queryResult.getNodesList();
+        List edgesList = queryResult.getEdgesList();
 
-        processedTypes = new LinkedList();
         _topLevelUnconnectedNodes = new LinkedList();
         _graphNodes = new LinkedList();
 
@@ -120,7 +112,7 @@ public class GraphImpl implements Graph {
         removeAllEdges();
 
         try {
-            buildGraph(termName, ontIterator);
+            buildGraph( nodesList, edgesList);
 
             _topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
             listItemsToRemove(_topLevelUnconnectedNodes);
@@ -148,111 +140,41 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    private void buildGraph(String termName, Iterator ontIterator)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
+    private void buildGraph( List nodesList, List edgesList) {
+        _graphNodes = nodesList;
 
-        int count = 0;
-
-        while (ontIterator.hasNext()) {
-            OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-            //System.out.println("ot = " + ot.toString());
-            processOntologyType(ot, termName);
-            count++;
+        Iterator it = edgesList.iterator();
+        while (it.hasNext()) {
+            Edge curEdge = (Edge) it.next();
+            registerEdge(curEdge);
+            checkForCycle(curEdge);
         }
-        System.out.println("\n\n Graph: processed " + count + " types");
     }
 
-    /**
-     * Process given OntologyType, create Node for it and all corresponding Edges.
-     *
-     * @param   ot  - ontoogy edgeType to process
-     * @param   rootName - name of the root node
-     */
-    private void processOntologyType(OntologyType ot, String rootName)
-            throws NoSuchRelationLinkException, NoSuchPropertyException {
-        if (processedTypes.contains(ot)) {
-            return;
-        }
-        processedTypes.add(ot);
 
-        // make GraphNode and set available properties for it.
-        debug.message("----processing ot = " + ot);
-        GraphNode node = getNodeFromNodesList(ot.getName(), ot.getFullName());
-        debug.message("\t corresponding node = " + node);
-        Hashtable conceptPropertiesConfig =
-                OntoramaConfig.getConceptPropertiesTable();
-        Enumeration e = conceptPropertiesConfig.keys();
-        while (e.hasMoreElements()) {
-            String propertyName = (String) e.nextElement();
-            node.setProperty(propertyName, ot.getTypeProperty(propertyName));
-        }
+    private void checkForCycle (Edge oneWayEdge) {
+        GraphNode fromNode = oneWayEdge.getFromNode();
+        GraphNode toNode = oneWayEdge.getToNode();
+        RelationLinkDetails relLinkType = oneWayEdge.getEdgeType();
 
-        // check if this is root
-        if (rootName.equals(node.getName())) {
-            root = node;
-            debug.message("GraphBuilder root = " + root.getName());
-        }
-
-        // Go through relation links and make Edges
-        RelationLinkDetails[] relationLinksDetails = OntoramaConfig.getRelationLinkDetails();
-
-        for (int i = 0; i < relationLinksDetails.length; i++) {
-            RelationLinkDetails relLinkType = relationLinksDetails[i];
-
-//        Iterator relLinks = OntoramaConfig.getRelationLinksSet().iterator();
-//        while (relLinks.hasNext()) {
-//            Integer relLink = (Integer) relLinks.next();
-            Iterator relatedTypes = ot.getIterator(i);
-            while (relatedTypes.hasNext()) {
-                OntologyType relatedType = (OntologyType) relatedTypes.next();
-
-                GraphNode relNode = getNodeFromNodesList(relatedType.getName(), relatedType.getFullName());
-                Edge oneWayEdge = getEdge(node, relNode, relLinkType);
-                Edge reversedEdge = getEdge(relNode, node, relLinkType);
-                if ((oneWayEdge != null) || (reversedEdge != null)) {
-                    String message = "Relation links: ";
-                    message = message + "edge: " + node + " -> " + relNode + " , edgeType = " + relLinkType;
-                    message = message + " and ";
-                    message = message + "edge: " + relNode + " -> " + node + " , edgeType = " + relLinkType;
-                    message = message + " are reversable. This is not going to work in the current graph model, ";
-                    message = message + " we won't display this relation link here.";
-                    message = message + " Please consider moving this relation link into concept properties in the config file.";
-                    //System.err.println("\n\n\none of these edges already exists \n\n\n");
-                    if (oneWayEdge != null) {
-                        removeEdge(oneWayEdge);
-                    }
-                    if (reversedEdge != null) {
-                        removeEdge(reversedEdge);
-                    }
-                    OntoRamaApp.showErrorDialog(message);
-                } else {
-                    Edge edge = new Edge(node, relNode, relLinkType);
-                    this.registerEdge(edge);
-                    debug.message(
-                            "\t edge: "
-                            + node
-                            + " -> "
-                            + relNode
-                            + " , edgeType = "
-                            + relLinkType);
-                    //processOntologyType(relatedType, rootName);
-                }
+        Edge reversedEdge = getEdge(toNode, fromNode, relLinkType);
+        if ((oneWayEdge != null) || (reversedEdge != null)) {
+            String message = "Relation links: ";
+            message = message + "edge: " + fromNode + " -> " + toNode + " , edgeType = " + relLinkType;
+            message = message + " and ";
+            message = message + "edge: " + toNode + " -> " + fromNode + " , edgeType = " + relLinkType;
+            message = message + " are reversable. This is not going to work in the current graph model, ";
+            message = message + " we won't display this relation link here.";
+            message = message + " Please consider moving this relation link into concept properties in the config file.";
+            //System.err.println("\n\n\none of these edges already exists \n\n\n");
+            if (oneWayEdge != null) {
+                removeEdge(oneWayEdge);
             }
+            if (reversedEdge != null) {
+                removeEdge(reversedEdge);
+            }
+            OntoRamaApp.showErrorDialog(message);
         }
-    }
-
-    /**
-     *
-     */
-    private GraphNode getNodeFromNodesList(String nodeName, String fullName) {
-        GraphNode node = (GraphNode) processedNodes.get(nodeName);
-        if (node == null) {
-            node = new GraphNode(nodeName);
-            node.setFullName(fullName);
-            processedNodes.put(nodeName, node);
-            _graphNodes.add(node);
-        }
-        return node;
     }
 
     /**

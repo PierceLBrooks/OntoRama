@@ -9,6 +9,7 @@
 package ontorama.webkbtools.query.parser.cgkb;
 
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -20,6 +21,7 @@ import ontorama.OntoramaConfig;
 
 import java.util.*;
 import java.io.*;
+import java.security.AccessControlException;
 
 public class CgKbCsvParser implements Parser {
 
@@ -27,6 +29,17 @@ public class CgKbCsvParser implements Parser {
      * Hashtable to hold all OntologyTypes that we are creating
      */
     private Hashtable ontHash;
+
+    /**
+     * @todo fix to return ParserResult(not null)
+     * @param reader
+     * @return
+     * @throws ParserException
+     * @throws AccessControlException
+     */
+    public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+        return null;
+    }
 
     public Iterator getOntologyTypeIterator(Reader reader) throws ParserException {
         return getOntologyTypeCollection(reader).iterator();
@@ -168,7 +181,7 @@ public class CgKbCsvParser implements Parser {
             Reader r = sr.getReader();
 
             Parser parser = new CgKbCsvParser();
-            parser.getOntologyTypeCollection(r);
+            parser.getResult(r);
         }
         catch (Exception e) {
             e.printStackTrace();

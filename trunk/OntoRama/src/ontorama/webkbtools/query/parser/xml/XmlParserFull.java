@@ -16,6 +16,7 @@ import ontorama.util.Debug;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
@@ -26,6 +27,7 @@ import org.jdom.input.SAXBuilder;
 
 import java.io.Reader;
 import java.util.*;
+import java.security.AccessControlException;
 
 
 public class XmlParserFull implements Parser {
@@ -46,6 +48,17 @@ public class XmlParserFull implements Parser {
     public XmlParserFull() {
         ontHash = new Hashtable();
 
+    }
+
+    /**
+     * @todo    should return proper ParserResult (not null)
+     * @param reader
+     * @return
+     * @throws ParserException
+     * @throws AccessControlException
+     */
+    public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+        return null;
     }
 
     /**

@@ -7,6 +7,7 @@ import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.inputsource.Source;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.Parser;
+import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.util.ParserException;
 
 import java.io.Reader;
@@ -31,7 +32,8 @@ import java.util.Collection;
 
 public class TestRdfDamlParserComprehensive extends TestCase {
 
-    protected Collection resultCollection;
+    //protected Collection resultCollection;
+    protected ParserResult parserResult;
 
 
     protected String propName_descr = "Description";
@@ -85,7 +87,7 @@ public class TestRdfDamlParserComprehensive extends TestCase {
      *
      */
     protected void buildResultCollection(Parser parser, Reader r) throws ParserException {
-        resultCollection = parser.getOntologyTypeCollection(r);
+        parserResult = parser.getResult(r);
     }
 
 

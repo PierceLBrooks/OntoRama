@@ -10,6 +10,7 @@ package ontorama.webkbtools.inputsource;
  */
 
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
@@ -317,14 +318,14 @@ public class WebKB2Source implements Source {
         List typeNamesList = new LinkedList();
 
         RdfWebkbParser parser = new RdfWebkbParser();
-        Collection colOfTypes = parser.getOntologyTypeCollection(reader);
-        Iterator typesIt = colOfTypes.iterator();
+        List nodesList = parser.getResult(reader).getNodesList();
+        Iterator typesIt = nodesList.iterator();
         while (typesIt.hasNext()) {
-            OntologyType curType = (OntologyType) typesIt.next();
+            GraphNode curNode = (GraphNode) typesIt.next();
             try {
-                List synonyms = curType.getTypeProperty(synPropName);
+                List synonyms = curNode.getProperty(synPropName);
                 if (synonyms.contains(termName)) {
-                    typeNamesList.add(curType);
+                    typeNamesList.add(curNode);
                 }
             } catch (NoSuchPropertyException e) {
                 System.out.println("NoSuchPropertyException for property " + synPropName);

@@ -2,12 +2,15 @@ package ontorama.webkbtools.query.parser.rdf;
 
 import com.hp.hpl.mesa.rdf.jena.model.RDFNode;
 import ontorama.OntoramaConfig;
+import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.query.parser.ParserResult;
 
 import java.io.Reader;
 import java.security.AccessControlException;
@@ -58,19 +61,42 @@ public class RdfWebkbParser extends RdfDamlParser {
      *
      * @todo  think what to do with NoSuchPropertyException and NoSuchRelationLinkException
      */
-    public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
+//    public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
+//        namesMapping = new Hashtable();
+//        newTypesMapping = new Hashtable();
+//
+//        ParserResult pr = super.getResult(reader);
+//        List nodesList = pr.getNodesList();
+//
+//        mapNewNames(nodesList);
+//
+//        try {
+//            List resultList = rewriteNodeNames(nodesList);
+//            return resultList;
+//        } catch (NoSuchPropertyException e1) {
+//            System.out.println("NoSuchPropertyException: " + e1);
+//            System.exit(-1);
+//        } catch (NoSuchRelationLinkException e2) {
+//            System.out.println("NoSuchRelationLinkException: " + e2);
+//            System.exit(-1);
+//        }
+//        return null;
+//    }
+
+    public ParserResult getResult (Reader reader) throws ParserException, AccessControlException {
         namesMapping = new Hashtable();
         newTypesMapping = new Hashtable();
 
-        Collection col = super.getOntologyTypeCollection(reader);
-        //System.out.println("col size = " + col.size());
+        ParserResult pr = super.getResult(reader);
+        List nodesList = pr.getNodesList();
 
-        mapNewNames(col);
+        mapNewNames(nodesList);
 
         try {
-            List resultList = rewriteOntologyTypes(col);
-            //System.out.println("new collection size: " + resultList.size());
-            return (Collection) resultList;
+            List resultNodesList = rewriteNodeNames(nodesList);
+            List resultEdgesList = pr.getEdgesList();
+            ParserResult result = new ParserResult(resultNodesList, resultEdgesList);
+            return result;
         } catch (NoSuchPropertyException e1) {
             System.out.println("NoSuchPropertyException: " + e1);
             System.exit(-1);
@@ -78,8 +104,8 @@ public class RdfWebkbParser extends RdfDamlParser {
             System.out.println("NoSuchRelationLinkException: " + e2);
             System.exit(-1);
         }
-        //System.out.println("new collection size: null");
         return null;
+
     }
 
     /**
@@ -91,36 +117,39 @@ public class RdfWebkbParser extends RdfDamlParser {
      * one of the types is created already!
      * @todo  check if the assumption is safe!
      */
-    protected void addRelationLinkToType(RDFNode fromTypeResource, int relLinkId,
-                                         RDFNode toTypeResource, String linkName)
-            throws NoSuchRelationLinkException {
-        String fromTypeName = stripUri(fromTypeResource);
-        String toTypeName = stripUri(toTypeResource);
+    protected void addEdge (RDFNode fromNodeResource, RelationLinkDetails edgeType, RDFNode toNodeResource)
+                                                            throws NoSuchRelationLinkException {
+        String fromNodeName = stripUri(fromNodeResource);
+        String toNodeName = stripUri(toNodeResource);
 
-        OntologyType fromType = null;
-        OntologyType toType = null;
+        GraphNode fromNode = null;
+        GraphNode toNode = null;
 
-        if (linkName.equals(urlLinkName)) {
-            if (ontTypeExists(fromTypeName)) {
-                toType = getOntTypeByName(toTypeResource.toString(), toTypeResource.toString());
-                fromType = getOntTypeByName(fromTypeName, fromTypeResource.toString());
-            } else {
-                fromType = getOntTypeByName(fromTypeResource.toString(), fromTypeResource.toString());
-                toType = getOntTypeByName(toTypeName, toTypeResource.toString());
+        if (edgeType.getLinkName().equals(urlLinkName)) {
+            if (_nodesHash.containsKey(fromNodeName)) {
+                toNode = getGraphNodeByName(toNodeResource.toString(), toNodeResource.toString());
+                fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
             }
-        } else {
-            fromType = getOntTypeByName(fromTypeName, fromTypeResource.toString());
-            toType = getOntTypeByName(toTypeName, toTypeResource.toString());
+            else {
+                fromNode = getGraphNodeByName(fromNodeResource.toString(), fromNodeResource.toString());
+                toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
+            }
         }
-        //System.out.println("relLink = " + linkName + ", fromType = " + fromType + ", toType = " + toType);
-        fromType.addRelationType(toType, relLinkId);
+        else {
+            fromNode = getGraphNodeByName(fromNodeName, fromNodeResource.toString());
+            toNode = getGraphNodeByName(toNodeName, toNodeResource.toString());
+        }
+
+        Edge newEdge = new Edge(fromNode, toNode, edgeType);
+        _edgesList.add(newEdge);
+
     }
 
     /**
      * write out hashtable mapping old names to new
      */
-    protected void mapNewNames(Collection col) {
-        Iterator it = col.iterator();
+    protected void mapNewNames(List list) {
+        Iterator it = list.iterator();
         while (it.hasNext()) {
             OntologyType cur = (OntologyType) it.next();
             //System.out.println("cur type = " + cur);
@@ -145,11 +174,11 @@ public class RdfWebkbParser extends RdfDamlParser {
     /**
      * rewrite ontology types
      */
-    protected List rewriteOntologyTypes(Collection col)
+    protected List rewriteNodeNames(List list)
             throws NoSuchPropertyException, NoSuchRelationLinkException {
         LinkedList resultList = new LinkedList();
 
-        Iterator it = col.iterator();
+        Iterator it = list.iterator();
         while (it.hasNext()) {
             OntologyType cur = (OntologyType) it.next();
             OntologyType newType = rewriteOntologyType(cur);

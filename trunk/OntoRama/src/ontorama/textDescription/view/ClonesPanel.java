@@ -78,7 +78,7 @@ public class ClonesPanel extends JPanel {
     }
 
     public void update (Iterator clonesIterator) {
-        System.out.println("ClonesPanel, method update");
+        //System.out.println("ClonesPanel, method update");
         this.clones = clonesIterator;
         clonesValuePanel.removeAll();
         clonesValuePanel.updateUI();
@@ -86,8 +86,7 @@ public class ClonesPanel extends JPanel {
         //String clonesString = "";
         while (clonesIterator.hasNext()) {
           GraphNode clone = (GraphNode) clonesIterator.next();
-          System.out.println("clone = " + clone.getName());
-          //clonesString = clonesString + clone.getName() + " ";
+          //System.out.println("clone = " + clone.getName());
           JButton button = new JButton();
           button.setText(clone.getName());
           buttonCloneMapping.put(button,clone);
@@ -95,12 +94,10 @@ public class ClonesPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 GraphNode node = (GraphNode) buttonCloneMapping.get(e.getSource());
                 node.hasFocus();
-                //clone.hasFocus();
             }
           });
           clonesValuePanel.add(button);
         }
-        //clonesValuePanel.add(new JLabel(clonesString));
     }
 
 }

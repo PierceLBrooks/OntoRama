@@ -27,13 +27,14 @@ public class TypeQueryImplementation extends TypeQueryBase {
     * @todo    think what should happen with ParserException
     * @todo   formulate and execute query to webkb and return Reader
     */
-    public Iterator getTypeRelative(String termName) throws Exception {
+    public Iterator getTypeRelative(Query query) throws Exception {
+        String termName = query.getQueryTypeName();
         Iterator iterator = null;
 
         try {
             Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
             //System.out.println("\ngetTypeRelative: OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri + ", source = " + source);
-            Reader r = source.getReader(OntoramaConfig.sourceUri);
+            Reader r = source.getReader(queryUrl);
 
             iterator = parser.getOntologyTypeIterator(r);
             r.close();
@@ -62,10 +63,10 @@ public class TypeQueryImplementation extends TypeQueryBase {
      * Get Iterator of of types related to given type via specified
      * relationLink
      * @todo    think what should happen with ParserException
-     */
     public Iterator getTypeRelative(String termName, int relationLink) {
         return null;
     }
+     */
 
     public String toString() {
         return ("queryUrl = " + queryUrl +

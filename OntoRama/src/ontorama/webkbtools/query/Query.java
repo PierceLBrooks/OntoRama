@@ -66,7 +66,7 @@ public class Query {
      * @return relationLinks Iterator
      */
     public Iterator getRelationLinksIterator () {
-        return this.relationLinks.iterator();
+       return this.relationLinks.iterator();
     }
 
     /**

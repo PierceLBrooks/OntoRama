@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import net.jxta.peergroup.PeerGroup;
-import ontorama.backends.Backend;
+import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
@@ -31,7 +31,7 @@ public class P2PSender{
     public final static int TAGPROPAGATELEAVEGROUP = 6;
 
     private CommunicationProtocol comm = null;
-    private Backend backend = null;
+    private Peer2PeerBackend backend = null;
     private PeersPanel peersPanel = null;
 
 

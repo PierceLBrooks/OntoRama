@@ -31,7 +31,7 @@ public class BackendSearch {
             Iterator backendIt = OntoRamaApp.getBackends().iterator();
 
             while (backendIt.hasNext()) {
-                Backend backend = (Backend) backendIt.next();
+                Peer2PeerBackend backend = (Peer2PeerBackend) backendIt.next();
                 System.out.println("---searching backend " + backend + " for query " + query);
 
                 P2PGraph tempGraph = backend.search(query);
@@ -55,7 +55,7 @@ public class BackendSearch {
         try{
             Iterator backendIt = OntoRamaApp.getBackends().iterator();
             while (backendIt.hasNext()) {
-                Backend backend = (Backend) backendIt.next();
+                Peer2PeerBackend backend = (Peer2PeerBackend) backendIt.next();
                 System.out.println("--1---searching backend " + backend + " for query " + query);
                 if (backend instanceof P2PBackend) {
                     System.out.println("skipping P2PBackend backend");

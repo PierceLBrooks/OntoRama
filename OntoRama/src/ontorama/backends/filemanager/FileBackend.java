@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JMenu;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
+import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.filemanager.gui.FileJMenu;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PGraph;
@@ -40,7 +40,7 @@ import org.tockit.events.EventBrokerListener;
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
-public class FileBackend implements Backend{
+public class FileBackend implements Peer2PeerBackend{
     private P2PGraph graph = null;
     private ontorama.model.graph.Graph ontoramaGraph = null;
     private List panels = null;

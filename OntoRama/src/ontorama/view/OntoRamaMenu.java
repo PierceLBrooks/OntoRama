@@ -46,6 +46,7 @@ public class OntoRamaMenu {
   private JMenu fileMenu;
   private JMenu examplesMenu;
   private JMenu historyMenu;
+  private JMenu helpMenu;
 
   private OntoRamaApp mainApp;
 
@@ -83,7 +84,7 @@ public class OntoRamaMenu {
   /**
    *
    */
-  private int maxHistoryItems = 10;
+  private int maxHistoryItems = 20;
 
   /**
    *
@@ -148,9 +149,20 @@ public class OntoRamaMenu {
     this.historyMenu.setMnemonic(KeyEvent.VK_H);
     buildHistoryMenu();
 
+    this.helpMenu = new JMenu("Help");
+    JMenuItem aboutMenuItem = new JMenuItem("About OntoRama");
+    aboutMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        displayAboutDialog();
+      }
+    });
+    this.helpMenu.add(aboutMenuItem);
+
+
     this.menuBar.add(this.fileMenu);
     this.menuBar.add(this.examplesMenu);
     this.menuBar.add(this.historyMenu);
+    this.menuBar.add(this.helpMenu);
 
     toolBar = new JToolBar();
     //toolBar.setFloatable(false);
@@ -161,6 +173,13 @@ public class OntoRamaMenu {
     JButton forwardButton = toolBar.add(forwardAction);
     toolBar.addSeparator();
 
+  }
+
+  /**
+   * @todo should rethink this (don't like method being public)
+   */
+  public void displayAboutDialog ( ) {
+    AboutOntoRamaDialog aboutDialog = new AboutOntoRamaDialog((Component) mainApp);
   }
 
   /**
@@ -352,15 +371,15 @@ public class OntoRamaMenu {
    */
   public void displayHistoryItem (JCheckBoxMenuItem historyItem) {
 
-    System.out.println("historyItems list = " + historyItems);
+    //System.out.println("historyItems list = " + historyItems);
 
-    System.out.println("displayHistoryItem for " + historyItem.getText());
+    //System.out.println("displayHistoryItem for " + historyItem.getText());
     HistoryElement historyElement = (HistoryElement) this.menuItemHistoryMapping.get(historyItem);
-    System.out.println ("history element = " + historyElement);
+    //System.out.println ("history element = " + historyElement);
 
     // get corresponding example
     OntoramaExample example = historyElement.getExample();
-    System.out.println("corresponding example " + example);
+    //System.out.println("corresponding example " + example);
 
     // find corresponding example and select it
     Enumeration enum = this.menuItemExampleMapping.keys();

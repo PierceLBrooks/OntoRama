@@ -35,12 +35,12 @@ public class GraphViewFocusEventHandler implements EventListener {
         if (graph != null) {
             if (graph.nodeIsInCurrentGivenBranch(graph.getRootNode(), node)) {
                 System.out.println("node is in current displayed branch");
+                this.graphView.focus(node);
             }
             else {
                 System.out.println("node is NOT in current displayed branch");
-                new GraphRootResetEvent(node);
+                this.eventBroker.processEvent( new GraphRootResetEvent(node));
             }
         }
-        this.graphView.focus(node);
     }
 }

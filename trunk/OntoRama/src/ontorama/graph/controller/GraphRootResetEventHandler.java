@@ -24,7 +24,9 @@ public class GraphRootResetEventHandler implements EventListener {
     public void processEvent(Event e) {
 
         GraphNode node = (GraphNode) e.getSubject();
+
         System.out.println("GraphRootResetEventHandler processEvent for node " + node.getName());
+        System.out.println("graphView = " + graphView);
 
         Graph graph = this.graphView.getGraph();
         GraphNode branchRootNode = graph.getBranchRootForNode(node);

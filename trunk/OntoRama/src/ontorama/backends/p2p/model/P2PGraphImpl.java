@@ -74,6 +74,7 @@ public class P2PGraphImpl extends GraphImpl implements P2PGraph,Cloneable {
      * @param userIdUri for the asserter
      */
      public void assertNode(P2PNode node, URI userIdUri) throws GraphModificationException {
+        System.out.println("P2P: assertNode " + node.getName() );
 		try {
 			node.addAssertion(userIdUri);
 			this.addNode(node);

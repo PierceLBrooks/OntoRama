@@ -81,7 +81,7 @@ public class CgKbCsvParser implements Parser {
         String obj1 = tokens[0];
         String rel = tokens[1];
         String obj2 = tokens[2];
-        System.out.println("* ." + obj1 + ".  ." + rel + ".  ." + obj2 + ".");
+        System.out.println(obj1 + "," + rel + "," + obj2 + ".");
 
         try {
             RelationLinkDetails[] relationLinksConfigArray = OntoramaConfig.getRelationLinkDetails();

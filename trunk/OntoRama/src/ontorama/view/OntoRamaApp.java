@@ -67,7 +67,7 @@ public class OntoRamaApp extends JFrame {
     /**
      * graphBuilder
      */
-    private GraphBuilder graphBuilder;
+    //private GraphBuilder graphBuilder;
 
 
     /**
@@ -78,7 +78,7 @@ public class OntoRamaApp extends JFrame {
     /**
      *
      */
-    private QueryPanel queryPanel;
+    public QueryPanel queryPanel;
 
     /**
      * split panel will contain hyper view and tree view
@@ -114,11 +114,11 @@ public class OntoRamaApp extends JFrame {
      * what part of a screen this app window should take (percentage)
      */
     private int appWindowPercent = 80;
-	
-	/**
-	 *
-	 */
-	ViewEventListener viewListener = new ViewEventListener();
+
+    /**
+     *
+     */
+    ViewEventListener viewListener = new ViewEventListener();
 
     /**
      * @todo: introduce error dialogs for exception
@@ -142,27 +142,7 @@ public class OntoRamaApp extends JFrame {
 
         Query query = new Query (termName);
 
-        try {
-            QueryEngine queryEngine = new QueryEngine (query);
-            QueryResult queryResult = queryEngine.getQueryResult();
-
-            graphBuilder = new GraphBuilder(queryResult);
-            graph = graphBuilder.getGraph();
-            //System.out.println(graph.printXml());
-        }
-        catch (NoTypeFoundInResultSetException noTypeExc) {
-            System.err.println(noTypeExc);
-            System.exit(-1);
-        }
-        catch (NoSuchRelationLinkException noRelExc) {
-            System.err.println(noRelExc);
-            System.exit(-1);
-        }
-        catch (Exception e) {
-            System.err.println("Unable to build graph: " + e);
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        graph = getGraphFromQuery(query);
 
         // find preferred sizes for application window.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -176,40 +156,8 @@ public class OntoRamaApp extends JFrame {
         hyperView.setGraph(graph);
         //hyperView.saveCanvasToFile( "hyperView" );
 
-
-        // create a query panel
-        queryPanel = new QueryPanel(hyperView, viewListener);
-        queryPanel.setQueryField(termName);
-        queryPanel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println ("---actionListener for queryPanel");
-
-                List wantedLinks = queryPanel.getWantedRelationLinks();
-                Iterator it = wantedLinks.iterator();
-                while (it.hasNext()) {
-                  Integer relLink = (Integer) it.next();
-                  System.out.println("--wanted link: " + relLink);
-                }
-                //Query query = new Query (termName, wantedLinks);
-
-
-
-                //graphBuilder = new GraphBuilder(queryField.getText());
-                //graph = graphBuilder.getGraph();
-                // update views
-            }
-        } );
-
-
-
         // Create OntoTreeView
         treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
-
-        //Add the scroll panes to a split pane.
-        setSplitPanelSizes(appWidth, appHeight);
-        splitPane.setLeftComponent(hyperView);
-        splitPane.setRightComponent(treeView);
-        splitPane.setOneTouchExpandable(true);
 
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);
@@ -218,6 +166,13 @@ public class OntoRamaApp extends JFrame {
                                //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
+
+        // create a query panel
+        queryPanel = new QueryPanel(hyperView, viewListener, this);
+        queryPanel.setQueryField(termName);
+
+        //Add the scroll panes to a split pane.
+        addComponentsToScrollPanel(hyperView, treeView);
 
         //Add the split pane to this frame.
         getContentPane().add(queryPanel,BorderLayout.NORTH);
@@ -306,6 +261,83 @@ public class OntoRamaApp extends JFrame {
       int xDiff = this.screenWidth - this.appWidth;
       int yDiff = this.screenHeight - this.appHeight;
       return new Point(xDiff/4, yDiff/4);
+    }
+
+    /**
+     * Add the scroll panes to a split pane
+     */
+    private void addComponentsToScrollPanel (JComponent leftComp, JComponent rightComp) {
+        setSplitPanelSizes(this.appWidth, this.appHeight);
+        this.splitPane.setLeftComponent(leftComp);
+        this.splitPane.setRightComponent(rightComp);
+        this.splitPane.setOneTouchExpandable(true);
+    }
+
+    /**
+     *
+     */
+    private Graph getGraphFromQuery (Query query) {
+      Graph graph = null;
+      try {
+          QueryEngine queryEngine = new QueryEngine (query);
+          QueryResult queryResult = queryEngine.getQueryResult();
+
+          GraphBuilder graphBuilder = new GraphBuilder(queryResult);
+          graph = graphBuilder.getGraph();
+          //System.out.println(graph.printXml());
+      }
+      catch (NoTypeFoundInResultSetException noTypeExc) {
+          System.err.println(noTypeExc);
+          System.exit(-1);
+      }
+      catch (NoSuchRelationLinkException noRelExc) {
+          System.err.println(noRelExc);
+          System.exit(-1);
+      }
+      catch (Exception e) {
+          System.err.println("Unable to build graph: " + e);
+          e.printStackTrace();
+          System.exit(-1);
+      }
+      return graph;
+    }
+
+    /**
+     *
+     */
+    public void executeQuery () {
+        System.out.println(".............. EXECUTE QUERY for " + queryPanel.getQueryField() + " ...................");
+
+        List wantedLinks = queryPanel.getWantedRelationLinks();
+        Iterator it = wantedLinks.iterator();
+        while (it.hasNext()) {
+          Integer relLink = (Integer) it.next();
+          System.out.println("--wanted link: " + relLink);
+        }
+        System.out.println("wanted links list: " + wantedLinks);
+        System.out.println("building graph with root = " + queryPanel.getQueryField());
+
+        Query query = new Query (queryPanel.getQueryField(), wantedLinks);
+        //Query query = new Query (queryPanel.getQueryField());
+
+        graph = getGraphFromQuery(query);
+
+        hyperView = new SimpleHyperView(viewListener);
+        hyperView.setGraph(graph);
+
+        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
+
+        addComponentsToScrollPanel(hyperView, treeView);
+
+        hyperView.repaint();
+        treeView.repaint();
+        splitPane.repaint();
+
+
+        //graphBuilder = new GraphBuilder(queryField.getText());
+        //graph = graphBuilder.getGraph();
+        // update views
+
     }
 
 

@@ -15,7 +15,6 @@ import javax.swing.tree.TreePath;
 
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;
-import ontorama.model.NodeObserver;
 
 import ontorama.util.Debug;
 import ontorama.util.event.ViewEventObserver;
@@ -29,7 +28,7 @@ import ontorama.util.event.ViewEventListener;
  * Company:     DSTC
  */
 
-public class OntoTreeNode implements TreeNode, OntoNodeObservable {
+public class OntoTreeNode implements TreeNode{
 
     /**
      * Set to true if this node can have children
@@ -94,6 +93,7 @@ public class OntoTreeNode implements TreeNode, OntoNodeObservable {
      * In this case - tell OntoTreeNode observers to update.
      * (OntoTreeView is an observer for each OntoTreeNode).
      */
+	 /*
     private void notifyTreeChange () {
         // get TreePath for this node and tell tree to update
         TreePath path = getTreePath();
@@ -104,6 +104,7 @@ public class OntoTreeNode implements TreeNode, OntoNodeObservable {
             cur.updateOntoTree( path );
         }
     }
+	*/
 
     /**
      * Recursive build of a stack of nodes from given node through to root

@@ -200,11 +200,11 @@ public class OntoramaConfig {
 
             //FileInputStream configInStream = new FileInputStream(xmlConfigFileLocation);
             //InputStream configInStream = xmlConfigFileLocation.openConnection().getInputStream();
-			//InputStream configInStream = cl.getResourceAsStream("config.xml");
-			InputStream configInStream = getInputStreamFromResource(cl,"config.xml");
-			//System.out.println("input stream = " + configInStream.getClass());
+            //InputStream configInStream = cl.getResourceAsStream("config.xml");
+            InputStream configInStream = getInputStreamFromResource(cl,"config.xml");
+            //System.out.println("input stream = " + configInStream.getClass());
 
-			XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
+            XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
             allRelationsArray = xmlConfig.getRelationLinksArray();
             MAXTYPELINK = allRelationsArray.length;
             relationLinksSet = buildRelationLinksSet (allRelationsArray);
@@ -309,44 +309,44 @@ public class OntoramaConfig {
         return conceptPropertiesRdfMapping;
      }
 
-  /**
-  *
-  * @todo	need an exception for an unknown protocol
-  * @todo       maybe there is a better way to handle that hack with stripping off protocol and "://" from url
-  */
-  private static InputStream getInputStreamFromResource (ClassLoader cl,
-                              String resourceName) throws IOException {
+    /**
+    *
+    * @todo	need an exception for an unknown protocol
+    * @todo       maybe there is a better way to handle that hack with stripping off protocol and "://" from url
+    */
+    private static InputStream getInputStreamFromResource (ClassLoader cl,
+                                String resourceName) throws IOException {
 
-        InputStream resultStream = null;
-        URL url = cl.getResource(resourceName);
+          InputStream resultStream = null;
+          URL url = cl.getResource(resourceName);
 
-        if (url.getProtocol().equalsIgnoreCase("jar")) {
-          //System.out.println("found JAR");
-          //System.out.println("file = " + url.getFile());
-          String pathString = url.getFile();
-          int index = pathString.indexOf("!");
-          String filePath = pathString.substring(0,index);
-          // a hack: strip string 'protocol:/" from the path
-          if (filePath.startsWith("file")) {
-                  int index1 = pathString.indexOf(":") + 1;
-                  filePath = filePath.substring(index1, filePath.length());
+          if (url.getProtocol().equalsIgnoreCase("jar")) {
+            //System.out.println("found JAR");
+            //System.out.println("file = " + url.getFile());
+            String pathString = url.getFile();
+            int index = pathString.indexOf("!");
+            String filePath = pathString.substring(0,index);
+            // a hack: strip string 'protocol:/" from the path
+            if (filePath.startsWith("file")) {
+                    int index1 = pathString.indexOf(":") + 1;
+                    filePath = filePath.substring(index1, filePath.length());
+            }
+
+            //System.out.println("filePath = " + filePath);
+            File file = new File(filePath);
+            ZipFile zipFile = new ZipFile (file);
+            ZipEntry zipEntry = zipFile.getEntry(resourceName);
+            resultStream = (InputStream) zipFile.getInputStream(zipEntry);
           }
-
-          //System.out.println("filePath = " + filePath);
-          File file = new File(filePath);
-          ZipFile zipFile = new ZipFile (file);
-          ZipEntry zipEntry = zipFile.getEntry(resourceName);
-          resultStream = (InputStream) zipFile.getInputStream(zipEntry);
-        }
-        else if (url.getProtocol().equalsIgnoreCase("file")) {
-          resultStream = url.openStream();
-        }
-        else {
-          System.err.println("Dont' know about this protocol: " + url.getProtocol());
-          System.exit(-1);
-        }
-        return resultStream;
-  }
+          else if (url.getProtocol().equalsIgnoreCase("file")) {
+            resultStream = url.openStream();
+          }
+          else {
+            System.err.println("Dont' know about this protocol: " + url.getProtocol());
+            System.exit(-1);
+          }
+          return resultStream;
+    }
 
 }
 

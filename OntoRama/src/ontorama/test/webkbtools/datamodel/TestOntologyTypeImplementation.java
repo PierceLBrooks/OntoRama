@@ -25,6 +25,7 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 public class TestOntologyTypeImplementation extends TestCase {
 
   private String typeName;
+  private String typeFullName;
 
   private OntologyType ontType;
   private OntologyType type1;
@@ -52,8 +53,9 @@ public class TestOntologyTypeImplementation extends TestCase {
   protected void setUp() throws NoSuchRelationLinkException,
                             NoSuchPropertyException {
     typeName = "ontTypeName";
+    typeFullName = "fullNameForOntType";
 
-    ontType = new OntologyTypeImplementation(typeName);
+    ontType = new OntologyTypeImplementation(typeName, typeFullName);
     type1 = new OntologyTypeImplementation("type1");
     type2 = new OntologyTypeImplementation("type2");
     type3 = new OntologyTypeImplementation("type3");
@@ -179,5 +181,23 @@ public class TestOntologyTypeImplementation extends TestCase {
   public void testGetName () {
     assertEquals("type name", typeName, ontType.getName());
   }
+
+  /**
+   *
+   */
+  public void testGetFullName() {
+    assertEquals("type full name", typeFullName, ontType.getFullName());
+  }
+
+  /**
+   *
+   */
+  public void testSetFullName (String fullName) {
+    String testFullName = "anotherFullName";
+    ontType.setFullName(testFullName);
+
+    assertEquals("testing setFullName()", testFullName, ontType.getFullName());
+  }
+
 
 }

@@ -10,8 +10,8 @@ package ontorama.model.util;
 
 import ontorama.model.Node;
 
-public class NodeAlreadyExists extends Exception  {
-    public NodeAlreadyExists(Node node) {
+public class NodeAlreadyExistsException extends Exception  {
+    public NodeAlreadyExistsException(Node node) {
         super("Node " + node.getName() + " is already exists in the graph");
     }
 }

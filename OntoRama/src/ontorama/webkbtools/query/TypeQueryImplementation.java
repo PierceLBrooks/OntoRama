@@ -27,8 +27,7 @@ public class TypeQueryImplementation extends TypeQueryBase {
     * @todo    think what should happen with ParserException
     * @todo   formulate and execute query to webkb and return Reader
     */
-    public Iterator getTypeRelative(Query query) throws Exception {
-        String termName = query.getQueryTypeName();
+    public Iterator getTypeRelative(String termName) throws Exception {
         Iterator iterator = null;
 
         try {

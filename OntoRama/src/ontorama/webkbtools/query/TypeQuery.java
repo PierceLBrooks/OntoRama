@@ -14,7 +14,7 @@ public interface TypeQuery {
      * @param	termName
      * @return	an iterator of OntologyTypes
      */
-    Iterator getTypeRelative(Query query) throws Exception;
+    Iterator getTypeRelative(String termName) throws Exception;
 
     /**
      * Get all terms related to given term via given relationLink.

@@ -41,7 +41,7 @@ public class OntoramaConfig {
 
     private static Hashtable edgesConfig;
     private static List edgeTypesList;
-
+       
     /**
      *
      */
@@ -111,12 +111,13 @@ public class OntoramaConfig {
     public static String defaultBackend = "ontorama.backends.examplesmanager.ExamplesBackend";
 
 	private static String backendName;
-	/// @todo not sure if this should be static - need to check
+	
+	/**
+	 * current backend. Static so we can have static methods that use this var.
+	 */
 	private static Backend _activeBackend;
 	
 	private static List _dataFormatsMappingList;
-
-	public static final String ontoP2P_namespace = "http://www.ontorama.org/ontoP2P#";
 
     /**
      * Values of vars that are set here should be read from
@@ -161,7 +162,6 @@ public class OntoramaConfig {
     public static void loadAllConfig(String examplesConfigLocation,
                                      String propertiesFileLocation, String configFileLocation) {
 
-		/// @todo perhaps ontorama.properties and dataFormatsConfig.xml only need to be loaded once
         try {
             loadPropertiesFile(propertiesFileLocation);
         	loadDataFormatsConfig("dataFormatsConfig.xml");
@@ -329,11 +329,6 @@ public class OntoramaConfig {
         return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
     }
 
-	public static void activateBackend (Backend backend) {
-		/// @todo should have some more functionality: closing off previously active backend, 
-		/// perhaps saving data, etc.
-		OntoramaConfig._activeBackend = backend;
-	}
 
 	public static Backend getBackend () {
 		return OntoramaConfig._activeBackend;
@@ -342,6 +337,7 @@ public class OntoramaConfig {
 	public static Backend instantiateBackend(String backendName, Frame parentFrame) {
 		try {
 			Backend backend = (Backend) Class.forName(backendName).newInstance();
+			OntoramaConfig._activeBackend = backend;
 			return backend;
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();

@@ -46,7 +46,6 @@ public class TestRdfP2pBaseParser extends TestCase {
     protected void setUp() throws Exception {
     	
     	Backend backend = OntoramaConfig.instantiateBackend("ontorama.backends.p2p.P2PBackend", null);
-    	OntoramaConfig.activateBackend(backend);
 
         OntoramaConfig.loadAllConfig("examples/test/p2p/examplesConfig.xml",
                 "ontorama.properties", "examples/test/p2p/config.xml");

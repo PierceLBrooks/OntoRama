@@ -71,7 +71,6 @@ public class TestWebKB2Source extends TestCase {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
     	backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
-    	OntoramaConfig.activateBackend(backend);
     	           
         backend.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
         sourceUri = backend.getSourceUri();

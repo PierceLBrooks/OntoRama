@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.hyper.view.simple;
+package ontorama.view.hyper.view.simple;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

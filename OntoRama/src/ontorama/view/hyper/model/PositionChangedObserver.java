@@ -1,4 +1,4 @@
-package ontorama.hyper.model;
+package ontorama.view.hyper.model;
 
 /**
  * NodeObserver is part of the MVC parten for updating

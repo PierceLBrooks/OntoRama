@@ -6,11 +6,11 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.hyper.controller;
+package ontorama.view.hyper.controller;
 
 import ontorama.model.graph.controller.NodeSelectedEvent;
-import ontorama.hyper.view.simple.HyperNodeView;
-import ontorama.hyper.view.simple.SimpleHyperView;
+import ontorama.view.hyper.view.simple.HyperNodeView;
+import ontorama.view.hyper.view.simple.SimpleHyperView;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

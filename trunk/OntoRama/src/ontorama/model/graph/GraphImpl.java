@@ -15,9 +15,6 @@ import ontorama.model.graph.events.EdgeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.model.graph.events.NodeAddedEvent;
 import ontorama.model.graph.events.NodeRemovedEvent;
-import ontorama.model.util.EdgeAlreadyExistsException;
-import ontorama.model.util.GraphModificationException;
-import ontorama.model.util.NodeAlreadyExistsException;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
@@ -562,7 +559,7 @@ public class GraphImpl implements Graph {
     /**
      *
      * @param node1 node2
-     * @throws ontorama.model.util.GraphModificationException
+     * @throws ontorama.model.graph.GraphModificationException
      * @todo stupid method - only for one purpose - not to throw and exception where we don't want it.
      * need to rethink exceptions structure.
      */

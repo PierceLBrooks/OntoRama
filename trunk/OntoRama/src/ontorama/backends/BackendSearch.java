@@ -5,7 +5,7 @@ import java.util.Iterator;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PGraphImpl;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.view.OntoRamaApp;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.NoSuchRelationLinkException;

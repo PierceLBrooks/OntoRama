@@ -11,7 +11,7 @@ package ontorama.backends.p2p.model;
 import java.net.URI;
 
 import ontorama.model.graph.Graph;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;

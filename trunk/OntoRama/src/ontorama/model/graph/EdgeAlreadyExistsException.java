@@ -6,7 +6,7 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.util;
+package ontorama.model.graph;
 
 import ontorama.model.graph.Edge;
 

@@ -6,9 +6,10 @@
  * To change template for new class use 
  * Code Style | Class Templates options (Tools | IDE Options).
  */
-package ontorama.model.util;
+package ontorama.model.graph;
 
 import ontorama.model.graph.Node;
+import ontorama.model.graph.GraphModificationException;
 
 public class NodeAlreadyExistsException extends GraphModificationException  {
     public NodeAlreadyExistsException(ontorama.model.graph.Node node) {

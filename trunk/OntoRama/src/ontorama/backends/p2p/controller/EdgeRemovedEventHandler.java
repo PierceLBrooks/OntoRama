@@ -6,7 +6,7 @@ import ontorama.backends.p2p.model.P2PEdgeImpl;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.EdgeRemovedEvent;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;

@@ -8,7 +8,7 @@ import java.util.List;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.PeersPanel;
-import ontorama.model.util.GraphModificationException;
+import ontorama.model.graph.GraphModificationException;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.NoSuchRelationLinkException;

@@ -44,7 +44,6 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener {
     private JTree tree;
     private OntoTreeNode focusedNode;
 
-
     /**
      * Constructor
      */

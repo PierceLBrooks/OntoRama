@@ -185,7 +185,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         setStatusLabel("status bar is here");
 
         EventBroker eventBroker = new EventBroker();
-        new LoggingEventListener(eventBroker, CanvasItemEvent.class, Object.class, System.out);
+        //new LoggingEventListener(eventBroker, CanvasItemEvent.class, Object.class, System.out);
 
         _descriptionViewPanel = new DescriptionView(eventBroker);
 
@@ -196,13 +196,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _listViewer = new NodesListViewer(eventBroker, new LinkedList());
 
         _treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        _treeSubSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         _treeSubSplitPane.add(_treeView);
-        //_treeSubSplitPane.add(_listViewer);
+       // _treeSubSplitPane.add(_listViewer);
 
 //        addComponentsToScrollPanel(_hyperView, _treeView);
         addComponentsToScrollPanel(_hyperView, _treeSubSplitPane);
-        //setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 80);
+        //setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 100);
         showUnconnectedNodesList(_unconnectedNodesAction.unconnectedNodesListIsShowing());
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
@@ -331,15 +330,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         int topPanelHeight = (totalComponentHeight * topComponentHeightPercentage)/100;
         int bottomPaneHeight = totalComponentHeight - topPanelHeight - splitPane.getDividerSize();
 
-        System.out.println("total width = " + totalComponentWidth + ", total height = " + totalComponentHeight  +
-                ", topPanelHeight = " + topPanelHeight + ", bottomPanelHeight = " + bottomPaneHeight);
         topComponent.setPreferredSize(new Dimension(totalComponentWidth, topPanelHeight));
         bottomComponent.setPreferredSize(new Dimension(totalComponentWidth, bottomPaneHeight));
         splitPane.setPreferredSize(new Dimension(totalComponentWidth, totalComponentHeight));
         splitPane.setDividerLocation(topPanelHeight);
-
-
-
     }
 
 
@@ -397,6 +391,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         JButton forwardButton = _backForwardToolBar.add(_forwardAction);
         _backForwardToolBar.add(forwardButton);
+
+
+        _backForwardToolBar.addSeparator();
 
         JButton unconnectedNodesButton = _backForwardToolBar.add(_unconnectedNodesAction);
         _backForwardToolBar.add(unconnectedNodesButton);
@@ -480,10 +477,15 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         _listViewer.setNodesList(graph.getUnconnectedNodesList());
         if (graph.getUnconnectedNodesList().size() > 0){
+            System.out.println("\n num of unconnected nodes > 0");
             _unconnectedNodesAction.setEnabled(true);
+            _unconnectedNodesAction.setUnconnectedNodesShowingStatus(true);
+            OntoRamaApp.showUnconnectedNodesList(true);
         }
         else {
+            System.out.println("\n num of unconnected nodes <= 0");
             _unconnectedNodesAction.setEnabled(false);
+            _unconnectedNodesAction.setUnconnectedNodesShowingStatus(false);
             OntoRamaApp.showUnconnectedNodesList(false);
         }
     }
@@ -566,37 +568,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         return false;
     }
 
-//    /**
-//     *
-//     */
-//    private void showUnconnectedNodes() {
-//        List unconnectedNodes = _graph.getUnconnectedNodesList();
-//        if (unconnectedNodes.size() != 0) {
-//            closeUnconnectedNodesView();
-//            _listViewer = new NodesListViewer(this, unconnectedNodes);
-//            _listViewer.showList(true);
-//        }
-//    }
-//
-//    /**
-//     *
-//     */
-//    private void closeUnconnectedNodesView() {
-//        if (_listViewer != null) {
-//            _listViewer.dispose();
-//            _listViewer = null;
-//        }
-//    }
-
-//    /**
-//     *
-//     */
-//    protected void resetGraphRoot(GraphNode newRootNode) {
-//        setGraphInViews(_graph);
-//        _graph.setRoot(newRootNode);
-//        updateViews();
-//    }
-
     /**
      *
      */
@@ -629,14 +600,19 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
 
     public static void showUnconnectedNodesList (boolean showList) {
+        System.out.println("\nshowUnconnectedNodesList(), showList =  " + showList);
         if (showList) {
+            System.out.println("TRUE");
             _treeSubSplitPane.add(_listViewer);
             setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 80);
             _listViewer.setVisible(true);
         }
         else {
+            System.out.println("FALSE");
             _treeSubSplitPane.remove(_listViewer);
+            setVerticalSplitPanelSizes(_treeSubSplitPane, _treeView, _listViewer,_mainSplitPaneWidth, _mainSplitPaneHeight, 100);
         }
+        _treeSubSplitPane.repaint();
     }
 
 

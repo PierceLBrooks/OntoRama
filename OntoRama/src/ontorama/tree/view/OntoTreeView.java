@@ -123,6 +123,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.tree.setEditable(false);
+        this.tree.putClientProperty("JTree.lineStyle", "Angled");
+       
 
         //Listen for when the selection changes.
         //this.tree.addTreeSelectionListener(this);

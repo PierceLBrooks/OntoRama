@@ -1,8 +1,10 @@
 package ontorama.backends.p2p.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -18,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.p2p.model.Change;
@@ -36,14 +39,16 @@ import ontorama.model.graph.NodeType;
 public class ChangePanel extends JPanel {
 
 
-    MyTableModel _myModel;
+    ChangesTableModel _tableModel;
     JTable _table;
 
     public ChangePanel() {
         super();
 
-        _myModel = new MyTableModel();
-        _table = new JTable(_myModel);
+        _tableModel = new ChangesTableModel();
+        
+        _table = new JTable(_tableModel);
+        initColumnSizes(_table, _tableModel);
         	
 		TableCellRenderer renderer_0 = _table.getDefaultRenderer(_table.getColumnClass(0));
 		if (renderer_0 instanceof DefaultTableCellRenderer) {
@@ -53,7 +58,7 @@ public class ChangePanel extends JPanel {
 		_table.setDefaultRenderer(Change.class, new ChangeCellRenderer());
         
               
-        Dimension d = new Dimension(250, 400);
+        Dimension d = new Dimension(300, 300);
         
         //_table.setPreferredScrollableViewportSize(d);
 
@@ -61,41 +66,111 @@ public class ChangePanel extends JPanel {
         scrollPane.setPreferredSize(d);
         
         JButton acceptButton = new JButton("Accept");
-        acceptButton.setToolTipText("Accept these changes and add them to your model");
+        acceptButton.setToolTipText("Accept changes selected in the table and add them to your model");
         acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				for (int i = 0; i < _myModel.getRowCount(); i++) {
-					System.out.println("col 1 value for row " + i + " is " + _myModel.getValueAt(i,0));
-				}
+				List selectedChanges = getChangesForSelectedRows();
 			}
         });
         
-        JPanel buttonsPanel = new JPanel(new FlowLayout());
-        buttonsPanel.add(acceptButton);
-        
+		JButton rejectButton = new JButton("Reject");
+		rejectButton.setToolTipText("Reject changes selected in the table");
+		rejectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				List selectedChanges = getChangesForSelectedRows();
+			}
+		});
 
-        add(scrollPane);
-        add(buttonsPanel);
+		JButton ignoreButton = new JButton("Ignore");
+		ignoreButton.setToolTipText("Ignore selected changes");
+		ignoreButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				List selectedChanges = getChangesForSelectedRows();
+			}
+		});
+
+        JPanel buttonsPanel = new JPanel(new BorderLayout());
+
+        JPanel panel1 = new JPanel(new FlowLayout());
+        panel1.add(acceptButton);
+        panel1.add(rejectButton);
+        panel1.add(ignoreButton);
+
+        JButton resetButton = new JButton("Clear table");
+        resetButton.setToolTipText("Remove all changes from the table");
+        resetButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				empty();
+			} 
+        });
+        
+        buttonsPanel.add(panel1, BorderLayout.CENTER);
+        buttonsPanel.add(resetButton, BorderLayout.SOUTH);
+
+		setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+        add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     public void addChange (Change change) {
-        _myModel.addRow(change);
+        _tableModel.addRow(change);
         repaint();
     }
 
     public void empty() {
-         _myModel.clearTable();
+         _tableModel.clearTable();
          repaint();
     }
 
-    class MyTableModel extends AbstractTableModel {
+	private List getChangesForSelectedRows() {
+		List result = new LinkedList();
+		for (int i = 0; i < _tableModel.getRowCount(); i++) {
+			System.out.println("col 1 value for row " + i + " is " + _tableModel.getValueAt(i,0));
+			TableRow row = (TableRow) _tableModel.getValueAt(i);
+			for (int j = 0; j < _tableModel.getColumnCount(); j++) {
+				if (row.getValueAt(j) instanceof Change) {
+					result.add(row.getValueAt(j));
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	/*
+	  * This method picks good column sizes.
+	  * If all column heads are wider than the column's cells' 
+	  * contents, then you can just use column.sizeWidthToFit().
+	  */
+	 private void initColumnSizes (JTable table, ChangesTableModel model) {
+		 for (int i = 0; i < model.getColumnCount(); i++) {
+			 TableColumn column = table.getColumnModel().getColumn(i);
+
+			 Component comp = table.getDefaultRenderer(model.getColumnClass(i)).
+							  getTableCellRendererComponent(
+								  table, _tableModel.getLongValues()[i],
+								  false, false, 0, i);
+			 int cellWidth = comp.getPreferredSize().width;
+
+			 //System.out.println("Initializing width of column "	+ i + "; cellWidth = " + cellWidth);
+
+			column.setPreferredWidth(cellWidth);
+		 }
+	 } 
+
+    class ChangesTableModel extends AbstractTableModel {
+        
         private final static int columnsNum = 5;
 
-        String[] columnNames = {"","","+/-","Details", "Peer"};
+        private String[] columnNames = {"","","+/-","Details", "Peer"};
+        
+		private final Object[] longValues = {Boolean.TRUE, "node", "+/-", 
+										"http://www.ontorama.org/wn#TrueCat -> wn#Cat", 
+										"peer 1"};        
 
-        List rowsList;
+        private List rowsList;
 
-        public MyTableModel () {
+        public ChangesTableModel () {
         	rowsList = new LinkedList();
         }
 
@@ -172,6 +247,10 @@ public class ChangePanel extends JPanel {
 			tableRow.setValueAt(value, col); 
 			fireTableRowsUpdated(row, col);
 		}
+		
+		public Object [] getLongValues () {
+			return longValues;
+		}
 
     }
     
@@ -218,16 +297,15 @@ public class ChangePanel extends JPanel {
 					ImageIcon icon = null;
 					if (value instanceof NodeChange) {
 						NodeChange nodeChange = (NodeChange) value;
-						//setText("node");
 						setToolTipText("Node");
 						icon = getNodeIcon(nodeChange);
 					}
 					else {
 						EdgeChange edgeChange = (EdgeChange) value;
-						//setText("edge");
-						setToolTipText("Edge");
+						setToolTipText("Edge: " + edgeChange.getEdgeType());
 						icon = getEdgeIcon(edgeChange);
 					}
+					setText("");
 					setIcon(icon);
 					break;
 				case 2 :
@@ -275,7 +353,9 @@ public class ChangePanel extends JPanel {
 			if (nodeType == null) {
 				nodeType = OntoramaConfig.UNKNOWN_TYPE;
 			}
-			return new ImageIcon(OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getImage());
+			Image nodeImage = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getImage();
+			//Image scaledImage = nodeImage.getScaledInstance(10,10, Image.SCALE_DEFAULT);
+			return new ImageIcon(nodeImage);
 		}
 		
 		private ImageIcon getEdgeIcon (EdgeChange edgeChange) {
@@ -288,7 +368,9 @@ public class ChangePanel extends JPanel {
 					edgeType = cur;
 				}
 			}
-			return new ImageIcon( OntoramaConfig.getEdgeDisplayInfo(edgeType).getImage());
+			Image edgeImage = OntoramaConfig.getEdgeDisplayInfo(edgeType).getImage();
+			//Image scaledImage = edgeImage.getScaledInstance(20,10,Image.SCALE_DEFAULT);
+			return new ImageIcon( edgeImage);
 		}
     	
     }

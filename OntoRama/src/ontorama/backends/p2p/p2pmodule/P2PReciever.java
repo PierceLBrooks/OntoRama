@@ -13,9 +13,8 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.query.Query;
 
-
 /**
- *This Class implements the functionality for handeling input from the network
+ * This Class implements the functionality for handeling input from the network
  *
  * @author henrika
  * @author johang
@@ -27,7 +26,6 @@ import ontorama.ontotools.query.Query;
  *
  * @todo handle the exception better
  */
-
 public class P2PReciever implements P2PRecieverInterface{
     public final static int TAGPROPAGATEADD = 1;
     public final static int TAGPROPAGATEDELETE = 2;

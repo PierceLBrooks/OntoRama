@@ -301,14 +301,18 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         Rectangle2D bounds = displayShape.getBounds2D();
 
         double scale;
+        double xOffset = -bounds.getX();
+        double yOffset = -bounds.getY();
         if(bounds.getWidth()/width > bounds.getHeight()/height) {
             scale = width/bounds.getWidth();
+            yOffset += (bounds.getHeight() - scale * height)/2;
         } else {
             scale = height/bounds.getHeight();
+            xOffset += (bounds.getWidth() - scale * width)/2;
         }
 
         g2.scale(scale,scale);
-        g2.translate(-bounds.getX(), -bounds.getY());
+        g2.translate(xOffset, yOffset);
         g2.fill(displayShape);
         g2.setColor(Color.black);
         g2.draw(displayShape);

@@ -1,0 +1,140 @@
+
+
+#Clotho  (^the Fate who spins the thread of life; identified with Roman Nona^)
+   ^  #Greek_deity,
+   ~  #Nona,
+   M  #Moirai;
+
+
+<rdfs:Resource rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Clotho">
+  <rdfs:label xml:lang="en">Clotho</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>the Fate who spins the thread of life; identified with Roman Nona</rdfs:comment>
+  <rdf:type rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#GreekDeity"/>
+  <pm:similar rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Nona"/>
+</rdfs:Resource>
+
+=======================================================================================
+
+#Aphrodite__Cytherea  (^goddess of love and beauty and daughter of Zeus in ancient mythology; identified with Roman Venus^)
+   ^  #Greek_deity,
+   ~  #Venus.Roman_deity;
+
+
+<rdfs:Resource rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Aphrodite">
+  <rdfs:label xml:lang="en">Aphrodite</rdfs:label>
+  <rdfs:label xml:lang="en">Cytherea</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>goddess of love and beauty and daughter of Zeus in ancient mythology; identified with Roman Venus</rdfs:comment>
+  <rdf:type rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#GreekDeity"/>
+  <pm:similar rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Venus.RomanDeity"/>
+</rdfs:Resource>
+
+==========================================================================================
+
+#Moirai__Moirae (^the 3 goddesses of fate or destiny; identified with the Roman Parcae and similar to the Norse Norns^)
+   ^  #Greek_deity,
+   m  #Clotho  #Lachesis  #Atropos;
+
+
+
+<rdfs:Resource rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Moirai">
+  <rdfs:label xml:lang="en">Moirai</rdfs:label>
+  <rdfs:label xml:lang="en">Moirae</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>the 3 goddesses of fate or destiny; identified with the Roman Parcae and similar to the Norse Norns</rdfs:comment>
+  <rdf:type rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#GreekDeity"/>
+  <pm:wnMember rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Clotho"/>
+  <pm:wnMember rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Lachesis"/>
+  <pm:wnMember rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Atropos"/>
+</rdfs:Resource>
+
+============================================================================================
+
+#Chardonnay__chardonnay_grape (^white wine grape^)
+   <  #Vitis_vinifera,
+   s  #Pinot_Chardonnay;
+
+
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Chardonnay">
+  <rdfs:label xml:lang="en">Chardonnay</rdfs:label>
+  <rdfs:label xml:lang="en">chardonnay_grape</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>white wine grape</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#VitisVinifera"/>
+  <pm:substance rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#PinotChardonnay"/>
+</rdfs:Class>
+
+==============================================================================================
+
+pm#thing__something__top_concept_type  (^something that is not a relation^)
+   > {(pm#situation pm#entity)} {pm#thing_playing_some_role sowa#independent_thing} {sowa#physical_thing sowa#abstract_thing} {sowa#continuant sowa#occurrent},
+   ^  rdfs#class,
+   /  pm#relation;
+
+
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/pm#Thing">
+  <rdfs:label xml:lang="en">thing</rdfs:label>
+  <rdfs:label xml:lang="en">something</rdfs:label>
+  <rdfs:label xml:lang="en">top_concept_type</rdfs:label>
+  <dc:Creator>philippe.martin@gu.edu.au</dc:Creator>
+  <rdfs:comment>something that is not a relation</rdfs:comment>
+  <rdf:type rdf:resource="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#Class"/>
+  <daml:disjointUnionOf rdf:parseType="daml:List">
+    <daml:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/pm#Situation"/>
+    <daml:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/pm#Entity"/>  </daml:disjointUnionOf>
+  <daml:complementOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/pm#relation"/>
+</rdfs:Class>
+ 
+
+=================================================================================================
+Oz#DSTC  (^Distributed System Technology Centre^)
+   u  http://www.dstc.edu.au/
+   l  #Brisbane
+   m  jason@dstc.edu.au  ...
+   ^  pm#research_center
+
+
+<rdfs:Resource rdf:about="http://meganesia.int.gu.edu.au/~phmartin/WebKB/kb/theKB.rdf/pm#DSTC">
+     <dc:Creator>philippe.martin@gu.edu.au</dc:Creator>
+     <rdfs:comment>Distributed System Technology Centre</rdfs:comment>
+     <rdf:type rdf:resource="http://meganesia.int.gu.edu.au/~phmartin/WebKB/kb/theKB.rdf/pm#Research
+Center"/>
+     <pm:url rdf:resource="http://www.dstc.edu.au/"/>
+     <pm:location rdf:resource="http://meganesia.int.gu.edu.au/~phmartin/WebKB/kb/theKB.rdf/wn#Brisb
+ane"/>
+     <pm:wnMember rdf:resource="jason@dstc.edu.au"/>
+</rdfs:Resource>
+
+====================================================================================================
+
+#telecommunication_domain__telecommunication  (^(often plural) the branch of electrical engineering concerned with the technology of electronic communication at a distance^)
+   <  #electrical_engineering,
+   o  comms#network_object (comms)  comms#telecom_object (comms)  comms#switching_object (comms)  comms#transmission_object (comms);
+
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TelecommunicationDomain">
+  <rdfs:label xml:lang="en">telecommunication_domain</rdfs:label>
+  <rdfs:label xml:lang="en">telecommunication</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>(often plural) the branch of electrical engineering concerned with the technology of electronic communication at a distance</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#ElectricalEngineering"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#NetworkObject"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#TelecomObject"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#SwitchingObject"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#TransmissionObject"/>
+</rdfs:Class>
+
+=====================================================================================================
+
+part
+
+<rdfs:Class rdf:about="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Canine_2">
+     <rdfs:label xml:lang="en">canine</rdfs:label>
+     <rdfs:label xml:lang="en">canid</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of various fissiped mammals with nonretractile claws and typically long muzzles</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Carnivore"/>
+     <pm:part rdf:resource="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/kb/theKB_terms.rdf/wn#Paw"/>
+</rdfs:Class>
+
+=========================================================================================================

@@ -26,8 +26,12 @@ import ontorama.ui.ErrorPopupMessage;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.model.graph.events.GraphLoadedEvent;
+import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchTypeInQueryResult;
+import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;
@@ -127,7 +131,7 @@ public class FileBackend implements Backend {
     
     	System.out.println("FileBackend::parserName = " + _parserName);
        
-       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query(getSourcePackageName(), getParser(), getSourceUri()));
+       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
        _eventBroker.processEvent(queryEvent);
     }
 
@@ -216,9 +220,10 @@ public class FileBackend implements Backend {
 	/**
 	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
 	 */
-	public QueryResult executeQuery(Query query) {
-		/// @todo implement!
-		return null;
+	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
+		QueryEngine queryEngine = new QueryEngine( _sourcePackageName, _parserName, _filename);
+		QueryResult queryResult = queryEngine.getQueryResult(query);
+		return queryResult;
 	}
 
 }

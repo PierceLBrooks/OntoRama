@@ -52,7 +52,7 @@ public class TestRdfP2pBaseParser extends TestCase {
                 "ontorama.properties", "examples/test/p2p/config.xml");
 
         Source source = (Source) (Class.forName(sourcePackageName).newInstance());       
-        Reader r = source.getSourceResult(sourceUri, new Query("wn#Tail","","","")).getReader();
+        Reader r = source.getSourceResult(sourceUri, new Query("wn#Tail")).getReader();
         Parser parser = new RdfP2pParser();
         ParserResult parserResult = parser.getResult(r);
 

@@ -74,7 +74,7 @@ public class NodesListViewer extends JComboBox {
                 ontorama.model.graph.Node selectedNode = (ontorama.model.graph.Node) selectedObject;
                 System.out.println("\n\nsending new QueryNodeEvent");
                 Backend backend = OntoramaConfig.getBackend();
-                Query newQuery = new Query(selectedNode.getName(),backend.getSourcePackageName(), backend.getParser(), backend.getSourceUri());
+                Query newQuery = new Query(selectedNode.getName());
                 _eventBroker.processEvent(new GeneralQueryEvent(newQuery));
             }
         });

@@ -22,8 +22,11 @@ import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+
 import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.util.SourceException;
+
+import ontorama.view.ErrorPopupMessage;
 
 
 /**
@@ -208,7 +211,8 @@ public class OntoramaConfig {
      *
      */
     private static void fatalExit (String message, Exception e) {
-      System.err.println(message);
+      ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, null);
+      //System.err.println(message);
       System.err.println("Exception: " + e);
       System.exit(1);
     }
@@ -227,7 +231,7 @@ public class OntoramaConfig {
 //          fatalExit("Unable to read xml configuration file, IOException", ioe);
 //        }
         catch (SourceException sourceExc) {
-          fatalExit("Unable properties or configuration file in, SourceException", sourceExc);
+          fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
         }
         catch ( ConfigParserException cpe ) {
           fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);

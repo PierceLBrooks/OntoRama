@@ -25,6 +25,7 @@ import java.awt.*;
 public class XmlConfigParser extends XmlParserAbstract {
 
     private static Hashtable edgesConfig;
+    private List edgesOrdering;
 
     /**
      *
@@ -87,6 +88,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
         relationRdfMappingList = new LinkedList();
         edgesConfig = new Hashtable();
+        edgesOrdering = new LinkedList();
 
         try {
             SAXBuilder builder = new SAXBuilder();
@@ -96,15 +98,7 @@ public class XmlConfigParser extends XmlParserAbstract {
             _rootElement = doc.getRootElement();
 
             parse();
-
-//            Element ontologyEl = _rootElement.getChild(ontologyElementName);
-//            Element displayInfoEl = _rootElement.getChild(displayInfoElementName);
             Element rdfMappingEl = _rootElement.getChild(rdfMappingElementName);
-//
-//            parseOntologyElement(ontologyEl);
-
-            //parseDisplayInfoElement(displayInfoEl);
-
             if (rdfMappingEl != null) {
                 parseRelationRdfMappingElement(rdfMappingEl);
             }
@@ -120,7 +114,6 @@ public class XmlConfigParser extends XmlParserAbstract {
     }
 
     private void parse () throws ConfigParserException {
-        System.out.println("parse() method");
         Element ontologyElement = _rootElement.getChild(ontologyElementName);
         List relationElementsList = ontologyElement.getChildren(relationElementName);
         if (relationElementsList.size() == 0) {
@@ -134,9 +127,8 @@ public class XmlConfigParser extends XmlParserAbstract {
             EdgeType edgeType = parseRelation(relationElement, relationElement.getAttribute(idAttributeName));
             EdgeTypeDisplayInfo displayInfo = getDisplayInfo(relationId, edgeType);
             edgesConfig.put(edgeType, displayInfo);
-            System.out.println("edgeType = " + edgeType + ", displayInfo = " + displayInfo);
+            edgesOrdering.add(edgeType);
         }
-        System.out.println("parse() method END");
     }
 
 
@@ -332,6 +324,10 @@ public class XmlConfigParser extends XmlParserAbstract {
      */
     public List getRelationRdfMappingList() {
         return this.relationRdfMappingList;
+    }
+
+    public List getEdgesOrdering() {
+        return this.edgesOrdering;
     }
 
 }

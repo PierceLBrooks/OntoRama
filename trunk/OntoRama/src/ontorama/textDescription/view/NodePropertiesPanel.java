@@ -33,6 +33,7 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
 
     public NodePropertiesPanel(String propName, List propValue) {
         _propName = propName;
+        System.out.println("nodePropertiesPanel, propName = " + propName);
         _propValue = propValue;
         initLabels();
 

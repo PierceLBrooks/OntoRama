@@ -42,14 +42,8 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private ClonesPanel _clonesPanel;
 
-    /**
-     * @todo  think of a way to not hardcode clones
-     */
     String _clonesLabelName = "Clones";
 
-    /**
-     * @todo  think of a way to not hardcode _fullUrlPropName
-     */
     private String _fullUrlPropName = "Full Url ";
 
     /**
@@ -63,7 +57,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private String _reverseRelationLinkName;
-    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
+    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgesOrdering().get(0);
 
     /**
      *
@@ -98,10 +92,14 @@ public class DescriptionView extends JPanel implements GraphView {
         initReverseRelation();
 
         initPropertiesPanels();
+        System.out.println("1");
         _fullUrlPanel =
                 new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
+        System.out.println("2");
         _clonesPanel = new ClonesPanel(_clonesLabelName, _eventBroker);
+        System.out.println("3");
         _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _eventBroker);
+        System.out.println("4");
 
         _propertyNameLabelsDimension = calcLabelSize();
         setLabelSizesForNodePropertiesPanels();
@@ -156,14 +154,16 @@ public class DescriptionView extends JPanel implements GraphView {
             if (displayInfo.isDisplayInDescription()) {
                 edgeTypesToDisplay.add(edgeType);
                 NodePropertiesPanel propPanel =
-                        new NodePropertiesPanel(edgeType.getName(), new LinkedList());
+                        new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
                 _nodePropertiesPanels.put(edgeType.getName(), propPanel);
+                //_nodePropertiesPanels.put(displayInfo.getDisplayLabel(), propPanel);
             }
             if (displayInfo.isDisplayReverseEdgeInDescription()) {
                 edgeTypesToDisplay.add(edgeType);
                 NodePropertiesPanel propPanel =
-                        new NodePropertiesPanel(edgeType.getReverseEdgeName(), new LinkedList());
+                        new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
                 _nodePropertiesPanels.put(edgeType.getReverseEdgeName(), propPanel);
+                //_nodePropertiesPanels.put(displayInfo.getDisplayLabel(), propPanel);
             }
         }
     }
@@ -281,6 +281,7 @@ public class DescriptionView extends JPanel implements GraphView {
                 // this exception should have been caught when building the graph
                 // we are displaying, so it should be safe to ignore it here
                 System.err.println("NoSuchRelationLinkException exception: " + exc);
+                exc.printStackTrace();
             }
         }
         // deal with clones

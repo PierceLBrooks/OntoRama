@@ -12,7 +12,6 @@ import ontorama.model.Edge;
 import ontorama.model.GraphNode;
 
 import ontorama.util.event.ViewEventListener;
-import ontorama.util.event.ViewEventObserver;
 
 import javax.swing.JComponent;
 

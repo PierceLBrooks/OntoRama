@@ -27,7 +27,7 @@ import java.awt.FontMetrics;
 import ontorama.model.*;
 import ontorama.ontologyConfig.*;
 import ontorama.OntoramaConfig;
-import ontorama.tree.controller.GraphViewFocusEventHandler;
+import ontorama.graph.controller.GraphViewFocusEventHandler;
 
 import ontorama.webkbtools.util.NoSuchPropertyException;
 
@@ -56,7 +56,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 * Keys - name of property
 	 * Values - panel
 	 */
-	private Hashtable _nodePropertiesPanels = new Hashtable();
+	Hashtable _nodePropertiesPanels = new Hashtable();
 
 	/**
 	 *
@@ -264,45 +264,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 		_parentsPanel.clear();
 	}
 
-	/**
-	 * @todo  check if its safe to ignore NoSuchPropertyException (probably is safe
-	 *        for browsing the ontology only. Could be a different story when we
-	 *        are editing it )
-	 */
-	public void setFocus(GraphNode node) {
-		Enumeration e = _nodePropertiesPanels.keys();
-		while (e.hasMoreElements()) {
-			String propertyName = (String) e.nextElement();
-			try {
-				NodePropertiesPanel propPanel =
-					(NodePropertiesPanel) _nodePropertiesPanels.get(
-						propertyName);
-				propPanel.update(node.getProperty(propertyName));
-			} catch (NoSuchPropertyException exc) {
-				// this exception should have been caught when building the graph
-				// we are displaying, so it should be safe to ignore it here
-				System.err.println("NoSuchPropertyException exception: " + exc);
-			}
-		}
-		// deal with clones
-		_clonesPanel.update(node.getClones());
-		//this.repaint();
-		
-
-		List fullUrlPropList = new LinkedList();
-		fullUrlPropList.add(node.getFullName());
-		_fullUrlPanel.update(fullUrlPropList);
-
-//        Iterator it = Edge.getInboundEdgeNodes(node,_firstRelationLink);
-//        while (it.hasNext()) {
-//          GraphNode parent = (GraphNode) it.next();
-//          System.out.println("  parent: " + parent.getName());
-//        }
-
-		_parentsPanel.update(Edge.getInboundEdgeNodes(node,_firstRelationLink));
-	}
-	
-	/**
+    /**
 	 * 
 	 */
 	public void enableDynamicFields () {
@@ -322,23 +284,29 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 *
 	 */
 	public void focus(GraphNode node) {
-		/*
-		System.out.println();
-		System.out.println(
-			"******* desciptionView got focus for node "
-				+ node.getName()
-				+ ", address = "
-				+ node);
-		*/
-		setFocus(node);
-		
-	}
+        Enumeration e = _nodePropertiesPanels.keys();
+        while (e.hasMoreElements()) {
+			String propertyName = (String) e.nextElement();
+			try {
+				NodePropertiesPanel propPanel =
+					(NodePropertiesPanel) _nodePropertiesPanels.get(
+						propertyName);
+				propPanel.update(node.getProperty(propertyName));
+			} catch (NoSuchPropertyException exc) {
+				// this exception should have been caught when building the graph
+				// we are displaying, so it should be safe to ignore it here
+				System.err.println("NoSuchPropertyException exception: " + exc);
+			}
+		}
+        // deal with clones
+        _clonesPanel.update(node.getClones());
 
-	/**
-	 *
-	 */
-	public void toggleFold(GraphNode node) {
-	}
+        List fullUrlPropList = new LinkedList();
+        fullUrlPropList.add(node.getFullName());
+        _fullUrlPanel.update(fullUrlPropList);
+
+        _parentsPanel.update(Edge.getInboundEdgeNodes(node,_firstRelationLink));
+    }
 
 	/**
 	 *

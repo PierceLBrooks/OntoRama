@@ -2,11 +2,8 @@ package ontorama.view;
 
 import java.net.URL;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Iterator;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -50,6 +47,7 @@ import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.webkbtools.util.ParserException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
@@ -63,6 +61,7 @@ import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.view.OntoTreeView;
 
 import ontorama.textDescription.view.DescriptionView;
+import ontorama.textDescription.view.NodePropertiesPanel;
 
 import ontorama.util.event.ViewEventListener;
 import ontorama.util.Debug;
@@ -477,9 +476,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		//_queryPanel.setQueryField(graph.getRootNode().getName());
 		_queryPanel.setQuery(_query);
 		_descriptionViewPanel.clear();
-		_descriptionViewPanel.setFocus(_graph.getRootNode());
+        _descriptionViewPanel.focus(_graph.getRootNode());
 
-		_hyperView.repaint();
+        _hyperView.repaint();
 		_treeView.repaint();
 		_splitPane.repaint();
 

@@ -87,10 +87,11 @@ public class OntoramaConfig {
         Properties properties = new Properties();
         try {
           FileInputStream propertiesFileIn = new FileInputStream ("H:/projects/OntoRama/src/ontorama.properties");
+          //FileInputStream propertiesFileIn = new FileInputStream ("../src/ontorama.properties");
           properties.load(propertiesFileIn);
 
           sourceUri = properties.getProperty("sourceUri");
-          queryOutputFormat = properties.getProperty("RDF");
+          queryOutputFormat = properties.getProperty("queryOutputFormat");
           String parserPackagePathSuffix = properties.getProperty ("parserPackagePathSuffix");
           String sourcePackagePathSuffix = properties.getProperty ("sourcePackagePathSuffix");
           DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();

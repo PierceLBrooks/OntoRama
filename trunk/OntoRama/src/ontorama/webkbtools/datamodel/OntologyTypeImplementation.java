@@ -81,6 +81,7 @@ public class OntologyTypeImplementation implements OntologyType {
    * Add given Ontology type with given relation link
    * @param ontologyType, relationLink
    * @throws    NoSuchRelationLinkException
+   * @todo: not sure if checking isRelationType is expensive or not. Check this!
    */
   public void addRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException {
     if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
@@ -88,7 +89,7 @@ public class OntologyTypeImplementation implements OntologyType {
     }
     // check if it's already listed, then don't need to add
     // if it's not listed - add to the iterator
-    if ( ! isRelationType(ontologyType, relationLink) ) {
+    if ( ! isRelationType (ontologyType, relationLink) ) {
       relationshipTypes[relationLink].add(ontologyType);
     }
   }

@@ -47,5 +47,14 @@ public class QueryResult {
         return this.ontologyTypesIterator;
     }
 
+    /**
+     *
+     */
+    public String toString() {
+      String str = "QueryResult";
+      str = " for query term = " + query.getQueryTypeName();
+      return str;
+    }
+
 
 }

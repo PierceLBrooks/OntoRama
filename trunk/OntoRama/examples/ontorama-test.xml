@@ -71,6 +71,27 @@
 		<conceptType name="node4.6.1"/>
 		<conceptType name="node4.6.2"/>
 		<conceptType name="node4.6.3"/>
+
+
+		<conceptType name="branch1_root"/>
+		<conceptType name="branch1_node1"/>
+		<conceptType name="branch1_node2"/>
+		<conceptType name="branch1_node1.1"/>
+		<conceptType name="branch1_node1.2"/>
+		<conceptType name="branch2_root"/>
+		<conceptType name="branch2_node1"/>
+		<conceptType name="branch2_node2"/>
+		<conceptType name="branch2_node3"/>
+		<conceptType name="branch2_node4"/>
+		<conceptType name="branch2_node1.1"/>
+		<conceptType name="branch2_node2.1"/>
+		<conceptType name="branch2_node2.2"/>
+		<conceptType name="branch2_node4.1"/>
+		<conceptType name="branch2_node4.2"/>
+		<conceptType name="branch2_node4.2.1"/>
+		<conceptType name="branch2_node4.2.2"/>
+
+
 	</conceptTypes>
 	<relationLinks>
 		<relationLink name="subtype" from="root" to="node1"/>
@@ -109,5 +130,25 @@
 		<relationLink name="subtype" from="node4.6" to="node4.6.2"/>
 		<relationLink name="subtype" from="node4.6" to="node4.6.3"/>
 		<relationLink name="subtype" from="node4.6" to="node4.1"/>
+
+		<relationLink name="subtype" from="branch1_root" to="branch1_node1"/>
+		<relationLink name="subtype" from="branch1_root" to="branch1_node2"/>
+		<relationLink name="subtype" from="branch1_node1" to="branch1_node1.1"/>
+		<relationLink name="subtype" from="branch1_node1" to="branch1_node1.2"/>
+
+		<relationLink name="subtype" from="branch2_root" to="branch2_node1"/>
+		<relationLink name="subtype" from="branch2_root" to="branch2_node2"/>
+		<relationLink name="subtype" from="branch2_root" to="branch2_node3"/>
+		<relationLink name="subtype" from="branch2_root" to="branch2_node4"/>
+
+		<relationLink name="subtype" from="node4" to="branch2_node4"/>
+
+		<relationLink name="subtype" from="branch2_node1" to="branch2_node1.1"/>
+		<relationLink name="subtype" from="branch2_node2" to="branch2_node2.1"/>
+		<relationLink name="subtype" from="branch2_node2" to="branch2_node2.2"/>
+		<relationLink name="subtype" from="branch2_node4" to="branch2_node4.1"/>
+		<relationLink name="subtype" from="branch2_node4" to="branch2_node4.2"/>
+		<relationLink name="subtype" from="branch2_node4.2" to="branch2_node4.2.1"/>
+		<relationLink name="subtype" from="branch2_node4.2" to="branch2_node4.2.2"/>
 	</relationLinks>
 </ontology>

@@ -1,8 +1,0 @@
-<ontoramaExamples>
-	<example name="test webkb: cat" root="cat" loadOnStart="yes" >
-		<source uri="http://www.webkb.org/bin/termSearch.cgi" 
-					sourcePackagePathSuffix="UrlSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
-	</example>
-</ontoramaExamples>

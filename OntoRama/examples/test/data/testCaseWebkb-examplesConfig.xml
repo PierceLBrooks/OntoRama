@@ -1,8 +1,0 @@
-<ontoramaExamples>
-	<example name="testCase" root="chair" loadOnStart="yes" >
-		<source uri="examples/test/data/testCase.rdf" 
-					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
-	</example>
-</ontoramaExamples>

@@ -30,7 +30,7 @@ public class HistoryElement {
   	_menuDisplayName = menuDisplayName;
   	_query = query;
     _example = example;
-    System.out.println("history element constructor: " + this.toString()); 
+    //System.out.println("history element constructor: " + this.toString()); 
   }
 
   /**

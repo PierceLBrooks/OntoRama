@@ -70,12 +70,9 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     private Hashtable _relationLinksCheckBoxes = new Hashtable();
 
     /**
-     * holds relation links that user has chosen to display
+     * relation links that user has chosen to display
      */
-    private LinkedList _wantedRelationLinks = new LinkedList ();
-
-    //temp variable for creating svg image of hyper view
-    //private TextField _imgNameField = new TextField("", 10);
+    private List _wantedRelationLinks = new LinkedList ();
 
     /**
      *
@@ -189,6 +186,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      * 
      */
     public void setQuery (Query query) {
+    	//System.out.println("query panel, setting query: " + query.toString());
     	setQueryField(query.getQueryTypeName());
     	setWantedRelationLinks(query.getRelationLinksList());
     	if (query.getDepth() > 0 ) {
@@ -249,7 +247,16 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      *
      */
     private List getWantedRelationLinks () {
-      return _wantedRelationLinks;
+	    _wantedRelationLinks = new LinkedList();
+	    Enumeration en = _relationLinksCheckBoxes.keys();
+	    while (en.hasMoreElements()) {
+	      JCheckBox key = (JCheckBox) en.nextElement();
+	      if (key.isSelected()) {
+	        Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
+	        _wantedRelationLinks.add(relLinkType);
+	      }
+	    }  	
+    	return _wantedRelationLinks;
     }
 
     /**
@@ -325,17 +332,18 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      */
     class CheckBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-            _wantedRelationLinks = new LinkedList();
-            Object source = e.getItemSelectable();
-            //if (source == buttonX) { }
-            Enumeration en = _relationLinksCheckBoxes.keys();
-            while (en.hasMoreElements()) {
-              JCheckBox key = (JCheckBox) en.nextElement();
-              if (key.isSelected()) {
-                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
-                _wantedRelationLinks.add(relLinkType);
-              }
-            }
+        	_wantedRelationLinks = getWantedRelationLinks();
+//            _wantedRelationLinks = new LinkedList();
+//            Object source = e.getItemSelectable();
+//            //if (source == buttonX) { }
+//            Enumeration en = _relationLinksCheckBoxes.keys();
+//            while (en.hasMoreElements()) {
+//              JCheckBox key = (JCheckBox) en.nextElement();
+//              if (key.isSelected()) {
+//                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
+//                _wantedRelationLinks.add(relLinkType);
+//              }
+//            }
 
         }
     }
@@ -383,8 +391,9 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
      */
     private Query buildNewQuery () {
       //Query query = new Query (queryPanel.getQueryField(), queryPanel.getWantedRelationLinks());
-      Query query = new Query (_queryField.getText(), _wantedRelationLinks);
+      Query query = new Query (getQueryField(), getWantedRelationLinks());
       query.setDepth(getDepthField());
+      //System.out.println("building new query: " + query.toString());
       return query;
     }
 

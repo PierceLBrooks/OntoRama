@@ -10,7 +10,7 @@ package ontorama.model;
 
 import java.awt.*;
 
-public interface NodeType {
+public interface NodeTypeInterface {
     public String getNodeType ();
     public Color getDisplayColor();
 }

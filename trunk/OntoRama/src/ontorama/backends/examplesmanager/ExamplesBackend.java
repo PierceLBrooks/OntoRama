@@ -33,7 +33,7 @@ import ontorama.ui.ErrorDialog;
 import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryCancelledEvent;
-import ontorama.ui.events.QueryEndEvent;
+import ontorama.ui.events.GraphIsLoadedEvent;
 import ontorama.ui.events.QueryStartEvent;
 
 import org.tockit.events.Event;
@@ -78,7 +78,7 @@ public class ExamplesBackend implements Backend {
         }
     }
     
-    private class QueryEndEventHandler implements EventBrokerListener {
+    private class GraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
         	_isNewExample = false;
         }
@@ -113,7 +113,7 @@ public class ExamplesBackend implements Backend {
 	public void setEventBroker(EventBroker eventBroker) {
 		_eventBroker = eventBroker;
         _eventBroker.subscribe(new QueryCancelledEventHandler(),QueryCancelledEvent.class,Query.class);
-        _eventBroker.subscribe(new QueryEndEventHandler(),QueryEndEvent.class,Object.class);
+        _eventBroker.subscribe(new GraphIsLoadedEventHandler(),GraphIsLoadedEvent.class,Object.class);
 	}
 
 	/**

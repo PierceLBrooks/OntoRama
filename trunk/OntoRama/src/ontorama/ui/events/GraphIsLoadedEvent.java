@@ -11,10 +11,10 @@ import ontorama.model.graph.Graph;
  * Time: 2:35:29 PM
  * To change this template use Options | File Templates.
  */
-public class QueryEndEvent implements Event {
+public class GraphIsLoadedEvent implements Event {
     protected Graph subject;
 
-    public QueryEndEvent(Graph subject) {
+    public GraphIsLoadedEvent(Graph subject) {
         this.subject = subject;
     }
 

@@ -19,7 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.ActionMap;
+//import javax.swing.ActionMap;
 
 import java.awt.Image;
 import java.awt.Color;
@@ -106,9 +106,9 @@ public class OntoTreeView implements KeyListener, MouseListener,
 
         this.tree.addMouseListener(this);
         this.tree.addKeyListener(this);
-        ActionMap actionMap = this.tree.getActionMap();
+        //ActionMap actionMap = this.tree.getActionMap();
         //actionMap.put();
-        System.out.println("ActionMap keys= " + actionMap.keys());
+        //System.out.println("ActionMap keys= " + actionMap.keys());
 
 
         ToolTipManager.sharedInstance().registerComponent(this.tree);

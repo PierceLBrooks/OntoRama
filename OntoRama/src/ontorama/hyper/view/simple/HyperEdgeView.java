@@ -68,7 +68,7 @@ public class HyperEdgeView extends CanvasItem {
         } else {
             g2d.setColor(Color.lightGray);
         }
-        /// @todo remove FOUNTAINS option, move the proper code into the transformation function object extracted from the node view class
+        /// @todo remove FOUNTAINS option, move the proper code into the transformation function object extracted from the node ui class
         if (OntoramaConfig.FOUNTAINS) {
             float[] points = new float[]{
                 (float) (from.getProjectedX() * 1.5),

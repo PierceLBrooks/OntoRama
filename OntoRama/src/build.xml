@@ -112,19 +112,19 @@
 
   <target name="javadoc" depends="prepare">
     <javadoc sourcepath="${src.home}" 
-			packagenames="ontorama.*,ontorama.model.*,ontorama.hyper.*,ontorama.view.*,ontorama.tree.*"
+			packagenames="ontorama.*,ontorama.model.*,ontorama.hyper.*,ontorama.ui.*,ontorama.tree.*"
             destdir="${javadoc.home}"
 			classpathref="project.class.path"/>
   </target>
 
   <!--<target name="run" depends="compile">-->
   <target name="run">
-  	<java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
+  	<java fork="yes" classname="ontorama.ui.OntoRamaApp" classpathref="project.class.path"/>
   </target>
 
 
     <target name="runCgkb">
-        <java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path">
+        <java fork="yes" classname="ontorama.ui.OntoRamaApp" classpathref="project.class.path">
             <arg line="cgkb/config.xml ontorama.properties cgkb/examplesConfig.xml"/>
         </java>
     </target>
@@ -201,7 +201,7 @@
         </java>
 
         <!--
-        <java fork="yes" classname="ontorama.view.OntoRamaApp" classpathref="project.class.path"/>
+        <java fork="yes" classname="ontorama.ui.OntoRamaApp" classpathref="project.class.path"/>
 
         <exec dir="${xweb.home}" executable="bin/wp.bat">
           <arg line="ontoramaWeb.xweb"/>

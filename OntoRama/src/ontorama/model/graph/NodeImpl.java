@@ -46,7 +46,7 @@ public class NodeImpl implements Cloneable, Node {
     private int depth = 0;
 
     /**
-     * Stores if this view is folded.
+     * Stores if this ui is folded.
      */
     private boolean isFolded = false;
 

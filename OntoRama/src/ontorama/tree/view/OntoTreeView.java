@@ -279,7 +279,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     private ontorama.model.graph.Node getGraphNodeFromMouseEvent (MouseEvent mouseEvent) {
         TreePath selPath = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());
         if (selPath == null) {
-            // mouse clicked not on a node, but somewhere else in the tree view
+            // mouse clicked not on a node, but somewhere else in the tree ui
             return null;
         }
 		return  getGraphNodeFromTreePath(selPath);

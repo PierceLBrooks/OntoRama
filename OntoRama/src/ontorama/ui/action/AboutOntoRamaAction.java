@@ -1,4 +1,4 @@
-package ontorama.view.action;
+package ontorama.ui.action;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import ontorama.view.AboutOntoRamaDialog;
+import ontorama.ui.AboutOntoRamaDialog;
 
 /**
  * <p>Title: </p>
@@ -36,7 +36,7 @@ public class AboutOntoRamaAction extends AbstractAction {
 
     public void actionPerformed(ActionEvent parm1) {
         System.out.println("___action: about ontorama");
-        Frame[] frames = ontorama.view.OntoRamaApp.getFrames();
+        Frame[] frames = ontorama.ui.OntoRamaApp.getFrames();
         if (frames.length > 0) {
             AboutOntoRamaDialog dialog = new AboutOntoRamaDialog(frames[0]);
         } else {

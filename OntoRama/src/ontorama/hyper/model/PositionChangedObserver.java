@@ -2,7 +2,7 @@ package ontorama.hyper.model;
 
 /**
  * NodeObserver is part of the MVC parten for updating
- * nodes in the current view.
+ * nodes in the current ui.
  */
 
 

@@ -21,7 +21,7 @@ import ontorama.ontologyConfig.NodeTypeDisplayInfo;
 import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
-import ontorama.view.ErrorPopupMessage;
+import ontorama.ui.ErrorPopupMessage;
 import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import ontorama.webkbtools.SourceException;

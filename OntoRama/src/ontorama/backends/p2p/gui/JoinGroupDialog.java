@@ -20,7 +20,7 @@ import ontorama.backends.p2p.p2pmodule.P2PSender;
 import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupExceptionNotAllowed;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
-import ontorama.view.ErrorPopupMessage;
+import ontorama.ui.ErrorPopupMessage;
 
 /*
  * Created by IntelliJ IDEA.

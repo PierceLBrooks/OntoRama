@@ -20,7 +20,7 @@ import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.util.Debug;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
@@ -98,7 +98,7 @@ public class GraphImpl implements Graph {
      * Build Graph from given QueryResult.
      *
      * NOTE: query returns an iterator of ontology types. some of those types may
-     * not be relevant for our view. For example: consider following rdf:
+     * not be relevant for our ui. For example: consider following rdf:
      *       <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/comms#WirelessNetwork">
      *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Network_2"/>
      *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Network_3"/>
@@ -106,7 +106,7 @@ public class GraphImpl implements Graph {
      *       </rdfs:Class>
      *  this example will produce ontology types: comms#WirelessNetwork, wn#Network_2, wn#Network_3, comms#TransmissionObject
      *  where comms#WirelessNetwork has 3 parents. Therefor we clone this node, but wn#Network_2, wn#Network_3 don't have
-     *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the view.
+     *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the ui.
      *  Yet, comms#WirelessNetwork is thinking it's got 3 clones, but user can't navigate to them.
      *  (We will call those unconnected nodes 'hanging' nodes).
      *  One way to get around it is: to remove _graphEdges that don't have incoming _graphEdges (parents).

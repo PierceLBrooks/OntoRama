@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.Node;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
 import ontorama.webkbtools.query.Query;

@@ -1,4 +1,4 @@
-package ontorama.view.action;
+package ontorama.ui.action;
 
 import java.awt.event.ActionEvent;
 

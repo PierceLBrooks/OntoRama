@@ -21,7 +21,7 @@ import ontorama.backends.p2p.gui.action.ActionLeaveGroup;
 import ontorama.backends.p2p.gui.action.ActionResetChangePanel;
 import ontorama.backends.p2p.gui.action.ActionUpdateP2PPanel;
 import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.view.OntoRamaApp;
+import ontorama.ui.OntoRamaApp;
 
 public class P2PJMenu extends JMenu {
 

@@ -177,6 +177,7 @@ public class TestRdfDamlParser extends TestCase {
    *
    */
   public void testTypePropertyDescr_chair () throws NoSuchPropertyException {
+    //System.out.println("\n\n\n testing property description");
     LinkedList expectedValueList = new LinkedList();
     expectedValueList.add("test term 'chair'");
     testingTypeProperty(propName_descr, expectedValueList, testType_chair);

@@ -190,6 +190,7 @@ public class QueryEngine implements QueryEngineInterface {
 
         // wanted links iterator is empty
         if ( ! queryRelationLinks.hasNext()) {
+            System.out.println("query relation links iterator is empty, so no need to work on iterator");
             return this.typeRelativesCollection;
         }
 

@@ -76,7 +76,7 @@ public class RelationLinkDetails {
     /**
      *
      */
-    public void setReversedLinkName(String name) {
+    public void setReversedLinkName(String reversedLinkName) {
         this.reversedLinkName = reversedLinkName;
     }
 

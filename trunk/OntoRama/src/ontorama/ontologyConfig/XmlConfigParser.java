@@ -135,6 +135,9 @@ public class XmlConfigParser {
                 }
                 if (i==1) {
                     relationLinkDetails.setReversedLinkName(nameAttr.getValue());
+
+                    System.out.println("setReversedLinkName to " + nameAttr.getValue());
+                    System.out.println("getReversedLinkName = " + relationLinkDetails.getReversedLinkName());
                     if (mappingSymbolAttr != null) {
                         relationLinkDetails.setReversedLinkSymbol(mappingSymbolAttr.getValue());
                     }

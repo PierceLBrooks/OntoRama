@@ -1,4 +1,3 @@
-
 package ontorama;
 
 import java.awt.Color;
@@ -15,10 +14,10 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 
 import ontorama.backends.Backend;
-import ontorama.backends.examplesmanager.OntoramaExample;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatConfigParser;
 import ontorama.conf.DataFormatMapping;
@@ -53,19 +52,6 @@ public class OntoramaConfig {
      */
     private static Class curClass;
     private static ClassLoader classLoader;
-
-
-    /**
-     * examples list
-     */
-    private static List examplesList;
-
-    /**
-     * example that is currently loaded in the app
-     * (first on the startup. later on - this var is set to
-     * a currently running example).
-     */
-    private static OntoramaExample mainExample;
 
     /**
      * debug
@@ -153,7 +139,7 @@ public class OntoramaConfig {
     }
 
     private static void fatalExit(String message, Exception e) {
-    	ErrorDialog.showError(null, e, "Error", e.getMessage());
+    	ErrorDialog.showError(null, e, "Error", message);
         System.err.println("Exception: " + e);
         e.printStackTrace();
         System.exit(1);
@@ -229,7 +215,7 @@ public class OntoramaConfig {
     }
 
 
-    public static HashSet getEdgeTypesSet() {
+    public static Set getEdgeTypesSet() {
         List allRelations = getEdgeTypesList();
         return new HashSet(allRelations);
     }

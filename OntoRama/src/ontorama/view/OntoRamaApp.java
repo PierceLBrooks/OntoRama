@@ -212,7 +212,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             }
         });
 
-        _query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getRelationLinkDetailsList());
+        _query = new Query(OntoramaConfig.ontologyRoot, OntoramaConfig.getRelationLinksList());
         executeQuery(_query);
     }
 
@@ -499,7 +499,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         OntoramaConfig.setCurrentExample(example);
 
         // create a new query
-        Query query = new Query(termName, OntoramaConfig.getRelationLinkDetailsList());
+        Query query = new Query(termName, OntoramaConfig.getRelationLinksList());
 
         // get graph for this query and load it into app
         if (executeQuery(query)) {

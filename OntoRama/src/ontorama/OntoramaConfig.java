@@ -1,15 +1,14 @@
 
 package ontorama;
 
-import ontorama.ontologyConfig.ConceptPropertiesDetails;
-import ontorama.ontologyConfig.ConfigParserException;
-import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.ontologyConfig.XmlConfigParser;
+import ontorama.ontologyConfig.*;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
 import ontorama.view.ErrorPopupMessage;
 import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.model.EdgeType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +69,9 @@ public class OntoramaConfig {
     /**
      *
      */
-    private static RelationLinkDetails[] allRelationsArray;
+//    private static RelationLinkDetails[] allRelationsArray;
+
+    private static Hashtable edgesConfig;
 
     /**
      * Holds defined conceptProperties details. This list can be referred to
@@ -103,10 +104,10 @@ public class OntoramaConfig {
     private static ClassLoader classLoader;
 
 
-    /**
-     * Max value for realtionLinks.
-     */
-    public static int MAXTYPELINK;
+//    /**
+//     * Max value for realtionLinks.
+//     */
+//    public static int MAXTYPELINK;
 
     /**
      * examples list
@@ -233,8 +234,9 @@ public class OntoramaConfig {
                                         throws SourceException, ConfigParserException, IOException {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
-        allRelationsArray = xmlConfig.getRelationLinksArray();
-        MAXTYPELINK = allRelationsArray.length;
+        edgesConfig = xmlConfig.getDisplayInfo();
+        //allRelationsArray = xmlConfig.getRelationLinksArray();
+        //MAXTYPELINK = allRelationsArray.length;
         relationLinksSet = buildRelationLinksSet();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
@@ -246,14 +248,27 @@ public class OntoramaConfig {
      * @todo we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    private static List getRelationLinksList() {
+    public static List getRelationLinksList() {
+
         LinkedList allRelations = new LinkedList();
-        for (int i = 0; i < allRelationsArray.length; i++) {
-            if (allRelationsArray[i] != null) {
-                allRelations.add(new Integer(i));
-            }
+
+        Enumeration e = edgesConfig.keys();
+        while (e.hasMoreElements()) {
+            EdgeType edgeType = (EdgeType) e.nextElement();
+            allRelations.add(edgeType);
         }
+//
+//        for (int i = 0; i < allRelationsArray.length; i++) {
+//            if (allRelationsArray[i] != null) {
+//                allRelations.add(new Integer(i));
+//            }
+//        }
         return allRelations;
+    }
+
+    public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
+        EdgeTypeDisplayInfo displayInfo = (EdgeTypeDisplayInfo) edgesConfig.get(edgeType);
+        return displayInfo;
     }
 
     /**
@@ -271,7 +286,8 @@ public class OntoramaConfig {
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
     private static HashSet buildRelationLinksSet() {
-        List allRelations = getRelationLinkDetailsList();
+
+        List allRelations = getRelationLinksList();
         return new HashSet(allRelations);
     }
 
@@ -282,28 +298,39 @@ public class OntoramaConfig {
         return relationLinksSet;
     }
 
+//    /**
+//     *
+//     */
+//    public static RelationLinkDetails[] getRelationLinkDetails() {
+//        return allRelationsArray;
+//    }
+
+//    public static List getRelationLinkDetailsList () {
+//        LinkedList allRelations = new LinkedList();
+//        for (int i = 0; i < allRelationsArray.length; i++) {
+//            if (allRelationsArray[i] != null) {
+//                allRelations.add(allRelationsArray[i]);
+//            }
+//        }
+//        return allRelations;
+//    }
+
     /**
      *
      */
-    public static RelationLinkDetails[] getRelationLinkDetails() {
-        return allRelationsArray;
-    }
-
-    public static List getRelationLinkDetailsList () {
-        LinkedList allRelations = new LinkedList();
-        for (int i = 0; i < allRelationsArray.length; i++) {
-            if (allRelationsArray[i] != null) {
-                allRelations.add(allRelationsArray[i]);
+    public static EdgeType getRelationLinkDetails(String edgeName) throws NoSuchRelationLinkException {
+        EdgeType result = null;
+        Iterator it = edgesConfig.keySet().iterator();
+        while (it.hasNext()) {
+            EdgeType edgeType = (EdgeType) it.next();
+            if (edgeType.getName().equals(edgeName)) {
+                result = edgeType;
             }
         }
-        return allRelations;
-    }
-
-    /**
-     *
-     */
-    public static RelationLinkDetails getRelationLinkDetails(int i) {
-        return allRelationsArray[i];
+        if (result == null) {
+            throw new NoSuchRelationLinkException(edgeName);
+        }
+        return result;
     }
 
     /**

@@ -59,7 +59,7 @@ public interface Graph {
 
     public Iterator getInboundEdgeNodes (Node node);
 
-    public Iterator getInboundEdgeNodes (Node node, RelationLinkDetails relLink);
+    public Iterator getInboundEdgeNodes (Node node, EdgeType relLink);
 
 
 

@@ -47,6 +47,10 @@ public class TestGraph extends TestCase {
     private Node node1;
     private Node node1_2;
 
+    private static final String edgeName_subtype = "subtype";
+    private static final String edgeName_similar = "similar";
+    private static final String edgeName_reverse = "reverse";
+
 
     /**
      *
@@ -67,8 +71,8 @@ public class TestGraph extends TestCase {
         Node tmpNode1 = new NodeImpl("tmpNode1");
         Node tmpNode2 = new NodeImpl("tmpNode2");
         Node tmpNode3 = new NodeImpl("tmpNode3");
-        Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
-        Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+        Edge tmpEdge2 = new EdgeImpl(tmpNode1, tmpNode3, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
 
 
         // create queryResult
@@ -102,12 +106,12 @@ public class TestGraph extends TestCase {
         _nodesList.add(gn6);
         _nodesList.add(gn7);
 
-        Edge e = new EdgeImpl(gn, gn1, OntoramaConfig.getRelationLinkDetails()[1]);
-        Edge e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getRelationLinkDetails()[2]);
-        Edge e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getRelationLinkDetails()[1]);
-        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails()[2]);
-        Edge e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getRelationLinkDetails()[1]);
-        Edge e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getRelationLinkDetails()[1]);
+        Edge e = new EdgeImpl(gn, gn1, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+        Edge e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
+        Edge e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
+        Edge e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+        Edge e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
         _edgesList.add(e);
         _edgesList.add(e1);
         _edgesList.add(e2);
@@ -173,7 +177,7 @@ public class TestGraph extends TestCase {
     /**
      * check if outbound _graphEdges for node1 are what they should be
      */
-    public void testOutboundEdgesForNode1() {
+    public void testOutboundEdgesForNode1()  throws NoSuchRelationLinkException {
         assertEquals("outbound _graphEdges for node1 ", 1, graph.getOutboundEdgeNodesList(node1).size());
 
         Iterator outboundEdges = graph.getOutboundEdges(node1);
@@ -181,11 +185,11 @@ public class TestGraph extends TestCase {
             Edge cur = (Edge) outboundEdges.next();
             if ((cur.getToNode().getName()).equals("node1.1")) {
                 // should be edge to node1.1 with type 1
-                assertEquals(OntoramaConfig.getRelationLinkDetails()[1], cur.getEdgeType());
+                assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), cur.getEdgeType());
             }
             if ((cur.getToNode().getName()).equals("node1.2")) {
                 // should be edge to node1.2 with type2
-                assertEquals(OntoramaConfig.getRelationLinkDetails()[2], cur.getEdgeType());
+                assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_similar), cur.getEdgeType());
             }
         }
     }
@@ -193,7 +197,7 @@ public class TestGraph extends TestCase {
     /**
      * check inbound _graphEdges for node1
      */
-    public void testInboundEdgesForNode1() {
+    public void testInboundEdgesForNode1() throws NoSuchRelationLinkException {
         Iterator inboundEdges = graph.getInboundEdges(node1);
         assertEquals("inbound _graphEdges for node1", 1, graph.getInboundEdgeNodesList(node1).size());
 
@@ -201,7 +205,7 @@ public class TestGraph extends TestCase {
             Edge inEdge = (Edge) inboundEdges.next();
             // should be edge from root with type 1
             assertEquals("root", inEdge.getFromNode().getName());
-            assertEquals(OntoramaConfig.getRelationLinkDetails()[1], inEdge.getEdgeType());
+            assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), inEdge.getEdgeType());
         }
     }
 

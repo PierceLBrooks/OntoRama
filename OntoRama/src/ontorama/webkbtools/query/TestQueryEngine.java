@@ -2,12 +2,11 @@ package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.RelationLinkDetails;
-import ontorama.model.Edge;
-import ontorama.model.Node;
+import ontorama.model.*;
 import ontorama.util.TestingUtils;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.TestWebkbtoolsPackage;
 
 import java.util.*;
 
@@ -40,18 +39,19 @@ public class TestQueryEngine extends TestCase {
 
     private Node testNode_chair;
 
-    RelationLinkDetails edgeType1 = OntoramaConfig.getRelationLinkDetails()[1];
-    RelationLinkDetails edgeType2 = OntoramaConfig.getRelationLinkDetails()[2];
-    RelationLinkDetails edgeType3 = OntoramaConfig.getRelationLinkDetails()[3];
-    RelationLinkDetails edgeType4 = OntoramaConfig.getRelationLinkDetails()[4];
-    RelationLinkDetails edgeType5 = OntoramaConfig.getRelationLinkDetails()[5];
-    RelationLinkDetails edgeType6 = OntoramaConfig.getRelationLinkDetails()[6];
-    RelationLinkDetails edgeType7 = OntoramaConfig.getRelationLinkDetails()[7];
-    RelationLinkDetails edgeType8 = OntoramaConfig.getRelationLinkDetails()[8];
-    RelationLinkDetails edgeType9 = OntoramaConfig.getRelationLinkDetails()[9];
-    RelationLinkDetails edgeType10 = OntoramaConfig.getRelationLinkDetails()[10];
-    RelationLinkDetails edgeType11 = OntoramaConfig.getRelationLinkDetails()[11];
-    RelationLinkDetails edgeType12 = OntoramaConfig.getRelationLinkDetails()[12];
+
+    EdgeType edgeType1;
+    EdgeType edgeType2;
+    EdgeType edgeType3;
+    EdgeType edgeType4;
+    EdgeType edgeType5;
+    EdgeType edgeType6;
+    EdgeType edgeType7;
+    EdgeType edgeType8;
+    EdgeType edgeType9;
+    EdgeType edgeType10;
+    EdgeType edgeType11;
+    EdgeType edgeType12;
 
     /**
      *
@@ -68,11 +68,26 @@ public class TestQueryEngine extends TestCase {
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
         OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
+
+        edgeType1 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_subtype);
+        edgeType2 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_similar);
+        edgeType3 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_reverse);
+        edgeType4 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_part);
+        edgeType5 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_substance);
+        edgeType6 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance);
+        edgeType7 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_complement);
+        edgeType8 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_location);
+        edgeType9 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member);
+        edgeType10 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_object);
+        edgeType11 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_url);
+        edgeType12 = OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_nounType);
+
+
         queryTerm = OntoramaConfig.ontologyRoot;
         relationLinksList = new LinkedList();
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(3));
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(6));
-        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(9));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_reverse));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_instance));
+        relationLinksList.add(OntoramaConfig.getRelationLinkDetails(TestWebkbtoolsPackage.edgeName_member));
 
         query1 = new Query(queryTerm);
         queryEngine1 = new QueryEngine(query1);
@@ -122,19 +137,19 @@ public class TestQueryEngine extends TestCase {
      *
      */
     private void checkOutboundEdge(QueryResult queryResult, Node fromNode,
-                                           RelationLinkDetails edgeType, int expectedListSize) {
+                                           EdgeType edgeType, int expectedListSize) {
         String message = "query " + queryResult.getQuery().getQueryTypeName();
         message = message + ", iterator size for ";
         message = message + " ontology type " + fromNode.getName() + " and relation link ";
-        message = message + edgeType.getLinkName();
+        message = message + edgeType.getName();
 
         List outboundEdges = new LinkedList();
 
         Iterator edgesIt = queryResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
             Edge cur = (Edge) edgesIt.next();
-            String edgeTypeName = cur.getEdgeType().getLinkName();
-            if ((cur.getFromNode().equals(fromNode)) && (edgeType.getLinkName().equals(edgeTypeName)) ) {
+            String edgeTypeName = cur.getEdgeType().getName();
+            if ((cur.getFromNode().equals(fromNode)) && (edgeType.getName().equals(edgeTypeName)) ) {
                 outboundEdges.add(cur);
             }
         }

@@ -1,8 +1,8 @@
 package ontorama.tree.view;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.EdgeType;
 import ontorama.ontologyConfig.ImageMaker;
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.tree.model.OntoTreeNode;
 
 import javax.swing.*;
@@ -83,7 +83,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                 hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
-        RelationLinkDetails relLinkDetails = treeNode.getRelLink();
+        EdgeType relLinkDetails = treeNode.getRelLink();
 
         /// @todo shouldn't have to check for null here
         if (relLinkDetails != null) {
@@ -105,7 +105,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(RelationLinkDetails relLinkType, boolean isClone) {
+    protected Icon getIcon(EdgeType relLinkType, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
@@ -121,8 +121,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get tool tip text for given object and relation link
      */
-    protected String getToolTipText(Object value, RelationLinkDetails relLinkDetails) {
-        String relLinkName = relLinkDetails.getLinkName();
+    protected String getToolTipText(Object value, EdgeType relLinkDetails) {
+        String relLinkName = relLinkDetails.getName();
         String result = "";
         //result = "Concept: " + treeNode.getGraphNode().getName();
         //result = result + "\n";
@@ -139,7 +139,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         HashSet relLinksSet = OntoramaConfig.getRelationLinksSet();
         Iterator it = relLinksSet.iterator();
         while (it.hasNext()) {
-            RelationLinkDetails cur = (RelationLinkDetails) it.next();
+            EdgeType cur = (EdgeType) it.next();
             Image nodeImage = makeImageForRelLink(cur, false);
             _relLinksImages.put(cur, nodeImage);
         }
@@ -148,8 +148,8 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      *
      */
-    private Image makeImageForRelLink(RelationLinkDetails relLinkType, boolean isClone) {
-        Image relImage = relLinkType.getDisplayImage();
+    private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone) {
+        Image relImage = OntoramaConfig.getEdgeDisplayInfo(relLinkType).getImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage);
         return nodeImage;
     }

@@ -8,11 +8,12 @@
  */
 package ontorama.ontologyConfig;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class EdgeTypeDisplayInfo {
-    private static final int DISPLAY_IN_GRAPH = 1;
-    private static final int DISPLAY_IN_DESCRIPTION_WINDOW = 2;
+    public static final int DISPLAY_IN_GRAPH = 1;
+    public static final int DISPLAY_IN_DESCRIPTION_WINDOW = 2;
 
     private Image _image;
     private Image _reverseEdgeImage;
@@ -20,38 +21,85 @@ public class EdgeTypeDisplayInfo {
     private String _displayLabel;
 
     private int _displayLocationDirective;
+    private int _displayLocationDirectiveForReversedEdge;
 
-    public EdgeTypeDisplayInfo (int displayLocationDirective) {
+    /**
+     * @todo need to think about display directives more - each direction of the
+     * edge could have two different display directives.
+     */
+    public EdgeTypeDisplayInfo () {
+    }
+
+    public void setDisplayLocationDirective(int displayLocationDirective) {
         _displayLocationDirective = displayLocationDirective;
     }
 
-    public int get_displayLocationDirective() {
+
+
+    public int getDisplayLocationDirective() {
         return _displayLocationDirective;
     }
 
-    public Image get_image() {
+    public Image getImage() {
         return _image;
     }
 
-    public void set_image(Image _image) {
-        this._image = _image;
+    public void setImage(Image image) {
+        _image = image;
     }
 
-    public Image get_reverseEdgeImage() {
+    public void setImage (Color color, String symbol) {
+        _image = ImageMaker.getImage(color, symbol);
+    }
+
+    public Image getReverseEdgeImage() {
         return _reverseEdgeImage;
     }
 
-    public void set_reverseEdgeImage(Image _reverseEdgeImage) {
-        this._reverseEdgeImage = _reverseEdgeImage;
+    public void setReverseEdgeImage(Image reverseEdgeImage) {
+        _reverseEdgeImage = reverseEdgeImage;
     }
 
-    public String get_displayLabel() {
+    public void setReverseEdgeImage (Color color, String symbol) {
+         _reverseEdgeImage = ImageMaker.getImage(color, symbol);
+    }
+
+    public String getDisplayLabel() {
         return _displayLabel;
     }
 
-    public void set_displayLabel(String _displayLabel) {
-        this._displayLabel = _displayLabel;
+    public void setDisplayLabel(String displayLabel) {
+        _displayLabel = displayLabel;
     }
+
+    public int getDisplayLocationDirectiveForReversedEdge() {
+        return _displayLocationDirectiveForReversedEdge;
+    }
+
+    public void setDisplayLocationDirectiveForReversedEdge(int displayLocationDirectiveForReversedEdge) {
+        _displayLocationDirectiveForReversedEdge = displayLocationDirectiveForReversedEdge;
+    }
+
+    public ImageIcon getDisplayIcon () {
+        if (_image == null) {
+            return null;
+        }
+        return new ImageIcon(_image);
+    }
+
+    public ImageIcon getReverseEdgeDisplayIcon() {
+        if (_reverseEdgeImage == null)  {
+            return null;
+        }
+        return new ImageIcon(_reverseEdgeImage);
+    }
+
+    public String toString() {
+        String str = "EdgeTypeDisplayInfo: ";
+        str = str + "_displayLocationDirective = " + _displayLocationDirective + ", _displayLocationDirectiveForReversedEdge = " + _displayLocationDirectiveForReversedEdge + ", image = " + _image + ", reverseEdgeImage = " + _reverseEdgeImage;
+        return str;
+    }
+
 
 
 

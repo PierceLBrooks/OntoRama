@@ -1,8 +1,6 @@
 package ontorama.webkbtools.query.parser.rdf;
 
-import ontorama.model.Edge;
-import ontorama.model.Node;
-import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.model.*;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.query.parser.ParserResult;
@@ -89,8 +87,8 @@ public class RdfWebkbParser extends RdfDamlParser {
             //System.out.println("cur edge = " + curEdge);
             mapNewName(fromNode);
 
-            RelationLinkDetails edgeType = curEdge.getEdgeType();
-            if (edgeType.getLinkName().equals(urlLinkName)) {
+            EdgeType edgeType = curEdge.getEdgeType();
+            if (edgeType.getName().equals(urlLinkName)) {
                 toNode.setName(toNode.getFullName());
                 namesMapping.put(toNode, toNode.getFullName());
             }

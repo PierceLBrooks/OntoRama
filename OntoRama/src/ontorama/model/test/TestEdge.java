@@ -1,11 +1,9 @@
 package ontorama.model.test;
 
 import junit.framework.TestCase;
-import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 import ontorama.model.*;
 import ontorama.OntoramaConfig;
-import ontorama.ontologyConfig.RelationLinkDetails;
 
 import java.util.*;
 
@@ -40,6 +38,10 @@ public class TestEdge extends TestCase {
     private Edge edge5;
     private Edge edge6;
     private Edge edge7;
+
+    private static final String edgeName_subtype = "subtype";
+    private static final String edgeName_similar = "similar";
+    private static final String edgeName_reverse = "reverse";
 
     private Set relLinksSet;
 
@@ -80,16 +82,16 @@ public class TestEdge extends TestCase {
         node6 = new NodeImpl("node6");
 
         try {
-            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getRelationLinkDetails()[2]);
-            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getRelationLinkDetails()[3]);
-            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getRelationLinkDetails()[1]);
-            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getRelationLinkDetails()[2]);
-            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getRelationLinkDetails()[3]);
+            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
+            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getRelationLinkDetails(edgeName_reverse));
+            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getRelationLinkDetails(edgeName_subtype));
+            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getRelationLinkDetails(edgeName_similar));
+            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getRelationLinkDetails(edgeName_reverse));
 
             // create relation links set
-            relLinksSet = createSet(OntoramaConfig.getRelationLinkDetails()[2], OntoramaConfig.getRelationLinkDetails()[3]);
+            relLinksSet = createSet(OntoramaConfig.getRelationLinkDetails(edgeName_similar), OntoramaConfig.getRelationLinkDetails(edgeName_reverse));
 
             // populate linked lists
             outboundEdgesListForNode1.add(edge1);
@@ -162,23 +164,23 @@ public class TestEdge extends TestCase {
     /**
      * test method getEdgeType
      */
-    public void testGetType() {
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge1.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge2.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[2], edge3.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[3], edge4.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[1], edge5.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[2], edge6.getEdgeType());
-        assertEquals(OntoramaConfig.getRelationLinkDetails()[3], edge7.getEdgeType());
+    public void testGetType() throws NoSuchRelationLinkException {
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), edge1.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), edge2.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_similar), edge3.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_reverse), edge4.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_subtype), edge5.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_similar), edge6.getEdgeType());
+        assertEquals(OntoramaConfig.getRelationLinkDetails(edgeName_reverse), edge7.getEdgeType());
     }
 
     //////////////******* Helper methods ********////////////////////
 
 
     /**
-     * create a set of int's
+     * create a set of edge types
      */
-    private Set createSet(RelationLinkDetails det1, RelationLinkDetails det2) {
+    private Set createSet(EdgeType det1, EdgeType det2) {
         Set set = new HashSet();
         set.add(det1);
         set.add(det2);

@@ -29,6 +29,12 @@ public class EdgeTypeImpl implements EdgeType {
         _reverseEdgeName = reverseEdgeName;
     }
 
+    public String toString() {
+        String str = "EdgeType: ";
+        str = str + " name = " + _name + ", reversedEdgeName = " + _reverseEdgeName;
+        return str;
+    }
+
 
 
 }

@@ -131,6 +131,9 @@ public class RdfDamlParser implements Parser {
         } catch (RDFError err) {
             throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
         }
+        catch (NoSuchRelationLinkException relExc) {
+            throw new ParserException("Unrecognized EdgeType: " + relExc.getMessage());
+        }
         ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
         return result;
     }
@@ -175,7 +178,7 @@ public class RdfDamlParser implements Parser {
     /**
      * Process RDF statement and create corresponding graph nodes.
      */
-    protected void processStatement(Statement st) {
+    protected void processStatement(Statement st) throws NoSuchRelationLinkException {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
@@ -186,7 +189,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected void doEdgesMapping(Resource resource, Property predicate, RDFNode object) {
+    protected void doEdgesMapping(Resource resource, Property predicate, RDFNode object) throws NoSuchRelationLinkException {
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
         while (ontologyRelationRdfMappingIterator.hasNext()) {
@@ -195,15 +198,16 @@ public class RdfDamlParser implements Parser {
             while (mappingTagsIterator.hasNext()) {
                 String mappingTag = (String) mappingTagsIterator.next();
                 if (predicate.getLocalName().endsWith(mappingTag)) {
-                    int mappingId = rdfMapping.getId();
+//                    int mappingId = rdfMapping.getId();
                     String mappingType = rdfMapping.getType();
-                    RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+//                    RelationLinkDetails relLinkDetails = OntoramaConfig.getRelationLinkDetails(mappingId);
+                    EdgeType edgeType = OntoramaConfig.getRelationLinkDetails(mappingType);
 
                     try {
-                        if (mappingType.equals(relLinkDetails.getLinkName())) {
-                            addEdge(resource, relLinkDetails, object);
-                        } else if (mappingType.equals(relLinkDetails.getReversedLinkName())) {
-                            addEdge(object, relLinkDetails, resource);
+                        if (mappingType.equals(edgeType.getName())) {
+                            addEdge(resource, edgeType, object);
+                        } else if (mappingType.equals(edgeType.getReverseEdgeName())) {
+                            addEdge(object, edgeType, resource);
                         } else {
                             // ERROR
                             // throw exception here
@@ -223,7 +227,7 @@ public class RdfDamlParser implements Parser {
     /**
      *
      */
-    protected void addEdge(RDFNode fromNodeResource, RelationLinkDetails edgeType, RDFNode toNodeResource)
+    protected void addEdge(RDFNode fromNodeResource, EdgeType edgeType, RDFNode toNodeResource)
             throws NoSuchRelationLinkException {
         String fromNodeName = stripUri(fromNodeResource);
         String toNodeName = stripUri(toNodeResource);

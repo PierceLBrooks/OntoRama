@@ -70,8 +70,8 @@
 			download ontorama.zip</a> and unzip it on your local drive.
 		</p>
 		<p>
-			For instance, unzip into directory 'C:\Program Files\ontorama' (Windows OS), then double click on 
-			ontorama-local.jnlp. 
+			For instance, unzip into directory 'C:\ontorama' (Windows OS), then double click on 
+			OntoRamaLocal.jnlp. 
 		</p>
 		<p>
 			If Java Webstart 
@@ -79,10 +79,12 @@
 		</p>
 		<p>
 			If you wish to unzip ontorama  into a different directory,
-			you will need to edit ontorama-local.jnlp file and specify alternative location by changing href in the followind line:
+			you will need to edit OntoRamaLocal.jnlp file and specify alternative location by changing href in the followind line:
 		</p>
 		<xml>
-		<homepage href="file:/C://Program Files/ontorama"/>
+		<jnlp spec="1.0+" codebase="file:///c:/ontorama/" href="OntoRamaLocal.jnlp">
+		...
+		</jnlp>
 		</xml>
 		<p>
 			Note, value of attribute 'href'	should be valid url (in particular, on a local system, it should contain 'file:/' in it).
@@ -91,7 +93,9 @@
 			For example, if you wish to use "C:\temp\ontorama" directory, then change the above line to 
 		</p>
 		<xml>
-		<homepage href="file:/C://temp/ontorama"/>
+		<jnlp spec="1.0+" codebase="file:///c:/temp/ontorama/" href="OntoRamaLocal.jnlp">
+		...
+		</jnlp>
 		</xml>
 		<p>
 		Disadvantage of this approach is that if defies the purpose of Webstart: you won't get automated updates.

@@ -22,12 +22,7 @@ public class ErrorPopupMessage extends JOptionPane {
     }
 
     public static void main(String[] args) {
-        ErrorPopupMessage dialog = new ErrorPopupMessage("Testing Error Popup", null);
-//    dialog.addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//              System.exit(0);
-//            }
-//        });
+        new ErrorPopupMessage("Testing Error Popup", null);
     }
 
 }

@@ -164,11 +164,12 @@ public class NodesListViewer extends JComboBox {
             while (nodeTypesIterator.hasNext()) {
                 NodeType nodeType = (NodeType) nodeTypesIterator.next();
                 Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
-                ImageIcon image = makeNodeIcon(iconW/2, iconH, color, Color.black);
+                ImageIcon image = makeNodeIcon(iconW/2, iconH, color, Color.black, nodeType);
                 _nodeTypeToImageMapping.put(nodeType, image);
             }
-            _defaultImage = makeNodeIcon(iconW/2, iconH, Color.white, Color.black);
-            _noImage = makeNodeIcon(iconW/2, iconH, getBackground(), getBackground());
+            /// @todo hack shouldn't pass null
+            //_defaultImage = makeNodeIcon(iconW/2, iconH, Color.white, Color.black, null);
+            _noImage = makeNodeIcon(iconW/2, iconH, getBackground(), getBackground(), null);
         }
 
 
@@ -203,14 +204,14 @@ public class NodesListViewer extends JComboBox {
                     setIcon(image);
                 }
                 else {
-                    setIcon(_defaultImage);
+                    setIcon(_noImage);
                 }
             }
             return this;
         }
     }
 
-    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor) {
+    private ImageIcon makeNodeIcon(int width, int height, Color color, Color outlineColor, NodeType nodeType) {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -227,10 +228,36 @@ public class NodesListViewer extends JComboBox {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-        g2.fill(circle);
-        g2.setColor(outlineColor);
-        g2.draw(circle);
+        if (nodeType == null) {
+            /// @todo this check for null is a hack. have to change all following
+            // if's and else's to a meaninfull  flow.
+            Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+            g2.fill(circle);
+            g2.setColor(outlineColor);
+            g2.draw(circle);
+        }
+        else {
+            // @todo shouldn't hardcode string 'concept' here.
+            if (nodeType.getNodeType().equals("concept")) {
+                Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+                g2.fill(circle);
+                g2.setColor(outlineColor);
+                g2.draw(circle);
+            }
+            else {
+                int x[] = {0, 0, width};
+                int y[] = {0, height -1, height -1};
+                Polygon polygon = new Polygon(x, y, 3);
+                g2.fill(polygon);
+                g2.setColor(outlineColor);
+                g2.draw(polygon);
+            }
+        }
+
+//        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+//        g2.fill(circle);
+//        g2.setColor(outlineColor);
+//        g2.draw(circle);
 
         return (new ImageIcon(image));
     }

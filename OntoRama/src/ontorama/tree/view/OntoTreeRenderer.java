@@ -65,13 +65,14 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         while (nodeTypesIterator.hasNext()) {
             NodeType nodeType = (NodeType) nodeTypesIterator.next();
             Color color = OntoramaConfig.getNodeTypeDisplayInfo(nodeType).getColor();
-            ImageIcon image = makeNodeIcon(iconW/2, iconH, color);
+            ImageIcon image = makeNodeIcon(iconW/2, iconH, color, nodeType);
             _nodeTypeToImageMapping.put(nodeType, image);
 
         }
 
-        _cloneNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _cloneNodeColor);
-        _unknownNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _unknownNodeColor);
+        /// @todo hack, parsing null for node type here
+        _cloneNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _cloneNodeColor, null);
+        _unknownNodeImageIcon = makeNodeIcon(iconW / 2, iconH, _unknownNodeColor, null);
 
         _lineIcon = makeLineIcon(iconW / 2, iconH);
 
@@ -265,7 +266,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * make icon for nodes
      */
-    private ImageIcon makeNodeIcon(int width, int height, Color color) {
+    private ImageIcon makeNodeIcon(int width, int height, Color color, NodeType nodeType) {
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -282,19 +283,31 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int x[] = {0, 0, width};
-        int y[] = {0, height -1, height -1};
-        Polygon polygon = new Polygon(x, y, 3);
-        g2.fill(polygon);
-        g2.setColor(Color.black);
-        g2.draw(polygon);
-
-
-
-//        Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
-//        g2.fill(circle);
-//        g2.setColor(Color.black);
-//        g2.draw(circle);
+        if (nodeType == null) {
+            /// @todo this check for null is a hack. have to change all following
+            // if's and else's to a meaninfull  flow.
+            Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+            g2.fill(circle);
+            g2.setColor(Color.black);
+            g2.draw(circle);
+        }
+        else {
+            // @todo shouldn't hardcode string 'concept' here.
+            if (nodeType.getNodeType().equals("concept")) {
+                Ellipse2D circle = new Ellipse2D.Double(ovalX, ovalY, ovalSize, ovalSize);
+                g2.fill(circle);
+                g2.setColor(Color.black);
+                g2.draw(circle);
+            }
+            else {
+                int x[] = {0, 0, width};
+                int y[] = {0, height -1, height -1};
+                Polygon polygon = new Polygon(x, y, 3);
+                g2.fill(polygon);
+                g2.setColor(Color.black);
+                g2.draw(polygon);
+            }
+        }
 
         return (new ImageIcon(image));
     }

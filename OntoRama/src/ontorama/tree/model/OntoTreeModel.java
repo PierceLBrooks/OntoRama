@@ -22,8 +22,6 @@ public class OntoTreeModel implements TreeModel {
 
     /**
      * Graph that is a base for this OntoTreeModel
-     * @todo don't like to have graph available to other classes. Problem is that
-     * OntoTreeNode needs access to methods in graph to get edges.
      */
     protected static Graph graph;
 

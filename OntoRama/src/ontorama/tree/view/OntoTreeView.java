@@ -292,14 +292,9 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     //////////////////////////ViewEventObserver interface implementation////////////////
 
     /**
-     * @todo	shouldn't need to check if treeNode == null. This is a hack! this should be fixed in graphBuilder
      */
     public void focus(Node node) {
         OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(node);
-        //System.out.println("FOCUS: ontotreenode = " + node.getName());
-        //if (treeNode == null) {
-        //        return;
-        //}
         TreePath path = treeNode.getTreePath();
         this.tree.setSelectionPath(path);
         this.tree.scrollPathToVisible(path);

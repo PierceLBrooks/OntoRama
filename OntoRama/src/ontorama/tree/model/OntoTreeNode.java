@@ -122,7 +122,6 @@ public class OntoTreeNode implements TreeNode {
      * Returns the child TreeNode at index childIndex.
      * @param childIndex
      * @return  child TreeNode
-     * @todo    should return null if index is out of bounds????
      */
     public TreeNode getChildAt(int childIndex) {
         List outboundEdges = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
@@ -136,10 +135,8 @@ public class OntoTreeNode implements TreeNode {
     /**
      * Returns the number of children TreeNodes the receiver contains.
      * @return  int
-     * @todo  remove getNumberOfChildren method
      */
     public int getChildCount() {
-//        List outboundNodes = OntoTreeModel.graph.getOutboundEdgeNodesList(this.graphNode);
         List outboundNodes = OntoTreeModel.graph.getOutboundEdgesDisplayedInGraph(this.graphNode);
         return outboundNodes.size();
     }
@@ -167,7 +164,7 @@ public class OntoTreeNode implements TreeNode {
      * Returns the index of node in the receivers children.
      * @param node
      * @return int index. If the receiver does not contain node, -1 will be returned.
-     * @todo  not sure if implemented correctly - terminology in java TreeNode
+     * NOTE:  not sure if implemented correctly - terminology in java TreeNode
      * interface is confusing (what do they mean by receiver? ). Assumed
      * that by 'receiver' they mean this node.
      */

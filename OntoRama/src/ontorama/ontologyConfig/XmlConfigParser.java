@@ -79,8 +79,6 @@ public class XmlConfigParser extends XmlParserAbstract {
      * be at index 0 and relation link with id=2 should be at index 2, but
      * array's last index is 1.
      *
-     * @todo read in contents of tag conceptProperty and deal with them
-     *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {

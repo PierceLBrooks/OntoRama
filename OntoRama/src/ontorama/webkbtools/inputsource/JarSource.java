@@ -38,7 +38,7 @@ public class JarSource implements Source {
      *  Get a Reader from a given location in a jar file.
      *  @param  relativePath  path relative to ClassLoader
      *  @return reader
-     *  @throws Exception
+     *  @throws SourceException
      */
     private Reader getReader(String relativePath, Query query) throws SourceException {
         if (OntoramaConfig.DEBUG) {

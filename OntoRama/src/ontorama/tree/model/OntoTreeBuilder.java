@@ -17,10 +17,6 @@ import java.util.Enumeration;
  * later on is used by OntoTreeNode for reference for getting
  * a TreeNode from given Node.
  *
- * @todo This probably can be done other way - by cycling through all
- * TreeNodes and comparing given Node to OntoTreeNode.getGraphNode
- * untill match is found.
- *
  * Copyright:    Copyright (c) 2001
  * Company:     DSTC
  */

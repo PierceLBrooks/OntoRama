@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-
-
 public class HyperNode implements NodeObserver, PositionChaingedObservable,  FocusChangedObservable {
 
     /**
@@ -38,7 +33,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Store the name/label of node.
      */
-    private int nodeRadius = 25;
+    private double nodeRadius = 25d;
 
 
     /**
@@ -121,7 +116,7 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     /**
      * Get the nodes radius.
      */
-    public int getNoderadius() {
+    public double getNodeRadius() {
         return nodeRadius;
     }
 
@@ -156,5 +151,4 @@ public class HyperNode implements NodeObserver, PositionChaingedObservable,  Foc
     public String toString() {
         return this.graphNode.getName();
     }
-
 }

@@ -61,16 +61,11 @@ public class P2PSender{
     *
     * @param TAG the kind of propagate to send
     * @param recieverID the peer id of the reciever (null if the message shall be sent to every peer)
-    * @param internalModel the changes that has been done
+    * @param message the information that should be sent
     * @exception
-    *
-    * @version P2P-OntoRama 1.0.0
     */
-    //TODO we are not sending internalModel therefor we should change the name, we
-    //are not using INIT either, since no one can receive your message if you
-    //are not in a group.
-    public void sendPropagate(int TAG, String recieverID, String internalModel) throws GroupExceptionThread{
-        this.comm.sendPropagate(TAG, recieverID, internalModel);
+    public void sendPropagate(int TAG, String recieverID, String message) throws GroupExceptionThread{
+        this.comm.sendPropagate(TAG, recieverID, message);
     }
 
 
@@ -81,8 +76,6 @@ public class P2PSender{
     * @param query a string containing the query
     * @return a vector of searchResultElement
     * @exception
-    *
-    * @version P2P-OntoRama 1.0.0
     */
     public Vector sendSearch(String query) throws IOException, GroupExceptionThread {
             return this.comm.sendSearch(query);

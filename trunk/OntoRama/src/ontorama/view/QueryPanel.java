@@ -88,15 +88,8 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
         _depthField = new JTextField(1);
         _depthField.setToolTipText(_depthFieldToolTip);
         _depthField.addActionListener(this);
-        _depthField.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent ke) {
-            }
-
-            public void keyTyped(KeyEvent ke) {
-            }
-
+        _depthField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent ke) {
-                //System.out.println("key char = " + ke.getKeyChar() + ", isDigit = " + Character.isDigit(ke.getKeyChar()) );
                 if ((!Character.isDigit(ke.getKeyChar())) && (!Character.isLetter(ke.getKeyChar()))) {
                     return;
                 }
@@ -289,31 +282,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
 
     }
 
-//    /**
-//     * Method to test layouting usin spring and force algorthms
-//     */
-//    private void testSpringAndForceAlgorthms() {
-//        for( int i = 0; i < 300; i++) {
-//            //generate spring length values between 50 - 250;
-//            double springLength = (Math.random() * 200) + 51;
-//            //generate stiffness values between 0 - .99999
-//            double stiffness = Math.random();
-//            //generate electric_charge values between 0 - 1000;
-//            double electric_charge = (Math.random() * 1000) + 1;
-//            _hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
-//            _hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
-//        }
-//        System.out.println("Test Finished...");
-//    }
-
-//    /**
-//     * Temp method to take a snap shot of hyper view
-//     */
-//    private void takeSnapshot() {
-//        if( ! _imgNameField.getText().equals("") ) {
-//            _hyperView.saveCanvasToFile( _imgNameField.getText());
-//        }
-//    }
 
     /**
      * ItemListener
@@ -321,18 +289,6 @@ public class QueryPanel extends JPanel implements ViewEventObserver, ActionListe
     class CheckBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
             _wantedRelationLinks = getWantedRelationLinks();
-//            _wantedRelationLinks = new LinkedList();
-//            Object source = e.getItemSelectable();
-//            //if (source == buttonX) { }
-//            Enumeration en = _relationLinksCheckBoxes.keys();
-//            while (en.hasMoreElements()) {
-//              JCheckBox key = (JCheckBox) en.nextElement();
-//              if (key.isSelected()) {
-//                Integer relLinkType = (Integer) _relationLinksCheckBoxes.get(key);
-//                _wantedRelationLinks.add(relLinkType);
-//              }
-//            }
-
         }
     }
 

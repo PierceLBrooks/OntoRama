@@ -12,14 +12,11 @@ import org.jdom.Attribute;
 
 public class XmlParserAbstract {
 
-    public XmlParserAbstract() {
-    }
-
     /**
      *
      */
     public void checkCompulsoryAttr(Attribute attr, String attrName, String elementName)
-            throws ConfigParserException {
+                                                                throws ConfigParserException {
         if (attr == null) {
             throw new ConfigParserException("Missing compulsory Attribute '" + attrName + "' in Element '" + elementName + "'");
         }

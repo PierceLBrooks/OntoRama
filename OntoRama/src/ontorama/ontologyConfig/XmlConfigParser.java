@@ -71,7 +71,7 @@ public class XmlConfigParser extends XmlParserAbstract {
      * be at index 0 and relation link with id=2 should be at index 2, but
      * array's last index is 1.
      *
-     * @todo    read in contents of tag conceptProperty and deal with them
+     * @todo read in contents of tag conceptProperty and deal with them
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
@@ -172,19 +172,26 @@ public class XmlConfigParser extends XmlParserAbstract {
             }
             Element displayElement = relationElement.getChild("display");
 
-            Attribute colorAttr = displayElement.getAttribute("color");
-            checkCompulsoryAttr(colorAttr, "color", "display");
-            relationLinkDetails.setDisplayColor(colorAttr.getValue());
-
-            Attribute displayMappingSymbolAttr = displayElement.getAttribute("symbol");
-            checkCompulsoryAttr(displayMappingSymbolAttr, "symbol", "display");
-            relationLinkDetails.setDisplaySymbol(displayMappingSymbolAttr.getValue());
-
-
-            Attribute iconAttr = displayElement.getAttribute("icon");
-            if (iconAttr != null) {
-                relationLinkDetails.setDisplayImage(iconAttr.getValue());
+            Attribute displayInDescriptionWinAttr = relationElement.getAttribute("inDescriptionView");
+            if (displayInDescriptionWinAttr != null) {
+                checkCompulsoryAttr(displayInDescriptionWinAttr, "inDescriptionView", "display");
+                relationLinkDetails.setDisplayType(RelationLinkDetails.DISPLAY_TYPE_DESCRIPTION);
             }
+            else {
+                Attribute colorAttr = displayElement.getAttribute("color");
+                checkCompulsoryAttr(colorAttr, "color", "display");
+                relationLinkDetails.setDisplayColor(colorAttr.getValue());
+
+                Attribute displayMappingSymbolAttr = displayElement.getAttribute("symbol");
+                checkCompulsoryAttr(displayMappingSymbolAttr, "symbol", "display");
+                relationLinkDetails.setDisplaySymbol(displayMappingSymbolAttr.getValue());
+
+                Attribute iconAttr = displayElement.getAttribute("icon");
+                if (iconAttr != null) {
+                    relationLinkDetails.setDisplayImage(iconAttr.getValue());
+                }
+            }
+
 
             try {
                 relationLinkConfig[idAttr.getIntValue()] = relationLinkDetails;

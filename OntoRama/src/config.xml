@@ -108,6 +108,19 @@ sienna	A0522D
 			<relationType name="nounTypeOf" mappingSymbol="N"/>
 			<display color="#996666" symbol="N"/>
 		</relation>
+        <relation id="13">
+            <relationType name="description" mappingSymbol="d"/>
+            <display inDescriptionView="true"/>
+        </relation>
+        <relation id="14">
+            <relationType name="creator"/>
+            <display inDescriptionView="true"/>
+        </relation>
+        <relation id="15">
+            <relationType name="synonym"/>
+            <display inDescriptionView="true"/>
+        </relation>
+
 		<conceptProperty id="Description"/>
 		<conceptProperty id="Creator"/>
 		<conceptProperty id="Synonym"/>
@@ -124,7 +137,10 @@ sienna	A0522D
 			<map id="8" type="location" tag="location"/>
 			<map id="9" type="member" tag="wnMember"/>
 			<map id="10" type="object" tag="wnObject"/>
-			<map id="11" type="url" tag="url"/>
+            <map id="11" type="url" tag="url"/>
+			<map id="13" type="description" tag="comment"/>
+            <map id="14" type="creator" tag="Creator"/>
+            <map id="15" type="synonym" tag="label"/>
 		</relationLinks>
 		<conceptProperties>
 			<map id="Description" tag="comment"/>

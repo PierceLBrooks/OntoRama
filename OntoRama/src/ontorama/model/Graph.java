@@ -121,9 +121,27 @@ public class Graph implements GraphInterface {
 
 		try {
 			buildGraph(termName, ontIterator);
+			
+			List unconnectedEdges = listUnconnectedEdges();
+			if (unconnectedEdges.size() != 0) {
+				GraphNode node = new GraphNode("tempNode");
+				Iterator it = unconnectedEdges.iterator();
+				while (it.hasNext()) {
+					Edge curEdge = (Edge) it.next();
+					GraphNode edgeFromNode = curEdge.getFromNode();
+					if ( (edgeFromNode.getName().endsWith("Class")) || 
+						( edgeFromNode.getName().endsWith("Property")) ){
+						Edge.removeEdge(curEdge);
+						continue;
+					}
+					Edge newEdge = new Edge(node, edgeFromNode, 1);
+				}
+				Edge edgeConnectToRoot = new Edge(node, root,1);
+				root = node;
+			}
 
 			// clean up
-			removeUnconnectedEdges();
+			//removeUnconnectedEdges();
 
 			debug.message("graph , root = " + root);
 
@@ -309,6 +327,44 @@ public class Graph implements GraphInterface {
 	 *        this means that we can't get to them via recursion anyway.
 	 */
 	private void cleanUpEdges() {
+		Iterator unconnectedEdges = listUnconnectedEdges().iterator();
+		while (unconnectedEdges.hasNext()) {
+			Edge cur = (Edge) unconnectedEdges.next();
+			Edge.removeEdge(cur);
+		}
+		
+//		Iterator allNodes = processedNodes.values().iterator();
+//		while (allNodes.hasNext()) {
+//			GraphNode curNode = (GraphNode) allNodes.next();
+//
+//			if (curNode == root) {
+//				continue;
+//			}
+//
+//			// get inbound nodes (parents) and check how many there is.
+//			// If there is no parents - this node is not attached
+//			// to anything, hence - 'hanging node'
+//			Iterator inboundNodes = Edge.getInboundEdges(curNode);
+//			if (Edge.getIteratorSize(inboundNodes) == 0) {
+//				// get outbound edges for this node and remove them
+//				Iterator curOutEdges = Edge.getOutboundEdges(curNode);
+//				while (curOutEdges.hasNext()) {
+//					Edge curEdge = (Edge) curOutEdges.next();
+//					if (curEdge.getToNode() == root) {
+//						// don't remove parents of root node
+//						continue;
+//					}
+//					Edge.removeEdge(curEdge);
+//				}
+//			}
+//		}
+	}
+
+	/**
+	 */
+	private List listUnconnectedEdges() {
+		List unconnectedEdges = new LinkedList();
+
 		Iterator allNodes = processedNodes.values().iterator();
 		while (allNodes.hasNext()) {
 			GraphNode curNode = (GraphNode) allNodes.next();
@@ -330,10 +386,13 @@ public class Graph implements GraphInterface {
 						// don't remove parents of root node
 						continue;
 					}
-					Edge.removeEdge(curEdge);
+					//Edge.removeEdge(curEdge);
+					unconnectedEdges.add(curEdge);
+					System.out.println("unconnected Edge = " + curEdge);
 				}
 			}
 		}
+		return unconnectedEdges;
 	}
 
 	/**

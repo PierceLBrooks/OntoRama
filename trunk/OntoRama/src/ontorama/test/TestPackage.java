@@ -18,6 +18,7 @@ public class TestPackage {
          TestSuite suite = new TestSuite( "ontorama" );
 
          suite.addTest( new TestSuite( TestEdge.class ) );
+         suite.addTest( new TestSuite (TestGraph.class) );
 //         suite.addTest( new TestSuite( ItemListTest.class ) );
 //         suite.addTest( new TestSuite( DNodeListTest.class ) );
 //         suite.addTest( new TestSuite( SNodeListTest.class ) );

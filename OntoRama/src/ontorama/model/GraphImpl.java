@@ -122,12 +122,15 @@ public class GraphImpl implements Graph {
 
             // clean up
             removeUnconnectedEdges();
+            System.out.println("1");
             removeUnconnectedNodesFromGraph();
+            System.out.println("1");
 
 
             //System.out.println( printXml());
             convertIntoTree(root);
             //root.calculateDepths();
+            System.out.println("1");
 
 
         } catch (NoSuchRelationLinkException e) {
@@ -400,6 +403,7 @@ public class GraphImpl implements Graph {
 
         while (!queue.isEmpty()) {
             Node nextQueueNode = (Node) queue.remove(0);
+            System.out.println("--- processing node " + nextQueueNode.getName());
 
             debug.message(
                     "Graph",
@@ -412,12 +416,14 @@ public class GraphImpl implements Graph {
             while (allOutboundNodes.hasNext()) {
                 Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
+                System.out.println("adding node to queue " + curNode);
 
                 Iterator inboundEdges = getInboundEdges(curNode);
                 int count = 0;
                 while (inboundEdges.hasNext()) {
                     count++;
                     inboundEdges.next();
+                    System.out.println("inbound edges count = " + count);
                 }
                 while (count > 1) {
                     // indicate that we processed one edge
@@ -443,6 +449,7 @@ public class GraphImpl implements Graph {
                     Iterator it = getInboundEdges(curNode);
                     if (it.hasNext()) {
                         Edge firstEdge = (Edge) it.next();
+                        System.out.println("cloning edge " + firstEdge);
                         Edge newEdge = new EdgeImpl(
                                 firstEdge.getFromNode(),
                                 cloneNode,

@@ -10,7 +10,7 @@
 	</example>	
 
 
-	<example name="Comms Ontology" root="comms#CommsObject">
+	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes" >
 		<source uri="examples/comms_comms_object-children.rdf" 
 				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>

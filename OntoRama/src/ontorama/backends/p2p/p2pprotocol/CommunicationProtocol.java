@@ -135,4 +135,15 @@ public interface CommunicationProtocol {
 	*/
 	public Vector peerDiscovery (String groupIDasString) throws IOException, GroupExceptionThread;
 
+    /**
+    * Returns all the groups the peer belongs to.   
+    * 
+    * @return a vector of group IDs
+    *
+    * @version P2P-OntoRama 1.0.0
+    */
+    public Vector getMemberOfGroups();
+
+
+
 }

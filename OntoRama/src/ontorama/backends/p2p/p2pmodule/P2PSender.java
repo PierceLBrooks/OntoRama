@@ -220,6 +220,27 @@ public class P2PSender{
           
         }
   
+/**
+    * Return all the groups the peer has joined
+    * 
+    * @return a vector of IDs of group that have been joined
+    *
+    * @version P2P-OntoRama 1.0.0
+    */
+    public Vector joinedGroups(){
+        return this.comm.getMemberOfGroups();
+ }
+  
+
+
+
+
+
+
+
+
+
+
 
    private static void printSearchGroupResult(String tag, Vector obj) {
         SearchGroupResultElement searchGroupResultElement = null;

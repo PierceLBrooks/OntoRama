@@ -45,16 +45,16 @@
 		<p>
 			Here is a sniplet from the configuration file describing
 			subtype/supertype relation:
+		</p>
 			<span class="xmlSnipplet">
 			<pre>
-			&lt;relation id="1"&gt;
-					&lt;relationType name="subtype" mappingSymbol="&lt;"/&gt;
-					&lt;relationType name="supertype" mappingSymbol="&gt;"/&gt;
-					&lt;display color="#33CCFF" symbol="&lt;"/&gt;
-			&lt;/relation&gt;
+&lt;relation id="1"&gt;
+		&lt;relationType name="subtype" mappingSymbol="&lt;"/&gt;
+		&lt;relationType name="supertype" mappingSymbol="&gt;"/&gt;
+		&lt;display color="#33CCFF" symbol="&lt;"/&gt;
+&lt;/relation&gt;
 			</pre>
 			</span>
-		</p>
 		<p>
 			Each  relation is uniquely identified by relation id number and relation
 			name. It should be noted that OntoRama will display only one relation
@@ -77,29 +77,31 @@
 		</p>
 		<p>
 			Here is a sniplet describing properties from our configuration file:
-			&lt;conceptProperty id="Description"/&gt;
-			&lt;conceptProperty id="Creator"/&gt;
+			<pre>
+&lt;conceptProperty id="Description"/&gt;
+&lt;conceptProperty id="Creator"/&gt;
+			</pre>
 		</p>
 		<p>
 			While Ontology section of configuration file sets the scene, RdfMapping
 			section specifies how application should be able to find items defined
 			in the ontology section in the source RDF file. Here is an example of
 			'rdfMapping' element:
-			<pre>
-			&lt;rdfMapping&gt;
-					&lt;relationLinks&gt;
-							&lt;map id="1" type="supertype" tag="subClassOf"/&gt;
-							&lt;map id="3" type="part" tag="part"/&gt;
-							&lt;map id="6" type="inclusive" tag="jointWith"/&gt;
-					&lt;/relationLinks&gt;
-					&lt;conceptProperties&gt;
-							&lt;map id="Description" tag="comment"/&gt;
-							&lt;map id="Creator" tag="Creator"/&gt;
-							&lt;map id="Synonym" tag="label"/&gt;
-					&lt;/conceptProperties&gt;
-			&lt;/rdfMapping&gt;
-			</pre>
 		</p>
+		<pre>
+&lt;rdfMapping&gt;
+		&lt;relationLinks&gt;
+				&lt;map id="1" type="supertype" tag="subClassOf"/&gt;
+				&lt;map id="3" type="part" tag="part"/&gt;
+				&lt;map id="6" type="inclusive" tag="jointWith"/&gt;
+		&lt;/relationLinks&gt;
+		&lt;conceptProperties&gt;
+				&lt;map id="Description" tag="comment"/&gt;
+				&lt;map id="Creator" tag="Creator"/&gt;
+				&lt;map id="Synonym" tag="label"/&gt;
+		&lt;/conceptProperties&gt;
+&lt;/rdfMapping&gt;
+		</pre>
 		<p>
 			It also consists of two subsections, one: 'relationLinks' maps relation
 			links defined in the 'ontology' section to RDF tags. Another subsection
@@ -111,18 +113,20 @@
 			interesting example because as stated above, OntoRama would display
 			relation link 'subtype', this means that the application has to reverse
 			'supertype' links to be able to display them. Here is example RDF:
-			<pre>
-			&lt;rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"&gt;
-					&lt;rdfs:label xml:lang="en"&gt;cat&lt;/rdfs:label&gt;
-					&lt;rdfs:label xml:lang="en"&gt;domestic_cat&lt;/rdfs:label&gt;
-					&lt;rdfs:label xml:lang="en"&gt;house_cat&lt;/rdfs:label&gt;
-					&lt;rdfs:label xml:lang="en"&gt;Felis_domesticus&lt;/rdfs:label&gt;
-					&lt;rdfs:label xml:lang="en"&gt;Felis_catus&lt;/rdfs:label&gt;
-					&lt;dc:Creator&gt;http://www.cogsci.princeton.edu/~wn/&lt;/dc:Creator&gt;
-					&lt;rdfs:comment&gt;any domesticated member of the genus Felis&lt;/rdfs:comment&gt;
-					&lt;rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/&gt;
-			&lt;/rdfs:Class&gt;
-			</pre>
+		</p>
+		<pre>
+&lt;rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Cat"&gt;
+		&lt;rdfs:label xml:lang="en"&gt;cat&lt;/rdfs:label&gt;
+		&lt;rdfs:label xml:lang="en"&gt;domestic_cat&lt;/rdfs:label&gt;
+		&lt;rdfs:label xml:lang="en"&gt;house_cat&lt;/rdfs:label&gt;
+		&lt;rdfs:label xml:lang="en"&gt;Felis_domesticus&lt;/rdfs:label&gt;
+		&lt;rdfs:label xml:lang="en"&gt;Felis_catus&lt;/rdfs:label&gt;
+		&lt;dc:Creator&gt;http://www.cogsci.princeton.edu/~wn/&lt;/dc:Creator&gt;
+		&lt;rdfs:comment&gt;any domesticated member of the genus Felis&lt;/rdfs:comment&gt;
+		&lt;rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TrueCat"/&gt;
+&lt;/rdfs:Class&gt;
+		</pre>
+		<p>
 			The last statement will be translated by OntoRama as following:
 			'wn#TrueCat' is 'supertype'of 'wn#Cat'. However, OntoRama needs to
 			reverse this statement as only 'subtype' relation links are displayed

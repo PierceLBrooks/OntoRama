@@ -28,9 +28,11 @@
 				<a href="http://www.webkb.org/ontorama/deployWebstart/OntoRama.jnlp">
 					launch OntoRama  
 				</a>
-        </p>		
-		<p>
-		If you have problems launching OntoRama:
+        </p>	
+		<hr/>
+		<h4>
+		If you have problems launching OntoRama
+		</h4>
 		<ol>
 			<li>
 				make sure that Java Webstart is installed.
@@ -40,12 +42,48 @@
 				http://java.sun.com/products/javawebstart/demos.html
 			</li>
 		</ol>
+		<hr/>
+		<p>
 		If your Java Webstart is installed correctly and when you try to run the above applications you get an error:
 		"Unable to launch application", we suspect that your firewall may not be allowing files with extension .jnlp
 		through (file needed to launch Webstart application). In this case, you would be able to use an alternative
-		distribution copy of OntoRama that is launched fro local system rather then from the Web (Download link is
-		below). We appologize for this inconvenience.
+		distribution copy of OntoRama (see below) that is launched from local system rather then from the Web. 
+		We appologize for this inconvenience.
 		</p>
+		<h4>Running OntoRama locally</h4>
+		<p>
+			To run OntoRama locally, <a href="http://www.webkb.org/ontorama/deployWebstart/ontorama.zip">
+			download ontorama.zip</a> and unzip it on your local drive.
+		</p>
+		<p>
+			For instance, unzip into directory 'C:\Program Files\ontorama' (Windows OS), then double click on 
+			ontorama-local.jnlp. 
+		</p>
+		<p>
+			If Java Webstart 
+			is installed correctly, you should see OntoRama loading.
+		</p>
+		<p>
+			If you wish to unzip ontorama  into a different directory,
+			you will need to edit ontorama-local.jnlp file and specify alternative location by changing href in the followind line:
+		</p>
+		<pre>
+		&lt;homepage href="file:/C://Program Files/ontorama"/&gt;
+		</pre>
+		<p>
+			Note, value of attribute 'href'	should be valid url (in particular, on a local system, it should contain 'file:/' in it).
+		</p>
+		<p>
+			For example, if you wish to use "C:\temp\ontorama" directory, then change the above line to 
+		</p>
+		<pre>
+		&lt;homepage href="file:/C://temp/ontorama"/&gt;
+		</pre>
+		<p>
+		Disadvantage of this approach is that if defies the purpose of Webstart: you won't get automated updates.
+		Each time the application is updated, you will need to download and unzip the updated file.
+		</p>
+		<hr/>
 		<p>
 		If, on another hand, the problem we describe above is not what you are experiencing: please let us know. 
 		</p>

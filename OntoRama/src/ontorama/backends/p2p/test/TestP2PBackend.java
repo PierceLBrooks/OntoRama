@@ -26,12 +26,17 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.writer.ModelWriter;
+import ontorama.ontotools.writer.ModelWriterException;
+import ontorama.ontotools.writer.rdf.RdfModelWriter;
 import ontorama.ontotools.parser.rdf.RdfDamlParser;
+import ontorama.ontotools.parser.ParserResult;
 
 /**
  * Description
- * 
- * 
+ *
+ *
  * Last revised:	2:08:26 PM
  */
 public class TestP2PBackend {
@@ -68,15 +73,15 @@ public class TestP2PBackend {
 	        String ontoramaNamespace = "http://ontorama.org/ont#";
 	        URI creator = new URI("ontorama::user@domain.com");
    	        URI creator2 = new URI("ontorama::john.doe@domain.com");
-	        URI creator3 = new URI("ontorama::lisa@domain.com");	        	        
+	        URI creator3 = new URI("ontorama::lisa@domain.com");
 	        P2PGraph graph = new P2PGraphImpl();
 	        P2PNode node1 = new P2PNodeImpl("node1", ontoramaNamespace + "node1",creator,null);
 	        P2PNode node2 = new P2PNodeImpl("node2", ontoramaNamespace + "node2",creator,null);
 	        P2PNode node3 = new P2PNodeImpl("node3", ontoramaNamespace + "node3",creator,null);
-	        P2PNode node4 = new P2PNodeImpl("node4", ontoramaNamespace + "node4",creator,null);	        	        
+	        P2PNode node4 = new P2PNodeImpl("node4", ontoramaNamespace + "node4",creator,null);
 			node2.addAssertion(creator2);
 			node1.addAssertion(creator2);
-			node1.addRejection(creator3);			
+			node1.addRejection(creator3);
 
 
 	        ontorama.model.graph.EdgeType edgeType_subtype = OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype);
@@ -93,11 +98,11 @@ public class TestP2PBackend {
 			graph.assertNode(node1,creator);
 	        graph.assertNode(node2,creator);
 	        graph.assertNode(node3,creator);
-	        graph.assertNode(node4,creator);	        	        
+	        graph.assertNode(node4,creator);
 	        graph.assertEdge(edge1,creator);
 	        graph.assertEdge(edge2,creator);
-	        graph.assertEdge(edge3,creator);	        	        
-	
+	        graph.assertEdge(edge3,creator);
+
 	        ModelWriter modelWriter = new RdfModelWriter();
 	        Writer writer = new PrintWriter(System.out);
 			modelWriter.write(graph, writer);
@@ -106,9 +111,9 @@ public class TestP2PBackend {
 			P2PGraph searchGraph = new P2PGraphImpl();
 			Query query = new Query("http://ontorama.org/ont#node2",null);
 			query.setDepth(10);
-			
+
 			searchGraph = graph.search(query);
-			modelWriter.write(searchGraph, writer);			
+			modelWriter.write(searchGraph, writer);
 
 
 		} catch (ModelWriterException e) {

@@ -10,6 +10,7 @@ import ontorama.backends.p2p.model.P2PGraph;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
 /**

@@ -65,7 +65,7 @@ public class QueryEngineThread extends Thread {
         _current = 0;
         _finished = false;
         _graph = null;
-        printStatus();
+        //printStatus();
     }
 
     /**
@@ -156,9 +156,7 @@ public class QueryEngineThread extends Thread {
         }
         _finished = true;
         _current = 98;
-        printStatus();
-        System.out.println("DONE! ");
-        //System.out.println(graph.printXml());
+        //printStatus();
     }
 
     /**

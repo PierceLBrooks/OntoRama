@@ -65,7 +65,7 @@ public interface Graph {
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType);
 
     public void removeEdge(Edge remEdge);
-    public void addEdge(Edge edge) throws GraphModificationException ;
+    public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException ;
     public void addEdge(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException, GraphModificationException;
 
     public void addNode (Node node)  throws GraphModificationException;

@@ -43,6 +43,10 @@ public class TestGraph extends TestCase {
     private Node node1;
     private Node node1_2;
 
+
+    Node gn, gn1, gn2, gn3, gn4, gn5, gn31;
+    Edge e, e1, e2, e3, e4 ,e5, e31;
+
     /**
      *
      */
@@ -60,15 +64,15 @@ public class TestGraph extends TestCase {
 
         // create queryResult
         Query query = new Query("root");
-        Node gn = new NodeImpl("root");
-        Node gn1 = new NodeImpl("node1");
-        Node gn2 = new NodeImpl("node2");
-        Node gn3 = new NodeImpl("node3");
-        Node gn4 = new NodeImpl("node1.1");
-        Node gn5 = new NodeImpl("node1.2");
+        gn = new NodeImpl("root");
+        gn1 = new NodeImpl("node1");
+        gn2 = new NodeImpl("node2");
+        gn3 = new NodeImpl("node3");
+        gn4 = new NodeImpl("node1.1");
+        gn5 = new NodeImpl("node1.2");
+        gn31 = new NodeImpl("node3.1");
         // create ont types not traceble to root, so we can test
-        // if GraphBuilder will ignore them or not. We will not include
-        // these into ontTypesList as at the moment we are ignoring them.
+        // if GraphBuilder will ignore them or not
         Node gn6 = new NodeImpl("node4");
         Node gn7 = new NodeImpl("node5");
 
@@ -80,19 +84,22 @@ public class TestGraph extends TestCase {
         _nodesList.add(gn5);
         _nodesList.add(gn6);
         _nodesList.add(gn7);
+        _nodesList.add(gn31);
 
-        Edge e = new EdgeImpl(gn, gn1,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e1 = new EdgeImpl(gn, gn2,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
-        Edge e2 = new EdgeImpl(gn, gn3,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
-        Edge e4 = new EdgeImpl(gn2, gn5,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
-        Edge e5 = new EdgeImpl(gn6, gn7,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        e = new EdgeImpl(gn, gn1,  OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        e1 = new EdgeImpl(gn, gn2, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
+        e2 = new EdgeImpl(gn, gn3, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        e3 = new EdgeImpl(gn1, gn5, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_similar));
+        e4 = new EdgeImpl(gn2, gn5, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        e5 = new EdgeImpl(gn6, gn7, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        e31 = new EdgeImpl(gn3, gn31, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
         _edgesList.add(e);
         _edgesList.add(e1);
         _edgesList.add(e2);
         _edgesList.add(e3);
         _edgesList.add(e4);
         _edgesList.add(e5);
+        _edgesList.add(e31);
 
         QueryResult queryResult = new QueryResult(query, _nodesList, _edgesList);
 
@@ -142,7 +149,7 @@ public class TestGraph extends TestCase {
      */
     public void testEdgesSize() {
         List edgesList = graph.getEdgesList();
-        assertEquals("5 _graphEdges in the graph", 5, edgesList.size());
+        assertEquals("5 _graphEdges in the graph", _edgesList.size(), edgesList.size());
     }
 
     /**
@@ -190,9 +197,48 @@ public class TestGraph extends TestCase {
         }
     }
 
+    public void testAddEdgeForGivenEdge () throws NoSuchRelationLinkException, GraphModificationException {
+        Node newNode = new NodeImpl("newNode");
+        Edge newEdge = new EdgeImpl(gn3, newNode, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        graph.addEdge(newEdge);
+        testingAddEdge(newEdge);
+    }
+
+    public void testAddEdgeForGivenNodes () throws NoSuchRelationLinkException, GraphModificationException {
+        Node newNode = new NodeImpl("newNode");
+        graph.addEdge(gn3, newNode, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        Edge edge = graph.getEdge(gn3, newNode, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+        assertEquals("graph should return a valid edge for the newly created edge, not null", true, (edge != null));
+    }
+
+//    public void testAddEdgeForExistingNodes () throws NoSuchRelationLinkException, GraphModificationException {
+//        Edge newEdge = new EdgeImpl(gn3, gn2, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+//        graph.addEdge(newEdge);
+//        // since gn3 is now having multiple parents - root and gn2, graph should
+//        // clone gn3 and we should end up with edges root->gn3 (already existing)
+//        // and g2->gn3 (cloned). also need to check if gn3's substructure has
+//        // been cloned properly
+//        Edge edge_root_gn2 = graph.getEdge(graph.getRootNode(), gn3, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+//        Edge edge_gn2_gn3 = graph.getEdge(gn2, gn3, OntoramaConfig.getEdgeType(TestWebkbtoolsPackage.edgeName_subtype));
+//        assertEquals("expect to find edge from root to gn2 ", true, (edge_root_gn2 != null));
+//        assertEquals("expect to find edge from gn2 to gn3 ", true, (edge_gn2_gn3 != null) );
+//
+//        assertEquals("gn3 should have a clone ", 1, gn3.getClones().size());
+//        assertEquals("gn31 should have a clone ", 1, gn31.getClones().size());
+//    }
+//
 
 
     ///////////////////***** Helper methods *****///////////////////////
+
+    private void testingAddEdge (Edge edge) {
+        boolean edgeIsInGraph = graph.getEdgesList().contains(edge);
+        assertEquals("new edge should be in the graph edges list", true, edgeIsInGraph);
+        boolean toNodeIsInGraph = graph.getNodesList().contains(edge.getToNode());
+        boolean fromNodeIsInGraph = graph.getNodesList().contains(edge.getFromNode());
+        assertEquals("toNode " + edge.getToNode().getName() + " for new edge should be in the graph nodes list", true, toNodeIsInGraph);
+        assertEquals("fromNode " + edge.getFromNode().getName() + " for new edge should be in the graph nodes list", true, fromNodeIsInGraph);
+    }
 
     /**
      *

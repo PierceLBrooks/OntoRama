@@ -183,12 +183,12 @@ http://www.gotomy.com/color.html
         </relation>
         <relation id="16">
             <displayInDescriptionWindow>
-                <relationType name="relSignature1" displayLabel="Signature 1"/>
+                <relationType name="relSignature1" displayLabel="Range"/>
             </displayInDescriptionWindow>
         </relation>
         <relation id="17">
             <displayInDescriptionWindow>
-                <relationType name="relSignature2" displayLabel="Signature 2"/>
+                <relationType name="relSignature2" displayLabel="Domain"/>
             </displayInDescriptionWindow>
         </relation>
     </displayInfo>

@@ -1,72 +1,93 @@
 <ontoramaExamples>
 	<example name="Ontorama Xml Test" root="root">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml"/>
+		<source relativeUri="examples/ontorama-test.xml" 
+					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>XML</queryOutputFormat>
 		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
 	</example>
-	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/comms_comms_object-children.rdf"/>
+	<!--
+	<example name="Ontorama Xml Test (via URL)" root="root">
+		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml" 
+					sourcePackagePathSuffix="UrlSource"/>
+		<queryOutputFormat>XML</queryOutputFormat>
+		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
+	</example>
+	-->
+	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes" >
+		<source relativeUri="examples/comms_comms_object-children.rdf" 
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="Wordnet: cat" root="wn#Cat">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_cat.rdf"/>
+		<source relativeUri="examples/wn_cat.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="Wordnet: feline" root="wn#Feline">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_feline.rdf"/>
+		<source relativeUri="examples/wn_feline.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="Wordnet: carnivore" root="wn#Carnivore">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_carnivore.rdf"/>
+		<source relativeUri="examples/wn_carnivore.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="Wordnet: tail" root="wn#Tail">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/wn_tail.rdf"/>
+		<source relativeUri="examples/wn_tail.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
 	<example name="Metanet" root="rdf-schema#Resource">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/metanet-2.rdf"/>
+		<source relativeUri="examples/web-examples/metanet-2.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>
 	</example>
 	<example name="Wordnet: LexicalConcept" root="LexicalConcept">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/wordnet-20000620.rdf"/>
+		<source relativeUri="examples/web-examples/wordnet-20000620.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>
 	</example>
 	<example name="Core Communication" root="#Message">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/CoreCommunication.rdf"/>
+		<source relativeUri="examples/web-examples/CoreCommunication.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>		
 	</example>
 	<example name="Schemas" root="dctype#Text">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/Schemas.rdf"/>
+		<source relativeUri="examples/web-examples/Schemas.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>
 	</example>
 	<example name="Technology Requirement" root="#TechnologyRequirement">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/technical.rdf"/>
+		<source relativeUri="test/web-examples/technical.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>
 	</example>
 	<example name="Research Organisation" root="#ROOT_CLASS">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/ResearchOrganizations.rdf"/>
+		<source relativeUri="examples/web-examples/ResearchOrganizations.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>		
 	</example>
 	<example name="International Movies Database" root="#IMdb">
-		<source relativeUri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/web-examples/imdb.rdf"/>
+		<source relativeUri="examples/web-examples/imdb.rdf"
+				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 		<displayMenu subfolder="Web Examples"/>		

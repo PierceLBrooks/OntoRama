@@ -236,6 +236,7 @@ public class OntologyTypeImplementation implements OntologyType {
    */
   public String toString () {
     String str = "NAME: " + typeName ;
+    str = str + "; full name = " + typeFullName;
     try {
       Enumeration conceptProperties = OntoramaConfig.getConceptPropertiesTable().keys();
       str = str + "; PROPERTIES: ";

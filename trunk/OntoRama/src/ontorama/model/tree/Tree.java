@@ -1,6 +1,5 @@
 package ontorama.model.tree;
 
-import ontorama.model.graph.Node;
 
 import java.util.List;
 

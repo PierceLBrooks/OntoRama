@@ -1,10 +1,12 @@
 package ontorama.webkbtools.inputsource.webkb;
 
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.inputsource.UrlQueryStringConstructor;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.Hashtable;
 
 /**
  * Description:   Implementation of QueryStringConstructorInterface that can
@@ -27,31 +29,17 @@ public class WebkbQueryStringConstructor {
      * is acceptable
      */
     public String getQueryString(Query query, String queryOutputFormat) {
-        String termName = query.getQueryTypeName();
-        Iterator iterator = null;
-
-        String encoding = "UTF-8";
-
-        //queryParamTerm = termName;
-        //queryParamRecursLink = ">";
-
-        String queryString = "?";
-        try {
-            queryString = queryString + "term=" + URLEncoder.encode(termName, encoding);
-            //queryString = queryString + "term=" + URLEncoder.encode("wn#cat");
-            queryString = queryString + "&recursLink=" + URLEncoder.encode(">", encoding);
-            ;
-            queryString = queryString + "&format=" + URLEncoder.encode(queryOutputFormat, encoding);
-            int queryDepth = query.getDepth();
-            if (queryDepth > 0) {
-                queryString = queryString + "&depth=" + URLEncoder.encode(String.valueOf(queryDepth), encoding);
-            }
-            queryString = queryString + "&noHTML";
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        Hashtable paramTable = new Hashtable();
+        paramTable.put("term", query.getQueryTypeName());
+        paramTable.put("recursLink", ">");
+        paramTable.put("format",queryOutputFormat);
+        int queryDepth = query.getDepth();
+        if (queryDepth > 0) {
+            paramTable.put("depth", String.valueOf(queryDepth));
         }
-
-        System.out.println("\nqueryString = " + queryString + "\n");
+        UrlQueryStringConstructor queryStringConstructor = new UrlQueryStringConstructor();
+        String queryString = queryStringConstructor.getQueryString(paramTable);
+        queryString = queryString + "&noHTML";
         return queryString;
     }
 }

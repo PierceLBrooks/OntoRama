@@ -33,7 +33,7 @@ public class TestCgKbCsvParser extends TestCase {
 //        Source source = (Source) (Class.forName(OntoramaConfig.sourcePackageName).newInstance());
 //        //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
         Source source = new JarSource();
-        SourceResult sr = source.getSourceResult("examples/csv/test.csv", new Query("KVO"));
+        SourceResult sr = source.getSourceResult("examples/cgkb/test.cgkb", new Query("KVO"));
         Reader r = sr.getReader();
 
         Parser parser = new CgKbCsvParser();

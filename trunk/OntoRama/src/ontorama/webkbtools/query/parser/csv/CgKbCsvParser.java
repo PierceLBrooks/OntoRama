@@ -42,13 +42,23 @@ public class CgKbCsvParser implements Parser {
                 int count = 0;
                 char quoteChar = '"';
                 String quoteStr = new Character(quoteChar).toString();
-                StringTokenizer st = new StringTokenizer(line, ",");
+                System.out.println("line = " + line);
+                StringTokenizer st = new StringTokenizer(line, quoteStr);
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();
                     tok = tok.trim();
-                    tok = tok.replaceAll(quoteStr, new String());
-                    //System.out.println("tok = ." + tok + ".");
-                    tokens[count] = tok;
+                    //tok = tok.replaceAll(quoteStr, new String());
+                    System.out.println("count = " + count + ", tok = ." + tok + ".");
+                    if (count == 0) {
+                        tokens[0] = tok;
+                    }
+                    if (count == 2) {
+                        tokens[1] = tok;
+                    }
+                    if (count == 4) {
+                        tokens[2] = tok;
+                    }
+                    //tokens[count] = tok;
                     count++;
                 }
                 processLineTokens(tokens);
@@ -93,11 +103,12 @@ public class CgKbCsvParser implements Parser {
                 }
                 RelationLinkDetails relationLinkDetails = relationLinksConfigArray[i];
                 if (rel.equals(relationLinkDetails.getLinkName())) {
-                    fromType.addRelationType(toType, i);
-                    foundRelationLink = true;
-                } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
+                    //fromType.addRelationType(toType, i);
                     toType.addRelationType(fromType, i);
                     foundRelationLink = true;
+//                } else if (rel.equals(relationLinkDetails.getReversedLinkName())) {
+//                    toType.addRelationType(fromType, i);
+//                    foundRelationLink = true;
                 }
             }
             if (foundRelationLink == false) {
@@ -114,7 +125,7 @@ public class CgKbCsvParser implements Parser {
     public static void main(String[] args) {
         try {
             Source source = new JarSource();
-            SourceResult sr = source.getSourceResult("examples/cgkb/test.csv", new Query("KVO"));
+            SourceResult sr = source.getSourceResult("examples/cgkb/test.cgkb", new Query("KVO"));
             Reader r = sr.getReader();
 
             Parser parser = new CgKbCsvParser();

@@ -103,7 +103,9 @@ public class DescriptionView extends JPanel implements GraphView {
         _fullUrlPanel =
                 new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
         _clonesPanel = new ClonesPanel(_clonesLabelName, _eventBroker);
-        _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _eventBroker);
+        if (_reverseRelationLinkName != null) {
+            _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _eventBroker);
+        }
 
         _propertyNameLabelsDimension = calcLabelSize();
         setLabelSizesForNodePropertiesPanels();
@@ -129,7 +131,10 @@ public class DescriptionView extends JPanel implements GraphView {
         }
 
         rightSubPanel.add(_clonesPanel);
-        rightSubPanel.add(_parentsPanel);
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            rightSubPanel.add(_parentsPanel);
+        }
         rightSubPanel.add(_fullUrlPanel);
 
         add(leftSubPanel);
@@ -178,9 +183,12 @@ public class DescriptionView extends JPanel implements GraphView {
         if (clonesWidth > length) {
             length = clonesWidth;
         }
-        int parentsWidth = _parentsPanel.getPropNameLabelWidth();
-        if (parentsWidth > length) {
-            length = parentsWidth;
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            int parentsWidth = _parentsPanel.getPropNameLabelWidth();
+            if (parentsWidth > length) {
+                length = parentsWidth;
+            }
         }
         int fullUrlWidth = _fullUrlPanel.getPropNameLabelWidth();
         if (fullUrlWidth > length) {
@@ -204,7 +212,10 @@ public class DescriptionView extends JPanel implements GraphView {
 //			curLabel.setPreferredSize(_propertyNameLabelsDimension);
         }
         _clonesPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
-        _parentsPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            _parentsPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
+        }
         _fullUrlPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
     }
 
@@ -234,7 +245,10 @@ public class DescriptionView extends JPanel implements GraphView {
             propPanel.clear();
         }
         _clonesPanel.clear();
-        _parentsPanel.clear();
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            _parentsPanel.clear();
+        }
     }
 
     /**
@@ -248,7 +262,10 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     public void disableDynamicFields() {
-        _parentsPanel.setVisible(false);
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            _parentsPanel.setVisible(false);
+        }
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -278,8 +295,10 @@ public class DescriptionView extends JPanel implements GraphView {
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getFullName());
         _fullUrlPanel.update(fullUrlPropList);
-
-        _parentsPanel.update(Edge.getInboundEdgeNodes(node, _firstRelationLink));
+        /// @todo this check for null is a hack. see other todo's in this file to see how to fix.
+        if (_parentsPanel != null) {
+            _parentsPanel.update(Edge.getInboundEdgeNodes(node, _firstRelationLink));
+        }
     }
 
 

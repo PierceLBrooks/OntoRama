@@ -1,1 +1,11 @@
+
+Examples:
+---------------
 http://139.91.183.30:9090/RDF/Examples.html
+
+http://dmoz.org/rdf.html
+
+RDF Mapping:
+---------------
+http://trellis.semanticweb.org/expect/web/semanticweb/comparison.html
+http://www.dfki.uni-kl.de/km/knowmark/ppframe.htm (has a chapter on RDF)

@@ -41,4 +41,10 @@ public interface Backend{
     public JMenu getJMenu();
 
     public void setEventBroker(EventBroker eventBroker);
+
+    /**
+     * @todo this a hack, couldn't figure out other way to get this panel to show from ontorama app.
+     * @param show
+     */
+    public void showPanels (boolean show);
  }

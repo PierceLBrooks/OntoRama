@@ -149,7 +149,6 @@ public class HistoryMenu extends JMenu {
 	 * Append history with given query
 	 */
 	public void appendHistory(Query query) {
-		System.out.println("HistoryMenu::appendHistory for query " + query);
 			
 		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
 		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.get(0);

@@ -119,13 +119,10 @@ public class QueryEngine implements QueryEngineInterface {
       SourceResult sourceResult = source.getSourceResult(queryUrl, query);
       System.out.println(sourceResult.toString());
       if (! sourceResult.queryWasSuccess()) {
-        //System.out.println("successfull: NO");
         newQuery = sourceResult.getNewQuery();
         queryResult = executeQuery(source, parser, queryUrl, newQuery);
-        //System.out.println("executeQuery returned from recursive");
       }
       else {
-        //System.out.println("successfull: YES");
         r = sourceResult.getReader();
         this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
         r.close();
@@ -133,12 +130,9 @@ public class QueryEngine implements QueryEngineInterface {
         if (! newTermName.equals(query.getQueryTypeName())) {
           query = new Query(newTermName, query.getRelationLinksList());
         }
-        //System.out.println("query result list = " + getQueryTypesList().size());
         queryResult = new QueryResult(query, getQueryTypesList().iterator());
 
-        //System.out.println("Returning query result for " + query.getQueryTypeName() + "\n");
       }
-      //System.out.println("Returning query result " + queryResult + "\n");
       return queryResult;
     }
 

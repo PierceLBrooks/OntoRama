@@ -24,7 +24,6 @@ public class ActionResetChangePanel extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-          System.out.println("An empty method is preformed");
        ChangePanel changePanel = (ChangePanel) _p2pBackend.getPanels().get(1);
        changePanel.empty();
        

@@ -1,24 +1,14 @@
 <ontoramaExamples>
-	<example name="Ontorama Xml Test" root="root">
-		<source uri="examples/ontorama-test.xml" 
-					sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>XML</queryOutputFormat>
-		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
-	</example>
-	<example name="testCase" root="PR-rdf-schema-19990303#Class">
-		<source uri="examples/test/data/testCase.rdf" 
-					sourcePackagePathSuffix="JarSource"/>
+	<example name="WebKB2 Interface" root="wn#cat" >
+		<!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
+		<source uri="http://www.webkb.org/bin/termSearch.cgi"
+				isSourceDynamic="true"
+				sourcePackagePathSuffix="WebKB2Source"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
-	</example>
-	<!--
-	<example name="Ontorama Xml Test (via URL)" root="root">
-		<source uri="http://meganesia.int.gu.edu.au/~nataliya/OntoRama/test/ontorama-test.xml" 
-					sourcePackagePathSuffix="UrlSource"/>
-		<queryOutputFormat>XML</queryOutputFormat>
-		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
-	</example>
-	-->
+		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
+	</example>	
+
+
 	<example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes" >
 		<source uri="examples/comms_comms_object-children.rdf" 
 				sourcePackagePathSuffix="JarSource"/>
@@ -56,7 +46,6 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-
 	<example name="Metanet" root="rdf-schema#Resource">
 		<source uri="examples/web-examples/metanet-2.rdf"
 				sourcePackagePathSuffix="JarSource"/>
@@ -115,13 +104,18 @@
 		<displayMenu subfolder="Web Examples"/>		
 	</example>
 	-->
-	<example name="WebKB2 Interface (Experimental)" root="wn#cat" >
-		<!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
-		<source uri="http://www.webkb.org/bin/termSearch.cgi"
-				isSourceDynamic="true"
-				sourcePackagePathSuffix="WebKB2Source"/>
+	<example name="Ontorama Xml Test" root="root">
+		<source uri="examples/ontorama-test.xml" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>XML</queryOutputFormat>
+		<parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
+		<displayMenu subfolder="Test Cases"/>
+	</example>
+	<example name="testCase" root="test#Chair">
+		<source uri="examples/test/data/testCase.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
-		<displayMenu subfolder="WebKB"/>		
-	</example>	
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+		<displayMenu subfolder="Test Cases"/>
+	</example>
 </ontoramaExamples>

@@ -8,9 +8,7 @@
  */
 package ontorama.backends.p2p.test;
 
-import java.io.FileReader;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,8 +23,6 @@ import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;

@@ -24,7 +24,6 @@ import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
-import org.w3c.rdf.vocabulary.rdf_schema_19990303.RDFS;
 
 /*
  * Created by IntelliJ IDEA.

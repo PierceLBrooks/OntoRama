@@ -68,11 +68,20 @@ import java.util.LinkedList;
      */
     private boolean dragmode = false;
 
+    /**
+     * Store the HyperNode that has focus.
+     */
+    private HyperNode focusNode = null;
+
 
     /**
      * draw nodes and lines.
      */
     protected void drawNodes( Graphics2D g2d ) {
+        if(lengthOfAnimation > 0) {
+            System.out.println("anim");
+            animate();
+        }
         Iterator it = canvasItems.iterator();
         while( it.hasNext() ) {
             CanvasItem cur = (CanvasItem)it.next();
@@ -160,47 +169,40 @@ import java.util.LinkedList;
      * The node that has focus is centered.
      */
     public void focusChanged( Object obj ){
-        HyperNode node = (HyperNode)obj;
-        double xMax = node.getX();
-        double yMax = node.getY();
-        final double STEPS = 50;
-        int i = 0;
-        double lastX = xMax;
-        double lastY = yMax;
-        noLabels = true;
-        while( i < STEPS ) {
-            double moveby = (STEPS - i - 1)/( STEPS - 1);
-            double x = xMax * moveby;
-            double y = yMax * moveby;
-            moveCanvasItems( lastX - x, lastY - y );
-            lastX = x;
-            lastY = y;
-            i++;
-            paint(this.getGraphics());
-//            try {
-//                Thread.currentThread().sleep(50);
-//            }
-//            catch( InterruptedException e ) {
-//                // nothing
-//            }
-        }
-        noLabels = false;
-        paint(this.getGraphics());
-        //animationStartTime = System.currentTimeMillis();
-        //animate();
+        focusNode = (HyperNode)obj;
+        // calculate the length of the animation as a function of the distance
+        // in the euclidian space (before hyperbolic projection)
+        double distance = Math.sqrt( focusNode.getX() * focusNode.getX() +
+                                     focusNode.getY() * focusNode.getY() );
+        lengthOfAnimation = (long)(distance);
+        animationTime = System.currentTimeMillis();
+        repaint();
     }
 
-    /*protected void animate() {
-        long elapsedTime = System.currentTimeMillis() - animationStartTime;
-        double animPos = elapsedTime / (double) AnimationDuration;
-        if(animPos < 1) {
-            // draw intermediate position
-            // enqueue event to call animate()
+    /**
+     * Holds the remaining length of the animation.
+     *
+     * If negative animation we don't animate at the moment.
+     */
+    private long lengthOfAnimation = -1;
+
+    /**
+     * The time when we did the last animation step.
+     */
+    private long animationTime = 0;
+
+    protected void animate() {
+        long newTime = System.currentTimeMillis();
+        long elapsedTime = newTime - animationTime;
+        double animDist = elapsedTime / (double) lengthOfAnimation;
+        lengthOfAnimation -= elapsedTime;
+        animationTime = newTime;
+        if(animDist > 1) {
+            animDist = 1;
         }
-        else {
-            // draw final thing
-        }
-    }*/
+        moveCanvasItems( focusNode.getX() * animDist, focusNode.getY() * animDist );
+        repaint();
+    }
 
     public void mouseMoved(MouseEvent e) {
         /*Iterator it = canvasItems.iterator();

@@ -61,7 +61,7 @@ public class QueryResult {
      */
     public String toString() {
         String str = "QueryResult";
-        str = " for query term = " + query.getQueryTypeName();
+        str = str +  " for query term = " + query.getQueryTypeName() + ", nodes = " + getNodesList() + ", edges = " + getEdgesList();
         return str;
     }
 }

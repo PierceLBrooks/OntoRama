@@ -88,9 +88,8 @@ public class FileBackend implements Backend{
 
     public P2PGraph search(Query query){
         ///@todo temporarily commented out
-        return this.graph.search(query);
-        //P2PGraph graph = new P2PGraphImpl();
-        //return graph;
+        //return this.graph.search(query);
+        return new P2PGraphImpl();
     }
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{

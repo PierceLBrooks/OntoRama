@@ -106,6 +106,9 @@ public class RdfDamlParser implements Parser {
       Resource resource = st.getSubject();
       RDFNode object = st.getObject();
 
+      //System.out.println ("resource: local name = " + resource.getLocalName() + ", namespace = " + resource.getNameSpace()
+       //                 + ", uri = " + resource.getURI());
+
       doConceptPropertiesMapping(resource, predicate, object);
       doRelationLinksMapping(resource, predicate, object);
     }
@@ -183,7 +186,7 @@ public class RdfDamlParser implements Parser {
 
       //
       String resourceName = stripUri(ontTypeResource);
-      String propValueName = stripUri(propValueResource);
+      String propValueName = propValueResource.toString();
       OntologyType ontType = getOntTypeByName(resourceName);
       ontType.addTypeProperty(propName, stripCarriageReturn(propValueName));
     }

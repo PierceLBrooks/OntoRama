@@ -19,47 +19,6 @@ import ontorama.webkbtools.query.parser.Parser;
 abstract public class TypeQueryBase implements TypeQuery {
 
   /**
-   * query term (a word entered into search field)
-   */
-  public String queryParamTerm = null;
-  /**
-   * relation link
-   */
-  public String queryParamLink = null;
-  /**
-   * used to find connection between two terms, used in
-   * conjunction with queryParamLink
-   */
-  public String queryParamDestTerm = null;
-  /**
-   * Used to set constrains on the search for a given term.
-   * If this parameter is not set - WebKB will return search term and all
-   * terms connected to it via direct relations.
-   * Otherwise recursLink can be set to any of valid relation links .
-   * This will return the above set of data plus all terms connected to
-   * search term via recursLink.
-   * However, only a limited section of a large search will be displayed
-   */
-  public String queryParamRecursLink = null;
-  /**
-   * depth of recursion
-   */
-  public String queryParamDepth = null;
-  /**
-   * restriction on search by creator
-   */
-  public String queryParamCreator = null;
-  /**
-   * restriction on search by non-creator
-   */
-  public String queryParamNonCreator = null;
-  /**
-   * if query result should contain hyperlinks or not. if this parameter
-   * is simply present => result will have hyperlinks in it
-   */
-  public String queryParamHyperlinks = null;
-
-  /**
    * url of ontology server cgi script
    */
   public String queryUrl;

@@ -78,6 +78,8 @@ public class TestTypeQueryImplementation extends TestCase {
     type_CottonMouse.addTypeProperty("Synonym", "cotton_mouse");
     type_CottonMouse.addTypeProperty("Synonym", "Peromyscus_gossypinus");
     type_CottonMouse.addTypeProperty("Creator", "http://www.cogsci.princeton.edu/~wn/");
+    //type_CottonMouse.addTypeProperty("Creator", "~wn");
+
     type_CottonMouse.addTypeProperty("Description", "large dark mouse of southeastern United States");
 
     expectedTypesList.add(type_CottonMouse);
@@ -174,7 +176,7 @@ public class TestTypeQueryImplementation extends TestCase {
                     List curTypePropValue = cur.getTypeProperty(propName);
                     List expectedTypePropValue = type.getTypeProperty(propName);
                     assertEquals("property " + propName + " for ontology type " + curName,
-                                  expectedTypePropValue, curTypePropValue);
+                                 curTypePropValue, expectedTypePropValue);
                 }
                 // compare relation links
                 Set relLinksSet = OntoramaConfig.getRelationLinksSet();

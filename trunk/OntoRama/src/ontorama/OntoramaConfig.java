@@ -86,7 +86,7 @@ public class OntoramaConfig {
 
         Properties properties = new Properties();
         try {
-          FileInputStream propertiesFileIn = new FileInputStream ("H:/projects/OntoRama/src/ontorama.properties");
+          FileInputStream propertiesFileIn = new FileInputStream ("D:/pbecker/projects/OntoRama/src/ontorama.properties");
           //FileInputStream propertiesFileIn = new FileInputStream ("../src/ontorama.properties");
           properties.load(propertiesFileIn);
 

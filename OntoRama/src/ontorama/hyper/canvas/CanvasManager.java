@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 
@@ -149,12 +150,13 @@ public class CanvasManager extends JComponent
             return;
         }
         // find the LabelView for this HyperNodeView.
-        Iterator it = canvasItems.iterator();
-        while( it.hasNext() ) {
-            CanvasItem canvasItem = (CanvasItem)it.next();
+        ListIterator it = this.canvasItems.listIterator(this.canvasItems.size());
+        while( it.hasPrevious() ) {
+            CanvasItem canvasItem = (CanvasItem)it.previous();
             if( canvasItem instanceof LabelView ) {
                 if( ((LabelView)canvasItem).hasHyperNodeView(selectedNodeView) == true) {
                     this.labelView = (LabelView)canvasItem;
+                    break;
                 }
             }
         }
@@ -191,9 +193,7 @@ public class CanvasManager extends JComponent
             double dragedAmount = Math.sqrt( (lpx-x)*(lpx-x)+(lpy-y)*(lpy-y) );
             if( dragedAmount > DRAG ) {
                 dragmode = true;
-                //noLabels = true;
-            }
-            else {
+            } else {
                 return;
             }
         }
@@ -201,7 +201,6 @@ public class CanvasManager extends JComponent
         double yDif = (lpy - y);
         lastPoint.setLocation( x, y );
         moveCanvasItems( xDif, yDif );
-        //paint(this.getGraphics());
         repaint();
     }
 

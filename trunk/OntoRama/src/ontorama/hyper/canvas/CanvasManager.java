@@ -278,14 +278,6 @@ public class CanvasManager extends JComponent
                     System.out.println();
 
                 this.viewListener.notifyChange(focusedHyperNodeView.getGraphNode() , ViewEventListener.MOUSE_DOUBLECLICK);
-//                int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( hyperNodeView.getGraphNode()));
-//                // don't fold if leaf node
-//                if( numOfLeaves == 0 ) {
-//                    return;
-//                }
-//                boolean foldedState = hyperNodeView.getFolded();
-//                hyperNodeView.setFolded( !foldedState);
-//                setFolded( foldedState,  hyperNodeView.getGraphNode() );
             }
             repaint();
         }
@@ -295,6 +287,7 @@ public class CanvasManager extends JComponent
      * Method to fold and unfold HyperNodeViews.
      */
     private void setFolded( boolean foldedState, GraphNode node ) {
+        System.out.println("Setting folded: " + node.getName());
         Iterator it = Edge.getOutboundEdgeNodes( node );
         while( it.hasNext() ) {
             GraphNode cur = (GraphNode)it.next();
@@ -368,10 +361,6 @@ public class CanvasManager extends JComponent
      */
     public void focusChanged( GraphNode graphNode ){
         focusNode = (HyperNode) this.hypernodes.get (graphNode);
-//        if( focusNode == null ) {
-//            System.out.println(">>>> focusChanged( HyperNode focusNode ): " + focusNode);
-//            return;
-//        }
         // set focused node label to selected
         testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
         setLabelSelected( (HyperNodeView)(hypernodeviews.get(graphNode) ) );
@@ -494,7 +483,6 @@ public class CanvasManager extends JComponent
       System.out.println();
       System.out.println("******* hyperView got focus for node " + node.getName());
       focusChanged(node);
-      //hyperNodeView.hasFocus();
       System.out.println();
     }
 
@@ -502,24 +490,17 @@ public class CanvasManager extends JComponent
      *
      */
     public void toggleFold ( GraphNode node) {
-        System.out.println("******* CanvasManager got toggleFold for node comms#TransmissionObject");
-
+//        System.out.println("******* CanvasManager got toggleFold for node comms#TransmissionObject");
         HyperNodeView focusedHyperNodeView = (HyperNodeView)this.hypernodeviews.get( node );
         if( focusedHyperNodeView == null ) {
             return;
         }
-        int numOfLeaves = Edge.getIteratorSize( Edge.getOutboundEdges( node));
-        // don't fold if leaf node
-        if( numOfLeaves == 0 ) {
+        if( focusedHyperNodeView.isLeaf() == true ) {
             return;
         }
         boolean foldedState = focusedHyperNodeView.getFolded();
-        //System.out.println("hyper view: foldedState = " + foldedState);
-        //focusedHyperNodeView.setFolded( !foldedState);
-        //System.out.println("hyper view: foldedState = " + focusedHyperNodeView.getFolded());
         setFolded( foldedState,  node );
         repaint();
-        //System.out.println("hyper view: finished");
     }
 
     /**

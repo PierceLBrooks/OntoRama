@@ -45,7 +45,7 @@ public class ClonesPanel extends JPanel {
     Iterator clones;
     JLabel clonesNameLabel = new JLabel();
     JPanel clonesValuePanel = new JPanel();
-    int minPadding = 30;
+    int minPadding = 40;
 
     Hashtable buttonCloneMapping = new Hashtable();
 
@@ -56,6 +56,11 @@ public class ClonesPanel extends JPanel {
         //this.clones = clones;
 
         initLabels();
+
+        // debug
+        //this.setBackground(Color.blue);
+        //clonesValuePanel.setBackground(Color.pink);
+        // end of debug
 
         // create and set layout
         LayoutManager curLayout = new BoxLayout(this,BoxLayout.X_AXIS);
@@ -84,10 +89,10 @@ public class ClonesPanel extends JPanel {
         clonesNameLabel.setText(this.clonesNameString);
     }
 
-    public void setNameLabelSize (Dimension d) {
-      this.clonesNameLabel.setPreferredSize(d);
-      this.clonesNameLabel.setMinimumSize(d);
-    }
+//    public void setNameLabelSize (Dimension d) {
+//      this.clonesNameLabel.setPreferredSize(d);
+//      this.clonesNameLabel.setMinimumSize(d);
+//    }
 
     public void update (Iterator clonesIterator) {
         //System.out.println("ClonesPanel, method update");

@@ -146,7 +146,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
       curLabel.setMaximumSize(this.propertyNameLabelsDimension);
       curLabel.setPreferredSize(this.propertyNameLabelsDimension);
     }
-    this.clonesPanel.setNameLabelSize(this.propertyNameLabelsDimension);
+    //this.clonesPanel.setNameLabelSize(this.propertyNameLabelsDimension);
    }
 
    /**

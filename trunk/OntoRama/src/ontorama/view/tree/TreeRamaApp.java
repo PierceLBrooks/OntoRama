@@ -12,6 +12,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JFrame;
+import javax.swing.JComponent;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -24,6 +25,7 @@ import ontorama.model.GraphBuilder;
 
 import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
+import ontorama.tree.view.OntoTreeView;
 
 
 public class TreeRamaApp extends JFrame {
@@ -39,15 +41,16 @@ public class TreeRamaApp extends JFrame {
     public TreeRamaApp() {
         super("TreeRamaApp");
 
-
         //Create a tree that allows one selection at a time.
-        //final JTree tree = new JTree(top);
         GraphBuilder graphBuilder = new GraphBuilder();
         Graph graph = graphBuilder.getGraph();
-        System.out.println("TreeRamaApp, graph size = " + graph.getSize());
+
+        OntoTreeView tree = new OntoTreeView(graph);
+
+        /*
+        //System.out.println("TreeRamaApp, graph size = " + graph.getSize());
         OntoTreeModel ontoTreeModel = new OntoTreeModel(graph);
 
-        //final JTree tree = new Graph ();
         final JTree tree = new JTree(ontoTreeModel);
 
 
@@ -58,34 +61,22 @@ public class TreeRamaApp extends JFrame {
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
                 TreeNode node = (OntoTreeNode) tree.getLastSelectedPathComponent();
-                //DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
                 if (node == null) return;
 
                 //Object nodeInfo = node.getUserObject();
-                /*
-                if (node.isLeaf()) {
-                    BookInfo book = (BookInfo)nodeInfo;
-                    displayURL(book.bookURL);
-                    if (DEBUG) {
-                        System.out.print(book.bookURL + ":  \n    ");
-                    }
-                } else {
-                    displayURL(helpURL);
-                }
-                if (DEBUG) {
-                    System.out.println(nodeInfo.toString());
-                }
-                */
             }
         });
 
         if (playWithLineStyle) {
             tree.putClientProperty("JTree.lineStyle", lineStyle);
         }
+        */
 
         //Create the scroll pane and add the tree to it.
-        JScrollPane treeView = new JScrollPane(tree);
+        //JScrollPane treeView = new JScrollPane(tree);
+        //JComponent treeView = tree.getTreeViewPanel();
+        JScrollPane treeView = tree.getTreeViewPanel();
 
         //Add the scroll panes to a split pane.
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -100,106 +91,6 @@ public class TreeRamaApp extends JFrame {
         getContentPane().add(treeView, BorderLayout.CENTER);
 
     }
-
-    /*
-    private DefaultMutableTreeNode buildTreeModel () {
-      String termName = "comms#CommsObject";
-      //String termName = "wn#TrueCat";
-      //String termName = "wn#Dog";
-      //System.out.println("termName = " + termName);
-
-      DefaultMutableTreeNode top = null;
-
-      try {
-          TypeQuery query = new TypeQueryImplementation();
-          //Iterator ontIterator = query.getTypeRelative(termName,ontorama.OntoramaConfig.SUBTYPE);
-          Iterator ontIterator = query.getTypeRelative(termName);
-          // create top node for the tree
-          top = new DefaultMutableTreeNode(termName);
-          createNodes(top,ontIterator);
-
-          //while (ontIterator.hasNext()) {
-          //    OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-          //    //System.out.println ("node: " + ot);
-          //    createNodes(top,ontIterator);
-          //}
-
-      }
-      catch (ClassNotFoundException ce) {
-          System.out.println("ClassNotFoundException: " + ce);
-          System.exit(1);
-      }
-      catch (Exception e) {
-          System.out.println("Exception: " + e);
-      }
-      return top;
-
-    }
-    */
-
-    private class BookInfo {
-        public String bookName;
-        public URL bookURL;
-        public String prefix = "file:"
-                               + System.getProperty("user.dir")
-                               + System.getProperty("file.separator");
-        public BookInfo(String book, String filename) {
-            bookName = book;
-            try {
-                bookURL = new URL(prefix + filename);
-            } catch (java.net.MalformedURLException exc) {
-                System.err.println("Attempted to create a BookInfo "
-                                   + "with a bad URL: " + bookURL);
-                bookURL = null;
-            }
-        }
-
-        public String toString() {
-            return bookName;
-        }
-    }
-
-    private void initHelp() {
-        String s = null;
-        try {
-            s = "file:"
-                + System.getProperty("user.dir")
-                + System.getProperty("file.separator")
-                + "TreeRamaAppHelp.html";
-            if (DEBUG) {
-                System.out.println("Help URL is " + s);
-            }
-            helpURL = new URL(s);
-            displayURL(helpURL);
-        } catch (Exception e) {
-            System.err.println("Couldn't create help URL: " + s);
-        }
-    }
-
-    private void displayURL(URL url) {
-        try {
-            htmlPane.setPage(url);
-        } catch (IOException e) {
-            System.err.println("Attempted to read a bad URL: " + url);
-        }
-    }
-    /*
-
-    private void createNodes(DefaultMutableTreeNode node, Iterator ontIterator)
-                                    throws NoSuchRelationLinkException {
-
-      //DefaultMutableTreeNode node = new DefaultMutableTreeNode(ot.getName());
-      //Iterator ontIterator = ot.getIterator(ontorama.OntoramaConfig.SUBTYPE);
-      while (ontIterator.hasNext()) {
-          OntologyType child = (OntologyTypeImplementation) ontIterator.next();
-          DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child.getName());
-          node.add(childNode);
-          if (child.getIterator(ontorama.OntoramaConfig.SUBTYPE) != null ) {
-            createNodes(childNode,child.getIterator(ontorama.OntoramaConfig.SUBTYPE));
-          }
-      }
-    }
-    */
 
     public static void main(String[] args) {
         JFrame frame = new TreeRamaApp();

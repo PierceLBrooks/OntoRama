@@ -59,6 +59,7 @@ public class SimpleHyperView  extends CanvasManager {
             node.addHyperObserver( hnv );
             canvasItems.add( hnv );
         }
+        System.out.println("Repainting hyper view");
         repaint();
     }
 

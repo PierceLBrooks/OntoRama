@@ -88,23 +88,21 @@ public class Graph implements GraphInterface {
         queue.add(root);
         while( !queue.isEmpty() ) {
             GraphNode cur = (GraphNode)queue.remove(0);
-            treeNodes.add(cur);
             List childrenList = cur.getChildrenList();
             int count = 0;
             int size = childrenList.size();
             while( count < size ) {
                 GraphNode child = (GraphNode)childrenList.get( count );
                 if(child.getNumberOfParents() > 1) {
-                  System.out.println("node with multiple parents: " + child);
+                    //System.out.println("node with multiple parents: " + child);
                     GraphNode clone = child.deepCopy();
                     cur.removeChild( child );
                     cur.addChild( clone );
                     child.removeParent(cur);
                     clone.setParent(cur);
-
-                    System.out.println("\tafter cloning");
-                    System.out.println("\tchild = " + child);
-                    System.out.println("\tclone = " + clone);
+                    //System.out.println("\tafter cloning");
+                    //System.out.println("\tchild = " + child);
+                    //System.out.println("\tclone = " + clone);
                 }
                 count++;
                 queue.add( child );

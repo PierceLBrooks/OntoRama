@@ -13,11 +13,14 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
 
-public class OntoTreeModel implements TreeModel {
+public class OntoTreeModel implements TreeModel, TreeSelectionListener {
 
     private Graph graph;
     private OntoTreeBuilder ontoTreeBuilder;
@@ -27,22 +30,34 @@ public class OntoTreeModel implements TreeModel {
      */
     public OntoTreeModel (Graph graph) {
         this.graph = graph;
-        System.out.println("*************************************");
-        System.out.println("OntoTreeModel, graph size = " + graph.getSize());
+        //System.out.println("*************************************");
+        //System.out.println("OntoTreeModel, graph size = " + graph.getSize());
         Iterator it = graph.iterator();
         while (it.hasNext()) {
             GraphNode node = (GraphNode) it.next();
-            System.out.println(node);
+            //System.out.println(node);
         }
-        System.out.println("*************************************");
+        //System.out.println("*************************************");
 
         this.ontoTreeBuilder = new OntoTreeBuilder (graph);
+
+        //this.addTreeSelectionListener(this);
+
+
+    }
+
+    public void valueChanged(TreeSelectionEvent e) {
+    }
+
+    public void treeSelect (TreeSelectionEvent e) {
+        //System.out.println("TreeSelectionListener detected " + e);
     }
 
 
-    /**
-     * Implementation of methods for TreeModel
-     */
+
+
+
+    ///////////////////Implementation of methods for TreeModel////////////////
 
      /**
       * Returns the root of the tree. Returns null only if the tree has no nodes.
@@ -51,7 +66,7 @@ public class OntoTreeModel implements TreeModel {
       */
     public Object getRoot() {
         GraphNode rootGraphNode = this.graph.getRootNode();
-        System.out.println("OntoTreeModel, getRoot(): returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
+        //System.out.println("OntoTreeModel, getRoot(): returning " + this.ontoTreeBuilder.getTreeNode(rootGraphNode));
         return this.ontoTreeBuilder.getTreeNode(rootGraphNode);
         //return this.ontoHash.get(rootGraphNode);
         //return this.graph.getRootNode();
@@ -70,11 +85,11 @@ public class OntoTreeModel implements TreeModel {
 
       //if ( (index >= 0 ) && (index < parentNode.getChildCount()) ) {
         OntoTreeNode childNode = (OntoTreeNode) parentNode.getChildAt(index);
-        System.out.println("OntoTreeModel, getChild(parent, index): returning " + childNode + " for parent " + parent + ", at index " + index + " *** getChildCount = " + parentNode.getChildCount());
+        //System.out.println("OntoTreeModel, getChild(parent, index): returning " + childNode + " for parent " + parent + ", at index " + index + " *** getChildCount = " + parentNode.getChildCount());
         return childNode;
         //return (OntoTreeNode) OntoTreeBuilder.getTreeNode(childGraphNode);
       //}
-      //System.out.println("OntoTreeModel, getChild(parent, index): returning null"  + " for parent " + parent + ", at index " + index + " *** getChildCount = " + parentNode.getChildCount());
+      ////System.out.println("OntoTreeModel, getChild(parent, index): returning null"  + " for parent " + parent + ", at index " + index + " *** getChildCount = " + parentNode.getChildCount());
       //return null;
      }
 
@@ -86,7 +101,7 @@ public class OntoTreeModel implements TreeModel {
       * @return the number of children of the node parent
       */
       public int getChildCount(Object parent) {
-        System.out.println("OntoTreeModel, getChildCount(parent): returning " + ((TreeNode) parent).getChildCount() + " for parent " + parent);
+        //System.out.println("OntoTreeModel, getChildCount(parent): returning " + ((TreeNode) parent).getChildCount() + " for parent " + parent);
         return ((TreeNode) parent).getChildCount();
       }
 
@@ -100,7 +115,7 @@ public class OntoTreeModel implements TreeModel {
        */
        public boolean isLeaf(Object node) {
             TreeNode treeNode = (OntoTreeNode) node;
-            System.out.println("OntoTreeModel, isLeaf(node): returning " + treeNode.isLeaf());
+            //System.out.println("OntoTreeModel, isLeaf(node): returning " + treeNode.isLeaf());
             return treeNode.isLeaf();
        }
 
@@ -127,8 +142,8 @@ public class OntoTreeModel implements TreeModel {
          * Returns the index of child in parent.
          */
          public int getIndexOfChild(Object parent, Object child) {
-            System.out.println("OntoTreeModel, getIndexOfChild(parent,child): returning " + ( ((TreeNode) parent).getIndex( (TreeNode) child) ) +
-                            " for parent = " + parent + " and child = " + child);
+            //System.out.println("OntoTreeModel, getIndexOfChild(parent,child): returning " + ( ((TreeNode) parent).getIndex( (TreeNode) child) ) +
+            //                " for parent = " + parent + " and child = " + child);
             return ( ((TreeNode) parent).getIndex( (TreeNode) child) );
          }
 
@@ -147,5 +162,8 @@ public class OntoTreeModel implements TreeModel {
            */
           public void removeTreeModelListener(TreeModelListener l) {
           }
+
+        ////////////////////End of TreeModel implementation///////////////////
+
 
 }

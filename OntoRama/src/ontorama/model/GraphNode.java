@@ -64,6 +64,7 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     public void notifyChange() {
         Iterator it = observers.iterator();
+        System.out.println("number of GraphNode observers " + observers.size());
         while(it.hasNext()) {
             NodeObserver cur = (NodeObserver) it.next();
             cur.update( cur );
@@ -97,6 +98,14 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     public void addParent( GraphNode parent ) {
         this.parents.add(parent);
+    }
+
+    /**
+     *
+     */
+    public void hasFocus () {
+        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
+        notifyChange();
     }
 
     /**

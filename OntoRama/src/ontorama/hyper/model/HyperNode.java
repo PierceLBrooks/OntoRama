@@ -66,7 +66,7 @@ public class HyperNode implements NodeObserver, HyperNodeObservable {
      * Update method called from obserable (GraphNode)
      */
     public void update( Object obj ) {
-
+        System.out.println("HyperNode method update: " + getName());
     }
 
     /**

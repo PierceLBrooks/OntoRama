@@ -3,6 +3,7 @@ package ontorama.tree.model;
 
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
@@ -14,6 +15,9 @@ public class OntoTreeBuilder {
     private static Hashtable ontoHash = new Hashtable();
     private Graph graph;
 
+    /**
+     *
+     */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
         graphToOntoTree();
@@ -29,6 +33,7 @@ public class OntoTreeBuilder {
             TreeNode treeNode = new OntoTreeNode (curNode);
             //System.out.println("graph node = " + curNode);
             //System.out.println("tree node = " + treeNode);
+
             ontoHash.put(curNode,treeNode);
         }
     }
@@ -38,5 +43,18 @@ public class OntoTreeBuilder {
     public static TreeNode getTreeNode (GraphNode graphNode) {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
+    }
+    /**
+     *
+     */
+    public static GraphNode getGraphNode (TreeNode treeNode) {
+        Enumeration en = ontoHash.keys();
+        while (en.hasMoreElements()) {
+            GraphNode graphNode = (GraphNode) en.nextElement();
+            if ( treeNode.equals( (TreeNode) ontoHash.get(graphNode)) ) {
+                return graphNode;
+            }
+        }
+        return null;
     }
 }

@@ -46,8 +46,8 @@ public class GraphImpl implements Graph {
      */
     public List _graphEdges = new LinkedList();
 
-    private List _edgesToDisplayInGraph = new LinkedList();
-    private List _edgesToDisplayInDescription = new LinkedList();
+//    private List _edgesToDisplayInGraph = new LinkedList();
+//    private List _edgesToDisplayInDescription = new LinkedList();
 
     private List _nodesToRemove = new LinkedList();
     private List _edgesToRemove = new LinkedList();
@@ -141,14 +141,13 @@ public class GraphImpl implements Graph {
         while (edgesIt.hasNext()) {
             Edge edge = (Edge) edgesIt.next();
             EdgeType edgeType = edge.getEdgeType();
-            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                _edgesToDisplayInGraph.add(edge);
-            }
-            else {
-                _edgesToDisplayInDescription.add(edge);
-            }
+//            if ( OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
+//                _edgesToDisplayInGraph.add(edge);
+//            }
+//            else {
+//                _edgesToDisplayInDescription.add(edge);
+//            }
         }
-        System.out.println("\n\n\n _edgesToDisplayInGraph size = " + _edgesToDisplayInGraph.size());
 
 //        Iterator it = edgesList.iterator();
 //        while (it.hasNext()) {
@@ -405,15 +404,22 @@ public class GraphImpl implements Graph {
                 Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
-                List inboundEdgesList = getInboundEdges(curNode);
+                List inboundEdgesList = getInboundEdgesDisplayedInGraph(curNode);
+                if (inboundEdgesList.size() <= 1) {
+                    continue;
+                }
                 Iterator inboundEdges = inboundEdgesList.iterator();
+
+                // do not need to clone all edges - only need to clone (edges - 1), otherwise will
+                // end up with too many clones.
+                if (inboundEdges.hasNext()) {
+                    inboundEdges.next();
+                }
 
                 List edgesToCloneQueue = new LinkedList();
                 while (inboundEdges.hasNext()) {
                     Edge curEdge = (Edge) inboundEdges.next();
                     EdgeType edgeType = curEdge.getEdgeType();
-                    //System.out.println("edge = " + curEdge + ", edgetype = " + edgeType);
-
                     if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
                         edgesToCloneQueue.add(curEdge);
                     }
@@ -429,8 +435,6 @@ public class GraphImpl implements Graph {
                     _graphNodes.add(cloneNode);
 
                     Edge edgeToClone = (Edge) edgesToCloneQueue.remove(0);
-                    System.out.println("\n\nedge = " + edgeToClone + ", edgetype = " + edgeToClone.getEdgeType());
-                    System.out.println("\t _edgesToDisplayInGraph contains this edge: " + _edgesToDisplayInGraph.contains(edgeToClone));
                     Edge newEdge = new EdgeImpl(
                             edgeToClone.getFromNode(),
                             cloneNode,
@@ -440,63 +444,6 @@ public class GraphImpl implements Graph {
                     // copy/clone all structure below
                     deepCopy(curNode, cloneNode);
                 }
-
-
-//                int count = 0;
-//                while (inboundEdges.hasNext()) {
-//                    count++;
-//                    inboundEdges.next();
-//                }
-//                while (count > 1) {
-//                    // indicate that we processed one edge
-//                    System.out.println("loop start, count = " + count);
-//                    count--;
-//
-//                    debug.message(
-//                            "Graph",
-//                            "convertIntoTree",
-//                            " node "
-//                            + curNode.getName()
-//                            + " has multiple inbound _graphEdges");
-//
-//                    // clone the node
-//                    if (_topLevelUnconnectedNodes.contains(curNode)) {
-//                        continue;
-//                    }
-//
-//                    Node cloneNode = curNode.makeClone();
-//                    _graphNodes.add(cloneNode);
-//
-//                    // add edge from cloneNode to a NodeParent with this rel edgeType and
-//                    // remove edge from curNode to a NodeParent with this rel edgeType
-//                    Iterator it = getInboundEdges(curNode).iterator();
-//                    int processedEdges = 0;
-//                    while (it.hasNext()) {
-//                        Edge curEdge = (Edge) it.next();
-//                        EdgeType edgeType = curEdge.getEdgeType();
-//                        System.out.println("edge = " + curEdge + ", edgetype = " + edgeType);
-//
-//                        if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-//                            System.out.println ("skipping...");
-//                            continue;
-//                        }
-//                        if (processedEdges >= 1) {
-//                            break;
-//                        }
-//                        processedEdges++;
-//
-//                        Edge newEdge = new EdgeImpl(
-//                                curEdge.getFromNode(),
-//                                cloneNode,
-//                                curEdge.getEdgeType());
-//                        registerEdge(newEdge);
-//                        removeEdge(curEdge);
-//                    }
-//
-//                    // copy/clone all structure below
-//                    deepCopy(curNode, cloneNode);
-//                }
-
             }
         }
     }
@@ -517,14 +464,12 @@ public class GraphImpl implements Graph {
 
         while (outboundEdgesIterator.hasNext()) {
             Edge curEdge = (Edge) outboundEdgesIterator.next();
-            System.out.println("deepCopy: edge = " + curEdge);
             Node toNode = curEdge.getToNode();
             Node cloneToNode = toNode.makeClone();
             Edge newEdge = new EdgeImpl(cloneNode, cloneToNode, curEdge.getEdgeType());
             registerEdge(newEdge);
             EdgeType edgeType = curEdge.getEdgeType();
             if (! OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
-                System.out.println("edgeType = " + edgeType.getName() + ", don't need to recurse on this one");
                 continue;
             }
             deepCopy(toNode, cloneToNode);

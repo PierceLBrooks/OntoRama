@@ -15,6 +15,7 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.BackendSearch;
 import ontorama.backends.p2p.controller.EdgeAddedEventHandler;
+import ontorama.backends.p2p.controller.EdgeRemovedEventHandler;
 import ontorama.backends.p2p.controller.GroupIsLeftEventHandler;
 import ontorama.backends.p2p.controller.GroupJoinedEventHandler;
 import ontorama.backends.p2p.controller.JoinGroupEventHandler;
@@ -22,6 +23,7 @@ import ontorama.backends.p2p.controller.LeaveGroupEventHandler;
 import ontorama.backends.p2p.controller.NewGroupEventHandler;
 import ontorama.backends.p2p.controller.NodeAddedEventHandler;
 import ontorama.backends.p2p.controller.GraphLoadedEventHandler;
+import ontorama.backends.p2p.controller.NodeRemovedEventHandler;
 import ontorama.backends.p2p.events.GroupIsLeftEvent;
 import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.events.JoinGroupEvent;
@@ -178,6 +180,8 @@ public class P2PBackend implements Peer2PeerBackend {
 
         new NodeAddedEventHandler(_eventBroker, this);
         new EdgeAddedEventHandler(_eventBroker, this);
+		new NodeRemovedEventHandler(_eventBroker, this);
+		new EdgeRemovedEventHandler(_eventBroker, this);
         new GraphLoadedEventHandler(_eventBroker, this);
         
         

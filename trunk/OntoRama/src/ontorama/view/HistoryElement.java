@@ -12,17 +12,16 @@ import ontorama.webkbtools.query.Query;
  */
 public class HistoryElement {
 
-    private String _getRelationLinksList;
     private OntoramaExample _example;
     private Query _query;
     private String _menuDisplayName;
 
     /**
      * Create history element with given _getRelationLinksList, query and _example.
-     * @param	_menuDisplayName - is a string that appears on the lable on corresponding menu
+     * @param	menuDisplayName - is a string that appears on the lable on corresponding menu
      * item for this _example. also may be used as an id.
      * @param	query - query corresponding to this history element
-     * @param	_example - corresponding ontorama _example
+     * @param	example - corresponding ontorama _example
      *
      */
     public HistoryElement(String menuDisplayName, Query query, OntoramaExample example) {

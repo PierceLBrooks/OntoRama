@@ -39,7 +39,7 @@ public class NodeContextMenuHandler implements EventListener {
             menuItem = new JMenuItem(edgeType.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    NewRelatedNodeCreator creator = new NewRelatedNodeCreator(simpleHyperView, nodeView.getGraphNode(), edgeType);
+                    new NewRelatedNodeCreator(simpleHyperView, nodeView.getGraphNode(), edgeType);
                 }
             });
             menu.add(menuItem);

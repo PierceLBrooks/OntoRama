@@ -1,10 +1,12 @@
-package ontorama.test;
+package ontorama.test.model;
 
 import junit.framework.*;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
+
+import ontorama.test.IteratorUtil;
 
 import ontorama.model.GraphNode;
 import ontorama.model.NoTypeFoundInResultSetException;

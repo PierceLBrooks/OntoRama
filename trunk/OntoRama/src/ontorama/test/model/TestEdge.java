@@ -1,4 +1,4 @@
-package ontorama.test;
+package ontorama.test.model;
 
 import junit.framework.*;
 
@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
+
+import ontorama.test.IteratorUtil;
 
 import ontorama.model.GraphNode;
 import ontorama.model.Edge;

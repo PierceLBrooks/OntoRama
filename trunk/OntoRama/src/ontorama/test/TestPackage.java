@@ -2,6 +2,7 @@ package ontorama.test;
 
 import junit.framework.*;
 
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -17,9 +18,10 @@ public class TestPackage {
      {
          TestSuite suite = new TestSuite( "ontorama" );
 
-         suite.addTest( new TestSuite( TestEdge.class ) );
-         suite.addTest( new TestSuite( TestGraphNode.class ) );
-         suite.addTest( new TestSuite (TestGraph.class) );
+         suite.addTest( ontorama.test.model.TestModelPackage.suite() );
+
+         suite.addTest( ontorama.test.webkbtools.TestWebkbtoolsPackage.suite());
+
          return suite;
      }
 

@@ -61,6 +61,13 @@ public class XmlParserFull implements Parser {
    *
    */
   public Iterator getOntologyTypeIterator (Reader reader) throws ParserException {
+    return getOntologyTypeCollection(reader).iterator();
+  }
+
+  /**
+   *
+   */
+  public Collection getOntologyTypeCollection (Reader reader) throws ParserException {
     try {
       SAXBuilder builder = new SAXBuilder();
       // Create the document
@@ -77,7 +84,7 @@ public class XmlParserFull implements Parser {
         e.printStackTrace();
         System.exit(-1);
     }
-    return ontHash.values().iterator();
+    return ontHash.values();
   }
 
   /**

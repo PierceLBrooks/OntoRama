@@ -12,6 +12,7 @@ import java.util.zip.*;
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.CancelledQueryException;
 
 /**
  * <p>Title: </p>
@@ -28,9 +29,11 @@ public class JarSource implements Source {
      *  This will work for any location relative to Class Loader.
      *  @param  relativePath  path relative to ClassLoader
      *  @return SourceResult
-     *  @throws Exception
+     *  @throws SourceException
+     *
+     * @todo implement if needed: throw CancelledQueryException
      */
-    public SourceResult getSourceResult (String relativePath, Query query) throws SourceException {
+    public SourceResult getSourceResult (String relativePath, Query query) throws SourceException, CancelledQueryException {
       Reader reader = getReader(relativePath, query);
       return new SourceResult(true, reader, null);
     }

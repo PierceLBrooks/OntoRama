@@ -35,13 +35,18 @@ import java.awt.Frame;
 import java.security.AccessControlException;
 
 import ontorama.OntoramaConfig;
+
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.parser.rdf.RdfWebkbParser;
+
 import ontorama.webkbtools.util.ParserException;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.webkbtools.util.SourceException;
+import ontorama.webkbtools.util.CancelledQueryException;
+
 import ontorama.webkbtools.inputsource.webkb.AmbiguousChoiceDialog;
 import ontorama.webkbtools.inputsource.webkb.WebkbQueryStringConstructor;
+
 import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 
@@ -110,9 +115,14 @@ public class WebKB2Source implements Source {
      *  @param  uri - base uri for the WebKB cgi script
      *  @param  query - object Query holding details of a query we are executing
      *  @return sourceResult
-     *  @throws SourceException
+     *  @throws SourceException, CancelledQueryException
+     *
+     *  @todo mechanism for stopping interrupted queries seems hacky. at the moment
+     *  we only check in the one method if thread is interrupted (because this loop is most time consuming)
+     *  what if tread is interrupted somewhere else? it won't work untill process is finised! does this
+     *  mean we should check in each method if thread is interrupted? then it seems even more hacky!
      */
-    public SourceResult getSourceResult (String uri, Query query) throws SourceException {
+    public SourceResult getSourceResult (String uri, Query query) throws SourceException, CancelledQueryException {
         this.query = query;
         this.uri = uri;
 
@@ -127,37 +137,32 @@ public class WebKB2Source implements Source {
 
         try {
           Reader reader = executeWebkbQuery(fullUri);
-          System.out.println("got stream back from webkb");
-
           br = new BufferedReader( reader );
 
           // check for multiple documents. If the documents list
           // size == 0, this means that we didn't find RDF documents
           // in the reader. In this case - look for error message
-          System.out.println("checking for multi documents");
           checkForMultiRdfDocuments(br);
-          //readerString = readStreamIntoString(br);
-          //checkForMultiRdfDocuments(readerString);
           System.out.println("docs size = " + docs.size());
           if (docs.size() == 0 ) {
             String webkbError = checkForWebkbErrors(readerString );
             throw new SourceException("WebKB Error: " + webkbError);
           }
           if( resultIsAmbiguous() ) {
-            System.out.println("\n\nresult is ambiguous");
             Query newQuery = processAmbiguousResultSet();
             return ( new SourceResult(false, null, newQuery));
           }
           reader.close();
-          //resultReader = getInputStreamReader(fullUri);
           resultReader = new StringReader((String) docs.get(0));
-
         }
         catch (IOException ioExc) {
           throw new SourceException("Couldn't read input data source for " + fullUri + ", error: " + ioExc.getMessage());
         }
         catch (ParserException parserExc) {
           throw new SourceException("Error parsing returned RDF data, here is error provided by parser: " + parserExc.getMessage());
+        }
+        catch (InterruptedException intExc) {
+          throw new CancelledQueryException();
         }
         System.out.println("resultReader = " + resultReader);
         return (new SourceResult (true, resultReader, null));
@@ -202,7 +207,6 @@ public class WebKB2Source implements Source {
      * catch it.
      */
     private String checkForWebkbErrors (String doc) {
-      //System.out.println("doc str = " + doc);
       String extractedErrorStr = doc;
       int startPatternInd = doc.indexOf(webkbErorrStartPattern);
       int endPatternInd = doc.indexOf(webkbErrorEndPattern);
@@ -214,47 +218,8 @@ public class WebKB2Source implements Source {
       if (startPatternInd != -1)  {
         extractedErrorStr = extractedErrorStr.substring( webkbErorrStartPattern.length());
       }
-
-      //System.out.println("extractedErrorStr = " + extractedErrorStr);
-
       return extractedErrorStr;
     }
-
-//    /**
-//     * Read document reader into a string
-//     *
-//     * @param br - buffered reader
-//     * @return string holding all data from the reader
-//     */
-//    private String readStreamIntoString (BufferedReader br) throws IOException {
-//      String result = "";
-//      String line = br.readLine();
-//      while (line != null) {
-//        System.out.print(".");
-//        result = result + line + "\n";
-//        //System.out.println("---" + line);
-//        line = br.readLine();
-//
-//      }
-//      return result;
-//    }
-//
-//    /**
-//     *
-//     */
-//    private void checkForMultiRdfDocuments (String docString) {
-//      String delim = "rdf:RDF";
-//      StringTokenizer st = new StringTokenizer(docString, delim);
-//      while (st.hasMoreTokens()) {
-//        String token = st.nextToken();
-//        String rdfDoc = token + delim;
-//        System.out.println("**********************************************");
-//        System.out.println(token);
-//        System.out.println("**********************************************");
-//
-//        docs.add(rdfDoc);
-//      }
-//    }
 
     /**
      * Read RDF documents into list and build a string that
@@ -268,30 +233,30 @@ public class WebKB2Source implements Source {
      * @todo remove count and debugging print statement
      */
     private void checkForMultiRdfDocuments(BufferedReader br)
-                          throws IOException {
+                          throws IOException, InterruptedException {
         String token;
         String buf = "";
         String line = br.readLine();
         StringTokenizer st;
-        //int count = 1;
         while(line != null) {
-          //System.out.print(count + ".");
           System.out.print(".");
-          //count++;
-            readerString = readerString + line;
+          if (Thread.currentThread().isInterrupted()) {
+            throw new InterruptedException("Query was cancelled");
+          }
+          readerString = readerString + line;
 
-            st = new StringTokenizer(line, "<", true);
+          st = new StringTokenizer(line, "<", true);
 
-            while(st.hasMoreTokens()) {
-                token = st.nextToken();
-                buf = buf + token;
-                if(token.equals("/rdf:RDF>")) {
-                    docs.add(new String(buf));
-                    buf = "";
-                }
-            }
-            buf = buf + "\n";
-            line = br.readLine();
+          while(st.hasMoreTokens()) {
+              token = st.nextToken();
+              buf = buf + token;
+              if(token.equals("/rdf:RDF>")) {
+                  docs.add(new String(buf));
+                  buf = "";
+              }
+          }
+          buf = buf + "\n";
+          line = br.readLine();
         }
     }
 
@@ -382,7 +347,6 @@ public class WebKB2Source implements Source {
           try {
             List synonyms = curType.getTypeProperty(synPropName);
             if (synonyms.contains(termName)) {
-              //System.out.println("***FOUND: " + curType.getName());
               typeNamesList.add(curType);
             }
           }

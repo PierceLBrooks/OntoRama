@@ -296,17 +296,51 @@ public class Edge {
       * @return iterator of Nodes
       */
       private static Iterator getEdgeNodes(GraphNode node, boolean flag) {
-        //System.out.println("\tgetEdgeNodes method node = " + node.getName());
-        //System.out.println("\t getEdgeNodes method, node = " + node + ", flag = " + flag);
+//        //System.out.println("\tgetEdgeNodes method node = " + node.getName());
+//        //System.out.println("\t getEdgeNodes method, node = " + node + ", flag = " + flag);
+//        List result = new LinkedList();
+//        Iterator nodeEdgesIt = getEdges(node,flag);
+//        while (nodeEdgesIt.hasNext()) {
+//            Edge cur = (Edge) nodeEdgesIt.next();
+//            //System.out.println("\t\tedge = " + cur);
+//            //System.out.println("\t\t" + cur.getEdgeNode(!flag).getName());
+//            result.add(cur.getEdgeNode(!flag));
+//        }
+//        return result.iterator();
+          return getEdgeNodesList(node, flag).iterator();
+      }
+
+      /**
+       *
+       */
+     public static List getOutboundEdgeNodesList (GraphNode node) {
+        return getEdgeNodesList(node,true);
+     }
+
+      /**
+       *
+       */
+     public static List getInboundEdgeNodesList (GraphNode node) {
+        return getEdgeNodesList(node,false);
+     }
+
+
+     /**
+      *
+      * @param  GraphNode node
+      *         int relationType
+      *         boolean flag - true if we want to get list of outbound nodes,
+      *         false of we want to get a list of inbound nodes.      *
+      * @return list of Nodes
+      */
+      private static List getEdgeNodesList(GraphNode node, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node,flag);
         while (nodeEdgesIt.hasNext()) {
             Edge cur = (Edge) nodeEdgesIt.next();
-            //System.out.println("\t\tedge = " + cur);
-            //System.out.println("\t\t" + cur.getEdgeNode(!flag).getName());
             result.add(cur.getEdgeNode(!flag));
         }
-        return result.iterator();
+        return result;
       }
 
     /**

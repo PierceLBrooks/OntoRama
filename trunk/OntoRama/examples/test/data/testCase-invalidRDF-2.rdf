@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:dc="http://purl.org/metadata/dublin_core#" 
+	xmlns:daml="http://www.daml.org/2000/10/daml-ont#" 
+	xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
+
+<rdfs:Class rdf:about="http://www.webkb.org/ontorama/test#Chair">
+  <rdfs:label xml:lang="en">chair</rdfs:label>
+  <rdfs:label xml:lang="en">sit</rdfs:label>
+  <dc:Creator>nataliya@dstc.edu.au</dc:Creator>
+</rdfs:Class>
+//some comment here
+
+</rdf:RDF>
+

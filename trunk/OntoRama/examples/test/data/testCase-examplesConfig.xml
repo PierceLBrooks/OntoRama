@@ -5,6 +5,18 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
+	<example name="testCase: invalid RDF 1" root="test#Chair">
+		<source uri="examples/test/data/testCase-invalidRDF-1.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="testCase: invalid RDF 2" root="test#Chair">
+		<source uri="examples/test/data/testCase-invalidRDF-2.rdf" 
+					sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
 	<example name="test webkb: cat" root="cat">
 		<source uri="http://www.webkb.org/bin/termSearch.cgi" 
 					sourcePackagePathSuffix="WebKB2Source"/>

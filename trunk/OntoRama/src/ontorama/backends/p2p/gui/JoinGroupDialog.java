@@ -40,6 +40,7 @@ public class JoinGroupDialog extends JDialog {
     private JTabbedPane _tabbedPanel;
 
     private JTextField _newGroupNameField;
+    private JTextField _newGroupDescrField;
 
     private boolean _cancelled = false;
     private int _selectedOption;
@@ -89,16 +90,23 @@ public class JoinGroupDialog extends JDialog {
 
     private JTabbedPane buildTabbedPanel() {
         _tabbedPanel = new JTabbedPane();
-        JLabel nameLabel = new JLabel("Name ");
 
         _tabbedPanel.addTab("Existing Group", null, _existingGroupPanel, "Join existing group");
         _tabbedPanel.setSelectedComponent(_existingGroupPanel);
 
+        JLabel nameLabel = new JLabel("Name ");
         _newGroupNameField = new JTextField(20);
         _newGroupNameField.setToolTipText("Type name of a group you want to create");
 
+        _newGroupDescrField = new JTextField(40);
+        _newGroupDescrField.setToolTipText("Type description for this group");
+        _newGroupDescrField.setText("");
+
+        _newGroupPanel.setLayout(new BoxLayout(_newGroupPanel, BoxLayout.Y_AXIS));
         _newGroupPanel.add(nameLabel);
         _newGroupPanel.add(_newGroupNameField);
+        _newGroupPanel.add(new JLabel("Description"));
+        _newGroupPanel.add(_newGroupDescrField);
 
         _tabbedPanel.addTab("New Group", null, _newGroupPanel, "Create new group");
 
@@ -128,31 +136,22 @@ public class JoinGroupDialog extends JDialog {
             if (DialogUtil.textInputIsValid(this, input, "name")) {
                 System.out.println("input = " + input);
                 _selectedOption = JoinGroupDialog.OPTION_NEW_GROUP;
-
                 try {
-                    Vector groupsVector = _p2pSender.sendSearchGroup("Name",input);
-                    Iterator it = groupsVector.iterator();
-                    if (it.hasNext()) {
-                        SearchGroupResultElement cur = (SearchGroupResultElement) it.next();
-                        groupToJoin = cur;
-                    }
-                    else {
-                        new ErrorPopupMessage("Couldn't find group with name " + input, this);
+                    System.out.println("attempting to create new group with name " + input + " and description: " + _newGroupDescrField.getText());
+                    _p2pSender.sendCreateGroup(input,_newGroupDescrField.getText());
+                    Vector resVector = _p2pSender.sendSearchGroup("Name",input);
+                    /// @todo probably should handle whole vector, not just one element.
+                    if ( resVector.isEmpty()) {
                         return false;
                     }
-
-                } catch (GroupExceptionThread e) {
-                    new ErrorPopupMessage("Error: " + e.getMessage(), this);
+                    _value = (SearchGroupResultElement) resVector.firstElement();
+                } catch (GroupException e) {
                     System.out.println("ERROR:");
                     e.printStackTrace();
-                    return false;
                 } catch (IOException e) {
-                    new ErrorPopupMessage("Error: " + e.getMessage(), this);
                     System.out.println("ERROR:");
                     e.printStackTrace();
-                    return false;
                 }
-                //_value = input;
                 return true;
             }
         }

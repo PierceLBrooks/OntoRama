@@ -54,10 +54,6 @@ public class TreeNodeImpl implements TreeNode {
         }
     }
 
-    public void setClones(List clones) {
-        _clones = clones;
-    }
-
     public List getClones() {
         return _clones;
     }

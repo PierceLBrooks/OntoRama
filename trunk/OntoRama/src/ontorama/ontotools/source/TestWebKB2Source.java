@@ -68,10 +68,7 @@ public class TestWebKB2Source extends TestCase {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
         OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb: cat"));
-
         sourceUri = OntoramaConfig.sourceUri;
-        //String parserPackage = OntoramaConfig.getParserPackageName();
-
         webkbSource = new WebKB2Source();
     }
 
@@ -84,7 +81,6 @@ public class TestWebKB2Source extends TestCase {
             sourceResult_nonExistentTerm = webkbSource.getSourceResult(sourceUri, query_nonExistentTerm);
             fail("Failed to catch expected SourceException (WebkbError)");
         } catch (SourceException e) {
-            //System.err.println("\n\n\nsource exception: " + e);
         }
     }
 
@@ -94,7 +90,6 @@ public class TestWebKB2Source extends TestCase {
     public void testAmbiguousQuery() throws SourceException, CancelledQueryException {
         query_cat = new Query("cat");
         sourceResult_cat = webkbSource.getSourceResult(sourceUri, query_cat);
-        //webkbSource.getReader(sourceUri, new Query("cat"));
         queryIsAmbiguous_cat = webkbSource.resultIsAmbiguous();
         numOfChoices_cat = webkbSource.getNumOfChoices();
         choicesList_cat = webkbSource.getChoicesList();

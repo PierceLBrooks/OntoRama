@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.ParserException;
@@ -188,11 +190,11 @@ public class QueryEngine implements QueryEngineInterface {
 
         Iterator edgesIt = _parserResult.getEdgesList().iterator();
         while (edgesIt.hasNext()) {
-            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) edgesIt.next();
+            Edge curEdge = (Edge) edgesIt.next();
             if (wantedLinks.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
-                ontorama.model.graph.Node fromNode = curEdge.getFromNode();
-                ontorama.model.graph.Node toNode = curEdge.getToNode();
+                Node fromNode = curEdge.getFromNode();
+                Node toNode = curEdge.getToNode();
                 if (!_resultNodesList.contains(fromNode)) {
                      _resultNodesList.add(fromNode);
                     nodes.remove(fromNode);
@@ -203,10 +205,10 @@ public class QueryEngine implements QueryEngineInterface {
                 }
             }
         }
-
+        
         Iterator nodesIt = nodes.iterator();
         while (nodesIt.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIt.next();
+            Node curNode = (Node) nodesIt.next();
             _resultNodesList.add(curNode);
         }
     }

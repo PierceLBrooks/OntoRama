@@ -11,8 +11,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.p2p.model.P2PNode;
 import ontorama.conf.RdfMapping;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.writer.ModelWriter;
 import ontorama.ontotools.writer.ModelWriterException;
@@ -34,7 +37,7 @@ import com.hp.hpl.mesa.rdf.jena.model.Resource;
  */
 
 public class RdfModelWriter implements ModelWriter {
-    protected ontorama.model.graph.Graph _graph;
+    protected Graph _graph;
 
     /**
      * contains mapping of processed nodes to created rdf resources
@@ -52,7 +55,7 @@ public class RdfModelWriter implements ModelWriter {
 
     protected Hashtable _edgeTypesToRdfMapping;
 
-    public void write(ontorama.model.graph.Graph graph, Writer out) throws ModelWriterException {
+    public void write(Graph graph, Writer out) throws ModelWriterException {
         _graph = graph;
         _nodeToResource = new Hashtable();
         _processedEdges = new LinkedList();
@@ -111,7 +114,7 @@ public class RdfModelWriter implements ModelWriter {
         // stubs are  below.
         Iterator nodesIterator = nodesList.iterator();
         while (nodesIterator.hasNext()) {
-            ontorama.model.graph.Node curNode = (ontorama.model.graph.Node) nodesIterator.next();
+            Node curNode = (Node) nodesIterator.next();
             Resource curResource = getResource(curNode);
             boolean needToAddToModel = false;
             if (! _processedNodes.contains(curNode)) {
@@ -128,7 +131,7 @@ public class RdfModelWriter implements ModelWriter {
     protected void writeEdges(List edgesList,  Model rdfModel) throws RDFException {
         Iterator edgesIterator = edgesList.iterator();
         while (edgesIterator.hasNext()) {
-            ontorama.model.graph.Edge curEdge = (ontorama.model.graph.Edge) edgesIterator.next();
+            Edge curEdge = (Edge) edgesIterator.next();
             SimpleTriple triple = writeEdgeIntoModel(curEdge, rdfModel);
             Resource subject = getResource(triple.getSubject());
             Property predicate = triple.getPredicate();
@@ -146,14 +149,14 @@ public class RdfModelWriter implements ModelWriter {
         }
     }
 
-    protected SimpleTriple writeEdgeIntoModel(ontorama.model.graph.Edge curEdge, Model rdfModel) throws RDFException {
+    protected SimpleTriple writeEdgeIntoModel(Edge curEdge, Model rdfModel) throws RDFException {
         SimpleTriple result = null;
-        P2PNode fromNode = (P2PNode) curEdge.getFromNode();
-        ontorama.model.graph.EdgeType edgeType = curEdge.getEdgeType();
+        Node fromNode = (Node) curEdge.getFromNode();
+        EdgeType edgeType = curEdge.getEdgeType();
         Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
         RdfMapping rdfMapping = (RdfMapping) _edgeTypesToRdfMapping.get(edgeType);
         if (rdfMapping.getType().equals(edgeType.getName()) ) {
-            P2PNode toNode = (P2PNode) curEdge.getToNode();
+            Node toNode = (Node) curEdge.getToNode();
             result =  new SimpleTriple (curEdge.getFromNode(), predicate, curEdge.getToNode());
             _processedNodes.add(fromNode);
         }
@@ -164,7 +167,7 @@ public class RdfModelWriter implements ModelWriter {
         return result;
     }
 
-    protected Property getPropertyForEdgeType (ontorama.model.graph.EdgeType edgeType, Hashtable edgeTypesToRdfMapping) throws RDFException {
+    protected Property getPropertyForEdgeType (EdgeType edgeType, Hashtable edgeTypesToRdfMapping) throws RDFException {
         RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
         String rdfTag = (String) rdfMapping.getRdfTags().get(0);
         System.out.println("edgeType namespace = " + edgeType.getNamespace() + ", rdfTag = " + rdfTag);
@@ -182,13 +185,13 @@ public class RdfModelWriter implements ModelWriter {
         while (it.hasNext()) {
             RdfMapping rdfMapping = (RdfMapping) it.next();
             String edgeTypeName = rdfMapping.getType();
-            ontorama.model.graph.EdgeType edgeTypeForRdfMapping = OntoramaConfig.getEdgeType(edgeTypeName);
+            EdgeType edgeTypeForRdfMapping = OntoramaConfig.getEdgeType(edgeTypeName);
             result.put(edgeTypeForRdfMapping, rdfMapping);
         }
         return result;
     }
 
-    protected Resource getResource(ontorama.model.graph.Node node) {
+    protected Resource getResource(Node node) {
         if (_nodeToResource.containsKey(node)) {
             return (Resource) _nodeToResource.get(node);
         } else {
@@ -199,17 +202,17 @@ public class RdfModelWriter implements ModelWriter {
     }
 
     class SimpleTriple {
-        private ontorama.model.graph.Node _subject;
+        private Node _subject;
         private Property _predicate;
-        private ontorama.model.graph.Node _object;
+        private Node _object;
 
-        public SimpleTriple (ontorama.model.graph.Node subject, Property predicate, ontorama.model.graph.Node object) {
+        public SimpleTriple (Node subject, Property predicate, Node object) {
             _subject = subject;
             _predicate = predicate;
             _object = object;
         }
 
-        public ontorama.model.graph.Node getSubject() {
+        public Node getSubject() {
             return _subject;
         }
 
@@ -217,7 +220,7 @@ public class RdfModelWriter implements ModelWriter {
             return _predicate;
         }
 
-        public ontorama.model.graph.Node getObject() {
+        public Node getObject() {
             return _object;
         }
     }

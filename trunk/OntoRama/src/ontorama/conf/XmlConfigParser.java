@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.EdgeTypeImpl;
 import ontorama.util.Debug;
 import org.jdom.Attribute;
 import org.jdom.DataConversionException;
@@ -129,7 +131,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         while (it.hasNext()) {
             Element relationElement = (Element) it.next();
             int relationId = getIdFromIdAttribute(relationElement);
-            ontorama.model.graph.EdgeType edgeType = parseRelation(relationElement, relationElement.getAttribute(idAttributeName));
+            EdgeType edgeType = parseRelation(relationElement, relationElement.getAttribute(idAttributeName));
             EdgeTypeDisplayInfo displayInfo = getDisplayInfo(relationId, edgeType);
             edgesConfig.put(edgeType, displayInfo);
             edgesOrdering.add(edgeType);
@@ -137,7 +139,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     }
 
 
-    private ontorama.model.graph.EdgeType parseRelation (Element relationElement, Attribute idAttr)  throws ConfigParserException {
+    private EdgeType parseRelation (Element relationElement, Attribute idAttr)  throws ConfigParserException {
         List relationTypeElementsList = relationElement.getChildren(relationTypeElementName);
         int listSize = relationTypeElementsList.size();
 
@@ -152,7 +154,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         Element relationTypeElement = (Element) relationTypeElementsList.get(0);
         Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
         checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
-        ontorama.model.graph.EdgeType edgeType = new ontorama.model.graph.EdgeTypeImpl(nameAttr.getValue());
+        EdgeType edgeType = new EdgeTypeImpl(nameAttr.getValue());
 
         if (listSize > 1) {
             Element reverseRelationTypeElement = (Element) relationTypeElementsList.get(1);
@@ -163,7 +165,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         return edgeType;
     }
 
-    private EdgeTypeDisplayInfo getDisplayInfo (int relationId, ontorama.model.graph.EdgeType edgeType) throws ConfigParserException {
+    private EdgeTypeDisplayInfo getDisplayInfo (int relationId, EdgeType edgeType) throws ConfigParserException {
         EdgeTypeDisplayInfo result = null;
 
         Element displayInfoElement = _rootElement.getChild(displayInfoElementName);
@@ -195,7 +197,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         return result;
     }
 
-    private void processCreateIconElement(Element createIconElement, ontorama.model.graph.EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+    private void processCreateIconElement(Element createIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
         Attribute colorAttr = createIconElement.getAttribute(colorAttributeName);
         checkCompulsoryAttr(colorAttr,  colorAttributeName, createIconElementName);
         List relationTypeElementsList = createIconElement.getChildren(relationTypeElementName);
@@ -216,7 +218,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    private void processLoadIconElement(Element loadIconElement, ontorama.model.graph.EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+    private void processLoadIconElement(Element loadIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
         List relationTypeElementsList = loadIconElement.getChildren(relationTypeElementName);
         if (relationTypeElementsList.size() < 1) {
             throw new ConfigParserException("expected element '" + relationTypeElementName + "' in "
@@ -236,7 +238,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, ontorama.model.graph.EdgeType edgeType, EdgeTypeDisplayInfo result)
+    private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, EdgeType edgeType, EdgeTypeDisplayInfo result)
                                             throws ConfigParserException {
         List relationTypeElementsList = displayInDescriptionWinElement.getChildren(relationTypeElementName);
         Iterator it = relationTypeElementsList.iterator();

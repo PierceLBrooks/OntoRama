@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,14 +24,11 @@ import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.ViewQuery;
 import ontorama.model.graph.view.GraphView;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
-import ontorama.ui.events.GeneralQueryEvent;
-import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ui.action.StopQueryAction;
-import ontorama.ui.controller.GeneralQueryEventHandler;
+import ontorama.ui.action.QueryAction;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
@@ -80,10 +76,8 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     public QueryPanel(EventBroker eventBroker) {
         _eventBroker = eventBroker;
-        System.out.println("QueryPanel event broker = " + _eventBroker);
         _stopQueryAction = new StopQueryAction(_eventBroker);
         new GraphViewFocusEventHandler(_eventBroker, this);
-        //new ViewQueryEventHandler(_eventBroker, this);
 
         JPanel queryFieldPanel = new JPanel();
 
@@ -117,7 +111,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
             }
         });
 
-        _querySubmitButton = new JButton(new QueryAction());
+        _querySubmitButton = new JButton(new QueryAction(_eventBroker, this));
         _queryStopButton = new JButton(_stopQueryAction);
 
         queryFieldPanel.add(new JLabel("Search for: "));
@@ -198,7 +192,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      *
      */
-    private String getQueryField() {
+    public String getQueryField() {
         return _queryField.getText();
     }
 
@@ -212,7 +206,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      *
      */
-    private int getDepthField() {
+    public int getDepthField() {
         return _depth;
     }
 
@@ -223,21 +217,11 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         _depthField.setText(String.valueOf(depth));
     }
 
-    /**
-     *
-     */
-    private List getWantedRelationLinks() {
-        List wantedRelationLinks = new LinkedList();
-        Enumeration en = _relationLinksCheckBoxes.keys();
-        while (en.hasMoreElements()) {
-            JCheckBox key = (JCheckBox) en.nextElement();
-            if (key.isSelected()) {
-                ontorama.model.graph.EdgeType relLinkType = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(key);
-                wantedRelationLinks.add(relLinkType);
-            }
-        }
-        return wantedRelationLinks;
+    public List getWantedRelationLinks() {
+        _wantedRelationLinks = updateWantedRelationLinks();
+        return _wantedRelationLinks;
     }
+
 
     /**
      *
@@ -278,46 +262,31 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     }
 
+    /**
+     *
+     */
+    private List updateWantedRelationLinks() {
+        List wantedRelationLinks = new LinkedList();
+        Enumeration en = _relationLinksCheckBoxes.keys();
+        while (en.hasMoreElements()) {
+            JCheckBox key = (JCheckBox) en.nextElement();
+            if (key.isSelected()) {
+                ontorama.model.graph.EdgeType relLinkType = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(key);
+                wantedRelationLinks.add(relLinkType);
+            }
+        }
+        return wantedRelationLinks;
+    }
 
     /**
      * ItemListener
      */
     class CheckBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-            _wantedRelationLinks = getWantedRelationLinks();
+            _wantedRelationLinks = updateWantedRelationLinks();
         }
     }
 
-    /**
-     * query Action
-     */
-    class QueryAction extends AbstractAction {
-
-        private static final String ACTION_COMMAND_KEY_COPY = "execute-query-command";
-        private static final String NAME_COPY = "Get";
-        private static final String SHORT_DESCRIPTION_COPY = "Execute Query";
-        private static final String LONG_DESCRIPTION_COPY = "Execute Query";
-
-        /**
-         *
-         */
-        public QueryAction() {
-            putValue(Action.NAME, NAME_COPY);
-            putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
-            putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
-            putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
-        }
-
-        /**
-         *
-         */
-        public void actionPerformed(ActionEvent parm1) {
-            System.out.println("... query action");
-            Query query = new Query(getQueryField(), getWantedRelationLinks());
-            query.setDepth(getDepthField());
-            _eventBroker.processEvent(new GeneralQueryEvent(query));
-        }
-    }
 
 
     //////////////////////////ViewEventObserver interface implementation////////////////

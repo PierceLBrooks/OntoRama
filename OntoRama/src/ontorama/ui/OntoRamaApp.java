@@ -191,12 +191,10 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
-            System.out.println("QueryStartEventHandler, processEvent()");
             Query query = (Query) event.getSubject();
             _lastQuery = _query;
             _query = query;
             _worker = new QueryEngineThread(_query, _modelEventBroker);
-            System.out.println("_modelEventBroker.removeSubscriptions(_viewsEventBroker)");
             _modelEventBroker.removeSubscriptions(_viewsEventBroker);
             _worker.start();
             _timer.start();
@@ -207,16 +205,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     private class QueryEndEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
-            System.out.println("QueryEndEventHandler, processEvent()");
         	Graph graph = (Graph) event.getSubject();
         	_progressBar.setIndeterminate(false);
         	setStatusLabel("");
             _queryPanel.enableStopQueryAction(false);
-            System.out.println("_modelEventBroker resubscribe _viewsEventBroker");
         	_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
-        	if (graph == null) {
-        		return;
-        	}
         	_graph = graph;
         	_modelEventBroker.processEvent(new GraphLoadedEvent(_graph));
         	_tree = new TreeImpl(_graph, _graph.getRootNode(), _modelEventBroker);
@@ -228,14 +221,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
     class QueryCancelledEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
-            System.out.println("QueryCancelledEventHandler processEvent()");
             _worker.stopProcess();
             _query = _lastQuery;
             _queryPanel.setQuery(_query);
             _progressBar.setIndeterminate(false);
             setStatusLabel("");
             _queryPanel.enableStopQueryAction(false);
-            System.out.println("_modelEventBroker resubscribe _viewsEventBroker");
         	_modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
         }
     }

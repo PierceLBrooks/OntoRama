@@ -26,7 +26,6 @@ public class GeneralQueryEventHandler implements EventBrokerListener {
     }
 
     public void processEvent(Event event) {
-        System.out.println("***GeneralQueryEventHandler processEvent()");
         Query query = (Query) event.getSubject();
         _eventBroker.processEvent(new QueryStartEvent(query));
     }

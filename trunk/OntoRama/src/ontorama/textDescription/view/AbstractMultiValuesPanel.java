@@ -11,19 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
-import javax.swing.border.*;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 
-import java.awt.LayoutManager;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 
 import ontorama.model.*;
 import ontorama.ontologyConfig.*;
@@ -42,7 +32,6 @@ import ontorama.util.event.ViewEventListener;
 public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
     //JLabel _propNameLabel = new JLabel();
     JPanel _propValuePanel = new JPanel();
-    int _minPadding = 40;
 
     Hashtable _componentToPropValueMapping = new Hashtable();
 
@@ -75,19 +64,8 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
         _viewListener = viewListener;
         
         _propNameLabel.setText(propName);
-
-        // create and set layout
-        LayoutManager curLayout = new BoxLayout(this,BoxLayout.X_AXIS);
-        setLayout(curLayout);
-        setAlignmentX(Component.LEFT_ALIGNMENT);
-        // add first label
-        add(_propNameLabel);
-
-        // work out size of rigid area and set it
-        //int curRigitAreaWidth = maxLeftLabelWidth - getLabelWidth(propNameLabel) + this.minPadding;
-        int curRigitAreaWidth = _minPadding;
-        Dimension d = new Dimension(curRigitAreaWidth,0);
-        add(Box.createRigidArea(d));
+        
+        layoutFirstComponent();
 
         // add second panel
         _propValuePanel.setLayout(new BoxLayout(_propValuePanel, BoxLayout.X_AXIS));

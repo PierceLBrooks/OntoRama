@@ -105,13 +105,13 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
     /**
      * get icon for the given relation link
      */
-    protected Icon getIcon(EdgeType relLinkType, boolean isClone) {
+    protected Icon getIcon(EdgeType edgeType, boolean isClone) {
         Image nodeImage = null;
 
         if (isClone) {
-            nodeImage = makeImageForRelLink(relLinkType, true);
+            nodeImage = makeImageForRelLink(edgeType, true);
         } else {
-            nodeImage = (Image) _relLinksImages.get(relLinkType);
+            nodeImage = (Image) _relLinksImages.get(edgeType);
         }
 
         Icon icon = new ImageIcon(nodeImage);

@@ -45,7 +45,6 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      */
     public AbstractMultiValuesPanel(String propName,EventBroker eventBroker) {
         _eventBroker = eventBroker;
-
         _propNameLabel.setText(propName);
 
         layoutFirstComponent();

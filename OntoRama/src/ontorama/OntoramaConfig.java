@@ -68,25 +68,13 @@ public class OntoramaConfig {
 
 
     private static Hashtable edgesConfig;
-
-    /**
-     * Holds defined conceptProperties details. This list can be referred to
-     * whenever we need to find out what details are available for each concept
-     * type.
-     */
-    private static Hashtable conceptPropertiesDetails;
+    private static List edgesOrdering;
 
     /**
      *
      */
     private static List relationRdfMapping;
 
-    /**
-     * Holds mapping for concept properties. Keys of this hashtable should
-     * correspond to list conceptPropertiesConfig, Values are rdf mappings for
-     * the property.
-     */
-    private static Hashtable conceptPropertiesRdfMapping;
 
     /**
      * Get current classloader
@@ -94,11 +82,6 @@ public class OntoramaConfig {
     private static Class curClass;
     private static ClassLoader classLoader;
 
-
-//    /**
-//     * Max value for realtionLinks.
-//     */
-//    public static int MAXTYPELINK;
 
     /**
      * examples list
@@ -226,10 +209,8 @@ public class OntoramaConfig {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         edgesConfig = xmlConfig.getDisplayInfo();
+        edgesOrdering = xmlConfig.getEdgesOrdering();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
-
-        conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
-        conceptPropertiesRdfMapping = xmlConfig.getConceptPropertiesRdfMappingTable();
     }
 
     /**
@@ -266,7 +247,6 @@ public class OntoramaConfig {
      *  @todo shouldn't just return edgeType for reversed name - user doesn't have a way to know that we switched direction here
      */
     public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
-        System.out.println("edgeName = " + edgeName);
         EdgeType result = null;
         Iterator it = edgesConfig.keySet().iterator();
         while (it.hasNext()) {
@@ -289,27 +269,6 @@ public class OntoramaConfig {
      */
     public static List getRelationRdfMapping() {
         return relationRdfMapping;
-    }
-
-    /**
-     *
-     */
-    public static Hashtable getConceptPropertiesTable() {
-        return conceptPropertiesDetails;
-    }
-
-    /**
-     *
-     */
-    public static ConceptPropertiesDetails getConceptPropertiesDetails(String propertyName) {
-        return (ConceptPropertiesDetails) conceptPropertiesDetails.get(propertyName);
-    }
-
-    /**
-     *
-     */
-    public static Hashtable getConceptPropertiesRdfMapping() {
-        return conceptPropertiesRdfMapping;
     }
 
     /**
@@ -368,6 +327,11 @@ public class OntoramaConfig {
     public static OntoramaExample getCurrentExample() {
         return OntoramaConfig.mainExample;
     }
+
+    public static List getEdgesOrdering() {
+        return OntoramaConfig.edgesOrdering;
+    }
+
 
     /**
      *

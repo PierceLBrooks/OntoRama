@@ -35,6 +35,18 @@ public class P2PEdgeImpl extends EdgeImpl implements P2PEdge {
      * @param fromNode
      * @param toNode
      * @param edgeType
+     */
+	public P2PEdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
+		super(fromNode,toNode,edgeType);
+	}
+
+
+    /**
+     * Create a new P2PEdgeImpl with given name and asserter or rejecter
+     *
+     * @param fromNode
+     * @param toNode
+     * @param edgeType
      * @param asserter
      * @param rejecter
      */

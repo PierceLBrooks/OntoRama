@@ -2,12 +2,17 @@ package ontorama.ui.action;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.conf.EdgeTypeDisplayInfo;
+import ontorama.model.graph.EdgeType;
 import ontorama.ontotools.query.Query;
 import ontorama.ui.events.GeneralQueryEvent;
 import ontorama.ui.QueryPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.tockit.events.EventBroker;
 
@@ -49,4 +54,5 @@ public class QueryAction extends AbstractAction {
         query.setDepth(_queryPanel.getDepthField());
         _eventBroker.processEvent(new GeneralQueryEvent(query));
     }
+
 }

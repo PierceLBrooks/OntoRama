@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
+import ontorama.conf.EdgeTypeDisplayInfo;
+import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.Graph;
 import ontorama.ui.action.StopQueryAction;
@@ -200,7 +202,26 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     public List getWantedRelationLinks() {
         _wantedRelationLinks = updateWantedRelationLinks();
-        return _wantedRelationLinks;
+        
+		List edgeTypesToQuery = new LinkedList();
+
+		List allEdgeTypes = OntoramaConfig.getEdgeTypesList();
+		Iterator it = allEdgeTypes.iterator();
+		while (it.hasNext()) {
+			EdgeType edgeType = (EdgeType) it.next();
+			if (_wantedRelationLinks.contains(edgeType)) {
+				edgeTypesToQuery.add(edgeType);
+				continue;
+			}
+			EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
+			if (displayInfo.isDisplayInDescription()) {
+				edgeTypesToQuery.add(edgeType);
+				continue;
+			}
+		}
+        
+        
+        return edgeTypesToQuery;
     }
 
 
@@ -211,7 +232,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         Enumeration enum = _relationLinksCheckBoxes.keys();
         while (enum.hasMoreElements()) {
             JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
-            ontorama.model.graph.EdgeType correspondingRelLink = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
+            EdgeType correspondingRelLink = (EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
             } else {
@@ -227,7 +248,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         Iterator it = OntoramaConfig.getEdgeTypesList().iterator();
 
         while (it.hasNext()) {
-            ontorama.model.graph.EdgeType cur = (ontorama.model.graph.EdgeType) it.next();
+            EdgeType cur = (EdgeType) it.next();
             if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
                 continue;
             }
@@ -252,7 +273,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         while (en.hasMoreElements()) {
             JCheckBox key = (JCheckBox) en.nextElement();
             if (key.isSelected()) {
-                ontorama.model.graph.EdgeType relLinkType = (ontorama.model.graph.EdgeType) _relationLinksCheckBoxes.get(key);
+                EdgeType relLinkType = (EdgeType) _relationLinksCheckBoxes.get(key);
                 wantedRelationLinks.add(relLinkType);
             }
         }

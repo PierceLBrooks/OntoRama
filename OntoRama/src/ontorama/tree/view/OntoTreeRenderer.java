@@ -1,9 +1,7 @@
 package ontorama.tree.view;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.EdgeType;
-import ontorama.model.Node;
-import ontorama.model.NodeType;
+import ontorama.model.*;
 import ontorama.ontologyConfig.ImageMaker;
 import ontorama.tree.model.OntoTreeNode;
 
@@ -15,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Enumeration;
 
 /**
  * Renderer for TreeView
@@ -46,10 +45,19 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      */
     private static Hashtable _nodeTypeToImageMapping = new Hashtable();
 
+    private Graph graph;
+
     /**
      * Renderer for OntoTree View
+     * @todo shouldn't have to pass graph to the renderer. doing this only to be able to display
+     * relation type signatures. Possible solutions:
+     * - introduce RelationNodes
+     * - ?
      */
-    public OntoTreeRenderer() {
+    public OntoTreeRenderer(Graph graph) {
+
+        this.graph = graph;
+
         int iconW = ImageMaker.getWidth();
         int iconH = ImageMaker.getHeight();
 
@@ -82,15 +90,49 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
                                         int row,
                                         boolean hasFocus) {
 
-        super.getTreeCellRendererComponent(
-                tree, value, sel,
-                expanded, leaf, row,
-                hasFocus);
+        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
         OntoTreeNode treeNode = (OntoTreeNode) value;
         EdgeType edge = treeNode.getRelLink();
 
         NodeType nodeType = treeNode.getGraphNode().getNodeType();
+
+        String nodeTextStr = treeNode.getGraphNode().getName();
+
+        // @todo shouldn't hardcode string 'relation' here.
+        if (nodeType.getNodeType().equals("relation")) {
+            String sign1 = null;
+            String sign2 = null;
+            Iterator it = this.graph.getOutboundEdges(treeNode.getGraphNode()).iterator();
+            while (it.hasNext()) {
+                Edge curEdge = (Edge) it.next();
+                EdgeType edgeType = curEdge.getEdgeType();
+                // @todo again hardcoding relation name - if config.xml file changes - this won't work.
+                // probably need RelationNode to fix this.
+                if (edgeType.getName().equals("relSignature1")) {
+                    sign1 = curEdge.getToNode().getName();
+                }
+                if (edgeType.getName().equals("relSignature2")) {
+                    sign2 = curEdge.getToNode().getName();
+                }
+            }
+            nodeTextStr = nodeTextStr + " (";
+            if (sign1 == null ) {
+                nodeTextStr = nodeTextStr + "*";
+            }
+            else {
+                nodeTextStr = nodeTextStr + sign1;
+            }
+            nodeTextStr = nodeTextStr + ", ";
+            if (sign2 == null ) {
+                nodeTextStr = nodeTextStr + "*";
+            }
+            else {
+                nodeTextStr = nodeTextStr + sign2;
+            }
+            nodeTextStr = nodeTextStr + ")";
+        }
+        setText(nodeTextStr);
 
         setToolTipText(getToolTipText(value, edge));
 

@@ -182,6 +182,16 @@
 
     </example>
 
+	<!--
+    <example name="BibLink" root="SubjectScheme">
+        <source uri="examples/web-examples/BibLink.rdf"
+            sourcePackagePathSuffix="JarSource"/>
+        <queryOutputFormat>RDF</queryOutputFormat>
+        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+        <displayMenu subfolder="Web Examples"/>
+    </example>
+    -->
+
     <!--
 
     <example name="Elephants (export from Oiled)" root="animal">

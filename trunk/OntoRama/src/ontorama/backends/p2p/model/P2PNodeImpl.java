@@ -83,4 +83,9 @@ public class P2PNodeImpl extends NodeImpl implements P2PNode {
     public Collection getRejectionsList () {
     	return this.rejecters;
     }
+    
+    public String toString() {
+    	String str = "P2PNode: " + getName();
+    	return str;
+    }
 }

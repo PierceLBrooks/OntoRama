@@ -129,5 +129,11 @@ public class P2PEdgeImpl implements P2PEdge {
 	public void setToNode(Node node) {
 		this.toNode = (P2PNode) node;
 	}
+	
+	public String toString() {
+		String res = "P2PEdge: " + fromNode.getName() + " -> " + edgeType.getName()  
+								+ " -> " + toNode.getName();
+		return res;
+	}
 
 }

@@ -95,14 +95,7 @@ public class GraphNode implements Cloneable, NodeObservable {
      *
      */
     public void hasFocus () {
-        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
-//        Enumeration e = nodeDetails.keys();
-//        while (e.hasMoreElements()) {
-//            String curPropName = (String) e.nextElement();
-//            String curPropValue = (String) nodeDetails.get(curPropName);
-//            System.out.println("\t\t" + curPropName + " = " + curPropValue);
-//        }
-
+//        System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
         System.out.println("\t\tclones: " + this.clones);
 
         notifyChange();
@@ -165,6 +158,15 @@ public class GraphNode implements Cloneable, NodeObservable {
     public GraphNode makeClone ()   {
         // clone curNode to cloneNode
         GraphNode cloneNode = new GraphNode(name);
+
+        // make sure all node's properties are copied to clone.
+        Enumeration e = OntoramaConfig.getConceptPropertiesTable().keys();
+        while (e.hasMoreElements()) {
+            String propName = (String) e.nextElement();
+            List nodePropValue = this.getProperty(propName);
+            cloneNode.setProperty(propName, nodePropValue);
+        }
+
         // add all clones of this GraphNode to the new node (clone node)
         cloneNode.clones.addAll(this.clones);
         // add the clone to the list of clones of this GraphNode

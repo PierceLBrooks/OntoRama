@@ -56,7 +56,7 @@ public class OntoTreeView implements OntoNodeObserver, TreeSelectionListener,
     private JTree tree;
     private OntoTreeNode focusedNode;
 
-    private Debug debug = new Debug(true);
+    private Debug debug = new Debug(false);
 
 
     /**

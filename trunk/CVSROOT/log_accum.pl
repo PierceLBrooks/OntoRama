@@ -238,7 +238,7 @@ sub mail_notification {
 
     open(MAIL, "| $MAILER");
     print MAIL "Date:     " . $maildate . "\n";
-    print MAIL "Subject:  [CVS]" . $subjectline . "\n";
+    print MAIL "Subject:  " . "[CVS] " . $subjectline . "\n";
     print MAIL "To:       " . $mailto . "\n";
     print MAIL "Reply-To: " . $replyto . "\n";
     print MAIL "\n";

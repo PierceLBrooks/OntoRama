@@ -33,6 +33,7 @@ public class GroupsPanel extends JPanel {
 		add(_allGroupsPanel);
 		add(Box.createRigidArea(new Dimension(0,5)));
 		add(_newGroupPanel);
+		add(new JPanel(), new Integer(200));
 
 	}
 	
@@ -42,29 +43,17 @@ public class GroupsPanel extends JPanel {
 		_newGroupPanel.setLayout(new BoxLayout(_newGroupPanel, BoxLayout.Y_AXIS));
 		_newGroupPanel.add(new JLabel("Create new group"));
 		
-		JLabel nameLabel = new JLabel("Name ");
-		JTextField newGroupNameField = new JTextField(20);
-		newGroupNameField.setToolTipText("Type name of a group you want to create");
+		JTextField newGroupNameField = DialogUtil.createNewGroupNameTextField();
 
-		JTextField newGroupDescrField = new JTextField(40);
-		newGroupDescrField.setToolTipText("Type description for this group");
-		newGroupDescrField.setText("");
+		JTextField newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
 		
 		JButton cancelButton = new JButton("Clear");
 		JButton okButton = new JButton("Create group");
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		buttonPanel.add(Box.createHorizontalGlue());
-		buttonPanel.add(cancelButton);
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		buttonPanel.add(okButton);
+		JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
 
-
-
-		_newGroupPanel.add(nameLabel);
+		_newGroupPanel.add(new JLabel(DialogUtil.newGroupNameLabel));
 		_newGroupPanel.add(newGroupNameField);
-		_newGroupPanel.add(new JLabel("Description"));
+		_newGroupPanel.add(new JLabel(DialogUtil.newGroupDescriptionLabel));
 		_newGroupPanel.add(newGroupDescrField);
 		_newGroupPanel.add(buttonPanel);
 

@@ -151,7 +151,9 @@ public class QueryEngine implements QueryEngineInterface {
             System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
             System.out.println("fullName = " + cur.getFullName());
             if (cur.getFullName().equals(termName)) {
+                System.out.println("MATCH");
                 found = true;
+                newTermName = cur.getName();
             }
             if (cur.getName().equals(termName)) {
                 found = true;

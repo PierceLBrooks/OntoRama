@@ -82,8 +82,10 @@ public class CgKbCsvParser implements Parser {
         String rel = tokens[1];
         String obj2 = tokens[2];
         System.out.println(obj1 + "," + rel + "," + obj2 + ".");
-        String shortNameObj1 = stripFullName(obj1);
-        String shortNameObj2 = stripFullName(obj2);
+//        String shortNameObj1 = stripFullName(obj1);
+//        String shortNameObj2 = stripFullName(obj2);
+        String shortNameObj1 = obj1;
+        String shortNameObj2 = obj2;
         //System.out.println("===" + shortNameObj1 + "," + rel + "," + shortNameObj2 + ".");
 
         try {

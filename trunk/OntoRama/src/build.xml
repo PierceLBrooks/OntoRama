@@ -17,6 +17,11 @@
 	<pathelement path="${lib.home}/rdffilter.jar/"/>
 	<pathelement path="${lib.home}/aelfred.jar/"/>
 	<pathelement path="${lib.home}/sax2beta.jar/"/>
+	<pathelement path="${lib.home}/batik-awt-util.jar/"/>
+	<pathelement path="${lib.home}/batik-dom.jar/"/>
+	<pathelement path="${lib.home}/batik-svggen.jar/"/>
+	<pathelement path="${lib.home}/batik-util.jar/"/>
+	<pathelement path="${lib.home}/batik-xml.jar/"/>
   </path>
 
   <!-- Targets and Rules -->

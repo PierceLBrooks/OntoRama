@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE uridef[
+  <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+  <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+  <!ENTITY daml 'http://www.daml.org/2001/03/daml+oil'>
+  <!ENTITY xmls 'http://www.w3.org/2000/10/XMLSchema'>
+  <!ENTITY gdst 'http://gdac.info.uqam.ca/test/processOntology.daml'>
+  <!ENTITY doc 'http://gdac.info.uqam.ca/test/documentOntology.daml'>
+  <!ENTITY dc 'http://orlando.drc.com/daml/ontology/DC/3.2/dces-ont'>
+  <!ENTITY xsd 'http://www.w3.org/2000/10/XMLSchema'>
+]>
+
+<rdf:RDF
+  xmlns:rdf 	='&rdf;#'
+  xmlns:rdfs 	='&rdfs;#'
+  xmlns:daml 	='&daml;#'
+  xmlns:gdst 	='&gdst;#'
+  xmlns:dc 	='&dc;#'
+  xmlns:xsd 	='&xsd;#'
+  xmlns:doc	='&doc;#'
+  xmlns	 	='&gdst;#'
+  xml:base	='&gdst;#'
+ >
+
+<daml:Ontology rdf:about=''>
+ <daml:versionInfo> </daml:versionInfo>
+  <daml:imports rdf:resource='http://www.daml.org/2001/03/daml+oil'/>
+</daml:Ontology>
+
+<!-- ======================================================== -->
+<!-- ============= PAT (Process Activity Task  ============== -->
+<!-- ======================================================== -->
+
+<daml:Class rdf:ID='PAT'>
+  <rdfs:label xml:lang='en'>PAT</rdfs:label>
+  <rdfs:label xml:lang='fr'>PAT</rdfs:label>
+  <rdfs:comment>
+		Generic Class for Process, Activity and Task
+  </rdfs:comment>
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType='daml:collection'>	
+		<!-- ========= Attributes ====== -->
+    	<daml:Restriction  daml:cardinalityQ='1'>
+         <daml:onProperty rdf:resource='#hasPurpose'/>
+         <daml:hasClassQ rdf:resource='&rdfs;#Literal'/>
+    	</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasProcedure'/>
+		  <daml:toClass rdf:resource='&rdfs;#Literal'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#inputDescription'/>
+		  <daml:toClass rdf:resource='&rdfs;#Literal'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#outputDescription'/>
+		  <daml:toClass rdf:resource='&rdfs;#Literal'/>	    
+		</daml:Restriction>
+		<!-- ========= Relationships ====== -->
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#uses'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#produces'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#guided_by'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasReference'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#conforms-to-standard'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+	  </daml:intersectionOf>
+	</daml:Class>	
+  </rdfs:subClassOf>	 
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- ====================  PROCESS  ========================= -->
+<!-- ======================================================== -->
+<!-- Ceci correspond à une fiche descriptive 
+     dans la taxonomie de Bell Canada -->
+<daml:Class rdf:ID='Process'>
+  <rdfs:label xml:lang='en'>Process</rdfs:label>
+  <rdfs:label xml:lang='fr'>Processus</rdfs:label>
+  <rdfs:comment>
+		Sequence of actions to be followed to carry out a work. - Refers to the Class 'Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf rdf:resource='#PAT' />						  
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType='daml:collection'>	
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasActivities'/>
+		  <daml:toClass rdf:resource='#Activity'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#precededByProcess'/>
+		  <daml:toClass rdf:resource='#Process'/>	    
+		</daml:Restriction>
+		<daml:Restriction daml:cardinalityQ='1'>
+		  <daml:onProperty rdf:resource='#ownedBy'/>
+		  <daml:hasClassQ rdf:resource='#Role'/>	    
+		</daml:Restriction>
+      </daml:intersectionOf>
+    </daml:Class>	
+  </rdfs:subClassOf>	 
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- ====================  ACTIVITY  ======================== -->
+<!-- ======================================================== -->
+<!-- Ceci correspond à la principale dimension de 
+     la compétence dans la taxonomie de Bell Canada -->
+
+<daml:Class rdf:ID='Activity'>
+  <rdfs:label xml:lang='en'>Activity</rdfs:label>
+  <rdfs:label xml:lang='fr'>Activité</rdfs:label>
+  <rdfs:comment>
+		Something done over a particular Time Range. A part of a process - Refers to the Class 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf rdf:resource='#PAT' />						  
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType='daml:collection'>	
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#precededByActivity'/>
+		  <daml:toClass rdf:resource='#Activity'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasTasks'/>
+		  <daml:toClass rdf:resource='#Task'/>	    
+		</daml:Restriction>
+      </daml:intersectionOf>
+    </daml:Class>	
+  </rdfs:subClassOf>
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- ======================  TASK  ========================== -->
+<!-- ======================================================== -->
+<!-- Ceci correspond aux 'indicateurs de compétence 
+     ou aspects observables'  dans la taxonomie de Bell Canada -->
+<daml:Class rdf:ID='Task'>
+  <rdfs:label xml:lang='en'>Task</rdfs:label>
+  <rdfs:label xml:lang='fr'>Tâche</rdfs:label>
+  <rdfs:comment>
+		Closely related to the notion of goal, a task describes how to achieve a goal.  Work to be carried out that is a part of an activity.  A Task is done by one and only one #Role - Refers to the Class 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf rdf:resource='#PAT' />						  
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType='daml:collection'>	
+    	<daml:Restriction>
+      	  <daml:onProperty rdf:resource='#hasDecisionPoint'/>
+      	  <daml:toClass rdf:resource='&rdfs;#Literal'/>
+    	</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#precededByTask'/>
+		  <daml:toClass rdf:resource='#Task'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasSubTask'/>
+		  <daml:toClass rdf:resource='#Sub-Task'/>	    
+		</daml:Restriction>
+      </daml:intersectionOf>
+    </daml:Class>	
+  </rdfs:subClassOf>
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- ====================  SUB-TASK  ======================== -->
+<!-- ======================================================== -->
+<!-- Ceci correspond aux 'critères d'évaluation ou aspects
+     mesurables'  dans la taxonomie de Bell Canada -->
+<daml:Class rdf:ID='Sub-Task'>
+  <rdfs:label xml:lang='en'>Sub-Task</rdfs:label>
+  <rdfs:label xml:lang='fr'>Sous-Tâche</rdfs:label>
+  <rdfs:comment>
+		The smallest division of work to be carried out. A part of a task - Refers to the Class 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf rdf:resource='#PAT' />						  
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType='daml:collection'>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#precededBySubTask'/>
+		  <daml:toClass rdf:resource='#Sub-Task'/>	    
+		</daml:Restriction>
+      </daml:intersectionOf>
+    </daml:Class>	
+ </rdfs:subClassOf>
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- ====================  RESOURCE  ======================== -->
+<!-- ======================================================== -->
+<daml:Class rdf:ID='Resource'>
+  <rdfs:label xml:lang='en'>Resource</rdfs:label>
+  <rdfs:label xml:lang='fr'>Ressource</rdfs:label>
+  <rdfs:comment>
+		Resource for a PAT - Refers to the Class 'Resource' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:intersectionOf rdf:parseType = 'daml:collection'>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#referToDocument'/>
+		  <daml:toClass rdf:resource='&doc;#Document'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasExamples'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasReference'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#hasTemplate'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#decomposedIn'/>
+		  <daml:toClass rdf:resource='#Resource'/>	    
+		</daml:Restriction>
+      </daml:intersectionOf>
+    </daml:Class>	
+  </rdfs:subClassOf>
+</daml:Class>
+
+
+<!-- ======================================================== -->
+<!-- ======================  ROLE  ========================== -->
+<!-- ======================================================== -->
+<daml:Class rdf:ID='Role'>
+  <rdfs:label xml:lang='en'>Role</rdfs:label>
+  <rdfs:label xml:lang='fr'>Rôle</rdfs:label>
+  <rdfs:comment>
+		An entity that does play an actor Role.Refers to the Class 'Actor' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf>
+    <daml:Class>
+      <daml:unionOf rdf:parseType='daml:collection'>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#performs'/>
+		  <daml:toClass rdf:resource='#Task'/>	    
+		</daml:Restriction>
+		<daml:Restriction>
+		  <daml:onProperty rdf:resource='#performs'/>
+		  <daml:toClass rdf:resource='#Sub-Task'/>	    
+		</daml:Restriction>
+		  </daml:unionOf>
+    </daml:Class>
+  </rdfs:subClassOf> 				
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource='#practicedBy'/>
+      <daml:toClass rdf:resource='#Person'/>	    
+    </daml:Restriction>
+  </rdfs:subClassOf>
+</daml:Class>
+
+<!-- ======================================================== -->
+<!-- =====================  PERSON  ========================= -->
+<!-- ======================================================== -->
+<daml:Class rdf:ID='Person'>
+  <rdfs:label xml:lang='en'>Person</rdfs:label>
+  <rdfs:label xml:lang='fr'>Personne</rdfs:label>
+  <rdfs:comment>
+		A physical person who 'does' the actor role - Refers to the Class 'Actual-Doer' in the Enterprise Project Ontology.
+  </rdfs:comment>
+  <rdfs:subClassOf>
+     <daml:Restriction>
+       <daml:onProperty rdf:resource='#hasEmail'/>
+       <daml:toClass rdf:resource='&rdfs;#Literal'/>	    
+     </daml:Restriction>
+   </rdfs:subClassOf>
+    <rdfs:subClassOf>
+     <daml:Restriction>
+       <daml:onProperty rdf:resource='#owns'/>
+       <daml:toClass rdf:resource='#ExpertiseLevel'/>	    
+     </daml:Restriction>
+   </rdfs:subClassOf>
+</daml:Class>
+
+
+<!-- ======================================================== -->
+<!-- =================  EXPERTISE LEVEL  ==================== -->
+<!-- ======================================================== -->
+<daml:Class rdf:ID='ExpertiseLevel'>
+  <rdfs:label xml:lang='en'>Expertise Level</rdfs:label>
+  <rdfs:label xml:lang='fr'>Niveau d'expertise</rdfs:label>
+  <rdfs:comment>
+		The level of expertise mastered by an employee or required to execute an activity - This term is not described in the Enterprise Project Ontology with the same meaning, but a similar term is the relation 'Have-Capabilities'.
+  </rdfs:comment>
+</daml:Class>
+
+
+<!-- *************************** Fin Entités *************************************** -->
+
+<!-- *************************** Début Attributs *********************************** -->
+
+<daml:ObjectProperty rdf:ID='hasPurpose'>
+  <rdfs:label xml:lang='en'>Has Purpose</rdfs:label>
+  <rdfs:label xml:lang='fr'>A une raison d'être</rdfs:label>
+  <rdfs:comment>
+		An attribute 'Purpose'.  A purpose is something establish as an end to achieve.  It is the reason why something was created - Refers to the Class 'Purpose' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasProcedure'>
+  <rdfs:label xml:lang='en'>Has procedure</rdfs:label>
+  <rdfs:label xml:lang='fr'>A une procédure</rdfs:label>
+  <rdfs:comment>
+		An attribute 'Procedure'.  A procedure is a manner of proceeding, a way of performing or effecting something.  - This term is not described in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasUrl'>
+  <rdfs:label xml:lang='en'>Has URL</rdfs:label>
+  <rdfs:label xml:lang='fr'>A un URL</rdfs:label>
+  <rdfs:comment>
+		An attribute 'URL' - This term is not described in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasEmail'>
+  <rdfs:label xml:lang='en'>Has an email</rdfs:label>
+  <rdfs:label xml:lang='fr'>A un courriel</rdfs:label>
+  <rdfs:comment>
+		An attribute 'email'. - This term is not described in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasDecisionPoint'>
+  <rdfs:label xml:lang='en'>Has a decision point</rdfs:label>
+  <rdfs:label xml:lang='fr'>A un point de décision</rdfs:label>
+  <rdfs:comment>
+		An attribute 'decisionPoint'.  The main criteria(s) around witch the decision is based on - This term is not described in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='inputDescription'>
+  <rdfs:label xml:lang='en'>Input description</rdfs:label>
+  <rdfs:label xml:lang='fr'>Descripiton de l'intrant</rdfs:label>
+  <rdfs:comment>
+  		An attribute 'inputDescription'. A general description of the resources used by a PAT - This term is not described in the Enterprise Project Ontology with the same meaning, but a similar term is the relation 'Can-Use-Resource'.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='outputDescription'>
+  <rdfs:label xml:lang='en'>Output description</rdfs:label>
+  <rdfs:label xml:lang='fr'>Descripiton de l'extrant</rdfs:label>
+  <rdfs:comment>
+  		An attribute 'outputDescription'. A general description of the resources produced by a PAT - This term is not described in the Enterprise Project Ontology with the same meaning, but a similar term is the relation 'Actual-Output'.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<!-- *************************** fin Attributs *********************************** -->
+
+<!-- *************************** début Relations ********************************* -->
+
+<!-- ==================== PAT - Resource ==================== -->
+<daml:ObjectProperty rdf:ID='guided_by'>
+  <rdfs:label xml:lang='en'>Has guidelines</rdfs:label>
+  <rdfs:label xml:lang='fr'>A des lignes directrices</rdfs:label>
+  <rdfs:comment>
+		Relation between #PAT and #Resource - Refers to the relation 'Can-Use-Resource' in the Enterprise Project Ontology.
+  </rdfs:comment>						    
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='conforms-to-standard'>
+  <rdfs:label xml:lang='en'>Conforms to standard</rdfs:label>
+  <rdfs:label xml:lang='fr'>Conforme au standard</rdfs:label>
+  <rdfs:comment>
+		Relation between #PAT and #Resource - Refers to the relation 'Can-Use-Resource' in the Enterprise Project Ontology.
+  </rdfs:comment>						    
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='uses'>
+  <rdfs:label xml:lang='en'>Uses</rdfs:label>
+  <rdfs:label xml:lang='fr'>Utilise</rdfs:label>
+  <rdfs:comment>
+		Relation between #PAT and #Resource - Refers to the relation 'Can-Use-Resource' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='produces'>
+  <rdfs:label xml:lang='en'>Produces</rdfs:label>
+  <rdfs:label xml:lang='fr'>Produit</rdfs:label>
+  <rdfs:comment>
+		Relation between #PAT and #Resource - Refers to the relation 'Specified-Output' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasReference'>
+  <rdfs:label xml:lang='en'>Has reference</rdfs:label>
+  <rdfs:label xml:lang='fr'>A des références</rdfs:label>
+  <rdfs:comment>Relation between #PAT and #Resource - Refers to the relation 'Can-Use-Resource' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+
+<!-- ==================== PAT - PAT ========================= -->
+<daml:ObjectProperty rdf:ID='hasActivities'>
+  <rdfs:label xml:lang='en'>Has activities</rdfs:label>
+  <rdfs:label xml:lang='fr'>A des activités</rdfs:label>
+  <rdfs:comment>
+		Relation between #Process and #Activity - Refers to the relation 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasTasks'>
+  <rdfs:label xml:lang='en'>Has tasks</rdfs:label>
+  <rdfs:label xml:lang='fr'>A des tâches</rdfs:label>
+  <rdfs:comment>
+		Relation between #Task and #Activity - Refers to the relation 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasSubTask'>
+  <rdfs:label xml:lang='en'>Has sub-task</rdfs:label>
+  <rdfs:label xml:lang='fr'>A une sous-tâche</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Task and #Sub-Task - Refers to the relation 'Sub-Activity' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<!-- ================= -->
+<daml:ObjectProperty rdf:ID='precededByProcess'> <!-- Teximus : uniquement identifier par 'next'-->
+  <rdfs:label xml:lang='en'>Preceded by process</rdfs:label>
+  <rdfs:label xml:lang='fr'>Précédé du processus</rdfs:label>
+  <rdfs:comment>Relation between #Process and #Process. To represent the order - Refers to the relation 'Specified-Pre-Condition' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='precededByActivity'>
+  <rdfs:label xml:lang='en'>Preceded by activity</rdfs:label>
+  <rdfs:label xml:lang='fr'>Précédé de l'activité</rdfs:label>
+  <rdfs:comment>Relation between #Activity and #Activity. To represent the order  - Refers to the relation 'Specified-Pre-Condition' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='precededByTask'>
+  <rdfs:label xml:lang='en'>Preceded by task</rdfs:label>
+  <rdfs:label xml:lang='fr'>Précédé de la tâche</rdfs:label>
+  <rdfs:comment>Relation between #Task and #Task. To represent the order  - Refers to the relation 'Specified-Pre-Condition' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='precededBySubTask'>
+  <rdfs:label xml:lang='en'>Preceded by Sub-Task</rdfs:label>
+  <rdfs:label xml:lang='fr'>Précédé de la sous-tâche</rdfs:label>
+  <rdfs:comment>Relation between #Sub-Task and #Sub-Task. To represent the order  - Refers to the relation 'Specified-Pre-Condition' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+<!-- =============== Resource - Resource =============== -->
+<daml:ObjectProperty rdf:ID='hasTemplate'>
+  <rdfs:label xml:lang='en'>Has Template</rdfs:label>
+  <rdfs:label xml:lang='fr'>Possède un gabarit</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Resource and #Resource - Refers to the relation 'Can-Use-Resource' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='decomposedIn'>
+  <rdfs:label xml:lang='en'>Decomposed in</rdfs:label>
+  <rdfs:label xml:lang='fr'>Décomposé en</rdfs:label>
+  <rdfs:comment>
+		Relation between #Resource and #Resource - This term is not described in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='hasExamples'>
+  <rdfs:label xml:lang='en'>Has examples</rdfs:label>
+  <rdfs:label xml:lang='fr'>A des examples</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Resource and #Resource
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='referToDocument'>
+  <rdfs:label xml:lang='en'>Reference to a document</rdfs:label>
+  <rdfs:label xml:lang='fr'>Reference a un document</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Resource and #Resource
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<!-- ==================== ======= ========================= -->
+<daml:ObjectProperty rdf:ID='ownedBy'>
+  <rdfs:label xml:lang='en'>Owns by</rdfs:label>
+  <rdfs:label xml:lang='fr'>Est la propriété de</rdfs:label>
+  <rdfs:comment>Relation between #Process and #Role - Refers to the relation 'Activity-Owner' in the Enterprise Project Ontology.</rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='performs'>
+  <rdfs:label xml:lang='en'>Performs</rdfs:label>
+  <rdfs:label xml:lang='fr'>Exécute</rdfs:label>
+  <rdfs:comment>
+  		Relation between #PAT and #Role - Refers to the relation 'Actually-Execute' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='practicedBy'>
+  <rdfs:label xml:lang='en'>Practiced by</rdfs:label>
+  <rdfs:label xml:lang='fr'>Pratiqué par</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Person and #Role - Refers to the relation 'Specified-To-Execute' in the Enterprise Project Ontology.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='requires'>
+  <rdfs:label xml:lang='en'>Requires</rdfs:label>
+  <rdfs:label xml:lang='fr'>Requiert</rdfs:label>
+  <rdfs:comment>Relation between #Task, Sub-Task and #ExpertiseLevel - This term is not described in the Enterprise Project Ontology with the same meaning, but a similar term is the relation 'Have-Capabilities'.</rdfs:comment>
+</daml:ObjectProperty>
+
+<daml:ObjectProperty rdf:ID='owns'>
+  <rdfs:label xml:lang='en'>Owns</rdfs:label>
+  <rdfs:label xml:lang='fr'>Possède</rdfs:label>
+  <rdfs:comment>
+  		Relation between #Person and #ExpertiseLevel - This term is not described in the Enterprise Project Ontology with the same meaning, but a similar term is the relation 'Have-Capabilities'.
+  </rdfs:comment>
+</daml:ObjectProperty>
+
+<!-- *************************** fin Relations ********************************* -->
+
+
+</rdf:RDF>

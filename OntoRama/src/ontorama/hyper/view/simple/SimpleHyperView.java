@@ -36,11 +36,15 @@ import org.w3c.dom.DOMImplementation;
 public class SimpleHyperView  extends CanvasManager {
 
     /**
+     * Temp flag to turn off spring and force algorithms.
+     */
+    private boolean runSpringForceAlgorithms = false;
+
+
+    /**
      * Hold the top concept (root node) for current query.
      */
     private GraphNode root = null;
-
-
 
     /**
      * The spring length is the desired length between the nodes..
@@ -89,7 +93,9 @@ public class SimpleHyperView  extends CanvasManager {
 
         // 6.283 is the number of radians in a circle
         basicLayout(root, 6.283, 0);
-        //layoutNodes( 250 );
+        if( runSpringForceAlgorithms == true ) {
+            layoutNodes( 250 );
+        }
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 

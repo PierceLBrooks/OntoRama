@@ -30,7 +30,7 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.importer.FileImporter;
+import ontorama.backends.filemanager.FileImporter;
 import ontorama.model.graph.Graph;
 import ontorama.model.graph.events.GraphLoadedEvent;
 import ontorama.model.tree.Tree;

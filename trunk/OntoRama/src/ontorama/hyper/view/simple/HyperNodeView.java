@@ -9,6 +9,8 @@ import ontorama.hyper.model.PositionChangedObserver;
 import ontorama.model.Node;
 import ontorama.model.EdgeImpl;
 import ontorama.model.Node;
+import ontorama.model.NodeType;
+import ontorama.ontologyConfig.NodeTypeDisplayInfo;
 import org.tockit.canvas.CanvasItem;
 
 import java.awt.*;
@@ -111,14 +113,14 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private double depth = 0;
 
-    public HyperNodeView(HyperNode model) {
+    public HyperNodeView(HyperNode model, NodeTypeDisplayInfo displayInfo) {
         this.model = model;
         model.addPositionChangedObserver(this);
         updateProjection();
         if (model.hasClones()) {
             nodeColor = Color.red;
         } else {
-            nodeColor = Color.blue;
+            nodeColor = displayInfo.getColor();
         }
     }
 

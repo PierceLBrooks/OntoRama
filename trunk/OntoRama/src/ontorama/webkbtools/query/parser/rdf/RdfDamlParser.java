@@ -339,6 +339,7 @@ public class RdfDamlParser implements Parser {
     protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
         Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
+        boolean foundMapping = false;
         while (ontologyRelationRdfMappingIterator.hasNext()) {
             RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
             Iterator mappingTagsIterator = rdfMapping.getRdfTags().iterator();
@@ -350,8 +351,10 @@ public class RdfDamlParser implements Parser {
                     try {
                         if (mappingType.equals(edgeType.getName())) {
                             addEdge(subjectNode, edgeType, objectNode);
+                            foundMapping = true;
                         } else if (mappingType.equals(edgeType.getReverseEdgeName())) {
                             addEdge(objectNode, edgeType, subjectNode);
+                            foundMapping = true;
                         } else {
                             // ERROR
                             // throw exception here
@@ -365,6 +368,9 @@ public class RdfDamlParser implements Parser {
                     }
                 }
             }
+        }
+        if (!foundMapping) {
+            System.err.println("unknown RDF tag for predicate: " + predicate.getLocalName());
         }
     }
 

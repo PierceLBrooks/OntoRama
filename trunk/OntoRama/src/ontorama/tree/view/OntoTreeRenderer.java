@@ -144,20 +144,20 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         OntoTreeNode treeNode = (OntoTreeNode) value;
         Node node = treeNode.getGraphNode();
         NodeType nodeType = node.getNodeType();
-        if (nodeType == null) {
-            result = "???";
-        }
-        else {
-            result = result + "type: " + nodeType.getNodeType();
-        }
-
-//        if (edgeType == null) {
-//            result = result + "Node: " + treeNode.getGraphNode().getName();
+//        if (nodeType == null) {
+//            result = "???";
 //        }
 //        else {
-//            String edgeTypeName = edgeType.getName();
-//            result = result + "Relation Type: " + edgeTypeName;
+//            result = result + "type: " + nodeType.getNodeType();
 //        }
+
+        if (edgeType == null) {
+            result = result + "Node: " + treeNode.getGraphNode().getName();
+        }
+        else {
+            String edgeTypeName = edgeType.getName();
+            result = result + "Relation Type: " + edgeTypeName;
+        }
         return result;
     }
 

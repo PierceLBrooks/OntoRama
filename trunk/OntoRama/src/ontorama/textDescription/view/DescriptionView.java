@@ -57,7 +57,7 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private String _reverseRelationLinkName;
-    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgesOrdering().get(0);
+    private EdgeType _firstRelationLink = (EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
 
     /**
      *

@@ -259,6 +259,9 @@ public class QueryPanel extends JPanel implements ActionListener, GraphQuery, Gr
 
         while (it.hasNext()) {
             EdgeType cur = (EdgeType) it.next();
+            if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
+                continue;
+            }
             JCheckBox curCheckBox = new JCheckBox(cur.getName());
             ImageIcon displayIcon = OntoramaConfig.getEdgeDisplayInfo(cur).getDisplayIcon();
             JLabel displayIconLabel = new JLabel(displayIcon);

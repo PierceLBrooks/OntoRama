@@ -101,10 +101,22 @@ public class EdgeImpl implements Edge {
     }
 
     public void setToNode(Node node) {
-               this.toNode = node;
-        }
+        this.toNode = node;
+    }
 
     public void setFromNode(Node node) {
            this.fromNode = node;
     }
+    
+    
+	public boolean equals(Object obj) {
+		Edge edgeObj = (Edge) obj;
+		if ((this.fromNode.equals(edgeObj.getFromNode())) &&
+				(this.toNode.equals(edgeObj.getToNode())) &&
+				(this.edgeType.equals(edgeObj.getEdgeType()))) {
+			return true;
+		}
+		return false;
+	}
+
 }

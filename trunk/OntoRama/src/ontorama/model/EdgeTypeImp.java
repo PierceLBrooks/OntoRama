@@ -8,7 +8,7 @@
  */
 package ontorama.model;
 
-public class EdgeTypeImp implements EdgeTypeInterface {
+public class EdgeTypeImp implements EdgeType {
 
     private String _name;
     private String _reverseEdgeName;

@@ -1,5 +1,3 @@
-
-
 package ontorama.model;
 
 
@@ -17,6 +15,11 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
 
 /**
  * Basic GraphNode for ontology viewers.
+ *
+ * <p>
+ * Copyright:    Copyright (c) 2002
+ * <br>
+ * Company:     DSTC
  */
 public class GraphNode implements Cloneable, NodeObservable {
 
@@ -31,20 +34,9 @@ public class GraphNode implements Cloneable, NodeObservable {
     private List observers = new LinkedList();
 
     /**
-     * Hold the list of children.
-     */
-    private List children = new LinkedList();
-
-    /**
-     * Holds a list of parents.
-     */
-    private List parents = new LinkedList();
-
-    /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
     private int depth = 0;
-
 
     /**
      * Holds the list of all GraphNodes that refer to the same ontology term..
@@ -58,18 +50,10 @@ public class GraphNode implements Cloneable, NodeObservable {
     private Hashtable nodeDetails = new Hashtable();
 
 
-//    /**
-//     * Description string
-//     */
-//    private String description = null;
-//
-//    /**
-//     * Creator string
-//     */
-//    private String creator = null;
-
     /**
+     * Create a new GraphNode with given name
      *
+     * @param name
      */
     public GraphNode( String name ) {
         this.name = name;
@@ -77,13 +61,15 @@ public class GraphNode implements Cloneable, NodeObservable {
 
     /**
      * Add observers to the list of observers.
+     *
+     * @param observer
      */
     public void addObserver( Object observer ) {
         this.observers.add( observer );
     }
 
     /**
-     * Update all view of change.
+     * Update all views of change.
      */
     public void notifyChange() {
         Iterator it = observers.iterator();
@@ -101,28 +87,6 @@ public class GraphNode implements Cloneable, NodeObservable {
     }
 
     /**
-     * Return Iterator of children.
-     */
-    public Iterator getChildrenIterator() {
-        return children.iterator();
-        //return parents.iterator();
-    }
-
-    /**
-     * Return an iterator of child GraphNodes.
-     */
-    public List getChildrenList() {
-        return children;
-    }
-
-    /**
-     * Add parent to GraphNode.
-     */
-    public void addParent( GraphNode parent ) {
-        this.parents.add(parent);
-    }
-
-    /**
      *
      */
     public void hasFocus () {
@@ -134,86 +98,9 @@ public class GraphNode implements Cloneable, NodeObservable {
             System.out.println("\t\t" + curPropName + " = " + curPropValue);
         }
 
-        //System.out.println("\t\tdescription = " + this.getDescription());
-        //System.out.println("\t\tcreator = " + this.getCreator());
         System.out.println("\t\tclones: " + this.clones);
 
         notifyChange();
-    }
-
-    /**
-     * Add child to GraphNode.
-     */
-    public void addChild( GraphNode child ) {
-        this.children.add(child);
-    }
-
-    /**
-     * Test method: print out all GraphNodes.
-     */
-    public void printNodeNames() {
-        ListIterator listIterator = children.listIterator( 0 );
-        while( listIterator.hasNext() ) {
-            GraphNode node = (GraphNode)listIterator.next();
-            node.printNodeNames();
-        }
-    }
-
-    /**
-     * Returns the number of parents.
-     */
-    public int getNumberOfParents() {
-        return parents.size();
-    }
-
-    /**
-     * Returns the number of children.
-     */
-    public int getNumberOfChildren() {
-        return children.size();
-    }
-
-    /**
-     * Return an iterator of parent GraphNodes.
-     */
-    public Iterator getParents() {
-        return parents.iterator();
-    }
-
-    /**
-     * Checks to see if a child exists befor adding it to the list.
-     */
-    public boolean hasChild( GraphNode child ) {
-      return this.children.contains( child );
-    }
-
-    /**
-     * Checks to see if a parent exists befor adding it to the list.
-     */
-    public boolean hasParent( GraphNode parent ) {
-      return this.parents.contains( parent );
-    }
-
-    /**
-     * Sets this GraphNode to have only the given parent.
-     */
-    public void setParent(GraphNode parent) {
-        parents.clear();
-        parents.add(parent);
-    }
-
-    /**
-     * Removes a parent from this GraphNode.
-     */
-    public void removeParent(GraphNode parent) {
-        parents.remove(parent);
-    }
-
-    /**
-     * Removes a child from this GraphNode.
-     */
-    public void removeChild(GraphNode child) {
-        children.remove(child);
     }
 
     /**
@@ -225,6 +112,8 @@ public class GraphNode implements Cloneable, NodeObservable {
 
     /**
      * Adds a new clone o this GraphNode.
+     *
+     * @param GraphNode clone
      */
     public void addClone(GraphNode clone) {
         clones.add(clone);
@@ -232,7 +121,7 @@ public class GraphNode implements Cloneable, NodeObservable {
 
 
     /**
-     * Calculated the depths of all children in respect to this node.
+     * Calculate the depths of all children in respect to this node.
      */
     public void calculateDepths() {
         this.setDepth(0);
@@ -240,6 +129,8 @@ public class GraphNode implements Cloneable, NodeObservable {
 
     /**
      * Sets the depth of the node in the tree.
+     *
+     * @param depth
      */
     protected void setDepth(int depth) {
         this.depth = depth;
@@ -248,18 +139,12 @@ public class GraphNode implements Cloneable, NodeObservable {
             GraphNode outboundNode = (GraphNode) it.next();
             outboundNode.setDepth(depth + 1);
         }
-        /*
-        Iterator it = children.iterator();
-        while(it.hasNext()) {
-            GraphNode child = (GraphNode) it.next();
-            child.setDepth(depth+1);
-        }
-        */
-        //this.nodeColor = new Color(0,0,depth*80);
     }
 
     /**
      * Returns the distance to the root node.
+     *
+     * @return node depth
      */
     public int getDepth() {
         return this.depth;
@@ -267,40 +152,9 @@ public class GraphNode implements Cloneable, NodeObservable {
 
 
     /**
-     * Returns the distance to the other GraphNode.
-     */
-     /*
-    public double distance(GraphNode other) {
-        return this.position.distance(other.position);
-    }
-    */
-
-    /**
-     * Returns a deep copy of the GraphNode and its children.
-     *
-     * The parents of both GraphNodes will be exactly the same, they
-     * will have the same clones plus each other.
-     */
-    public GraphNode deepCopy() {
-        GraphNode retVal = new GraphNode(name);
-        retVal.parents.addAll(this.parents);
-        retVal.clones.addAll(this.clones);
-        this.clones.add(retVal);
-        retVal.clones.add(this);
-        Iterator it = children.iterator();
-        while(it.hasNext()) {
-            GraphNode cur = (GraphNode) it.next();
-            GraphNode newGraphNode = cur.deepCopy();
-            newGraphNode.removeParent(this);
-            newGraphNode.addParent(retVal);
-            retVal.children.add(newGraphNode);
-        }
-        return retVal;
-    }
-
-    /**
      * Make a clone for this GraphNode (make a new GraphNode with the same
      * name and add new node (clone) to appropriate lists of clones)
+     *
      * @return cloneNode
      */
     public GraphNode makeClone ()   {
@@ -317,14 +171,21 @@ public class GraphNode implements Cloneable, NodeObservable {
     }
 
     /**
+     * Set given property for this node.
      *
+     * @param   propertyName - name of property to set
+     * @param   propertyValue - value for this property
+     * @todo    should we throw NoSuchPropertyException?
      */
     public void setProperty (String propertyName, String propertyValue) {
         nodeDetails.put(propertyName, propertyValue);
     }
 
     /**
+     * Get property value for givent property name
      *
+     * @param   propertyName
+     * @todo    should we throw NoSuchPropertyException?
      */
     public String getProperty (String propertyName) {
         if (nodeDetails.contains(propertyName)) {
@@ -333,62 +194,13 @@ public class GraphNode implements Cloneable, NodeObservable {
         return null;
     }
 
-//    /**
-//     * Set description for this node
-//     * @param   descriptionStr
-//     */
-//    public void setDescription (String descriptionStr) {
-//        this.description = descriptionStr;
-//    }
-//
-//    /**
-//     * Get description string
-//     * @return description string
-//     */
-//    public String getDescription () {
-//        return this.description;
-//    }
-//
-//    /**
-//     * Set creator
-//     * @param creatorStr
-//     */
-//     public void setCreator (String creatorStr) {
-//        this.creator = creatorStr;
-//     }
-//
-//     /**
-//      * Get creator string
-//      * @return creator
-//      */
-//      public String getCreator () {
-//        return this.creator;
-//      }
-//
-
     /**
      * toString method
      */
-
     public String toString() {
-        String p = "", c = "";
-        Iterator it = parents.iterator();
-        while( it.hasNext() ) {
-            GraphNode GraphNode = (GraphNode)it.next();
-            p = p + GraphNode.getName() + " ";
-        }
-        it = children.iterator();
-        while( it.hasNext() ) {
-            GraphNode GraphNode = (GraphNode)it.next();
-            c = c + GraphNode.getName() + " ";
-        }
-//        return "GraphNode name: " + name +
-//                " Parents: " + p +
-//                " Children: " + c;
         return name;
 
     }
-
 
     /**
      * toString method

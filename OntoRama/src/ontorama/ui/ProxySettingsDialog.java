@@ -141,7 +141,7 @@ public class ProxySettingsDialog extends JDialog {
 			String errMessage = "Expecting proxy port number";
 			JOptionPane.showMessageDialog(_owner, errMessage,"Error", JOptionPane.ERROR_MESSAGE);
 			try {
-				Integer proxyPort = new Integer(proxyPortInput);
+				new Integer(proxyPortInput);
 			} 
 			catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(_owner, errMessage,"Error", JOptionPane.ERROR_MESSAGE);				

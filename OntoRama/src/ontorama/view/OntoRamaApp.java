@@ -59,19 +59,13 @@ public class OntoRamaApp extends JFrame {
     /**
      * holds tree view
      */
-    private JComponent treeView;
+    //private JComponent treeView;
+    private OntoTreeView treeView;
 
     /**
      * holds name of term user is serching for
      */
     private String termName;
-
-
-    /**
-     * graphBuilder
-     */
-    //private GraphBuilder graphBuilder;
-
 
     /**
      * holds graph
@@ -158,7 +152,9 @@ public class OntoRamaApp extends JFrame {
         //setMenuBar(menu.getMenuBar());
 
         // Create OntoTreeView
-        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
+        //treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
+        treeView = new OntoTreeView(graph, viewListener);
+        treeView.setGraph(graph);
 
         // create description panel
         DescriptionView descriptionViewPanel = new DescriptionView(graph, viewListener);
@@ -353,18 +349,14 @@ public class OntoRamaApp extends JFrame {
      */
     public boolean executeQuery (Query query) {
         System.out.println(".............. EXECUTE QUERY for new graph ...................");
-        //viewListener = new ViewEventListener();
 
         graph = getGraphFromQuery(query);
         if (graph == null) {
           return false;
         }
 
-        //hyperView = new SimpleHyperView(viewListener);
         hyperView.setGraph(graph);
-
-        treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
-
+        treeView.setGraph(graph);
         queryPanel.setQueryField(graph.getRootNode().getName());
 
         addComponentsToScrollPanel(hyperView, treeView);

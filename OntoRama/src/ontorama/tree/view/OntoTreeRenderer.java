@@ -17,7 +17,7 @@ import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.model.OntoTreeModel;
 
 import ontorama.ontologyConfig.RelationLinkDetails;
-	
+
 /**
  * @todo    clean up methods, remove unneeded variables
  */

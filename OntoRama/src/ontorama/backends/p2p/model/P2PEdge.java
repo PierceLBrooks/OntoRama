@@ -11,7 +11,7 @@ package ontorama.backends.p2p.model;
 import ontorama.model.graph.Edge;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.Collection;
 
 public interface P2PEdge extends Edge {
     /**
@@ -34,11 +34,11 @@ public interface P2PEdge extends Edge {
     /**
      * Returns the assertions.
      */
-     public Set getAssertions ();
+     public Collection getAssertions ();
 
 
     /**
      * Returns the rejections.
      */
-     public Set getRejections ();
+     public Collection getRejections ();
 }

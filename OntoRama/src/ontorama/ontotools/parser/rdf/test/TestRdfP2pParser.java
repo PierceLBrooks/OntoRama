@@ -53,7 +53,7 @@ public class TestRdfP2pParser extends TestCase {
         while (it.hasNext()) {
             P2PNode node = (P2PNode) it.next();
             System.out.println("node = " + node);
-            System.out.println("\tassertions: " + node.getAssertionsList());
+            System.out.println("\tassertions: " + node.getAssertions());
             System.out.println("\trejections: " + node.getRejectionsList());
         }
         it = parserResult.getEdgesList().iterator();
@@ -76,14 +76,14 @@ public class TestRdfP2pParser extends TestCase {
     public void testNode_tail () {
         P2PNode tailNode = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail");
         assertEquals("returned list should contain node wn#Tail ", true, (tailNode != null));
-        assertEquals("number of assertions for node wn#Tail ", 2, tailNode.getAssertionsList().size());
+        assertEquals("number of assertions for node wn#Tail ", 2, tailNode.getAssertions().size());
         assertEquals("number of rejections for node wn#Tail ", 1, tailNode.getRejectionsList().size());
     }
 
     public void testNode_outgrowth () {
         P2PNode node = getNodeFromList("http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth");
         assertEquals("returned list should contain node wn#Outgrowth ", true, (node != null));
-        assertEquals("number of assertions for node wn#Outgrowth ", 0, node.getAssertionsList().size());
+        assertEquals("number of assertions for node wn#Outgrowth ", 0, node.getAssertions().size());
         assertEquals("number of rejections for node wn#Outgrowth ", 0, node.getRejectionsList().size());
     }
 

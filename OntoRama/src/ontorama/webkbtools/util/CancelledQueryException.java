@@ -11,10 +11,10 @@ package ontorama.webkbtools.util;
 
 public class CancelledQueryException extends Exception {
 
-  public CancelledQueryException() {
-  }
+    public CancelledQueryException() {
+    }
 
-  public String getMessage () {
-    return "Query was cancelled by user";
-  }
+    public String getMessage() {
+        return "Query was cancelled by user";
+    }
 }

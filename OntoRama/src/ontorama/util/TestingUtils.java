@@ -1,9 +1,9 @@
 package ontorama.util;
 
-import java.util.List;
-
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
+
+import java.util.List;
 
 /**
  * <p>Title: </p>
@@ -16,25 +16,25 @@ import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
 
 public class TestingUtils {
 
-  /**
-   *
-   */
-  public static OntoramaExample getExampleByName (String exampleName) {
-    List examplesList = OntoramaConfig.getExamplesList();
-    OntoramaExample result = null;
-    for (int i = 0; i < examplesList.size(); i++) {
-      OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
-      //System.out.println("cur example = " + curExample.getName());
-      if (curExample.getName().equals(exampleName)) {
-        result = curExample;
-        //System.out.println("FOUND");
-      }
+    /**
+     *
+     */
+    public static OntoramaExample getExampleByName(String exampleName) {
+        List examplesList = OntoramaConfig.getExamplesList();
+        OntoramaExample result = null;
+        for (int i = 0; i < examplesList.size(); i++) {
+            OntoramaExample curExample = (OntoramaExample) examplesList.get(i);
+            //System.out.println("cur example = " + curExample.getName());
+            if (curExample.getName().equals(exampleName)) {
+                result = curExample;
+                //System.out.println("FOUND");
+            }
+        }
+        if (result == null) {
+            System.err.println("couldn't find example for exampleName = '" + exampleName + "' in the corresponding examples config file");
+            System.exit(-1);
+        }
+        return result;
     }
-    if (result == null ) {
-      System.err.println("couldn't find example for exampleName = '" + exampleName + "' in the corresponding examples config file");
-      System.exit(-1);
-    }
-    return result;
-  }
 
 }

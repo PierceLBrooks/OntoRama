@@ -11,6 +11,6 @@ public interface PositionChaingedObservable {
     /**
      * Add an observer to model.
      */
-    public void addPositionChaingedObserver( Object obj );
+    public void addPositionChaingedObserver(Object obj);
 
 }

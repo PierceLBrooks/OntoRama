@@ -1,15 +1,12 @@
-
 package ontorama.tree.model;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Enumeration;
+import ontorama.model.Edge;
+import ontorama.model.Graph;
+import ontorama.model.GraphNode;
 
 import javax.swing.tree.TreeNode;
-
-import ontorama.model.Graph;
-import ontorama.model.Edge;
-import ontorama.model.GraphNode;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * Description: Build Tree of OntoTreeNodes from given graph
@@ -38,17 +35,17 @@ public class OntoTreeBuilder {
      * @todo  hack for case when we don't have any edges. Rethink this!
      *        Especially hardcoding setRelLink to '1'.
      */
-    public OntoTreeBuilder (Graph graph) {
+    public OntoTreeBuilder(Graph graph) {
         this.graph = graph;
 
         Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
 
         // take care of a case when we only have one node and no edges
-  		if (!outboundEdges.hasNext()) {
-			OntoTreeNode ontoTreeNode = new OntoTreeNode (graph.getRootNode());
-			ontoTreeNode.setRelLink(1);
-			ontoHash.put(graph.getRootNode(),ontoTreeNode);
-  		}
+        if (!outboundEdges.hasNext()) {
+            OntoTreeNode ontoTreeNode = new OntoTreeNode(graph.getRootNode());
+            ontoTreeNode.setRelLink(1);
+            ontoHash.put(graph.getRootNode(), ontoTreeNode);
+        }
 
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
@@ -68,10 +65,10 @@ public class OntoTreeBuilder {
     /**
      * Convert each GraphNode to OntoTreeNode
      */
-    private void graphNodeToOntoTreeNode (GraphNode top, int relLink) {
-        OntoTreeNode ontoTreeNode = new OntoTreeNode (top);
+    private void graphNodeToOntoTreeNode(GraphNode top, int relLink) {
+        OntoTreeNode ontoTreeNode = new OntoTreeNode(top);
         ontoTreeNode.setRelLink(relLink);
-        ontoHash.put(top,ontoTreeNode);
+        ontoHash.put(top, ontoTreeNode);
 
         Iterator outboundEdges = Edge.getOutboundEdges(top);
         while (outboundEdges.hasNext()) {
@@ -96,20 +93,20 @@ public class OntoTreeBuilder {
 
     /**
      * Get TreeNode associated with given GraphNode
-	 * @param	graphNode
-	 * @return	treeNode
+     * @param	graphNode
+     * @return	treeNode
      */
-    public static TreeNode getTreeNode (GraphNode graphNode) {
+    public static TreeNode getTreeNode(GraphNode graphNode) {
         TreeNode treeNode = (OntoTreeNode) ontoHash.get(graphNode);
         return treeNode;
     }
 
     /**
      * Get Iterator of TreeNodes for this tree
-	 * @param	-
-	 * @return	iterator of treeNodes
+     * @param	-
+     * @return	iterator of treeNodes
      */
-    public Iterator getIterator () {
+    public Iterator getIterator() {
         return (ontoHash.values()).iterator();
     }
 

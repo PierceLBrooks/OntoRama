@@ -1,11 +1,9 @@
 package ontorama.view;
 
-import java.net.URL;
-
-import javax.swing.ImageIcon;
-
 import ontorama.OntoramaConfig;
 
+import javax.swing.*;
+import java.net.URL;
 
 
 /**
@@ -19,21 +17,21 @@ import ontorama.OntoramaConfig;
  */
 
 public class ImageMapping {
-  private static String dstcLogoLocation = "img/dstcLogo.png";
-  private static String kvoLogoLocation = "img/kvo-logo.gif";
+    private static String dstcLogoLocation = "img/dstcLogo.png";
+    private static String kvoLogoLocation = "img/kvo-logo.gif";
 
-  public static ImageIcon dstcLogoImage;
-  public static ImageIcon kvoLogoImage;
+    public static ImageIcon dstcLogoImage;
+    public static ImageIcon kvoLogoImage;
 
-  public static void loadImages () {
-    dstcLogoImage = loadImage (dstcLogoLocation);
-    kvoLogoImage = loadImage (kvoLogoLocation);
-  }
+    public static void loadImages() {
+        dstcLogoImage = loadImage(dstcLogoLocation);
+        kvoLogoImage = loadImage(kvoLogoLocation);
+    }
 
-  private static ImageIcon loadImage (String relativeUri) {
-    URL url =  OntoramaConfig.getClassLoader().getResource(relativeUri);
-    System.out.println("image url = " + url + " for relativeUri = " + relativeUri);
-    ImageIcon imageIcon = new ImageIcon(url);
-    return imageIcon;
-  }
+    private static ImageIcon loadImage(String relativeUri) {
+        URL url = OntoramaConfig.getClassLoader().getResource(relativeUri);
+        System.out.println("image url = " + url + " for relativeUri = " + relativeUri);
+        ImageIcon imageIcon = new ImageIcon(url);
+        return imageIcon;
+    }
 }

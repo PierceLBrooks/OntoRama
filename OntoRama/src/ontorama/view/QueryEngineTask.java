@@ -1,17 +1,16 @@
 package ontorama.view;
-/** Uses a SwingWorker to perform a time-consuming (and utterly fake) task. */
 
-import java.io.IOException;
+/** Uses a SwingWorker to perform a time-consuming (and utterly fake) task. */
 
 import ontorama.model.Graph;
 import ontorama.model.NoTypeFoundInResultSetException;
-
-
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryEngine;
 import ontorama.webkbtools.query.QueryResult;
+import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
 
-import ontorama.webkbtools.util.*;
+import java.io.IOException;
 
 
 public class QueryEngineTask {
@@ -38,12 +37,12 @@ public class QueryEngineTask {
     /**
      *
      */
-    private void init () {
-      _statMessage = "";
-      _graph = null;
-      _lengthOfTask = 100;
-      _current = 0;
-      _isDone = false;
+    private void init() {
+        _statMessage = "";
+        _graph = null;
+        _lengthOfTask = 100;
+        _current = 0;
+        _isDone = false;
     }
 
     /**
@@ -77,21 +76,21 @@ public class QueryEngineTask {
      *
      */
     void stop() {
-       // _current = _lengthOfTask;
-       System.out.println("--- thread: stop()");
-       _isDone = true;
-       _graph = null;
-       _worker.interrupt();
+        // _current = _lengthOfTask;
+        System.out.println("--- thread: stop()");
+        _isDone = true;
+        _graph = null;
+        _worker.interrupt();
     }
 
     /**
      * Called from ProgressBarDemo to find out if the task has completed.
      */
     boolean done() {
-      if (_isDone) {
-        return true;
-      }
-      return false;
+        if (_isDone) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -101,92 +100,84 @@ public class QueryEngineTask {
         return _statMessage;
     }
 
-   /**
-    *
-    */
-   private void printStatus () {
-    System.out.println("..." + _statMessage + ", _graph = " + _graph);
-   }
+    /**
+     *
+     */
+    private void printStatus() {
+        System.out.println("..." + _statMessage + ", _graph = " + _graph);
+    }
 
-   /**
-    *
-    */
-   public Graph getGraph () {
-    return _graph;
-   }
+    /**
+     *
+     */
+    public Graph getGraph() {
+        return _graph;
+    }
 
     /**
      *
      */
     class QueryEngineRunner {
-      public QueryEngineRunner () {
-        try {
-            _statMessage = "getting ontology data from the source";
-            printStatus();
-            _current = 30;
-            QueryEngine queryEngine = new QueryEngine (_query);
+        public QueryEngineRunner() {
+            try {
+                _statMessage = "getting ontology data from the source";
+                printStatus();
+                _current = 30;
+                QueryEngine queryEngine = new QueryEngine(_query);
 
-            _statMessage = "ontology data is read, building data structures";
-            _current = 60;
-            printStatus();
-            QueryResult queryResult = queryEngine.getQueryResult();
+                _statMessage = "ontology data is read, building data structures";
+                _current = 60;
+                printStatus();
+                QueryResult queryResult = queryEngine.getQueryResult();
 
-            _statMessage = "building graph";
-            _current = 90;
-            printStatus();
-            _graph = new Graph(queryResult);
+                _statMessage = "building graph";
+                _current = 90;
+                printStatus();
+                _graph = new Graph(queryResult);
 
-            _statMessage = "graph is built";
-            _current = 98;
-            //_finished = true;
+                _statMessage = "graph is built";
+                _current = 98;
+                //_finished = true;
 
-            printStatus();
+                printStatus();
 
-            _isDone = true;
-            System.out.println("DONE! " );
+                _isDone = true;
+                System.out.println("DONE! ");
 
-            _current = 100;
-            //System.out.println(graph.printXml());
+                _current = 100;
+                //System.out.println(graph.printXml());
+            } catch (NoTypeFoundInResultSetException noTypeExc) {
+                System.err.println(noTypeExc);
+                OntoRamaApp.showErrorDialog(noTypeExc.getMessage());
+            } catch (NoSuchRelationLinkException noRelExc) {
+                System.err.println(noRelExc);
+                OntoRamaApp.showErrorDialog(noRelExc.getMessage());
+            } catch (IOException ioExc) {
+                System.out.println(ioExc);
+                ioExc.printStackTrace();
+                OntoRamaApp.showErrorDialog(ioExc.getMessage());
+            } catch (ParserException parserExc) {
+                System.out.println(parserExc);
+                parserExc.printStackTrace();
+                OntoRamaApp.showErrorDialog(parserExc.getMessage());
+            } catch (ClassNotFoundException classExc) {
+                System.out.println(classExc);
+                classExc.printStackTrace();
+                OntoRamaApp.showErrorDialog("Sorry, couldn't find one of the classes you specified in config.xml");
+            } catch (IllegalAccessException iae) {
+                System.out.println(iae);
+                iae.printStackTrace();
+                OntoRamaApp.showErrorDialog(iae.getMessage());
+            } catch (InstantiationException instExc) {
+                System.out.println(instExc);
+                instExc.printStackTrace();
+                OntoRamaApp.showErrorDialog(instExc.getMessage());
+            } catch (Exception e) {
+                System.err.println();
+                e.printStackTrace();
+                OntoRamaApp.showErrorDialog("Unable to build graph: " + e.getMessage());
+            }
         }
-        catch (NoTypeFoundInResultSetException noTypeExc) {
-            System.err.println(noTypeExc);
-            OntoRamaApp.showErrorDialog(noTypeExc.getMessage());
-        }
-        catch (NoSuchRelationLinkException noRelExc) {
-            System.err.println(noRelExc);
-            OntoRamaApp.showErrorDialog(noRelExc.getMessage());
-        }
-        catch (IOException ioExc) {
-          System.out.println(ioExc);
-          ioExc.printStackTrace();
-          OntoRamaApp.showErrorDialog(ioExc.getMessage());
-        }
-        catch (ParserException parserExc) {
-          System.out.println(parserExc);
-          parserExc.printStackTrace();
-          OntoRamaApp.showErrorDialog(parserExc.getMessage());
-        }
-        catch (ClassNotFoundException classExc) {
-          System.out.println(classExc);
-          classExc.printStackTrace();
-          OntoRamaApp.showErrorDialog("Sorry, couldn't find one of the classes you specified in config.xml");
-        }
-        catch (IllegalAccessException iae) {
-          System.out.println(iae);
-          iae.printStackTrace();
-          OntoRamaApp.showErrorDialog(iae.getMessage());
-        }
-        catch (InstantiationException instExc) {
-          System.out.println(instExc);
-          instExc.printStackTrace();
-          OntoRamaApp.showErrorDialog(instExc.getMessage());
-        }
-        catch (Exception e) {
-            System.err.println();
-            e.printStackTrace();
-            OntoRamaApp.showErrorDialog("Unable to build graph: " + e.getMessage());
-        }
-      }
 
     }
 }

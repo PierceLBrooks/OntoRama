@@ -13,13 +13,13 @@ package ontorama.webkbtools.util;
 
 public class NoSuchTypeInQueryResult extends Exception {
 
-  private String errorMsg = "";
+    private String errorMsg = "";
 
-  public NoSuchTypeInQueryResult(String queryTerm) {
-    errorMsg = "Result set doesn't contain query term '" + queryTerm + "'";
-  }
+    public NoSuchTypeInQueryResult(String queryTerm) {
+        errorMsg = "Result set doesn't contain query term '" + queryTerm + "'";
+    }
 
-  public String getMessage() {
-    return errorMsg;
-  }
+    public String getMessage() {
+        return errorMsg;
+    }
 }

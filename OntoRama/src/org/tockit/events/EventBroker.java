@@ -3,11 +3,14 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: EventBroker.java,v 1.2 2002-08-01 07:14:01 johang Exp $
+ * $Id: EventBroker.java,v 1.3 2002-08-01 09:00:09 johang Exp $
  */
 package org.tockit.events;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A class distributing events to listeners.
@@ -87,7 +90,7 @@ public class EventBroker implements EventListener {
      * or interface).
      */
     public void subscribe(EventListener listener, Class eventType, Class subjectType) {
-        if(listener == this) {
+        if (listener == this) {
             throw new RuntimeException("Trying to subscribe EventBroker to itself");
         }
         try {
@@ -145,16 +148,15 @@ public class EventBroker implements EventListener {
      * Processes the current event queue until it is empty.
      */
     private void processEvents() {
-        if(processingEvents) {
+        if (processingEvents) {
             return;
         }
         processingEvents = true;
-        while(!eventQueue.isEmpty()) {
+        while (!eventQueue.isEmpty()) {
             Event event = (Event) eventQueue.remove(0);
-            if(event instanceof SubscriptionEvent) {
+            if (event instanceof SubscriptionEvent) {
                 this.subscriptions.add(event.getSubject());
-            }
-            else if (event instanceof SubscriptionRemovalEvent) {
+            } else if (event instanceof SubscriptionRemovalEvent) {
                 this.subscriptions.remove(event.getSubject());
             }
             processExternalEvent(event);

@@ -1,13 +1,11 @@
 package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
-
-import java.util.*;
-
 import ontorama.util.IteratorUtil;
 
-import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.query.QueryResult;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>Title: </p>
@@ -20,59 +18,59 @@ import ontorama.webkbtools.query.QueryResult;
 
 public class TestQueryResult extends TestCase {
 
-  private Query query;
-  private QueryResult queryResult;
-  private List expectedList;
+    private Query query;
+    private QueryResult queryResult;
+    private List expectedList;
 
-  /**
-   *
-   */
-  public TestQueryResult(String name) {
-    super(name);
-  }
-
-  /**
-   *
-   */
-  protected void setUp() {
-    query = new Query("testQueryType");
-
-    expectedList = new LinkedList();
-    expectedList.add("obj1");
-    expectedList.add("obj2");
-    expectedList.add("obj3");
-    expectedList.add("obj4");
-    expectedList.add("obj5");
-
-    queryResult = new QueryResult (query, expectedList.iterator());
-
-  }
-
-  /**
-   *
-   */
-  public void testGetQuery () {
-    Query testQuery = queryResult.getQuery();
-
-    assertEquals("testing query",query,testQuery);
-  }
-
-  /**
-   *
-   */
-  public void testGetOntologyTypesIterator () {
-
-    List testOntTypesList = IteratorUtil.copyIteratorToList(queryResult.getOntologyTypesIterator());
-
-    assertEquals("iterator size", expectedList.size(),testOntTypesList.size());
-
-    Iterator it = testOntTypesList.iterator();
-    while (it.hasNext()) {
-      String cur = (String) it.next();
-      //System.out.println("cur = " + cur);
-      boolean found = expectedList.contains(cur);
-      assertEquals("expected values list should contain object " + cur +
-              " from the result iterator" , true, found);
+    /**
+     *
+     */
+    public TestQueryResult(String name) {
+        super(name);
     }
-  }
+
+    /**
+     *
+     */
+    protected void setUp() {
+        query = new Query("testQueryType");
+
+        expectedList = new LinkedList();
+        expectedList.add("obj1");
+        expectedList.add("obj2");
+        expectedList.add("obj3");
+        expectedList.add("obj4");
+        expectedList.add("obj5");
+
+        queryResult = new QueryResult(query, expectedList.iterator());
+
+    }
+
+    /**
+     *
+     */
+    public void testGetQuery() {
+        Query testQuery = queryResult.getQuery();
+
+        assertEquals("testing query", query, testQuery);
+    }
+
+    /**
+     *
+     */
+    public void testGetOntologyTypesIterator() {
+
+        List testOntTypesList = IteratorUtil.copyIteratorToList(queryResult.getOntologyTypesIterator());
+
+        assertEquals("iterator size", expectedList.size(), testOntTypesList.size());
+
+        Iterator it = testOntTypesList.iterator();
+        while (it.hasNext()) {
+            String cur = (String) it.next();
+            //System.out.println("cur = " + cur);
+            boolean found = expectedList.contains(cur);
+            assertEquals("expected values list should contain object " + cur +
+                    " from the result iterator", true, found);
+        }
+    }
 }

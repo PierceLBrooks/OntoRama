@@ -12,6 +12,6 @@ package ontorama.model;
 public class NoTypeFoundInResultSetException extends Exception {
 
     public NoTypeFoundInResultSetException(String termName) {
-        super ("term '" + termName + "' not found in Query Result Set");
+        super("term '" + termName + "' not found in Query Result Set");
     }
 }

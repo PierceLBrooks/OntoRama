@@ -1,7 +1,7 @@
 package ontorama.ontologyConfig;
 
-import java.awt.image.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Title:
@@ -19,19 +19,19 @@ public class ImageMaker {
 
 
     public static Image getImage(Color color, String symbol) {
-        Image image = new BufferedImage(ImageMaker.width,ImageMaker.height,BufferedImage.TYPE_INT_RGB);
+        Image image = new BufferedImage(ImageMaker.width, ImageMaker.height, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = image.getGraphics();
         g.setColor(color);
-        g.fillRect(0,0,ImageMaker.width,ImageMaker.height);
+        g.fillRect(0, 0, ImageMaker.width, ImageMaker.height);
         g.setColor(Color.black);
-        g.drawRect(0,0,ImageMaker.width-1,ImageMaker.height-1);
+        g.drawRect(0, 0, ImageMaker.width - 1, ImageMaker.height - 1);
 
         Font font = g.getFont();
         int fontSize = font.getSize();
 
-        int y = (height - fontSize)/2 + fontSize;
-        g.drawString(symbol,5,y);
+        int y = (height - fontSize) / 2 + fontSize;
+        g.drawString(symbol, 5, y);
 
         return image;
     }
@@ -39,14 +39,14 @@ public class ImageMaker {
     /**
      *
      */
-     public static int getWidth () {
+    public static int getWidth() {
         return ImageMaker.width;
-     }
+    }
 
-     /**
-      *
-      */
-     public static int getHeight () {
+    /**
+     *
+     */
+    public static int getHeight() {
         return ImageMaker.height;
-     }
+    }
 }

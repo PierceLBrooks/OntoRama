@@ -3,13 +3,17 @@
  * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
  * Please read licence.txt in the toplevel source directory for licensing information.
  *
- * $Id: EventBrokerTest.java,v 1.1 2002-08-01 04:53:49 johang Exp $
+ * $Id: EventBrokerTest.java,v 1.2 2002-08-01 09:00:10 johang Exp $
  */
 package org.tockit.events.tests;
 
 import com.mockobjects.ExpectationCounter;
-import junit.framework.*;
-import org.tockit.events.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import org.tockit.events.Event;
+import org.tockit.events.EventBroker;
+import org.tockit.events.EventListener;
 
 public class EventBrokerTest extends TestCase {
     public EventBrokerTest(String s) {

@@ -11,6 +11,6 @@ public interface PositionChaingedObserver {
     /**
      * Method called to update observer position.
      */
-    public void positionUpdate( double x, double y);
+    public void positionUpdate(double x, double y);
 
 }

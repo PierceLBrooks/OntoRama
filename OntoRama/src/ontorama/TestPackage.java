@@ -1,6 +1,7 @@
 package ontorama;
 
-import junit.framework.*;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <p>Title: </p>
@@ -13,23 +14,22 @@ import junit.framework.*;
 
 public class TestPackage {
 
-     public static Test suite() {
+    public static Test suite() {
 
 //        System.out.println("loading config files for tests");
 //        OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
 //               "ontorama.properties","examples/test/data/testCase-config.xml");
 
-         TestSuite suite = new TestSuite( "ontorama" );
+        TestSuite suite = new TestSuite("ontorama");
 
-         suite.addTest( ontorama.model.TestModelPackage.suite() );
-         suite.addTest( ontorama.webkbtools.TestWebkbtoolsPackage.suite());
+        suite.addTest(ontorama.model.TestModelPackage.suite());
+        suite.addTest(ontorama.webkbtools.TestWebkbtoolsPackage.suite());
 
-         return suite;
-     }
+        return suite;
+    }
 
-     public static void main( String[] args )
-     {
-         junit.textui.TestRunner.run( suite() );
-     }
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(suite());
+    }
 }
 

@@ -1,10 +1,10 @@
 package ontorama.webkbtools.query.parser;
 
-import java.util.Iterator;
-import java.util.Collection;
-import java.io.Reader;
-
 import ontorama.webkbtools.util.ParserException;
+
+import java.io.Reader;
+import java.util.Collection;
+import java.util.Iterator;
 
 public interface Parser {
     /**
@@ -13,9 +13,9 @@ public interface Parser {
      * @return	Iterator of OntologyTypes
      * @throws  ParserException
      */
-    public Iterator getOntologyTypeIterator (Reader reader)throws ParserException;
+    public Iterator getOntologyTypeIterator(Reader reader) throws ParserException;
 
-    public Collection getOntologyTypeCollection (Reader reader)throws ParserException;
+    public Collection getOntologyTypeCollection(Reader reader) throws ParserException;
 
 }
 

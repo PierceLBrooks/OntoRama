@@ -9,11 +9,9 @@ package ontorama.webkbtools.inputsource;
  * @version 1.0
  */
 
-import java.io.Reader;
-
 import ontorama.webkbtools.query.Query;
-import ontorama.webkbtools.util.SourceException;
 import ontorama.webkbtools.util.CancelledQueryException;
+import ontorama.webkbtools.util.SourceException;
 
 /**
  * Model a Data Source.
@@ -34,6 +32,6 @@ public interface Source {
      *  @return sourceResult
      *  @throws SourceException
      */
-    public SourceResult getSourceResult (String uri, Query query) throws SourceException, CancelledQueryException;
+    public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException;
 
 }

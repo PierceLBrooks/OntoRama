@@ -1,7 +1,7 @@
 package ontorama.ontologyConfig;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Title:
@@ -43,28 +43,28 @@ public class RdfMapping {
     /**
      *
      */
-    public int getId () {
+    public int getId() {
         return _id;
     }
 
     /**
      *
      */
-    public String getType () {
+    public String getType() {
         return _type;
     }
 
     /**
      *
      */
-    public List getRdfTags () {
+    public List getRdfTags() {
         return _rdfTagsList;
     }
 
     /**
      *
      */
-    public void addRdfTag (String tag) {
-      _rdfTagsList.add(tag);
+    public void addRdfTag(String tag) {
+        _rdfTagsList.add(tag);
     }
 }

@@ -1,32 +1,20 @@
 
-
 package ontorama;
 
-import java.util.Properties;
-import java.io.*;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Enumeration;
-import java.util.zip.*;
-import java.net.URLConnection;
-import java.net.URL;
-
-import ontorama.ontologyConfig.RelationLinkDetails;
 import ontorama.ontologyConfig.ConceptPropertiesDetails;
-import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.ConfigParserException;
-import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
+import ontorama.ontologyConfig.RelationLinkDetails;
+import ontorama.ontologyConfig.XmlConfigParser;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
-
+import ontorama.ontologyConfig.examplesConfig.XmlExamplesConfigParser;
+import ontorama.view.ErrorPopupMessage;
 import ontorama.webkbtools.inputsource.JarSource;
 import ontorama.webkbtools.util.SourceException;
 
-import ontorama.view.ErrorPopupMessage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 
 
 /**
@@ -87,8 +75,8 @@ public class OntoramaConfig {
     /**
      *
      */
-     private static String parserPackagePathSuffix;
-     private static String sourcePackagePathSuffix;
+    private static String parserPackagePathSuffix;
+    private static String sourcePackagePathSuffix;
 
 
     /**
@@ -127,13 +115,13 @@ public class OntoramaConfig {
      * correspond to list conceptPropertiesConfig, Values are rdf mappings for
      * the property.
      */
-     private static Hashtable conceptPropertiesRdfMapping;
+    private static Hashtable conceptPropertiesRdfMapping;
 
-     /**
-      * Get current classloader
-      */
-     private static Class curClass;
-     private static ClassLoader classLoader;
+    /**
+     * Get current classloader
+     */
+    private static Class curClass;
+    private static ClassLoader classLoader;
 
 
     /**
@@ -183,14 +171,13 @@ public class OntoramaConfig {
      * Values of vars that are set here should be read from
      * java properties file.
      */
-     static {
+    static {
         System.out.println("---------config--------------");
 
         try {
             curClass = Class.forName("ontorama.OntoramaConfig");
             classLoader = curClass.getClassLoader();
-        }
-        catch (ClassNotFoundException classException ) {
+        } catch (ClassNotFoundException classException) {
             System.err.println("ClassNotFoundException : " + classException);
             System.exit(-1);
         }
@@ -210,49 +197,46 @@ public class OntoramaConfig {
     /**
      *
      */
-    private static void fatalExit (String message, Exception e) {
-      ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, null);
-      //System.err.println(message);
-      System.err.println("Exception: " + e);
-      System.exit(1);
+    private static void fatalExit(String message, Exception e) {
+        ErrorPopupMessage errorPopup = new ErrorPopupMessage(message, null);
+        //System.err.println(message);
+        System.err.println("Exception: " + e);
+        System.exit(1);
     }
 
     /**
      *
      */
-    public static void loadAllConfig (String examplesConfigLocation,
-                      String propertiesFileLocation, String configFileLocation) {
+    public static void loadAllConfig(String examplesConfigLocation,
+                                     String propertiesFileLocation, String configFileLocation) {
         try {
-          loadExamples(examplesConfigLocation);
-          loadPropertiesFile(propertiesFileLocation);
-          loadConfiguration(configFileLocation);
+            loadExamples(examplesConfigLocation);
+            loadPropertiesFile(propertiesFileLocation);
+            loadConfiguration(configFileLocation);
         }
 //        catch (IOException ioe) {
 //          fatalExit("Unable to read xml configuration file, IOException", ioe);
 //        }
         catch (SourceException sourceExc) {
-          fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
-        }
-        catch ( ConfigParserException cpe ) {
-          fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
-        }
-        catch ( ArrayIndexOutOfBoundsException arrayExc ) {
-          fatalExit("Please make sure relation id's in xml config are ordered from 1 to Max number, ArrayIndexOutOfBoundsException",
+            fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
+        } catch (ConfigParserException cpe) {
+            fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
+        } catch (ArrayIndexOutOfBoundsException arrayExc) {
+            fatalExit("Please make sure relation id's in xml config are ordered from 1 to Max number, ArrayIndexOutOfBoundsException",
                     arrayExc);
-        }
-        catch (Exception e) {
-          fatalExit("Unable to read properties file in", e);
+        } catch (Exception e) {
+            fatalExit("Unable to read properties file in", e);
         }
     }
 
     /**
      * load examples
      */
-    private static void loadExamples (String examplesConfigLocation)
-                            throws SourceException, ConfigParserException, IOException {
+    private static void loadExamples(String examplesConfigLocation)
+            throws SourceException, ConfigParserException, IOException {
         // loading examples
         if (VERBOSE) {
-          System.out.println("loading examples");
+            System.out.println("loading examples");
         }
         //InputStream examplesConfigStream = getInputStreamFromResource(classLoader,"examplesConfig.xml");
         //InputStream examplesConfigStream = getInputStreamFromResource(examplesConfigLocation);
@@ -269,21 +253,21 @@ public class OntoramaConfig {
     /**
      * load properties from ontorama.properties file
      */
-    private static void loadPropertiesFile (String propertiesFileLocation)
-                            throws SourceException, IOException {
+    private static void loadPropertiesFile(String propertiesFileLocation)
+            throws SourceException, IOException {
         //InputStream propertiesFileIn = getInputStreamFromResource(classLoader,"ontorama.properties");
         //InputStream propertiesFileIn = getInputStreamFromResource(propertiesFileLocation);
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
-        DEBUG = (new Boolean ( properties.getProperty("DEBUG"))).booleanValue();
-        VERBOSE = (new Boolean ( properties.getProperty("VERBOSE"))).booleanValue();
+        DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
+        VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
     }
 
     /**
      * load Config
      */
-    private static void loadConfiguration (String configFileLocation)
-                            throws SourceException, ConfigParserException, IOException {
+    private static void loadConfiguration(String configFileLocation)
+            throws SourceException, ConfigParserException, IOException {
         //InputStream configInStream = getInputStreamFromResource(classLoader,"config.xml");
         //InputStream configInStream = getInputStreamFromResource(configFileLocation);
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
@@ -291,7 +275,7 @@ public class OntoramaConfig {
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         allRelationsArray = xmlConfig.getRelationLinksArray();
         MAXTYPELINK = allRelationsArray.length;
-        relationLinksSet = buildRelationLinksSet ();
+        relationLinksSet = buildRelationLinksSet();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
 
         conceptPropertiesDetails = xmlConfig.getConceptPropertiesTable();
@@ -302,11 +286,11 @@ public class OntoramaConfig {
      * @todo: we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static List getRelationLinksList () {
-        LinkedList allRelations = new LinkedList ();
-        for (int i = 0; i < allRelationsArray.length; i++ ) {
-            if ( allRelationsArray[i] != null ) {
-                allRelations.add(new Integer (i));
+    public static List getRelationLinksList() {
+        LinkedList allRelations = new LinkedList();
+        for (int i = 0; i < allRelationsArray.length; i++) {
+            if (allRelationsArray[i] != null) {
+                allRelations.add(new Integer(i));
             }
         }
         //System.out.println("\n\n\n returning list of relations: " + allRelations);
@@ -318,154 +302,154 @@ public class OntoramaConfig {
      * @todo: we are assuming that allRelationsArray got all relations id's in order
      * from 1 to n. If this is not a case -> what we are doing here could be wrong
      */
-    public static HashSet buildRelationLinksSet () {
+    public static HashSet buildRelationLinksSet() {
         List allRelations = getRelationLinksList();
-        return new HashSet ((Collection) allRelations);
+        return new HashSet((Collection) allRelations);
     }
 
     /**
      *
      */
-    public static HashSet getRelationLinksSet () {
+    public static HashSet getRelationLinksSet() {
         return relationLinksSet;
     }
 
     /**
      *
      */
-    public static RelationLinkDetails[] getRelationLinkDetails () {
+    public static RelationLinkDetails[] getRelationLinkDetails() {
         return allRelationsArray;
     }
 
     /**
      *
      */
-    public static RelationLinkDetails getRelationLinkDetails (int i) {
+    public static RelationLinkDetails getRelationLinkDetails(int i) {
         return allRelationsArray[i];
     }
 
     /**
      *
      */
-     public static List getRelationRdfMapping () {
+    public static List getRelationRdfMapping() {
         return relationRdfMapping;
-     }
+    }
 
-     /**
-      *
-      */
-     public static Hashtable getConceptPropertiesTable () {
+    /**
+     *
+     */
+    public static Hashtable getConceptPropertiesTable() {
         return conceptPropertiesDetails;
-     }
+    }
 
-     /**
-      *
-      */
-     public static ConceptPropertiesDetails getConceptPropertiesDetails (String propertyName) {
+    /**
+     *
+     */
+    public static ConceptPropertiesDetails getConceptPropertiesDetails(String propertyName) {
         return (ConceptPropertiesDetails) conceptPropertiesDetails.get(propertyName);
-     }
+    }
 
-     /**
-      *
-      */
-     public static Hashtable getConceptPropertiesRdfMapping () {
+    /**
+     *
+     */
+    public static Hashtable getConceptPropertiesRdfMapping() {
         return conceptPropertiesRdfMapping;
-     }
+    }
 
-     /**
-      *
-      */
-     public static List getExamplesList () {
+    /**
+     *
+     */
+    public static List getExamplesList() {
         return examplesList;
-     }
+    }
 
-     /**
-      * @todo should all OntoramaConfig variables be public? or should they
-      *   have setters and getters? (sourceUri, ontologyRoot, queryOutputFormat)
-      */
-     public static void setCurrentExample (OntoramaExample example) {
-      OntoramaConfig.mainExample = example;
-      OntoramaConfig.sourceUri = example.getRelativeUri();
-      setParserPackageName(example.getParserPackagePathSuffix());
-      setSourcePackageName(example.getSourcePackagePathSuffix());
-      OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
-      OntoramaConfig.ontologyRoot = example.getRoot();
-      OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
+    /**
+     * @todo should all OntoramaConfig variables be public? or should they
+     *   have setters and getters? (sourceUri, ontologyRoot, queryOutputFormat)
+     */
+    public static void setCurrentExample(OntoramaExample example) {
+        OntoramaConfig.mainExample = example;
+        OntoramaConfig.sourceUri = example.getRelativeUri();
+        setParserPackageName(example.getParserPackagePathSuffix());
+        setSourcePackageName(example.getSourcePackagePathSuffix());
+        OntoramaConfig.isSourceDynamic = example.getIsSourceDynamic();
+        OntoramaConfig.ontologyRoot = example.getRoot();
+        OntoramaConfig.queryOutputFormat = example.getQueryOutputFormat();
 
-      /*
-      System.out.println("setNewExampleDetails:");
-      System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-      System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
-      System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
-      System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
-      System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
-      */
-     }
+        /*
+        System.out.println("setNewExampleDetails:");
+        System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
+        System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
+        System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
+        System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
+        System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
+        */
+    }
 
-     /**
-      *
-      */
-     public static String getParserPackageName () {
-      return parserPackageName;
-     }
+    /**
+     *
+     */
+    public static String getParserPackageName() {
+        return parserPackageName;
+    }
 
-     /**
-      *
-      */
-     public static void setParserPackageName (String parserPackagePathSuffixStr) {
-      parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
-     }
+    /**
+     *
+     */
+    public static void setParserPackageName(String parserPackagePathSuffixStr) {
+        parserPackageName = parserPackagePathPrefix + "." + parserPackagePathSuffixStr;
+    }
 
-     /**
-      *
-      */
-     public static String getSourcePackageName () {
-      return sourcePackageName;
-     }
+    /**
+     *
+     */
+    public static String getSourcePackageName() {
+        return sourcePackageName;
+    }
 
 
-     /**
-      *
-      */
-     public static void setSourcePackageName (String sourcePackagePathSuffixStr) {
-      sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
-     }
+    /**
+     *
+     */
+    public static void setSourcePackageName(String sourcePackagePathSuffixStr) {
+        sourcePackageName = sourcePackagePathPrefix + "." + sourcePackagePathSuffixStr;
+    }
 
-     /**
-      *
-      */
-     public static String getQueryStringCostructorPackageName () {
-      return queryStringConstructorPackageName;
-     }
+    /**
+     *
+     */
+    public static String getQueryStringCostructorPackageName() {
+        return queryStringConstructorPackageName;
+    }
 
-     /**
-      *
-      */
-     public static void setQueryStringConstructorPackageName (String queryStringConstructorPackagePathSuffix) {
-      queryStringConstructorPackageName = queryStringConstructorPackagePathPrefix + "." + queryStringConstructorPackagePathSuffix;
-     }
+    /**
+     *
+     */
+    public static void setQueryStringConstructorPackageName(String queryStringConstructorPackagePathSuffix) {
+        queryStringConstructorPackageName = queryStringConstructorPackagePathPrefix + "." + queryStringConstructorPackagePathSuffix;
+    }
 
-     /**
-      *
-      */
-     public static OntoramaExample getCurrentExample () {
-      /*
-      System.out.println("getCurrentExample:");
-      System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
-      System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
-      System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
-      System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
-      System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
-      */
+    /**
+     *
+     */
+    public static OntoramaExample getCurrentExample() {
+        /*
+        System.out.println("getCurrentExample:");
+        System.out.println("OntoramaConfig.sourceUri = " + OntoramaConfig.sourceUri);
+        System.out.println("OntoramaConfig.ontologyRoot  = " + OntoramaConfig.ontologyRoot );
+        System.out.println("OntoramaConfig.parserPackageName  = " + OntoramaConfig.parserPackageName );
+        System.out.println("OntoramaConfig.sourcePackageName  = " + OntoramaConfig.sourcePackageName );
+        System.out.println("OntoramaConfig.queryOutputFormat  = " + OntoramaConfig.queryOutputFormat );
+        */
 
-      return OntoramaConfig.mainExample;
-     }
+        return OntoramaConfig.mainExample;
+    }
 
-     /**
-      *
-      */
-     public static ClassLoader getClassLoader() {
-      return OntoramaConfig.classLoader;
-     }
+    /**
+     *
+     */
+    public static ClassLoader getClassLoader() {
+        return OntoramaConfig.classLoader;
+    }
 }
 

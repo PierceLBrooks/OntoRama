@@ -10,14 +10,14 @@ package ontorama.webkbtools.util;
  */
 
 public class SourceException extends Exception {
-  private String errorMsg = "";
+    private String errorMsg = "";
 
-  public SourceException (String message) {
-    //errorMsg = "\nSource failed:\n";
-    errorMsg = errorMsg + message;
-  }
+    public SourceException(String message) {
+        //errorMsg = "\nSource failed:\n";
+        errorMsg = errorMsg + message;
+    }
 
-  public String getMessage() {
-    return errorMsg;
-  }
+    public String getMessage() {
+        return errorMsg;
+    }
 }

@@ -28,15 +28,7 @@ public class GraphBuilder {
 
     private String filename;
 
-    //public GraphBuilder(String filename) {
-    public GraphBuilder() {
-      //String termName = "comms#CommsObject";
-      //String termName = "wn#TrueCat";
-      //String termName = "wn#Dog";
-      //System.out.println("termName = " + termName);
-      String termName = "root";
-      //String termName = "comms_CommsObject";
-
+    public GraphBuilder(String termName) {
       try {
           TypeQuery query = new TypeQueryImplementation();
           Iterator ontIterator = query.getTypeRelative(termName);

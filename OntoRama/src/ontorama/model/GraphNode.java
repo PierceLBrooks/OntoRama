@@ -61,7 +61,8 @@ public class GraphNode implements Cloneable {
     /**
      * Create a new GraphNode with given name and an alternative name
      *
-     * @param name, fullName
+     * @param name
+     * @param fullName
      */
     public GraphNode(String name, String fullName) {
         this.name = name;
@@ -132,7 +133,7 @@ public class GraphNode implements Cloneable {
     /**
      * Adds a new clone o this GraphNode.
      *
-     * @param GraphNode clone
+     * @param  clone  GraphNode that is clone for this GraphNode
      */
     private void addClone(GraphNode clone) {
         clones.add(clone);
@@ -226,7 +227,7 @@ public class GraphNode implements Cloneable {
      *
      * @param   propertyName - name of property to set
      * @param   propertyValue - value for this property
-     * @trows   NoSuchPropertyException
+     * @throws   NoSuchPropertyException
      */
     public void setProperty(String propertyName, List propertyValue)
             throws NoSuchPropertyException {
@@ -237,7 +238,7 @@ public class GraphNode implements Cloneable {
      * Get property value for given property name
      *
      * @param   propertyName
-     * @throw   NoSuchPropertyException
+     * @throws   NoSuchPropertyException
      */
     public List getProperty(String propertyName) throws NoSuchPropertyException {
         return (List) nodeDetails.get(propertyName);

@@ -10,12 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.model.P2PEdge;
 import ontorama.backends.p2p.model.P2PNode;
 import ontorama.conf.RdfMapping;
 import ontorama.model.graph.EdgeType;
-//import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
@@ -87,11 +85,10 @@ public class RdfP2pParser implements Parser {
             StmtIterator stIt= model.listStatements();
             while (stIt.hasNext()) {
                 Statement next = stIt.next();
-                System.out.println(next.getSubject() +  " -> " + next.getPredicate() + " -> " + next.getObject() );
                 _statementsList.add(next);
             }
 
-        	String namespace_ontoP2P = P2PBackend.ontoP2P_namespace;
+        	String namespace_ontoP2P = OntoramaConfig.ontoP2P_namespace;
         	_assertedProp = new PropertyImpl(namespace_ontoP2P + _rdf_tag_asserted);
         	_rejectedProp = new PropertyImpl(namespace_ontoP2P + _rdf_tag_rejected);
 
@@ -108,8 +105,6 @@ public class RdfP2pParser implements Parser {
                     _rdfStatementObject = new ResourceImpl(namespace_rdf + "Statement");
                 }
             }
-        	System.out.println("\n++++\nasserted Property = " + _assertedProp);
-        	System.out.println("\n++++\nrejected Property = " + _rejectedProp);
             processAllAnonymousSubjectStatements(model);
             processAllReificationStatements(model);
             processRemainingStatements(model);
@@ -165,17 +160,14 @@ public class RdfP2pParser implements Parser {
 
     private void processAllReificationStatements(Model model) throws RDFException,
                                     NoSuchRelationLinkException, URISyntaxException {
-		System.out.println("\n-----------------------------------------------\n");                                    	
         ResIterator subjectsIt = model.listSubjectsWithProperty(_rdfTypeProp);
         while (subjectsIt.hasNext()) {
             Resource resource = subjectsIt.next();
-            System.out.println("resource " + resource);
             SimpleTriple triple = null;
             boolean resourceIsReified = false;
             StmtIterator it = resource.listProperties();
             while (it.hasNext()) {
                 Statement st = it.next();
-                System.out.println(st.getSubject() + " -> " + st.getPredicate() + " -> " + st.getObject());
                 if (!_statementsList.contains(st)) {
                     continue;
                 }
@@ -203,7 +195,6 @@ public class RdfP2pParser implements Parser {
                     triple.setObject(st.getObject());
                 }
                 if (st.getPredicate().equals(_assertedProp)) {
-                	System.out.println("!!!!!!!!!!!\nFOUND ASSERTION");
                     triple.addAssertion(new URI(st.getObject().toString()));
                 }
                 if (st.getPredicate().equals(_rejectedProp)) {

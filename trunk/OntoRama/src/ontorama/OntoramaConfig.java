@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatConfigParser;
@@ -106,6 +107,8 @@ public class OntoramaConfig {
 	private static Backend _activeBackend;
 	
 	private static List _dataFormatsMappingList;
+
+	public static final String ontoP2P_namespace = "http://www.ontorama.org/ontoP2P#";
 
     /**
      * Values of vars that are set here should be read from

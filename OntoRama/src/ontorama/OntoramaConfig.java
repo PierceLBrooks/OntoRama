@@ -9,6 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessControlException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -316,11 +317,11 @@ public class OntoramaConfig {
         int yb[] = {y1,y0,y0,y1,y2,y3,y3,y2};
         Shape unknownShape = new Polygon(xb, yb, 8); 
 
-        CONCEPT_TYPE = new NodeTypeImpl();
+        CONCEPT_TYPE = new NodeTypeImpl("CONCEPT_TYPE");
         nodesConfig.put(CONCEPT_TYPE, new NodeTypeDisplayInfo("concept", conceptShape, false, Color.BLUE, Color.RED));
-        RELATION_TYPE = new NodeTypeImpl(); 
+        RELATION_TYPE = new NodeTypeImpl("RELATION_TYPE"); 
         nodesConfig.put(RELATION_TYPE, new NodeTypeDisplayInfo("relation", relationShape, false, Color.GREEN, Color.YELLOW));
-        UNKNOWN_TYPE = new NodeTypeImpl();
+        UNKNOWN_TYPE = new NodeTypeImpl("UNKNOWN_TYPE");
         nodesConfig.put(UNKNOWN_TYPE, new NodeTypeDisplayInfo("unknown", unknownShape, false, Color.WHITE, Color.BLACK));
     }
 
@@ -357,5 +358,13 @@ public class OntoramaConfig {
 		}
 		return null;
 	}
+	
+	public static Collection getNodeTypesCollection () {
+		Collection res = new HashSet();
+		res.add(OntoramaConfig.CONCEPT_TYPE);
+		res.add(OntoramaConfig.RELATION_TYPE);
+		res.add(OntoramaConfig.UNKNOWN_TYPE);
+		return res;
+	} 
 }
 

@@ -62,6 +62,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     private static final String mappingSymbolAttributeName = "mappingSymbol";
     private static final String pathAttributeName = "path";
     private static final String displayLabelAttributeName = "displayLabel";
+    private static final String queryOnAttributeName = "queryOn";
 
 
     private Element _rootElement;
@@ -256,6 +257,10 @@ public class XmlConfigParser extends XmlParserAbstract {
             if ( (edgeType.getReverseEdgeName() != null) &&  (edgeType.getReverseEdgeName().equals(name)) ) {
                 result.setDisplayReverseEdgeInDescription(true);
                 result.setDisplayLabel(labelAttr.getValue());
+            }
+            Attribute queryOnAttr = relationTypeElement.getAttribute(queryOnAttributeName);
+            if ((queryOnAttr != null) && (queryOnAttr.getValue().equalsIgnoreCase("yes"))) {
+                result.setQueryOn(true);
             }
         }
     }

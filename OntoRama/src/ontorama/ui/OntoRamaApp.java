@@ -300,7 +300,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		setSize(_appWidth, _appHeight);
 		setLocation(centerAppWin());
 		setVisible(true);
-		enableDisableDynamicFields();
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -570,7 +569,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_treeView.repaint();
 		_splitPane.repaint();
         _examplesMenu.setSelectedExampleMenuItem(OntoramaConfig.getCurrentExample());
-		enableDisableDynamicFields();
         _historyMenu.appendHistory(_query, OntoramaConfig.getCurrentExample());
 		repaint();
 	}
@@ -584,20 +582,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_queryPanel.setGraph(graph);
 		_descriptionViewPanel.setGraph(graph);
 		_listViewer.setGraph(graph);
-	}
-
-	/**
-	 * enable/disable components that should be only shown
-	 * for dynamically loaded ontologies
-	 */
-	private void enableDisableDynamicFields() {
-		if (OntoramaConfig.isSourceDynamic) {
-			_queryPanel.enableDepth();
-			_descriptionViewPanel.enableDynamicFields();
-		} else {
-			_queryPanel.disableDepth();
-			_descriptionViewPanel.disableDynamicFields();
-		}
 	}
 
     /**

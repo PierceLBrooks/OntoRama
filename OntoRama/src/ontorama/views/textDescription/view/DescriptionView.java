@@ -17,6 +17,9 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.model.graph.view.GraphView;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 
@@ -30,12 +33,6 @@ import org.tockit.events.EventBroker;
  */
 
 public class DescriptionView extends JPanel implements GraphView {
-
-    /**
-     * this hashtable will hold labels of concept property names as keys
-     * and labels of corresponding values for a node as values
-     */
-    //private Hashtable labels = new Hashtable();
 
     /**
      * Keys - name of property
@@ -53,24 +50,6 @@ public class DescriptionView extends JPanel implements GraphView {
     private String _fullUrlPropName = "Full Url ";
 
     /**
-     * @todo  think of a way to not hardcode _parents
-     *
-     * @todo	shouldn't hardcode parent relation, see line
-     * because if someone changed config file for supertype/subtype relation to
-     * be some other integer - this won't work. there is also other scenarios for
-     * failure. maybe should have some rules for constructing config.xml file
-     * or some other way to tell which relation is supertype/subtype.
-     *
-     */
-    private String _reverseRelationLinkName;
-    private ontorama.model.graph.EdgeType _firstRelationLink = (ontorama.model.graph.EdgeType) OntoramaConfig.getEdgeTypesList().get(0);
-
-    /**
-     *
-     */
-    private ParentsPanel _parentsPanel;
-
-    /**
      *
      */
     private NodePropertiesPanel _fullUrlPanel;
@@ -85,7 +64,7 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private EventBroker _eventBroker;
 
-    private ontorama.model.graph.Graph _graph;
+    private Graph _graph;
 
     /**
      *
@@ -95,17 +74,10 @@ public class DescriptionView extends JPanel implements GraphView {
         _eventBroker = eventBroker;
         new GraphViewFocusEventHandler(eventBroker, this);
 
-        initReverseRelation();
-
         initPropertiesPanels();
-        System.out.println("1");
         _fullUrlPanel =
                 new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
-        System.out.println("2");
         _clonesPanel = new ClonesPanel(_clonesLabelName, _eventBroker);
-        System.out.println("3");
-        _parentsPanel = new ParentsPanel(_reverseRelationLinkName, _eventBroker);
-        System.out.println("4");
 
         _propertyNameLabelsDimension = calcLabelSize();
         setLabelSizesForNodePropertiesPanels();
@@ -131,20 +103,12 @@ public class DescriptionView extends JPanel implements GraphView {
         }
 
         rightSubPanel.add(_clonesPanel);
-        rightSubPanel.add(_parentsPanel);
         rightSubPanel.add(_fullUrlPanel);
 
         add(leftSubPanel);
         add(rightSubPanel);
     }
 
-
-    /**
-     *
-     */
-    private void initReverseRelation() {
-        _reverseRelationLinkName = _firstRelationLink.getReverseEdgeName();
-    }
 
     /**
      * initialise concept properties panels
@@ -155,21 +119,23 @@ public class DescriptionView extends JPanel implements GraphView {
         List edgeTypesList = OntoramaConfig.getEdgeTypesList();
         Iterator it = edgeTypesList.iterator();
         while (it.hasNext()) {
-            ontorama.model.graph.EdgeType edgeType = (ontorama.model.graph.EdgeType) it.next();
+            EdgeType edgeType = (EdgeType) it.next();
             EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
-            if (displayInfo.isDisplayInDescription()) {
+            if ((displayInfo.isDisplayInDescription()) || (displayInfo.isDisplayReverseEdgeInDescription()) ) {
                 edgeTypesToDisplay.add(edgeType);
-                NodePropertiesPanel propPanel =
-                        new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
-                _nodePropertiesPanels.put(edgeType.getName(), propPanel);
-                //_nodePropertiesPanels.put(displayInfo.getDisplayLabel(), propPanel);
-            }
-            if (displayInfo.isDisplayReverseEdgeInDescription()) {
-                edgeTypesToDisplay.add(edgeType);
-                NodePropertiesPanel propPanel =
-                        new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
-                _nodePropertiesPanels.put(edgeType.getReverseEdgeName(), propPanel);
-                //_nodePropertiesPanels.put(displayInfo.getDisplayLabel(), propPanel);
+                AbstractPropertiesPanel propPanel;
+                if (displayInfo.isQueryOn()) {
+                    propPanel = new MultiValuesPanel(displayInfo.getDisplayLabel(), _eventBroker);
+                }
+                else {
+                    propPanel = new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
+                }
+                if (displayInfo.isDisplayInDescription()) {
+                    _nodePropertiesPanels.put(edgeType.getName(), propPanel);
+                }
+                if (displayInfo.isDisplayReverseEdgeInDescription()) {
+                    _nodePropertiesPanels.put(edgeType.getReverseEdgeName(), propPanel);
+                }
             }
         }
     }
@@ -182,7 +148,7 @@ public class DescriptionView extends JPanel implements GraphView {
         //Enumeration e = labels.keys();
         int length = 0;
         while (it.hasNext()) {
-            NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
+            AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
             //JLabel curLabel = curPanel.getPropNameLabel();
             //JLabel curLabel = (JLabel) e.nextElement();
             int width = curPanel.getPropNameLabelWidth();
@@ -193,10 +159,6 @@ public class DescriptionView extends JPanel implements GraphView {
         int clonesWidth = _clonesPanel.getPropNameLabelWidth();
         if (clonesWidth > length) {
             length = clonesWidth;
-        }
-        int parentsWidth = _parentsPanel.getPropNameLabelWidth();
-        if (parentsWidth > length) {
-            length = parentsWidth;
         }
         int fullUrlWidth = _fullUrlPanel.getPropNameLabelWidth();
         if (fullUrlWidth > length) {
@@ -211,11 +173,10 @@ public class DescriptionView extends JPanel implements GraphView {
     private void setLabelSizesForNodePropertiesPanels() {
         Iterator it = _nodePropertiesPanels.values().iterator();
         while (it.hasNext()) {
-            NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
+            AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
             curPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
         }
         _clonesPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
-        _parentsPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
         _fullUrlPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
     }
 
@@ -227,7 +188,7 @@ public class DescriptionView extends JPanel implements GraphView {
         int maxSize = getMaxLabelWidth() + padding;
         Iterator it = _nodePropertiesPanels.values().iterator();
         if (it.hasNext()) {
-            NodePropertiesPanel panel = (NodePropertiesPanel) it.next();
+            AbstractPropertiesPanel panel = (AbstractPropertiesPanel) it.next();
             return (new Dimension(maxSize, panel.getPropNameLabelHeight()));
         }
         return new Dimension(50, 20);
@@ -240,26 +201,11 @@ public class DescriptionView extends JPanel implements GraphView {
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String propertyName = (String) e.nextElement();
-            NodePropertiesPanel propPanel =
-                    (NodePropertiesPanel) _nodePropertiesPanels.get(propertyName);
+            AbstractPropertiesPanel propPanel =
+                    (AbstractPropertiesPanel) _nodePropertiesPanels.get(propertyName);
             propPanel.clear();
         }
         _clonesPanel.clear();
-        _parentsPanel.clear();
-    }
-
-    /**
-     *
-     */
-    public void enableDynamicFields() {
-        _parentsPanel.setVisible(true);
-    }
-
-    /**
-     *
-     */
-    public void disableDynamicFields() {
-        _parentsPanel.setVisible(false);
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////
@@ -267,14 +213,14 @@ public class DescriptionView extends JPanel implements GraphView {
     /**
      *
      */
-    public void focus(ontorama.model.graph.Node node) {
+    public void focus(Node node) {
         Enumeration e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
             String edgeName = (String) e.nextElement();
             try {
-                NodePropertiesPanel propPanel = (NodePropertiesPanel) _nodePropertiesPanels.get(edgeName);
+                AbstractPropertiesPanel propPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(edgeName);
                 List value = new LinkedList();
-                ontorama.model.graph.EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
+                EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
                 if (displayInfo.isDisplayInDescription()) {
                     value = _graph.getOutboundEdgeNodes(node, edgeType);
@@ -296,11 +242,10 @@ public class DescriptionView extends JPanel implements GraphView {
         List fullUrlPropList = new LinkedList();
         fullUrlPropList.add(node.getIdentifier());
         _fullUrlPanel.update(fullUrlPropList);
-        _parentsPanel.update(_graph.getInboundEdgeNodes(node, _firstRelationLink).iterator());
     }
 
 
-    public void setGraph (ontorama.model.graph.Graph graph) {
+    public void setGraph (Graph graph) {
         _graph = graph;
     }
 

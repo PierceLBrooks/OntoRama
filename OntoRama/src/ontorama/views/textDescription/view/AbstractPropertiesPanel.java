@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.LayoutManager;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -87,14 +89,10 @@ public abstract class AbstractPropertiesPanel extends JPanel {
     }
 
     /**
-     * update values of properties for selected node.
-     * values are passed in the iterator param.
-     */
-    //public abstract void update(Iterator propValuesIterator);
-
-    /**
      * Clear all property values
      */
     public abstract void clear();
+
+    public abstract void update(List valuesList);
 
 }

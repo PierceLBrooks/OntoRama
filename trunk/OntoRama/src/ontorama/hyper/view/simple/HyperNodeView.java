@@ -86,9 +86,9 @@ public class HyperNodeView extends CanvasItem implements HyperNodeObserver{
     /**
      * Returns the radius of the projection sphere.
      */
-    /*public static double getSphereRadius() {
-        return NodeView.sphereRadius;
-    }*/
+    public static double getSphereRadius() {
+        return HyperNodeView.sphereRadius;
+    }
 
     /**
      * Stores the depth of the node in the graph (distance to the root element).

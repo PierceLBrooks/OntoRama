@@ -10,6 +10,7 @@ import ontorama.model.GraphNode;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.util.Iterator;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -92,23 +93,17 @@ public class SimpleHyperView  extends CanvasManager {
         int height = getSize().height;
         g2d.translate( width/2, height/2 );
         g2d.setColor(new Color( 244, 244, 244 ));
-        //double sphereRadius = NodeView.getSphereRadius();
-        //double sphereSize = 2 * sphereRadius;
+        double sphereRadius = HyperNodeView.getSphereRadius();
+        double sphereSize = 2 * sphereRadius;
         // set the current scalling factor
-        //if( width < height ) {
-        //    canvasScale = width/sphereSize;
-        //} else {
-        //    canvasScale = height/sphereSize;
-        //}
-        //g2d.scale( canvasScale, canvasScale );
-        //g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
-        // do not continue. No nodes to paint.
-        //if( root == null ) {
-        //    return;
-        //}
+        if( width < height ) {
+            canvasScale = width/sphereSize;
+        } else {
+            canvasScale = height/sphereSize;
+        }
+        g2d.scale( canvasScale, canvasScale );
+        g2d.fill( new Ellipse2D.Double( -sphereRadius, -sphereRadius, sphereRadius*2, sphereRadius*2) );
         drawNodes( g2d );
-        //g2d.setPaint(oldPaint);
-        //g2d.setColor( Color.black );
-        //g2d.drawString(statusBar, -width/4, height/4);
+        g2d.setPaint(oldPaint);
     }
 }

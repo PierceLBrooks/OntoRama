@@ -19,9 +19,6 @@ import java.awt.GridLayout;
 import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-
 
 import ontorama.model.*;
 import ontorama.ontologyConfig.*;
@@ -35,30 +32,30 @@ import ontorama.OntoramaConfig;
  * @author
  * @version 1.0
  */
-public class NodePropertiesPanel extends JPanel {
-    String propName = null;
-    List propValue = new LinkedList();
-    JLabel propNameLabel = new JLabel();
-    JLabel propValueLabel = new JLabel();
-    int minPadding = 15;
+public class NodePropertiesPanel extends AbstractPropertiesPanel {
+    String _propName = null;
+    List _propValue = new LinkedList();
+    //JLabel _propNameLabel = new JLabel();
+    JLabel _propValueLabel = new JLabel();
+    int _minPadding = 15;
 
     public NodePropertiesPanel (String propName, List propValue) {
-        this.propName = propName;
-        this.propValue = propValue;
+        _propName = propName;
+        _propValue = propValue;
         initLabels();
         // create and set layout
         LayoutManager curLayout = new BoxLayout(this,BoxLayout.X_AXIS);
-        this.setLayout(curLayout);
-        this.setAlignmentX(Component.LEFT_ALIGNMENT);
+        setLayout(curLayout);
+        setAlignmentX(Component.LEFT_ALIGNMENT);
         // add first label
-        this.add(propNameLabel);
+        add(_propNameLabel);
         // work out size of rigid area and set it
         //int curRigitAreaWidth = maxLeftLabelWidth - getLabelWidth(propNameLabel) + this.minPadding;
-        int curRigitAreaWidth = this.minPadding;
+        int curRigitAreaWidth = _minPadding;
         Dimension d = new Dimension(curRigitAreaWidth,0);
-        this.add(Box.createRigidArea(d));
+        add(Box.createRigidArea(d));
         // add second label
-        this.add(propValueLabel);
+        add(_propValueLabel);
     }
 
     public JPanel getPanel() {
@@ -66,20 +63,12 @@ public class NodePropertiesPanel extends JPanel {
     }
 
     private void initLabels() {
-        propNameLabel.setText(this.propName);
-        propValueLabel.setText("");
-    }
-
-    public String getPropName () {
-        return this.propName;
-    }
-
-    public JLabel getPropNameLabel () {
-      return this.propNameLabel;
+        _propNameLabel.setText(_propName);
+        _propValueLabel.setText("");
     }
 
     public void clear () {
-      propValueLabel.setText("");
+      _propValueLabel.setText("");
     }
 
     public void update (List propValueList) {
@@ -87,47 +76,16 @@ public class NodePropertiesPanel extends JPanel {
     }
 
     private void setPropValue (List propValueList) {
-        this.propValue = propValue;
+        //_propValue = _propValue;
+        _propValue = propValueList;
         String propertyValue = "";
         Iterator propValueIterator = propValueList.iterator();
         while (propValueIterator.hasNext()) {
             propertyValue = propertyValue + (String) propValueIterator.next() + " ";
         }
-        propValueLabel.setText( propertyValue);
+        _propValueLabel.setText( propertyValue);
+        _propValueLabel.setToolTipText( propertyValue);
     }
 
-   /**
-    * get label width
-    */
-    private int getLabelWidth (JLabel label) {
-      Font font = label.getFont();
-      FontMetrics fontMetrics = label.getFontMetrics(font);
-      int width = fontMetrics.stringWidth(label.getText());
-      return width;
-    }
-
-   /**
-    *
-    */
-   public int getPropNameLabelWidth () {
-    return getLabelWidth(this.propNameLabel);
-   }
-
-   /**
-    * get label height
-    */
-    private int getLabelHeight (JLabel label) {
-      Font font = label.getFont();
-      FontMetrics fontMetrics = label.getFontMetrics(font);
-      int height = fontMetrics.getHeight();
-      return height;
-    }
-
-   /**
-    *
-    */
-   public int getPropNameLabelHeight  () {
-    return getLabelHeight (this.propNameLabel);
-   }
 }
 

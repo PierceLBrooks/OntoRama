@@ -21,8 +21,6 @@ import java.awt.GridLayout;
 import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -41,8 +39,8 @@ import ontorama.util.event.ViewEventListener;
  * @author
  * @version 1.0
  */
-public abstract class AbstractMultiValuesPanel extends JPanel {
-    JLabel _propNameLabel = new JLabel();
+public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
+    //JLabel _propNameLabel = new JLabel();
     JPanel _propValuePanel = new JPanel();
     int _minPadding = 40;
 
@@ -96,13 +94,7 @@ public abstract class AbstractMultiValuesPanel extends JPanel {
         _propValuePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(_propValuePanel);
     }
-
-
-//    public void setNameLabelSize (Dimension d) {
-//      this.clonesNameLabel.setPreferredSize(d);
-//      this.clonesNameLabel.setMinimumSize(d);
-//    }
-
+    
 	/**
 	 * Update property values panel with nodes
 	 * passed in the iterator.

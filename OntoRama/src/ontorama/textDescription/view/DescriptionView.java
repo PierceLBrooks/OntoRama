@@ -54,17 +54,17 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 * Keys - name of property
 	 * Values - panel
 	 */
-	private Hashtable nodePropertiesPanels = new Hashtable();
+	private Hashtable _nodePropertiesPanels = new Hashtable();
 
 	/**
 	 *
 	 */
-	private ClonesPanel clonesPanel;
+	private ClonesPanel _clonesPanel;
 
 	/**
 	 * @todo  think of a way to not hardcode clones
 	 */
-	String clonesLabelName = "Clones";
+	String _clonesLabelName = "Clones";
 	
 	/**
 	 * @todo  think of a way to not hardcode _fullUrlPropName
@@ -89,40 +89,51 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	/**
 	 *
 	 */
-	private Dimension propertyNameLabelsDimension;
+	private Dimension _propertyNameLabelsDimension;
 
 	/**
 	 *
 	 */
-	private ViewEventListener viewListener;
+	private ViewEventListener _viewListener;
 
 	/**
 	 *
 	 */
 	public DescriptionView(ViewEventListener viewListener) {
-		this.viewListener = viewListener;
-		this.viewListener.addObserver(this);
+		_viewListener = viewListener;
+		_viewListener.addObserver(this);
 
-		// set up hashtable of panels
-		//initLabels();
 		initPropertiesPanels();
-		initFullUrlPanel();
-		this.propertyNameLabelsDimension = calcLabelSize();
-		setLabelSizes();
+		_fullUrlPanel = 
+			new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
+		_clonesPanel = new ClonesPanel(_clonesLabelName,_viewListener);
+		_parentsPanel = new ParentsPanel(_parentsLabelName, _viewListener);
+		
+		_propertyNameLabelsDimension = calcLabelSize();
+		setLabelSizesForNodePropertiesPanels();
 
-		// set layout manager
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new GridLayout(1,2));
+				
+		JPanel leftSubPanel = new JPanel();
+		leftSubPanel.setLayout(new BoxLayout(leftSubPanel, BoxLayout.Y_AXIS));
+		
+		JPanel rightSubPanel = new JPanel();
+		rightSubPanel.setLayout(new BoxLayout(rightSubPanel, BoxLayout.Y_AXIS));
 
 		// add panels to the view
-		Enumeration propPanelsEnum = nodePropertiesPanels.keys();
+		Enumeration propPanelsEnum = _nodePropertiesPanels.keys();
 		while (propPanelsEnum.hasMoreElements()) {
 			String propName = (String) propPanelsEnum.nextElement();
-			JPanel propPanel = (JPanel) nodePropertiesPanels.get(propName);
-			this.add(propPanel);
+			JPanel propPanel = (JPanel) _nodePropertiesPanels.get(propName);
+			leftSubPanel.add(propPanel);
 		}
-		this.add(clonesPanel);
-		this.add(_fullUrlPanel);
-		this.add(_parentsPanel);
+		
+		rightSubPanel.add(_clonesPanel);
+		rightSubPanel.add(_fullUrlPanel);
+		rightSubPanel.add(_parentsPanel);
+		
+		add(leftSubPanel);
+		add(rightSubPanel);
 	}
 
 	/**
@@ -141,35 +152,37 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 			String propName = (String) e.nextElement();
 			NodePropertiesPanel propPanel =
 				new NodePropertiesPanel(propName, new LinkedList());
-			nodePropertiesPanels.put(propName, propPanel);
+			_nodePropertiesPanels.put(propName, propPanel);
 		}
-		this.clonesPanel = new ClonesPanel(clonesLabelName,viewListener);
-		_parentsPanel = new ParentsPanel(_parentsLabelName, viewListener);
-	}
-
-	/**
-	 * initialise panel for displaying full url 
-	 */
-	private void initFullUrlPanel() {
-		_fullUrlPanel = 
-			new NodePropertiesPanel(_fullUrlPropName, new LinkedList());
 	}
 
 	/**
 	 * find max label width
 	 */
 	private int getMaxLabelWidth() {
-		Iterator it = nodePropertiesPanels.values().iterator();
+		Iterator it = _nodePropertiesPanels.values().iterator();
 		//Enumeration e = labels.keys();
 		int length = 0;
 		while (it.hasNext()) {
 			NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
-			JLabel curLabel = curPanel.getPropNameLabel();
+			//JLabel curLabel = curPanel.getPropNameLabel();
 			//JLabel curLabel = (JLabel) e.nextElement();
 			int width = curPanel.getPropNameLabelWidth();
-			if (width > 0) {
+			if (width > length) {
 				length = width;
 			}
+		}
+		int clonesWidth = _clonesPanel.getPropNameLabelWidth();
+		if (clonesWidth > length) {
+			length = clonesWidth;
+		}
+		int parentsWidth = _parentsPanel.getPropNameLabelWidth();
+		if (parentsWidth > length) {
+			length = parentsWidth;
+		}
+		int fullUrlWidth = _fullUrlPanel.getPropNameLabelWidth();
+		if (fullUrlWidth > length) {
+			length = fullUrlWidth;
 		}
 		return length;
 	}
@@ -177,19 +190,20 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	/**
 	 *
 	 */
-	private void setLabelSizes() {
-		Iterator it = nodePropertiesPanels.values().iterator();
+	private void setLabelSizesForNodePropertiesPanels() {
+		Iterator it = _nodePropertiesPanels.values().iterator();
 		while (it.hasNext()) {
 			NodePropertiesPanel curPanel = (NodePropertiesPanel) it.next();
-			JLabel curLabel = curPanel.getPropNameLabel();
-			//Dimension d = curLabel.getSize();
-			//System.out.println("d = " + d + ", width = " + maxSize + ", height = " + curPanel.getPropNameLabelHeight());
-			curLabel.setSize(this.propertyNameLabelsDimension);
-			curLabel.setMinimumSize(this.propertyNameLabelsDimension);
-			curLabel.setMaximumSize(this.propertyNameLabelsDimension);
-			curLabel.setPreferredSize(this.propertyNameLabelsDimension);
+			curPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
+//			JLabel curLabel = curPanel.getPropNameLabel();
+//			curLabel.setSize(_propertyNameLabelsDimension);
+//			curLabel.setMinimumSize(_propertyNameLabelsDimension);
+//			curLabel.setMaximumSize(_propertyNameLabelsDimension);
+//			curLabel.setPreferredSize(_propertyNameLabelsDimension);
 		}
-		//this.clonesPanel.setNameLabelSize(this.propertyNameLabelsDimension);
+		_clonesPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
+		_parentsPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
+		_fullUrlPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
 	}
 
 	/**
@@ -198,7 +212,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	private Dimension calcLabelSize() {
 		int padding = 5;
 		int maxSize = getMaxLabelWidth() + padding;
-		Iterator it = nodePropertiesPanels.values().iterator();
+		Iterator it = _nodePropertiesPanels.values().iterator();
 		if (it.hasNext()) {
 			NodePropertiesPanel panel = (NodePropertiesPanel) it.next();
 			return (new Dimension(maxSize, panel.getPropNameLabelHeight()));
@@ -210,14 +224,14 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 * clear description value panel from any leftover properties (left from previous example)
 	 */
 	public void clear() {
-		Enumeration e = this.nodePropertiesPanels.keys();
+		Enumeration e = _nodePropertiesPanels.keys();
 		while (e.hasMoreElements()) {
 			String propertyName = (String) e.nextElement();
 			NodePropertiesPanel propPanel =
-				(NodePropertiesPanel) nodePropertiesPanels.get(propertyName);
+				(NodePropertiesPanel) _nodePropertiesPanels.get(propertyName);
 			propPanel.clear();
 		}
-		clonesPanel.clear();
+		_clonesPanel.clear();
 		_parentsPanel.clear();
 	}
 
@@ -227,12 +241,12 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 	 *        are editing it )
 	 */
 	public void setFocus(GraphNode node) {
-		Enumeration e = this.nodePropertiesPanels.keys();
+		Enumeration e = _nodePropertiesPanels.keys();
 		while (e.hasMoreElements()) {
 			String propertyName = (String) e.nextElement();
 			try {
 				NodePropertiesPanel propPanel =
-					(NodePropertiesPanel) nodePropertiesPanels.get(
+					(NodePropertiesPanel) _nodePropertiesPanels.get(
 						propertyName);
 				propPanel.update(node.getProperty(propertyName));
 			} catch (NoSuchPropertyException exc) {
@@ -242,7 +256,7 @@ public class DescriptionView extends JPanel implements ViewEventObserver {
 			}
 		}
 		// deal with clones
-		clonesPanel.update(node.getClones());
+		_clonesPanel.update(node.getClones());
 		//this.repaint();
 		
 

@@ -62,7 +62,11 @@ public class RdfModelWriter implements ModelWriter {
         try {
             _edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
             Model rdfModel = toRDFModel();
+            //PrettyWriter pr = new PrettyWriter();
+            //pr.write(rdfModel, out, null);
+
             writeModel(rdfModel, out);
+            //rdfModel.write(out);
         } catch (RDFException rdfExc) {
             rdfExc.printStackTrace();
             throw new ModelWriterException("Couldn't create RDF model " + rdfExc.getMessage());

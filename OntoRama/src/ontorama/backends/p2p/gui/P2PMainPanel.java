@@ -24,7 +24,7 @@ public class P2PMainPanel extends JPanel {
     private static final String _groupsPanelToolTip = "Join groups, create new groups";
 
 	GroupsPanel groupsPanel;
-    PeersPanel peerPanel = new PeersPanel();
+    PeersPanel peerPanel;
     ChangePanel changePanel = new ChangePanel();
     SearchPanel searchPanel;
 
@@ -39,6 +39,7 @@ public class P2PMainPanel extends JPanel {
                
     	groupsPanel = new GroupsPanel(p2pBackend);
     	searchPanel = new SearchPanel(p2pBackend.getEventBroker());
+    	peerPanel = new PeersPanel(p2pBackend);
         
         this.setLayout(new GridLayout(1,1));
 

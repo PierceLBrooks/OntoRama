@@ -214,9 +214,12 @@ public class P2PSender{
 
                   Vector result = this.comm.peerDiscovery(tmpGroupID);
                   Enumeration enum = result.elements();
+                  System.out.println("\nPeer Discovery returned: size = " + result.size());
                   while (enum.hasMoreElements()){
-                          GroupReferenceElement element = (GroupReferenceElement)enum.nextElement();
-                          this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
+                  	Object obj = enum.nextElement();
+                  	System.out.println("---obj = " + obj);
+                    GroupReferenceElement element = (GroupReferenceElement) obj;
+                    this.peersPanel.addPeer(element.getID().toString(), element.getName(), tmpGroupID);
                   }
                } else {
                   System.out.println("Couldn't find any group with that name");

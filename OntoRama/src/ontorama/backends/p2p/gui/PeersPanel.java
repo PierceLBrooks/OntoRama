@@ -10,12 +10,14 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 
 
@@ -40,9 +42,13 @@ public class PeersPanel extends JPanel  implements GroupView {
     private JComboBox _comboBox;
     private JPanel _cardPanel;
     private CardLayout _cardLayout;
+    
+    private P2PBackend _p2pBackend;
 
-    public PeersPanel() {
+    public PeersPanel(P2PBackend backend) {
         super();
+        _p2pBackend = backend;
+        
         _groupToPanelMapping = new Hashtable();
         _groupNameToGroupIdMapping = new Hashtable();
         _groupIdToGroupNameMapping = new Hashtable();
@@ -74,17 +80,26 @@ public class PeersPanel extends JPanel  implements GroupView {
         _cardPanel.setLayout(_cardLayout);
 
         _cardPanel.setBorder(BorderFactory.createEtchedBorder());
+        
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				_p2pBackend.getSender().peerDiscovery();
+			}
+        	
+        });
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(new JLabel("Groups "));
         add(_comboBox);
         add(_cardPanel);
+        add(refreshButton);
 
     }
 
 	public void addGroup(GroupReferenceElement groupReferenceElement) {
-		System.out.println("\nPeersPanel::addGroup, group = " + groupReferenceElement.getName());
+		System.out.println("\nPeersPanel::addGroup, group = " + groupReferenceElement.getName() + ", group id = " + groupReferenceElement.getID());
 		String groupId = groupReferenceElement.getID().toString();
 		String groupName = groupReferenceElement.getName();
         if (!_groupNameToGroupIdMapping.containsKey(groupName)) {
@@ -100,6 +115,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     public void addPeer (String peerId, String peerName, String groupId) {
+    	System.out.println("PeersPanel::addPeer, peerName = " + peerName + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
         groupPanel.addPeer(peerId, peerName);
     }

@@ -3,7 +3,7 @@ package ontorama.ontotools.parser.rdf.test;
 import java.io.Reader;
 
 import ontorama.OntoramaConfig;
-import ontorama.backends.examplesmanager.ExamplesBackend;
+import ontorama.backends.Backend;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
@@ -11,7 +11,6 @@ import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.parser.rdf.RdfWebkbParser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.Source;
-import ontorama.util.TestingUtils;
 
 /**
  * <p>Title: </p>
@@ -43,21 +42,16 @@ public class TestRdfWebkbParser extends TestRdfDamlParser {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
         
-        ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+        Backend backend = (Backend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
 		OntoramaConfig.activateBackend(backend);
         
-        backend.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
-
         Source source = (Source) Class.forName(sourcePackageName).newInstance();
         Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair", "", "", "")).getReader();
-        //Reader r = source.getReader(OntoramaConfig.sourceUri, new Query("test#Chair"));
 
         RdfDamlParser parser = new RdfWebkbParser();
-//        buildResultCollection(parser, r);
         buildResult(parser,r);
 
         testNode_chair = getGraphNodeFromList("test#chair", parserResult.getNodesList());
-        //System.out.println("chair ont.type " + testType_chair);
         testNode_armchair = getGraphNodeFromList("test#armchair", parserResult.getNodesList());
         testNode_furniture = getGraphNodeFromList("test#furniture", parserResult.getNodesList());
         testNode_backrest = getGraphNodeFromList("test#backrest", parserResult.getNodesList());

@@ -2,8 +2,6 @@ package ontorama.test;
 
 import junit.framework.*;
 
-import ontorama.OntoramaConfig;
-
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -18,11 +16,6 @@ public class TestPackage {
      public static Test suite() {
 
          TestSuite suite = new TestSuite( "ontorama" );
-
-         //System.out.println("---loading test config file---");
-
-         OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
-                            "ontorama.properties","examples/test/data/config.xml");
 
          suite.addTest( ontorama.test.model.TestModelPackage.suite() );
          suite.addTest( ontorama.test.webkbtools.TestWebkbtoolsPackage.suite());

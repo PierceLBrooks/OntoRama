@@ -26,6 +26,8 @@
 	<pathelement path="${lib.home}/xerces.jar/"/>
     <pathelement path="${lib.home}/event.jar/"/>
     <pathelement path="${lib.home}/canvas.jar/"/>
+    <pathelement path="${lib.home}/concurrent-1.3.0.jar/"/>
+    <pathelement path="${lib.home}/jakarta-oro-2.0.5.jar/"/>
       <!--
 	<pathelement path="${lib.home}/batik-awt-util.jar/"/>
 	<pathelement path="${lib.home}/batik-dom.jar/"/>
@@ -58,6 +60,9 @@
 	</copy>
      <copy   todir="${deploy.home}/cgkb">
          <fileset dir="${src.home}/cgkb" includes="*"/>
+     </copy>
+     <copy   todir="${deploy.home}/distillery">
+         <fileset dir="${src.home}/distillery" includes="*"/>
      </copy>
  </target>
 

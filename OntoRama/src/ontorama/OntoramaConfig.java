@@ -293,6 +293,16 @@ public class OntoramaConfig {
     }
 
     /**
+     * @todo this approach is a hack to make distillery work. need to rethink whole process
+     * @param root
+     * @param url
+     */
+    public static void overrideExampleRootAndUrl (String root, String url) {
+        OntoramaConfig.sourceUri = url;
+        OntoramaConfig.ontologyRoot = root;
+    }
+
+    /**
      *
      */
     public static String getParserPackageName() {

@@ -30,10 +30,6 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ui.ErrorPopupMessage;
-import ontorama.util.SVG2Shape;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 
 /**
@@ -168,12 +164,10 @@ public class OntoramaConfig {
             System.exit(-1);
         }
 
-        loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
         buildNodeTypes();
-        
+        loadAllConfig("examplesConfig.xml", "ontorama.properties", "config.xml");
     	_defaultBackend = OntoramaConfig.instantiateBackend("ontorama.backends.TestingBackend", null);
     	OntoramaConfig.activateBackend(_defaultBackend);
-        
         System.out.println("--------- end of config--------------");
     }
 
@@ -252,6 +246,14 @@ public class OntoramaConfig {
         edgesConfig = xmlConfig.getDisplayInfo();
         edgeTypesList = xmlConfig.getEdgesOrdering();
         relationRdfMapping = xmlConfig.getRelationRdfMappingList();
+        NodeTypeDisplayInfo shape = xmlConfig.getRelationShape();
+        if(shape != null){
+            nodesConfig.put(RELATION_TYPE, shape);
+        }
+        shape = xmlConfig.getConceptShape();
+        if(shape != null){
+            nodesConfig.put(CONCEPT_TYPE, shape);
+        }
     }
 
     public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
@@ -380,17 +382,6 @@ public class OntoramaConfig {
         int yb[] = {y1,y0,y0,y1,y2,y3,y3,y2};
         Shape unknownShape = new Polygon(xb, yb, 8); 
 
-		// try finding a special node shape
-        try {
-            SAXBuilder builder = new SAXBuilder(false);
-
-            Document doc = builder.build(streamReader.getInputStreamFromResource("node.svg"));
-            Element svgElem = doc.getRootElement();
-            conceptShape = SVG2Shape.importShape(svgElem, width, height);
-        } catch (Exception e) {
-        	// we just stick with the default
-        }
-		
         CONCEPT_TYPE = new NodeTypeImpl();
         nodesConfig.put(CONCEPT_TYPE, new NodeTypeDisplayInfo("concept", conceptShape, false, Color.BLUE, Color.RED));
         RELATION_TYPE = new NodeTypeImpl(); 

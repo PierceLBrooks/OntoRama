@@ -37,8 +37,8 @@ public class GroupsPanel extends JPanel implements GroupView {
 	JPanel _newGroupPanel;
 	JPanel _allGroupsPanel;
 	P2PBackend _p2pBackend;
-	private DefaultListModel _allGroupsListModel;
-	private DefaultListModel _joinedGroupsListModel;
+	private GroupListModel _allGroupsListModel;
+	private GroupListModel _joinedGroupsListModel;
 
 	public GroupsPanel(P2PBackend p2pBackend) {
 		super();
@@ -117,18 +117,22 @@ public class GroupsPanel extends JPanel implements GroupView {
 		JPanel centerPanel = new JPanel();
 		JPanel rightPanel = new JPanel();
 		
+		Dimension d = new Dimension( 150, 200);
+		
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(new JLabel("Joined"));
-		_joinedGroupsListModel = new DefaultListModel();
+		_joinedGroupsListModel = new GroupListModel();
 		final GroupChooser joinedGroupsList = new GroupChooserList(_joinedGroupsListModel);
 		JScrollPane leftListScrollPane = new JScrollPane((JList) joinedGroupsList);
-		leftPanel.add(leftListScrollPane); 
+		leftListScrollPane.setPreferredSize(d);
+		leftPanel.add(leftListScrollPane);
 
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.add(new JLabel("Available groups"));
-		_allGroupsListModel = new DefaultListModel();
+		_allGroupsListModel = new GroupListModel();
 		final GroupChooser allGroupsList = new GroupChooserList(_allGroupsListModel);
 		JScrollPane rigthListScrollPane = new JScrollPane((JList) allGroupsList);
+		rigthListScrollPane.setPreferredSize(d);
 		rightPanel.add(rigthListScrollPane);
 		
 		centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
@@ -207,10 +211,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		Enumeration e = foundGroups.elements();
 		while (e.hasMoreElements()) {
 			ItemReference cur = (ItemReference) e.nextElement();
-			if (groupsListContainsGroup(_allGroupsListModel, cur)) {
-				continue;
-			}
-			if (groupsListContainsGroup(_joinedGroupsListModel, cur)) {
+			if (_joinedGroupsListModel.contains(cur)) {
 				continue;
 			}
 			_allGroupsListModel.addElement(cur);
@@ -224,10 +225,7 @@ public class GroupsPanel extends JPanel implements GroupView {
 		while (e.hasMoreElements()) {
 			ItemReference element = (ItemReference) e.nextElement();
 			System.out.println("joined group: " + element.getName() + ", ref = " + element);
-			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
-				continue;
-			}
-			if (groupsListContainsGroup(_allGroupsListModel, element)) {
+			if (_allGroupsListModel.contains(element)) {
 				continue;
 			}
 			_joinedGroupsListModel.addElement(element);
@@ -235,46 +233,9 @@ public class GroupsPanel extends JPanel implements GroupView {
 
 	}
 	
-	private boolean groupsListContainsGroup (DefaultListModel list, ItemReference group) {
-		Enumeration e = list.elements();
-		while (e.hasMoreElements()) {
-			ItemReference cur = (ItemReference) e.nextElement();
-			if (cur.getID().equals(group.getID())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-
-
-//	public void run() {
-//		System.out.println("run");
-//		 while (true) {
-//		 	if (_p2pBackend.getSender() != null) {
-//				populateWithFoundGroups();
-//		 	}
-//			 // wait a bit before sending next discovery message
-//			 try {
-//				 Thread.sleep(10 * 1000);
-//			 }
-//			 catch(Exception e) {
-//			 	e.printStackTrace();
-//			 }
-//		 } //end while
-//	 }
-	
-
-	/* (non-Javadoc)
-	 * @see ontorama.backends.p2p.gui.GroupView#addGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
-	 */
 	public void addGroup(ItemReference groupReferenceElement) {
-		System.out.println("GroupsPanel::addGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
-		if (! groupsListContainsGroup(_joinedGroupsListModel, groupReferenceElement)) {
-			_joinedGroupsListModel.addElement(groupReferenceElement);
-			_allGroupsListModel.removeElement(groupReferenceElement);
-		}
-		_allGroupsPanel.repaint();
+		_joinedGroupsListModel.addElement(groupReferenceElement);
+		_allGroupsListModel.removeElement(groupReferenceElement);
 	}
 	
 	
@@ -284,12 +245,56 @@ public class GroupsPanel extends JPanel implements GroupView {
 	 */
 	public void removeGroup(ItemReference groupReferenceElement) {
 		System.out.println("GroupsPanel::removeGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
-		if (! groupsListContainsGroup(_allGroupsListModel, groupReferenceElement)) {
+		if (! _allGroupsListModel.contains(groupReferenceElement)) {
 			_allGroupsListModel.addElement(groupReferenceElement);
 			_joinedGroupsListModel.removeElement(groupReferenceElement);
 			System.out.println("all_groups size = " + _allGroupsListModel.size() + ", joined group size = " + _joinedGroupsListModel.size());
 		}
 		_allGroupsPanel.repaint();
+	}
+	
+	private class GroupListModel extends DefaultListModel {
+		public GroupListModel() {
+			super();
+		}
+
+		public boolean contains (Object group) {
+			ItemReference groupItem = (ItemReference) group;
+			if (getFromGroupsList(groupItem) != null) {
+				return true;
+			}
+			return false;
+		}
+		
+		
+	
+		private ItemReference getFromGroupsList (ItemReference group) {
+			Enumeration e = super.elements();
+			while (e.hasMoreElements()) {
+				ItemReference cur = (ItemReference) e.nextElement();
+				if (cur.getID().equals(group.getID())) {
+					return cur;
+				}
+			}
+			return null;
+		}
+		
+		public void addElement(Object group) {
+			if (this.contains(group)) {
+				return;
+			}
+			super.addElement(group);
+		}
+		
+		
+		public boolean removeElement(Object group) {
+			ItemReference groupElement = this.getFromGroupsList((ItemReference) group);
+			if (groupElement != null) {
+				return super.removeElement(groupElement);
+			}
+			return false;
+		}
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package ontorama.test.webkbtools;
+package ontorama.webkbtools;
 
 import junit.framework.*;
 
@@ -30,8 +30,8 @@ public class TestWebkbtoolsPackage extends TestCase {
      {
          TestSuite suite = new TestSuite( "ontorama.webkbtools" );
 
-         suite.addTest( ontorama.test.webkbtools.datamodel.TestDatamodelPackage.suite() );
-         suite.addTest( ontorama.test.webkbtools.query.TestQueryPackage.suite() );
+         suite.addTest( ontorama.webkbtools.datamodel.TestDatamodelPackage.suite() );
+         suite.addTest( ontorama.webkbtools.query.TestQueryPackage.suite() );
 
          return suite;
      }

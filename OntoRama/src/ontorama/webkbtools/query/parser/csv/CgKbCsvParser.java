@@ -40,10 +40,14 @@ public class CgKbCsvParser implements Parser {
             while ((line = br.readLine()) != null) {
                 String[] tokens = new String[3];
                 int count = 0;
+                char quoteChar = '"';
+                String quoteStr = new Character(quoteChar).toString();
                 StringTokenizer st = new StringTokenizer(line, ",");
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();
-                    //System.out.println("tok = " + tok);
+                    tok = tok.trim();
+                    tok = tok.replaceAll(quoteStr, new String());
+                    //System.out.println("tok = ." + tok + ".");
                     tokens[count] = tok;
                     count++;
                 }
@@ -64,9 +68,9 @@ public class CgKbCsvParser implements Parser {
     }
 
     private void processLineTokens(String[] tokens) throws ParserException {
-        String obj1 = tokens[0].trim();
-        String rel = tokens[1].trim();
-        String obj2 = tokens[2].trim();
+        String obj1 = tokens[0];
+        String rel = tokens[1];
+        String obj2 = tokens[2];
         System.out.println("* ." + obj1 + ".  ." + rel + ".  ." + obj2 + ".");
 
         try {

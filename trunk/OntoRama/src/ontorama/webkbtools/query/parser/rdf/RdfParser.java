@@ -36,20 +36,20 @@ import ontorama.webkbtools.datamodel.OntologyType;
 import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.ParserException;
 
 
 /**
- * Test application for RDF filter.
+ * RDF filter
  *
- * <blockquote>
- * <em>This application, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * </blockquote>
+ * <p>This application will read RDF events, together with select XML events
+ * (start/end element and character-related events). RDF statements are
+ * translated into OntologyTypes and are held in Iterator.</p>
  *
- * <p>This application will display RDF events to standard output,
- * together with select XML events (start/end element and character-related
- * events).  It is intended for testing the functionality of RDFFilter
- * with different RDF documents.  It will also display the amount
+ * <p>The intention for  this program is to get RDF Reader and produce and
+ * Iterator of OntologyTypes.</p>
+ *
+ * <p>It will also display the amount
  * of memory used before and after each RDF document processing;
  * that number goes to standard error rather than standard output.</p>
  *
@@ -63,6 +63,9 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
  * <p>You must have SAX2beta2 and a SAX driver installed to use this
  * test class.</p>
  *
+ * <p>This application is largerly based on David Megginson's
+ * TestRdfFilter application.
+ *
  * @author David Megginson, david@megginson.com
  * @version 1.0alpha
  * @see com.megginson.sax.rdf.RDFFilter
@@ -71,37 +74,49 @@ import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 public class RdfParser extends DefaultHandler implements RDFHandler, Parser
 {
-
-
-
-
     ////////////////////////////////////////////////////////////////////
     // Internal state.
     ////////////////////////////////////////////////////////////////////
-
-    // Dont need this?????
-    // TODO:  check this
-    // NR
+    /**
+     * Dont need this?????
+     * @todo  check this. possibly throw exceptions or handle errors some other way
+     */
     static int errorStatus = 0;
 
+    /**
+     * Hashtable to hold all OntologyTypes that we are creating
+     */
     private Hashtable ontHash;
 
-    // RDF constants
+    /**
+     * RDF constants
+     */
     private static final String synonymDef = "label";
     private static final String descriptionDef = "comment";
     private static final String subClassOfDef = "subClassOf";
+    private static final String creatorDef = "dublin_core#Creator";
+
 
     /**
-     * Constructor
+     * Take a reader and call RDF filter on it.
      */
-    //public RdfParser (String source) {
-    public RdfParser (Reader reader) {
+    public RdfParser () {
       ontHash = new Hashtable();
-      parseRdf(reader);
+
     }
 
-    public void parseRdf (Reader reader) {
-	//RdfParser handler = new RdfParser();
+    /**
+     * Parse RDF. Set all corresponding handlers and then read given
+     * reader. This will report all RDF and XML events as they are
+     * encountered. So, to have something happen methods handling these
+     * events have to be ovewritten. In this case: literalStatement and
+     * resourceStatement.
+     * @param   reader
+     * @throws  ParserException
+     * @todo    think what to do with IO and SAX exceptions - should throw
+     *          exception so applet or other client can handle it?
+     */
+    private void parseRdf (Reader reader) throws ParserException {
         RdfParser handler = this;
         RDFReader rdf = new RDFReader();
         rdf.setRDFHandler(handler);
@@ -109,80 +124,134 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         rdf.setErrorHandler(handler);
         try {
           try  {
-          //Reader r = new FileReader(sourceUri);
-          rdf.readRDF(reader);
-          //reader.close();
+              rdf.readRDF(reader);
           }
           catch (IOException ioe) {
-            System.out.println("IOException: " + ioe);
-            System.exit(1);
+            throw new ParserException("IOException: " + ioe);
           }
         }
         catch (SAXException e) {
-          System.out.println ("SAXException: " + e);
-          System.exit(1);
+            throw new ParserException("SAXException: " + e);
         }
     }
 
-    public Iterator getOntologyTypeIterator (Reader reader) {
-      Collection ontTypesCollection = (Collection) ontHash.values();
-      Iterator ontTypesIterator = ontTypesCollection.iterator();
+    /**
+     * Implementation of interface Parser method getOntologyTypeIterator
+     * Returns Iterator of OntologyTypes
+     * @param   reader
+     * @throws  ParserException
+     * @return  iterator
+     * @todo    check if need to have reader as an argument. (Constructor also is
+     *          taking reader as argument and method parseRDF.)
+     */
+    public Iterator getOntologyTypeIterator (Reader reader) throws ParserException {
 
+        parseRdf(reader);
 
-      System.out.println("\nontHash size = " + ontHash.size() + "\n");
-      System.out.println("\nontTypesIterator = " + ontTypesIterator);
+        Collection ontTypesCollection = (Collection) ontHash.values();
+        Iterator ontTypesIterator = ontTypesCollection.iterator();
 
+        System.out.println("\nontHash size = " + ontHash.size() + "\n");
+        System.out.println("\nontTypesIterator = " + ontTypesIterator);
 
-      return ontTypesIterator;
+        return ontTypesIterator;
     }
 
-    public void populateOntologyType (String rdfSubject,
+    /**
+     * This method is called each time parser is found an RDF statement/triple.
+     * Take this statement, create OntologyType and put it into hashtable
+     * that is temporarily holding all OntologyTypes found in RDF stream/reader.
+     *
+     * rdfSubject corresponds to name of type described by the triple.
+     * rdfObject corresponds to name of type connected to rdfSubject.
+     * rdfPredicate specifies relationship link between rdfSubject and rdfObject.
+     *
+     * rdfObject can be resource or literal (resource object is handled by
+     * resourceStatement method and describes a resource. Literal object is handled
+     * by literalStatement method and is just some string not necessarily linked to
+     * any resource). For more info on resource and literal statements see
+     * W3C RDF spec.
+     *
+     * @param   rdfSubject  RDF triple subject
+     * @param   rdfPredicate    RDF triple predicate
+     * @param   rdfObject   RDF triple rdfObject
+     *
+     * @todo    check if we should make use of subject type property
+     * @todo    if triple's predicate is not recognized by us - throw an exception
+     */
+    private void populateOntologyType (String rdfSubject,
                                   String rdfPredicate, String rdfObject)
                                   {
-      String typeName = rdfSubject;
-      OntologyType ontType = getOntTypeByName(typeName);
+      if (OntoramaConfig.DEBUG) {
+        System.out.println("{ " + rdfSubject + ", " + rdfPredicate + ", " + rdfObject + " }");
+      }
+
+      OntologyType subjectType = getOntTypeByName(rdfSubject);
+      OntologyType objectType;
 
       if (rdfPredicate.endsWith(descriptionDef)) {
-        ontType.setDescription(rdfObject);
+        if (subjectType.getDescription() == null) {
+            subjectType.setDescription(rdfObject);
+        }
         return;
       }
       if (rdfPredicate.endsWith(subClassOfDef)) {
-        // this subject is subclass of charStr
-        // this means that we need to create new ontType with
-        // name charStr and child subect
-        //OntologyType childOntType = getOntTypeByName(rdfSubject);
-        OntologyType parentOntType = getOntTypeByName(rdfObject);
+        // this rdfSubject is subclass of rdfObject
+        // this means that we need to add rdfObject as a child for rdfSubject
+        // also add rdfSubject as a parent for rdfObject
+        objectType = getOntTypeByName(rdfObject);
         try {
-            ontType.addRelationType(parentOntType, OntoramaConfig.SUPERTYPE);
-            parentOntType.addRelationType(ontType, OntoramaConfig.SUBTYPE);
+            subjectType.addRelationType(objectType, OntoramaConfig.SUPERTYPE);
+            objectType.addRelationType(subjectType, OntoramaConfig.SUBTYPE);
         }
         catch (NoSuchRelationLinkException e) {
             System.err.println("NoSuchRelationLinkException: " + e.getMessage());
         }
       }
+      if (rdfPredicate.endsWith(synonymDef)) {
+        // got a synonym for this type
+        objectType = getOntTypeByName(rdfObject);
+        try {
+            subjectType.addRelationType(objectType, OntoramaConfig.SYNONYMTYPE);
+        }
+        catch (NoSuchRelationLinkException e) {
+            System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+        }
+      }
+
+      if (rdfPredicate.endsWith(creatorDef)) {
+        // got a Creator for this type
+
+        // @todo: shouldn't put this object into hashtable and return it in iterator!!!!
+        objectType = getOntTypeByName(rdfObject);
+        try {
+            subjectType.addRelationType(objectType, OntoramaConfig.CREATOR);
+        }
+        catch (NoSuchRelationLinkException e) {
+            System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+        }
+      }
+
     }
 
+    /**
+     * Get OntologyType for given name. If this OntologyType is already created -
+     * return it, otherwise - create a new one.
+     * @param   ontTypeName
+     * @return  OntologyType
+     * @todo    need an exception if can't get OntologyType for some reason
+     */
       public OntologyType getOntTypeByName (String ontTypeName) {
         OntologyType ontType = null;
-        // TODO: need an exception if can't get OntologyType for
-        // some reason
         if (ontHash.containsKey(ontTypeName)) {
           ontType = (OntologyType) ontHash.get(ontTypeName);
         }
-
         else {
           ontType = new OntologyTypeImplementation(ontTypeName);
           ontHash.put(ontTypeName,ontType);
         }
-
-
         return ontType;
-
       }
-
-
-
-
 
     ////////////////////////////////////////////////////////////////////
     // Implementation of RDFHandler.
@@ -207,11 +276,9 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      * the subjectType property informs the application how to
      * interpret it.</p>
      *
-     * <p>In this demonstration, the statement is simply printed
-     * to standard output, but without any information about the
-     * subject's type (normally it's not safe to ignore this).  The
-     * object is place in quotation marks to show that it is
-     * a literal string.</p>
+     * <p>Statement is passed to method (populateOntologyType) that is
+     * responsible for interpreting it and creating OntologyTypes for this
+     * statement.</p>
      *
      * @param subjectType The type of subject (from RDFHandler).
      * @param subject The subject of the statement (the identifier
@@ -223,6 +290,7 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      * @param lang The language of the object (the property's value),
      *        as specified by an xml:lang attribute.
      * @see com.megginson.sax.rdf.RDFHandler#literalStatement
+     * @todo    Information about the subject's type is ignored
      */
     public void literalStatement (int subjectType, String subject,
 				 String predicate, String object,
@@ -231,15 +299,16 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         char ch[] = object.toCharArray();
         String charStr = showCharacters(ch, 0, ch.length);
 
-        System.out.println("--------------literal statement-------------------------------");
-        System.out.println("predicate = " + predicate);
-        System.out.println("subject = " + subject);
-        System.out.println("char = ");
-        System.out.println(charStr);
-        //showCharacters(ch, 0, ch.length);
-        System.out.println();
-        System.out.println("lang = " + lang);
-        System.out.println("subjectType = " + subjectType);
+        String statementDebugString = "\n--------------literal statement-------------------------------\n";
+        statementDebugString = statementDebugString + "predicate = " + predicate + "\n";
+        statementDebugString = statementDebugString + "subject = " + subject + "\n";
+        statementDebugString = statementDebugString + "char[] = " + charStr + "\n";
+        statementDebugString = statementDebugString + "lang = " + lang + "\n";
+        statementDebugString = statementDebugString + "subjectType = " + subjectType + "\n";
+
+        if (OntoramaConfig.DEBUG) {
+            System.out.println(statementDebugString);
+        }
 
         populateOntologyType(subject, predicate,charStr);
     }
@@ -257,9 +326,9 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      * the subjectType property informs the application how to
      * interpret it.</p>
      *
-     * <p>In this demonstration, the statement is simply printed
-     * to standard output, but without any information about the
-     * subject's type (normally it's not safe to ignore this).</p>
+     * <p>Statement is passed to method (populateOntologyType) that is
+     * responsible for interpreting it and creating OntologyTypes for this
+     * statement.</p>
      *
      * @param subjectType The type of subject (from RDFHandler).
      * @param subject The subject of the statement (the identifier
@@ -270,19 +339,20 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      *        object's property), which is the identifier of another
      *        object.
      * @see com.megginson.sax.rdf.RDFHandler#resourceStatement
+     * @todo    Information about the subject's type is ignored
      */
     public void resourceStatement (int subjectType, String subject,
 				  String predicate, String object)
     {
-        //char ch[] = object.toCharArray();
-        //String charStr = showCharacters(ch, 0, ch.length);
+        String statementDebugString = "\n--------------resource statement-------------------------------\n";
+        statementDebugString = statementDebugString + "predicate = " + predicate + "\n";
+        statementDebugString = statementDebugString + "subject = " + subject + "\n";
+        statementDebugString = statementDebugString + "object = " + object + "\n";
+        statementDebugString = statementDebugString + "subjectType = " + subjectType + "\n";
 
-        System.out.println("-------------resource statement--------------------------------");
-        System.out.println("predicate = " + predicate);
-        System.out.println("subject = " + subject);
-        System.out.println("object = " + object);
-        //System.out.println("lang = " + lang);
-        System.out.println("subjectType = " + subjectType);
+        if (OntoramaConfig.DEBUG) {
+            System.out.println(statementDebugString);
+        }
 
         populateOntologyType(subject, predicate,object);
     }
@@ -320,13 +390,11 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
     public void startXMLStatement(int subjectType, String subject,
 				  String predicate, String lang)
     {
-	System.out.println("{" +
-			   predicate +
-			   ", " +
-			   subject +
-			   ", [start xml lang=" +
-			   lang +
-			   "]}");
+        String statementDebugString = "{" + predicate +  ", " + subject +
+                                 ", [start xml lang=" + lang + "]}";
+        if (OntoramaConfig.DEBUG) {
+            System.out.println(statementDebugString);
+        }
     }
 
 
@@ -341,10 +409,10 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      */
     public void endXMLStatement ()
     {
-	System.out.println("{[end xml]}");
+        if (OntoramaConfig.DEBUG) {
+            System.out.println("{[end xml]}");
+        }
     }
-
-
 
 
     ////////////////////////////////////////////////////////////////////
@@ -376,7 +444,10 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
     public void startElement (String uri, String localName,
 			      String rawName, Attributes atts)
     {
-	System.out.println("XML start element: " + localName);
+        if (OntoramaConfig.DEBUG) {
+            System.out.println("XML start element: " + localName);
+        }
+
     }
 
 
@@ -393,7 +464,9 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      */
     public void endElement (String uri, String localName, String rawName)
     {
-	System.out.println("XML end element: " + localName);
+        if (OntoramaConfig.DEBUG) {
+            System.out.println("XML end element: " + localName);
+        }
     }
 
 
@@ -407,10 +480,12 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      */
     public void characters (char ch[], int start, int length)
     {
-	System.out.print("XML characters: ");
-        System.out.println(showCharacters(ch, 0, ch.length));
-	//showCharacters(ch, start, length);
-	System.out.print("\n");
+       if (OntoramaConfig.DEBUG) {
+           System.out.print("XML characters: ");
+           System.out.println(showCharacters(ch, 0, ch.length));
+           //showCharacters(ch, start, length);
+           System.out.print("\n");
+        }
     }
 
 
@@ -424,14 +499,13 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
      */
     public void ignorableWhitespace (char ch[], int start, int length)
     {
-	System.out.print("XML whitespace: ");
+       if (OntoramaConfig.DEBUG) {
+        System.out.print("XML whitespace: ");
         System.out.println(showCharacters(ch, 0, ch.length));
-	//showCharacters(ch, start, length);
-	System.out.print("\n");
+        //showCharacters(ch, start, length);
+        System.out.print("\n");
+       }
     }
-
-
-
 
     ////////////////////////////////////////////////////////////////////
     // Partial implementation of org.xml.sax.ErrorHandler
@@ -442,7 +516,6 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
     // Note that the application has to register itself to receive
     // these events.
     ////////////////////////////////////////////////////////////////////
-
 
     /**
      * Handle a warning.
@@ -531,6 +604,11 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
 
     /**
      * Display characters with some escaping.
+     * <p>
+     * 20.08.01 NR
+     * Changed this to return a string of chars rather then
+     * printing them out.
+     * </p>
      *
      * @param ch The array of characters to escape.
      * @param start The starting position.
@@ -592,35 +670,16 @@ public class RdfParser extends DefaultHandler implements RDFHandler, Parser
         String sourceUri = args[0];
 
         Reader r = new FileReader(sourceUri);
-        RdfParser testRdf = new RdfParser(r);
-        r.close();
-        System.out.print("finished parsing, trying to get iterator");
+        RdfParser testRdf = new RdfParser();
 
+        System.out.println("finished parsing, trying to get iterator");
         Iterator ontIterator = testRdf.getOntologyTypeIterator(r);
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
+        r.close();
 
         System.out.println("-------------Iterator returned---------------");
         while (ontIterator.hasNext()) {
             OntologyType ot = (OntologyTypeImplementation) ontIterator.next();
-            System.out.println("---ontology type: " + ot);
-            Iterator subType = ot.getIterator(OntoramaConfig.SUBTYPE);
-            while (subType.hasNext()) {
-                OntologyType ot1 = (OntologyTypeImplementation) subType.next();
-                System.out.println("subtype: " + ot1);
-            }
-            Iterator superType =  ot.getIterator(OntoramaConfig.SUPERTYPE);
-            while (superType.hasNext()) {
-                OntologyType ot2 = (OntologyTypeImplementation) superType.next();
-                System.out.println("supertype: " + ot2);
-            }
-
+            System.out.println("---ontology type: \n" + ot);
         }
     }
 

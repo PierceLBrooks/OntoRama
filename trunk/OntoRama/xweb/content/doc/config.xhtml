@@ -9,19 +9,23 @@
 			Configuration
 		</h1>
 		<p>
-			Relation Links and Concept Type properties in the OntoRama a fully
+			For definitions of terms 'relation link' and concept type
+			'properties', please, see  <a href="intro.html#definitions">Introduction section</a>
+		</p>
+		<p>
+			Relation links and concept type properties in the OntoRama a fully
 			configurable via 'config' XML file. This mean that if we need to display
 			an ontology with a different set of relation links or with different set
 			of properties for each concept types, we only need to alter config file
 			without having to modify and recompile the application.
 		</p>
 		<p>
-			OntoRama reads configuration file on the startup and processes it. File
+			OntoRama reads a configuration file on the startup and processes it. File
 			is XML file and consist of two sections: 'ontology' section and
 			'rdfMapping' section.
 		</p>
 		<p>
-			'ontology' section describes all details relevant to loading an
+			The 'ontology' section describes all details relevant to loading an
 			ontology. This section includes a set of 'relation' elements, each of
 			them defining an ontology relation link. Similary, we define concept
 			type properties. Concept type properties are properties that are
@@ -36,8 +40,8 @@
 			they are reversable. 
 		</p>
 		<p>
-			An example of reversable relation: subtype/supertype relation. Consider
-			term 'wn#Cat', this term is connected to term 'wn#TrueCat' via relation
+			Examples of relations: subtype/supertype relation. Consider
+			term 'wn#Cat', this term is connected to term 'wn#TrueCat' via the relation
 			link 'subtype' (wn#Cat is subtype of 'wn#TrueCat'). Reverse relation
 			link to 'subtype' is 'supertype' and following is true: 'wn#TrueCat' is
 			connected to 'wn#Cat' via relation link 'supertype'.

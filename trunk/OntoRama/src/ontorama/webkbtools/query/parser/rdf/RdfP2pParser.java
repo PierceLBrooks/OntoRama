@@ -23,8 +23,6 @@ import java.net.URISyntaxException;
 import java.security.AccessControlException;
 import java.util.*;
 
-import edu.stanford.db.rdf.model.i.RDFNodeImpl;
-
 /*
  * Created by IntelliJ IDEA.
  * User: nataliya

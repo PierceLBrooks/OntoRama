@@ -60,7 +60,6 @@ public class HyperEdgeView extends CanvasItem{
         double imgX = x2 - ( xDiff * scale) - imgW/2;
         double imgY = y2 - ( yDiff * scale) - imgH/2;
 
-
         g2d.setColor( Color.lightGray );
         g2d.draw( new Line2D.Double(    from.getProjectedX(),
                                         from.getProjectedY(),

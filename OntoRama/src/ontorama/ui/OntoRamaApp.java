@@ -321,6 +321,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         });
 
         if (!OntoramaConfig.loadBlank()) {
+        	/// @todo fix commented out
 //            _progressBar.setIndeterminate(true);
 //            if ((OntoramaConfig.ontologyRoot.equals("null"))
 //                || (OntoramaConfig.ontologyRoot.length() == 0)) {
@@ -375,6 +376,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             configFilePath,
             ontoramaPropertiesPath,
             examplesConfigFilePath);
+    	/// @todo fix commented out
         //OntoramaConfig.overrideExampleRootAndUrl(exampleRoot, exampleURL);
         new OntoRamaApp();
     }
@@ -390,6 +392,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         	return;
         }
 		Backend backend = OntoramaConfig.instantiateBackend(backendName, this);
+		OntoramaConfig.activateBackend(backend);
 		backend.setEventBroker(_modelEventBroker);
     }
 

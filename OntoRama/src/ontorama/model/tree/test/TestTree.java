@@ -27,7 +27,7 @@ import java.util.Iterator;
  */
 public class TestTree extends TestCase{
 	
-	private Backend _backend = OntoramaConfig.getBackend();
+	private Backend _backend;
 
     EdgeType _edgeType1;
     EdgeType _edgeType2;
@@ -44,6 +44,9 @@ public class TestTree extends TestCase{
     }
 
     public void setUp () throws GraphModificationException, NoSuchRelationLinkException, NoTypeFoundInResultSetException {
+    	_backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(_backend);
+    	
         List graphNodesList = new LinkedList ();
         List graphEdgesList = new LinkedList ();
         _nodeType1 = OntoramaConfig.CONCEPT_TYPE;

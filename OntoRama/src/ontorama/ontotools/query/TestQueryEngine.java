@@ -72,7 +72,9 @@ public class TestQueryEngine extends TestCase {
     protected void setUp() throws NoSuchRelationLinkException, Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
-		ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.getBackend();                
+		ExamplesBackend backend = (ExamplesBackend) OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+    	OntoramaConfig.activateBackend(backend);
+		            
         backend.setCurrentExample(TestingUtils.getExampleByName("testCase"));
 
 

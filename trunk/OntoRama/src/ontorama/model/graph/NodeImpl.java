@@ -34,6 +34,11 @@ public class NodeImpl implements Cloneable, Node {
      * store type of this node
      */
     private NodeType nodeType;
+    
+    /**
+     * node's description
+     */
+    private String description;
 
 
     /**
@@ -113,4 +118,13 @@ public class NodeImpl implements Cloneable, Node {
 //        return str;
 //
 //    }
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

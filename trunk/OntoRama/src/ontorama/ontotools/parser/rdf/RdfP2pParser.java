@@ -236,7 +236,9 @@ public class RdfP2pParser implements Parser {
         Property predicate = st.getPredicate();
         RDFNode object = st.getObject();
         
+        
         //System.out.println(subject + " -> " + predicate + " -> " + object);
+        
 
         String predicateStr = predicate.toString().trim();
         String subjectStr = subject.toString().trim();
@@ -254,6 +256,11 @@ public class RdfP2pParser implements Parser {
             subjectNode.addRejection(new URI(objectStr));
             return;
         }
+		if (predicate.getLocalName().equalsIgnoreCase("comment")) {
+			P2PNode subjectNode = getNodeForName(subjectStr);
+			subjectNode.setDescription(objectStr);
+        	return;
+		}
 
         P2PEdge edge = mapEdgeIntoModel(subjectStr, predicateStr, objectStr);
         edge.getEdgeType().setNamespace(predicate.getNameSpace());

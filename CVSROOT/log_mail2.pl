@@ -91,9 +91,10 @@ my $nicesubject = 0;
 
 # $maildate is what news and mail want to see as a date
 #my $maildate = `/bin/date -R`; chomp $maildate;
-my $maildate = `/bin/date`; chomp $maildate;
+my $maildate = `/opt/local/bin/date -R`; chomp $maildate;
 # $userdate is what the user gets to see as a date
-my $userdate = `/bin/date`; chomp $userdate;
+#my $userdate = `/bin/date`; chomp $userdate;
+my $userdate = `/opt/local/bin/date`; chomp $userdate;
 
 # The hash that holds the message split up in sections :
 my %message;

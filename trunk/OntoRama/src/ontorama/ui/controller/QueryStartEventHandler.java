@@ -36,6 +36,8 @@ public class QueryStartEventHandler implements EventBrokerListener {
 			Query query = (Query) event.getSubject();
 			QueryEngine qe = OntoramaConfig.getBackend().getQueryEngine();
 			_eventBroker.processEvent(new QueryEngineThreadStartEvent(qe, query));
+			System.out.println("QueryStartEventHandler, query term = " + query.getQueryTypeName());
+			System.out.println("QueryStartEventHandler, event broker = " + _eventBroker);
 		}
 		catch (QueryFailedException e) {
 			ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());

@@ -12,7 +12,6 @@ import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.rdf.RdfDamlParser;
-import ontorama.ontotools.parser.ParserResult;
 
 
 /**

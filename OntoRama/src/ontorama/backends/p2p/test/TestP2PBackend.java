@@ -25,13 +25,8 @@ import ontorama.backends.p2p.model.P2PNodeImpl;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.TestWebkbtoolsPackage;
-import ontorama.ontotools.query.Query;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.parser.rdf.RdfDamlParser;
-import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.writer.ModelWriter;
-import ontorama.ontotools.writer.ModelWriterException;
-import ontorama.ontotools.writer.rdf.RdfModelWriter;
 
 /**
  * Description

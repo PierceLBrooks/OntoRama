@@ -10,7 +10,6 @@ import javax.swing.JTextField;
 import ontorama.backends.BackendSearch;
 import ontorama.ui.ErrorPopupMessage;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ontotools.query.Query;
 
 /*
  * Created by IntelliJ IDEA.

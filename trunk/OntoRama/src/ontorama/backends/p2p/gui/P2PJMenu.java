@@ -9,6 +9,7 @@
 package ontorama.backends.p2p.gui;
 
 import ontorama.backends.p2p.P2PBackend;
+import ontorama.backends.p2p.gui.action.*;
 import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;
@@ -22,8 +23,12 @@ public class P2PJMenu extends JMenu {
 
     private static final String _menuName = "P2P";
 
-    private Action _searchAction;
     private Action _enableP2PAction;
+    private Action _searchAction;
+    private Action _joinGroupAction;
+    private Action _leaveGroupAction;
+    private Action _updatePanelAction;
+    private Action _resetChangePanelAction;
 
     public P2PJMenu (P2PBackend p2pBackend) {
         super();
@@ -31,7 +36,7 @@ public class P2PJMenu extends JMenu {
         setText(_menuName);
 
         _enableP2PAction = new ActionEnableP2P("Start P2P");
-        _searchAction = new ActionSearch("Group search");
+        _searchAction = new ActionGroupSearch("Group search");
 
         add(_enableP2PAction);
         addSeparator();
@@ -39,43 +44,17 @@ public class P2PJMenu extends JMenu {
         add(_searchAction);
         addSeparator();
 
-        Action createGroup = new AbstractAction("Create group") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("...action createGroup");
-            }
-        };
-
-        Action joinGroup = new AbstractAction("Join group") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("...action joinGroup");
-            }
-        };
-
-        Action leaveGroup = new AbstractAction("Leave group") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("...action leaveGroup");
-            }
-        };
-
-        add(createGroup);
-        add(joinGroup);
-        add(leaveGroup);
+        _joinGroupAction = new ActionJoinGroup("Join Group");
+        add(_joinGroupAction);
+        _leaveGroupAction = new ActionLeaveGroup("Leave Group");
+        add(_leaveGroupAction);
         addSeparator();
 
-        Action updatePanel = new AbstractAction("Update P2P Panel") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("...action updatePanel");
-            }
-        };
+        _updatePanelAction = new ActionUpdateP2PPanel("Update P2P Panel");
+        add(_updatePanelAction);
 
-        Action resetChangePanel = new AbstractAction("Reset Change Panel") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("...action resetChangePanel");
-            }
-        };
-
-        add(updatePanel);
-        add(resetChangePanel);
+        _resetChangePanelAction = new ActionResetChangePanel("Reset Change Panel");
+        add(_resetChangePanelAction);
         addSeparator();
     }
 
@@ -89,25 +68,5 @@ public class P2PJMenu extends JMenu {
         }
 
     }
-
-    private class ActionSearch extends AbstractAction {
-        public ActionSearch(String name) {
-            super(name);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("...action search");
-            GroupSearchDialog searchDialog = new GroupSearchDialog(OntoRamaApp.getMainFrame());
-            searchDialog.show();
-            if (searchDialog.actionIsCancelled()) {
-                System.out.println("action was cancelled");
-            }
-            else {
-                System.out.println("selected option = " + searchDialog.getSelectedOption());
-                System.out.println("value = " + searchDialog.getValue());
-            }
-        }
-    }
-
 
 }

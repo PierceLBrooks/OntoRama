@@ -26,4 +26,25 @@ public class DialogUtil{
         dialog.setLocation((int) x, (int) y);
     }
 
+    public static JPanel buildButtonsPanel(final JButton okButton, JButton cancelButton) {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(okButton);
+        return buttonPanel;
+    }
+
+    public static boolean textInputIsValid (JDialog dialog, String text, String promptName) {
+        if (text.length() <= 0) {
+            JOptionPane.showMessageDialog(dialog, "Please enter " + promptName + ".");
+            return false;
+        }
+        return true;
+    }
+
+
+
 }

@@ -119,7 +119,7 @@
 		<source uri="http://www.webkb.org/bin/termSearch.cgi"
 				isSourceDynamic="true"
 				queryStringConstructorPackagePathSuffix="WebkbQueryStringConstructor"
-				sourcePackagePathSuffix="UrlSource"/>
+				sourcePackagePathSuffix="WebKB2Source"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfWebkbParser</parserPackagePathSuffix>
 		<displayMenu subfolder="WebKB"/>		

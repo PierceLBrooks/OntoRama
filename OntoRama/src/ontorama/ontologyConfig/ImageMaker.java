@@ -26,8 +26,27 @@ public class ImageMaker {
         g.fillRect(0,0,ImageMaker.width,ImageMaker.height);
         g.setColor(Color.black);
         g.drawRect(0,0,ImageMaker.width-1,ImageMaker.height-1);
-        g.drawString(symbol,5,10);
+
+        Font font = g.getFont();
+        int fontSize = font.getSize();
+
+        int y = (height - fontSize)/2 + fontSize;
+        g.drawString(symbol,5,y);
 
         return image;
     }
+
+    /**
+     *
+     */
+     public static int getWidth () {
+        return ImageMaker.width;
+     }
+
+     /**
+      *
+      */
+     public static int getHeight () {
+        return ImageMaker.height;
+     }
 }

@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import ontorama.ui.events.QueryEvent;
+import ontorama.ui.events.QueryNodeEvent;
 import org.tockit.events.EventBroker;
 
 /**
@@ -32,7 +32,7 @@ public class ParentsPanel extends AbstractMultiValuesPanel {
         label.setToolTipText("Click to browse to this term");
         label.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                _eventBroker.processEvent(new QueryEvent(node));
+                _eventBroker.processEvent(new QueryNodeEvent(node));
             }
         });
 

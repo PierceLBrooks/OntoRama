@@ -8,21 +8,20 @@
  */
 package ontorama.ui.controller;
 
-import ontorama.model.ViewQuery;
 import ontorama.model.GeneralNode;
 import ontorama.ontotools.query.Query;
-import ontorama.ui.events.QueryEvent;
+import ontorama.ui.events.QueryNodeEvent;
 import ontorama.ui.events.QueryStartEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
-public class QueryEventHandler implements EventBrokerListener {
+public class QueryNodeEventHandler implements EventBrokerListener {
     private EventBroker eventBroker;
 
-    public QueryEventHandler(EventBroker eventBroker) {
+    public QueryNodeEventHandler(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
-        this.eventBroker.subscribe(this, QueryEvent.class, GeneralNode.class);
+        this.eventBroker.subscribe(this, QueryNodeEvent.class, GeneralNode.class);
     }
 
     public void processEvent(Event e) {

@@ -45,6 +45,7 @@ import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.GeneralQueryEventHandler;
 import ontorama.ui.controller.ErrorEventHandler;
+import ontorama.ui.controller.QueryNodeEventHandler;
 import ontorama.util.Debug;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
@@ -239,13 +240,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		_modelEventBroker = new EventBroker();
 		_viewsEventBroker = new EventBroker();
 
+        /// @todo need to sort out what broker is responsible for handling what events
+
         new GeneralQueryEventHandler(_modelEventBroker);
         new GeneralQueryEventHandler(_viewsEventBroker);
 
+        new QueryNodeEventHandler(_modelEventBroker);
+        new QueryNodeEventHandler(_viewsEventBroker);
+
+
+        _modelEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
         _viewsEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
-         _modelEventBroker.subscribe(new QueryStartEventHandler(), QueryStartEvent.class, Object.class);
 
 		_modelEventBroker.subscribe(new QueryEndEventHandler(), QueryEndEvent.class, Object.class);
+        _viewsEventBroker.subscribe(new QueryEndEventHandler(), QueryEndEvent.class, Object.class);
 
         _modelEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);
         _viewsEventBroker.subscribe(new QueryCancelledEventHandler(), QueryCancelledEvent.class, Object.class);

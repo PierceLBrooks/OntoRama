@@ -1,23 +1,28 @@
 package ontorama.webkbtools.datamodel;
 
+
+
 /**
  * Title:
  * Description:
- * Copyright:    Copyright (c) 2001
+ * Copyright:    Copyright DSTC (c) 2001
  * Company:
  * @author
  * @version 1.0
  */
-
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.LinkedList;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
-public class OntologyTypeImplementation implements OntologyType {
+/**
+ * Implements interface OntologyType using LinkedList as Iterator
+ */
 
+public class OntologyTypeImplementation implements OntologyType {
   /**
    * each element of this array is list of types corresponding
    * to a relationship link. Array indexes are corresponding to
@@ -27,16 +32,27 @@ public class OntologyTypeImplementation implements OntologyType {
    */
   private LinkedList[] relationshipTypes = new LinkedList[OntoramaConfig.MAXTYPELINK + 1];
 
+  /**
+   * Name of this Ontology Type.
+   */
   String typeName;
+
+  /**
+   * Descriptin for this Ontology Type.
+   */
   String typeDescription;
 
+  /**
+   * Create new OntologyTypeImplementation
+   * @param typeName
+   */
   public OntologyTypeImplementation(String typeName) {
     this.typeName = typeName;
     initRelationshipTypes();
   }
 
   /**
-   * method to initialise relationshipTypes array
+   * Initialise relationshipTypes array.
    */
   private void initRelationshipTypes() {
     int count = 0;
@@ -47,8 +63,11 @@ public class OntologyTypeImplementation implements OntologyType {
   }
 
   /**
-   * Returns an iterator for relation links between the types.
-   * Specified by a defined constance
+   * Returns an iterator for relation links between the types
+   * specified by a defined constance
+   * @param relationLink
+   * @return    Iterator of relation links
+   * @throws    NoSuchRelationLinkException
    */
   public Iterator getIterator(int relationLink) throws NoSuchRelationLinkException{
     if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
@@ -57,8 +76,9 @@ public class OntologyTypeImplementation implements OntologyType {
     return relationshipTypes[relationLink].iterator();
   }
 
+
   /**
-   * add given Ontology type with given relation link
+   * Add given Ontology type with given relation link
    */
   public void addRelationType (OntologyType ontologyType, int relationLink) throws NoSuchRelationLinkException {
     if(relationLink < 0 || relationLink > OntoramaConfig.MAXTYPELINK) {
@@ -70,21 +90,19 @@ public class OntologyTypeImplementation implements OntologyType {
   /**
    * Build LinkedList for given relationLink
    */
-  //public void
 
   /**
-   * sets the type description
+   * Sets the type description
    */
   public void setDescription(String description) {
-
+    typeDescription = description;
   }
 
   /**
-   * gets the type description
+   * Gets the type description
    */
-  public String getdescription() {
-
-    return "";
+  public String getDescription() {
+    return typeDescription;
   }
 
   /**
@@ -98,8 +116,24 @@ public class OntologyTypeImplementation implements OntologyType {
    * toString method
    */
   public String toString () {
-    String str = "name: " + typeName;
+    String str = "name: " + typeName + "\n";
+    str = str + "description: " + typeDescription + "\n";
+    int count = 0;
+    while(count <= OntoramaConfig.MAXTYPELINK) {
+      try {
+          Iterator relationOntTypesIterator = this.getIterator(count);
+          str = str + "relation link: " + count + ", types: " + "\n";
+          while (relationOntTypesIterator.hasNext()) {
+            OntologyType ot = (OntologyTypeImplementation) relationOntTypesIterator.next();
+            str = str + ot.getName() + "\n";
+          }
+      }
+      catch (NoSuchRelationLinkException e) {
+        System.err.println("NoSuchRelationLinkException: " + e.getMessage());
+        System.exit(1);
+      }
+      count++;
+    }
     return str;
   }
-
 }

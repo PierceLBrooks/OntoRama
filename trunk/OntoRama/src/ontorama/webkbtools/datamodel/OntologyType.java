@@ -1,5 +1,7 @@
 package ontorama.webkbtools.datamodel;
 
+
+
 /**
  * Title:
  * Description:
@@ -14,16 +16,15 @@ import java.util.Iterator;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
 
 /**
- * Interface for OntologyType.
- * Ontology Type should model an ontology type with all it's properties,
+ * Model an Ontology Type with all it's properties,
  * such as type name, type description, type's children and parents and any
  * other relation links this type may have with other ontology types.
  * Relation Link is any valid ontology link describing relationship between
  * two types (such as Supertype(>), Subtype(<)).
  * All valid relation links should be defined in ontorama.OntoramaConfig.
+ * @see ontorama.OntoramaConfig
  */
 public interface OntologyType {
-
   /**
    * Returns an iterator for relation links between the types.
    * Specified by a defined constance
@@ -34,10 +35,11 @@ public interface OntologyType {
    */
   public Iterator getIterator(int relationLink)throws NoSuchRelationLinkException;
 
+
   /**
    * Add given OntologyType with given relation link
    */
-  public void addRelationType (OntologyType ontologyType, int relationLink)throws NoSuchRelationLinkException;
+  void addRelationType (OntologyType ontologyType, int relationLink)throws NoSuchRelationLinkException;
 
   /**
    * Sets the type description
@@ -47,7 +49,7 @@ public interface OntologyType {
   /**
    * gets the type description
    */
-  public String getdescription();
+  public String getDescription();
 
   /**
    * get name of this type

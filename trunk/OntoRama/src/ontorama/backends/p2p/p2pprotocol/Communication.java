@@ -31,7 +31,7 @@ public class Communication {
 	//The p2p platform
 	private static PeerGroup globalP2PPlatform = null;	
 	//Keeps track of which group this peer belongs to
-	private static Vector memberOfGroups = null;
+	private static Hashtable memberOfGroups = null;
 	//The pipe advertisement
 	private static Hashtable pipeAdvertisement = null;	
 	
@@ -47,7 +47,7 @@ public class Communication {
   	public final static int TAGFLUSHPEER = 5;
   	
 	public Communication() {
-		this.setMemberOfGroups(new Vector(2));
+		this.setMemberOfGroups(new Hashtable());
 		this.pipeAdvertisement = new Hashtable();
 	}
 
@@ -126,7 +126,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*
 	*/
-	private void setMemberOfGroups(Vector obj)  {
+	private void setMemberOfGroups(Hashtable obj)  {
 		this.memberOfGroups = obj;
 	}
 	
@@ -139,7 +139,7 @@ public class Communication {
 	* @version P2P-OntoRama 1.0.0
 	*
 	*/	
-	protected Vector getMemberOfGroups() {
+	protected Hashtable getMemberOfGroups() {
 		return this.memberOfGroups;
 	}
 

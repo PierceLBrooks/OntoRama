@@ -21,6 +21,7 @@ public class P2PMainPanel extends JFrame {
 
     PeersPanel peerPanel;
     ChangePanel changePanel;
+    SearchPanel searchPanel;
     Frame parent;
 
 
@@ -29,12 +30,14 @@ public class P2PMainPanel extends JFrame {
 
         peerPanel = new PeersPanel();
         changePanel = new ChangePanel();
+        searchPanel = new SearchPanel();
         this.parent = parent;
 
         JTabbedPane tabbedPanel = new JTabbedPane();
         tabbedPanel.addTab(_changePanelTitle, null, changePanel, _changePanelToolTip);
         tabbedPanel.setSelectedComponent(changePanel);
         tabbedPanel.addTab(_peerPanelTitle, null, peerPanel, _peerPanelToolTip);
+        tabbedPanel.addTab("Search", null, changePanel, "Search for a term");
 
         Container contentPanel = getContentPane();
         contentPanel.add(tabbedPanel);

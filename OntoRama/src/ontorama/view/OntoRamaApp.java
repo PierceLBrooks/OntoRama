@@ -43,6 +43,8 @@ import ontorama.tree.model.OntoTreeModel;
 import ontorama.tree.model.OntoTreeNode;
 import ontorama.tree.view.OntoTreeView;
 
+import ontorama.textDescription.view.DescriptionView;
+
 
 public class OntoRamaApp extends JFrame {
 
@@ -135,9 +137,13 @@ public class OntoRamaApp extends JFrame {
         splitPane.setPreferredSize(new Dimension(splitPaneWidth, splitPaneHeight));
         splitPane.setDividerLocation(splitPaneWidth);
 
+        // create description panel
+        DescriptionView descriptionViewPanel = new DescriptionView(graph);
+
         //Add the split pane to this frame.
         getContentPane().add(queryPanel,BorderLayout.NORTH);
         getContentPane().add(splitPane, BorderLayout.CENTER);
+        getContentPane().add(descriptionViewPanel,BorderLayout.SOUTH);
 
         pack();
         setSize(appWidth,appHeight);

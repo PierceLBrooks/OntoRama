@@ -171,19 +171,19 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 	 * 
 	 * @param groupIDasString group to join
 	 * 
-	 * @return true if joined sucessfully
+	 * @return name of the group if joined sucessfully
 	 * @exception 
 	 *
 	 * @version P2P-OntoRama 1.0.0
 	 */
-	public boolean sendJoinGroup(String groupIDasString) throws GroupExceptionNotAllowed, GroupException {
+	public String sendJoinGroup(String groupIDasString) throws GroupExceptionNotAllowed, GroupException {
 		PeerGroup pg;
 		try {
 			pg = this.communicationGroup.joinGroup(groupIDasString);
 			if (pg != null) {
 				
 				communicationInit.startInputPipeEndpoint(pg);
-                return true;
+                return pg.getPeerGroupName();
 			}
 		} catch (GroupExceptionNotAllowed e) {
 			throw (GroupExceptionNotAllowed) e.fillInStackTrace();			
@@ -191,7 +191,7 @@ public class CommunicationProtocolJxta implements CommunicationProtocol {
 			throw (GroupException) e.fillInStackTrace();
 		}
 		
-		return false;
+		return null;
 	}
 
 

@@ -108,8 +108,7 @@ public class P2PReciever implements P2PRecieverInterface{
        //Add the new peer to the panel showing peers and groups
        idMapping.put(senderPeerID, senderPeerName);
        this.activePeers.addPeer(senderPeerID, senderPeerName, groupID);
-       this.changes.addChange("New peer", senderPeerID);
-       }
+    }
 
 
     //Help classes

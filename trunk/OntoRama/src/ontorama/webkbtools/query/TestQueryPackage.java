@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import ontorama.webkbtools.query.parser.rdf.TestRdfDamlParser;
 import ontorama.webkbtools.query.parser.rdf.TestRdfWebkbParser;
+import ontorama.webkbtools.query.parser.cgkb.TestCgKbCsvParser;
 
 /**
  * <p>Title: </p>
@@ -26,17 +27,15 @@ public class TestQueryPackage extends TestCase {
 
         suite.addTest(new TestSuite(TestRdfDamlParser.class));
 
-//    OntoramaConfig.loadAllConfig("examples/test/data/examplesConfig.xml",
-//                            "ontorama.properties","examples/test/data/config.xml");
-        //suite.addTest( new TestSuite(TestTypeQueryImplementation.class) );
-
         suite.addTest(new TestSuite(TestQuery.class));
         suite.addTest(new TestSuite(TestQueryEngine.class));
         suite.addTest(new TestSuite(TestQueryResult.class));
 
         // webkb relevant
-        //OntoramaConfig.setCurrentExample(TestingUtils.getExampleByName("test webkb rdf parser"));
         suite.addTest(new TestSuite(TestRdfWebkbParser.class));
+
+        // RJ's KB parser
+        suite.addTest(new TestSuite(TestCgKbCsvParser.class));
 
         return suite;
     }

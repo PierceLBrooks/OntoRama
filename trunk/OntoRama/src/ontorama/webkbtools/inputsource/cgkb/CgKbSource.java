@@ -32,13 +32,12 @@ public class CgKbSource implements Source {
         Iterator it = relLinksList.iterator();
         String allReadersString="";
         while (it.hasNext()) {
-            Integer relLinkType = (Integer) it.next();
+            RelationLinkDetails relDetails = (RelationLinkDetails) it.next();
 
             String readerString = "";
             Hashtable paramTable = new Hashtable();
 
             paramTable.put("node",query.getQueryTypeName());
-            RelationLinkDetails relDetails = OntoramaConfig.getRelationLinkDetails(relLinkType.intValue());
 
             paramTable.put("rel", relDetails.getLinkName());
             int depth = query.getDepth();

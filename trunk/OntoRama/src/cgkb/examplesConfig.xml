@@ -3,7 +3,7 @@
 		<source uri="examples/cgkb/test1.csv" 
 					sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 
 	<example name="KB cgi" root="net.sf.tj" loadOnStart="yes" >
@@ -11,7 +11,7 @@
 					sourcePackagePathSuffix="cgkb.CgKbSource"
 					isSourceDynamic="true" />
 		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 
     	<example name="KB url" root="net.sourceforge.toscanaj.gui" >
@@ -19,6 +19,6 @@
 					sourcePackagePathSuffix="UrlSource"
 					isSourceDynamic="true" />
 		<queryOutputFormat>CSV</queryOutputFormat>
-		<parserPackagePathSuffix>csv.CgKbCsvParser</parserPackagePathSuffix>
+		<parserPackagePathSuffix>cgkb.CgKbCsvParser</parserPackagePathSuffix>
 	</example>
 </ontoramaExamples>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -59,6 +60,8 @@ public class FileBackend implements Backend {
 	private String _filename;
 	
 	private QueryEngine _lastQueryEngine;
+	
+	private Hashtable _queryEngineToQueryConfigMapping;
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
@@ -72,8 +75,28 @@ public class FileBackend implements Backend {
             System.out.println("\n\nloaded graph = " + _graph);
         }
     }
+    
+    private class QuerySettings {
+    	
+    	private String parserPackage;
+    	private String sourceUri;
+    	
+    	public QuerySettings(String parserPackage, String sourceUri) {
+    		this.parserPackage = parserPackage;
+    		this.sourceUri = sourceUri;
+    	}
+    	
+    	public String getParserPackageName () {
+    		return this.parserPackage;
+    	}
+    	
+    	public String getSourceUri () {
+    		return this.sourceUri;
+    	}
+    }
 
     public FileBackend(){
+    	_queryEngineToQueryConfigMapping = new Hashtable();
     }
 
     public void setEventBroker(EventBroker eventBroker) {
@@ -181,6 +204,7 @@ public class FileBackend implements Backend {
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
 		_lastQueryEngine = new QueryEngine( _sourcePackageName, _parserName, _filename);
 		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
+		_queryEngineToQueryConfigMapping.put(_lastQueryEngine, new QuerySettings(_parserName, _filename));
 		return queryResult;
 	}
 	
@@ -193,6 +217,14 @@ public class FileBackend implements Backend {
 	 */
 	public void setQueryEngine(QueryEngine queryEngine) {
 		_lastQueryEngine = queryEngine;
+		/// @todo this a hack - trying to revert to old config settings. Need to think 
+		/// how to fix this.
+		QuerySettings querySettings = (QuerySettings) _queryEngineToQueryConfigMapping.get(queryEngine);
+		if (querySettings != null) {
+			_parserName = querySettings.getParserPackageName();
+			_filename = querySettings.getSourceUri();
+		}
 	}
+	
 
 }

@@ -9,24 +9,33 @@ import ontorama.hyper.model.HyperNode;
 import ontorama.model.Edge;
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import org.tockit.canvas.CanvasItem;
+import org.tockit.canvas.Canvas;
+import org.tockit.canvas.controller.*;
 import org.tockit.canvas.events.CanvasItemActivatedEvent;
+import org.tockit.canvas.events.CanvasItemClickedEvent;
 import org.tockit.canvas.events.CanvasItemSelectedEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventListener;
+import org.tockit.events.LoggingEventListener;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.TimerTask;
 
 
-public class SimpleHyperView extends CanvasManager implements GraphView {
+public class SimpleHyperView extends Canvas implements GraphView {
 
     private class NodeSelectedEventTransformer implements EventListener {
         private EventBroker eventBroker;
@@ -52,18 +61,62 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
             toggleFold(nodeView.getGraphNode());
         }
     }
+    
 
+    /**
+     * Hold the mapping of HyperNode to GraphNodes
+     */
+    protected Hashtable hypernodes = new Hashtable();
+    
+    /**
+     * Holds the mapping of HyperNodeView to GraphNodes
+     */
+    protected Hashtable hypernodeviews = new Hashtable();
+   
 
     /**
      * Temp flag to turn off spring and force algorithms.
      */
     private boolean runSpringForceAlgorithms = true;
 
-
     /**
      * Hold the top concept (root node) for current query.
      */
     private GraphNode root = null;
+
+    /**
+     * Store the HyperNode that has focus.
+     */
+    protected HyperNode focusNode = null;
+
+    /**
+     * Stores the hyperNodeView that is having its
+     * Edge highlighted back to the root node.
+     */
+    private HyperNodeView currentHighlightedView = null;
+    
+    /**
+     * Stores the LabelView that is selected.
+     */
+    protected static LabelView labelView = null;
+    
+    /**
+     * The time when we did the last animation step.
+     */
+    protected long animationTime = 0;
+
+    /**
+     * Holds the remaining length of the animation.
+     *
+     * If negative animation we don't animate at the moment.
+     */
+    protected long lengthOfAnimation = -1;
+
+    /**
+     * Holds the current canvas scale.
+     */
+    protected double canvasScale = 1;
+
 
     /**
      * The spring length is the desired length between the nodes..
@@ -80,11 +133,10 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
      */
     private double ELECTRIC_CHARGE = 10;
 
-    /**
-     * Path for test output files.
-     */
-    private String testFileOutputPath = "benchmark_out/";
 
+	/**
+	 * 
+	 */
     public SimpleHyperView( EventBroker eventBroker) {
         super(eventBroker);
         new NodeSelectedEventTransformer(eventBroker, CanvasItemSelectedEvent.class);
@@ -92,12 +144,31 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
         //new NodeActivatedEventHandler(eventBroker, CanvasItemActivatedEvent.class);
     }
 
-    public void focus(GraphNode node) {
+	/**
+	 * 
+	 */
+    public void focus(GraphNode graphNode) {
         System.out.println();
-        focusChanged(node);
+//        focusChanged(node);
+        focusNode = (HyperNode) this.hypernodes.get(graphNode);
+        // set focused node label to selected
+        testIfVisibleOrFolded((HyperNodeView) this.hypernodeviews.get(graphNode));
+        setLabelSelected((HyperNodeView) (hypernodeviews.get(graphNode)));
+        //place the label last in the list so that it gets drawn last.
+        // calculate the length of the animation as a function of the distance
+        // in the euclidian space (before hyperbolic projection)
+        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
+                focusNode.getY() * focusNode.getY());
+        lengthOfAnimation = (long) (distance * 1.5);
+        animationTime = System.currentTimeMillis();
+        repaint();
+        
         System.out.println();
     }
 
+	/**
+	 * 
+	 */
     public void toggleFold(GraphNode node) {
         HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
@@ -116,7 +187,6 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
      * Method to fold and unfold HyperNodeViews.
      */
     private void setFolded(boolean foldedState, GraphNode node) {
-        System.out.println("Setting folded: " + node.getName());
         Iterator it = Edge.getOutboundEdgeNodes(node);
         while (it.hasNext()) {
             GraphNode cur = (GraphNode) it.next();
@@ -154,11 +224,10 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
      * If node is folded, unfold.
      */
     private void testIfVisibleOrFolded(HyperNodeView hyperNodeView) {
-        // test if visible, if not find folded node.
         if (hyperNodeView == null) {
             return;
         }
-        System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
+        //System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
         if (!hyperNodeView.getVisible()) {
             System.out.println(hyperNodeView.getName() + " is not visible");
             unfoldNodes(hyperNodeView);
@@ -170,20 +239,20 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
      * emit a change in which node has focus.
      * The node that has focus is centered.
      */
-    public void focusChanged(GraphNode graphNode) {
-        focusNode = (HyperNode) this.hypernodes.get(graphNode);
-        // set focused node label to selected
-        testIfVisibleOrFolded((HyperNodeView) this.hypernodeviews.get(graphNode));
-        setLabelSelected((HyperNodeView) (hypernodeviews.get(graphNode)));
-        //place the label last in the list so that it gets drawn last.
-        // calculate the length of the animation as a function of the distance
-        // in the euclidian space (before hyperbolic projection)
-        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
-                focusNode.getY() * focusNode.getY());
-        lengthOfAnimation = (long) (distance * 1.5);
-        animationTime = System.currentTimeMillis();
-        repaint();
-    }
+//    private void focusChanged(GraphNode graphNode) {
+//        focusNode = (HyperNode) this.hypernodes.get(graphNode);
+//        // set focused node label to selected
+//        testIfVisibleOrFolded((HyperNodeView) this.hypernodeviews.get(graphNode));
+//        setLabelSelected((HyperNodeView) (hypernodeviews.get(graphNode)));
+//        //place the label last in the list so that it gets drawn last.
+//        // calculate the length of the animation as a function of the distance
+//        // in the euclidian space (before hyperbolic projection)
+//        double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
+//                focusNode.getY() * focusNode.getY());
+//        lengthOfAnimation = (long) (distance * 1.5);
+//        animationTime = System.currentTimeMillis();
+//        repaint();
+//    }
 
     /**
      * Loads new ontology with top concept.
@@ -256,44 +325,6 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
     }
 
 
-    /**
-     * Temperary method to test spring and force algorthms
-     */
-    public void testSpringAndForceAlgorthms(double springLength, double stiffness, double electric_charge) {
-        this.springLength = springLength;
-        this.STIFFNESS = stiffness;
-        this.ELECTRIC_CHARGE = electric_charge;
-        int iteration = 50;
-        // 6.283 is the number of radians in a circle
-        radialLayout(root, 6.283, 0);
-        System.out.println("Start spring and force algorthm: " + iteration + " iterations");
-        long start = System.currentTimeMillis();
-        int numOfItorations = layoutNodes(iteration);
-        long end = System.currentTimeMillis();
-        System.out.println("finished spring and force algorthm: " + numOfItorations + " iterations");
-        long timeTaken = (end - start) / 1000;
-        System.out.println("Time taken: " + timeTaken + "s");
-        try {
-            Writer out = new FileWriter(testFileOutputPath + "HyperTestLayouting.txt", true);
-            BufferedWriter bufferedOut = new BufferedWriter(out);
-            bufferedOut.write(root.getName());
-            bufferedOut.write("\t");
-            bufferedOut.write(String.valueOf(springLength));
-            bufferedOut.write("\t");
-            bufferedOut.write(String.valueOf(stiffness));
-            bufferedOut.write("\t");
-            bufferedOut.write(String.valueOf(electric_charge));
-            bufferedOut.write("\t");
-            bufferedOut.write(String.valueOf(timeTaken));
-            bufferedOut.write("\t");
-            bufferedOut.write(numOfItorations + " of " + iteration);
-            bufferedOut.newLine();
-            bufferedOut.close();
-        } catch (IOException ioe) {
-            System.out.println("IOException: " + ioe.getMessage());
-        }
-        this.paintComponent(this.getGraphics());
-    }
 
     /**
      *
@@ -834,6 +865,180 @@ public class SimpleHyperView extends CanvasManager implements GraphView {
         drawNodes(g2d);
     }
 
-    public void query(GraphNode node) {
+
+    /**
+     * draw canvas items.
+     *
+     * @todo fix ConcurrentModificationException (seems as it happens when folding/unfolding nodes).
+     */
+    protected void drawNodes(Graphics2D g2d) {
+        if (lengthOfAnimation > 0) {
+            animate();
+        }
+        
+        Iterator it = canvasItems.iterator();
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
+            cur.draw(g2d);
+        }
+        if (this.focusNode == null) {
+            return;
+        }
+        if (lengthOfAnimation <= 0 && this.focusNode.hasClones()) {
+            HyperNodeView focusHyperNode = (HyperNodeView) this.hypernodeviews.get(this.focusNode.getGraphNode());
+            focusHyperNode.showClones(g2d, hypernodeviews);
+        }
     }
+
+    /**
+     * Rotate node about the center (0, 0) by angle passed.
+     */
+    protected void rotateNodes(double angle) {
+        Iterator it = this.hypernodes.values().iterator();
+        while (it.hasNext()) {
+            HyperNode hn = (HyperNode) it.next();
+            hn.rotate(angle);
+        }
+    }
+    
+    
+    /**
+     * Move all the nodes by an offset x and y.
+     */
+    private void moveCanvasItems(double x, double y) {
+        Iterator it = this.hypernodes.values().iterator();
+        while (it.hasNext()) {
+            HyperNode hn = (HyperNode) it.next();
+            hn.move(x, y);
+        }
+    }
+    
+    /**
+     * 
+     */
+    protected void animate() {
+        long newTime = System.currentTimeMillis();
+        long elapsedTime = newTime - animationTime;
+        double animDist = elapsedTime / (double) lengthOfAnimation;
+        lengthOfAnimation -= elapsedTime;
+        animationTime = newTime;
+        if (animDist > 1) {
+            animDist = 1;
+        }
+        moveCanvasItems(focusNode.getX() * animDist, focusNode.getY() * animDist);
+        repaint();
+    }
+
+    /**
+     * Method called when a new graph is loaded.
+     *
+     * Reset all global variables
+     */
+    protected void resetCanvas() {
+    	super.clearCanvas();
+        this.hypernodes.clear();
+        this.hypernodeviews.clear();
+        this.focusNode = null;
+        this.currentHighlightedView = null;
+        this.labelView = null;
+        this.labelView = null;
+        this.canvasScale = 1;
+        
+    }
+
+    /**
+     * Method called to highlight edges back to the root node.
+     */
+    private void highlightEdge(GraphNode node) {
+        Iterator it = Edge.getInboundEdgeNodes(node);
+        while (it.hasNext()) {
+            GraphNode cur = (GraphNode) it.next();
+            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
+            if (hyperNodeView != null) {
+                hyperNodeView.setHighlightEdge(true);
+                this.highlightEdge(cur);
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * When a hyperNode has focus, its label is placed last in the
+     * canvasItems list ( so as to be drawn last), and is told
+     * that it has focus.
+     */
+    protected void setLabelSelected(HyperNodeView selectedNodeView) {
+        //if( selectedNodeView == null ) {
+        //    return;
+        //}
+        // find the LabelView for this HyperNodeView.
+        ListIterator it = this.canvasItems.listIterator(this.canvasItems.size());
+        while (it.hasPrevious()) {
+            CanvasItem canvasItem = (CanvasItem) it.previous();
+            if (canvasItem instanceof LabelView) {
+                if (((LabelView) canvasItem).hasHyperNodeView(selectedNodeView) == true) {
+                    this.labelView = (LabelView) canvasItem;
+                    break;
+                }
+            }
+        }
+        if (labelView != null) {
+            canvasItems.remove(this.labelView);
+            canvasItems.add(this.labelView);
+        }
+    }
+
+    /**
+     * Return the selected LabelView.
+     */
+    public static LabelView getSelectedLabelView() {
+        return SimpleHyperView.labelView;
+    }
+
+    /**
+     * Find HyperNodeView that has been clicked on.
+     */
+    private HyperNodeView getClickedItem(MouseEvent e) {
+        Iterator it = canvasItems.iterator();
+        while (it.hasNext()) {
+            CanvasItem cur = (CanvasItem) it.next();
+            if (cur instanceof HyperNodeView) {
+                double curX = e.getX() - getSize().width / 2;
+                double curY = e.getY() - getSize().height / 2;
+                curX = curX * (1 / canvasScale);
+                curY = curY * (1 / canvasScale);
+                boolean found = cur.containsPoint(new Point2D.Double(curX, curY));
+                if (found == true) {
+                    return (HyperNodeView) cur;
+                }
+            }
+        }
+        return null;
+    }
+ 
+//    public void mouseReleased(MouseEvent e) {
+////        if (dragmode == true) {
+////            dragmode = false;
+////            repaint();
+////        } else {
+////            HyperNodeView focusedHyperNodeView = getClickedItem(e);
+////            if (focusedHyperNodeView == null) {
+////                return;
+////            }
+////            if (e.getClickCount() == 1) {
+////                this.singleClickTimer = new Timer();
+////                this.singleClickTimer.schedule(new CanvasItemSingleClicked(focusedHyperNodeView), 300);
+////            } else if (e.getClickCount() == 2) {
+//////                this.singleClickTimer.cancel();
+//                System.out.println();
+//                System.out.println("CanvasManager is sending DoubleClick");
+//                System.out.println();
+//                System.out.println();
+//                eventBroker.processEvent(new CanvasItemActivatedEvent(getClickedItem(e), 0, null, null));
+////            }
+////            repaint();
+////        }
+//    }
+    
 }

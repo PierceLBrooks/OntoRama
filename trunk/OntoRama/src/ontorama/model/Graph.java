@@ -59,6 +59,8 @@ public class Graph implements GraphInterface {
         debug.message("Graph","constructor","after convertIntoTree testIfTree(): " + testIfTree(root));
         debug.message("Graph","constructor","after convertIntoTree number of nodes: " + getNodesList().size());
         debug.message("Graph","constructor","after convertIntoTree number of edges: " + Edge.getIteratorSize( Edge.edges.iterator()));
+        System.out.println("Graph , constructor, after convertIntoTree number of nodes: " + getNodesList().size());
+
     }
 
     /**

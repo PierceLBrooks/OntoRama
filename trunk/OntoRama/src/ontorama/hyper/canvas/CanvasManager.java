@@ -63,17 +63,17 @@ public class CanvasManager extends JComponent
     /**
      * Holds the current canvas scale.
      */
-    protected double canvasScale;
+    protected double canvasScale = 1;
 
     /**
      * Hold the mapping of HyperNode to GraphNodes
      */
-    protected Hashtable hypernodes;
+    protected Hashtable hypernodes = null;
 
     /**
      * Holds the mapping of HyperNodeView to GraphNodes
      */
-     protected Hashtable hypernodeviews;
+     protected Hashtable hypernodeviews = null;
 
     /**
      * Store the hyper view canvas items.
@@ -225,9 +225,9 @@ public class CanvasManager extends JComponent
      * that it has focus.
      */
     private void setLabelSelected( HyperNodeView selectedNodeView ) {
-        if( selectedNodeView == null ) {
-            return;
-        }
+//        if( selectedNodeView == null ) {
+//            return;
+//        }
         // find the LabelView for this HyperNodeView.
         ListIterator it = this.canvasItems.listIterator(this.canvasItems.size());
         while( it.hasPrevious() ) {
@@ -367,8 +367,11 @@ public class CanvasManager extends JComponent
      * The node that has focus is centered.
      */
     public void focusChanged( GraphNode graphNode ){
-
         focusNode = (HyperNode) this.hypernodes.get (graphNode);
+//        if( focusNode == null ) {
+//            System.out.println(">>>> focusChanged( HyperNode focusNode ): " + focusNode);
+//            return;
+//        }
         // set focused node label to selected
         testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
         setLabelSelected( (HyperNodeView)(hypernodeviews.get(graphNode) ) );
@@ -389,6 +392,9 @@ public class CanvasManager extends JComponent
      */
     private void testIfVisibleOrFolded( HyperNodeView hyperNodeView ) {
         // test if visible, if not find folded node.
+        if( hyperNodeView == null ) {
+            return;
+        }
         System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
         if( !hyperNodeView.getVisible() ) {
             System.out.println(hyperNodeView.getName() + " is not visible");
@@ -461,6 +467,22 @@ public class CanvasManager extends JComponent
                 this.highlightEdge( cur );
             }
         }
+    }
+
+    /**
+     * Method called when a new graph is loaded.
+     *
+     * Reset all global variables
+     */
+    protected void resetCanvas() {
+        this.canvasScale = 1;
+        //this.hypernodes = null;
+        //this.hypernodeviews = null;
+        //this.canvasItems = null;
+        this.dragmode = false;
+        this.focusNode = null;
+        this.currentHighlightedView = null;
+        this.labelView = null;
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////

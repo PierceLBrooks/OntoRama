@@ -72,7 +72,6 @@ public class SimpleHyperView  extends CanvasManager  {
     public SimpleHyperView(ViewEventListener viewListener) {
 		this.viewListener = viewListener;
 		this.viewListener.addObserver(this);
-
         this.addMouseListener( this );
         this.addMouseMotionListener( this );
         this.setDoubleBuffered( true );
@@ -83,15 +82,17 @@ public class SimpleHyperView  extends CanvasManager  {
      * Loads new ontology with top concept.
      */
     public void setGraph( Graph graph ) {
+        // reset canvas variables
+        this.resetCanvas();
         // create a new linked list for canvas items
-        canvasItems = new LinkedList();
+        this.canvasItems = new LinkedList();
         //Add HyperNodes to hashtabel stored in CanvasManager
-        hypernodes = new Hashtable();
+        this.hypernodes = new Hashtable();
         //Map HyperNodeViews to GraphNode to build LineViews
-        hypernodeviews = new Hashtable();
-        canvasItems.clear();
-        root = graph.getRootNode();
-        System.out.println("root = " + root);
+        this.hypernodeviews = new Hashtable();
+        //canvasItems.clear();
+        this.root = graph.getRootNode();
+//        System.out.println("root = " + root);
         if( root == null ) {
             System.out.println("Root = null");
             return;
@@ -280,6 +281,51 @@ public class SimpleHyperView  extends CanvasManager  {
      * The spring and electrical algorthms shall they do the rest.
      */
     private void radialLayout(GraphNode root, double wedge, double startAngle) {
+        double rootNodeLeafTotal = getLeafNodeTotal( root );
+//        System.out.println("GraphNode root node is: " + root.getName());
+        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        if (numOfOutboundNodes < 1) {
+            return;
+        }
+        double x = 0, y = 0, radius = 0, count = 1;
+        outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        double sumOfSlices = 0;
+        while (outboundNodesIterator.hasNext()) {
+            GraphNode curNode = (GraphNode) outboundNodesIterator.next();
+            double curNodeLeafTotal = getLeafNodeTotal( curNode );
+            double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
+            if( slice == 0 ) {
+                slice = 0.1;//(wedge/numOfOutboundNodes);
+            }
+//            if( (sumOfSlices + slice ) >= wedge ) {
+//                slice = 0;
+//            }
+            double drawAngle = (sumOfSlices + ( slice / 2 ) )  + startAngle;
+//            System.out.println(curNode.getName() + " has " + curNodeLeafTotal + " curNodeLeafTotal");
+//            System.out.println(curNode.getName() + " has " + (slice*(180/Math.PI)) + " slice");
+//            System.out.println(curNode.getName() + " has " + (sumOfSlices*(180/Math.PI)) + " sumOfSlices");
+//            System.out.println(curNode.getName() + " has " + (wedge*(180/Math.PI)) + " wedge");
+//            System.out.println(curNode.getName() + " has " + (startAngle*(180/Math.PI)) + " startAngle");
+//            System.out.println(curNode.getName() + " has " + (drawAngle*(180/Math.PI)) + " drawAngle");
+            sumOfSlices = sumOfSlices + slice;
+            count++;
+            radius = springLength  * curNode.getDepth();
+            x = Math.cos(drawAngle) * radius;
+            y = Math.sin(drawAngle) * radius;
+            HyperNode hn = (HyperNode)hypernodes.get(curNode);
+            hn.setLocation( x, y);
+            radialLayout( curNode, slice, ( drawAngle - (slice/2) ) );
+        }
+    }
+
+    /**
+     * Try to give the ontology a radial layout that allocates a
+     * percentage of the wedge space to subtrees based on the number of
+     * leaf node each subtree has to the total number of leaves on the tree.
+     * The spring and electrical algorthms shall they do the rest.
+     */
+    private void weightedRadialLayout(GraphNode root, double wedge, double startAngle) {
         double rootNodeLeafTotal = getLeafNodeTotal( root );
 //        System.out.println("GraphNode root node is: " + root.getName());
         Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);

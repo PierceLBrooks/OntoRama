@@ -130,6 +130,7 @@ public class GraphBuilder {
           if (! processedNodes.containsKey(termName)) {
              throw new NoTypeFoundInResultSetException(termName);
           }
+          System.out.println("graph builder, num of nodes = " + processedNodes.size());
 
           graph = new Graph( edgeRoot );
 

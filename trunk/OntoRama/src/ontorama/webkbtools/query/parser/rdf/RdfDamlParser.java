@@ -88,12 +88,9 @@ public class RdfDamlParser implements Parser {
             /// @todo following is an  attempt to classify rdf objects into Classes
             // and Properties. This may not work very well for some rdf files.
             Property typeProperty = new PropertyImpl(_rdfSyntaxTypeNamespace, "type");
-            //System.out.println("property = " + typeProperty);
 
             Resource classResource = new ResourceImpl(_rdfsNamespace, "Class");
-            //System.out.println("class resource = " + classResource);
             Resource propertyResource = new ResourceImpl(_rdfSyntaxTypeNamespace, "Property");
-            //System.out.println("property resource = " + propertyResource);
 
             List rdfClassesList = runSelector(model, typeProperty, classResource);
             List rdfPropertiesList = runSelector(model, typeProperty, propertyResource);
@@ -123,7 +120,7 @@ public class RdfDamlParser implements Parser {
                                 rdfClassesList.add(s.getObject());
                             }
                         }
-                        processStatement1(s);
+                        processStatement(s);
                     }
                 }
             }
@@ -135,7 +132,6 @@ public class RdfDamlParser implements Parser {
         } catch (RDFError err) {
             throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
         }
-        //System.out.println("\n\nreturning result collection: " + ontHash.values().size());
         ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
         return result;
     }
@@ -170,10 +166,8 @@ public class RdfDamlParser implements Parser {
         //ResIterator it = model.listSubjects();
         LinkedList result = new LinkedList();
         ResIterator it = model.listSubjectsWithProperty(p, o);
-        //System.out.println("\n\n\n\n");
         while (it.hasNext()) {
             Resource res = it.next();
-            //System.out.println(res);
             result.add(res);
         }
         return result;
@@ -182,11 +176,10 @@ public class RdfDamlParser implements Parser {
     /**
      * Process RDF statement and create corresponding graph nodes.
      */
-    protected void processStatement1(Statement st) {
+    protected void processStatement(Statement st) {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
-        //System.out.println("statement: " + resource.toString() + ", " + predicate.toString() + ", " + object.toString());
         doNodePropertiesMapping(resource, predicate, object);
         doEdgesMapping(resource, predicate, object);
     }
@@ -308,7 +301,6 @@ public class RdfDamlParser implements Parser {
      * maybe need to check if string starts with http:// ?
      */
     protected static String stripUri(String uriStr) {
-        //System.out.println("***stripUri, rdfNode = " + rdfNode);
         StringTokenizer tokenizer = new StringTokenizer(uriStr, "/");
         int count = 0;
         int tokensNumber = tokenizer.countTokens();
@@ -316,7 +308,6 @@ public class RdfDamlParser implements Parser {
             count++;
             String token = tokenizer.nextToken();
             if (count == tokensNumber) {
-                //System.out.println("returning token = " + token);
                 return token;
             }
         }
@@ -371,7 +362,6 @@ public class RdfDamlParser implements Parser {
                     resultString = resultString + " ";
                 }
             }
-            //resultString = resultString + " " + nextTok.trim();
         }
         return resultString;
     }
@@ -379,12 +369,7 @@ public class RdfDamlParser implements Parser {
     public static void main(String args[]) {
         try {
             RdfDamlParser parser = new RdfDamlParser();
-
-            //String filename = "H:/projects/OntoRama/test/hacked_comms_comms_object-children.rdf";
-            //String filename = "H:/projects/OntoRama/test/comms-comms_object.html.daml";
-            //String filename = "H:/projects/OntoRama/test/comms_comms_object-children.rdf.html";
             String filename = "H:/projects/OntoRama/test/comms_comms_object-children.rdf";
-            //String filename = "H:/projects/OntoRama/test/wn_carnivore.rdf";
             System.out.println();
             System.out.println("filename = " + filename);
             Reader reader = new FileReader(filename);

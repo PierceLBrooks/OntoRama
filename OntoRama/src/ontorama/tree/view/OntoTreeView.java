@@ -92,8 +92,8 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
 
         try {
-            //UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName() );
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName() );
         }
         catch (Exception e) {
             // case if this lookAndFeel doesn't exist

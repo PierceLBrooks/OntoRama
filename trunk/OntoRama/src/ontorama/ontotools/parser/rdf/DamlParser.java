@@ -47,6 +47,15 @@ public class DamlParser implements Parser {
     		while (damlClasses.hasNext()) {
 				DAMLClass curClass = (DAMLClass) damlClasses.next();
 				System.out.println("class: " + curClass + ", local name: " + curClass.getLocalName());
+				if (curClass.isAnon()) {
+					System.out.println("\tproperties: ");
+					StmtIterator it = curClass.listProperties();
+					while (it.hasNext()) {
+						Statement element =  it.next();
+						System.out.println("\t" + element);
+						
+					}
+				}
 			}
     	}
     	catch (RDFException e) {

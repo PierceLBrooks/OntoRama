@@ -188,4 +188,11 @@ public class FileBackend implements Backend {
 		return _lastQueryEngine;
 	}
 
+	/**
+	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
+	 */
+	public void setQueryEngine(QueryEngine queryEngine) {
+		_lastQueryEngine = queryEngine;
+	}
+
 }

@@ -48,6 +48,13 @@ public interface Backend {
 	/// as it feels as a hack...
 	public QueryEngine getQueryEngine ();
 
+	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
+	/// as it feels as a hack...
+	// (need this when we displayed a history item and then we want to search for a term
+	// in the displayed ontology - this requires query engine config to be reset to the current in the backend).
+	public void setQueryEngine (QueryEngine queryEngine);
+
+
 	public Collection getDataFormats();
 	
 }

@@ -25,7 +25,6 @@ import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 import org.tockit.events.Event;
-import org.tockit.events.LoggingEventListener;
 
 /**
  * <p>Title: </p>
@@ -97,7 +96,6 @@ public class HistoryMenu extends JMenu {
         _buttonGroup = new ButtonGroup();
 
         _eventBroker.subscribe(new DisplayHistoryItemEventHandler(), DisplayHistoryItemEvent.class, JMenuItem.class);
-        new LoggingEventListener(_eventBroker,DisplayHistoryItemEvent.class,Object.class,System.out);
 
         setMnemonic(KeyEvent.VK_H);
         buildHistoryMenu();

@@ -20,7 +20,6 @@ import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
-import ontorama.backends.examplesmanager.*;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -76,7 +75,7 @@ public class HistoryMenu extends JMenu {
         public void processEvent (Event event) {
             JMenuItem menuItem = (JMenuItem) event.getSubject();
         	JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
-            ExamplesHistoryElement historyElement = (ExamplesHistoryElement) _menuItemHistoryMapping.get(historyItem);
+            HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
             // get graph for this query and load it into app
             //_eventBroker.processEvent(new HistoryQueryStartEvent(historyElement));
             historyElement.displayElement();
@@ -150,20 +149,6 @@ public class HistoryMenu extends JMenu {
 	 */
 	public void appendHistory(Query query) {
 		System.out.println("HistoryMenu::appendHistory for query " + query);
-		
-		String historyItemLabelName = query.getQueryTypeName();	
-		String historyItemToolTipText = historyItemLabelName;
-		if (query.getQueryTypeName() == null) {
-			historyItemLabelName = "item";
-			historyItemToolTipText = "click here to display this item";
-		}
-		else {
-			if (query.getDepth() > -1) {
-				historyItemToolTipText = historyItemToolTipText + ", depth = " + query.getDepth();
-			}
-			historyItemToolTipText = historyItemToolTipText + ", rel links = " + query.getRelationLinksList();
-		}
-	
 			
 		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
 		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.getFirst();
@@ -172,11 +157,11 @@ public class HistoryMenu extends JMenu {
 		    remove(firstMenuItem);
 		}
 		
-		ExamplesHistoryElement historyElement = new ExamplesHistoryElement(historyItemLabelName, query, _backend.getQueryEngine(), _eventBroker);
+		HistoryElement historyElement = _backend.createHistoryElement(query,_eventBroker);
 		
-		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyItemLabelName);
+		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyElement.getMenuDisplayName());
 		_buttonGroup.add(historyItem);
-		historyItem.setToolTipText(historyItemToolTipText);
+		historyItem.setToolTipText(historyElement.getToolTipText());
 		historyItem.setSelected(true);
 		_menuItemHistoryMapping.put(historyItem, historyElement);
 		_historyItems.add(historyItem);
@@ -193,7 +178,7 @@ public class HistoryMenu extends JMenu {
 		Iterator it = _historyItems.iterator();
 		while (it.hasNext()) {
 			JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) it.next();
-			ExamplesHistoryElement historyElement = (ExamplesHistoryElement) _menuItemHistoryMapping.get(historyItem);
+			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
 			Query historyQuery = historyElement.getQuery();
 			if (query.equals(historyQuery)) {
 				return historyItem;

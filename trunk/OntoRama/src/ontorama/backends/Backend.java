@@ -15,8 +15,8 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
+import ontorama.ui.HistoryElement;
 
 import org.tockit.events.EventBroker;
 
@@ -44,18 +44,18 @@ public interface Backend {
 	
 	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
 		
-	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
-	/// as it feels as a hack...
-	public QueryEngine getQueryEngine ();
-
-	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
-	/// as it feels as a hack...
-	// (need this when we displayed a history item and then we want to search for a term
-	// in the displayed ontology - this requires query engine config to be reset to the current in the backend).
-	public void setQueryEngine (QueryEngine queryEngine);
+//	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
+//	/// as it feels as a hack...
+//	public QueryEngine getQueryEngine ();
+//
+//	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
+//	/// as it feels as a hack...
+//	// (need this when we displayed a history item and then we want to search for a term
+//	// in the displayed ontology - this requires query engine config to be reset to the current in the backend).
+//	public void setQueryEngine (QueryEngine queryEngine);
 
 
 	public Collection getDataFormats();
 	
-	
+	public HistoryElement createHistoryElement (Query query, EventBroker eventBroker);	
 }

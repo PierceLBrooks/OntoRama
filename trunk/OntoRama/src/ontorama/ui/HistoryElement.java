@@ -7,6 +7,7 @@ import ontorama.ontotools.query.Query;
  */
 public interface HistoryElement {
 	public String getMenuDisplayName();
+	public String getToolTipText();
 	public Query getQuery();
 	public void displayElement();
 }

@@ -1,4 +1,4 @@
-package ontorama.backends.examplesmanager;
+package ontorama.backends.filemanager;
 
 import org.tockit.events.EventBroker;
 
@@ -6,39 +6,33 @@ import ontorama.ontotools.query.Query;
 import ontorama.ui.HistoryElement;
 
 /**
- * <p>Title: </p>
- * <p>Description: Model History Element properties.</p>
- * <p>Copyright: Copyright (c) DSTC 2002</p>
+ * <p>Copyright: Copyright (c) DSTC 2003</p>
  * <p>Company: DSTC</p>
  * @version 1.0
  */
-public class ExamplesHistoryElement implements HistoryElement {
+public class FileHistoryElement implements HistoryElement {
 
     private Query _query;
     private String _menuDisplayName;
 	private EventBroker _eventBroker;
 	private String _toolTipText;
-	private OntoramaExample _example;
-	private ExamplesBackend _backend;
+	private FileBackend _backend;
+	private QuerySettings _querySettings;
 
-    /**
-     * Create history element with given _getRelationLinksList, query and _example.
-     * @param	menuDisplayName - is a string that appears on the lable on corresponding menu
-     * item for this _example. also may be used as an id.
-     */
-	public ExamplesHistoryElement(Query query, EventBroker eventBroker, 
-									ExamplesBackend backend, OntoramaExample example) {
+	public FileHistoryElement(Query query, EventBroker eventBroker, 
+									FileBackend backend, QuerySettings querySettings) {
         _query = query;
         _eventBroker = eventBroker;
         _backend = backend;
-        _example = example;
+        _querySettings = querySettings;
 
-		_menuDisplayName = query.getQueryTypeName() + " (" + example.getName() + ")";
-		_toolTipText = query.getQueryTypeName();
-		if (query.getDepth() > -1) {
-			_toolTipText = _toolTipText + ", depth = " + query.getDepth();
+		if ((query != null) && ( query.getQueryTypeName() != null) ) {
+			_menuDisplayName = query.getQueryTypeName() + " - " + querySettings.getSourceUri();
 		}
-		_toolTipText = _toolTipText + ", rel links = " + query.getRelationLinksList();
+		else {
+			_menuDisplayName = querySettings.getSourceUri();
+		}
+		_toolTipText = _menuDisplayName;
 
     }
 
@@ -62,7 +56,7 @@ public class ExamplesHistoryElement implements HistoryElement {
 	 * @see ontorama.ui.HistoryElementInterface#displayElement()
 	 */
 	public void displayElement() {
-		_backend.processQueryFromHistoryElement(_example, _query);
+		_backend.processQueryFromHistoryElement(_query, _querySettings);
 	}
     
 	/**

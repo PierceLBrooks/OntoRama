@@ -31,6 +31,7 @@ import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorDialog;
+import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ui.events.QueryEndEvent;
@@ -203,15 +204,19 @@ public class ExamplesBackend implements Backend {
 	}
 	
 	public void processQueryFromExampleMenu (OntoramaExample example) {
-	
         // reset parser and source details corresponding to this example.       
         setCurrentExample(example);
-
         // create a new query
         Query query = new Query(example.getRoot());
-
         // get graph for this query and load it into app
         _eventBroker.processEvent(new QueryStartEvent(query));
+	}
+
+	protected void processQueryFromHistoryElement (OntoramaExample example, Query query) {
+		// reset parser and source details corresponding to this example.
+		setCurrentExample(example);
+		// get graph for this query and load it into app
+		_eventBroker.processEvent(new QueryStartEvent(query));
 	}
 
 	/**
@@ -224,19 +229,29 @@ public class ExamplesBackend implements Backend {
 		return queryResult;
 	}
 	
-	public QueryEngine getQueryEngine() {
-		return _lastQueryEngine;
-	}
+//	public QueryEngine getQueryEngine() {
+//		return _lastQueryEngine;
+//	}
+//	
+//	/**
+//	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
+//	 */
+//	public void setQueryEngine(QueryEngine queryEngine) {
+//		_lastQueryEngine = queryEngine;
+//		OntoramaExample example = (OntoramaExample) _queryEngineToExampleMapping.get(queryEngine);
+//		if (example != null) {
+//			setCurrentExample(example);
+//		}
+//	}
 	
+	
+
 	/**
-	 * @see ontorama.backends.Backend#setQueryEngine(ontorama.ontotools.query.QueryEngine)
+	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query)
 	 */
-	public void setQueryEngine(QueryEngine queryEngine) {
-		_lastQueryEngine = queryEngine;
-		OntoramaExample example = (OntoramaExample) _queryEngineToExampleMapping.get(queryEngine);
-		if (example != null) {
-			setCurrentExample(example);
-		}
+	public HistoryElement createHistoryElement(Query query, EventBroker eventBroker) {
+		ExamplesHistoryElement res = new ExamplesHistoryElement(query, eventBroker, this, _curExample);
+		return res;
 	}
 
 }

@@ -31,7 +31,7 @@ public class FileJMenu extends JMenu {
 
         _fileBackend = fb;
         _fileChooser = new JFileChooser();
-        _fileChooser.addChoosableFileFilter(new FileBackendFileFilter(_fileBackend));
+        _fileChooser.addChoosableFileFilter(new FileBackendFileFilter(_fileBackend.getDataFormats()));
 
         setText(_menuName);
 

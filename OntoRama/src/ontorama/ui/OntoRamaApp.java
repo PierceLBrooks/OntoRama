@@ -416,7 +416,6 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _fileMenu.setMnemonic(KeyEvent.VK_F);
         _fileMenu.add(_exitAction);
 
-        //_examplesMenu = new ExamplesMenu(_modelEventBroker);
 
         _historyMenu = new HistoryMenu(_modelEventBroker);
 
@@ -424,14 +423,9 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         _helpMenu.add(_aboutAction);
 
         _menuBar.add(_fileMenu);
-        //_menuBar.add(_examplesMenu);
         _menuBar.add(_historyMenu);
 
-        JMenu backendsMenu = new JMenu("Backends");
-        backendsMenu.setMnemonic(KeyEvent.VK_B);
-        Backend backend = OntoramaConfig.getBackend();
-        JMenu backendMenu = backend.getMenu();
-        backendsMenu.add(backendMenu);
+        JMenu backendsMenu = OntoramaConfig.getBackend().getMenu();
 
         _menuBar.add(backendsMenu);
 

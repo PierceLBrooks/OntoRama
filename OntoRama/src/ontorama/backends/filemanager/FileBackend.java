@@ -111,14 +111,15 @@ public class FileBackend implements Backend {
     	System.out.println("FileBackend::Loading file = " + _filename);
         
         String extension = Util.getExtension(file);
-        Iterator it = _dataFormatsMapping.iterator();
         DataFormatMapping mapping = getMappingForExtension(extension);
         System.out.println("FileBackend::loadFile, mapping = " + mapping);
+
         if ((mapping == null) || (mapping.getParserName() == null)) {
         	/// @todo need to throw a 'parser not specified exception' here?
         	new ErrorPopupMessage("There is no parser specified for this file type ", OntoRamaApp.getMainFrame());
         	return;
         }
+
         _parserName = mapping.getParserName();
     
     	System.out.println("FileBackend::parserName = " + _parserName);

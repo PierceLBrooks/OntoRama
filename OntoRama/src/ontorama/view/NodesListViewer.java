@@ -15,7 +15,7 @@ import java.util.Vector;
  *
  * Display selectable list of nodes
  */
-public class NodesListViewer extends JFrame {
+public class NodesListViewer extends JScrollPane {
 
     /**
      * array of nodes to display
@@ -35,16 +35,32 @@ public class NodesListViewer extends JFrame {
     /**
      *
      */
-    public NodesListViewer(OntoRamaApp ontoramaApp, List nodes) {
+    public NodesListViewer(OntoRamaApp ontoramaApp, List nodes)  {
         _mainApp = ontoramaApp;
-        setTitle("Unconnected Nodes");
+//        setTitle("Unconnected Nodes");
 
+        setNodesList(nodes);
+
+
+//        getContentPane().add(scrollPane);
+//
+//        pack();
+    }
+
+
+    /**
+     *
+     */
+    public void setNodesList (List nodes) {
+        System.out.println("\n\n\nsetNodesList, nodes list = " + nodes);
+        System.out.println("num of components = " + getComponents().length);
+//        if (getComponents().length != 0) {
+//            remove(_nodesList);
+//        }
         Vector nodesVector = new Vector((Collection) nodes);
         _nodesList = new JList(nodesVector);
         _nodesList.setCellRenderer(new NodeListCellRenderer());
         _nodesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        JScrollPane scrollPane = new JScrollPane(_nodesList);
 
         _nodesList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -53,17 +69,10 @@ public class NodesListViewer extends JFrame {
                 _mainApp.resetGraphRoot(selectedNode);
             }
         });
-
-        getContentPane().add(scrollPane);
-
-        pack();
+        setViewportView(_nodesList);
+        //add(_nodesList);
+        repaint();
     }
-
-    //	/**
-    //	 *
-    //	 */
-    //	public void setNodesList (List nodes) {
-    //	}
 
     /**
      *
@@ -72,12 +81,12 @@ public class NodesListViewer extends JFrame {
         setVisible(setVisibleFlag);
     }
 
-    /**
-     *
-     */
-    public void close() {
-        dispose();
-    }
+//    /**
+//     *
+//     */
+//    public void close() {
+//        dispose();
+//    }
 
     //        /**
     //         *

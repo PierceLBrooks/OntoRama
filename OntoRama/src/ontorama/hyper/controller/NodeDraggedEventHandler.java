@@ -13,7 +13,7 @@ import org.tockit.canvas.events.CanvasItemDraggedEvent;
 import ontorama.hyper.view.simple.SimpleHyperView;
 import ontorama.hyper.view.simple.HyperNodeView;
 
-class   NodeDraggedEventHandler implements EventListener {
+public class   NodeDraggedEventHandler implements EventListener {
     private SimpleHyperView simpleHyperView;
 
     public NodeDraggedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {

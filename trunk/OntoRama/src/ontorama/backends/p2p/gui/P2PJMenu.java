@@ -52,7 +52,7 @@ public class P2PJMenu extends JMenu {
         _parentFrame = OntoRamaApp.getMainFrame();
         setText(_menuName);
         
-        _enableP2PAction = new ActionEnableP2P("Activate P2P");
+        _enableP2PAction = new ActionEnableP2P("Show P2P Panels");
         add(_enableP2PAction);
         addSeparator();
 
@@ -95,7 +95,7 @@ public class P2PJMenu extends JMenu {
         }
 
         public void actionPerformed(ActionEvent e) {
-            _p2pBackend.activate();
+            //_p2pBackend.activate();
             _p2pBackend.showPanels(true);
             setActionsEnabled(true);
         }
@@ -103,11 +103,11 @@ public class P2PJMenu extends JMenu {
     }
     
     private void setActionsEnabled (boolean isEnabled) {
-    	_searchAction.setEnabled(isEnabled);
-    	_joinGroupAction.setEnabled(isEnabled);
-    	_leaveGroupAction.setEnabled(isEnabled);
-    	_updatePanelAction.setEnabled(isEnabled);
-    	_resetChangePanelAction.setEnabled(isEnabled);
+//    	_searchAction.setEnabled(isEnabled);
+//    	_joinGroupAction.setEnabled(isEnabled);
+//    	_leaveGroupAction.setEnabled(isEnabled);
+//    	_updatePanelAction.setEnabled(isEnabled);
+//    	_resetChangePanelAction.setEnabled(isEnabled);
     }   
     
     private class P2PFileFilter extends FileFilter {

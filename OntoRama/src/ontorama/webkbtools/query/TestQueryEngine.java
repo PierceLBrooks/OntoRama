@@ -1,4 +1,4 @@
-package ontorama.test.webkbtools.query;
+package ontorama.webkbtools.query;
 
 import junit.framework.TestCase;
 
@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import ontorama.test.IteratorUtil;
+import ontorama.util.IteratorUtil;
 
 import ontorama.OntoramaConfig;
 

@@ -33,9 +33,9 @@ import java.util.TimerTask;
 
 
 public class CanvasManager extends JComponent
-        implements MouseListener, MouseMotionListener, 
+        implements MouseListener, MouseMotionListener,
 		ViewEventObserver {
-			
+
 	protected ViewEventListener viewListener;
 
     /**
@@ -358,7 +358,7 @@ public class CanvasManager extends JComponent
      * The node that has focus is centered.
      */
     public void focusChanged( GraphNode graphNode ){
-		
+
         focusNode = (HyperNode) this.hypernodes.get (graphNode);
         // set focused node label to selected
         testIfVisibleOrFolded( (HyperNodeView)this.hypernodeviews.get( graphNode) );
@@ -380,6 +380,7 @@ public class CanvasManager extends JComponent
      */
     private void testIfVisibleOrFolded( HyperNodeView hyperNodeView ) {
         // test if visible, if not find folded node.
+        System.out.println("testIfVisibleOrFolded: hyperNodeView = " + hyperNodeView);
         if( !hyperNodeView.getVisible() ) {
             System.out.println(hyperNodeView.getName() + " is not visible");
             unfoldNodes( hyperNodeView );
@@ -452,30 +453,30 @@ public class CanvasManager extends JComponent
             }
         }
     }
-	
-	//////////////////////////ViewEventObserver interface implementation////////////////
-	
-	/**
-	 *
-	 */
-	public void focus ( GraphNode node) {
-		System.out.println();
-		System.out.println("******* hyperView got focus for node " + node.getName());
-		focusChanged(node);
-        //hyperNodeView.hasFocus();
-		System.out.println();
-	}
-	
-	/**
-	 *
-	 */
-	public void toggleFold ( GraphNode node) {
-	}
-	
-	/**
-	 *
-	 */
-	public void query ( GraphNode node) {
-	}
-					
+
+    //////////////////////////ViewEventObserver interface implementation////////////////
+
+    /**
+     *
+     */
+    public void focus ( GraphNode node) {
+      System.out.println();
+      System.out.println("******* hyperView got focus for node " + node.getName());
+      focusChanged(node);
+      //hyperNodeView.hasFocus();
+      System.out.println();
+    }
+
+    /**
+     *
+     */
+    public void toggleFold ( GraphNode node) {
+    }
+
+    /**
+     *
+     */
+    public void query ( GraphNode node) {
+    }
+
  }

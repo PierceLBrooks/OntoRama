@@ -19,6 +19,7 @@ import javax.swing.event.TreeSelectionListener;
 
 import ontorama.model.Graph;
 import ontorama.model.GraphNode;
+import ontorama.model.Edge;
 
 import ontorama.util.Debug;
 
@@ -55,6 +56,23 @@ public class OntoTreeModel implements TreeModel {
     public OntoTreeModel (Graph graph) {
         this.graph = graph;
         this.ontoTreeBuilder = new OntoTreeBuilder (graph);
+
+        // debug
+        /*
+        List graphNodes = graph.getNodesList();
+        Iterator it = graphNodes.iterator();
+        while (it.hasNext()) {
+          GraphNode cur = (GraphNode) it.next();
+          System.out.println("..... OntoTreeModel cur = " + cur.getName());
+          Iterator outbound = Edge.getOutboundEdgeNodes(cur);
+          while (outbound.hasNext()) {
+            GraphNode outNode = (GraphNode) outbound.next();
+            System.out.println("\t.... - " + outNode.getName());
+          }
+
+        }
+        */
+        // end of debug
     }
 
     /**
@@ -95,7 +113,7 @@ public class OntoTreeModel implements TreeModel {
      public Object getChild(Object parent, int index) {
         TreeNode parentNode = (OntoTreeNode) parent;
         OntoTreeNode childNode = (OntoTreeNode) parentNode.getChildAt(index);
-        debug.message("OntoTreeModel","getRoot()", "returning " + childNode + "for parent " + parentNode + " at index " + index);
+        debug.message("OntoTreeModel","getRoot()", "returning " + childNode + " for parent " + parentNode + " at index " + index);
         return childNode;
      }
 
@@ -120,6 +138,7 @@ public class OntoTreeModel implements TreeModel {
        * @return  true if node is a leaf
        */
        public boolean isLeaf(Object node) {
+            //System.out.println("ontoTreeModel isLeaf, object = " + node);
             TreeNode treeNode = (OntoTreeNode) node;
             //System.out.println("ontoTreeModel isLeaf for node = " + treeNode);
             return treeNode.isLeaf();

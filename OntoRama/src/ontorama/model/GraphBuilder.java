@@ -86,11 +86,13 @@ public class GraphBuilder {
     public GraphBuilder(QueryResult queryResult)
                 throws NoSuchRelationLinkException, NoTypeFoundInResultSetException,
                 NoSuchPropertyException {
+        debug.message("******************* GraphBuilder constructor start *******************");
 
         // termName is a query term, node for this ontology type is graph root
         String termName = queryResult.getQuery().getQueryTypeName();
         // get Iterator of OntologyTypes
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
+
         processedTypes = new LinkedList();
         try {
           while (ontIterator.hasNext()) {
@@ -113,6 +115,8 @@ public class GraphBuilder {
         catch (NoSuchPropertyException e2) {
             throw e2;
         }
+        debug.message("******************* GraphBuilder constructor end *******************");
+
     }
 
     /**
@@ -129,24 +133,23 @@ public class GraphBuilder {
         // make GraphNode and set available properties for it.
         GraphNode node = (GraphNode) processedNodes.get(ot.getName());
         //System.out.println("----processing ot = " + ot.getName());
+        debug.message("----processing ot = " + ot);
         if (node == null) {
             node = new GraphNode (ot.getName());
             processedNodes.put(ot.getName(), node);
         }
+        debug.message("\t corresponding node = " + node);
         Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
         Enumeration e = conceptPropertiesConfig.keys();
         while (e.hasMoreElements()) {
             String propertyName = (String) e.nextElement();
-            if (node.getName().endsWith("Mongoose")) {
-              System.out.println ("node = " + node.getName() + ", setting propName = " + propertyName + ", value = " + ot.getTypeProperty(propertyName));
-            }
             node.setProperty(propertyName, ot.getTypeProperty(propertyName));
         }
 
         // check if this is root
         if (rootName.equals(node.getName())) {
             edgeRoot = node;
-            debug.message("GraphBuilder","makeEdges","edgeRoot = " + edgeRoot.getName());
+            debug.message("GraphBuilder edgeRoot = " + edgeRoot.getName());
         }
 
         // Go through relation links and make Edges
@@ -163,6 +166,7 @@ public class GraphBuilder {
                     processedNodes.put(relatedType.getName(), relNode);
                 }
                 new Edge(node,relNode,relLink.intValue());
+                debug.message("\t edge: " + node + " -> " + relNode + " , type = " + relLink.intValue());
                 makeEdges(relatedType, rootName);
             }
         }

@@ -6,10 +6,7 @@ package ontorama.hyper.model;
  * views is via GrapNode hasFocus() method.
  */
 
-import ontorama.hyper.canvas.FocusChangedObservable;
-import ontorama.hyper.canvas.FocusChangedObserver;
 import ontorama.model.GraphNode;
-import ontorama.model.NodeObserver;
 import ontorama.hyper.model.PositionChaingedObservable;
 
 import java.awt.Color;
@@ -18,7 +15,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class HyperNode implements  PositionChaingedObservable,  FocusChangedObservable {
+public class HyperNode implements  PositionChaingedObservable {
 
     /**
      * Store all the Hyper observers

@@ -13,6 +13,15 @@ import java.awt.*;
 public class RelationLinkDetails {
 
     /**
+     * use this setting to display this edge in the graph visualisation
+     */
+    public static final int DISPLAY_TYPE_GRAPH = 1;
+    /**
+     * use this setting to display edge in the description window.
+     */
+    public static final int DISPLAY_TYPE_DESCRIPTION = 2;
+
+    /**
      * name of link and reversed link
      * for example: relation id = 0, link name = 'subtype',
      * reversed link name = 'supertype'
@@ -43,6 +52,8 @@ public class RelationLinkDetails {
      * xml file by specifying URI to the image.
      */
     private Image displayImage;
+
+    private int displayType = RelationLinkDetails.DISPLAY_TYPE_GRAPH;
 
     /**
      * Create an object RelationLinkDetails for specified relation link name.
@@ -112,7 +123,7 @@ public class RelationLinkDetails {
 
     /**
      * Set display color
-     * @param string colorStr, colorStr should be a valid color that can be decoded using Color.decode
+     * @param colorStr  colorStr should be a valid color that can be decoded using Color.decode
      * @see java.awt.Color
      */
     public void setDisplayColor(String colorStr) {
@@ -129,7 +140,7 @@ public class RelationLinkDetails {
 
     /**
      * Set display symbol and make an image for it
-     * @param String displaySymbol
+     * @param  displaySymbol
      */
     public void setDisplaySymbol(String displaySymbol) {
         this.displaySymbol = displaySymbol;
@@ -177,4 +188,23 @@ public class RelationLinkDetails {
         ImageIcon icon = new ImageIcon(this.displayImage);
         return icon;
     }
+
+    /**
+     *
+     * @param displayType - int (see fields in this class)
+     * @see RelationLinkDetails
+     */
+    public void setDisplayType (int displayType) {
+       this.displayType = displayType;
+    }
+
+    /**
+     *
+     * @return displayType - int (see fields in this class)
+     * @see RelationLinkDetails
+     */
+    public int getDisplayType () {
+        return this.displayType;
+    }
+
 }

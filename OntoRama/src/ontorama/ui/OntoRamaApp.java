@@ -314,7 +314,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 							TakeThinkingCapOffEvent.class,
 							Object.class);
 							
-		_modelEventBroker.subscribe(
+		_viewsEventBroker.subscribe(
 							new QueryIsFinishedEventHandler(),
 							QueryIsFinishedEvent.class,
 							Object.class);
@@ -527,11 +527,11 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 		if (_worker.done()) {
 			_timer.stop();
         	if (_worker instanceof QueryEngineThread) {
-                QueryResult qr = (QueryResult) _worker.getResult();
-                _modelEventBroker.processEvent(new QueryIsFinishedEvent(qr));
+//                QueryResult qr = (QueryResult) _worker.getResult();
+//                _viewsEventBroker.processEvent(new QueryIsFinishedEvent(qr));
 			} else if (_worker instanceof GraphCreatorThread) { 				
-				Graph graph = (Graph) _worker.getResult();
-				_modelEventBroker.processEvent(new GraphIsLoadedEvent(graph));
+//				Graph graph = (Graph) _worker.getResult();
+//				_modelEventBroker.processEvent(new GraphIsLoadedEvent(graph));
 			}
         }
     }

@@ -12,6 +12,7 @@ public class QueryCancelledEvent implements Event {
     /// @todo don't need to remember subject here! not sure how to implement this without a subject
     public QueryCancelledEvent (Query subject) {
         this.query = subject;
+        System.out.println("----------------QueryCancelledEvent---------------------");
     }
 
     public Object getSubject() {

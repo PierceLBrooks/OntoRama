@@ -13,7 +13,6 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
@@ -21,6 +20,7 @@ import java.util.Iterator;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.NodeTypeDisplayInfo;
+import ontorama.model.graph.NodeType;
 import ontorama.views.hyper.model.HyperNode;
 import ontorama.views.hyper.model.PositionChangedObserver;
 import org.tockit.canvas.CanvasItem;
@@ -43,21 +43,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Hold the projected y coordinates.
      */
     private double projectedY;
-
-    /**
-     * The radius of the sphere we project upon.
-     */
-    private static double sphereRadius = 300;
-
-    /**
-     * Used if setProjection(double) is called to determine the focal depth.
-     */
-    public static double relativeFocus = .8;
-
-    /**
-     * The focal depth. Set to 10% more than sphereRadius.
-     */
-    private static double focalDepth = sphereRadius * relativeFocus;
 
     /**
      * Set the color of the node.
@@ -105,28 +90,21 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private boolean isLeaf = false;
 
-    private ontorama.model.graph.NodeType nodeType;
+    private NodeType nodeType;
     private Shape pathShape = new GeneralPath();
 
-    /**
-     * Returns the radius of the projection sphere.
-     */
-    public static double getSphereRadius() {
-        return HyperNodeView.sphereRadius;
-    }
-
-    public static double getFocalDepth() {
-        return HyperNodeView.focalDepth;
-    }
-
+	private SphericalProjection projection = null;
+	
     /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
     private double depth = 0;
 
-    public HyperNodeView(HyperNode model, ontorama.model.graph.NodeType nodeType) {
+    public HyperNodeView(HyperNode model, NodeType nodeType, Projection projection) {
         this.model = model;
         this.nodeType = nodeType;
+        this.projection = (SphericalProjection) projection;
+        
         model.addPositionChangedObserver(this);
         updateProjection();
         NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(this.nodeType);
@@ -218,24 +196,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return model.getName();
     }
 
-    private float[] transform(float[] in) {
-        float[] retval = new float[in.length];
-        for (int i = 0; i < in.length; i+=2) {
-            double x = model.getX() + in[i];
-            double y = model.getY() + in[i+1];
-            Point2D newCoord = transform(x,y);
-            retval[i] = (float) newCoord.getX();
-            retval[i+1] = (float) newCoord.getY();
-        }
-        return retval;
-    }
-
-    private Point2D transform(double x, double y) {
-        double length = Math.sqrt(x * x + y * y + focalDepth * focalDepth);
-        double scale = sphereRadius / length;
-        return new Point2D.Double(scale * x, scale * y);
-    }
-
     /**
      * Project the model coordinates into the hyperbolic plane.
      *
@@ -244,11 +204,11 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     public void updateProjection() {
         double x = model.getX();
         double y = model.getY();
-        double length = Math.sqrt(x * x + y * y + focalDepth * focalDepth);
-        double scale = sphereRadius / length;
+        double length = Math.sqrt(x * x + y * y + projection.getFocalDepth() * projection.getFocalDepth());
+        double scale = projection.getSphereRadius() / length;
         projectedX = scale * x;
         projectedY = scale * y;
-        depth = (1 - scale) * focalDepth;
+        depth = (1 - scale) * projection.getFocalDepth();
         calculateFadedColor();
     }
 
@@ -270,7 +230,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      * Calculated the scale to adjust canvas items projection.
      */
     public double getScale() {
-        double sizePos = (focalDepth - depth) / sphereRadius;
+        double sizePos = (projection.getFocalDepth() - depth) / projection.getSphereRadius();
         double scale = (sizePos * sizePos * sizePos);
         return scale;
     }
@@ -344,7 +304,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         updateProjection();
         g2d.setColor(fadeColor);
 
-        pathShape = transform(nodeShape);
+        pathShape = projection.project(nodeShape, model.getX(), model.getY());
 
         if (!isLeaf && this.getFolded()) {
             g2d.fill(pathShape.getBounds2D());
@@ -353,48 +313,15 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
     }
 
-    /**
-     * @todo get movement out into nodeShape, then turn this into a function object.
-     */
-    private Shape transform(Shape inShape) {
-        GeneralPath outShape = new GeneralPath();
-        PathIterator path = inShape.getPathIterator(null);
-        outShape.setWindingRule(path.getWindingRule());
-        float[] points = new float[6];
-        while(!path.isDone()) {
-            int segType = path.currentSegment(points);
-            points = transform(points);
-            switch(segType) {
-                case PathIterator.SEG_LINETO:
-                    outShape.lineTo(points[0], points[1]);
-                    break;
-                case PathIterator.SEG_MOVETO:
-                    outShape.moveTo(points[0], points[1]);
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    outShape.quadTo(points[0], points[1], points[2], points[3]);
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    outShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    outShape.closePath();
-                    break;
-            }
-            path.next();
-        }
-        return outShape;
-    }
-
     private void calculateFadedColor() {
         double x = model.getX();
         double y = model.getY();
         double dist = Math.sqrt(x * x + y * y) + 1;
         dist = dist * Math.pow(1 / dist, .1);
-        if (dist > sphereRadius) {
-            dist = sphereRadius;
+        if (dist > projection.getSphereRadius()) {
+            dist = projection.getSphereRadius();
         }
-        double colorScale = (dist / sphereRadius);
+        double colorScale = (dist / projection.getSphereRadius());
         double red = nodeColor.getRed() + ((255 - nodeColor.getRed()) * colorScale);
         double green = nodeColor.getGreen() + ((255 - nodeColor.getGreen()) * colorScale);
         double blue = nodeColor.getBlue() + ((255 - nodeColor.getBlue()) * colorScale);
@@ -456,13 +383,4 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     public String toString() {
         return "Node ui for " + this.model.getName();
     }
-
-	public static double getRelativeFocus() {
-		return relativeFocus;
-	}
-
-	public static void setRelativeFocus(double d) {
-		relativeFocus = d;
-		focalDepth = sphereRadius * relativeFocus;
-	}
 }

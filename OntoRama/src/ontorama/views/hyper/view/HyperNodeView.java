@@ -106,7 +106,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         updateProjection();
         NodeTypeDisplayInfo displayInfo = OntoramaConfig.getNodeTypeDisplayInfo(this.nodeType);
         if (model.hasClones()) {
-            nodeColor = Color.red;
+            nodeColor = displayInfo.getCloneColor();
         } else {
             nodeColor = displayInfo.getColor();
         }

@@ -11,49 +11,45 @@
 		<insertPrintLink href="user_doc_print.html"/>
         <p>
            OntoRama is an ontology browser application. See figure below depicting OntoRama showing
-           Communicatons ontology.
+           an ontology for communications devices.
        </p>
         <img src="img/ontorama-small.png" alt="OntoRama Screen Shot"/>
         <p>
-            In this document we will use folowing terms:
+            In this document we will use following terms:
         </p>
-       <p>
-           <b>Ontology Type</b> is a concept or relation type. Ontology Types are
-           visualised by <b>Nodes</b>.
-       </p>
-        <p>
-           <b>Relation Link</b> is a relation between two ontology types.
-           Visualisation corresponding to a relation link is an <b>Edge</b>
+        <ul>
+            <li>
+           <b>Ontology type</b> is a concept or relation type. Ontology types are
+           visualised by <b>nodes</b>.
+           </li>
+            <li>
+           <b>Relation link</b> is a relation between two ontology types.
+           Visualisation corresponding to a relation link is an <b>edge</b>
             (or line between nodes).
-        </p>
-        <p>
-            <b>Static and Dynamic Ontologies</b>. We will call ontolgies that are loaded from
-            static files <b>Static</b> and ontologies that are loaded from a Knowledge Base
-            or Ontology Server <b>Dynamic Ontologies</b>.
-        </p>
+            </li>
+            </ul>
         <h3>Application Window</h3>
         <p>
             Once OntoRama is loaded, you are presented with the program window divided into
-            a few areas. You will see Menu Bar and Tool Bar customary for most applications.
+            different areas. You will see a menu bar and a tool bar customary for most applications.
             The biggest area of the application window is commited to ontology visualisations.
-            Above the visualisation area you will see a Query Panel
-            [...TODO: should find a better name, rather then Query Panel....]
-            and below the visualisation area is Description Window.
+            Above the visualisation area you will see a query area
+            and below the visualisation area is description window.
         </p>
         <p>
-            Query Panel is used to submit queries to current ontology.
+            Query area is used to submit queries to current ontology.
             The Panel consist of a list of available relation links, query field, optional depth
             field, Get button and Cancel button.
             Each relation link has a corresponding image and a checkbox used to filter out unwanted
-            relation links. Query Field can be used to type in a term you would like to display. While you
-            are browsing an ontology you will notice that Query Field will have a value
+            relation links. Query field can be used to type in a term you would like to display. While you
+            are browsing an ontology you will notice that Query field will have a value
             of the current focused node. Depth parameter is used to filter amount of hierarchy levels you would like to display. This
-            parameter is only available for dynamic ontologies.
+            parameter is only available for dynamic ontologies (served by ontology servers).
         </p>
         <p>
-            Description Window is used to display all additional properties of the currently
+            Description window is used to display all additional properties of the currently
             focused ontology type.
-            These could include: information about Creator of the ontolgy type, synonyms, clones, etc.
+            These could include: information about creator of the ontolgy type, synonyms, clones, etc.
         </p>
         <h3>Ontology Visualisation</h3>
         <p>
@@ -67,7 +63,7 @@
         </p>
         <p>
             The main area of the application window is divided into two parts:
-            left hand side contains Hyperbolic View and right side contains Tree View of the same
+            left hand side contains hyperbolic view and right side contains tree view of the same
             ontology. This approach is intending to help to 'zoom' into the area of ontology
             you are interested in. If one of the views can't provide comprehensive enough visualasation of
             this area, then other view should be able to.
@@ -77,35 +73,35 @@
         <p>
             Ontologies are not always hierarchical, some ontologies have nodes with multiple
             inheritance ( an ontology
-            type can have more then one parent). Visualisations for these ontologies in the Hyperbolic
-            View could confusing because lines between the nodes could
+            type can have more then one parent). Visualisations for these ontologies in the hyperbolic
+            view could confusing because lines between the nodes could
             be sprawled over other lines. This doesn't give a sense of ontology structure.
             Additionally, such ontology
-            would be impossible to display in the Tree View. To solve this problem we introduce 'cloned nodes'.
+            would be impossible to display in the tree view. To solve this problem we introduce 'cloned nodes'.
             Once we come across a node with more then one parent, we clone this node and it's
             entire substructure,  thus, ontology will become a hierarchy or a tree.
             You can distinguish cloned nodes from other nodes by
             color - they are red. Once one of cloned nodes is clicked, you can navigate to its clone by
-            pressing on clone button in the Description Window. Additionally, HyperView will draw a line
+            pressing on clone button in the description window. Additionally, hyperbolic view will draw a line
             between cloned nodes so you can get a sense of where in the structure other clones are located.
         </p>
         <img src="img/ontorama-small-clones.png" alt="OntoRama Screen Shot showing cloned nodes"/>
         <h3>Queries</h3>
         <p>
             Normally an ontology is loaded with root node been focused on. You will notice that root
-            node also appears in the Query Field as a query term. You can submit a different
+            node also appears in the query field as a query term. You can submit a different
             query using following methods:
             </p>
             <ul>
                 <li>
-                    Type query term into the Query Field and press Enter or click on Get button.
+                    Type query term into the query field and press Enter or click on Get button.
                 </li>
                 <li>
                     Click on a node you are interested in in one of the views and click on
                     Get button.
                 </li>
                 <li>
-                    You can do CTRL+Mouse Click in the Tree View on a node you would like to query for.
+                    You can do CTRL+Mouse Click in the tree view on a node you would like to query for.
                 </li>
             </ul>
        <p>
@@ -128,9 +124,6 @@
             tree with this item as a root node will be displayed in OntoRama.
         </p>
         <h3>Menus</h3>
-        <p>
-            File Menu is a standard menu you would expect, at the moment containing only one item "Exit".
-        </p>
         <h4>Examples Menu</h4>
         <p>
             OntoRama includes a set of default example ontologies. These are accessable via
@@ -140,10 +133,10 @@
             <li>
                 WebKB2 Interface. This entry loads a section of ontology from
                 WebKB2 Knowledge Base. WebKB2 Ontology contains thousands of types, OntoRama
-                acts as a graphic interface for the Ontology. This is Dynamic Ontology and you
+                acts as a graphic interface for the Ontology. This is a dynamic ontology and you
                 can browse down the structure via selecting nodes and searching for them or
                 you can browse up the structure via 'supertype' relation link. If a focused
-                node has a parent - corresponding node will be displayed in the Description Window
+                node has a parent - corresponding node will be displayed in the description window
                 as a hyperlink. Clicking on it will retrieve the parent node and it's neigborhood in
                 the ontology.
             </li>
@@ -155,12 +148,12 @@
         </ul>
         <h4>History Menu</h4>
         <p>
-            History Menu has similar behaviour to a Web Browser's History feature. You will find
+            History Menu has similar behaviour to a web browser's History feature. You will find
             your past queries in this menu, which you can retrieve again by selecting a corresponding
             menu item.
         </p>
         <p>
-            Back and Forward actions are also available. You can find these either in the History Menu
+            Back and Forward actions are also available. You can find these either in the History menu
             or in the toolbar.
         </p>
         <h3>Shortcuts, etc</h3>

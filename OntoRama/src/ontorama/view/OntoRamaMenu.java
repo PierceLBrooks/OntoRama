@@ -6,19 +6,19 @@ import java.util.Iterator;
 import java.util.Hashtable;
 import java.util.Enumeration;
 
-//import java.awt.MenuBar;
-//import java.awt.Menu;
-//import java.awt.MenuItem;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButton;
+import javax.swing.KeyStroke;
+
 
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.examplesConfig.OntoramaExample;
@@ -83,6 +83,20 @@ public class OntoRamaMenu {
    */
   ViewEventListener viewEventListener;
 
+  /**
+   *
+   */
+  private JMenuItem historyBackMenuItem;
+  private JMenuItem historyForwardMenuItem;
+  private boolean backButtonIsEnabled = false;
+  private boolean forwardButtonIsEnabled = false;
+
+
+  /**
+   * hold all history menu items for operating
+   * back and forward buttons
+   */
+  private LinkedList historyItems;
 
   /**
    *
@@ -95,6 +109,7 @@ public class OntoRamaMenu {
     this.menuItemExampleMapping = new Hashtable();
     this.submenusMapping = new Hashtable();
     this.menuItemHistoryMapping = new Hashtable();
+    this.historyItems = new LinkedList();
 
     this.menuBar = new JMenuBar();
 
@@ -108,7 +123,7 @@ public class OntoRamaMenu {
 
     this.historyMenu = new JMenu("History");
     this.historyMenu.setMnemonic(KeyEvent.VK_H);
-    appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
+    buildHistoryMenu();
 
     this.menuBar.add(this.fileMenu);
     this.menuBar.add(this.examplesMenu);
@@ -136,6 +151,43 @@ public class OntoRamaMenu {
 
 
     this.fileMenu.add(exitMenuItem);
+  }
+
+  /**
+   * create History Menu
+   */
+  private void buildHistoryMenu () {
+
+    // create back and forward buttons
+    this.historyBackMenuItem = new JMenuItem("Back");
+    this.historyForwardMenuItem = new JMenuItem("Forward");
+
+    // set shortcut keys
+    this.historyBackMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK));
+    this.historyForwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.ALT_MASK));
+
+    // add listeners
+    this.historyBackMenuItem.addActionListener(new ActionListener () {
+      public void actionPerformed(ActionEvent e) {
+        historyBackAction();
+      }
+    });
+    this.historyForwardMenuItem.addActionListener(new ActionListener () {
+      public void actionPerformed(ActionEvent e) {
+        historyForwardAction();
+      }
+    });
+
+    // set enabled/disabled
+    enableBackForwardButtons();
+
+    // add  back and forward buttons to the history menu
+    this.historyMenu.add(this.historyBackMenuItem);
+    this.historyMenu.add(this.historyForwardMenuItem);
+    this.historyMenu.addSeparator();
+
+    appendHistory(OntoramaConfig.getCurrentExample().getRoot(), OntoramaConfig.getCurrentExample());
+
   }
 
   /**
@@ -175,7 +227,6 @@ public class OntoRamaMenu {
     }
 
   }
-
 
   /**
    * Find submenu for given name. (check if such submenu already exists,
@@ -218,6 +269,18 @@ public class OntoRamaMenu {
     selectItem.setSelected(true);
   }
 
+  /**
+   *
+   */
+  private JCheckBoxMenuItem findFirstHistoryItem () {
+
+    Enumeration historyItemsEnum =  this.menuItemHistoryMapping.keys();
+    if (historyItemsEnum.hasMoreElements()) {
+      return ((JCheckBoxMenuItem) historyItemsEnum.nextElement());
+    }
+    return null;
+  }
+
 
 
   /**
@@ -225,29 +288,18 @@ public class OntoRamaMenu {
    */
   public void appendHistory (String termName, OntoramaExample example) {
 
-    int historyItemsCount = historyMenu.getMenuComponentCount();
-    Component[] historyItemsArray = historyMenu.getMenuComponents();
+    int historyItemsCount = this.menuItemHistoryMapping.size();
+    Enumeration historyItemsEnum =  this.menuItemHistoryMapping.keys();
 
     String historyItemLabelName = termName + " (" + example.getName() + ") ";
 
-    // check if this there is already history menu item for this,
-    // in this case don't append it
-//    for (int i=0; i < historyItemsArray.length; i++ ){
-//      JCheckBoxMenuItem curMenuItem = (JCheckBoxMenuItem) historyItemsArray[i];
-//      if (curMenuItem.getText().equals(historyItemLabelName)) {
-//        System.out.println("history menu item already exists");
-//        //displayHistoryItem(curMenuItem);
-//        setSelectedMenuItem(menuItemHistoryMapping, curMenuItem);
-//        return;
-//      }
-//    }
-
     if ((historyItemsCount > 0) && (historyItemsCount > maxHistoryItems)) {
       // need to remove first item
-      JCheckBoxMenuItem firstMenuItem = (JCheckBoxMenuItem) historyItemsArray[0];
+      JCheckBoxMenuItem firstMenuItem = findFirstHistoryItem();
       System.out.println("first menu item = " + firstMenuItem.getText());
       this.menuItemHistoryMapping.remove(firstMenuItem);
-      historyMenu.remove(0);
+      this.historyItems.removeFirst();
+      historyMenu.remove(firstMenuItem);
     }
 
     HistoryElement historyElement = new HistoryElement(historyItemLabelName, termName, example);
@@ -255,6 +307,7 @@ public class OntoRamaMenu {
     JCheckBoxMenuItem historyItem = new JCheckBoxMenuItem(historyItemLabelName);
     setSelectedMenuItem(menuItemHistoryMapping, historyItem);
     this.menuItemHistoryMapping.put(historyItem , historyElement);
+    this.historyItems.add(historyItem);
     historyItem.addActionListener(new ActionListener () {
       public void actionPerformed (ActionEvent e) {
         JCheckBoxMenuItem historyItem = (JCheckBoxMenuItem) e.getSource();
@@ -262,6 +315,7 @@ public class OntoRamaMenu {
       }
     });
     this.historyMenu.add(historyItem);
+
   }
 
   /**
@@ -277,7 +331,7 @@ public class OntoRamaMenu {
     if (!querySuccessfull) {
       return;
     }
-    //appendHistory(example.getRoot(),example);
+    appendHistory(example.getRoot(),example);
   }
 
 
@@ -308,6 +362,95 @@ public class OntoRamaMenu {
       return;
     }
     setSelectedMenuItem(menuItemHistoryMapping, historyItem);
+    enableBackForwardButtons();
+  }
+
+  /**
+   * Return currently selected menu item from History menu.
+   * @return  selected menu item,
+   *          if there is no item selected - return null
+   * NOTE: Assuming that there is only one item selected at any time,
+   *        if there is more then one items selected - return
+   *        the first one.
+   */
+  private JCheckBoxMenuItem getSelectedHistoryMenuItem () {
+    Enumeration e = this.menuItemHistoryMapping.keys();
+    while (e.hasMoreElements()) {
+      JCheckBoxMenuItem cur = (JCheckBoxMenuItem) e.nextElement();
+      if (cur.isSelected()) {
+        //System.out.println("getSelectedHistoryMenuItem returning " + cur);
+        return cur;
+      }
+    }
+    return null;
+  }
+
+  /**
+   *
+   */
+  private int getIndexOfSelectedHistoryMenuItem () {
+    JCheckBoxMenuItem curSelectedItem = getSelectedHistoryMenuItem();
+    //System.out.println(" curSelectedItem = " + curSelectedItem);
+    if (curSelectedItem == null) {
+      return (-1);
+    }
+    System.out.println("getIndexOfSelectedHistoryMenuItem, returning: " + historyItems.indexOf(curSelectedItem));
+    return (historyItems.indexOf(curSelectedItem));
+  }
+
+  /**
+   *
+   */
+  private void enableBackForwardButtons () {
+    int curSelectedHistoryIndex = getIndexOfSelectedHistoryMenuItem();
+    int maxHistoryItem = this.menuItemHistoryMapping.size() - 1;
+    System.out.println("***enableBackForwardButtons, curSelectedHistoryIndex = " + curSelectedHistoryIndex + ", maxHistoryItem = " + maxHistoryItem);
+    if (curSelectedHistoryIndex <= 0) {
+      this.historyBackMenuItem.setEnabled(false);
+    }
+    else {
+      this.historyBackMenuItem.setEnabled(true);
+    }
+    if (curSelectedHistoryIndex >= (this.menuItemHistoryMapping.size()-1)) {
+      this.historyForwardMenuItem.setEnabled(false);
+    }
+    else {
+      this.historyForwardMenuItem.setEnabled(true);
+    }
+  }
+
+  /**
+   *
+   */
+  public void historyBackAction () {
+    int indexOfCur = getIndexOfSelectedHistoryMenuItem();
+    /*
+    if (indexOfCur <= 0) {
+      System.out.println("BEEP");
+      Toolkit.getDefaultToolkit().beep();
+      return;
+    }
+    */
+    int backInd = indexOfCur - 1;
+    JCheckBoxMenuItem backItem = (JCheckBoxMenuItem) historyItems.get(backInd);
+    System.out.println("historyBackAction, displaying item at ind = " + backInd + ", item : " + backItem.getText());
+    displayHistoryItem(backItem);
+  }
+
+  /**
+   *
+   */
+  public void historyForwardAction () {
+    int indexOfCur = getIndexOfSelectedHistoryMenuItem();
+    /*
+    if (indexOfCur >= (this.menuItemHistoryMapping.size()-1)) {
+      System.out.println("BEEP");
+      Toolkit.getDefaultToolkit().beep();
+      return;
+    }
+    */
+    JCheckBoxMenuItem forwardItem = (JCheckBoxMenuItem) historyItems.get(indexOfCur + 1);
+    displayHistoryItem(forwardItem);
   }
 
   /**
@@ -326,6 +469,7 @@ public class OntoRamaMenu {
     if (this.mainApp.executeQuery(query)) {
       // indicate that this example is currently displayed one
       setSelectedMenuItem(menuItemExampleMapping, correspondingExampleMenuItem);
+      enableBackForwardButtons();
       return true;
     }
     return false;

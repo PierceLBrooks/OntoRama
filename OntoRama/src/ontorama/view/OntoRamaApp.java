@@ -49,6 +49,7 @@ import ontorama.tree.view.OntoTreeView;
 import ontorama.textDescription.view.DescriptionView;
 
 import ontorama.util.event.ViewEventListener;
+import ontorama.util.Debug;
 
 public class OntoRamaApp extends JFrame {
     /**
@@ -126,6 +127,11 @@ public class OntoRamaApp extends JFrame {
      *
      */
     private DescriptionView descriptionViewPanel;
+
+    /**
+     *
+     */
+    Debug debug = new Debug(false);
 
     /**
      * @todo: introduce error dialogs for exception
@@ -336,13 +342,12 @@ public class OntoRamaApp extends JFrame {
      *
      */
     public Query buildNewQuery () {
-        System.out.println(".............. buildNewQuery  for " + queryPanel.getQueryField() + " ...................");
+        debug.message(".............. buildNewQuery  for " + queryPanel.getQueryField() + " ...................");
 
         List wantedLinks = queryPanel.getWantedRelationLinks();
 
-        //end of debug
-        System.out.println("wanted links list: " + wantedLinks);
-        System.out.println("building graph with root = " + queryPanel.getQueryField());
+        debug.message("wanted links list: " + wantedLinks);
+        debug.message("building graph with root = " + queryPanel.getQueryField());
 
         Query query = new Query (queryPanel.getQueryField(), wantedLinks);
 
@@ -353,7 +358,7 @@ public class OntoRamaApp extends JFrame {
      *
      */
     public boolean executeQuery (Query query) {
-        System.out.println(".............. EXECUTE QUERY for new graph ...................");
+        debug.message(".............. EXECUTE QUERY for new graph ...................");
 
         graph = getGraphFromQuery(query);
         if (graph == null) {
@@ -365,7 +370,7 @@ public class OntoRamaApp extends JFrame {
         queryPanel.setQueryField(graph.getRootNode().getName());
         descriptionViewPanel.clear();
         descriptionViewPanel.setFocus(graph.getRootNode());
-        menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
+        //menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
 
         addComponentsToScrollPanel(hyperView, treeView);
 
@@ -373,6 +378,13 @@ public class OntoRamaApp extends JFrame {
         treeView.repaint();
         splitPane.repaint();
         return true;
+    }
+
+    /**
+     *
+     */
+    public void appendHistoryMenu (Query query) {
+      menu.appendHistory(query.getQueryTypeName(), OntoramaConfig.getCurrentExample());
     }
 
     /**

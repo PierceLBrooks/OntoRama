@@ -231,6 +231,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
     protected void doQuery () {
       Query newQuery = ontoRamaApp.buildNewQuery();
       ontoRamaApp.executeQuery(newQuery);
+      ontoRamaApp.appendHistoryMenu(newQuery);
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////

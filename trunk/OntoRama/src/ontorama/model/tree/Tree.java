@@ -1,6 +1,8 @@
 package ontorama.model.tree;
 
 
+import org.tockit.events.EventBroker;
+
 import ontorama.model.graph.EdgeType;
 
 /*
@@ -19,5 +21,7 @@ public interface Tree {
 	public TreeNode addNode (TreeNode newNode, TreeNode parentTreeNode, EdgeType edgeType) throws TreeModificationException;
 
     public void removeNode(TreeNode nodeToRemove)  throws TreeModificationException ;
+    
+    public EventBroker getEventBroker();
 
 }

@@ -174,9 +174,10 @@ public class OntoRamaApp extends JFrame {
             _queryPanel.enableStopQueryAction(false);
             _queryPanel.enableQueryActions(true);
             _modelEventBroker.subscribe(_viewsEventBroker, TreeChangedEvent.class, Object.class);
-            _tree = new TreeImpl(graph, graph.getRootNode(), _modelEventBroker);
+            _tree = new TreeImpl(graph, graph.getRootNode());
             _modelEventBroker.processEvent(new TreeLoadedEvent(_tree));
             _viewsEventBroker.subscribe( new ViewUpdateHandler(), TreeChangedEvent.class, Tree.class);
+			_tree.getEventBroker().subscribe(_viewsEventBroker, TreeChangedEvent.class, Tree.class);
             updateViews(graph);
         }
     }

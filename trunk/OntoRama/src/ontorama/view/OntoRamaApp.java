@@ -113,11 +113,16 @@ public class OntoRamaApp extends JFrame {
                 // update views
             }
         } );
-
+        JButton makeSVG = new JButton("Run Spring and force test");
+        makeSVG.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent a) {
+                testSpringAndForceAlgorthms();
+            }});
+        queryPanel.add( makeSVG );
         // Create HyperView
         hyperView = new SimpleHyperView();
         hyperView.setGraph(graph);
-
+        hyperView.saveCanvasToFile( "hyperView" );
         // Create OntoTreeView
         treeView = new OntoTreeView(graph);
         JComponent treeViewPanel = treeView.getTreeViewPanel();
@@ -137,6 +142,23 @@ public class OntoRamaApp extends JFrame {
         pack();
         setSize(appWidth,appHeight);
         setVisible(true);
+    }
+
+    /**
+     * Method to test layouting usin spring and force algorthms
+     */
+    private void testSpringAndForceAlgorthms() {
+        for( int i = 0; i < 10; i++) {
+            //generate spring length values between 50 - 250;
+            double springLength = (Math.random() * 200) + 51;
+            //generate stiffness values between 0 - .99999
+            double stiffness = Math.random();
+            //generate electric_charge values between 0 - 1000;
+            double electric_charge = (Math.random() * 1000) + 1;
+            hyperView.testSpringAndForceAlgorthms(springLength, stiffness, electric_charge);
+            hyperView.saveCanvasToFile( springLength+"_"+stiffness+"_"+electric_charge);
+        }
+        System.out.println("Test Finished...");
     }
 
     public static void main(String[] args) {

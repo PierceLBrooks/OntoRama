@@ -294,7 +294,6 @@ public class GraphImpl implements Graph {
     }
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
-    	System.out.println("\nGraphImpl::addEdge for " + edge);
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             Edge cur = (Edge) it.next();
@@ -306,10 +305,7 @@ public class GraphImpl implements Graph {
                 throw new EdgeAlreadyExistsException(edge);
             }
         }
-        //Node fromNode = edge.getFromNode();
-        //Node toNode = edge.getToNode();
         addNodesForNewEdge(edge);
-        //addNodesForNewEdge(fromNode, toNode);
         _graphEdges.add(edge);
         _eventBroker.processEvent(new GraphEdgeAddedEvent(this,edge));
     }
@@ -407,19 +403,11 @@ public class GraphImpl implements Graph {
      * @todo error checking seems a bit stupid ;) maybe don't need this exception at all?...
      */
     public void addNode (Node node) throws GraphModificationException {
-        /*
-        List inboundEdges = getInboundEdges(node);
-        List outboundEdges = getOutboundEdges(node);
-        if ( (inboundEdges.size() == 0) && (outboundEdges.size() == 0) ) {
-            throw new AddUnconnectedNodeIsDisallowedException(node);
-        }
-        */
         if (_graphNodes.contains(node)) {
             throw new NodeAlreadyExistsException(node);
         }
 
         _graphNodes.add(node);
-        System.out.println("GraphImpl::addNode, event broker = " + _eventBroker);
         _eventBroker.processEvent(new GraphNodeAddedEvent(this, node));
     }
 

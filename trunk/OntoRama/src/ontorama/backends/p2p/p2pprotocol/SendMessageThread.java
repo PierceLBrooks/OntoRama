@@ -69,7 +69,7 @@ public class SendMessageThread extends Thread{
 		                                  ownGroupID, tag, message);
 		
 		OutputPipe outputPipe = this.commProt.getOutputPropagatePipe(pg.getPeerGroupID());
-		System.out.println("outputPipe = " + outputPipe + " for group " + pg.getPeerGroupName());
+		System.out.println("SendMessageThread:: sending message  for group " + pg.getPeerGroupName() + " on outputPipe = " + outputPipe);
 		
 		try {
 			outputPipe.send(msgToSend);

@@ -11,6 +11,7 @@ import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupFactory;
+import net.jxta.pipe.InputPipe;
 import net.jxta.pipe.OutputPipe;
 import net.jxta.pipe.PipeService;
 import net.jxta.protocol.PipeAdvertisement;
@@ -69,23 +70,18 @@ public class CommunicationInit {
 		    PeerGroupFactory.setPlatformClass(Class.forName("net.jxta.impl.peergroup.Platform"));
 			this.globalP2PPlatform = PeerGroupFactory.newPlatform();
 
-			System.out.println("globalP2PPlatform: name = " + this.globalP2PPlatform.getPeerGroupName() + ", id = " + this.globalP2PPlatform.getPeerGroupID());
-
 			this.globalP2PGroup = PeerGroupFactory.newNetPeerGroup(this.globalP2PPlatform);
-
 			System.out.println("pg: name =  " + this.globalP2PGroup.getPeerGroupName() + ", id = " + this.globalP2PGroup.getPeerGroupID());
 			
 			startInputPipeEndpoint(this.globalP2PGroup);
 			startPropagatePipeEndpoint(this.globalP2PGroup);
+			
 		} catch (PeerGroupException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
 		} catch (ClassNotFoundException e) {
 			throw new GroupExceptionInit(e,"The platform could not be instansiated");
 		}       
 	}
-
-
-
 
 	/**
 	* This method creates a propagate pipe advertisement
@@ -99,12 +95,10 @@ public class CommunicationInit {
 
 	protected PipeAdvertisement startPropagatePipeEndpoint(PeerGroup pg) throws GroupExceptionInit {
         PipeService pipeService = pg.getPipeService();
-		PipeAdvertisement pipeAdvert = null;
-		InputPipeListener pipeMessageListener = null;
-        OutputPipe outputPipe = null;
 		DiscoveryService discServ = pg.getDiscoveryService();
+
 		//Create a advertisement to represent the PROPAGATE pipe
-		pipeAdvert = (PipeAdvertisement) AdvertisementFactory.newAdvertisement(
+		PipeAdvertisement pipeAdvert = (PipeAdvertisement) AdvertisementFactory.newAdvertisement(
 									PipeAdvertisement.getAdvertisementType());
 		pipeAdvert.setName("PropagatePipe");
 		//Changed
@@ -117,14 +111,15 @@ public class CommunicationInit {
 
 		try {
 			//Create a listerner to listen for incomming messages to a pipe
-			pipeMessageListener = new InputPipeListener(this.commProt,
+			InputPipeListener pipeMessageListener = new InputPipeListener(this.commProt,
 														this.reciever);
 
 			//Create a new inputPipe from adverisement and pipeMessageListerner
-			this.inputPipes.put(pg.getPeerGroupID(),pipeService.createInputPipe(pipeAdvert,pipeMessageListener));
+			InputPipe inputPipe = pipeService.createInputPipe(pipeAdvert,pipeMessageListener);
+			this.inputPipes.put(pg.getPeerGroupID(),inputPipe);
 
             //Create an output pipe and save it in the hashtable
-            outputPipe = pipeService.createOutputPipe(pipeAdvert,1000);
+            OutputPipe outputPipe = pipeService.createOutputPipe(pipeAdvert,1000);
 
 			//Publish the pipes advertisement both localy and global
 			discServ.publish(pipeAdvert,DiscoveryService.ADV);

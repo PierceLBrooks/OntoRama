@@ -46,8 +46,9 @@ public class InputPipeListener implements PipeMsgListener {
 	*/
     public void pipeMsgEvent(PipeMsgEvent event) {
         Message message = null;
-        
+               
 		message = event.getMessage();
+		
 		String var = message.getString("TAG");
         String senderPeerIDStr = message.getString("SenderPeerID");
 

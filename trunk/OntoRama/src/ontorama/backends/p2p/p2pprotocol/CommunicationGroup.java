@@ -74,8 +74,6 @@ public class CommunicationGroup  {
 			pg = this.commProt.getGlobalPG().newGroup(null,implAdv, name,descr);
 
 			this.createdGroups.put(pg.getPeerGroupID(), pg);
-			
-			System.out.println("\ncreated group PeerGroup pg = " + pg + ", group name = " + pg.getPeerGroupName());
 		} catch (PeerGroupException e) {
 			throw new GroupException(e,"Could not create a group");
 		} catch (Exception e) {
@@ -97,11 +95,9 @@ public class CommunicationGroup  {
 	 * @version P2P-OntoRama 1.0.0
 	 */
 	public PeerGroup joinGroup(String groupIDasString) throws GroupExceptionNotExist, GroupExceptionNotAllowed {
-		System.out.println("CommunicationGroup::joinGroup, groupIDasString = " + groupIDasString);
 		PeerGroupID groupID = getPeerGroupID(groupIDasString);
 		PeerGroup pg = null;
 		//Get PeerGroup
-		System.out.println("CommunicationGroup::joinGroup, groupID = " + groupID);
         try {
 			if (memberOfGroupsContains(groupID)) {            
                 return null;
@@ -144,7 +140,6 @@ public class CommunicationGroup  {
 		AuthenticationCredential authCred = new AuthenticationCredential(
 												pg,null,indentityInfo);
 
-
 		//Apply
 		try {
 			auth = (NullAuthenticator) member.apply(authCred);
@@ -155,9 +150,6 @@ public class CommunicationGroup  {
 
 				//If joined, then update the memberOfGroups
 				addToMemberOfGroups(pg);
-				
-				System.out.println("CommunicationGroup::joinGroup(pg): joined group " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());
-	           				
 			} else {
 				throw new GroupExceptionNotAllowed("Was not allowed to join the Peer Group");
 			}
@@ -223,8 +215,6 @@ public class CommunicationGroup  {
 		
 			//remove the inputpipe by flushing it from local cache
 			pipeAdv = this.commProt.getInputPipeAdvertisement(pg.getPeerGroupID());
-			System.out.println("CommunicationGroup::leaveGroup, discServ = " + discServ + ", pipeAdv = " 
-									+ pipeAdv);
 			if (pipeAdv == null) {
 				/// @todo not sure if this check should be here (if we ever could have null pipeAdv
 				/// or if this should never happen)
@@ -288,9 +278,6 @@ public class CommunicationGroup  {
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
 		}
-		
-		System.out.println("returned from group search");
-													
 		while (enum.hasMoreElements()) {
 			//found at least one adv
 			//populate SearchGroupResult from incoming advertisments
@@ -298,7 +285,6 @@ public class CommunicationGroup  {
 			ItemReference groupRes = new ItemReference (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
-			System.out.println("search groups returned: group name = " + groupRes.getName() + ", group id = " + pgAdv.getPeerGroupID());
 			result.add(groupRes);				
 		}
 
@@ -318,49 +304,39 @@ public class CommunicationGroup  {
 	public Vector peerDiscovery (String groupIDasString) 
 								throws IOException, GroupExceptionThread {
 		
-		PeerAdvertisement peerAdv = null;
-		PeerGroup pg = null;
 		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();		
-        Enumeration enum1 = null;
-		Enumeration enum = null;
        		
 		//Get the group the the peer answering the question belongs to. 
-		pg = getPeerGroup(groupIDasString);
+		PeerGroup pg = getPeerGroup(groupIDasString);
 		
 		//Get the correct discoveryService (from the correct group)
 		DiscoveryService discServ1 = pg.getDiscoveryService();
 			
 		//Send a request to other peers
-		discServ1.getRemoteAdvertisements(null,
-									DiscoveryService.PEER,
-										null,null,
-										10);
+		discServ1.getRemoteAdvertisements(null,DiscoveryService.PEER,null,null,10);
+
+		Vector searchGroupResult = new Vector();	
+
 		try {
 			Thread.sleep(3*1000);
 
-			enum1 = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
+			Enumeration enum1 = discServ1.getLocalAdvertisements(DiscoveryService.PEER,
 													null,null);
+			//Get all peer advertisements that are stored in the local cahe
+			System.out.println("CommunicationGroup::peerDiscovery retuning for group " + pg.getPeerGroupName() + ", id = " + pg.getPeerGroupID());				
+			while (enum1.hasMoreElements()) {
+				//Add the peer information to the searchGroupResult
+				PeerAdvertisement peerAdv = (PeerAdvertisement) enum1.nextElement();
+				System.out.println("\t.peerAdv.getName() = " + peerAdv.getName()
+									+ ", group = " + peerAdv.getPeerGroupID());
+				searchGroupResult.add(new ItemReference(peerAdv.getPeerID(),
+														peerAdv.getName(),
+														peerAdv.getDescription()));
+			}
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
 		} catch (InterruptedException e) {
 			throw new GroupExceptionThread(e, "The thread was interrupted while doing a peer discovery");
-		}
-										
-				
-					
-		//Get all peer advertisements that are stored in the local cahe
-		Vector searchGroupResult = new Vector();	
-		System.out.println("\tCommunicationGroup::peerDiscovery retuning");				
-		while (enum1.hasMoreElements()) {
-			//Add the peer information to the searchGroupResult
-			peerAdv = (PeerAdvertisement) enum1.nextElement();
-			System.out.println("\t.peerAdv.getName() = " + peerAdv.getName()
-								+ ", peerAdv.getPeerID() = " 
-								+ peerAdv.getPeerID()
-								+ ", group = " + peerAdv.getPeerGroupID());
-			searchGroupResult.add(new ItemReference(peerAdv.getPeerID(),
-								  									peerAdv.getName(),
-								  									peerAdv.getDescription()));
 		}
 		return searchGroupResult;
 	}
@@ -455,6 +431,7 @@ public class CommunicationGroup  {
 													null,null);
 			while (e.hasMoreElements()){
 				PeerAdvertisement cur = (PeerAdvertisement) e.nextElement();
+				System.out.println("\npeerDiscoveryForGlobalGroup: peer = " + cur.getName() + ", group = " +  cur.getPeerGroupID());
 				ItemReference element = new ItemReference(cur.getID(), cur.getName(), cur.getDescription());
 			  	result.addElement(element);
 			}

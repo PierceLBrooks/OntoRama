@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -89,7 +90,9 @@ public class PeersPanel extends JPanel  implements GroupView {
         
 		_globalGroupPanel = new GroupPanel("Global Net Group");
         JPanel tempGlobalGroupPanel = new JPanel();
+        tempGlobalGroupPanel.setLayout(new BoxLayout( tempGlobalGroupPanel, BoxLayout.Y_AXIS));
         tempGlobalGroupPanel.add(_globalGroupPanel);
+        tempGlobalGroupPanel.add(Box.createRigidArea(new Dimension(0,10)));
         tempGlobalGroupPanel.setBorder(BorderFactory.createEtchedBorder());
         
         JButton refreshButton = new JButton("Refresh");
@@ -127,7 +130,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     public void addPeer (String peerId, String peerName, String groupId) {
-    	System.out.println("addPeer, peerName = " + peerName + ", peerId = " + peerId + ", groupId = " + groupId);
+    	//System.out.println("addPeer, peerName = " + peerName + ", peerId = " + peerId + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
         PeersJList peersList = groupPanel.getPeersList();
 		peersList.addPeer(new PeerObject(peerId, peerName));
@@ -224,7 +227,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 				repaint();
 			}
 			else {
-				System.out.println("addPeer skipping peer " + peer.getPeerName() + ", listmodel = " + listModel);
+				//System.out.println("addPeer skipping peer " + peer.getPeerName() + ", listmodel = " + listModel);
 			}
 		}
 

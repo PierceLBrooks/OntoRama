@@ -217,7 +217,7 @@ public class P2PSender {
             Vector result = peerDiscovery(groupName);
 
 			Enumeration e = result.elements();
-			System.out.println("\n\nPeer Discovery returned: size = " + result.size() + " for group " + groupName);
+			System.out.println("\n\nPeer Discovery returned: size = " + result.size() + " for group " + groupName + ", id = " + curGroup.getPeerGroupID());
 			while (e.hasMoreElements()){
 			  ItemReference element = (ItemReference) e.nextElement();
 			  System.out.println("--- name = " + element.getName() + ", id = " + element.getID());

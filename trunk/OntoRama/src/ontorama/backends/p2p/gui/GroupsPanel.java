@@ -198,7 +198,6 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithFoundGroups() {
-		System.out.println("GroupsPanel::populateWithFoundGroups");
 		Vector foundGroups = new Vector();
 		try {
 			foundGroups = _p2pBackend.getSender().sendSearchGroup(null, null);
@@ -219,12 +218,10 @@ public class GroupsPanel extends JPanel implements GroupView {
 	}
 
 	private void populateWithJoinedGroups () {
-		System.out.println("GroupsPanel::populateWithJoinedGroups");
 		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
 		Enumeration e = joinedGroups.elements();
 		while (e.hasMoreElements()) {
 			ItemReference element = (ItemReference) e.nextElement();
-			System.out.println("joined group: " + element.getName() + ", ref = " + element);
 			if (_allGroupsListModel.contains(element)) {
 				continue;
 			}
@@ -245,11 +242,9 @@ public class GroupsPanel extends JPanel implements GroupView {
 	 */
 	public void removeGroup(ItemReference groupReferenceElement) {
 		System.out.println("GroupsPanel::removeGroup, group = " + groupReferenceElement.getName() + ", ref = " + groupReferenceElement);
-		if (! _allGroupsListModel.contains(groupReferenceElement)) {
-			_allGroupsListModel.addElement(groupReferenceElement);
-			_joinedGroupsListModel.removeElement(groupReferenceElement);
-			System.out.println("all_groups size = " + _allGroupsListModel.size() + ", joined group size = " + _joinedGroupsListModel.size());
-		}
+		_allGroupsListModel.addElement(groupReferenceElement);
+		_joinedGroupsListModel.removeElement(groupReferenceElement);
+		System.out.println("all_groups size = " + _allGroupsListModel.size() + ", joined group size = " + _joinedGroupsListModel.size());
 		_allGroupsPanel.repaint();
 	}
 	
@@ -264,10 +259,23 @@ public class GroupsPanel extends JPanel implements GroupView {
 				return true;
 			}
 			return false;
+		}	
+		
+		public void addElement(Object group) {
+			if (this.contains(group)) {
+				return;
+			}
+			super.addElement(group);
 		}
 		
-		
-	
+		public boolean removeElement(Object group) {
+			ItemReference groupElement = this.getFromGroupsList((ItemReference) group);
+			if (groupElement != null) {
+				return super.removeElement(groupElement);
+			}
+			return false;
+		}
+
 		private ItemReference getFromGroupsList (ItemReference group) {
 			Enumeration e = super.elements();
 			while (e.hasMoreElements()) {
@@ -277,22 +285,6 @@ public class GroupsPanel extends JPanel implements GroupView {
 				}
 			}
 			return null;
-		}
-		
-		public void addElement(Object group) {
-			if (this.contains(group)) {
-				return;
-			}
-			super.addElement(group);
-		}
-		
-		
-		public boolean removeElement(Object group) {
-			ItemReference groupElement = this.getFromGroupsList((ItemReference) group);
-			if (groupElement != null) {
-				return super.removeElement(groupElement);
-			}
-			return false;
 		}
 
 	}

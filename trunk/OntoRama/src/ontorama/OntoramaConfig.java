@@ -4,6 +4,10 @@ package ontorama;
 
 import java.util.Properties;
 import java.io.FileInputStream;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.Collection;
 
 public class OntoramaConfig {
 
@@ -115,6 +119,14 @@ public class OntoramaConfig {
           System.exit(1);
         }
 
+    }
+
+    public static HashSet getRelationLinksSet () {
+        LinkedList allRelations = new LinkedList ();
+        for (int i = 0; i < MAXTYPELINK; i++ ) {
+            allRelations.add(new Integer (i));
+        }
+        return new HashSet ((Collection) allRelations);
     }
 }
 

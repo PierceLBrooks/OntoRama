@@ -23,8 +23,7 @@ public class NodePointedEventHandler implements EventListener {
 
     public void processEvent(Event e) {
         HyperNodeView nodeView = (HyperNodeView) e.getSubject();
-        System.out.println("processEvent: NodePointed: " + nodeView);
+        //System.out.println("processEvent: NodePointed: " + nodeView);
         simpleHyperView.highlightNodePathToRoot(nodeView);
-        //highlightPathToRoot(pointedEvent);
     }
 }

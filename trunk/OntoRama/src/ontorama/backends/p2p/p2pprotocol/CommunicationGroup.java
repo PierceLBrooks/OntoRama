@@ -329,9 +329,7 @@ public class CommunicationGroup  {
 				PeerAdvertisement peerAdv = (PeerAdvertisement) enum1.nextElement();
 				System.out.println("\t.peerAdv.getName() = " + peerAdv.getName()
 									+ ", group = " + peerAdv.getPeerGroupID());
-				searchGroupResult.add(new GroupItemReference(peerAdv.getPeerID(),
-														peerAdv.getName(),
-														peerAdv.getDescription()));
+				searchGroupResult.add(new PeerItemReference(peerAdv.getPeerID().toString(),peerAdv.getName()));
 			}
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
@@ -432,7 +430,7 @@ public class CommunicationGroup  {
 			while (e.hasMoreElements()){
 				PeerAdvertisement cur = (PeerAdvertisement) e.nextElement();
 				System.out.println("\npeerDiscoveryForGlobalGroup: peer = " + cur.getName() + ", group = " +  cur.getPeerGroupID());
-				GroupItemReference element = new GroupItemReference(cur.getID(), cur.getName(), cur.getDescription());
+				PeerItemReference element = new PeerItemReference(cur.getID().toString(), cur.getName());
 			  	result.addElement(element);
 			}
 		}

@@ -6,6 +6,7 @@ import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.ChangePanel;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
+import ontorama.backends.p2p.p2pprotocol.PeerItemReference;
 import ontorama.model.graph.GraphModificationException;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
@@ -47,38 +48,39 @@ public class P2PReciever implements P2PRecieverInterface{
     	changes = panel.getChangePanel();
     }
 
-    public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
+//    public void recievePropagateCommand(int TAG, String senderPeerID, String senderPeerName, String senderGroupID, String internalModel){
+	public void recievePropagateCommand(int TAG, PeerItemReference senderPeer, String senderGroupID, String internalModel){
             switch (TAG){
                     case P2PReciever.TAGPROPAGATEINIT:
                     	System.err.println("\nP2PReciever.TAGPROPAGATEINIT");
-                          this.recieveInit(senderPeerID,senderPeerID, senderGroupID,internalModel);
+                          this.recieveInit(senderPeer, senderGroupID,internalModel);
                           break;
 
                     case P2PReciever.TAGPROPAGATEDELETE:
 		            	System.err.println("\nP2PReciever.TAGPROPAGATEDELETE");
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeerName);
+                        changes.addChange(internalModel, senderPeer.getName());
                         break;
 
                     case P2PReciever.TAGPROPAGATEUPDATE:
             			System.err.println("\nP2PReciever.TAGPROPAGATEUPDATE");                    
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeerName);
+                        changes.addChange(internalModel, senderPeer.getName());
                         break;
 
                     case P2PReciever.TAGPROPAGATEADD:
             			System.err.println("\nP2PReciever.TAGPROPAGATEADD");                    
                         //Add the change to the panel showing made changes
-                        changes.addChange(internalModel, senderPeerName);
+                        changes.addChange(internalModel, senderPeer.getName());
                         break;
                 case P2PReciever.TAGPROPAGATELEAVEGROUP:
 	            	System.err.println("\nP2PReciever.TAGPROPAGATELEAVEGROUP");
                     //Remove the peer from the group
-                    activePeers.removePeer(senderPeerID,internalModel);
+                    activePeers.removePeer(senderPeer.getID(),internalModel);
                     break;
                     case P2PReciever.TAGPROPAGATEJOINGROUP:
 		            	System.err.println("\nP2PReciever.TAGPROPAGATEJOINGROUP");            
-                         this.recieveJoinGroup(senderPeerID, senderPeerName, internalModel);
+                         this.recieveJoinGroup(senderPeer, internalModel);
                     break;
             }
     }
@@ -118,16 +120,18 @@ public class P2PReciever implements P2PRecieverInterface{
      * @param senderPeerName
      * @param groupID
      */
-    private void recieveJoinGroup(String senderPeerID, String senderPeerName, String groupID){
-       this.activePeers.addPeer(senderPeerID, senderPeerName, groupID);
+//    private void recieveJoinGroup(String senderPeerID, String senderPeerName, String groupID){
+	private void recieveJoinGroup(PeerItemReference peer, String groupID){
+       this.activePeers.addPeer(peer, groupID);
     }
 
 
     //Help classes
-	private void recieveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
+//	private void recieveInit(String senderPeerID, String senderPeerName, String senderGroupID,String internalModel){
+	private void recieveInit(PeerItemReference peer, String senderGroupID,String internalModel){
     	try{
         	//Add the new host to the panel showing connected peers
-			activePeers.addPeer(senderPeerID, senderPeerName, senderGroupID);
+			activePeers.addPeer(peer, senderGroupID);
 
 			//Parse the input recieved from the new peer
 			//RdfDamlParser parser = new RdfDamlParser();

@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.renderer.*;
 import ontorama.backends.p2p.p2pprotocol.*;
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 
 /*
@@ -66,7 +66,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 
         _comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ItemReference selectedGroup = (ItemReference) _comboBox.getSelectedItem();
+                GroupItemReference selectedGroup = (GroupItemReference) _comboBox.getSelectedItem();
                 if (selectedGroup == null) {
                     return;
                 }
@@ -119,7 +119,7 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
 
-	public void addGroup(ItemReference groupReferenceElement) {
+	public void addGroup(GroupItemReference groupReferenceElement) {
 		String groupId = groupReferenceElement.getID().toString();
         if (!_groupToPanelMapping.containsKey(groupId)) {
         	_groupsComboBoxModel.addElement(groupReferenceElement);
@@ -130,17 +130,19 @@ public class PeersPanel extends JPanel  implements GroupView {
         }
     }
 
-    public void addPeer (String peerId, String peerName, String groupId) {
+//    public void addPeer (String peerId, String peerName, String groupId) {
+	public void addPeer (PeerItemReference peer, String groupId) {
     	//System.out.println("addPeer, peerName = " + peerName + ", peerId = " + peerId + ", groupId = " + groupId);
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupId);
         PeersJList peersList = groupPanel.getPeersList();
-		peersList.addPeer(new PeerObject(peerId, peerName));
+//		peersList.addPeer(new PeerItemReference(peerId, peerName));
+		peersList.addPeer(peer);
         groupPanel.repaint();
         repaint();
     }
     
-    public void addPeerInGlobalList (String peerId, String peerName) {
-		_globalGroupPanel.getPeersList().addPeer(new PeerObject(peerId, peerName));
+    public void addPeerInGlobalList (PeerItemReference peer) {
+		_globalGroupPanel.getPeersList().addPeer(peer);
     }
 
     public void removePeer(String senderPeerID, String groupID) {
@@ -160,7 +162,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 		}
     }
 
-    public void removeGroup(ItemReference groupRefElement) {
+    public void removeGroup(GroupItemReference groupRefElement) {
     	String groupID = groupRefElement.getID().toString();
 
         GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(groupID);
@@ -181,7 +183,7 @@ public class PeersPanel extends JPanel  implements GroupView {
 		PeersJList peersJList;
         String groupName;
 
-        public GroupPanel(ItemReference group) {
+        public GroupPanel(GroupItemReference group) {
 			this(group.getName());
         }
         
@@ -222,8 +224,8 @@ public class PeersPanel extends JPanel  implements GroupView {
 			setCellRenderer(new PeersListCellRenderer());
     	}
 
-		public void addPeer (PeerObject peer) {
-			if (findInList(peer.getPeerId()) == null) {
+		public void addPeer (PeerItemReference peer) {
+			if (findInList(peer.getID()) == null) {
 				listModel.addElement(peer);
 				repaint();
 			}
@@ -233,18 +235,18 @@ public class PeersPanel extends JPanel  implements GroupView {
 		}
 
 		public void removePeer (String peerID) {
-			PeerObject peer = findInList(peerID);
+			PeerItemReference peer = findInList(peerID);
 			if (peer != null) {
 				listModel.removeElement(peer);
 				repaint();
 			}
 		}
 		
-		private PeerObject findInList (String peerId) {
+		private PeerItemReference findInList (String peerId) {
 			Enumeration e = listModel.elements();
 			while (e.hasMoreElements()) {
-				PeerObject curPeer = (PeerObject) e.nextElement();
-				if (peerId.equals(curPeer.getPeerId())) {
+				PeerItemReference curPeer = (PeerItemReference) e.nextElement();
+				if (peerId.equals(curPeer.getID())) {
 					return curPeer;
 				}
 			}

@@ -45,9 +45,7 @@ public class InputPipeListener implements PipeMsgListener {
 	* @version P2P-OntoRama 1.0.0
 	*/
     public void pipeMsgEvent(PipeMsgEvent event) {
-        Message message = null;
-               
-		message = event.getMessage();
+		Message message = event.getMessage();
 		
 		String var = message.getString("TAG");
         String senderPeerIDStr = message.getString("SenderPeerID");
@@ -63,10 +61,12 @@ public class InputPipeListener implements PipeMsgListener {
 
                 switch(new Integer(var).intValue()) {
                     case CommunicationProtocolJxta.TAGPROPAGATE :
+                        PeerItemReference senderPeer = new PeerItemReference(
+                        							message.getString("SenderPeerID"),
+													message.getString("SenderPeerName"));
                         this.getP2PReciever().recievePropagateCommand(
                                                         new Integer(message.getString("propType")).intValue(),
-                                                        message.getString("SenderPeerID"),
-                                                        message.getString("SenderPeerName"),
+                                                        senderPeer,
                                                         message.getString("GroupID"),
                                                         message.getString("Body"));
                         break;

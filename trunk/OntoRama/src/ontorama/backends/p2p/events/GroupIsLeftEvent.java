@@ -6,7 +6,7 @@
  */
 package ontorama.backends.p2p.events;
 
-import ontorama.backends.p2p.p2pprotocol.ItemReference;
+import ontorama.backends.p2p.p2pprotocol.GroupItemReference;
 
 import org.tockit.events.Event;
 
@@ -14,9 +14,9 @@ import org.tockit.events.Event;
  * @author nataliya
  */
 public class GroupIsLeftEvent  implements Event {
-	protected ItemReference subject;
+	protected GroupItemReference subject;
 
-	public GroupIsLeftEvent (ItemReference subject) {
+	public GroupIsLeftEvent (GroupItemReference subject) {
 		this.subject = subject;
 	}
 

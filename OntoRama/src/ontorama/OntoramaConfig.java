@@ -107,6 +107,11 @@ public class OntoramaConfig {
     public static boolean DEBUG;
 
     /**
+     * turns funny edges on
+     */
+    public static boolean FOUNTAINS;
+
+    /**
      * verbose flag
      */
     public static boolean VERBOSE;
@@ -213,6 +218,7 @@ public class OntoramaConfig {
         properties.load(propertiesFileIn);
         DEBUG = (new Boolean(properties.getProperty("DEBUG"))).booleanValue();
         VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
+        FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
         /// @todo the way backends are handled is a bit of a hack for now.
         Enumeration e = properties.propertyNames();

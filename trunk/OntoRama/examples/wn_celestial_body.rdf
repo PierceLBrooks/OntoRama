@@ -1,0 +1,331 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#"
+         xmlns:dc="http://purl.org/metadata/dublin_core#"
+         xmlns:daml="http://www.daml.org/2000/10/daml-ont#"
+         xmlns:pm="http://www.webkb.org/kb/theKB_terms.rdf/pm#">
+
+
+<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody">
+  <rdfs:label xml:lang="en">celestial_body</rdfs:label>
+  <rdfs:label xml:lang="en">heavenly_body</rdfs:label>
+  <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+  <rdfs:comment>natural objects visible in the sky</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#NaturalObject"/>
+</rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet">
+     <rdfs:label xml:lang="en">planet</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any of the celestial bodies (other than comets or satellites) that revolve around the sun in the solar system</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+     <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Biosphere"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Asteroid">
+        <rdfs:label xml:lang="en">asteroid</rdfs:label>
+        <rdfs:label xml:lang="en">minor_planet</rdfs:label>
+        <rdfs:label xml:lang="en">planetoid</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any of numerous small celestial bodies composed of rock and metal that move around the sun (mainly between the orbits of Mars and Jupiter)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Pallas">
+           <rdfs:label xml:lang="en">Pallas</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a large asteroid; the second asteroid to be discovered</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Asteroid"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#EveningStar">
+        <rdfs:label xml:lang="en">evening_star</rdfs:label>
+        <rdfs:label xml:lang="en">Hesperus</rdfs:label>
+        <rdfs:label xml:lang="en">Vesper</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a planet (usually Venus) seen at sunset in the western sky</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#MorningStar">
+        <rdfs:label xml:lang="en">morning_star</rdfs:label>
+        <rdfs:label xml:lang="en">daystar</rdfs:label>
+        <rdfs:label xml:lang="en">Phosphorus</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a planet (usually Venus) seen just before sunrise in the eastern sky</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#SuperiorPlanet">
+        <rdfs:label xml:lang="en">superior_planet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any of the planets whose orbit lies outside the earth's orbit</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#JovianPlanet">
+           <rdfs:label xml:lang="en">Jovian_planet</rdfs:label>
+           <rdfs:label xml:lang="en">gas_giant</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>any of the four outermost planets in the solar system; much larger than Earth and gaseous in nature (like Jupiter)</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#SuperiorPlanet"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#TerrestrialPlanet">
+        <rdfs:label xml:lang="en">terrestrial_planet</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a planet having a compact rocky surface like the Earth's; the four innermost planets in the solar system</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planet"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#InferiorPlanet">
+           <rdfs:label xml:lang="en">inferior_planet</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>any of the planets whose orbit lies inside the earth's orbit</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#TerrestrialPlanet"/>
+         </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Planetesimal">
+     <rdfs:label xml:lang="en">planetesimal</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>one of many small solid celestial bodies thought to have existed at an early stage in the development of the solar system</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Quasar">
+     <rdfs:label xml:lang="en">quasar</rdfs:label>
+     <rdfs:label xml:lang="en">quasi-stellar_radio_source</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>a starlike object that may send out radio waves and other forms of energy; large red shifts imply enormous recession velocities</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+   </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite">
+     <rdfs:label xml:lang="en">satellite</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any celestial body orbiting around a planet or star</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#TransmissionObject"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Deimos">
+        <rdfs:label xml:lang="en">Deimos</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>the smaller of the two satellites of Mars</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#GalileanSatellite">
+        <rdfs:label xml:lang="en">Galilean_satellite</rdfs:label>
+        <rdfs:label xml:lang="en">Galilean</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>one of the four satellites of Jupiter that were discovered by Galileo</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Moon.satellite">
+        <rdfs:label xml:lang="en">moon.satellite</rdfs:label>
+        <rdfs:label xml:lang="en">moon</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any natural satellite of a planet; "Jupiter has sixteen moons"</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Moon">
+        <rdfs:label xml:lang="en">moon</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>the natural satellite of the Earth; "the average distance to the moon is 384,400 kilometers"; "men first stepped on the moon in 1969"</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Phobos">
+        <rdfs:label xml:lang="en">Phobos</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>the larger of the two satellites of Mars</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Satellite"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star">
+     <rdfs:label xml:lang="en">star</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>(astronomy) a celestial body of hot gases that radiates energy derived from thermonuclear reactions in the interior</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+   </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#BinaryStar">
+        <rdfs:label xml:lang="en">binary_star</rdfs:label>
+        <rdfs:label xml:lang="en">binary</rdfs:label>
+        <rdfs:label xml:lang="en">double_star</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a system of two stars that revolve around each other under their mutual gravitation</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Altair">
+           <rdfs:label xml:lang="en">Altair</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>double star 15.7 light years from Earth; the brightest star in the Aquila constellation</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BinaryStar"/>
+         </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Sirius">
+           <rdfs:label xml:lang="en">Sirius</rdfs:label>
+           <rdfs:label xml:lang="en">Dog_Star</rdfs:label>
+           <rdfs:label xml:lang="en">Canicula</rdfs:label>
+           <rdfs:label xml:lang="en">Sothis</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>the brightest star in the sky; in Canis Major</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#BinaryStar"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Deneb">
+        <rdfs:label xml:lang="en">Deneb</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>the brightest star in Cygnus</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Denebola">
+        <rdfs:label xml:lang="en">Denebola</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a star in Leo approximately 43 light years from Earth</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#FixedStar">
+        <rdfs:label xml:lang="en">fixed_star</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any star in the Ptolemaic theory of planetary motion</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#GiantStar">
+        <rdfs:label xml:lang="en">giant_star</rdfs:label>
+        <rdfs:label xml:lang="en">giant</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a very bright star of large diameter and low density (relative to the Sun)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Loadstar">
+        <rdfs:label xml:lang="en">loadstar</rdfs:label>
+        <rdfs:label xml:lang="en">lodestar</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>guiding star; a star that is used as a reference point in navigation of astronomy</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#MultipleStar">
+        <rdfs:label xml:lang="en">multiple_star</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a system of three or more stars associated by gravity</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#NeutronStar">
+        <rdfs:label xml:lang="en">neutron_star</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a star that has collapsed under its own gravity; it is composed of neutrons</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Pulsar">
+           <rdfs:label xml:lang="en">pulsar</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a degenerate neutron star; small and extremely dense; rotates very fast and emits regular pulses of polarized radiation</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#NeutronStar"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Nova">
+        <rdfs:label xml:lang="en">nova</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a star that ejects some of its material in the form of a cloud and become more luminous in the process</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#RedDwarfStar">
+        <rdfs:label xml:lang="en">red_dwarf_star</rdfs:label>
+        <rdfs:label xml:lang="en">red_dwarf</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a small cool star; approximately 100 times the mass of Jupiter</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#FlareStar">
+           <rdfs:label xml:lang="en">flare_star</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>a red dwarf star in which luminosity can change several magnitudes in a few minutes</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#RedDwarfStar"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#RedGiantStar">
+        <rdfs:label xml:lang="en">red_giant_star</rdfs:label>
+        <rdfs:label xml:lang="en">red_giant</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a large cool star; has a relatively low surface temperature and a diameter large relative to the sun</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Sun">
+        <rdfs:label xml:lang="en">sun</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a typical star that is the source of light and heat for the planets in the solar system; "the sun contains 99.85% of the mass in the solar system"</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+        <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Chromosphere"/>
+        <pm:part rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Photosphere"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Sun.star">
+        <rdfs:label xml:lang="en">sun.star</rdfs:label>
+        <rdfs:label xml:lang="en">sun</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>any star around which a planetary system evolves</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Supergiant">
+        <rdfs:label xml:lang="en">supergiant</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>an extremely bright star of very large diameter and low density</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+         <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Canopus">
+           <rdfs:label xml:lang="en">Canopus</rdfs:label>
+           <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+           <rdfs:comment>supergiant star 650 light years from Earth; second brightest star in the sky</rdfs:comment>
+           <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Supergiant"/>
+         </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Supernova">
+        <rdfs:label xml:lang="en">supernova</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a star that explodes and becomes extremely luminous in the process</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#VariableStar">
+        <rdfs:label xml:lang="en">variable_star</rdfs:label>
+        <rdfs:label xml:lang="en">variable</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a star that varies noticeably in brightness</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+      <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#WhiteDwarfStar">
+        <rdfs:label xml:lang="en">white_dwarf_star</rdfs:label>
+        <rdfs:label xml:lang="en">white_dwarf</rdfs:label>
+        <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+        <rdfs:comment>a faint star of enormous density</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star"/>
+      </rdfs:Class>
+
+   <rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Star.celestialBody">
+     <rdfs:label xml:lang="en">star.celestial_body</rdfs:label>
+     <rdfs:label xml:lang="en">star</rdfs:label>
+     <dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
+     <rdfs:comment>any celestial body visible (as a point of light) from the Earth at night</rdfs:comment>
+     <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/wn#CelestialBody"/>
+   </rdfs:Class>
+
+
+</rdf:RDF>

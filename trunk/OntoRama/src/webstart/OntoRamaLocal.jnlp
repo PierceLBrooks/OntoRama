@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- JNLP File for OntoRama Application -->
-<jnlp spec="1.0+" codebase="http://www.webkb.org/ontorama/deployWebstart/" href="OntoRama.jnlp">
+<jnlp spec="1.0+" codebase="file:///c:/ontorama/" href="OntoRamaLocal.jnlp">
 	<information>
-		<title>OntoRama Demo Application</title>
+		<title>OntoRama Demo Application (Local Version)</title>
 		<vendor>DSTC, KVO (GU)</vendor>
 		<homepage href="http://www.webkb.org/ontorama"/>
 		<description>Ontology Browser Prototype</description>

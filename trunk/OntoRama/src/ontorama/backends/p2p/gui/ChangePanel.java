@@ -43,7 +43,6 @@ public class ChangePanel extends JPanel {
     }
 
     public void addChange (String changeStr, String peerName) {
-        System.out.println("adding change " + changeStr );
         _myModel.addRow(new Change(changeStr, peerName));
         repaint();
     }

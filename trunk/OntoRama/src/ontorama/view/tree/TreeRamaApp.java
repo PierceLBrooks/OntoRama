@@ -16,8 +16,9 @@ import java.awt.event.*;
 
 import java.util.Iterator;
 
-import ontorama.model.graph.Graph;
-import ontorama.model.graph.GraphNode;
+import ontorama.model.Graph;
+import ontorama.model.GraphNode;
+import ontorama.model.GraphBuilder;
 
 public class TreeRamaApp extends JFrame {
     private JEditorPane htmlPane;
@@ -39,6 +40,7 @@ public class TreeRamaApp extends JFrame {
         Graph graph = xmlReader.getGraph();
 
         //final JTree tree = new Graph ();
+        /*
 
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -97,6 +99,7 @@ public class TreeRamaApp extends JFrame {
 
         //Add the split pane to this frame.
         getContentPane().add(splitPane, BorderLayout.CENTER);
+        */
     }
 
     /*

@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 public class P2PJMenu extends JMenu {
 
     private P2PBackend _p2pBackend;
+    private JFrame _parentFrame;
 
     private static boolean p2pEnabled = false;
 
@@ -30,9 +31,10 @@ public class P2PJMenu extends JMenu {
     private Action _updatePanelAction;
     private Action _resetChangePanelAction;
 
-    public P2PJMenu (P2PBackend p2pBackend) {
+    public P2PJMenu (P2PBackend p2pBackend, JFrame parent) {
         super();
         _p2pBackend = p2pBackend;
+        _parentFrame = parent;
         setText(_menuName);
 
         _enableP2PAction = new ActionEnableP2P("Start P2P");
@@ -64,7 +66,9 @@ public class P2PJMenu extends JMenu {
         }
 
         public void actionPerformed(ActionEvent e) {
-            _p2pBackend = new P2PBackend(null);
+            //_p2pBackend = new P2PBackend(null);
+            P2PMainPanel p2pPanel = new P2PMainPanel(_parentFrame);
+
         }
 
     }

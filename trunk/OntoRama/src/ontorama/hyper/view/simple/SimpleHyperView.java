@@ -49,17 +49,17 @@ public class SimpleHyperView  extends CanvasManager {
     /**
      * The spring length is the desired length between the nodes..
      */
-    private static double springLength = 123;
+    private static double springLength = 150;
 
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .793;
+    private double STIFFNESS = .3;
 
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private double ELECTRIC_CHARGE = 838;
+    private double ELECTRIC_CHARGE = 500;
 
     /**
      * Path for test output files.
@@ -91,8 +91,9 @@ public class SimpleHyperView  extends CanvasManager {
         makeHyperNodes(root);
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
 
-        // 6.283 is the number of radians in a circle
-        basicLayout(root, 6.283, 0);
+        // (Math.PI * 2) is the number of radians in a circle
+        //basicLayout(root, Math.PI * 2, 0);
+        radialLayout(root, Math.PI * 2, 0);
         if( runSpringForceAlgorithms == true ) {
             layoutNodes( 250 );
         }
@@ -232,7 +233,6 @@ public class SimpleHyperView  extends CanvasManager {
             return;
         }
         double angle = rads/numOfOutboundNodes;
-        //double angle = Math.min( (rads * numOfInboundNodes)/numOfOutboundNodes, rads/numOfOutboundNodes);
         double x = 0, y = 0, radius = 0, count = 1;
         outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
         while (outboundNodesIterator.hasNext()) {
@@ -247,10 +247,61 @@ public class SimpleHyperView  extends CanvasManager {
                 return;
             }
             hn.setLocation( x, y);
-            //System.out.println("hyper node = " + hn.getName() + ", x = " + x + ", y = " + y);
-            //double wedge =
             basicLayout( node, angle, ang );
         }
+    }
+
+    /**
+     * Try to give the ontology a radial layout.
+     * The spring and electrical algorthms shall they do the rest.
+     */
+    private void radialLayout(GraphNode root, double wedge, double startAngle) {
+        double rootNodeLeafTotal = getLeafNodeTotal( root );
+        System.out.println(root.getName() + " has " + rootNodeLeafTotal + " leaf nodes");
+        System.out.println("startAngle " + startAngle);
+        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        double numOfOutboundNodes = Edge.getIteratorSize(outboundNodesIterator);
+        if (numOfOutboundNodes < 1) {
+            return;
+        }
+        double x = 0, y = 0, radius = 0, count = 1;
+        outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        double angle = wedge/numOfOutboundNodes;
+        double sumOfSlices = 0;
+        while (outboundNodesIterator.hasNext()) {
+            GraphNode curNode = (GraphNode) outboundNodesIterator.next();
+            double curNodeLeafTotal = getLeafNodeTotal( curNode );
+            double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
+            double ang = ((angle * count) + startAngle - (wedge / 2))%(Math.PI * 2);
+            count++;
+            radius = springLength * curNode.getDepth();
+            x = Math.cos(ang) * radius;
+            y = Math.sin(ang) * radius;
+            HyperNode hn = (HyperNode)hypernodes.get(curNode);
+            hn.setLocation( x, y);
+            radialLayout( curNode, slice, ang );
+        }
+    }
+
+
+
+    /**
+     * This method counts the number of leaves on a sub branch.
+     */
+    private int getLeafNodeTotal( GraphNode root ) {
+        int sumOfLeafNodes = 0;
+        Iterator outboundNodesIterator = Edge.getOutboundEdgeNodes(root);
+        while( outboundNodesIterator.hasNext() ) {
+            GraphNode cur = ( GraphNode )outboundNodesIterator.next();
+            //is this node a feaf node
+            int numOfchildren = Edge.getIteratorSize( Edge.getOutboundEdgeNodes(cur) );
+            if( numOfchildren == 0 ) {
+                sumOfLeafNodes++;
+            } else {
+             sumOfLeafNodes = sumOfLeafNodes + getLeafNodeTotal( cur );
+            }
+        }
+        return sumOfLeafNodes;
     }
 
    /**

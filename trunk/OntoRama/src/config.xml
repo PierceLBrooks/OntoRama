@@ -30,6 +30,22 @@ part:		green:00FFCC
 member:		yellow:FFFFCC
 substance: 	gray:C0C0C0 
 inclusive: 	purple:9999FF
+		red:		FF3366
+		brownish	996666
+
+new colors:
+slateBlue	6A5ACD
+springGreen	00FF7F
+tan		D2B48C
+teal		008080
+thistle	D8BFD8
+turquoise	40E0D0
+tomato	FF6347
+purple	800080
+steelBlue	4682B4
+salmon	FA8072
+slateGray	708090
+sienna	A0522D
 -->
 <ontConfig>
 	<ontology>
@@ -41,11 +57,11 @@ inclusive: 	purple:9999FF
 		<relation id="2">
 			<relationType name="similar" mappingSymbol="~"/>
 			<relationType name="equal" mappingSymbol="="/>
-			<display color="#33CCFF" symbol="~"/>
+			<display color="#FF99CC" symbol="~"/>
 		</relation>
 		<relation id="3">
 			<relationType name="reverse" mappingSymbol="-"/>
-			<display color="#33CCFF" symbol="-"/>
+			<display color="#FFCC99" symbol="-"/>
 		</relation>
 		<relation id="4">
 			<relationType name="part" mappingSymbol="p"/>
@@ -55,22 +71,22 @@ inclusive: 	purple:9999FF
 		<relation id="5">
 			<relationType name="substance" mappingSymbol="s"/>
 			<relationType name="substanceOf" mappingSymbol="S"/>
-			<display color="#FF99CC" symbol="s"/>
+			<display color="#C0C0C0" symbol="s"/>
 		</relation>
 		<relation id="6">
 			<relationType name="instance" mappingSymbol=":"/>
 			<relationType name="instanceOf" mappingSymbol="^"/>
-			<display color="#FF99CC" symbol="^"/>
+			<display color="#9999FF" symbol="^"/>
 		</relation>
 		<relation id="7">
 			<relationType name="complement" mappingSymbol="/"/>
 			<relationType name="exclusion" mappingSymbol="!"/>
-			<display color="#FF99CC" symbol="/"/>
+			<display color="#FF3366" symbol="/"/>
 		</relation>
 		<relation id="8">
 			<relationType name="location" mappingSymbol="l"/>
 			<relationType name="locationOf" mappingSymbol="L"/>
-			<display color="#FF99CC" symbol="l"/>
+			<display color="#008080" symbol="l"/>
 		</relation>
 		<relation id="9">
 			<relationType name="member" mappingSymbol="m"/>
@@ -80,17 +96,17 @@ inclusive: 	purple:9999FF
 		<relation id="10">
 			<relationType name="object" mappingSymbol="o"/>
 			<relationType name="objectOf" mappingSymbol="0"/>
-			<display color="#C0C0C0" symbol="0"/>
+			<display color="#FA8072" symbol="0"/>
 		</relation>
 		<relation id="11">
 			<relationType name="url" mappingSymbol="u"/>
 			<relationType name="urlOf" mappingSymbol="U"/>
-			<display color="#C0C0C0" symbol="u"/>
+			<display color="#708090" symbol="u"/>
 		</relation>
 		<relation id="12">
 			<relationType name="nounType" mappingSymbol="n"/>
 			<relationType name="nounTypeOf" mappingSymbol="N"/>
-			<display color="#C0C0C0" symbol="N"/>
+			<display color="#996666" symbol="N"/>
 		</relation>
 		<conceptProperty id="Description"/>
 		<conceptProperty id="Creator"/>

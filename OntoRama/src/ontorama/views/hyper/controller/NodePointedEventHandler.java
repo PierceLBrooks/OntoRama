@@ -10,7 +10,7 @@ package ontorama.views.hyper.controller;
 
 import ontorama.views.hyper.view.HyperNodeView;
 import ontorama.views.hyper.view.SimpleHyperView;
-import org.tockit.canvas.events.CanvasItemPointedEvent;
+import org.tockit.canvas.events.CanvasItemMouseEnterEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -20,7 +20,7 @@ public class NodePointedEventHandler implements EventBrokerListener {
 
     public NodePointedEventHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
         this.simpleHyperView = simpleHyperView;
-        eventBroker.subscribe(this, CanvasItemPointedEvent.class, HyperNodeView.class);
+        eventBroker.subscribe(this, CanvasItemMouseEnterEvent.class, HyperNodeView.class);
     }
 
     public void processEvent(Event e) {

@@ -93,6 +93,15 @@ public class GraphNode implements Cloneable {
 
     /**
      *
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     *
      */
     public String getFullName() {
         return fullName;

@@ -92,7 +92,7 @@ public class SimpleHyperView  extends CanvasManager {
         //System.out.println("SimpleHyperView, hypernodes size = " + hypernodes.size());
 
         // (Math.PI * 2) is the number of radians in a circle
-        //basicLayout(root, Math.PI * 2, 0);
+//        basicLayout(root, Math.PI * 2, 0);
 
         System.out.println("Running radial layout...");
         radialLayout(root, Math.PI * 2, 0);
@@ -109,8 +109,8 @@ public class SimpleHyperView  extends CanvasManager {
 //        System.out.println("Running layoutNodes2( 100 )...");
 //        start = System.currentTimeMillis();
 //        layoutNodes2( 100 );
-//        end = System.currentTimeMillis();
-//        System.out.println("Time taken: " + ( (end - start)) + "ms");
+        end = System.currentTimeMillis();
+        System.out.println("Time taken: " + ( (end - start)) + "ms");
         //add lines to canvas manager.
         addLinesToHyperNodeViews( hypernodeviews, root );
 
@@ -266,7 +266,9 @@ public class SimpleHyperView  extends CanvasManager {
     }
 
     /**
-     * Try to give the ontology a radial layout.
+     * Try to give the ontology a radial layout that allocates a
+     * percentage of the wedge space to subtrees based on the number of
+     * leaf node each subtree has to the total number of leaves on the tree.
      * The spring and electrical algorthms shall they do the rest.
      */
     private void radialLayout(GraphNode root, double wedge, double startAngle) {
@@ -285,7 +287,7 @@ public class SimpleHyperView  extends CanvasManager {
             double curNodeLeafTotal = getLeafNodeTotal( curNode );
             double slice = wedge * (curNodeLeafTotal / rootNodeLeafTotal);
             if( slice == 0 ) {
-                slice = .1;//(wedge/numOfOutboundNodes);
+                slice = 0.1;//(wedge/numOfOutboundNodes);
             }
 //            if( (sumOfSlices + slice ) >= wedge ) {
 //                slice = 0;
@@ -477,7 +479,7 @@ public class SimpleHyperView  extends CanvasManager {
                 if( !finishedNodes.contains( cur ) ) {
                     averageMove = adjustPosition2( cur );
                     loopAgain = true;
-                    if( averageMove < ELECTRIC_CHARGE*STIFFNESS*( 1 - (1/springLength)) ) {
+                    if( averageMove < (ELECTRIC_CHARGE*STIFFNESS*( 1 - (1/springLength))/10) ) {
                         finishedNodes.add( cur );
                     }
                 }
@@ -513,8 +515,8 @@ public class SimpleHyperView  extends CanvasManager {
             HyperNode curHyperNode = (HyperNode)hypernodes.get( cur );
             double vectorLength = curHyperNode.distance( curHyperNodeParent );
             if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero
-                double springlength = springLength;
-                //double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
+                //double springlength = springLength;
+                double springlength = springLength / Math.sqrt(parent.getDepth() + 1);
                 double force = STIFFNESS * ( springlength - vectorLength ) / vectorLength;
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
@@ -556,8 +558,8 @@ public class SimpleHyperView  extends CanvasManager {
             double vectorLength = curHyperNode.distance( curHyperNodeOther );
             if(vectorLength > 0.00001) { // don't try to calculate spring if length is zero0.00001
                 int levelDiff = Math.abs( cur.getDepth() - other.getDepth() + 1 );
-                //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
-                double force = (ELECTRIC_CHARGE)/ (vectorLength * vectorLength);
+                double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+                //double force = (ELECTRIC_CHARGE)/ (vectorLength * vectorLength);
                 curX = curHyperNode.getX();
                 curY = curHyperNode.getY();
                 xMove = curHyperNode.getX() + force * (curHyperNode.getX() - curHyperNodeOther.getX());

@@ -39,7 +39,7 @@ public interface Graph {
      * @param rootNode
      * @param node
      */
-    public boolean nodeIsInGivenBranch(NodeImpl rootNode, NodeImpl node);
+    public boolean nodeIsInGivenBranch(Node rootNode, Node node);
 
     public void registerEdge(Edge edge);
 
@@ -47,19 +47,19 @@ public interface Graph {
     public List getEdgesList ();
 
 
-    public Iterator getOutboundEdges(NodeImpl node);
+    public Iterator getOutboundEdges(Node node);
 
-    public Iterator getInboundEdges (NodeImpl node);
+    public Iterator getInboundEdges (Node node);
 
-    public List getOutboundEdgeNodesList(NodeImpl node);
+    public List getOutboundEdgeNodesList(Node node);
 
-    public List getInboundEdgeNodesList(NodeImpl node);
+    public List getInboundEdgeNodesList(Node node);
 
-    public Iterator getOutboundEdgeNodes(NodeImpl node);
+    public Iterator getOutboundEdgeNodes(Node node);
 
-    public Iterator getInboundEdgeNodes (NodeImpl node);
+    public Iterator getInboundEdgeNodes (Node node);
 
-    public Iterator getInboundEdgeNodes (NodeImpl node, RelationLinkDetails relLink);
+    public Iterator getInboundEdgeNodes (Node node, RelationLinkDetails relLink);
 
 
 

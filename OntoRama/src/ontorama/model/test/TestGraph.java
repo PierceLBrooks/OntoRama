@@ -44,8 +44,8 @@ public class TestGraph extends TestCase {
     private String rootNodeDescr = "root element here";
     private String node1Descr = "ontType1 for node1";
 
-    private NodeImpl node1;
-    private NodeImpl node1_2;
+    private Node node1;
+    private Node node1_2;
 
 
     /**
@@ -64,7 +64,7 @@ public class TestGraph extends TestCase {
             NoSuchPropertyException,
             NoTypeFoundInResultSetException {
         // set up some _graphEdges and nodes, so we can see if they are cleared properly
-        NodeImpl tmpNode1 = new NodeImpl("tmpNode1");
+        Node tmpNode1 = new NodeImpl("tmpNode1");
         NodeImpl tmpNode2 = new NodeImpl("tmpNode2");
         NodeImpl tmpNode3 = new NodeImpl("tmpNode3");
         Edge tmpEdge1 = new EdgeImpl(tmpNode1, tmpNode2, OntoramaConfig.getRelationLinkDetails()[1]);
@@ -73,16 +73,16 @@ public class TestGraph extends TestCase {
 
         // create queryResult
         Query query = new Query("root");
-        NodeImpl gn = new NodeImpl("root");
+        Node gn = new NodeImpl("root");
         NodeImpl gn1 = new NodeImpl("node1");
         NodeImpl gn2 = new NodeImpl("node2");
         NodeImpl gn3 = new NodeImpl("node3");
-        NodeImpl gn4 = new NodeImpl("node1.1");
+        Node gn4 = new NodeImpl("node1.1");
         NodeImpl gn5 = new NodeImpl("node1.2");
         // create ont types not traceble to root, so we can test
         // if GraphBuilder will ignore them or not. We will not include
         // these into ontTypesList as at the moment we are ignoring them.
-        NodeImpl gn6 = new NodeImpl("node4");
+        Node gn6 = new NodeImpl("node4");
         NodeImpl gn7 = new NodeImpl("node5");
 
         List prop1 = new LinkedList();
@@ -129,7 +129,7 @@ public class TestGraph extends TestCase {
      * test graph root
      */
     public void testGraphRoot() throws NoSuchPropertyException {
-        NodeImpl rootNode = graph.getRootNode();
+        Node rootNode = graph.getRootNode();
         assertEquals("root", rootNode.getName());
         List propList = rootNode.getProperty(typePropertyName);
         assertEquals(rootNodeDescr, propList.get(0));
@@ -212,11 +212,11 @@ public class TestGraph extends TestCase {
     /**
      *
      */
-    private NodeImpl getNodeByName(List nodesList, String name) {
+    private Node getNodeByName(List nodesList, String name) {
         Iterator it = nodesList.iterator();
-        NodeImpl resultNode = null;
+        Node resultNode = null;
         while (it.hasNext()) {
-            NodeImpl cur = (NodeImpl) it.next();
+            Node cur = (Node) it.next();
             if ((cur.getName()).equals(name)) {
                 resultNode = cur;
             }

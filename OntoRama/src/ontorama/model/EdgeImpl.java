@@ -15,7 +15,7 @@ public class EdgeImpl implements Edge {
     /**
      * inboundNode
      */
-    NodeImpl fromNode;
+    Node fromNode;
 
     /**
      * outboundNodes
@@ -31,7 +31,7 @@ public class EdgeImpl implements Edge {
     /**
      *
      */
-    public EdgeImpl(NodeImpl fromNode, NodeImpl toNode, RelationLinkDetails edgeType) throws NoSuchRelationLinkException {
+    public EdgeImpl(Node fromNode, NodeImpl toNode, RelationLinkDetails edgeType) throws NoSuchRelationLinkException {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.edgeType = edgeType;
@@ -40,7 +40,7 @@ public class EdgeImpl implements Edge {
     /**
      *
      */
-    public NodeImpl getFromNode() {
+    public Node getFromNode() {
         return this.fromNode;
     }
 
@@ -61,7 +61,7 @@ public class EdgeImpl implements Edge {
     /**
      *
      */
-    public NodeImpl getEdgeNode(boolean isFromNode) {
+    public Node getEdgeNode(boolean isFromNode) {
         if (isFromNode == true) {
             return this.fromNode;
         }

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ontorama.util.IteratorUtil;
 import ontorama.webkbtools.util.NoSuchPropertyException;
 import ontorama.model.NodeImpl;
+import ontorama.model.Node;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -146,7 +147,7 @@ public class TestGraphNode extends TestCase {
      */
     public void testMakeClone() throws NoSuchPropertyException {
 
-        NodeImpl testCloneNode = node2.makeClone();
+        Node testCloneNode = node2.makeClone();
 
         assertEquals("number of clones for node2 and cloneNode2 should be the same",
                 IteratorUtil.getIteratorSize(node2.getClones()),
@@ -213,7 +214,7 @@ public class TestGraphNode extends TestCase {
      */
     public static boolean graphNodeNameIsInIterator(String name, Iterator it) {
         while (it.hasNext()) {
-            NodeImpl cur = (NodeImpl) it.next();
+            Node cur = (Node) it.next();
             if (name.equals(cur.getName())) {
                 return true;
             }

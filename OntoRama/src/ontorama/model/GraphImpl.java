@@ -158,8 +158,8 @@ public class GraphImpl implements Graph {
 
 
     private void checkForCycle (Edge oneWayEdge) {
-        NodeImpl fromNode = oneWayEdge.getFromNode();
-        NodeImpl toNode = oneWayEdge.getToNode();
+        Node fromNode = oneWayEdge.getFromNode();
+        Node toNode = oneWayEdge.getToNode();
         RelationLinkDetails relLinkType = oneWayEdge.getEdgeType();
 
         Edge reversedEdge = getEdge(toNode, fromNode, relLinkType);
@@ -211,7 +211,7 @@ public class GraphImpl implements Graph {
     private void removeUnconnectedNodesFromGraph() {
         Iterator it = _nodesToRemove.iterator();
         while (it.hasNext()) {
-            NodeImpl node = (NodeImpl) it.next();
+            Node node = (Node) it.next();
             _graphNodes.remove(node);
         }
     }
@@ -222,7 +222,7 @@ public class GraphImpl implements Graph {
 //        Iterator allNodes = processedNodes.values().iterator();
         Iterator allNodes = _graphNodes.iterator();
         while (allNodes.hasNext()) {
-            NodeImpl curNode = (NodeImpl) allNodes.next();
+            Node curNode = (Node) allNodes.next();
 
             if (curNode.equals(root)) {
                 continue;
@@ -256,13 +256,13 @@ public class GraphImpl implements Graph {
 
         Iterator it = topLevelUnconnectedNodes.iterator();
         while (it.hasNext()) {
-            NodeImpl node = (NodeImpl) it.next();
+            Node node = (Node) it.next();
             listItemsToRemove(node);
         }
 
     }
 
-    private void listItemsToRemove (NodeImpl node) {
+    private void listItemsToRemove (Node node) {
         if (!_nodesToRemove.contains(node)) {
             _nodesToRemove.add(node);
         }
@@ -271,7 +271,7 @@ public class GraphImpl implements Graph {
         while (curOutEdges.hasNext()) {
             Edge curEdge = (Edge) curOutEdges.next();
 //            System.out.println("\toutbound edge: " + curEdge);
-            NodeImpl toNode = curEdge.getToNode();
+            Node toNode = curEdge.getToNode();
             if (toNode == root) {
                 // don't remove parents of root node
                 continue;
@@ -310,12 +310,12 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public boolean nodeIsInGivenBranch (NodeImpl branchRoot, NodeImpl node) {
+    public boolean nodeIsInGivenBranch (Node branchRoot, Node node) {
         List q = new LinkedList();
         q.add(branchRoot);
 
         while (!q.isEmpty()) {
-            NodeImpl curNode = (NodeImpl) q.remove(0);
+            Node curNode = (Node) q.remove(0);
 
             if (curNode.equals(node)) {
                 return true;
@@ -323,7 +323,7 @@ public class GraphImpl implements Graph {
 
             Iterator it = getOutboundEdgeNodes(curNode);
             while (it.hasNext()) {
-                NodeImpl nextNode = (NodeImpl) it.next();
+                Node nextNode = (Node) it.next();
                 q.add(nextNode);
             }
         }
@@ -351,19 +351,19 @@ public class GraphImpl implements Graph {
      *
      * @param root  - root NodeImpl
      */
-    private boolean testIfTree(NodeImpl root) {
+    private boolean testIfTree(Node root) {
         LinkedList queue = new LinkedList();
         boolean isTree = true;
 
         queue.add(root);
 
         while (!queue.isEmpty()) {
-            NodeImpl nextQueueNode = (NodeImpl) queue.remove(0);
+            Node nextQueueNode = (Node) queue.remove(0);
             Iterator allOutboundNodes =
                     getOutboundEdgeNodes(nextQueueNode);
 
             while (allOutboundNodes.hasNext()) {
-                NodeImpl curNode = (NodeImpl) allOutboundNodes.next();
+                Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
                 Iterator inboundEdges = getInboundEdges(curNode);
@@ -393,14 +393,14 @@ public class GraphImpl implements Graph {
      * @throws  NoSuchRelationLinkException
      * @throws  NoSuchPropertyException
      */
-    private void convertIntoTree(NodeImpl root)
+    private void convertIntoTree(Node root)
             throws NoSuchRelationLinkException, NoSuchPropertyException {
         LinkedList queue = new LinkedList();
 
         queue.add(root);
 
         while (!queue.isEmpty()) {
-            NodeImpl nextQueueNode = (NodeImpl) queue.remove(0);
+            Node nextQueueNode = (Node) queue.remove(0);
 
             debug.message(
                     "Graph",
@@ -470,7 +470,7 @@ public class GraphImpl implements Graph {
      * @throws  NoSuchRelationLinkException
      * @throws  NoSuchPropertyException
      */
-    private void deepCopy(NodeImpl node, NodeImpl cloneNode)
+    private void deepCopy(Node node, Node cloneNode)
             throws NoSuchRelationLinkException, NoSuchPropertyException {
 
         Iterator outboundEdgesIterator = getOutboundEdges(node);
@@ -511,7 +511,7 @@ public class GraphImpl implements Graph {
         queue.add(root);
 
         while (!queue.isEmpty()) {
-            NodeImpl nextQueueNode = (NodeImpl) queue.remove(0);
+            Node nextQueueNode = (Node) queue.remove(0);
 
             resultStr =
                     resultStr
@@ -552,7 +552,7 @@ public class GraphImpl implements Graph {
                     getOutboundEdgeNodes(nextQueueNode);
 
             while (allOutboundNodes.hasNext()) {
-                NodeImpl curNode = (NodeImpl) allOutboundNodes.next();
+                Node curNode = (Node) allOutboundNodes.next();
                 queue.add(curNode);
 
             }
@@ -573,8 +573,8 @@ public class GraphImpl implements Graph {
         Iterator edgesIterator = _graphEdges.iterator();
         while (edgesIterator.hasNext()) {
             Edge curEdge = (Edge) edgesIterator.next();
-            NodeImpl fromNode = curEdge.getFromNode();
-            NodeImpl toNode = curEdge.getToNode();
+            Node fromNode = curEdge.getFromNode();
+            Node toNode = curEdge.getToNode();
             RelationLinkDetails relLinkDetails = curEdge.getEdgeType();
             resultStr = resultStr + tab + tab + "<relationLink";
             resultStr =
@@ -631,13 +631,13 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Edge getEdge(NodeImpl fromNode, NodeImpl toNode, RelationLinkDetails edgeType) {
+    public Edge getEdge(Node fromNode, Node toNode, RelationLinkDetails edgeType) {
         Iterator it = getOutboundEdges(fromNode, edgeType);
         //Iterator it = EdgeImpl.getOutboundEdgeNodes(fromNode, relLink);
         while (it.hasNext()) {
             Edge curEdge = (Edge) it.next();
             //NodeImpl curNode = (NodeImpl) it.next();
-            NodeImpl curNode = curEdge.getToNode();
+            Node curNode = curEdge.getToNode();
             if (curNode.equals(toNode)) {
                 return curEdge;
             }
@@ -648,14 +648,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdges(NodeImpl node) {
+    public Iterator getOutboundEdges(Node node) {
         return getEdges(node, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdges(NodeImpl node) {
+    public Iterator getInboundEdges(Node node) {
         return getEdges(node, false);
     }
 
@@ -666,12 +666,12 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound _graphEdges.
      * @return iterator of Edges
      */
-    private Iterator getEdges(NodeImpl node, boolean flag) {
+    private Iterator getEdges(Node node, boolean flag) {
         List result = new LinkedList();
         Iterator it = _graphEdges.iterator();
         while (it.hasNext()) {
             EdgeImpl cur = (EdgeImpl) it.next();
-            NodeImpl graphNode = cur.getEdgeNode(flag);
+            Node graphNode = cur.getEdgeNode(flag);
             if (graphNode.equals(node)) {
                 result.add(cur);
             }
@@ -687,7 +687,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return iterator of Edges
      */
-    private Iterator getEdges(NodeImpl node, RelationLinkDetails relationType, boolean flag) {
+    private Iterator getEdges(Node node, RelationLinkDetails relationType, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {
@@ -702,14 +702,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdges(NodeImpl node, RelationLinkDetails edgeType) {
+    public Iterator getOutboundEdges(Node node, RelationLinkDetails edgeType) {
         return getEdges(node, edgeType, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdges(NodeImpl node, RelationLinkDetails edgeType) {
+    public Iterator getInboundEdges(Node node, RelationLinkDetails edgeType) {
         return getEdges(node, edgeType, false);
     }
 
@@ -717,7 +717,7 @@ public class GraphImpl implements Graph {
      *
      * @return iterator of Nodes
      */
-    public Iterator getOutboundEdgeNodes(NodeImpl node, Set relationLinks) {
+    public Iterator getOutboundEdgeNodes(Node node, Set relationLinks) {
         return getEdgeNodes(node, relationLinks, true);
     }
 
@@ -725,7 +725,7 @@ public class GraphImpl implements Graph {
      *
      * @return iterator of Nodes
      */
-    public Iterator getInboundEdgeNodes(NodeImpl node, Set relationLinks) {
+    public Iterator getInboundEdgeNodes(Node node, Set relationLinks) {
         return getEdgeNodes(node, relationLinks, false);
     }
 
@@ -737,7 +737,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.
      * @return iterator of Nodes
      */
-    private Iterator getEdgeNodes(NodeImpl node, Set relationLinks, boolean flag) {
+    private Iterator getEdgeNodes(Node node, Set relationLinks, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {
@@ -762,14 +762,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdgeNodes(NodeImpl node, RelationLinkDetails edgeType) {
+    public Iterator getOutboundEdgeNodes(Node node, RelationLinkDetails edgeType) {
         return getEdgeNodes(node, edgeType, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdgeNodes(NodeImpl node, RelationLinkDetails edgeType) {
+    public Iterator getInboundEdgeNodes(Node node, RelationLinkDetails edgeType) {
         return getEdgeNodes(node, edgeType, false);
     }
 
@@ -781,7 +781,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return iterator of Nodes
      */
-    private Iterator getEdgeNodes(NodeImpl node, RelationLinkDetails edgeType, boolean flag) {
+    private Iterator getEdgeNodes(Node node, RelationLinkDetails edgeType, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {
@@ -796,14 +796,14 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public Iterator getOutboundEdgeNodes(NodeImpl node) {
+    public Iterator getOutboundEdgeNodes(Node node) {
         return getEdgeNodes(node, true);
     }
 
     /**
      *
      */
-    public Iterator getInboundEdgeNodes(NodeImpl node) {
+    public Iterator getInboundEdgeNodes(Node node) {
         return getEdgeNodes(node, false);
     }
 
@@ -815,21 +815,21 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return iterator of Nodes
      */
-    private Iterator getEdgeNodes(NodeImpl node, boolean flag) {
+    private Iterator getEdgeNodes(Node node, boolean flag) {
         return getEdgeNodesList(node, flag).iterator();
     }
 
     /**
      *
      */
-    public List getOutboundEdgeNodesList(NodeImpl node) {
+    public List getOutboundEdgeNodesList(Node node) {
         return getEdgeNodesList(node, true);
     }
 
     /**
      *
      */
-    public List getInboundEdgeNodesList(NodeImpl node) {
+    public List getInboundEdgeNodesList(Node node) {
         return getEdgeNodesList(node, false);
     }
 
@@ -841,7 +841,7 @@ public class GraphImpl implements Graph {
      *         false of we want to get a list of inbound nodes.      *
      * @return list of Nodes
      */
-    private List getEdgeNodesList(NodeImpl node, boolean flag) {
+    private List getEdgeNodesList(Node node, boolean flag) {
         List result = new LinkedList();
         Iterator nodeEdgesIt = getEdges(node, flag);
         while (nodeEdgesIt.hasNext()) {

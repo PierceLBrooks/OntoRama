@@ -28,7 +28,9 @@ public class BackendSearch {
 		Iterator backendIt = OntoRamaApp.getBackends().iterator();
 		while (backendIt.hasNext()) {
 			Backend backend = (Backend) backendIt.next();
-			
+
+            System.out.println("---searching backend " + backend + " for query " + query);
+
 			if (backend instanceof FileBackend) {
 				retVal = ((FileBackend) backend).search(query);
 			} 

@@ -14,7 +14,9 @@ import ontorama.backends.p2p.model.P2PNode;
 import ontorama.model.util.GraphModificationException;
 import ontorama.model.events.GraphChangedEvent;
 import ontorama.model.Graph;
+import ontorama.model.NoTypeFoundInResultSetException;
 import ontorama.webkbtools.query.Query;
+import ontorama.webkbtools.query.QueryResult;
 import ontorama.webkbtools.query.parser.ParserResult;
 import ontorama.webkbtools.query.parser.rdf.RdfDamlParser;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
@@ -25,6 +27,7 @@ import ontorama.webkbtools.writer.rdf.RdfP2PWriter;
 import ontorama.controller.QueryEvent;
 import ontorama.controller.GeneralQueryEvent;
 import ontorama.OntoramaConfig;
+import ontorama.view.OntoRamaApp;
 
 import javax.swing.*;
 
@@ -43,12 +46,13 @@ public class FileBackend implements Backend{
     private P2PGraph graph = null;
     private List panels = null;
     private EventBroker eventBroker;
+    private String filename;
 
     public FileBackend(){
         System.out.println("file backend constructor");
-            this.graph = new P2PGraphImpl();
-            //We don't have any panels to this backend
-            this.panels = new LinkedList();
+        this.graph = new P2PGraphImpl();
+        //We don't have any panels to this backend
+        this.panels = new LinkedList();
     }
 
     public void setEventBroker(EventBroker eventBroker) {
@@ -56,7 +60,23 @@ public class FileBackend implements Backend{
     }
 
     public P2PGraph search(Query query){
-            return this.graph.search(query);
+//        return this.graph.search(query);
+        Graph ontoramaGraph = OntoRamaApp.getCurrentGraph();
+        /// @todo total hack, need to work out workflows
+        QueryResult queryResult = new QueryResult(query, ontoramaGraph.getNodesList(), ontoramaGraph.getEdgesList());
+        P2PGraph p2pGraph = null;
+        try {
+            p2pGraph = new P2PGraphImpl(queryResult);
+        }
+        catch (NoSuchRelationLinkException e) {
+            /// @todo deal with the exceptions
+            e.printStackTrace();
+        }
+        catch (NoTypeFoundInResultSetException e) {
+            /// @todo deal with the exceptions
+            e.printStackTrace();
+        }
+        return p2pGraph;
     }
 
     public void assertEdge(P2PEdge edge, URI asserter) throws GraphModificationException, NoSuchRelationLinkException{
@@ -106,15 +126,17 @@ public class FileBackend implements Backend{
     }
 
     public void loadFile(String filename){
-            System.out.println("Loading file = " + filename);
-           /// @todo these values shouldn't be hardcoded here, but set in config file.
-           OntoramaConfig.ontologyRoot = null;
-           OntoramaConfig.sourceUri = filename;
-           OntoramaConfig.sourcePackageName = "ontorama.webkbtools.inputsource.FileSource";
-           OntoramaConfig.parserPackageName = "ontorama.webkbtools.query.parser.rdf.RdfDamlParser";
-           GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
-           System.out.println("querEvent = " + queryEvent);
-           eventBroker.processEvent(queryEvent);
+        System.out.println("Loading file = " + filename);
+        this.filename = filename;
+
+       /// @todo these values shouldn't be hardcoded here, but set in config file.
+       OntoramaConfig.ontologyRoot = null;
+       OntoramaConfig.sourceUri = filename;
+       OntoramaConfig.sourcePackageName = "ontorama.webkbtools.inputsource.FileSource";
+       OntoramaConfig.parserPackageName = "ontorama.webkbtools.query.parser.rdf.RdfDamlParser";
+       GeneralQueryEvent queryEvent = new GeneralQueryEvent(new Query());
+       System.out.println("querEvent = " + queryEvent);
+       eventBroker.processEvent(queryEvent);
     }
 
     public void saveFile(String filename){

@@ -15,8 +15,8 @@ public interface Edge {
 
     public Node getToNode();
 
-    public URI getUri();
-    public void setUri(URI uri);
-
     public EdgeType getEdgeType();
+
+    public void setCreatorUri (URI cretorUri);
+    public URI getCreatorUri ();
 }

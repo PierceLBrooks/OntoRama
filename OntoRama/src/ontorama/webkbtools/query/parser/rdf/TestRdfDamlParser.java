@@ -191,18 +191,18 @@ public class TestRdfDamlParser extends TestCase {
      */
     public void testFullName() {
         String message = "full name of the ontology type";
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testNode_chair.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Furniture", testNode_furniture.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Backrest", testNode_backrest.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Leg", testNode_leg.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#MyChair", testNode_myChair.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#AllChairs", testNode_allChairs.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeSubstanceNode", testNode_someSubstanceNode.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Table", testNode_table.getFullName());
-        assertEquals(message, "http://www.webkb.org/OntoRama", testNode_url.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeLocation", testNode_someLocation.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeObject", testNode_someObject.getFullName());
-        assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testNode_armchair.getFullName());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testNode_chair.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Furniture", testNode_furniture.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Backrest", testNode_backrest.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Leg", testNode_leg.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#MyChair", testNode_myChair.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#AllChairs", testNode_allChairs.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeSubstanceNode", testNode_someSubstanceNode.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Table", testNode_table.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/OntoRama", testNode_url.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeLocation", testNode_someLocation.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#SomeObject", testNode_someObject.getIdentifier());
+        assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testNode_armchair.getIdentifier());
     }
 
     /**

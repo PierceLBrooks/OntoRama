@@ -143,8 +143,8 @@ public class QueryEngine implements QueryEngineInterface {
             Node cur = (Node) it.next();
             String termIdentifierSuffix = "#" + termName;
             //System.out.println("cur = " + cur.getName() + " checking against '" + termName + ", and '" + termIdentifierSuffix);
-            //System.out.println("fullName = " + cur.getFullName());
-            if (cur.getFullName().equals(termName)) {
+            //System.out.println("fullName = " + cur.getIdentifier());
+            if (cur.getIdentifier().equals(termName)) {
                 //System.out.println("MATCH");
                 found = true;
                 newTermName = cur.getName();

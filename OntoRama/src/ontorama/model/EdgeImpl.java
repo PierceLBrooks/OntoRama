@@ -29,9 +29,11 @@ public class EdgeImpl implements Edge {
     private EdgeType edgeType;
 
     /**
-     * URI for this edge (unique identifier of creator)
+     * cretor URI for this edge - unique identifier of the creator
      */
-    private URI uri;
+    private URI creatorUri;
+
+
 
 
 
@@ -58,14 +60,6 @@ public class EdgeImpl implements Edge {
         return this.toNode;
     }
 
-    public URI getUri() {
-        return this.uri;
-    }
-
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
-
     public EdgeType getEdgeType() {
         return this.edgeType;
     }
@@ -77,10 +71,18 @@ public class EdgeImpl implements Edge {
         return this.toNode;
     }
 
+    public void setCreatorUri(URI creatorUri) {
+        this.creatorUri = creatorUri;
+    }
+
+    public URI getCreatorUri() {
+        return this.creatorUri;
+    }
+
     public String toString() {
         String str = "Edge from '" + this.fromNode + "' to '";
         str = str + this.toNode + "', edgeType = " + edgeType.getName();
-        str = str + ", URI = " + this.uri;
+        str = str + ", creatorUri = " + this.creatorUri;
         return str;
     }
 

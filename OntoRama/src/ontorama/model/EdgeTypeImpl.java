@@ -12,6 +12,7 @@ public class EdgeTypeImpl implements EdgeType {
 
     private String _name;
     private String _reverseEdgeName;
+    private String _namespace;
 
     public EdgeTypeImpl(String name) {
         _name = name;
@@ -27,6 +28,14 @@ public class EdgeTypeImpl implements EdgeType {
 
     public void setReverseEdgeName(String reverseEdgeName) {
         _reverseEdgeName = reverseEdgeName;
+    }
+
+    public void setNamespace (String namespace) {
+        _namespace = namespace;
+    }
+
+    public String getNamespace() {
+        return _namespace;
     }
 
     public String toString() {

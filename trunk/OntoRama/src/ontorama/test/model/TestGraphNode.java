@@ -33,6 +33,8 @@ public class TestGraphNode extends TestCase {
   private GraphNode node2;
   private GraphNode node3;
 
+  private String fullNameNode1 = "this is node1 full name";
+
   private GraphNode cloneNode2;
   private GraphNode cloneNode3;
 
@@ -50,7 +52,7 @@ public class TestGraphNode extends TestCase {
    *
    */
   protected void setUp () throws NoSuchPropertyException {
-    node1 = new GraphNode("node1");
+    node1 = new GraphNode("node1", fullNameNode1);
     node2 = new GraphNode("node2");
     node3 = new GraphNode("node3");
 
@@ -72,6 +74,27 @@ public class TestGraphNode extends TestCase {
   public void testGetName () {
     assertEquals("node1 name", "node1", node1.getName());
     assertEquals("node2 name", "node2", node2.getName());
+  }
+
+  /**
+   *
+   */
+  public void testGetFullName () {
+    assertEquals("node1 full name", fullNameNode1, node1.getFullName());
+    assertEquals("node2 full name", "node2", node2.getFullName());
+  }
+
+  /**
+   *
+   */
+  public void testSetFullName () {
+    String testFullName1 = "another full name";
+    String testFullName2 = "yet another full name";
+    node1.setFullName(testFullName1);
+    node2.setFullName(testFullName2);
+
+    assertEquals("testing setFullName() for node1", testFullName1, node1.getFullName());
+    assertEquals("testing setFullName() for node2", testFullName2, node2.getFullName());
   }
 
   /**

@@ -27,6 +27,12 @@ public class GraphNode implements Cloneable {
     private String name;
 
     /**
+     * Store alternative name of GraphNode
+     * (used in RDF inputs)
+     */
+    private String fullName;
+
+    /**
      * Stores the depth of the node in the graph (distance to the root element).
      */
     private int depth = 0;
@@ -54,7 +60,17 @@ public class GraphNode implements Cloneable {
      * @param name
      */
     public GraphNode( String name ) {
+        this(name,name);
+    }
+
+    /**
+     * Create a new GraphNode with given name and an alternative name
+     *
+     * @param name, fullName
+     */
+    public GraphNode( String name, String fullName ) {
         this.name = name;
+        this.fullName = fullName;
         initNodeProperties();
     }
 
@@ -78,6 +94,20 @@ public class GraphNode implements Cloneable {
     public String getName() {
         return name;
     }
+
+  /**
+   *
+   */
+  public String getFullName() {
+    return fullName;
+  }
+
+  /**
+   *
+   */
+  public void setFullName (String fullName) {
+    this.fullName = fullName;
+  }
 
     /**
      * Return true if GraphNode has clones.

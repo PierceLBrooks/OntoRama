@@ -30,6 +30,7 @@ import javax.swing.event.ChangeListener;
 
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
+import ontorama.backends.examplesmanager.*;
 import ontorama.backends.examplesmanager.gui.*;
 import ontorama.importer.FileImporter;
 import ontorama.model.graph.Graph;

@@ -6,9 +6,9 @@
 
 
 	<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail">
-		<ontoP2P:asserted>mailto:Johan@ontorama.org</ontoP2P:asserted>
-		<ontoP2P:asserted>mailto:Henrik@ontorama.org</ontoP2P:asserted>
-		<ontoP2P:rejected>mailto:JohnDoe@ontorama.org</ontoP2P:rejected>
+		<ontoP2P:asserted>mailto:johan@ontorama.org</ontoP2P:asserted>
+		<ontoP2P:asserted>mailto:henrik@ontorama.org</ontoP2P:asserted>
+		<ontoP2P:rejected>mailto:johnDoe@ontorama.org</ontoP2P:rejected>
 		<rdfs:label xml:lang="en">tail</rdfs:label>
 		<dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
 		<rdfs:comment>
@@ -16,26 +16,11 @@
 		</rdfs:comment>
 		<rdfs:subClassOf rdf:parseType="Resource">
 			<rdf:value>http://www.webkb.org/kb/theKB_terms.rdf/wn#Outgrowth</rdf:value>
-			<ontoP2P:asserted>mailto:Johan@ontorama.org</ontoP2P:asserted>
 			<ontoP2P:rejected>mailto:nataliya@ontorama.org</ontoP2P:rejected>
 		</rdfs:subClassOf>
 		<rdfs:part rdf:parseType="Resource">
 			<rdf:value> http://www.webkb.org/kb/theKB_terms.rdf/wn#Dock_4</rdf:value>
-			<ontoP2P:asserted>mailto:Johan@ontorama.org</ontoP2P:asserted>
+			<ontoP2P:asserted>mailto:johan@ontorama.org</ontoP2P:asserted>
 		</rdfs:part>
-	</rdfs:Class>
-	<rdfs:Class rdf:about="http://www.webkb.org/kb/theKB_terms.rdf/wn#Bobtail">
-		<ontoP2P:asserted>mailto:Johan@ontorama.org</ontoP2P:asserted>
-		<ontoP2P:asserted>mailto:Henrik@ontorama.org</ontoP2P:asserted>
-		<ontoP2P:rejected>mailto:JohnDoe@ontorama.org</ontoP2P:rejected>
-		<rdfs:label xml:lang="en">bobtail</rdfs:label>
-		<rdfs:label xml:lang="en">bob</rdfs:label>
-		<rdfs:label xml:lang="en">dock</rdfs:label>
-		<dc:Creator>http://www.cogsci.princeton.edu/~wn/</dc:Creator>
-		<rdfs:comment>a short or shortened tail of certain animals</rdfs:comment>
-		<rdfs:subClassOf rdf:parseType="Resource">
-			<rdf:value>http://www.webkb.org/kb/theKB_terms.rdf/wn#Tail</rdf:value>
-			<ontoP2P:asserted>mailto:Johan@ontorama.org</ontoP2P:asserted>
-		</rdfs:subClassOf>
 	</rdfs:Class>
 </rdf:RDF>

@@ -42,6 +42,7 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
 
     private JTextField _queryField;
     private JButton _querySubmitButton;
+    private JButton _queryStopButton;
 
     /**
      *
@@ -100,8 +101,12 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
         QueryAction queryAction = new QueryAction();
         _querySubmitButton = new JButton(queryAction);
 
+        StopQueryAction stopQueryAction = new StopQueryAction();
+        _queryStopButton = new JButton(stopQueryAction);
+
         queryFieldPanel.add(_queryField);
         queryFieldPanel.add(_querySubmitButton);
+        queryFieldPanel.add(_queryStopButton);
 
         setLayout(new BorderLayout());
 
@@ -267,6 +272,35 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
   }
 
     /**
+     * stop query action
+     */
+    class StopQueryAction extends AbstractAction {
+
+      private static final String ACTION_COMMAND_KEY_COPY = "stop-query-command";
+      private static final String NAME_COPY = "Cancel";
+      private static final String SHORT_DESCRIPTION_COPY = "Stop Query";
+      private static final String LONG_DESCRIPTION_COPY = "Stop current Query";
+
+      /**
+       *
+       */
+      public StopQueryAction() {
+        putValue(Action.NAME, NAME_COPY);
+        putValue(Action.SHORT_DESCRIPTION, SHORT_DESCRIPTION_COPY);
+        putValue(Action.LONG_DESCRIPTION, LONG_DESCRIPTION_COPY);
+        putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
+      }
+
+      /**
+       *
+       */
+      public void actionPerformed(ActionEvent parm1) {
+        System.out.println("___action: stop query");
+        stopQuery();
+      }
+  }
+
+    /**
      *
      */
     //protected void notifyQueryAction () {
@@ -289,6 +323,13 @@ public class QueryPanel extends JPanel implements ViewEventObserver {
       Query newQuery = buildNewQuery();
       _ontoRamaApp.executeQuery(newQuery);
       _ontoRamaApp.appendHistoryMenu(newQuery);
+    }
+
+    /**
+     *
+     */
+    protected void stopQuery () {
+      _ontoRamaApp.stopQuery();
     }
 
     //////////////////////////ViewEventObserver interface implementation////////////////

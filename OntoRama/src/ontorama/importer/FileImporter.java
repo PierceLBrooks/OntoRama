@@ -16,7 +16,7 @@ import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ui.events.QueryEndEvent;
+import ontorama.ui.events.GraphIsLoadedEvent;
 
 /**
  * @author nataliya
@@ -73,7 +73,7 @@ public class FileImporter implements Importer {
 			Backend backend = OntoramaConfig.getBackend();
 			System.out.println("FileBackend::getResult, backend = " + backend);
 			Graph newGraph = backend.createGraph(qr, _eventBroker);
-			_eventBroker.processEvent(new QueryEndEvent(newGraph));
+			_eventBroker.processEvent(new GraphIsLoadedEvent(newGraph));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

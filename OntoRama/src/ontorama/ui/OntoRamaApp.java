@@ -186,7 +186,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
         }
     }
 
-    private class QueryEndEventHandler implements EventBrokerListener {
+    private class GraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             Graph graph = (Graph) event.getSubject();
             _progressBar.setIndeterminate(false);
@@ -277,12 +277,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 				            Object.class);
 
         _modelEventBroker.subscribe(
-				            new QueryEndEventHandler(),
-				            QueryEndEvent.class,
+				            new GraphIsLoadedEventHandler(),
+				            GraphIsLoadedEvent.class,
 				            Object.class);
         _viewsEventBroker.subscribe(
-				            new QueryEndEventHandler(),
-				            QueryEndEvent.class,
+				            new GraphIsLoadedEventHandler(),
+				            GraphIsLoadedEvent.class,
 				            Object.class);
 
         _modelEventBroker.subscribe(
@@ -519,7 +519,7 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 			}
 			if (_worker instanceof GraphCreatorThread) { 				
 				Graph graph = (Graph) _worker.getResult();
-				_modelEventBroker.processEvent(new QueryEndEvent(graph));
+				_modelEventBroker.processEvent(new GraphIsLoadedEvent(graph));
 			}
             _timer.stop();
         }

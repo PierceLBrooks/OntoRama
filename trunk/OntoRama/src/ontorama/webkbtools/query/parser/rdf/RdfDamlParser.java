@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Enumeration;
+import java.util.Collection;
 
 import java.security.AccessControlException;
 
@@ -31,7 +32,8 @@ import ontorama.webkbtools.util.NoSuchPropertyException;
 
 /**
  * Title:
- * Description:
+ * Description:  Parse a reader in RDF format and create OntologyTypes from
+ *                RDF statements
  * Copyright:    Copyright (c) 2001
  * Company:
  * @author
@@ -45,10 +47,6 @@ public class RdfDamlParser implements Parser {
      */
     private Hashtable ontHash;
 
-
-    // default rdf type
-    private static final String typeDef = "type";
-
     /**
      * Constructor
      */
@@ -60,6 +58,14 @@ public class RdfDamlParser implements Parser {
      *
      */
     public Iterator getOntologyTypeIterator(Reader reader) throws ParserException, AccessControlException {
+      return getOntologyTypeCollection(reader).iterator();
+    }
+
+
+    /**
+     *
+     */
+    public Collection getOntologyTypeCollection(Reader reader) throws ParserException, AccessControlException {
         try {
             // create an empty model
             //Model model = new ModelMem();
@@ -80,17 +86,20 @@ public class RdfDamlParser implements Parser {
                 }
             }
         }
-		catch (AccessControlException secExc) {
-			throw secExc;
-		}
+        catch (AccessControlException secExc) {
+                throw secExc;
+        }
         catch (RDFException e) {
             throw new ParserException("Error in parsing RDF: " + e.getMessage());
         }
-        return ontHash.values().iterator();
+        return ontHash.values();
     }
 
     /**
+     * Process RDF statement and create corresponding Ontology types.
      *
+     * @todo shouldn't strip URI's from resource name. This may create problems later if, for example,
+     * user wants to specify resource uri for something, he/she will end up with only last component of it.
      */
     private void processStatement (Statement st) {
         Property predicate = st.getPredicate();

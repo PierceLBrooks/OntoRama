@@ -30,7 +30,9 @@ public class JarSource implements Source {
         if (OntoramaConfig.DEBUG) {
             System.out.println ("relativePath = " + relativePath);
         }
-        System.out.println ("class JarSource relativePath = " + relativePath);
+        if (OntoramaConfig.VERBOSE) {
+          System.out.println ("class JarSource relativePath = " + relativePath);
+        }
         //InputStream stream = OntoramaConfig.getInputStreamFromResource(OntoramaConfig.getClassLoader(),relativePath);
         InputStream stream = OntoramaConfig.getInputStreamFromResource(relativePath);
 

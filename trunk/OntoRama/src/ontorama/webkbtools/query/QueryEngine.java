@@ -58,7 +58,7 @@ public class QueryEngine {
 
 
     /**
-     * Constructor
+     * Execute a query to OntologyServer and get a query result
      * @todo: think what to do with exception
      */
     public QueryEngine(Query query) throws Exception {
@@ -111,10 +111,9 @@ public class QueryEngine {
         // we end up with a list of unwanted relations
         //allLinks.removeAll(query.getRelationLinksCollection());
         allLinksCopy.removeAll(query.getRelationLinksCollection());
-        System.out.println ("allLinksCopy = " + allLinksCopy);
+        System.out.println ("unwantedLinksList = " + allLinksCopy);
         System.out.println ("allLinks = " + OntoramaConfig.getRelationLinksSet());
         Iterator unwantedLinks = allLinksCopy.iterator();
-        System.out.println ("unwantedLinksList = " + unwantedLinks);
 
 
         // list to hold all updated types
@@ -139,8 +138,8 @@ public class QueryEngine {
             //System.out.println("*** ontType after link removed: " + ontType);
             updatedTypeRelativesList.add(ontType);
         }
+        //System.out.println("result = " + updatedTypeRelativesList);
         return updatedTypeRelativesList.iterator();
-        //queryResult = new QueryResult(query, getQueryTypesList);
     }
 
     /**

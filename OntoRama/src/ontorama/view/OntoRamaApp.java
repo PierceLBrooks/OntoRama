@@ -28,6 +28,8 @@ import javax.swing.JToolBar;
 
 import ontorama.OntoramaConfig;
 
+import ontorama.view.action.*;
+
 import ontorama.webkbtools.query.QueryEngine;
 import ontorama.webkbtools.query.Query;
 import ontorama.webkbtools.query.QueryResult;
@@ -149,9 +151,9 @@ public class OntoRamaApp extends JFrame {
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-        termName = OntoramaConfig.ontologyRoot;
-        Query query = new Query (termName);
-        graph = getGraphFromQuery(query);
+//        termName = OntoramaConfig.ontologyRoot;
+//        Query query = new Query (termName);
+//        graph = getGraphFromQuery(query);
 
         /**
          * find preferred sizes for application window.
@@ -165,14 +167,16 @@ public class OntoRamaApp extends JFrame {
         /**
          * create Menu Bar
          */
-        menu = new OntoRamaMenu(this, viewListener);
-        this.setJMenuBar(menu.getMenuBar());
+        menu = new OntoRamaMenu(this);
+        this.setJMenuBar(menu);
 
         /**
          * create tool bar
          */
         //toolBar = new OntoRamaToolBar();
-        toolBar = menu.getToolBar();
+        toolBar = new OntoRamaToolBar();
+        //toolBar = menu.getToolBar();
+        //toolBar.setFloatable(false);
         JPanel combinedToolBarQueryPanel = new JPanel(new BorderLayout());
         combinedToolBarQueryPanel.add(toolBar,BorderLayout.NORTH);
 
@@ -181,20 +185,20 @@ public class OntoRamaApp extends JFrame {
          */
         //treeView = (new OntoTreeView(graph, viewListener)).getTreeViewPanel();
         treeView = new OntoTreeView(graph, viewListener);
-        treeView.setGraph(graph);
+//        treeView.setGraph(graph);
 
 
         /**
          * Create HyperView
          */
         hyperView = new SimpleHyperView(viewListener);
-        hyperView.setGraph(graph);
+//        hyperView.setGraph(graph);
 
         /**
          * create a query panel
          */
         queryPanel = new QueryPanel(hyperView, viewListener, this);
-        queryPanel.setQueryField(termName);
+//        queryPanel.setQueryField(termName);
         combinedToolBarQueryPanel.add(queryPanel, BorderLayout.CENTER);
 
         /** create description panel
@@ -206,7 +210,7 @@ public class OntoRamaApp extends JFrame {
         //JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel,
                                //JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                                //JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        descriptionViewPanel.setFocus(graph.getRootNode());
+//        descriptionViewPanel.setFocus(graph.getRootNode());
         JScrollPane descriptionViewScrollPanel = new JScrollPane(descriptionViewPanel);
 
         //Add the scroll panes to a split pane.
@@ -227,18 +231,27 @@ public class OntoRamaApp extends JFrame {
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-              closeMainApp();
+              //closeMainApp();
+              //new ExitAction().actionPerformed(e);
+              System.exit(0);
             }
         });
-
+        termName = OntoramaConfig.ontologyRoot;
+        Query query = new Query (termName);
+        graph = getGraphFromQuery(query);
+        treeView.setGraph(graph);
+        hyperView.setGraph(graph);
+        queryPanel.setQueryField(termName);
+        descriptionViewPanel.setFocus(graph.getRootNode());
+        repaint();
     }
 
     /**
      *
      */
-    public void closeMainApp () {
-      System.exit(0);
-    }
+//    public static void closeMainApp () {
+//      System.exit(0);
+//    }
 
     /**
      * repaint method. takes care of repositioning divider bar in split panel
@@ -268,6 +281,7 @@ public class OntoRamaApp extends JFrame {
         setSplitPanelSizes(curAppWidth, curAppHeight);
         this.appWidth = curAppWidth;
         this.appHeight = curAppHeight;
+        super.repaint();
     }
 
     /**

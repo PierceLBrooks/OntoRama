@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JToolBar;
 import javax.swing.JToolTip;
 import javax.swing.JButton;
+import javax.swing.Action;
+
+import ontorama.view.action.*;
 
 /**
  * <p>Title: </p>
@@ -22,29 +25,18 @@ public class OntoRamaToolBar extends JToolBar {
   /**
    *
    */
-//  private JToolBar toolBar;
-
-  /**
-   *
-   */
   public OntoRamaToolBar() {
 
-    //toolBar = new JToolBar();
     super();
 
-    JButton backButton = new JButton("Back");
-    //toolBar.add(backButton);
+    Action backAction = new BackHistoryAction();
+    JButton backButton = add(backAction);
+
     add(backButton);
 
-    JButton forwardButton = new JButton("Forward");
-    //toolBar.add(forwardButton);
+    Action forwardAction = new ForwardHistoryAction();
+    JButton forwardButton = add(forwardAction);
     add(forwardButton);
   }
 
-  /**
-   *
-   */
-//  public JToolBar getToolBar () {
-//    return this.toolBar;
-//  }
 }

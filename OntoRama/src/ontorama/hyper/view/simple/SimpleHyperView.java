@@ -108,8 +108,9 @@ public class SimpleHyperView extends Canvas implements GraphView {
      *
      */
     public void focus(GraphNode graphNode) {
+        //System.out.println("FOCUS node " + graphNode);
         if ((focusNode != null) && (graphNode.equals(focusNode.getGraphNode())) ) {
-            //System.out.println("FOCUS node " + graphNode + " is already focused, don't have to do anything");
+            //System.out.println("\tnode " + graphNode + " is already focused, don't have to do anything");
             return;
         }
         animationTime = System.currentTimeMillis();
@@ -734,7 +735,7 @@ public class SimpleHyperView extends Canvas implements GraphView {
 
         g2d.setColor(new Color(222, 222, 222));
         g2d.fillRect(0, 0, getWidth(), getHeight());
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int width = this.getSize().width;
         int height = this.getSize().height;

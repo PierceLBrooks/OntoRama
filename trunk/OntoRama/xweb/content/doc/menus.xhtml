@@ -32,47 +32,29 @@
 		
 <xml>
 <ontoramaExamples>
-  <example name="Ontorama Xml Test" root="root">
-    <source relativeUri= "examples/ontorama-test.xml"	
-		sourcePackagePathSuffix= "JarSource"/>
-	<queryOutputFormat> XML </queryOutputFormat>
-	<parserPackagePathSuffix> xml.XmlParserFull </parserPackagePathSuffix>
-  </example>
+    <example name="Comms Ontology" root="comms#CommsObject" loadOnStart="yes">
+        <source uri="examples/comms_comms_object-children.rdf"
+                            sourcePackagePathSuffix="JarSource"/>
+        <queryOutputFormat>RDF</queryOutputFormat>
+        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    </example>
   ......
-  <example name="International Movies 
-    Database" root="#IMdb">
-	<source relativeUri= "examples/web-examples/imdb.rdf" 
-		sourcePackagePathSuffix= "JarSource"/>
-	<queryOutputFormat> RDF </queryOutputFormat>
-	<parserPackagePathSuffix> rdf.RdfDamlParser </parserPackagePathSuffix>
-	<displayMenu subfolder= "Web Examples"/>
-  </example>			
+    <example name="International Movies Database" root="#IMdb">
+        <source uri="examples/web-examples/imdb.rdf"
+            sourcePackagePathSuffix="JarSource"/>
+        <queryOutputFormat>RDF</queryOutputFormat>
+        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+        <displayMenu subfolder="Web Examples"/>
+    </example>
+    <example name="Ontorama Xml Test" root="root">
+        <source uri="examples/ontorama-test.xml"
+            sourcePackagePathSuffix="JarSource"/>
+        <queryOutputFormat>XML</queryOutputFormat>
+        <parserPackagePathSuffix>xml.XmlParserFull</parserPackagePathSuffix>
+        <displayMenu subfolder="Test Cases"/>
+    </example>
 </ontoramaExamples>
 </xml>		
-<!--
-		<pre>
-&lt;ontoramaExamples&gt;
-  &lt;example name="Ontorama Xml Test" root="root"&gt;
-    &lt;source relativeUri="examples/ontorama-test.xml"	
-		sourcePackagePathSuffix="JarSource"/&gt;
-	&lt;queryOutputFormat&gt;XML&lt;/queryOutputFormat&gt;
-	&lt;parserPackagePathSuffix&gt;
-	  xml.XmlParserFull
-	&lt;/parserPackagePathSuffix&gt;
-  &lt;/example&gt;
-  ......
-  &lt;example name="International Movies Database" root="#IMdb"&gt;
-	&lt;source relativeUri="examples/web-examples/imdb.rdf" 
-		sourcePackagePathSuffix="JarSource"/&gt;
-	&lt;queryOutputFormat&gt;RDF&lt;/queryOutputFormat&gt;
-	&lt;parserPackagePathSuffix&gt;
-	  rdf.RdfDamlParser
-	&lt;/parserPackagePathSuffix&gt;
-	&lt;displayMenu subfolder="Web Examples"/&gt;
-  &lt;/example&gt;			
-&lt;/ontoramaExamples&gt;
-		</pre>
--->
 		<p>
 			Root Element: 'ontoramaExamples'.
 			Root Element can contain any number of 'example' elements.
@@ -97,7 +79,7 @@
 					source element. Describes ontology source. Attibutes:
 						<ul>
 							<li>
-								relativeUri: specifies source/location of this ontology. This should be either:
+								uri: specifies source/location of this ontology. This should be either:
 								<ol>
 									path relative to Class Loader
 								</ol>
@@ -108,7 +90,7 @@
 							<li>
 								sourcePackagePathSuffix: name of class to use to parse this source.
 								<br/>
-								At the moment two available: JarSource and UrlSource.
+								At the moment the following are available:
 								<br/>
 								JarSource is used if application is packaged in the jar file and location 
 								of an example is relative to ClassLoader.
@@ -117,6 +99,9 @@
 								in relation to Java Webstart. Possibly can only run ontologies that come from the
 								same host as the application. Have to CHECK and TEST this!!!!)
 							</li>
+                            <li>
+                                WebKB2Source can be used to connect to WebKB2 Ontology Server.
+                            </li>
 						</ul>
 				</li>
 				<li>
@@ -126,7 +111,7 @@
 				</li>
 				<li>
 					parserPackagePathSuffix element. Specifies what parser to use for this ontology.
-					Available parsers at the moment: xml.XmlParserFull and rdf.RdfDamlParser.
+					Available parsers at the moment: xml.XmlParserFull, rdf.RdfDamlParser and RdfWebkbParser.
 				</li>
 			</ul>
 		<h4>Location of examples files and examplesConfig.xml</h4>

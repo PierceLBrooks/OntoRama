@@ -21,7 +21,6 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
 import ontorama.util.Debug;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import org.tockit.events.EventBroker;
 

@@ -24,8 +24,8 @@
 	<pathelement path="${lib.home}/jenaOntorama.jar/"/>
 	<pathelement path="${lib.home}/junit.jar/"/>
 	<pathelement path="${lib.home}/xerces.jar/"/>
-	<pathelement path="${lib.home}/rdffilter.jar/"/>
-	<pathelement path="${lib.home}/aelfred.jar/"/>
+	<!--<pathelement path="${lib.home}/rdffilter.jar/"/>-->
+	<!--<pathelement path="${lib.home}/aelfred.jar/"/>-->
 	<pathelement path="${lib.home}/sax2beta.jar/"/>
 	<pathelement path="${lib.home}/batik-awt-util.jar/"/>
 	<pathelement path="${lib.home}/batik-dom.jar/"/>

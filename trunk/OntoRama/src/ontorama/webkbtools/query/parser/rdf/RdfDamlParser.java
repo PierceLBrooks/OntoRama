@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.Enumeration;
 
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
 import com.hp.hpl.mesa.rdf.jena.model.*;
@@ -20,6 +21,7 @@ import ontorama.webkbtools.datamodel.OntologyTypeImplementation;
 import ontorama.OntoramaConfig;
 import ontorama.ontologyConfig.*;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 
 
 /**
@@ -38,14 +40,6 @@ public class RdfDamlParser implements Parser {
      */
     private Hashtable ontHash;
 
-    /**
-     * RDF constants
-     */
-    private static final String synonymDef = "label";
-    private static final String descriptionDef = "comment";
-    private static final String subClassOfDef = "subClassOf";
-    private static final String creatorDef = "Creator";
-    private static final String partDef = "part";
 
     // default rdf type
     private static final String typeDef = "type";
@@ -141,18 +135,45 @@ public class RdfDamlParser implements Parser {
                     System.exit(-1);
                 }
             }
-            if (predicate.getLocalName().endsWith("comment")) {
-                subjectType.setDescription(object.toString());
-            }
-            else if (predicate.getLocalName().endsWith("Creator")) {
-                subjectType.setCreator(object.toString());
-            }
-//            else {
-//                // ERROR
-//                // throw exception here
-//                System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
-//            }
+
+
         }
+        Hashtable conceptPropertiesRdfMapping = OntoramaConfig.getConceptPropertiesRdfMapping();
+        Enumeration e = conceptPropertiesRdfMapping.elements();
+        while (e.hasMoreElements()) {
+            ConceptPropertiesMapping conceptRdfMapping = (ConceptPropertiesMapping) e.nextElement();
+            String mappingTag = conceptRdfMapping.getRdfTag();
+             if (predicate.getLocalName().endsWith(mappingTag)) {
+                // found rdf element/resource that is matching mapping tag. Now
+                // need to find out what concept property name/id corresponds
+                // to this mapping tag.
+                String mappingId = conceptRdfMapping.getId();
+                // now we need to map this id/name to ConceptPropertiesDetails
+                ConceptPropertiesDetails conceptPropertiesDetails = OntoramaConfig.getConceptPropertiesDetails(mappingId);
+                try {
+                    if (conceptPropertiesDetails != null) {
+                        // add this info as a property of ontology type
+                        subjectType.addTypeProperty(mappingId,object.toString());
+                        //System.out.println("type = " + subjectType.getName() + ", adding propertyName = " + mappingId + ", value = " + object.toString());
+                    }
+                    else {
+                       // ERROR
+                        // throw exception here
+                        System.out.println("Dont' know about property '" + predicate.getLocalName() + "'");
+                    }
+                }
+                catch (NoSuchPropertyException propExc ) {
+                    System.err.println("NoSuchPropertyException: " + propExc);
+                    System.exit(-1);
+                }
+             }
+        }
+//            if (predicate.getLocalName().endsWith("comment")) {
+//                subjectType.setDescription(object.toString());
+//            }
+//            else if (predicate.getLocalName().endsWith("Creator")) {
+//                subjectType.setCreator(object.toString());
+//            }
     }
 
     /**

@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Enumeration;
 import java.util.ListIterator;
+import java.util.Hashtable;
+
+import ontorama.OntoramaConfig;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 
 
 
@@ -48,14 +52,21 @@ public class GraphNode implements Cloneable, NodeObservable {
     private List clones = new LinkedList();
 
     /**
-     * Description string
+     * Table of all available properties for this node.
+     * List of property names can be found in OntoramaConfig
      */
-    private String description = null;
+    private Hashtable nodeDetails = new Hashtable();
 
-    /**
-     * Creator string
-     */
-    private String creator = null;
+
+//    /**
+//     * Description string
+//     */
+//    private String description = null;
+//
+//    /**
+//     * Creator string
+//     */
+//    private String creator = null;
 
     /**
      *
@@ -116,8 +127,15 @@ public class GraphNode implements Cloneable, NodeObservable {
      */
     public void hasFocus () {
         System.out.println("GraphNode method hasFocus() for graphNode " + this.getName());
-        System.out.println("\t\tdescription = " + this.getDescription());
-        System.out.println("\t\tcreator = " + this.getCreator());
+        Enumeration e = nodeDetails.keys();
+        while (e.hasMoreElements()) {
+            String curPropName = (String) e.nextElement();
+            String curPropValue = (String) nodeDetails.get(curPropName);
+            System.out.println("\t\t" + curPropName + " = " + curPropValue);
+        }
+
+        //System.out.println("\t\tdescription = " + this.getDescription());
+        //System.out.println("\t\tcreator = " + this.getCreator());
         System.out.println("\t\tclones: " + this.clones);
 
         notifyChange();
@@ -299,37 +317,54 @@ public class GraphNode implements Cloneable, NodeObservable {
     }
 
     /**
-     * Set description for this node
-     * @param   descriptionStr
+     *
      */
-    public void setDescription (String descriptionStr) {
-        this.description = descriptionStr;
+    public void setProperty (String propertyName, String propertyValue) {
+        nodeDetails.put(propertyName, propertyValue);
     }
 
     /**
-     * Get description string
-     * @return description string
+     *
      */
-    public String getDescription () {
-        return this.description;
+    public String getProperty (String propertyName) {
+        if (nodeDetails.contains(propertyName)) {
+            return (String) nodeDetails.get(propertyName);
+        }
+        return null;
     }
 
-    /**
-     * Set creator
-     * @param creatorStr
-     */
-     public void setCreator (String creatorStr) {
-        this.creator = creatorStr;
-     }
-
-     /**
-      * Get creator string
-      * @return creator
-      */
-      public String getCreator () {
-        return this.creator;
-      }
-
+//    /**
+//     * Set description for this node
+//     * @param   descriptionStr
+//     */
+//    public void setDescription (String descriptionStr) {
+//        this.description = descriptionStr;
+//    }
+//
+//    /**
+//     * Get description string
+//     * @return description string
+//     */
+//    public String getDescription () {
+//        return this.description;
+//    }
+//
+//    /**
+//     * Set creator
+//     * @param creatorStr
+//     */
+//     public void setCreator (String creatorStr) {
+//        this.creator = creatorStr;
+//     }
+//
+//     /**
+//      * Get creator string
+//      * @return creator
+//      */
+//      public String getCreator () {
+//        return this.creator;
+//      }
+//
 
     /**
      * toString method

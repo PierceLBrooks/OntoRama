@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import ontorama.*;
 import ontorama.webkbtools.query.*;
@@ -51,7 +53,8 @@ public class GraphBuilder {
      * of hardcoding int=1 use iterator on a set of relation types)
      */
     public GraphBuilder(QueryResult queryResult)
-                throws NoSuchRelationLinkException, NoTypeFoundInResultSetException {
+                throws NoSuchRelationLinkException, NoTypeFoundInResultSetException,
+                NoSuchPropertyException {
 
         String termName = queryResult.getQuery().getQueryTypeName();
         Iterator ontIterator = queryResult.getOntologyTypesIterator();
@@ -84,12 +87,15 @@ public class GraphBuilder {
         catch (NoSuchRelationLinkException e) {
             throw e;
         }
+        catch (NoSuchPropertyException e2) {
+            throw e2;
+        }
     }
 
     /**
      *
      */
-    private void makeEdges (OntologyType ot,String rootName) throws NoSuchRelationLinkException {
+    private void makeEdges (OntologyType ot,String rootName) throws NoSuchRelationLinkException, NoSuchPropertyException {
         if ( processedTypes.contains(ot)) {
             return;
         }
@@ -100,8 +106,18 @@ public class GraphBuilder {
             node = new GraphNode (ot.getName());
             processedNodes.put(ot.getName(), node);
         }
-        node.setDescription(ot.getDescription());
-        node.setCreator(ot.getCreator());
+        //node.setDescription(ot.getDescription());
+        //node.setCreator(ot.getCreator());
+        Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
+        Enumeration e = conceptPropertiesConfig.keys();
+        while (e.hasMoreElements()) {
+            String propertyName = (String) e.nextElement();
+            if (ot.getTypeProperty(propertyName) != null) {
+                node.setProperty(propertyName, ot.getTypeProperty(propertyName));
+            }
+        }
+        //node.setDescription(ot.getTypeProperty("description"));
+        //node.setCreator(ot.getTypeProperty("creator"));
 
         if (rootName.equals(node.getName())) {
             edgeRoot = node;
@@ -151,7 +167,7 @@ public class GraphBuilder {
      * Read nodes into hashtable
      * @todo    remove this method
      */
-    private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException {
+    private void parseTypeToNode(OntologyType ot, int relLink ) throws NoSuchRelationLinkException, NoSuchPropertyException {
 
         // find node with name
         String nodeName = ot.getName();
@@ -162,8 +178,19 @@ public class GraphBuilder {
             // add child to hashtable
             nodes.put(nodeName, conceptNode );
         }
-        conceptNode.setDescription(ot.getDescription());
-        conceptNode.setCreator(ot.getCreator());
+        //conceptNode.setDescription(ot.getDescription());
+        //conceptNode.setCreator(ot.getCreator());
+        Hashtable conceptPropertiesConfig = OntoramaConfig.getConceptPropertiesTable();
+        Enumeration e = conceptPropertiesConfig.keys();
+        while (e.hasMoreElements()) {
+            String propertyName = (String) e.nextElement();
+            if (ot.getTypeProperty(propertyName) != null) {
+                conceptNode.setProperty(propertyName, ot.getTypeProperty(propertyName));
+            }
+        }
+
+        //conceptNode.setDescription(ot.getTypeProperty("description"));
+        //conceptNode.setCreator(ot.getTypeProperty("creator"));
 
         //get children
 

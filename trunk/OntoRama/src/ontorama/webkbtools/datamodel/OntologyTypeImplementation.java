@@ -12,9 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.LinkedList;
+import java.util.Hashtable;
 
 import ontorama.OntoramaConfig;
 import ontorama.webkbtools.util.NoSuchRelationLinkException;
+import ontorama.webkbtools.util.NoSuchPropertyException;
 
 /**
  * Implements interface OntologyType using LinkedList as Iterator.
@@ -31,6 +33,11 @@ public class OntologyTypeImplementation implements OntologyType {
    * List superType = relationshipTypes[SUPERTYPE]
    */
   private LinkedList[] relationshipTypes = new LinkedList[OntoramaConfig.MAXTYPELINK + 1];
+
+  /**
+   *
+   */
+   private Hashtable typeProperties = new Hashtable();
 
   /**
    * Name of this Ontology Type.
@@ -129,39 +136,66 @@ public class OntologyTypeImplementation implements OntologyType {
       return false;
   }
 
-
   /**
-   * Sets the type description
-   * @param description - description String for this type
+   * Set type property specified by given property name
    */
-  public void setDescription(String description) {
-    typeDescription = description;
-  }
-
-  /**
-   * Gets the type description
-   * @param -
-   * @return  description string for this type
-   */
-  public String getDescription() {
-    return typeDescription;
-  }
-
-  /**
-   * Set type creator
-   * @param creatorStr
-   */
-   public void setCreator (String creatorStr) {
-    this.typeCreator = creatorStr;
+   public void addTypeProperty (String propertyName, String propertyValue) throws NoSuchPropertyException {
+     if (OntoramaConfig.getConceptPropertiesTable().containsKey(propertyName)) {
+        typeProperties.put(propertyName, propertyValue);
+     }
+     else {
+        throw new NoSuchPropertyException(propertyName,OntoramaConfig.getConceptPropertiesTable().keys());
+     }
    }
 
    /**
-    * Get type creator
-    * @return   creator string
+    *
     */
-    public String getCreator () {
-        return this.typeCreator;
+    public String getTypeProperty (String propertyName) throws NoSuchPropertyException {
+        if (OntoramaConfig.getConceptPropertiesTable().containsKey(propertyName)) {
+            return (String) typeProperties.get(propertyName);
+        }
+        else {
+            throw new NoSuchPropertyException(propertyName,OntoramaConfig.getConceptPropertiesTable().keys());
+        }
+
     }
+
+
+
+
+//  /**
+//   * Sets the type description
+//   * @param description - description String for this type
+//   */
+//  public void setDescription(String description) {
+//    typeDescription = description;
+//  }
+//
+//  /**
+//   * Gets the type description
+//   * @param -
+//   * @return  description string for this type
+//   */
+//  public String getDescription() {
+//    return typeDescription;
+//  }
+//
+//  /**
+//   * Set type creator
+//   * @param creatorStr
+//   */
+//   public void setCreator (String creatorStr) {
+//    this.typeCreator = creatorStr;
+//   }
+//
+//   /**
+//    * Get type creator
+//    * @return   creator string
+//    */
+//    public String getCreator () {
+//        return this.typeCreator;
+//    }
 
 
   /**

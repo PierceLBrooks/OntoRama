@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import net.jxta.peergroup.PeerGroup;
 import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
 
 /*
@@ -114,19 +113,10 @@ public class GroupChooserPanel extends JPanel {
         Vector result = new Vector();
         for ( int i = 0; i < bound; i++ ) {
           for ( int j = bound-1; j > i; j-- ) {
-              Object currentObj = array[j];
-              Object previousObj = array[j-1];
-              String currentName;
-              String previousName;
-              /// @todo this if is a hack. all vectors used in this group chooser should implement the same interface.
-              if (currentObj instanceof  SearchGroupResultElement) {
-                  currentName = ( (SearchGroupResultElement) currentObj ).getName().toLowerCase();
-                  previousName = ( (SearchGroupResultElement) previousObj).getName().toLowerCase();
-              }
-              else {
-                  currentName = ( (PeerGroup) currentObj).getPeerGroupName().toLowerCase();
-                  previousName = ( (PeerGroup) previousObj).getPeerGroupName().toLowerCase();
-              }
+              SearchGroupResultElement currentObj = (SearchGroupResultElement) array[j];
+          	SearchGroupResultElement previousObj = (SearchGroupResultElement) array[j-1];
+              String currentName = currentObj.getName().toLowerCase();
+              String previousName = previousObj.getName().toLowerCase();
               //if ( (array[j-1].toLowerCase()).compareTo ( array[j].toLowerCase()) > 0 ) {
               if ( previousName.compareTo( currentName) > 0 ) {
                   tmp = array[j-1];

@@ -60,5 +60,8 @@ public class P2PMainPanel extends JPanel {
         return changePanel;
     }
 
+	public GroupsPanel getGroupsPanel() {
+		return groupsPanel;
+	}
 
 }

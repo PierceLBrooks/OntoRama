@@ -2,6 +2,10 @@ package ontorama.backends.p2p.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,6 +20,8 @@ import javax.swing.JTextField;
 
 import ontorama.backends.p2p.P2PBackend;
 import ontorama.backends.p2p.gui.action.NewGroupAction;
+import ontorama.backends.p2p.p2pprotocol.SearchGroupResultElement;
+import ontorama.ui.ErrorDialog;
 
 /**
  * @author nataliya
@@ -25,6 +31,8 @@ public class GroupsPanel extends JPanel {
 	JPanel _newGroupPanel;
 	JPanel _allGroupsPanel;
 	P2PBackend _p2pBackend;
+	private DefaultListModel _allGroupsListModel;
+	private DefaultListModel _joinedGroupsListModel;
 
 	public GroupsPanel(P2PBackend p2pBackend) {
 		super();
@@ -49,7 +57,6 @@ public class GroupsPanel extends JPanel {
 		_newGroupPanel.add(new JLabel("Create new group"));
 		
 		JTextField newGroupNameField = DialogUtil.createNewGroupNameTextField();
-
 		JTextField newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
 		
 		JButton cancelButton = new JButton("Clear");
@@ -76,26 +83,29 @@ public class GroupsPanel extends JPanel {
 		
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(new JLabel("Joined"));
-		DefaultListModel joinedGroupsListModel = new DefaultListModel();
-		joinedGroupsListModel.addElement("el 1");
-		joinedGroupsListModel.addElement("el 2");
-		joinedGroupsListModel.addElement("el 3");
-		JList joinedGroupsList = new JList(joinedGroupsListModel);
-		JScrollPane leftListScrollPane = new JScrollPane(joinedGroupsList);
+		_joinedGroupsListModel = new DefaultListModel();
+		GroupChooser joinedGroupsList = new GroupChooserList(_joinedGroupsListModel);
+		JScrollPane leftListScrollPane = new JScrollPane((JList) joinedGroupsList);
 		leftPanel.add(leftListScrollPane); 
 		
 		centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
 		centerPanel.add(new JButton(">>"));
 		centerPanel.add(new JButton("<<"));
 		
+		JButton refreshButton = new JButton("Refresh");
+		refreshButton.setToolTipText("Refresh list of available groups");
+		refreshButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateGroups();
+			}
+		});
+		centerPanel.add(refreshButton);
+		
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.add(new JLabel("Available groups"));
-		DefaultListModel allGroupsListModel = new DefaultListModel();
-		allGroupsListModel.addElement("el 4");
-		allGroupsListModel.addElement("el 5");
-		allGroupsListModel.addElement("el 6");
-		JList allGroupsList = new JList(allGroupsListModel);
-		JScrollPane rigthListScrollPane = new JScrollPane(allGroupsList);
+		_allGroupsListModel = new DefaultListModel();
+		GroupChooser allGroupsList = new GroupChooserList(_allGroupsListModel);
+		JScrollPane rigthListScrollPane = new JScrollPane((JList) allGroupsList);
 		rightPanel.add(rigthListScrollPane);
 		
 		_allGroupsPanel.add(leftPanel);
@@ -103,7 +113,76 @@ public class GroupsPanel extends JPanel {
 		_allGroupsPanel.add(rightPanel);
 		
 		_allGroupsPanel.setBorder(BorderFactory.createEtchedBorder());
-		
+
 	}
+	
+	public void updateGroups() {
+		populateWithJoinedGroups();
+		populateWithFoundGroups();
+	}
+
+	private void populateWithFoundGroups() {
+		System.out.println("GroupsPanel::populateWithFoundGroups");
+		Vector foundGroups = new Vector();
+		try {
+			foundGroups = _p2pBackend.getSender().sendSearchGroup(null, null);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			ErrorDialog.showError(this, e, "Error searching for available groups", e.getMessage());
+		}
+		
+		Enumeration e = foundGroups.elements();
+		while (e.hasMoreElements()) {
+			SearchGroupResultElement cur = (SearchGroupResultElement) e.nextElement();
+			if (groupsListContainsGroup(_allGroupsListModel, cur)) {
+				continue;
+			}
+			_allGroupsListModel.addElement(cur);
+		}
+	}
+
+	private void populateWithJoinedGroups () {
+		Vector joinedGroups = _p2pBackend.getSender().getJoinedGroupsInSearchGroupResultFormat();
+		Enumeration e = joinedGroups.elements();
+		while (e.hasMoreElements()) {
+			SearchGroupResultElement element = (SearchGroupResultElement) e.nextElement();
+			if (groupsListContainsGroup(_joinedGroupsListModel, element)) {
+				continue;
+			}
+			_joinedGroupsListModel.addElement(element);
+		}
+
+	}
+	
+	private boolean groupsListContainsGroup (DefaultListModel list, SearchGroupResultElement group) {
+		Enumeration e = list.elements();
+		while (e.hasMoreElements()) {
+			SearchGroupResultElement cur = (SearchGroupResultElement) e.nextElement();
+			if (cur.getID().equals(group.getID())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
+
+//	public void run() {
+//		System.out.println("run");
+//		 while (true) {
+//		 	if (_p2pBackend.getSender() != null) {
+//				populateWithFoundGroups();
+//		 	}
+//			 // wait a bit before sending next discovery message
+//			 try {
+//				 Thread.sleep(10 * 1000);
+//			 }
+//			 catch(Exception e) {
+//			 	e.printStackTrace();
+//			 }
+//		 } //end while
+//	 }
+	
 
 }

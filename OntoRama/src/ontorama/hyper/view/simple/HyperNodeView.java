@@ -4,7 +4,6 @@ package ontorama.hyper.view.simple;
  *
  */
 
-import ontorama.hyper.canvas.CanvasItem;
 import ontorama.hyper.model.HyperNode;
 import ontorama.hyper.model.PositionChaingedObserver;
 import ontorama.model.GraphNode;
@@ -16,6 +15,10 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import org.tockit.canvas.CanvasItem;
 //import java.awt.geom.Ellipse2D.Double;
 
 public class HyperNodeView extends CanvasItem implements PositionChaingedObserver {
@@ -265,7 +268,9 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Returns true if this is the node clicked on
      */
-    public boolean isClicked( double scrX, double scrY ) {
+    public boolean containsPoint(Point2D point) {
+        double scrX = point.getX();
+        double scrY = point.getY();
         double x1 = this.projectedX;
         double y1 = this.projectedY;
         double dist = Math.sqrt( (scrX - x1)*(scrX - x1) + (scrY - y1)*(scrY - y1) );
@@ -397,6 +402,12 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
                             projectedY - ringRadius,
                             ringRadius * 2, ringRadius * 2 );
         g2d.draw( nodeShape );
+    }
+
+    public Rectangle2D getCanvasBounds(Graphics2D g) {
+        return new Rectangle2D.Double( projectedX - viewRadius,
+                            projectedY - viewRadius,
+                            viewRadius * 2, viewRadius * 2);
     }
 
     public String toString() {

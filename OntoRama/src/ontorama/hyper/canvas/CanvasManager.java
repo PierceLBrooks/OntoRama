@@ -30,6 +30,8 @@ import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.tockit.canvas.CanvasItem;
+
 
 
 public class CanvasManager extends JComponent
@@ -119,21 +121,6 @@ public class CanvasManager extends JComponent
     private long animationTime = 0;
 
     /**
-     * Set hyper view in scrole mode.
-     */
-    private static final int TRANSLATION = 2;
-
-    /**
-     * set hyper view in rotation mode.
-     */
-    private static final int ROTATION = 1;
-
-    /**
-     * Store hype view mode (TRANSLATION or ROTATION)
-     */
-    private int hyperViewMode = TRANSLATION;
-
-    /**
      * A timer to distinguish between single and double clicks.
      */
     private Timer singleClickTimer = new Timer();;
@@ -210,7 +197,7 @@ public class CanvasManager extends JComponent
                 double curY = e.getY() - getSize().height/2;
                 curX = curX * ( 1 / canvasScale);
                 curY = curY  * (1 / canvasScale);
-                boolean found = cur.isClicked( curX, curY);
+                boolean found = cur.containsPoint(new Point2D.Double( curX, curY));
                 if(  found == true ) {
                     return (HyperNodeView)cur;
                 }
@@ -253,16 +240,8 @@ public class CanvasManager extends JComponent
     }
 
     public void mousePressed( MouseEvent e ) {
-        if((e.getModifiers() & Event.META_MASK) != 0) {
-			hyperViewMode = ROTATION;
-		}
-		else {
-			hyperViewMode = TRANSLATION;
-		}
         lastPoint.setLocation( e.getPoint() );
     }
-
-//    private HyperNodeView focusedHyperNodeView = null;
 
     public void mouseReleased(MouseEvent e) {
         if( dragmode == true ) {
@@ -332,7 +311,7 @@ public class CanvasManager extends JComponent
             }
         }
         currentHighlightedView = null;
-        if( hyperViewMode == this.TRANSLATION ) {
+        if( (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == 0 ) {
             double xDif = (lpx - x);
             double yDif = (lpy - y);
             moveCanvasItems( xDif, yDif );
@@ -422,6 +401,9 @@ public class CanvasManager extends JComponent
 
     public void mouseMoved(MouseEvent e) {
         if( dragmode ) {
+            return;
+        }
+        if( canvasItems == null) {
             return;
         }
         Iterator it = canvasItems.iterator();

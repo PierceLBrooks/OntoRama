@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
-
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import ontorama.backends.Peer2PeerBackend;
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.events.JoinGroupEvent;
+import ontorama.backends.p2p.events.GroupIsLeftEvent;
+import ontorama.backends.p2p.events.GroupJoinedEvent;
 import ontorama.backends.p2p.gui.P2PMainPanel;
 import ontorama.backends.p2p.gui.PeersPanel;
 import ontorama.backends.p2p.p2pprotocol.CommunicationProtocol;
@@ -39,7 +39,6 @@ public class P2PSender{
     private CommunicationProtocol comm = null;
     private Peer2PeerBackend backend = null;
     private PeersPanel peersPanel = null;
-
 
     //Constructor
     public P2PSender(CommunicationProtocol commProt, P2PBackend backend) {
@@ -120,7 +119,7 @@ public class P2PSender{
         GroupReferenceElement groupRefElement = new GroupReferenceElement(
         											pg.getPeerGroupID(), pg.getPeerGroupName(), 
         											pg.getPeerGroupAdvertisement().getDescription());
-        this.backend.getEventBroker().processEvent(new JoinGroupEvent(groupRefElement));
+        this.backend.getEventBroker().processEvent(new GroupJoinedEvent(groupRefElement));
     }
 
 
@@ -137,7 +136,7 @@ public class P2PSender{
     public boolean sendJoinGroup(PeerGroupID groupID) throws GroupExceptionNotAllowed, GroupException {
     	String groupName = this.comm.sendJoinGroup(groupID.toString());
         if (groupName != null){
-        	this.backend.getEventBroker().processEvent(new JoinGroupEvent(new GroupReferenceElement(groupID, groupName, "")));
+        	this.backend.getEventBroker().processEvent(new GroupJoinedEvent(new GroupReferenceElement(groupID, groupName, "")));
             this.sendPropagate(TAGPROPAGATEJOINGROUP, null, groupID.toString());
             return true;
         }
@@ -157,11 +156,12 @@ public class P2PSender{
      *
      * @version P2P-OntoRama 1.0.0
      */
-    public boolean sendLeaveGroup(String groupID) throws GroupException, IOException {
-        boolean leaved = this.comm.sendLeaveGroup(groupID);
+    public boolean sendLeaveGroup(PeerGroupID groupID) throws GroupException, IOException {
+        boolean leaved = this.comm.sendLeaveGroup(groupID.toString());
         if (leaved){
-            peersPanel.removeGroup(groupID);
-            this.sendPropagate(TAGPROPAGATELEAVEGROUP, null, groupID);
+            /// @todo pretty dodgy passing null's to the constructor.
+            this.backend.getEventBroker().processEvent(new GroupIsLeftEvent(new GroupReferenceElement(groupID, null, null)));
+        	this.sendPropagate(TAGPROPAGATELEAVEGROUP, null, groupID.toString());
             return true;
         }
         return false;
@@ -210,7 +210,7 @@ public class P2PSender{
               if (tmpEnumernation.hasMoreElements()) {
                   GroupReferenceElement searchGroupResultElement = (GroupReferenceElement)tmpEnumernation.nextElement();
                   String tmpGroupID = searchGroupResultElement.getID().toString();
-                  this.backend.getEventBroker().processEvent(new JoinGroupEvent(searchGroupResultElement));
+                  this.backend.getEventBroker().processEvent(new GroupJoinedEvent(searchGroupResultElement));
 
                   Vector result = this.comm.peerDiscovery(tmpGroupID);
                   Enumeration enum = result.elements();

@@ -113,7 +113,8 @@ public class PeersPanel extends JPanel  implements GroupView {
         //@todo implement should remove the id from every group, I don't think this method is called from the application (i.e. not generated when a peer logout)
     }
 
-    public void removeGroup(String groupID) {
+    public void removeGroup(GroupReferenceElement groupRefElement) {
+    	String groupID = groupRefElement.getID().toString();
         String groupName = null;
         groupName = (String) _groupIdToGroupNameMapping.get(groupID);
 

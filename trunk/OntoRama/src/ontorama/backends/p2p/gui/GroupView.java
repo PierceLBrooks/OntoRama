@@ -13,5 +13,5 @@ import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
  */
 public interface GroupView {
 	public void addGroup(GroupReferenceElement groupReferenceElement);
-//	public void removeGroup();
+	public void removeGroup(GroupReferenceElement groupReferenceElement);
 }

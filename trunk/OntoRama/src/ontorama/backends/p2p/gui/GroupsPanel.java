@@ -20,9 +20,12 @@ import javax.swing.JTextField;
 
 
 import ontorama.backends.p2p.P2PBackend;
-import ontorama.backends.p2p.gui.action.NewGroupAction;
+import ontorama.backends.p2p.events.JoinGroupEvent;
+import ontorama.backends.p2p.events.LeaveGroupEvent;
+import ontorama.backends.p2p.events.NewGroupEvent;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
+import ontorama.ui.OntoRamaApp;
 
 /**
  * @author nataliya
@@ -65,15 +68,25 @@ public class GroupsPanel extends JPanel implements GroupView {
 		JLabel newGroupNameLabel = new JLabel(DialogUtil.newGroupNameLabel);
 		JLabel newGroupDescrLabel = new JLabel(DialogUtil.newGroupDescriptionLabel);
 
-		JTextField newGroupNameField = DialogUtil.createNewGroupNameTextField();
-		JTextField newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
+		final JTextField newGroupNameField = DialogUtil.createNewGroupNameTextField();
+		final JTextField newGroupDescrField = DialogUtil.createNewGroupDescriptionTextField();
 		
 		newGroupNameField.setMaximumSize(newGroupNameField.getPreferredSize());
 		newGroupDescrField.setMaximumSize(newGroupDescrField.getPreferredSize());
 
 		JButton cancelButton = new JButton("Clear");
 		JButton okButton = new JButton("Create group");
-		okButton.setAction(new NewGroupAction(this, newGroupNameField, newGroupDescrField, _p2pBackend));
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				String input = newGroupNameField.getText();
+				if (! DialogUtil.textInputIsValid(OntoRamaApp.getMainFrame(), input, "name")) {
+					return;
+				}
+				GroupReferenceElement newGroupRefElement = new GroupReferenceElement(null, input, newGroupDescrField.getText());
+				_p2pBackend.getEventBroker().processEvent(new NewGroupEvent(newGroupRefElement));
+			}
+		});
+		
 		JPanel buttonPanel = DialogUtil.buildButtonsPanel(okButton, cancelButton);
 		
 		headingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -105,14 +118,46 @@ public class GroupsPanel extends JPanel implements GroupView {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(new JLabel("Joined"));
 		_joinedGroupsListModel = new DefaultListModel();
-		GroupChooser joinedGroupsList = new GroupChooserList(_joinedGroupsListModel);
+		final GroupChooser joinedGroupsList = new GroupChooserList(_joinedGroupsListModel);
 		JScrollPane leftListScrollPane = new JScrollPane((JList) joinedGroupsList);
 		leftPanel.add(leftListScrollPane); 
+
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		rightPanel.add(new JLabel("Available groups"));
+		_allGroupsListModel = new DefaultListModel();
+		final GroupChooser allGroupsList = new GroupChooserList(_allGroupsListModel);
+		JScrollPane rigthListScrollPane = new JScrollPane((JList) allGroupsList);
+		rightPanel.add(rigthListScrollPane);
 		
 		centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
 		JButton leaveGroupButton = new JButton(">>"); 
-		JButton joinGroupButton = new JButton("<<");
+		leaveGroupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				GroupReferenceElement groupToLeave = joinedGroupsList.getSelectedGroup();
+				if (groupToLeave == null) {
+					ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error",
+										"Please choose a group you would like to leave");
+				}
+				else {
+					_p2pBackend.getEventBroker().processEvent(new LeaveGroupEvent(groupToLeave));
+				}
+			}
+		});
 		
+		JButton joinGroupButton = new JButton("<<");
+		joinGroupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				GroupReferenceElement groupToJoin = allGroupsList.getSelectedGroup();
+				if (groupToJoin == null) {
+					ErrorDialog.showError(OntoRamaApp.getMainFrame(),"Error",
+							"Please choose a group you would like to join");
+				}
+				else {
+					_p2pBackend.getEventBroker().processEvent(new JoinGroupEvent(groupToJoin));
+				}
+			}
+		});
+			
 		JButton refreshButton = new JButton("Refresh");
 		refreshButton.setToolTipText("Refresh list of available groups");
 		refreshButton.addActionListener(new ActionListener() {
@@ -130,12 +175,6 @@ public class GroupsPanel extends JPanel implements GroupView {
 		centerPanel.add(joinGroupButton);
 		centerPanel.add(refreshButton);
 		
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.add(new JLabel("Available groups"));
-		_allGroupsListModel = new DefaultListModel();
-		GroupChooser allGroupsList = new GroupChooserList(_allGroupsListModel);
-		JScrollPane rigthListScrollPane = new JScrollPane((JList) allGroupsList);
-		rightPanel.add(rigthListScrollPane);
 		
 		_allGroupsPanel.add(leftPanel);
 		_allGroupsPanel.add(centerPanel);
@@ -228,6 +267,19 @@ public class GroupsPanel extends JPanel implements GroupView {
 		if (! groupsListContainsGroup(_joinedGroupsListModel, groupReferenceElement)) {
 			_joinedGroupsListModel.addElement(groupReferenceElement);
 			_allGroupsListModel.removeElement(groupReferenceElement);
+		}
+		_allGroupsPanel.repaint();
+	}
+	
+	
+
+	/**
+	 * @see ontorama.backends.p2p.gui.GroupView#removeGroup(ontorama.backends.p2p.p2pprotocol.GroupReferenceElement)
+	 */
+	public void removeGroup(GroupReferenceElement groupReferenceElement) {
+		if (! groupsListContainsGroup(_allGroupsListModel, groupReferenceElement)) {
+			_allGroupsListModel.addElement(groupReferenceElement);
+			_joinedGroupsListModel.removeElement(groupReferenceElement);
 		}
 		_allGroupsPanel.repaint();
 	}

@@ -1,7 +1,6 @@
 package ontorama.backends.p2p.controller;
 
 import ontorama.backends.p2p.p2pmodule.P2PSender;
-import ontorama.backends.p2p.p2pprotocol.GroupException;
 import ontorama.backends.p2p.p2pprotocol.GroupReferenceElement;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
@@ -12,23 +11,23 @@ import org.tockit.events.EventBrokerListener;
 /**
  * @author nataliya
  */
-public class JoinGroupEventHandler implements EventBrokerListener{
+public class LeaveGroupEventHandler implements EventBrokerListener{
 	
 	P2PSender _sender;
 	
-	public JoinGroupEventHandler (P2PSender sender) {
+	public LeaveGroupEventHandler (P2PSender sender) {
 		_sender = sender;
 	}
 	
 	public void processEvent(Event event) {
-		System.out.println("\n\nJoinGroupEventHandler::processEvent");
+		System.out.println("\n\nLeaveGroupEventHandler::processEvent");	
 		GroupReferenceElement groupRefElement = (GroupReferenceElement) event.getSubject();
 		try {
-			_sender.sendJoinGroup(groupRefElement.getID());
+			_sender.sendLeaveGroup(groupRefElement.getID());
 		}
-		catch (GroupException e) {
+		catch (Exception e) {
 			e.printStackTrace();
-			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error joining a group", e.getMessage());
+			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error leaving a group", e.getMessage());
 		}
 	}
 	

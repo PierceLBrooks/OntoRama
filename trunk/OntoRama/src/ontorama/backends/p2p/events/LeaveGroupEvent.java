@@ -6,11 +6,11 @@ import org.tockit.events.Event;
 /**
  * @author nataliya
  */
-public class JoinGroupEvent implements Event {
+public class LeaveGroupEvent implements Event {
 	
 	private GroupReferenceElement _groupRefElement;
 	
-	public JoinGroupEvent (GroupReferenceElement subject) {
+	public LeaveGroupEvent (GroupReferenceElement subject) {
 		_groupRefElement = subject;
 	}
 

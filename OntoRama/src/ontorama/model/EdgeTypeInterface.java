@@ -10,4 +10,6 @@ package ontorama.model;
 
 public interface EdgeTypeInterface {
     public String getName();
+    public String getReverseEdgeName();
+    public void setReverseEdgeName(String reverseEdgeName);
 }

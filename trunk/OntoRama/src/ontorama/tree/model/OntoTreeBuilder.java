@@ -40,20 +40,19 @@ public class OntoTreeBuilder {
      */
     public OntoTreeBuilder (Graph graph) {
         this.graph = graph;
-        //Iterator outboundEdges = Edge.getOutboundEdges(graph.getEdgeRootNode());
+
         Iterator outboundEdges = Edge.getOutboundEdges(graph.getRootNode());
-        while (outboundEdges.hasNext()) {
-            Edge edge = (Edge) outboundEdges.next();
-            //graphToOntoTree(graph.getEdgeRootNode(), edge.getType());
-            graphToOntoTree(graph.getRootNode(), edge.getType());
-        }
-        //graphToOntoTree(graph.getEdgeRootNode());
 
         // take care of a case when we only have one node and no edges
-        if (Edge.edges.size() == 0) {
-          OntoTreeNode ontoTreeNode = new OntoTreeNode (graph.getRootNode());
-          ontoTreeNode.setRelLink(1);
-          ontoHash.put(graph.getRootNode(),ontoTreeNode);
+  		if (!outboundEdges.hasNext()) {
+			OntoTreeNode ontoTreeNode = new OntoTreeNode (graph.getRootNode());
+			ontoTreeNode.setRelLink(1);
+			ontoHash.put(graph.getRootNode(),ontoTreeNode);
+  		}
+
+        while (outboundEdges.hasNext()) {
+            Edge edge = (Edge) outboundEdges.next();
+            graphNodeToOntoTreeNode(graph.getRootNode(), edge.getType());
         }
     }
 
@@ -69,7 +68,7 @@ public class OntoTreeBuilder {
     /**
      * Convert each GraphNode to OntoTreeNode
      */
-    private void graphToOntoTree(GraphNode top, int relLink) {
+    private void graphNodeToOntoTreeNode (GraphNode top, int relLink) {
         OntoTreeNode ontoTreeNode = new OntoTreeNode (top);
         ontoTreeNode.setRelLink(relLink);
         ontoHash.put(top,ontoTreeNode);
@@ -78,7 +77,7 @@ public class OntoTreeBuilder {
         while (outboundEdges.hasNext()) {
             Edge edge = (Edge) outboundEdges.next();
             GraphNode toGraphNode = (GraphNode) edge.getToNode();
-            graphToOntoTree(toGraphNode, edge.getType());
+            graphNodeToOntoTreeNode(toGraphNode, edge.getType());
         }
 
 //        Iterator outboundNodes = Edge.getOutboundEdgeNodes(top);

@@ -29,6 +29,6 @@
 	<jar href="batik-xml.jar/"/>
     <jar href="OntoRama.jar"/> 
   </resources> 
-  <application-desc main-class="ontorama.view.OntoRamaApp"/> 
+  <application-desc main-class="ontorama.ui.OntoRamaApp"/>
 </jnlp> 
 

@@ -245,23 +245,6 @@ public class WebKB2Source implements Source {
         return extractedErrorStr;
     }
 
-	private String breakLongLine(String string,int desiredStringLenght) {
-		String res = "";    	
-		StringTokenizer strTok = new StringTokenizer(string);
-		String line = "";
-		while (strTok.hasMoreElements()) {
-			String tok = strTok.nextToken();
-			line = line + tok + " ";
-			if (line.length() >= desiredStringLenght) {
-				res = res + line + "\n";
-				line = "";
-			}
-			if (! strTok.hasMoreElements()) {
-				res = res + line;
-			}
-		}
-		return res;
-	}
 
     /**
      * Read RDF documents into list and build a string that

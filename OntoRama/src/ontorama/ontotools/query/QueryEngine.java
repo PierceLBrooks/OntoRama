@@ -85,6 +85,9 @@ public class QueryEngine {
     private QueryResult executeQuery(Query query) throws NoSuchTypeInQueryResult, 
     											QueryFailedException, CancelledQueryException {
     	QueryResult queryResult = null;
+    	_parserResult = null;
+    	_resultNodesList = null;
+    	_resultEdgesList = null;
         try {
 	        Reader r = null;
 	        Query newQuery = null;

@@ -18,7 +18,10 @@ import javax.swing.KeyStroke;
 import ontorama.ui.action.BackHistoryAction;
 import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.ui.events.DisplayHistoryItemEvent;
+import ontorama.ui.events.HistoryQueryStartEvent;
 import ontorama.ui.events.QueryStartEvent;
+import ontorama.OntoramaConfig;
+import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -68,6 +71,8 @@ public class HistoryMenu extends JMenu {
     public Action _forwardAction;
     
     private ButtonGroup _buttonGroup;
+    
+    private Backend _backend = OntoramaConfig.getBackend();
 
     private class DisplayHistoryItemEventHandler implements EventBrokerListener {
         public void processEvent (Event event) {
@@ -75,7 +80,7 @@ public class HistoryMenu extends JMenu {
         	JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
             HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
             // get graph for this query and load it into app
-            _eventBroker.processEvent(new QueryStartEvent(historyElement.getQuery()));
+            _eventBroker.processEvent(new HistoryQueryStartEvent(historyElement));
             //enableBackForwardButtons();
         }
     }
@@ -163,7 +168,7 @@ public class HistoryMenu extends JMenu {
 		    remove(firstMenuItem);
 		}
 		
-		HistoryElement historyElement = new HistoryElement(historyItemLabelName, query);
+		HistoryElement historyElement = new HistoryElement(historyItemLabelName, query, _backend.getQueryEngine());
 		
 		JRadioButtonMenuItem historyItem = new JRadioButtonMenuItem(historyItemLabelName);
 		_buttonGroup.add(historyItem);

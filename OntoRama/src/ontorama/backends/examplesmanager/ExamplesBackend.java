@@ -57,6 +57,8 @@ public class ExamplesBackend implements Backend {
 	private ExamplesMenu _menu;
 	
 	private boolean _isNewExample = false;
+	
+	private QueryEngine _lastQueryEngine;
 
 	/**
 	 * Handle a case where query is not completed for whatever reason - 
@@ -209,9 +211,14 @@ public class ExamplesBackend implements Backend {
 	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
 	 */
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-		QueryEngine queryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
-		QueryResult queryResult = queryEngine.getQueryResult(query);	
+		_lastQueryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
+		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);	
 		return queryResult;
 	}
+	
+	public QueryEngine getQueryEngine() {
+		return _lastQueryEngine;
+	}
+	
 
 }

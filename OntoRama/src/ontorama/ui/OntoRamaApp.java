@@ -169,6 +169,20 @@ public class OntoRamaApp extends JFrame implements ActionListener {
             updateViews();
         }
     }
+    
+    private class HistoryQueryStartEventHandler implements EventBrokerListener {
+    	public void processEvent (Event event) {
+    		HistoryElement historyElement = (HistoryElement) event.getSubject();
+            _lastQuery = _query;
+            _query = historyElement.getQuery();
+            _worker = new QueryEngineThread(_query, historyElement.getQueryEngine(), _modelEventBroker);
+            _modelEventBroker.removeSubscriptions(_viewsEventBroker);
+            _worker.start();
+            _timer.start();
+            _progressBar.setIndeterminate(true);
+            _queryPanel.enableStopQueryAction(true);    		
+    	}
+    }
 
     private class QueryStartEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
@@ -240,6 +254,12 @@ public class OntoRamaApp extends JFrame implements ActionListener {
 
         new QueryNodeEventHandler(_modelEventBroker);
         new QueryNodeEventHandler(_viewsEventBroker);
+
+        _modelEventBroker.subscribe(
+				            new HistoryQueryStartEventHandler(),
+				            HistoryQueryStartEvent.class,
+				            HistoryElement.class);
+
 
         _modelEventBroker.subscribe(
 				            new QueryStartEventHandler(),

@@ -83,10 +83,13 @@ public class RdfDamlParser implements Parser {
      * Constructor
      */
     public RdfDamlParser() {
-        _nodesHash = new Hashtable();
-        _edgesList = new LinkedList();
-
+		init();
         predicatesConnectingPropertyToProperty = new LinkedList();
+    }
+    
+    private void init() {
+        _nodesHash = new Hashtable();
+        _edgesList = new LinkedList();    	
     }
 
 
@@ -136,6 +139,7 @@ public class RdfDamlParser implements Parser {
      *
      */
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+    	init();
         try {
             // create an empty model
             //Model model = new ModelMem();

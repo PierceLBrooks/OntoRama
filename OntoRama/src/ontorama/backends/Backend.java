@@ -15,6 +15,7 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 
 import org.tockit.events.EventBroker;
@@ -42,7 +43,11 @@ public interface Backend {
 	public Graph createGraph (QueryResult qr, EventBroker eb) throws InvalidArgumentException;
 	
 	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
-	
+		
+	/// @todo added this method to enable HistoryMenu to work properly. Perhaps there is a better way to do this
+	/// as it feels as a hack...
+	public QueryEngine getQueryEngine ();
+
 	public Collection getDataFormats();
 	
 }

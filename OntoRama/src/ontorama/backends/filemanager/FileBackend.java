@@ -57,6 +57,8 @@ public class FileBackend implements Backend {
     private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 	private String _sourcePackageName = "ontorama.ontotools.source.FileSource";
 	private String _filename;
+	
+	private QueryEngine _lastQueryEngine;
 
     private class GraphLoadedEventHandler implements EventBrokerListener {
         EventBroker eventBroker;
@@ -175,9 +177,13 @@ public class FileBackend implements Backend {
 	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
 	 */
 	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-		QueryEngine queryEngine = new QueryEngine( _sourcePackageName, _parserName, _filename);
-		QueryResult queryResult = queryEngine.getQueryResult(query);
+		_lastQueryEngine = new QueryEngine( _sourcePackageName, _parserName, _filename);
+		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
 		return queryResult;
+	}
+	
+	public QueryEngine getQueryEngine() {
+		return _lastQueryEngine;
 	}
 
 }

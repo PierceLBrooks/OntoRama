@@ -309,10 +309,11 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
     /**
      * Method called if node is cloned, and has focus.
      *
-     * Draws ring around node and places arrows pointing to other clones.
+     * Draws ring around cloned node and connects the together with a line.
      */
     public void showClones( Graphics2D g2d, Hashtable hypernodeviews ) {
-        double ringRadius = viewRadius + (viewRadius/10);
+        int RINGPERCENTAGE = 10;
+        double ringRadius = viewRadius + (viewRadius/RINGPERCENTAGE);
         nodeShape.setFrame( projectedX - ringRadius,
                             projectedY - ringRadius,
                             ringRadius * 2, ringRadius * 2 );
@@ -335,7 +336,7 @@ public class HyperNodeView extends CanvasItem implements PositionChaingedObserve
             double angle = Math.atan2( x, y );
             double dist = Math.sqrt( ( x2 - x1) * ( x2 - x1) +  ( y2 - y1) * ( y2 - y1) );
             double toViewRadius = hyperNodeView.getViewRadius();
-            dist = dist - ( toViewRadius + ( toViewRadius / 10 ) );
+            dist = dist - ( toViewRadius + ( toViewRadius / RINGPERCENTAGE ) );
             x1 = Math.sin( angle ) * ringRadius;
             y1 = Math.cos( angle ) * ringRadius;
             x2 = Math.sin( angle ) * dist;

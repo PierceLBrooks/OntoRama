@@ -148,7 +148,7 @@ public class CanvasManager extends JComponent
             if( this.focusNode == null ) {
                 return;
             }
-            if( this.focusNode.hasClones() ) {
+            if( lengthOfAnimation <= 0 && this.focusNode.hasClones() ) {
                 HyperNodeView focusHyperNode = (HyperNodeView)this.hypernodeviews.get( this.focusNode.getGraphNode() );
                 focusHyperNode.showClones( g2d, hypernodeviews );
             }

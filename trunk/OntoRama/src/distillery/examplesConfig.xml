@@ -1,0 +1,9 @@
+<ontoramaExamples>
+    <example name="Rdf Distillery" root="ffff" loadOnStart="yes">
+        <source uri="dddd"
+            sourcePackagePathSuffix="UrlSource"/>
+        <queryOutputFormat>RDF</queryOutputFormat>
+        <parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+    </example>
+</ontoramaExamples>
+

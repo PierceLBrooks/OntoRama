@@ -31,18 +31,26 @@
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
-	<example name="Wordnet: carnivore" root="wn#Carnivore">
-		<source relativeUri="examples/wn_carnivore.rdf"
-				sourcePackagePathSuffix="JarSource"/>
-		<queryOutputFormat>RDF</queryOutputFormat>
-		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
-	</example>
 	<example name="Wordnet: tail" root="wn#Tail">
 		<source relativeUri="examples/wn_tail.rdf"
 				sourcePackagePathSuffix="JarSource"/>
 		<queryOutputFormat>RDF</queryOutputFormat>
 		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
 	</example>
+
+	<example name="Wordnet: carnivore" root="wn#Carnivore">
+		<source relativeUri="examples/wn_carnivore.rdf"
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+	<example name="Wordnet: celestial body" root="wn#CelestialBody">
+		<source relativeUri="examples/wn_celestial_body.rdf"
+				sourcePackagePathSuffix="JarSource"/>
+		<queryOutputFormat>RDF</queryOutputFormat>
+		<parserPackagePathSuffix>rdf.RdfDamlParser</parserPackagePathSuffix>
+	</example>
+
 	<example name="Metanet" root="rdf-schema#Resource">
 		<source relativeUri="examples/web-examples/metanet-2.rdf"
 				sourcePackagePathSuffix="JarSource"/>

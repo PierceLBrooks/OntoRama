@@ -4,7 +4,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import ontorama.ontotools.writer.rdf.test.TestRdfP2PWriter;
 import ontorama.ontotools.writer.rdf.test.TestRdfWriter;
 
 /*
@@ -22,7 +21,6 @@ public class TestWriterPackage  extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("ontorama.ontotools.writer");
         suite.addTest(new TestSuite(TestRdfWriter.class));
-        suite.addTest(new TestSuite(TestRdfP2PWriter.class));
         return suite;
     }
 }

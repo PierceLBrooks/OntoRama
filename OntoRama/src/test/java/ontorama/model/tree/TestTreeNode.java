@@ -1,4 +1,4 @@
-package ontorama.model.tree.test;
+package ontorama.model.tree;
 
 import junit.framework.TestCase;
 import ontorama.model.graph.*;

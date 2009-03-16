@@ -1,4 +1,4 @@
-package ontorama.ontotools.writer.rdf.test;
+package ontorama.ontotools.writer.rdf;
 
 import com.hp.hpl.mesa.rdf.jena.model.NsIterator;
 import com.hp.hpl.mesa.rdf.jena.model.RDFException;

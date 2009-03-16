@@ -1,4 +1,4 @@
-package ontorama.ontotools.parser.rdf.test;
+package ontorama.ontotools.parser.rdf;
 
 import java.io.Reader;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package ontorama.ontotools.query.test;
+package ontorama.ontotools.query;
 
 import java.util.Iterator;
 import java.util.LinkedList;

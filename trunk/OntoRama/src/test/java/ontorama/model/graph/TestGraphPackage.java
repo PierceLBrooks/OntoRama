@@ -1,4 +1,4 @@
-package ontorama.model.graph.test;
+package ontorama.model.graph;
 
 
 /**

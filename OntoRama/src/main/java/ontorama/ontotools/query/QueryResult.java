@@ -1,41 +1,28 @@
 package ontorama.ontotools.query;
 
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * Title:
- * Description:  Models Query Result
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
- */
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.Node;
 
 public class QueryResult {
 
-    Iterator ontologyTypesIterator;
-
     Query query;
 
-    List nodes;
-    List edges;
+    List<Node> nodes;
+    List<Edge> edges;
 
     /**
-     *
      * @param query original query
      * @param nodes list of graph nodes
      * @param edges list of graph _graphEdges
      */
-    public QueryResult(Query query, List nodes, List edges) {
+    public QueryResult(Query query, List<Node> nodes, List<Edge> edges) {
         this.nodes = nodes;
         this.edges = edges;
         this.query = query;
     }
 
-    /**
-     *
-     */
     public Query getQuery() {
         return this.query;
     }
@@ -44,7 +31,7 @@ public class QueryResult {
      * Get list of returned graph nodes
      * @return nodes list
      */
-    public List getNodesList () {
+    public List<Node> getNodesList () {
         return this.nodes;
     }
 
@@ -52,13 +39,10 @@ public class QueryResult {
      * Get list of returned graph _graphEdges
      * @return _graphEdges list
      */
-    public List getEdgesList () {
+    public List<Edge> getEdgesList () {
         return this.edges;
     }
 
-    /**
-     *
-     */
     public String toString() {
         String str = "QueryResult";
         str = str +  " for query term = " + query.getQueryTypeName() + ", nodes = " + getNodesList() + ", edges = " + getEdgesList();

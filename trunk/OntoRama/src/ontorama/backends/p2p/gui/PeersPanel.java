@@ -152,9 +152,9 @@ public class PeersPanel extends JPanel  implements GroupView {
     }
 
     public void removePeerFromAllGroups(String senderPeerID) {
-        Enumeration enum = _groupToPanelMapping.elements();
-        while (enum.hasMoreElements()) {
-			String element = (String) enum.nextElement();
+        Enumeration enumeration = _groupToPanelMapping.elements();
+        while (enumeration.hasMoreElements()) {
+			String element = (String) enumeration.nextElement();
 			GroupPanel groupPanel = (GroupPanel) _groupToPanelMapping.get(element);
 			groupPanel.getPeersList().removePeer(senderPeerID);
 		}

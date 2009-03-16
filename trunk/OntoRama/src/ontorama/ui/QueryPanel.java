@@ -243,9 +243,9 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      *
      */
     private void setWantedRelationLinks(List wantedLinks) {
-        Enumeration enum = _relationLinksCheckBoxes.keys();
-        while (enum.hasMoreElements()) {
-            JCheckBox curCheckBox = (JCheckBox) enum.nextElement();
+        Enumeration enumeration = _relationLinksCheckBoxes.keys();
+        while (enumeration.hasMoreElements()) {
+            JCheckBox curCheckBox = (JCheckBox) enumeration.nextElement();
             EdgeType correspondingRelLink = (EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);

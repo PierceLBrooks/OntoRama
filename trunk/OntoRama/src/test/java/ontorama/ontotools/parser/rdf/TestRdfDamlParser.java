@@ -1,15 +1,11 @@
 package ontorama.ontotools.parser.rdf;
 
 import java.io.Reader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-
 import ontorama.OntoramaConfig;
-import ontorama.backends.Backend;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
@@ -21,14 +17,11 @@ import ontorama.ontotools.SourceException;
 import ontorama.ontotools.WebKbConstants;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
-import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.Source;
 
 /**
- * <p>Title: </p>
- * <p>Description:
- * test if parser can produce valid collection of ontology types.
+ * Test if parser can produce valid collection of ontology types.
  * <br/>
  * Note: we only test method getOntologyTypeCollection because
  * this the main method doing all the work, method getOntologyTypeIterator
@@ -39,15 +32,10 @@ import ontorama.ontotools.source.Source;
  * <p>Company: DSTC</p>
  * @author nataliya
  * @version 1.0
- *
  */
-
 public class TestRdfDamlParser extends TestCase {
 
     protected ParserResult parserResult;
-
-    protected Collection resultCollection;
-
 
     protected String propName_descr = "Description";
     protected String propName_creator = "Creator";
@@ -72,24 +60,15 @@ public class TestRdfDamlParser extends TestCase {
     private Source source;
     private Parser parser;
     
-    private Backend backend;
-
-
-    /**
-     *
-     */
     public TestRdfDamlParser(String name) {
         super(name);
     }
 
-    /**
-     *
-     */
     protected void setUp() throws Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
                 
-        backend = OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
+        OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
         
     	source = (Source) (Class.forName(sourcePackageName).newInstance());
     	Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair")).getReader();
@@ -97,7 +76,7 @@ public class TestRdfDamlParser extends TestCase {
         parser = new RdfDamlParser();
         buildResult(parser, r);
 
-        List nodesList = parserResult.getNodesList();
+        List<Node> nodesList = parserResult.getNodesList();
         testNode_chair = getGraphNodeFromList("test#Chair", nodesList);
         testNode_armchair = getGraphNodeFromList("test#Armchair", nodesList);
         testNode_furniture = getGraphNodeFromList("test#Furniture", nodesList);
@@ -112,28 +91,17 @@ public class TestRdfDamlParser extends TestCase {
         testNode_allChairs = getGraphNodeFromList("test#AllChairs", nodesList);
     }
 
-    /**
-     *
-     */
     protected void buildResult (Parser parser, Reader r) throws ParserException {
         parserResult = parser.getResult(r);
     }
     
-	/**
-	 *
-	 */
 	public void testResultSize() {
 		// expecting 14 types in the result
 		assertEquals("number of nodes", 35, parserResult.getNodesList().size());
 	}
 	
-	/**
-	 *
-	 */
 	public void testEdgesForNullNodes () {
-		Iterator edgesIt = parserResult.getEdgesList().iterator();
-		while (edgesIt.hasNext()) {
-			Edge edge = (Edge) edgesIt.next();
+		for(Edge edge : parserResult.getEdgesList()) {
 			Node fromNode = edge.getFromNode();
 			Node toNode = edge.getToNode();
 			assertEquals("edge node should never be null", false, (fromNode == null));
@@ -142,9 +110,6 @@ public class TestRdfDamlParser extends TestCase {
 
 	}	
 
-	/**
-	 *
-	 */
 	public void testFullName() {
 		String message = "full name of the ontology type";
 		assertEquals(message, "http://www.webkb.org/ontorama/test#Chair", testNode_chair.getIdentifier());
@@ -161,34 +126,7 @@ public class TestRdfDamlParser extends TestCase {
 		assertEquals(message, "http://www.webkb.org/ontorama/test#Armchair", testNode_armchair.getIdentifier());
 	}
 
-	/**
-	 *
-	 */
-	public void testNodePropertyDescr_chair() {
-		//System.out.println("\n\n\n testing property description");
-		LinkedList expectedValueList = new LinkedList();
-		expectedValueList.add("test term 'chair'");
-	}
-
-	/**
-	 *
-	 */
-	public void testNodePropertyCreator_chair() {
-		LinkedList expectedValueList = new LinkedList();
-		expectedValueList.add("nataliya@dstc.edu.au");
-	}
-
-	/**
-	 *
-	 */
-	public void testNodePropertySyn_chair() {
-		LinkedList expectedValueList = new LinkedList();
-		expectedValueList.add("chair");
-		expectedValueList.add("sit");
-	}
-
-
-	/**
+	/*
 	 * test rel link 'subtype' for type chair
 	 * id = 1
 	 */
@@ -197,7 +135,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_subtype), testNode_furniture, "test#Chair", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'similar' for type chair
 	 * id = 2
 	 */
@@ -205,7 +143,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_similar),testNode_chair,"test#OtherChairs", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'reverse' for type chair
 	 * id = 3
 	 */
@@ -213,7 +151,7 @@ public class TestRdfDamlParser extends TestCase {
 		//testingRelationLink("reverse", 5, testType_chair, "", 0);
 	}
 
-	/**
+	/*
 	 * test rel link 'part' for type chair
 	 * id = 4
 	 */
@@ -224,7 +162,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_part), testNode_chair, "test#Leg", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'substance' for type chair
 	 * id = 5
 	 */
@@ -233,7 +171,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_substance), testNode_chair, "test#SomeSubstanceNode", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'instance' for type chair
 	 * id = 6
 	 */
@@ -244,7 +182,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_instance), testNode_myChair, "test#Chair", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'exclusion/complement' for type chair
 	 * id = 7
 	 */
@@ -253,7 +191,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_complement), testNode_table, "test#Chair", 0);
 	}
 
-	/**
+	/*
 	 * test rel link 'location' for type chair
 	 * id = 8
 	 */
@@ -262,7 +200,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_location), testNode_someLocation, "test#Chair", 0);
 	}
 
-	/**
+	/*
 	 * test rel link 'member' for type chair
 	 * id = 9
 	 */
@@ -271,7 +209,7 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_member), testNode_allChairs, "test#Chair", 0);
 	}
 
-	/**
+	/*
 	 * test rel link 'object' for type chair
 	 * id = 10
 	 */
@@ -280,21 +218,19 @@ public class TestRdfDamlParser extends TestCase {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_object), testNode_chair, "test#ACHRONYM", 1);
 	}
 
-	/**
+	/*
 	 * test rel link 'url' for type chair
 	 * id = 11
 	 */
 	public void testEdge_chair_url() throws NoSuchRelationLinkException {
-		//System.out.println("testType_chair = " + testType_chair);
-		//System.out.println("testType_url = " + testType_url);
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_url), testNode_chair, "OntoRama", 1);
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_url), testNode_url, "test#Chair", 0);
 	}
 
 	public void testNodeTypes () {
 		List<Node> nodesList = parserResult.getNodesList();
-		List<Node> conceptsList = new LinkedList<Node>();
-		List<Node> relationsList = new LinkedList<Node>();
+		List<Node> conceptsList = new ArrayList<Node>();
+		List<Node> relationsList = new ArrayList<Node>();
 		for (Node cur : nodesList) {
 			NodeType curNodeType = cur.getNodeType();
 			if (curNodeType == OntoramaConfig.CONCEPT_TYPE) {
@@ -310,9 +246,6 @@ public class TestRdfDamlParser extends TestCase {
 
 	}
 
-    /**
-     *
-     */
     public void testInvalidRDF_extraColumnInElementName() throws java.lang.ClassNotFoundException,
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
@@ -327,9 +260,6 @@ public class TestRdfDamlParser extends TestCase {
         }
     }
 
-    /**
-     *
-     */
     public void testInvalidRDF_DoubleSlashComments() throws java.lang.ClassNotFoundException,
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
@@ -357,7 +287,7 @@ public class TestRdfDamlParser extends TestCase {
 
         String message1 = "number of '" + edgeType.getName() + "' links from '";
         message1 = message1 + fromNode.getName() + "'" + "to '" + toNodeName + "'";
-        List edges = getEdgesFromList( fromNode, toNodeName, edgeType);
+        List<Edge> edges = getEdgesFromList( fromNode, toNodeName, edgeType);
         assertEquals(message1, expectedIteratorSize, edges.size());
 
         if (edges.isEmpty()) {
@@ -373,10 +303,8 @@ public class TestRdfDamlParser extends TestCase {
     /**
      *
      */
-    protected Node getGraphNodeFromList (String name, List list) {
-        Iterator it = list.iterator();
-        while (it.hasNext()) {
-            Node cur = (Node) it.next();
+    protected Node getGraphNodeFromList (String name, List<Node> list) {
+    	for(Node cur : list) {
             if (cur.getName().equals(name)) {
                 return cur;
             }
@@ -384,12 +312,10 @@ public class TestRdfDamlParser extends TestCase {
         return null;
     }
 
-    protected List getEdgesFromList (Node fromNode, String toNodeName, EdgeType edgeType) {
-        LinkedList result = new LinkedList();
-        List allEdges = parserResult.getEdgesList();
-        Iterator it = allEdges.iterator();
-        while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
+    protected List<Edge> getEdgesFromList (Node fromNode, String toNodeName, EdgeType edgeType) {
+        List<Edge> result = new ArrayList<Edge>();
+        List<Edge> allEdges = parserResult.getEdgesList();
+        for (Edge edge : allEdges) {
             if ( (edge.getFromNode().equals(fromNode)) && (edge.getEdgeType().equals(edgeType))  ){
                 Node toNode = edge.getToNode();
                 if (toNode.getName().equals(toNodeName)) {

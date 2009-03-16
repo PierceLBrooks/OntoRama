@@ -137,13 +137,13 @@ public class PeerConnectionTest implements DiscoveryListener {
 		}
 
 		// now print out each discovered peer
-		Enumeration enum = res.getResponses();
+		Enumeration enumeration = res.getResponses();
 		
 		String str=null;
 		
-		while (enum.hasMoreElements()) {
+		while (enumeration.hasMoreElements()) {
 			try {
-				str = (String) enum.nextElement();
+				str = (String) enumeration.nextElement();
 				// create an advertisement object from each element
 				Object obj = AdvertisementFactory.newAdvertisement(
 											new MimeMediaType ("text/xml"),

@@ -252,7 +252,7 @@ public class CommunicationGroup  {
 		List result = new LinkedList();
 		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
 		PeerGroupAdvertisement pgAdv = null;
-		Enumeration enum = null;
+		Enumeration enumeration = null;
 				
 		//Send a request to other peers
 		discServ.getRemoteAdvertisements(null,
@@ -272,7 +272,7 @@ public class CommunicationGroup  {
 			Thread.sleep(3*1000);
 
 			//Collect adv from local cache
-			enum = discServ.getLocalAdvertisements(DiscoveryService.GROUP,
+			enumeration = discServ.getLocalAdvertisements(DiscoveryService.GROUP,
 														searchAttrib,
 														searchString);
 		} catch (InterruptedException e) {
@@ -280,10 +280,10 @@ public class CommunicationGroup  {
 		} catch (IOException e) {
 			throw (IOException) e.fillInStackTrace();
 		}
-		while (enum.hasMoreElements()) {
+		while (enumeration.hasMoreElements()) {
 			//found at least one adv
 			//populate SearchGroupResult from incoming advertisments
-			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
+			pgAdv = (PeerGroupAdvertisement) enumeration.nextElement();
 			GroupItemReference groupRes = new GroupItemReference (
 												pgAdv.getPeerGroupID(),
 												pgAdv.getName(), pgAdv.getDescription());
@@ -356,9 +356,9 @@ public class CommunicationGroup  {
 	}
 
 	private PeerGroup getPeerGroupFromMemberOfGroups (String groupIDasString) {
-		Enumeration enum = memberOfGroups.elements();
-		while (enum.hasMoreElements()) {
-			PeerGroup pg = (PeerGroup) enum.nextElement();
+		Enumeration enumeration = memberOfGroups.elements();
+		while (enumeration.hasMoreElements()) {
+			PeerGroup pg = (PeerGroup) enumeration.nextElement();
 			if (pg.getPeerGroupID().toString().equals(groupIDasString)) {
 				return pg;
 			} 
@@ -381,9 +381,9 @@ public class CommunicationGroup  {
 		PeerGroupID retVal = null;
 		PeerGroupAdvertisement pgAdv = null;
 		DiscoveryService discServ = this.commProt.getGlobalPG().getDiscoveryService();
-		Enumeration enum = null;
+		Enumeration enumeration = null;
 		try {
-			enum = discServ.getLocalAdvertisements(
+			enumeration = discServ.getLocalAdvertisements(
 													DiscoveryService.GROUP,
 													"GID",
 													groupIDasString);
@@ -393,9 +393,9 @@ public class CommunicationGroup  {
 			System.exit(1);   
 		}
         
-		while (enum.hasMoreElements()) {
+		while (enumeration.hasMoreElements()) {
 		   //found at least one adv
-			pgAdv = (PeerGroupAdvertisement) enum.nextElement();
+			pgAdv = (PeerGroupAdvertisement) enumeration.nextElement();
 			retVal = pgAdv.getPeerGroupID();
 		}
 		return retVal;

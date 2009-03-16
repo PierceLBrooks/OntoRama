@@ -81,9 +81,9 @@ public class ExamplesMenu extends JMenu {
      *
      */
     public void setSelectedExampleMenuItem(OntoramaExample example) {
-        Enumeration enum = _menuItemExampleMapping.keys();
-        while (enum.hasMoreElements()) {
-            JRadioButtonMenuItem exampleMenuItem = (JRadioButtonMenuItem) enum.nextElement();
+        Enumeration enumeration = _menuItemExampleMapping.keys();
+        while (enumeration.hasMoreElements()) {
+            JRadioButtonMenuItem exampleMenuItem = (JRadioButtonMenuItem) enumeration.nextElement();
             OntoramaExample curExample = (OntoramaExample) _menuItemExampleMapping.get(exampleMenuItem);
             if (curExample.equals(example)) {
                 exampleMenuItem.setSelected(true);

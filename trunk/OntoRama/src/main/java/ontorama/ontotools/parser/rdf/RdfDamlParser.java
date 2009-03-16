@@ -3,10 +3,11 @@ package ontorama.ontotools.parser.rdf;
 import java.io.FileReader;
 import java.io.Reader;
 import java.security.AccessControlException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import ontorama.OntoramaConfig;
@@ -36,28 +37,18 @@ import com.hp.hpl.mesa.rdf.jena.vocabulary.RDFS;
 
 
 /**
- * Title:
- * Description:  Parse a reader in RDF format and create OntologyTypes from
- *                RDF statements
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
+ * Parse a reader in RDF format and create OntologyTypes from RDF statements.
  */
-
 public class RdfDamlParser implements Parser {
 
     /**
-     * Hashtable to hold all Graph Nodes that we have created
+     * map to hold all Graph Nodes that we have created
      * keys - strings - graph node names
      * values - graph nodes
      */
-    protected Hashtable _nodesHash;
+    protected Map _nodesHash;
     protected List _edgesList;
 
-    /**
-     *
-     */
     private String _rdfsNamespace = null;
     private String _correctedRdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
@@ -68,8 +59,8 @@ public class RdfDamlParser implements Parser {
     private static final String _rdfsNamespaceSuffix = "rdf-schema";
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
 
-    /**
-     * hold RDF resources that are potentials to be concept node types
+    /*
+     * Hold RDF resources that are potentially concept node types
      * or relation node types.
      */
     private List resourceConceptNodeTypesList;
@@ -84,19 +75,15 @@ public class RdfDamlParser implements Parser {
     
     private final String _predicateName_comment = "comment";
 
-    /**
-     * Constructor
-     */
     public RdfDamlParser() {
 		init();
         predicatesConnectingPropertyToProperty = new LinkedList();
     }
     
     private void init() {
-        _nodesHash = new Hashtable();
+        _nodesHash = new HashMap();
         _edgesList = new LinkedList();    	
     }
-
 
     /**
      * Considerations for sorting out rdfs:Classes from rdf:Properties
@@ -147,8 +134,6 @@ public class RdfDamlParser implements Parser {
     	init();
         try {
             // create an empty model
-            //Model model = new ModelMem();
-            //model = new DAMLModelImpl();
             Model model = new ModelMem();
             model.read(reader, "");
 
@@ -187,6 +172,7 @@ public class RdfDamlParser implements Parser {
         } catch (AccessControlException secExc) {
             throw secExc;
         } catch (RDFException e) {
+        	// TODO don't log into syserr
         	System.err.println("\n\n!!!!!!!!!!!!!!!!!!!!\n");
         	
         	System.err.println("\nRDFException: " + e.getMessage());
@@ -234,11 +220,6 @@ public class RdfDamlParser implements Parser {
         }
 	}
 
-    /**
-     *
-     * @param s
-     * @return
-     */
     private boolean objectIsPropertyResource (Statement s) {
         Resource subject = s.getSubject();
         Property predicate = s.getPredicate();
@@ -251,9 +232,6 @@ public class RdfDamlParser implements Parser {
         return false;
     }
 
-    /**
-     *
-     */
     private void findNamespaces(Model model) throws RDFException {
         NsIterator nsIterator = model.listNameSpaces();
         while (nsIterator.hasNext()) {
@@ -284,9 +262,6 @@ public class RdfDamlParser implements Parser {
         }
     }
 
-    /**
-     *
-     */
     private List runSelector(Model model, Property p, Object o) throws RDFException  {
         LinkedList result = new LinkedList();
 
@@ -333,8 +308,6 @@ public class RdfDamlParser implements Parser {
         	resourceConceptNodeTypesList.remove(st.getObject());
         	resourceRelationNodeTypesList.add(st.getObject());
         	
-//        	System.out.println("overwriting: set relation: "  + subjectNode.getName());
-//			System.out.println("overwriting: set relation: "  + subjectNode.getName());
         }
         
         if  ( (predicate.getLocalName().equals(_predicateName_range)) ||
@@ -380,7 +353,7 @@ public class RdfDamlParser implements Parser {
                 node.setNodeType(OntoramaConfig.RELATION_TYPE);
             }
             else {
-                //throw new ParserException("RDF Resource '" + object + "'is neigher concept of property");
+                //throw new ParserException("RDF Resource '" + object + "'is neither concept of property");
             	System.err.println("RDF Resource '" + object + "'is neigher concept of property");
             	node.setNodeType(OntoramaConfig.UNKNOWN_TYPE);
             }
@@ -389,9 +362,6 @@ public class RdfDamlParser implements Parser {
         return node;
     }
 
-    /**
-     *
-     */
     protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
     	
         List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
@@ -402,7 +372,6 @@ public class RdfDamlParser implements Parser {
             Iterator mappingTagsIterator = rdfMapping.getRdfTags().iterator();
             while (mappingTagsIterator.hasNext()) {
                 String mappingTag = (String) mappingTagsIterator.next();
-//                if (predicate.getLocalName().endsWith(mappingTag)) {
                 if (predicate.getLocalName().equalsIgnoreCase(mappingTag)) {
                     String mappingType = rdfMapping.getType();
                     EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);
@@ -421,10 +390,12 @@ public class RdfDamlParser implements Parser {
                         } else {
                             // ERROR
                             // throw exception here
+                        	// TODO: never do System.exit in lowlevel code
                             System.err.println("Dont' know about RDF Property '" + predicate.getLocalName() + "'");
                             System.exit(-1);
                         }
                     } catch (NoSuchRelationLinkException e) {
+                    	// TODO: never do System.exit in lowlevel code
                         e.printStackTrace();
                         System.err.println("NoSuchRelationLinkException: " + e.getMessage());
                         System.exit(-1);
@@ -433,22 +404,14 @@ public class RdfDamlParser implements Parser {
             }
         }
         if (!foundMapping) {
+        	// TODO: don't use syserr where we could log
             System.err.println("unknown RDF tag for predicate: " + predicate.getLocalName());
         }
     }
 
-    /**
-     *
-     */
     protected void addEdge(Node fromNode, EdgeType edgeType, Node toNode)
             throws NoSuchRelationLinkException {
-//        String fromNodeName = stripUri(fromNode);
-//        String toNodeName = stripUri(toNode);
-//        Node fromNode = getGraphNodeByName(fromNodeName, fromNode.toString());
-//        Node toNode = getGraphNodeByName(toNodeName, toNode.toString());
-		
         Edge newEdge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
-        //System.out.println("creating edge: " + fromNode + ", " + toNode + ", edgeType = " + edgeType);
         _edgesList.add(newEdge);
     }
 
@@ -463,7 +426,7 @@ public class RdfDamlParser implements Parser {
         return stripUri(rdfNode.toString());
     }
 
-    /**
+    /*
      * @todo    need to check if this rdfNode string contains any uri's, otherwise
      * may strip something that shouldn't be stripped if node happen to contain "/".
      * for example: description may contain '/': cats/dogs
@@ -483,13 +446,6 @@ public class RdfDamlParser implements Parser {
         return uriStr;
     }
 
-
-    /**
-     *
-     * @param nodeName
-     * @param fullNodeName
-     * @return
-     */
     public Node getGraphNodeByName(String nodeName,
                                         String fullNodeName) {
         Node node;
@@ -502,8 +458,6 @@ public class RdfDamlParser implements Parser {
             return node;
         }
     }
-
-
 
     /**
      * Replace carriage returns and leading tabs in a string
@@ -540,7 +494,7 @@ public class RdfDamlParser implements Parser {
     public static void main(String args[]) {
         try {
             RdfDamlParser parser = new RdfDamlParser();
-            String filename = "H:/projects/OntoRama/test/comms_comms_object-children.rdf";
+            String filename = args[0];
             System.out.println();
             System.out.println("filename = " + filename);
             Reader reader = new FileReader(filename);
@@ -552,5 +506,4 @@ public class RdfDamlParser implements Parser {
             System.exit(-1);
         }
     }
-
 }

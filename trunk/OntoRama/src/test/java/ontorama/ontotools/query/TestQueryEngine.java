@@ -1,7 +1,6 @@
 package ontorama.ontotools.query;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,11 +17,9 @@ import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 
 /**
- * <p>Title: </p>
- * <p>Description:
  * Test if returned iterator of ontology types contains the same
  * types as expected. Using example of wn#wood_mouse to test this.
- * </p>
+ * 
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
  * @author nataliya
@@ -35,7 +32,7 @@ public class TestQueryEngine extends TestCase {
 	String parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
 	String sourceUri = "examples/test/data/testCase.rdf";
 	private String queryTerm = "test#Chair";
-    private List relationLinksList;
+    private List<EdgeType> relationLinksList;
     
     private QueryEngine queryEngine;
 
@@ -59,15 +56,10 @@ public class TestQueryEngine extends TestCase {
     EdgeType edgeType11;
     EdgeType edgeType12;
 
-    /**
-     *
-     */
     public TestQueryEngine(String name) {
         super(name);
     }
 
-    /**
-     */
     protected void setUp() throws NoSuchRelationLinkException, Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
@@ -87,7 +79,7 @@ public class TestQueryEngine extends TestCase {
         edgeType12 = OntoramaConfig.getEdgeType(WebKbConstants.edgeName_nounType);
 
 
-        relationLinksList = new LinkedList();
+        relationLinksList = new ArrayList<EdgeType>();
         relationLinksList.add(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_reverse));
         relationLinksList.add(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_instance));
         relationLinksList.add(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_member));
@@ -117,13 +109,10 @@ public class TestQueryEngine extends TestCase {
 		} 
 	}
 
-    /**
-     *
-     */
     public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException, Exception {
     	QueryResult queryResult1 = queryEngine.getQueryResult(query1);
-    	List queryResultNodesList1 = queryResult1.getNodesList();
-    	List queryResultEdgesList1 = queryResult1.getEdgesList();
+    	List<Node> queryResultNodesList1 = queryResult1.getNodesList();
+    	List<Edge> queryResultEdgesList1 = queryResult1.getEdgesList();
         assertEquals("size of query result nodes list for query1", 35, queryResultNodesList1.size());
     	assertEquals("size of query result edges list for query1", 37, queryResultEdgesList1.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult1.getNodesList());
@@ -142,14 +131,14 @@ public class TestQueryEngine extends TestCase {
     }
     
 
-    /**
+    /*
      * although we only have 3 connected nodes - we return all nodes because we
      * support unconnected graphs. The real test here - is number of edges.
      */
     public void testGetQueryResultForQuery2() throws NoSuchRelationLinkException, Exception {
     	QueryResult queryResult2 = queryEngine.getQueryResult(query2);
-    	List queryResultNodesList2 = queryResult2.getNodesList();
-    	List queryResultEdgesList2 = queryResult2.getEdgesList();
+    	List<Node> queryResultNodesList2 = queryResult2.getNodesList();
+    	List<Edge> queryResultEdgesList2 = queryResult2.getEdgesList();
         assertEquals("size of query result nodes list for query2", 35, queryResultNodesList2.size());
     	assertEquals("size of query result edges list for query2", 2, queryResultEdgesList2.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult2.getNodesList());
@@ -159,9 +148,6 @@ public class TestQueryEngine extends TestCase {
 
     }
 
-    /**
-     *
-     */
     private void checkOutboundEdge(QueryResult queryResult, Node fromNode,
                                            EdgeType edgeType, int expectedListSize) {
         String message = "query " + queryResult.getQuery().getQueryTypeName();
@@ -169,11 +155,9 @@ public class TestQueryEngine extends TestCase {
         message = message + " ontology type " + fromNode.getName() + " and relation link ";
         message = message + edgeType.getName();
 
-        List outboundEdges = new LinkedList();
+        List<Edge> outboundEdges = new ArrayList<Edge>();
 
-        Iterator edgesIt = queryResult.getEdgesList().iterator();
-        while (edgesIt.hasNext()) {
-            Edge cur = (Edge) edgesIt.next();
+        for(Edge cur : queryResult.getEdgesList()) {
             String edgeTypeName = cur.getEdgeType().getName();
             if ((cur.getFromNode().equals(fromNode)) && (edgeType.getName().equals(edgeTypeName)) ) {
                 outboundEdges.add(cur);
@@ -182,10 +166,8 @@ public class TestQueryEngine extends TestCase {
         assertEquals(message, expectedListSize, outboundEdges.size());
     }
 
-    private Node getNodeFromList (String nodeName, List nodesList) {
-        Iterator it = nodesList.iterator();
-        while (it.hasNext()) {
-            Node cur = (Node) it.next();
+    private Node getNodeFromList (String nodeName, List<Node> nodesList) {
+    	for( Node cur: nodesList) {
             if (cur.getName().equals(nodeName)) {
                 return cur;
             }

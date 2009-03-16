@@ -292,12 +292,10 @@ public class TestRdfDamlParser extends TestCase {
 	}
 
 	public void testNodeTypes () {
-		List nodesList = parserResult.getNodesList();
-		List conceptsList = new LinkedList();
-		List relationsList = new LinkedList();
-		Iterator it = nodesList.iterator();
-		while (it.hasNext()) {
-			Node cur = (Node) it.next();
+		List<Node> nodesList = parserResult.getNodesList();
+		List<Node> conceptsList = new LinkedList<Node>();
+		List<Node> relationsList = new LinkedList<Node>();
+		for (Node cur : nodesList) {
 			NodeType curNodeType = cur.getNodeType();
 			if (curNodeType == OntoramaConfig.CONCEPT_TYPE) {
 				conceptsList.add(cur);
@@ -307,9 +305,7 @@ public class TestRdfDamlParser extends TestCase {
 				fail("unknown node type");
 			}
 		}
-		System.out.println("concepts list = " + conceptsList);
-		System.out.println("relations list = " + relationsList);
-		assertEquals("number of concept nodes ", 30, conceptsList.size());
+		assertEquals("number of concept nodes ", 26, conceptsList.size());
 		assertEquals("number of relation nodes ", 5, relationsList.size());
 
 	}

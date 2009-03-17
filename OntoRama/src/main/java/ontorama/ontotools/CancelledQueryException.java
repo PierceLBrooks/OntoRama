@@ -1,14 +1,11 @@
 package ontorama.ontotools;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
- * @author nataliya
- * @version 1.0
  */
 
+@SuppressWarnings("serial")
 public class CancelledQueryException extends Exception {
 
     public CancelledQueryException() {

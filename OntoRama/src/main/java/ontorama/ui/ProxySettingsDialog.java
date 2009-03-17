@@ -28,14 +28,13 @@ import javax.swing.JTextField;
  * System.getProperties().put( "proxyHost", "myProxyMachineName" ); System.
  * getProperties().put( "proxyPort", "85" );
  *
- * If authenticatoin needed:
+ * If authentication needed:
  * URLConnection connection = url.openConnection(); 
  * String password = "username:password"; 
  * String encodedPassword = base64Encode( password ); 
  * connection.setRequestProperty ( "Proxy- Authorization", encodedPassword);
- * 
- * @author nataliya
  */
+@SuppressWarnings("serial")
 public class ProxySettingsDialog extends JDialog {
 	
 	private JTextField _proxyHostTextField;
@@ -64,7 +63,7 @@ public class ProxySettingsDialog extends JDialog {
 		
 		setLocationRelativeTo(owner);
 		pack();
-		show();
+		setVisible(true);
 	}
 
 	private JPanel buildButtonsPanel() {

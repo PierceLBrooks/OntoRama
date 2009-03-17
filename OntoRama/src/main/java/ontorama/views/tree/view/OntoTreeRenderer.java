@@ -22,6 +22,7 @@ import ontorama.views.tree.model.OntoTreeNode;
 /**
  * Renderer for TreeView
  */
+@SuppressWarnings("serial")
 public class OntoTreeRenderer extends DefaultTreeCellRenderer {
 
     private final static Color _lineColor = Color.gray;
@@ -43,8 +44,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         int iconH = ImageMaker.getHeight();
 
         _lineIcon = makeLineIcon(iconW / 2, iconH);
-
-        //initRelationLinkImages();
     }
 
     public Component getTreeCellRendererComponent(
@@ -96,7 +95,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         if (isClone) {
             nodeImage = makeImageForRelLink(edgeType, true, nodeImageIcon);
         } else {
-            //nodeImage = (Image) _relLinksImages.get(edgeType);
             nodeImage = makeImageForRelLink(edgeType, false, nodeImageIcon);
         }
 
@@ -121,9 +119,6 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         return result;
     }
 
-    /**
-     *
-     */
     private Image makeImageForRelLink(EdgeType relLinkType, boolean isClone, ImageIcon nodeImageIcon) {
         Image relImage = OntoramaConfig.getEdgeDisplayInfo(relLinkType).getImage();
         Image nodeImage = makeCombinedIcon(isClone, relImage, nodeImageIcon);

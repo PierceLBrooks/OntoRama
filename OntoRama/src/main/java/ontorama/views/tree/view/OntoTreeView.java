@@ -29,15 +29,7 @@ import ontorama.views.tree.model.OntoTreeBuilder;
 import org.tockit.events.EventBroker;
 
 
-/**
- * Title:
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
- */
-
+@SuppressWarnings("serial")
 public class OntoTreeView extends JScrollPane implements KeyListener, MouseListener,
         TreeSelectionListener, TreeView {
 
@@ -93,7 +85,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     /**
      * Implementation of valueChanged needed for interface
      * implementation of TreeSelectionListener.
-     * Overwritten here so we can control single mouse clicks behaviour ourselves.
+     * Overwritten here so we can control single mouse clicks behavior ourselves.
      * @param   e - TreeSelectionEvent
      */
     public void valueChanged(TreeSelectionEvent e) {
@@ -184,12 +176,4 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         _treeView.setSelectionPath(path);
         _treeView.scrollPathToVisible(path);
     }
-
-
-    public void repaint() {
-        super.repaint();
-    }
-
-
 }
-

@@ -1,23 +1,6 @@
 package ontorama.ontotools;
 
-
-/**
-
- * Title:
-
- * Description:
-
- * Copyright:    Copyright (c) 2001
-
- * Company:
-
- * @author
-
- * @version 1.0
-
- */
-
-
+@SuppressWarnings("serial")
 public class NoSuchRelationLinkException extends Exception {
 
     private String errorMsg = null;

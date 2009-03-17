@@ -14,9 +14,8 @@ import javax.swing.border.BevelBorder;
  * that application is awaiting for a process to finish and
  * a label that can be used to give feedback to a user about
  * current activity.
- * 
- * @author nataliya
  */
+@SuppressWarnings("serial")
 public class StatusBar extends JPanel {
 
 	JLabel _statusLabel;

@@ -25,10 +25,9 @@ import ontorama.model.graph.NodeType;
 import org.tockit.events.EventBroker;
 
 /**
- * @author nataliya
- *
  * Display selectable list of nodes
  */
+@SuppressWarnings("serial")
 public class NodesListViewer extends JComboBox {
 
     /**
@@ -38,9 +37,6 @@ public class NodesListViewer extends JComboBox {
 
     private Graph _graph;
 
-    /**
-     * event broker
-     */
     private EventBroker _eventBroker;
 
     /**
@@ -94,9 +90,6 @@ public class NodesListViewer extends JComboBox {
         }
     }
 
-    /**
-     *
-     */
     private void setListSizeDependantProperties() {
         if (_nodesList.size() == 0) {
             setEnabled(false);
@@ -108,9 +101,6 @@ public class NodesListViewer extends JComboBox {
         }
     }
 
-    /**
-     *
-     */
     private void setListViewSize () {
         Font font = getFont();
         FontMetrics fontMetrics = getFontMetrics(font);

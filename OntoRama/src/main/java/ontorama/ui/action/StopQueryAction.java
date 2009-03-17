@@ -12,6 +12,7 @@ import org.tockit.events.EventBroker;
 /**
  * Action to stop current query
  */
+@SuppressWarnings("serial")
 public class StopQueryAction extends AbstractAction {
 
     private static final String ACTION_COMMAND_KEY_COPY = "stop-query-command";
@@ -21,9 +22,6 @@ public class StopQueryAction extends AbstractAction {
 
     private EventBroker _eventBroker;
 
-    /**
-     *
-     */
     public StopQueryAction(EventBroker eventBroker) {
 
         _eventBroker = eventBroker;
@@ -34,9 +32,6 @@ public class StopQueryAction extends AbstractAction {
         putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
     }
 
-    /**
-     *
-     */
     public void actionPerformed(ActionEvent parm1) {
         /// @todo get rid of this dummyQuery
         Query dummyQuery = new Query();

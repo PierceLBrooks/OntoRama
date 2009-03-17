@@ -13,13 +13,10 @@ import org.tockit.events.EventBroker;
 import ontorama.model.graph.Node;
 
 /**
- * Title:        OntoRama
- * Description:
  * Copyright:    Copyright (c) 2001
  * Company:      DSTC
- * @author
- * @version 1.0
  */
+@SuppressWarnings("serial")
 public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
     protected JPanel _propValuePanel = new JPanel();
 
@@ -93,14 +90,13 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
     }
 
     /**
-     * method to be overriden by all overriding classes
+     * Method to be overridden by all subclasses
      *
-     * this method should create a component (buttons, etc)
+     * This method should create a component (buttons, etc)
      * for given node and implement action listener for this
      * component
      */
     protected abstract JComponent createPropertyComponent(Node node);
-
 
 }
 

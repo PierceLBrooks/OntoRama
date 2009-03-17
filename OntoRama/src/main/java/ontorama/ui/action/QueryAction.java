@@ -9,13 +9,7 @@ import java.awt.event.ActionEvent;
 
 import org.tockit.events.EventBroker;
 
-/**
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Dec 10, 2002
- * Time: 11:07:17 AM
- * To change this template use Options | File Templates.
- */
+@SuppressWarnings("serial")
 public class QueryAction extends AbstractAction {
 
     private static final String ACTION_COMMAND_KEY_COPY = "execute-query-command";
@@ -26,9 +20,6 @@ public class QueryAction extends AbstractAction {
     private EventBroker _eventBroker;
     private QueryPanel _queryPanel;
 
-    /**
-     *
-     */
     public QueryAction(EventBroker eventBroker, QueryPanel queryPanel) {
         _eventBroker = eventBroker;
         _queryPanel = queryPanel;
@@ -38,9 +29,6 @@ public class QueryAction extends AbstractAction {
         putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
     }
 
-    /**
-     *
-     */
     public void actionPerformed(ActionEvent parm1) {
         Query query = new Query(_queryPanel.getQueryField(), _queryPanel.getWantedRelationLinks());
         query.setDepth(_queryPanel.getDepthField());

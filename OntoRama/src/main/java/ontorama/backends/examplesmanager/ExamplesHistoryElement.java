@@ -16,7 +16,6 @@ public class ExamplesHistoryElement implements HistoryElement {
 
     private Query _query;
     private String _menuDisplayName;
-	private EventBroker _eventBroker;
 	private String _toolTipText;
 	private OntoramaExample _example;
 	private ExamplesBackend _backend;
@@ -29,7 +28,6 @@ public class ExamplesHistoryElement implements HistoryElement {
 	public ExamplesHistoryElement(Query query, EventBroker eventBroker, 
 									ExamplesBackend backend, OntoramaExample example) {
         _query = query;
-        _eventBroker = eventBroker;
         _backend = backend;
         _example = example;
 

@@ -2,7 +2,7 @@ package ontorama.model.tree;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import org.tockit.events.EventBroker;
 
@@ -12,11 +12,6 @@ import ontorama.model.tree.events.TreeNodeAddedEvent;
 import ontorama.model.tree.events.TreeNodeRemovedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
-/**
- * User: nataliya
- * Date: Nov 25, 2002
- * Time: 2:29:08 PM
- */
 public class TreeImpl implements Tree {
 
     private Graph _graph;
@@ -25,9 +20,7 @@ public class TreeImpl implements Tree {
 
     /**
      * Create a tree from the given graph with the given root node. The second parameter
-     * is usefull when we have a graph that represents a forest of trees.
-     * @param graph
-     * @param graphRootNode
+     * is useful when we have a graph that represents a forest of trees.
      */
     public TreeImpl (Graph graph, Node graphRootNode) {
         _graph = graph;
@@ -139,7 +132,7 @@ public class TreeImpl implements Tree {
 		/// since we should be
 		/// able to uniquely identify nodes by the graph nodes they contain - if we find two nodes with
 		/// the same graph node, we assume that they are each other clones.
-		List<TreeNode> q = new LinkedList<TreeNode>();
+		List<TreeNode> q = new ArrayList<TreeNode>();
 		q.add(_root);
 		while (!q.isEmpty()) {
 			TreeNode cur = q.remove(0);

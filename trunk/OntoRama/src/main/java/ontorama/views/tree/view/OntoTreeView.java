@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.swing.JScrollPane;
@@ -66,7 +66,7 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     }
 
     private void unfoldTree(OntoTreeModel ontoTreeModel) {
-        List<OntoTreeNode> q = new LinkedList<OntoTreeNode>();
+        List<OntoTreeNode> q = new ArrayList<OntoTreeNode>();
         OntoTreeNode rootNode = (OntoTreeNode) ontoTreeModel.getRoot();
         q.add(rootNode);
 
@@ -89,8 +89,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
      * @param   e - TreeSelectionEvent
      */
     public void valueChanged(TreeSelectionEvent e) {
-        //OntoTreeNode node = (OntoTreeNode) _treeView.getLastSelectedPathComponent();
-        //return;
     }
 
     public void keyPressed(KeyEvent e) {

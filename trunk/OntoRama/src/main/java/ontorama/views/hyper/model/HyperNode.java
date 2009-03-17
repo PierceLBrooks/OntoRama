@@ -8,7 +8,7 @@ package ontorama.views.hyper.model;
  */
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.model.tree.TreeNode;
@@ -18,12 +18,12 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store all the Hyper observers
      */
-    private List<PositionChangedObserver> positionChangedObserver = new LinkedList<PositionChangedObserver>();
+    private List<PositionChangedObserver> positionChangedObserver = new ArrayList<PositionChangedObserver>();
 
     /**
      * Store focus observer.
      */
-    private List<Object> focusListener = new LinkedList<Object>();
+    private List<Object> focusListener = new ArrayList<Object>();
 
     /**
      * Store the position of the node.

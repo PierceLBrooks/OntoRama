@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -161,7 +161,7 @@ public class ConfigurationManager {
      * found.
      */
     public static List<String> fetchStringList(String section, String key, int maxItems) {
-        List<String> retVal = new LinkedList<String>();
+        List<String> retVal = new ArrayList<String>();
         for (int i = 1; i <= maxItems; i++) {
             String cur = properties.getProperty(section + "-" + key + "-" + i);
             if (cur != null) {

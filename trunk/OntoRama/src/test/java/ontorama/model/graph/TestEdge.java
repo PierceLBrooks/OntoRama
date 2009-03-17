@@ -2,19 +2,11 @@ package ontorama.model.graph;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
-
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.Edge;
-import ontorama.model.graph.EdgeImpl;
-import ontorama.model.graph.EdgeType;
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
@@ -43,20 +35,20 @@ public class TestEdge extends TestCase {
     private Edge edge7;
 
 
-    private List<Edge> outboundEdgesListForNode1 = new LinkedList<Edge>();
-    private List<Edge> inboundEdgesListForNode6 = new LinkedList<Edge>();
+    private List<Edge> outboundEdgesListForNode1 = new ArrayList<Edge>();
+    private List<Edge> inboundEdgesListForNode6 = new ArrayList<Edge>();
 
-    private List<Edge> outboundEdgesListForNode1Relation1 = new LinkedList<Edge>();
-    private List<Edge> inboundEdgesListForNode6Relation1 = new LinkedList<Edge>();
+    private List<Edge> outboundEdgesListForNode1Relation1 = new ArrayList<Edge>();
+    private List<Edge> inboundEdgesListForNode6Relation1 = new ArrayList<Edge>();
 
-    private List<Node> outboundNodesListForNode1RelLinkSet = new LinkedList<Node>();
-    private List<Node> inboundNodesListForNode6RelLinkSet = new LinkedList<Node>();
+    private List<Node> outboundNodesListForNode1RelLinkSet = new ArrayList<Node>();
+    private List<Node> inboundNodesListForNode6RelLinkSet = new ArrayList<Node>();
 
-    private List<Node> outboundNodesListForNode1Relation1 = new LinkedList<Node>();
-    private List<Node> inboundNodesListForNode6Relation2 = new LinkedList<Node>();
+    private List<Node> outboundNodesListForNode1Relation1 = new ArrayList<Node>();
+    private List<Node> inboundNodesListForNode6Relation2 = new ArrayList<Node>();
 
-    private List<Node> outboundNodesListForNode1 = new LinkedList<Node>();
-    private List<Node> inboundNodesListForNode6 = new LinkedList<Node>();
+    private List<Node> outboundNodesListForNode1 = new ArrayList<Node>();
+    private List<Node> inboundNodesListForNode6 = new ArrayList<Node>();
 
     private URI creatorUri1;
     private URI creatorUri2;
@@ -65,17 +57,11 @@ public class TestEdge extends TestCase {
 	private Edge equityTransitivityTestEdge;
 
 
-    /**
-     *
-     */
     public TestEdge(String name) {
         super(name);
     }
 
 
-    /**
-     *
-     */
     protected void setUp() throws URISyntaxException {
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
@@ -99,8 +85,6 @@ public class TestEdge extends TestCase {
             edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
             edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
             edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
-
-            createSet(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar), OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
 
             // populate linked lists
             outboundEdgesListForNode1.add(edge1);
@@ -147,9 +131,6 @@ public class TestEdge extends TestCase {
 
 
 
-    /**
-     * test method getFromNode
-     */
     public void testGetFromNode() {
         assertEquals(node1, edge1.getFromNode());
         assertEquals(node1, edge2.getFromNode());
@@ -160,9 +141,6 @@ public class TestEdge extends TestCase {
         assertEquals(node4, edge7.getFromNode());
     }
 
-    /**
-     * test method getToNode
-     */
     public void testGetToNode() {
         assertEquals(node2, edge1.getToNode());
         assertEquals(node3, edge2.getToNode());
@@ -173,9 +151,6 @@ public class TestEdge extends TestCase {
         assertEquals(node6, edge7.getToNode());
     }
 
-    /**
-     * test method getEdgeType
-     */
     public void testGetType() throws NoSuchRelationLinkException {
         assertEquals(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype), edge1.getEdgeType());
         assertEquals(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype), edge2.getEdgeType());
@@ -215,18 +190,5 @@ public class TestEdge extends TestCase {
     	assertEquals("edge1 should be equal to equityTransitivityTestEdge to fulfill " + 
     					" requerement of transitivity when implementing equity",
     					true, edge1.equals(equityTransitivityTestEdge));
-    }
-
-    //////////////******* Helper methods ********////////////////////
-
-
-    /**
-     * create a set of edge types
-     */
-    private Set<EdgeType> createSet(EdgeType det1, EdgeType det2) {
-        Set<EdgeType> set = new HashSet<EdgeType>();
-        set.add(det1);
-        set.add(det2);
-        return set;
     }
 }

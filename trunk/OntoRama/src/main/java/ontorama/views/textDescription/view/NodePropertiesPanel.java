@@ -3,7 +3,7 @@ package ontorama.views.textDescription.view;
 import ontorama.model.graph.Node;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -26,8 +26,7 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class NodePropertiesPanel extends AbstractPropertiesPanel {
     String _propName = null;
-    List<Object> _propValue = new LinkedList<Object>();
-    //JLabel _propNameLabel = new JLabel();
+    List<Object> _propValue = new ArrayList<Object>();
     JLabel _propValueLabel = new JLabel();
 
     public NodePropertiesPanel(String propName, List<Object> propValue) {
@@ -35,7 +34,6 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
         _propValue = propValue;
         initLabels();
         layoutFirstComponent();
-        // add second label
         add(_propValueLabel);
     }
 

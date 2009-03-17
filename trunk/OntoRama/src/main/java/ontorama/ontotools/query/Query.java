@@ -2,7 +2,7 @@ package ontorama.ontotools.query;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.model.graph.EdgeType;
@@ -24,7 +24,7 @@ public class Query {
     /**
      * list of relation links for the ontology type typeName.
      */
-    private List<EdgeType> _relationLinks = new LinkedList<EdgeType>();
+    private List<EdgeType> _relationLinks = new ArrayList<EdgeType>();
 
     /**
      * depth of recursive query

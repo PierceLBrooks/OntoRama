@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Action;
@@ -60,7 +60,7 @@ public class HistoryMenu extends JMenu {
         super("History");
         _eventBroker = eventBroker;
         _menuItemHistoryMapping = new Hashtable<JRadioButtonMenuItem, HistoryElement>();
-        _historyItems = new LinkedList<JRadioButtonMenuItem>();
+        _historyItems = new ArrayList<JRadioButtonMenuItem>();
         _backAction = new BackHistoryAction(this);
         _forwardAction = new ForwardHistoryAction(this);
         _buttonGroup = new ButtonGroup();

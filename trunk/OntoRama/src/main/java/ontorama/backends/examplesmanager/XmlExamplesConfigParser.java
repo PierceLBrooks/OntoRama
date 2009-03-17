@@ -2,7 +2,7 @@ package ontorama.backends.examplesmanager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
@@ -35,7 +35,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlExamplesConfigParser");
         }
-        this.examplesList = new LinkedList<OntoramaExample>();
+        this.examplesList = new ArrayList<OntoramaExample>();
 
         try {
             SAXBuilder builder = new SAXBuilder();
@@ -59,7 +59,6 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
     private void processExampleElement(Element element) throws ConfigParserException {
         Attribute nameAttr = element.getAttribute("name");
         checkCompulsoryAttr(nameAttr, "name", "element");
-        //System.out.println("processing example element with name: " + nameAttr);
         Attribute rootAttr = element.getAttribute("root");
         checkCompulsoryAttr(rootAttr, "root", "element");
         Attribute loadOnStartAttr = element.getAttribute("loadOnStart");

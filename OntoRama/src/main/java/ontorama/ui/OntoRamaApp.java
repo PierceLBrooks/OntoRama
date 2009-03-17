@@ -56,19 +56,8 @@ import org.tockit.events.EventBrokerListener;
 @SuppressWarnings("serial")
 public class OntoRamaApp extends JFrame {
     
-    /**
-     * holds hyper view 
-     */
     private SimpleHyperView _hyperView;
-
-    /**
-     * holds tree view 
-     */
     private OntoTreeView _treeView;
-
-    /**
-     * holds query panel
-     */
     public QueryPanel _queryPanel;
 
     /**
@@ -76,9 +65,6 @@ public class OntoRamaApp extends JFrame {
      */
     private JSplitPane _splitPane;
 
-    /**
-     * ontorama menu bar
-     */
     private JMenuBar _menuBar;
 
     /**
@@ -88,9 +74,6 @@ public class OntoRamaApp extends JFrame {
     private HistoryMenu _historyMenu;
     private JMenu _helpMenu;
 
-    /**
-     * application toolbar
-     */
     private JToolBar _toolBar;
 
     /**
@@ -100,15 +83,12 @@ public class OntoRamaApp extends JFrame {
     public Action _aboutAction;
 
     /**
-     * desctiption ui panel contains details for each node
+     * Description UI panel contains details for each node
      * of focus (normally these are details not displayed in
-     * the graph visualisations).
+     * the graph visualizations).
      */
     private DescriptionView _descriptionViewPanel;
 
-    /**
-     * status bar
-     */
 	private StatusBar _statusBar = new StatusBar();
 
     /**
@@ -333,9 +313,6 @@ public class OntoRamaApp extends JFrame {
 		backend.setEventBroker(_viewsEventBroker);
     }
 
-    /**
-     * Initialize actions
-     */
     private void initActions() {
         _exitAction = new ExitAction();
         _aboutAction = new AboutOntoRamaAction();
@@ -355,10 +332,9 @@ public class OntoRamaApp extends JFrame {
         _fileMenu = new JMenu("File");
         _fileMenu.setMnemonic(KeyEvent.VK_F);
                
-               
 		if (!OntoramaConfig.SECURITY_RESTRICTED) {               
 	        JMenu importMenu = new JMenu("Import");
-	    	Action fileImportAction = new AbstractAction("from file backend...") {
+	    	Action fileImportAction = new AbstractAction("Load file...") {
 	    		public void actionPerformed(ActionEvent e) {
 	    			FileImporter importer = new FileImporter(_viewsEventBroker);
 	    			importer.doImport();
@@ -366,17 +342,13 @@ public class OntoRamaApp extends JFrame {
 	    	};
 	    	importMenu.add(fileImportAction);
 	    	
-	    	
 	    	Action proxySettingsMenuAction = new AbstractAction("Configure proxy settings") {
 	    		public void actionPerformed(ActionEvent e) {
 	    			new ProxySettingsDialog(OntoRamaApp.getMainFrame(), "Cofigure Proxies", true);
 	    		}
 	    	};
 	    	
-	    	
-	    	
 	    	_fileMenu.add(importMenu);
-	
 	    	_fileMenu.add(proxySettingsMenuAction);
 		}
         
@@ -468,9 +440,6 @@ public class OntoRamaApp extends JFrame {
         System.exit(0);
     }
 
-    /**
-     * main
-     */
     public static void main(String[] args) {
         if (args.length == 0) {
             new OntoRamaApp();
@@ -478,15 +447,9 @@ public class OntoRamaApp extends JFrame {
             new OntoRamaApp(args[0], args[1], args[2]);
         } else {
             String usage = " Usage: \n";
-            usage =
-                usage
-                    + "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml] ";
-            usage =
-                usage
-                    + "To use default OntoRama settings - no need for command line arguments\n";
-            usage =
-                usage
-                    + "To load alternative OntoRama setting - specify relative paths to config.xml, ontorama.properties and examplesConfig.xml\n";
+            usage += "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml] ";
+            usage += "To use default OntoRama settings - no need for command line arguments\n";
+            usage += "To load alternative OntoRama setting - specify relative paths to config.xml, ontorama.properties and examplesConfig.xml\n";
             System.err.println(usage);
             System.exit(-1);
         }

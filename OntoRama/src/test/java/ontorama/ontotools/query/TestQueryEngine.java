@@ -91,10 +91,10 @@ public class TestQueryEngine extends TestCase {
         query2 = new Query(queryTerm, relationLinksList);
     }
     
-    /**
+    /*
      * Note: this is bizarre - first test method always throws an exception, not
      * sure how to fix this since couldn't find a cause. Tried swapping methods
-     * order around - always first test case fails and the rest a successfull -
+     * order around - always first test case fails and the rest a successful -
      * therefore this bogus test case.
      * Exception thrown is usually CoRoutineDeathException thrown by ARP. All
      * attempts to upgrade to use latest ARP (suggested solution) didn't yield
@@ -113,8 +113,8 @@ public class TestQueryEngine extends TestCase {
     	QueryResult queryResult1 = queryEngine.getQueryResult(query1);
     	List<Node> queryResultNodesList1 = queryResult1.getNodesList();
     	List<Edge> queryResultEdgesList1 = queryResult1.getEdgesList();
-        assertEquals("size of query result nodes list for query1", 35, queryResultNodesList1.size());
-    	assertEquals("size of query result edges list for query1", 37, queryResultEdgesList1.size());
+        assertEquals("size of query result nodes list for query1", 31, queryResultNodesList1.size());
+    	assertEquals("size of query result edges list for query1", 33, queryResultEdgesList1.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult1.getNodesList());
         checkOutboundEdge(queryResult1, testNode_chair, edgeType1 ,1);
         checkOutboundEdge(queryResult1, testNode_chair, edgeType2, 1);
@@ -139,7 +139,7 @@ public class TestQueryEngine extends TestCase {
     	QueryResult queryResult2 = queryEngine.getQueryResult(query2);
     	List<Node> queryResultNodesList2 = queryResult2.getNodesList();
     	List<Edge> queryResultEdgesList2 = queryResult2.getEdgesList();
-        assertEquals("size of query result nodes list for query2", 35, queryResultNodesList2.size());
+        assertEquals("size of query result nodes list for query2", 31, queryResultNodesList2.size());
     	assertEquals("size of query result edges list for query2", 2, queryResultEdgesList2.size());
         testNode_chair = getNodeFromList("test#Chair", queryResult2.getNodesList());
         checkOutboundEdge(queryResult2, testNode_chair, edgeType3, 0);

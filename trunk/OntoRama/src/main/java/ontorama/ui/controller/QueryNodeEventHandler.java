@@ -23,8 +23,6 @@ public class QueryNodeEventHandler implements EventBrokerListener {
     public void processEvent(Event e) {
         GeneralNode node = (GeneralNode) e.getSubject();
         Query query = new Query(node.getName());
-        System.out.println("\n\nQueryNodeEventHandler for node = " + node.getName());
-        System.out.println("QueryNodeEventHandler  event broker = " + this.eventBroker);
         this.eventBroker.processEvent(new QueryStartEvent(query));
     }
 }

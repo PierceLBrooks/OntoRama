@@ -39,7 +39,6 @@ public class CgKbCsvParser implements Parser {
                 int count = 0;
                 char quoteChar = '"';
                 String quoteStr = new Character(quoteChar).toString();
-                System.out.println(line);
                 StringTokenizer st = new StringTokenizer(line, quoteStr);
                 while (st.hasMoreTokens()) {
                     String tok = st.nextToken();

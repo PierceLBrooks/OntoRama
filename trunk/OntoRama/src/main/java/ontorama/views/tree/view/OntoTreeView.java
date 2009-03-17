@@ -121,7 +121,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         }
         onmask = InputEvent.BUTTON1_DOWN_MASK | InputEvent.CTRL_DOWN_MASK;
         if ( e.getModifiersEx() == onmask) {
-            System.out.println("query for modelNode = " + modelNode);
             _eventBroker.processEvent(new QueryNodeEvent(modelNode));
             return;
         }

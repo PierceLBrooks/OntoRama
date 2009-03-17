@@ -107,6 +107,7 @@ public class DamlParser implements Parser {
 			processRelationship(node, (DAMLCommon) resource, edgeTypeName);
 		}
 		else {
+			// TODO remove syserr output
 			System.err.println("dont know yet how to deal with resource " + resource + ", class = " + resource.getClass());
 		}
 	}
@@ -162,18 +163,17 @@ public class DamlParser implements Parser {
 				EdgeType cur = edgeTypes.next();
 				if (cur.getName().equals(edgeTypeName)) {
 					edge = _backend.createEdge(fromNode, toNode, cur);
-					System.out.println("\n\ncreating edge: " + fromNode + " -> " + toNode + ": " + cur.getName());
 					_edges.add(edge);
 				}
 				else if (cur.getReverseEdgeName() != null) {
 					if (cur.getReverseEdgeName().equals(edgeTypeName)) {
 						edge = _backend.createEdge(toNode, fromNode, cur);
-						System.out.println("\n\ncreating edge: " + toNode + " -> " + fromNode + ": " + cur.getName());
 						_edges.add(edge);
 					}
 				}
 			}
 			if (! foundEdgeType) {
+				// TODO: this gets always hit (and should not print to stderr)
 				System.err.println("EdgeType is not defined for " + edgeTypeName);
 			}
 		}

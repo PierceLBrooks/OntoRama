@@ -259,6 +259,7 @@ public class DescriptionView extends JPanel implements GraphView {
                 	}
                 }
                 else {
+                	// TODO handle properly instead of logging on stderr
                 	System.err.println("NoSuchRelationLinkException exception: " + exc);
                 	exc.printStackTrace();
                 }

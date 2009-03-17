@@ -62,7 +62,6 @@ public class FileBackend implements Backend {
     private class FileBackendGraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             _graph = (Graph) event.getSubject();
-            System.out.println("\n\nloaded graph = " + _graph);
         }
     }
     
@@ -106,8 +105,6 @@ public class FileBackend implements Backend {
 	        
 	        _querySettings = new QuerySettings(_parserName, _filename);
 	    
-	    	System.out.println("FileBackend::parserName = " + _parserName);
-	       
 			QueryStartEvent queryEvent = new QueryStartEvent(new Query());
 			_eventBroker.processEvent(queryEvent);
     	}
@@ -119,15 +116,12 @@ public class FileBackend implements Backend {
 
     public void saveFile(String filename){
         try {
-            System.out.println("Saving file = " + filename);
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
             
             String writerName = Util.getWriterForFile(_dataFormatsMapping, file);
 			
 			ModelWriter modelWriter = (ModelWriter) Class.forName(writerName).newInstance();
-
-        	System.out.println("FileBackend:: writerName = " + writerName);
 
             modelWriter.write(_graph, writer);
 
@@ -138,7 +132,6 @@ public class FileBackend implements Backend {
 			ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error", e.getMessage());        	
 		}
         catch (Exception e) {
-             System.err.println("Error writing file");
              e.printStackTrace();
              ErrorDialog.showError(OntoRamaApp.getMainFrame(), "Error writing file", e.getMessage());
         }

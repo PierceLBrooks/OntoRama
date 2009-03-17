@@ -106,7 +106,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     }
 
     /**
-     * Returns ture if leaf node
+     * Returns true if leaf node
      */
     public boolean isLeaf() {
         return this.isLeaf;
@@ -214,12 +214,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return scale;
     }
 
-    /**
-     * Notify Hypernode that it has focus.
-     */
     public void hasFocus() {
-        System.out.println("HyperNodeView hasFocus");
-        //model.hasFocus();
     }
 
     /**

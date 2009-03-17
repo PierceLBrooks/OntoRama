@@ -9,12 +9,10 @@ import ontorama.model.GeneralNode;
  * (Used in tree view, description panel when browsing
  * parent nodes)
  */
-
 public class QueryNodeEvent implements Event  {
     protected GeneralNode subject;
 
     public QueryNodeEvent(GeneralNode subject) {
-    	System.out.println("QueryNodeEvent for node " + subject.getName());
         this.subject = subject;
     }
 

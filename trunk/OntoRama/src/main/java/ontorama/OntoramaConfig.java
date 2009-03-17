@@ -47,11 +47,6 @@ public class OntoramaConfig {
      */
     public static boolean FOUNTAINS;
 
-    /**
-     * verbose flag
-     */
-    public static boolean VERBOSE;
-
 	/**
 	 * flag to enable editing mode.
 	 */
@@ -152,7 +147,6 @@ public class OntoramaConfig {
                                         throws SourceException, IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
-        VERBOSE = (new Boolean(properties.getProperty("VERBOSE"))).booleanValue();
         FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();

@@ -62,7 +62,7 @@ public class TestEdge extends TestCase {
     }
 
 
-    protected void setUp() throws URISyntaxException {
+    protected void setUp() throws URISyntaxException, NoSuchRelationLinkException {
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
         creatorUri2 = new URI("ontoHttp://ontorama.ort/someone.html");
@@ -75,58 +75,53 @@ public class TestEdge extends TestCase {
         node5 = new NodeImpl("node5", "node5");
         node6 = new NodeImpl("node6", "node6");
 
-        try {
-			equityTestEdge = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-			equityTransitivityTestEdge= new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
-            edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
-            edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
-            edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
-            edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
+		equityTestEdge = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+		equityTransitivityTestEdge= new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+        edge1 = new EdgeImpl(node1, node2, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+        edge2 = new EdgeImpl(node1, node3, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+        edge3 = new EdgeImpl(node1, node4, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
+        edge4 = new EdgeImpl(node1, node5, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
+        edge5 = new EdgeImpl(node2, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_subtype));
+        edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
+        edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
 
-            // populate linked lists
-            outboundEdgesListForNode1.add(edge1);
-            outboundEdgesListForNode1.add(edge2);
-            outboundEdgesListForNode1.add(edge3);
-            outboundEdgesListForNode1.add(edge4);
+        // populate linked lists
+        outboundEdgesListForNode1.add(edge1);
+        outboundEdgesListForNode1.add(edge2);
+        outboundEdgesListForNode1.add(edge3);
+        outboundEdgesListForNode1.add(edge4);
 
-            inboundEdgesListForNode6.add(edge5);
-            inboundEdgesListForNode6.add(edge6);
-            inboundEdgesListForNode6.add(edge7);
+        inboundEdgesListForNode6.add(edge5);
+        inboundEdgesListForNode6.add(edge6);
+        inboundEdgesListForNode6.add(edge7);
 
-            outboundEdgesListForNode1Relation1.add(edge1);
-            outboundEdgesListForNode1Relation1.add(edge2);
+        outboundEdgesListForNode1Relation1.add(edge1);
+        outboundEdgesListForNode1Relation1.add(edge2);
 
-            inboundEdgesListForNode6Relation1.add(edge5);
+        inboundEdgesListForNode6Relation1.add(edge5);
 
-            outboundNodesListForNode1RelLinkSet.add(node4);
-            outboundNodesListForNode1RelLinkSet.add(node5);
+        outboundNodesListForNode1RelLinkSet.add(node4);
+        outboundNodesListForNode1RelLinkSet.add(node5);
 
-            inboundNodesListForNode6RelLinkSet.add(node3);
-            inboundNodesListForNode6RelLinkSet.add(node4);
+        inboundNodesListForNode6RelLinkSet.add(node3);
+        inboundNodesListForNode6RelLinkSet.add(node4);
 
-            outboundNodesListForNode1Relation1.add(node2);
-            outboundNodesListForNode1Relation1.add(node3);
+        outboundNodesListForNode1Relation1.add(node2);
+        outboundNodesListForNode1Relation1.add(node3);
 
-            inboundNodesListForNode6Relation2.add(node3);
+        inboundNodesListForNode6Relation2.add(node3);
 
-            outboundNodesListForNode1.add(node2);
-            outboundNodesListForNode1.add(node3);
-            outboundNodesListForNode1.add(node4);
-            outboundNodesListForNode1.add(node5);
+        outboundNodesListForNode1.add(node2);
+        outboundNodesListForNode1.add(node3);
+        outboundNodesListForNode1.add(node4);
+        outboundNodesListForNode1.add(node5);
 
-            inboundNodesListForNode6.add(node2);
-            inboundNodesListForNode6.add(node3);
-            inboundNodesListForNode6.add(node4);
+        inboundNodesListForNode6.add(node2);
+        inboundNodesListForNode6.add(node3);
+        inboundNodesListForNode6.add(node4);
 
-            edge1.setCreatorUri(creatorUri1);
-            edge2.setCreatorUri(creatorUri2);
-        } catch (NoSuchRelationLinkException e) {
-            System.err.println("NoSuchRelationLinkException: " + e.getMessage());
-            System.exit(-1);
-        }
+        edge1.setCreatorUri(creatorUri1);
+        edge2.setCreatorUri(creatorUri2);
     }
 
 

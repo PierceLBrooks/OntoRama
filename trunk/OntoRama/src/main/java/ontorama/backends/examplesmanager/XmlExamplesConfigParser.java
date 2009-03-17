@@ -32,9 +32,6 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
 
     @SuppressWarnings("unchecked")
 	public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
-        if (OntoramaConfig.VERBOSE) {
-            System.out.println("XmlExamplesConfigParser");
-        }
         this.examplesList = new ArrayList<OntoramaExample>();
 
         try {
@@ -53,9 +50,6 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         }
     }
 
-    /**
-     *
-     */
     private void processExampleElement(Element element) throws ConfigParserException {
         Attribute nameAttr = element.getAttribute("name");
         checkCompulsoryAttr(nameAttr, "name", "element");

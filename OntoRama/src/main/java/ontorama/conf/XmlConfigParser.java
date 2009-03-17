@@ -35,8 +35,8 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlConfigParser extends XmlParserAbstract {
 
-    private static Hashtable edgesConfig;
-    private List edgesOrdering;
+    private static Hashtable<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
+    private List<EdgeType> edgesOrdering;
     private NodeTypeDisplayInfo conceptShape = null;
     private NodeTypeDisplayInfo relationShape = null;
     private JarSource streamReader = new JarSource();;
@@ -96,8 +96,8 @@ public class XmlConfigParser extends XmlParserAbstract {
             System.out.println("XmlConfigParser");
         }
         relationRdfMappingList = new LinkedList<RdfMapping>();
-        edgesConfig = new Hashtable();
-        edgesOrdering = new LinkedList();
+        edgesConfig = new Hashtable<EdgeType, EdgeTypeDisplayInfo>();
+        edgesOrdering = new LinkedList<EdgeType>();
 
         try {
             SAXBuilder builder = new SAXBuilder();
@@ -175,7 +175,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     	return null;
     }
 
-    public Hashtable getDisplayInfo () {
+    public Hashtable<EdgeType, EdgeTypeDisplayInfo> getDisplayInfo () {
         return edgesConfig;
     }
 
@@ -393,7 +393,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         return XmlConfigParser.relationRdfMappingList;
     }
 
-    public List getEdgesOrdering() {
+    public List<EdgeType> getEdgesOrdering() {
         return this.edgesOrdering;
     }
     

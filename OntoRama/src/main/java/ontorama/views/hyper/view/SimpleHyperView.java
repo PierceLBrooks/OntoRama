@@ -34,6 +34,7 @@ import org.tockit.canvas.events.CanvasItemMouseMovementEvent;
 import org.tockit.events.EventBroker;
 
 
+@SuppressWarnings("serial")
 public class SimpleHyperView extends Canvas implements TreeView {
 
     /**
@@ -291,35 +292,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         }
     }
 
-
-    /**
-     * Try to give the ontology a basic layout.
-     * The spring and electrical algorthms shall they do the rest.
-     */
-    private void radialLayout(TreeNode root, double rads, double startAngle) {
-        List<TreeNode> childrenList = root.getChildren();
-        Iterator<TreeNode> children = childrenList.iterator();
-        int numOfOutboundNodes = childrenList.size();
-        if (numOfOutboundNodes == 0) {
-            return;
-        }
-        double angle = rads / numOfOutboundNodes;
-        double x = 0, y = 0, radius = 0, count = 1;
-        while (children.hasNext()) {
-        	TreeNode node = children.next();
-            HyperNode hn = hypernodes.get(node);
-            if (hn == null) {
-                return;
-            }
-            double ang = (angle * count) + startAngle - rads / 2;
-            count = count + 1;
-            radius = springLength * (hn.getDepth());
-            x = Math.cos(ang) * radius;
-            y = Math.sin(ang) * radius;
-            hn.setLocation(x, y);
-            radialLayout(node, angle, ang);
-        }
-    }
 
     /**
      * Inner class to store graph node radial layouting info.
@@ -764,12 +736,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * canvasItems list ( so as to be drawn last), and is told
      * that it has focus.
      */
-    protected void setLabelSelected(HyperNodeView selectedNodeView) {
+    // TODO update to generified version of canvas
+    @SuppressWarnings("unchecked")
+	protected void setLabelSelected(HyperNodeView selectedNodeView) {
         // find the LabelView for this HyperNodeView.
-        Collection labelViews = this.getCanvasItemsByType(LabelView.class);
-        Iterator it = labelViews.iterator();
-        while (it.hasNext()) {
-            CanvasItem canvasItem = (CanvasItem) it.next();
+        Collection<CanvasItem> labelViews = this.getCanvasItemsByType(LabelView.class);
+        for (CanvasItem canvasItem : labelViews) {
             if (canvasItem instanceof LabelView) {
                 if (((LabelView) canvasItem).hasHyperNodeView(selectedNodeView) == true) {
                 	SimpleHyperView.labelView = (LabelView) canvasItem;
@@ -828,14 +800,13 @@ public class SimpleHyperView extends Canvas implements TreeView {
     /**
      * Highlight all _graphEdges on the path from the _root to a closest node for current mouse event
      */
-    public void highlightPathToRoot(CanvasItemMouseMovementEvent pointedEvent) {
-        Iterator it = this.getCanvasItemsByType(HyperNodeView.class).iterator();
+    @SuppressWarnings("unchecked")
+	public void highlightPathToRoot(CanvasItemMouseMovementEvent pointedEvent) {
         double minDist = this.getWidth();
         double dist = 0;
         HyperNodeView closestNode = null;
-        while (it.hasNext()) {
-            HyperNodeView curNodeView = (HyperNodeView) it.next();
-
+        Collection<HyperNodeView> hyperNodeViews = getCanvasItemsByType(HyperNodeView.class);
+		for (HyperNodeView curNodeView : hyperNodeViews) {
             double curX = pointedEvent.getCanvasPosition().getX() - curNodeView.getProjectedX();
             double curY = pointedEvent.getCanvasPosition().getY() - curNodeView.getProjectedY();
             curX = curX * (1 / canvasScale);

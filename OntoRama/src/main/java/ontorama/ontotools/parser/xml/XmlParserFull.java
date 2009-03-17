@@ -82,13 +82,9 @@ public class XmlParserFull implements Parser {
             readConceptTypes(rootElement.getChildren(conceptTypeElementName, ns));
         	readRelationTypes(rootElement.getChildren(relationTypeElementName, ns));
         } catch (URISyntaxException e) {
-            System.out.println("URISyntaxException: " + e);
-            e.printStackTrace();
-            throw new ParserException("Expecting valid URI for type creator attribute: " + e.getMessage());
+            throw new ParserException("Expecting valid URI for type creator attribute.", e);
         } catch (Exception e) {
-            System.out.println("Exception: " + e);
-            e.printStackTrace();
-        	throw new ParserException(e.getMessage());            
+        	throw new ParserException("Failed to parse XML file", e);            
         }
         return new ParserResult(new LinkedList<Node>(_nodes.values()), _edges);
     }
@@ -268,9 +264,6 @@ public class XmlParserFull implements Parser {
         return false;
     }
 
-    /**
-     *
-     */
     private void checkCompulsoryAttr(Attribute attr, String attrName, String elementName)
             throws ParserException {
         if (attr == null) {
@@ -291,8 +284,7 @@ public class XmlParserFull implements Parser {
 			}
 		}
 		catch (NoSuchRelationLinkException e) {
-			e.fillInStackTrace();
-			throw new ParserException(errMsg);
+			throw new ParserException(errMsg, e);
 		}
 
 	}

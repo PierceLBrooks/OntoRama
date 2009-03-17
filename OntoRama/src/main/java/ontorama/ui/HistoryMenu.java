@@ -24,31 +24,18 @@ import ontorama.ontotools.query.Query;
 import org.tockit.events.EventBroker;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
- * @author nataliya
- * @version 1.0
  */
 
+@SuppressWarnings("serial")
 public class HistoryMenu extends JMenu {
 
-    /**
-     *
-     */
     private JMenuItem _historyBackMenuItem;
     private JMenuItem _historyForwardMenuItem;
 
-    /**
-     * keys - menuItems
-     * values - corresponging history elements
-     */
     private static Hashtable<JRadioButtonMenuItem, HistoryElement> _menuItemHistoryMapping;
 
-    /**
-     *
-     */
     private int _maxHistoryItems = 20;
 
     /**
@@ -69,8 +56,6 @@ public class HistoryMenu extends JMenu {
     
     private Backend _backend = OntoramaConfig.getBackend();
 
-    /**
-     */
     public HistoryMenu(EventBroker eventBroker) {
         super("History");
         _eventBroker = eventBroker;
@@ -114,7 +99,7 @@ public class HistoryMenu extends JMenu {
     /**
      * Update history menu: if given query is a query not stored in history
      * items list - append history list. Otherwise - jump to the history
-     * item correponding to this query.
+     * item corresponding to this query.
      */
     public void updateHistory(Query query) {
     	JRadioButtonMenuItem historyItem;
@@ -173,9 +158,6 @@ public class HistoryMenu extends JMenu {
 		return null;
 	}
 
-    /**
-     *
-     */
     public JRadioButtonMenuItem getMenuItem(int index) {
         return _historyItems.get(index);
     }
@@ -199,9 +181,6 @@ public class HistoryMenu extends JMenu {
         return null;
     }
 
-    /**
-     *
-     */
     public int getIndexOfSelectedHistoryMenuItem() {
         JRadioButtonMenuItem curSelectedItem = getSelectedHistoryMenuItem();
         if (curSelectedItem == null) {
@@ -210,9 +189,6 @@ public class HistoryMenu extends JMenu {
         return (_historyItems.indexOf(curSelectedItem));
     }
 
-    /**
-     *
-     */
     protected void enableBackForwardButtons() {
         int curSelectedHistoryIndex = getIndexOfSelectedHistoryMenuItem();
         if (curSelectedHistoryIndex <= 0) {
@@ -227,12 +203,7 @@ public class HistoryMenu extends JMenu {
         }
     }
     
-    private void displayHistoryItemForGivenItemIndex (int menuItemIndex) {
-		JMenuItem menuItem = getMenuItem(menuItemIndex);
-		displayHistoryItem(menuItem);
-    }
-
-	public void displayPreviousHistoryItem () {
+    public void displayPreviousHistoryItem () {
 		int indexOfCur = getIndexOfSelectedHistoryMenuItem();
 		JMenuItem menuItem = getMenuItem(indexOfCur - 1);
 		displayHistoryItem(menuItem);

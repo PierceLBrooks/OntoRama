@@ -18,13 +18,6 @@ import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
- * Title:
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
- *
  * Not testing following methods:
  * - all private methods
  * - clearAllEdges method
@@ -49,8 +42,6 @@ public class TestEdge extends TestCase {
     private Edge edge6;
     private Edge edge7;
 
-
-    private Set<EdgeType> relLinksSet;
 
     private List<Edge> outboundEdgesListForNode1 = new LinkedList<Edge>();
     private List<Edge> inboundEdgesListForNode6 = new LinkedList<Edge>();
@@ -109,8 +100,7 @@ public class TestEdge extends TestCase {
             edge6 = new EdgeImpl(node3, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar));
             edge7 = new EdgeImpl(node4, node6, OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
 
-            // create relation links set
-            relLinksSet = createSet(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar), OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
+            createSet(OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_similar), OntoramaConfig.getEdgeType(TestGraphPackage.edgeName_reverse));
 
             // populate linked lists
             outboundEdgesListForNode1.add(edge1);

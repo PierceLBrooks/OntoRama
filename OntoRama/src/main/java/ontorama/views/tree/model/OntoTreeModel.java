@@ -26,17 +26,11 @@ public class OntoTreeModel implements TreeModel {
     
 
     /**
-     * OntoTreeBuilder object that will hold references
-     * between GraphNodes and TreeNodes
-     */
-    private OntoTreeBuilder ontoTreeBuilder;
-
-    /**
      * Constructor
      */
     public OntoTreeModel(Tree tree) {
     	_tree = tree;
-        this.ontoTreeBuilder = new OntoTreeBuilder(_tree);
+        new OntoTreeBuilder(_tree);
     }
     
 

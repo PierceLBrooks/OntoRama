@@ -27,7 +27,7 @@ public class OntoTreeBuilder {
 	 * keys - ontorama.model.Tree TreeNodes
 	 * values - OntoTreeNodes
 	 */
-    private static Hashtable _ontoHash = new Hashtable();
+    private static Hashtable<TreeNode, OntoTreeNode> _ontoHash = new Hashtable<TreeNode, OntoTreeNode>();
     private Tree _tree;
 
     /**
@@ -45,15 +45,15 @@ public class OntoTreeBuilder {
      */
     private void processNode (ontorama.model.tree.TreeNode topTreeNode) {
     	
-    	List childrenEdges = topTreeNode.getChildren();
-    	Iterator children = childrenEdges.iterator();
+    	List<TreeNode> childrenEdges = topTreeNode.getChildren();
+    	Iterator<TreeNode> children = childrenEdges.iterator();
 
 		if (!children.hasNext()) {
 			OntoTreeNode ontoTreeNode = new OntoTreeNode (topTreeNode);
 			_ontoHash.put(topTreeNode, ontoTreeNode);
 		}    	
     	while (children.hasNext()) {
-    		ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) children.next();
+    		ontorama.model.tree.TreeNode curNode = children.next();
     		TreeEdge edge = topTreeNode.getEdge(curNode);
     		createOntoTreeNode (topTreeNode, edge);
     	}
@@ -67,9 +67,9 @@ public class OntoTreeBuilder {
         ontoTreeNode.setRelLink(edge.getEdgeType());
         _ontoHash.put(top, ontoTreeNode);
 
-		Iterator children = top.getChildren().iterator();
+		Iterator<TreeNode> children = top.getChildren().iterator();
         while (children.hasNext()) {
-        	TreeNode toModelTreeNode = (TreeNode) children.next();
+        	TreeNode toModelTreeNode = children.next();
         	
             TreeEdge curEdge = top.getEdge(toModelTreeNode);
 
@@ -83,7 +83,7 @@ public class OntoTreeBuilder {
      * @return	treeNode
      */
     public static javax.swing.tree.TreeNode getTreeNode(TreeNode treeModelNode) {
-		javax.swing.tree.TreeNode treeNode = (OntoTreeNode) _ontoHash.get(treeModelNode);
+		javax.swing.tree.TreeNode treeNode = _ontoHash.get(treeModelNode);
         return treeNode;
     }
 

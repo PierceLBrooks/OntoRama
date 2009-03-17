@@ -52,13 +52,13 @@ public class DescriptionView extends JPanel implements GraphView {
      * Keys - name of edge type 
      * Values - panel
      */
-    Hashtable _nodePropertiesPanels = new Hashtable();
+    Hashtable<String, AbstractPropertiesPanel> _nodePropertiesPanels = new Hashtable<String, AbstractPropertiesPanel>();
     
     /**
      * list edge type names so we know the order in which to 
      * add them to the ui
      */
-    List _edgeTypeNames = new LinkedList();
+    List<String> _edgeTypeNames = new LinkedList<String>();
 
     /**
      * string that will appear on the label corresponding to clones
@@ -103,8 +103,8 @@ public class DescriptionView extends JPanel implements GraphView {
 		 * @see org.tockit.events.EventBrokerListener#processEvent(org.tockit.events.Event)
 		 */
 		public void processEvent(Event event) {
-			List clones = (List) event.getSubject();
-			AbstractPropertiesPanel clonesPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(_clonesLabelName);
+			List<Object> clones = (List<Object>) event.getSubject();
+			AbstractPropertiesPanel clonesPanel = _nodePropertiesPanels.get(_clonesLabelName);
 			clonesPanel.update(clones);
 		}
 	}
@@ -136,13 +136,13 @@ public class DescriptionView extends JPanel implements GraphView {
         rightSubPanel.setBorder(BorderFactory.createEtchedBorder());
 
         // add panels to the ui
-        Iterator edgeTypeNamesIterator = _edgeTypeNames.iterator();
+        Iterator<String> edgeTypeNamesIterator = _edgeTypeNames.iterator();
         int size = _nodePropertiesPanels.size();
         int halfSize = size/2;
         int count = 0;
         while (edgeTypeNamesIterator.hasNext()) {
-        	String propName = (String) edgeTypeNamesIterator.next();
-            JPanel propPanel = (JPanel) _nodePropertiesPanels.get(propName);
+        	String propName = edgeTypeNamesIterator.next();
+            JPanel propPanel = _nodePropertiesPanels.get(propName);
             if (count < halfSize) {
             	leftSubPanel.add(propPanel);
             }
@@ -161,7 +161,7 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private void initPropertiesPanels() {
 
-        List edgeTypesToDisplay = new LinkedList();
+        List<EdgeType> edgeTypesToDisplay = new LinkedList<EdgeType>();
         List edgeTypesList = OntoramaConfig.getEdgeTypesList();
         Iterator it = edgeTypesList.iterator();
         while (it.hasNext()) {
@@ -174,7 +174,7 @@ public class DescriptionView extends JPanel implements GraphView {
                     propPanel = new MultiValuesPanel(displayInfo.getDisplayLabel(), _eventBroker);
                 }
                 else {
-                    propPanel = new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList());
+                    propPanel = new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList<Object>());
                 }
                 if (displayInfo.isDisplayInDescription()) {
                     _nodePropertiesPanels.put(edgeType.getName(), propPanel);
@@ -188,9 +188,9 @@ public class DescriptionView extends JPanel implements GraphView {
         }
         _nodePropertiesPanels.put(_clonesLabelName, new ClonesPanel(_clonesLabelName, _eventBroker));
         _edgeTypeNames.add(_clonesLabelName);
-		_nodePropertiesPanels.put(_descriptionLabelName, new NodePropertiesPanel(_descriptionLabelName, new LinkedList()));
+		_nodePropertiesPanels.put(_descriptionLabelName, new NodePropertiesPanel(_descriptionLabelName, new LinkedList<Object>()));
 		_edgeTypeNames.add(_descriptionLabelName);
-    	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new LinkedList()));
+    	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new LinkedList<Object>()));
     	_edgeTypeNames.add(_fullUrlPropName);
     }
 
@@ -198,10 +198,10 @@ public class DescriptionView extends JPanel implements GraphView {
      * find max label width
      */
     private int getMaxLabelWidth() {
-        Iterator it = _nodePropertiesPanels.values().iterator();
+        Iterator<AbstractPropertiesPanel> it = _nodePropertiesPanels.values().iterator();
         int length = 0;
         while (it.hasNext()) {
-            AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
+            AbstractPropertiesPanel curPanel = it.next();
             int width = curPanel.getPropNameLabelWidth();
             if (width > length) {
                 length = width;
@@ -214,9 +214,9 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     private void setLabelSizesForNodePropertiesPanels() {
-        Iterator it = _nodePropertiesPanels.values().iterator();
+        Iterator<AbstractPropertiesPanel> it = _nodePropertiesPanels.values().iterator();
         while (it.hasNext()) {
-            AbstractPropertiesPanel curPanel = (AbstractPropertiesPanel) it.next();
+            AbstractPropertiesPanel curPanel = it.next();
             curPanel.setPropNameLabelWidth(_propertyNameLabelsDimension);
         }
     }
@@ -227,9 +227,9 @@ public class DescriptionView extends JPanel implements GraphView {
     private Dimension calcLabelSize() {
         int padding = 5;
         int maxSize = getMaxLabelWidth() + padding;
-        Iterator it = _nodePropertiesPanels.values().iterator();
+        Iterator<AbstractPropertiesPanel> it = _nodePropertiesPanels.values().iterator();
         if (it.hasNext()) {
-            AbstractPropertiesPanel panel = (AbstractPropertiesPanel) it.next();
+            AbstractPropertiesPanel panel = it.next();
             return (new Dimension(maxSize, panel.getPropNameLabelHeight()));
         }
         return new Dimension(50, 20);
@@ -239,11 +239,11 @@ public class DescriptionView extends JPanel implements GraphView {
      * clear description value panel from any leftover properties (left from previous example)
      */
     public void clear() {
-        Enumeration e = _nodePropertiesPanels.keys();
+        Enumeration<String> e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
-            String propertyName = (String) e.nextElement();
+            String propertyName = e.nextElement();
             AbstractPropertiesPanel propPanel =
-                    (AbstractPropertiesPanel) _nodePropertiesPanels.get(propertyName);
+                    _nodePropertiesPanels.get(propertyName);
             propPanel.clear();
         }
     }
@@ -254,11 +254,11 @@ public class DescriptionView extends JPanel implements GraphView {
      *
      */
     public void focus(Node node) {
-        Enumeration e = _nodePropertiesPanels.keys();
+        Enumeration<String> e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
-            String edgeName = (String) e.nextElement();
-        	AbstractPropertiesPanel propPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(edgeName);
-        	List value = new LinkedList();
+            String edgeName = e.nextElement();
+        	AbstractPropertiesPanel propPanel = _nodePropertiesPanels.get(edgeName);
+        	List<Object> value = new LinkedList<Object>();
             try {
                 EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
@@ -278,7 +278,7 @@ public class DescriptionView extends JPanel implements GraphView {
                 if ( (edgeName.equals(_clonesLabelName)) || (edgeName.equals(_fullUrlPropName))
                 						|| (edgeName.equals(_descriptionLabelName)) ) {
                 	if (edgeName.equals(_descriptionLabelName)) {
-						AbstractPropertiesPanel descrPanel = (AbstractPropertiesPanel) _nodePropertiesPanels.get(_descriptionLabelName);
+						AbstractPropertiesPanel descrPanel = _nodePropertiesPanels.get(_descriptionLabelName);
 						value.add(node.getDescription());
 						descrPanel.update(value);
                 	}

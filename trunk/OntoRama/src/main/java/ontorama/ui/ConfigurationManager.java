@@ -167,8 +167,8 @@ public class ConfigurationManager {
      * The list will at most contains maxItems items, maybe less if less are
      * found.
      */
-    static public List fetchStringList(String section, String key, int maxItems) {
-        List retVal = new LinkedList();
+    static public List<String> fetchStringList(String section, String key, int maxItems) {
+        List<String> retVal = new LinkedList<String>();
         for (int i = 1; i <= maxItems; i++) {
             String cur = properties.getProperty(section + "-" + key + "-" + i);
             if (cur != null) {

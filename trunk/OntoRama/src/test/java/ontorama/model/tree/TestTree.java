@@ -133,25 +133,25 @@ public class TestTree extends TestCase{
     public void testCloneWithChildren () {
         TreeNode treeNode = getNodeByName("node6");
     	assertEquals("tree should contain node6 ", true, (treeNode != null));
-        List clones = treeNode.getClones();
+        List<TreeNode> clones = treeNode.getClones();
         assertEquals("number of clones for node6 ", 1, clones.size());
-        TreeNode clone = (TreeNode) clones.get(0);
+        TreeNode clone = clones.get(0);
 
-        List treeNodeChildren = treeNode.getChildren();
-        List cloneNodeChildren = clone.getChildren();
+        List<TreeNode> treeNodeChildren = treeNode.getChildren();
+        List<TreeNode> cloneNodeChildren = clone.getChildren();
         assertEquals("number of children in clones should be the same (checking clones for node6) ",
                                         treeNodeChildren.size(), cloneNodeChildren.size());
     }
 
     public void testClone () {
         TreeNode treeNode = getNodeByName("node7");
-        List clones = treeNode.getClones();
+        List<TreeNode> clones = treeNode.getClones();
         assertEquals("tree should contain node7 ", true, (treeNode != null));
         assertEquals("number of clones for node7 ", 2, clones.size());
 
-        Iterator it = clones.iterator();
+        Iterator<TreeNode> it = clones.iterator();
         while (it.hasNext()) {
-            TreeNode curClone = (TreeNode) it.next();
+            TreeNode curClone = it.next();
             assertEquals("number of clones in each clones should be the same ",
                                     treeNode.getClones().size(), curClone.getClones().size());
             assertEquals("number of children in each clones should be the same ",
@@ -172,14 +172,14 @@ public class TestTree extends TestCase{
 
     public void testTraversal () {
         TreeNode rootNode = _tree.getRootNode();
-        List q = new LinkedList();
+        List<TreeNode> q = new LinkedList<TreeNode>();
         q.add(rootNode);
 
         int treeDepth = 0;
         int branchDepth = 0;
-        Iterator topLevelChildren = rootNode.getChildren().iterator();
+        Iterator<TreeNode> topLevelChildren = rootNode.getChildren().iterator();
         while (topLevelChildren.hasNext()) {
-            TreeNode child = (TreeNode) topLevelChildren.next();
+            TreeNode child = topLevelChildren.next();
             branchDepth = calcBranchDepth(1, child);
             if (branchDepth > treeDepth) {
                 treeDepth = branchDepth;
@@ -209,14 +209,14 @@ public class TestTree extends TestCase{
 
 		assertEquals("number of nodes after add ", originalNodeCount + 3, countNumOfNodes());
 
-        List node7clones = node7.getClones();
-        Iterator it = node7clones.iterator();
+        List<TreeNode> node7clones = node7.getClones();
+        Iterator<TreeNode> it = node7clones.iterator();
         while (it.hasNext()) {
-            TreeNode cur = (TreeNode) it.next();
-            Iterator children = cur.getChildren().iterator();
+            TreeNode cur = it.next();
+            Iterator<TreeNode> children = cur.getChildren().iterator();
             boolean found = false;
             while (children.hasNext()) {
-                TreeNode child = (TreeNode) children.next();
+                TreeNode child = children.next();
                 if (child.isClone(newTreeNode)) {
                     found = true;
                 }
@@ -254,26 +254,26 @@ public class TestTree extends TestCase{
 
     private int calcBranchDepth (int depth, TreeNode top) {
     	int res = depth;
-        Iterator children = top.getChildren().iterator();
+        Iterator<TreeNode> children = top.getChildren().iterator();
         if (children.hasNext()) {
             res++;
         }
         while (children.hasNext()) {
-			TreeNode childNode = (TreeNode) children.next();
+			TreeNode childNode = children.next();
             res = calcBranchDepth(res, childNode);
         }
         return res;
     }
       
     private TreeNode getNodeByName (String nodeName) {
-    	List q = new LinkedList();
+    	List<TreeNode> q = new LinkedList<TreeNode>();
     	q.add(_tree.getRootNode());
     	
     	while (!q.isEmpty()) {
-    		TreeNode cur = (TreeNode) q.remove(0);
-    		Iterator children = cur.getChildren().iterator();
+    		TreeNode cur = q.remove(0);
+    		Iterator<TreeNode> children = cur.getChildren().iterator();
     		while (children.hasNext()) {
-    			TreeNode childNode = (TreeNode) children.next();
+    			TreeNode childNode = children.next();
     			q.add(childNode);
     		}
     		if (cur.getName().equals(nodeName)) {
@@ -285,15 +285,15 @@ public class TestTree extends TestCase{
     
     private int countNumOfNodes () {
 		int result = 0;
-    	List q = new LinkedList();
+    	List<TreeNode> q = new LinkedList<TreeNode>();
     	q.add(_tree.getRootNode());
 
     	while (!q.isEmpty()) {
-    		TreeNode cur = (TreeNode) q.remove(0);
+    		TreeNode cur = q.remove(0);
     		result++;
-    		Iterator children = cur.getChildren().iterator();
+    		Iterator<TreeNode> children = cur.getChildren().iterator();
     		while (children.hasNext()) {
-    			TreeNode childNode = (TreeNode) children.next();
+    			TreeNode childNode = children.next();
     			q.add(childNode);
     		}
     	}

@@ -28,10 +28,10 @@ public class Util {
 		return ext;
 	}
 	
-	private static DataFormatMapping getMappingForExtension (List dataFormatsMapping, String extension) {
-		Iterator it = dataFormatsMapping.iterator();
+	private static DataFormatMapping getMappingForExtension (List<DataFormatMapping> dataFormatsMapping, String extension) {
+		Iterator<DataFormatMapping> it = dataFormatsMapping.iterator();
 		while (it.hasNext()) {
-			DataFormatMapping element = (DataFormatMapping) it.next();
+			DataFormatMapping element = it.next();
 			if (element.getFileExtention().equals(extension)) {
 				return element;
 			}
@@ -40,7 +40,7 @@ public class Util {
 	}
 	
 	
-	public static String getParserForFile (List dataFormatsMapping, File file) 
+	public static String getParserForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws ParserNotSpecifiedException {
 		String extention = Util.getExtension(file);
 		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);
@@ -54,7 +54,7 @@ public class Util {
 	}
 	
 
-	public static String getWriterForFile (List dataFormatsMapping, File file) 
+	public static String getWriterForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws WriterNotSpecifiedException {
 		String extention = Util.getExtension(file);
 		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);

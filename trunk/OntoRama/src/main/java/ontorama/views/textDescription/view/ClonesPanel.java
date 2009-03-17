@@ -46,8 +46,8 @@ public class ClonesPanel extends AbstractPropertiesPanel {
 	 * only happen in a tree and on tree nodes.
 	 * @see ontorama.views.textDescription.view.AbstractPropertiesPanel#update(List)
 	 */
-	public void update(List propValuesList) {
-		Iterator propValuesIterator = propValuesList.iterator();
+	public void update(List<Object> propValuesList) {
+		Iterator<Object> propValuesIterator = propValuesList.iterator();
 		clear();
 		// need updateUI, otherwise it seems that when a user clicks
 		// on a clone button and clone is focused - we don't get a 'clone

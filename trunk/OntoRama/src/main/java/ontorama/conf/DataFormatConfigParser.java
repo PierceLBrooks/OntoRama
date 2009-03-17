@@ -24,10 +24,10 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 	private static final String _parserAttrName = "parser";
 	private static final String _writerAttrName = "writer";
 	
-	private List _mappings;
+	private List<DataFormatMapping> _mappings;
 	
 	public DataFormatConfigParser (InputStream in) throws ConfigParserException {
-		_mappings = new LinkedList();
+		_mappings = new LinkedList<DataFormatMapping>();
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(in);
@@ -49,7 +49,7 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 		}	
 	}
 	
-	public List getDataFormatMappings () {
+	public List<DataFormatMapping> getDataFormatMappings () {
 		return _mappings;
 	}
 	

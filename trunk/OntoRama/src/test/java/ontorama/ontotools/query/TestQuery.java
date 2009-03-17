@@ -26,7 +26,7 @@ public class TestQuery extends TestCase {
     private Query query1;
     private Query query2;
 
-    private List expectedRelLinksList2 = new LinkedList();
+    private List<Integer> expectedRelLinksList2 = new LinkedList<Integer>();
 
 
     /**
@@ -51,7 +51,7 @@ public class TestQuery extends TestCase {
         query2 = new Query(termName, testRelationLinksList);
         query2.setDepth(4);
 
-        expectedRelLinksList2 = new LinkedList();
+        expectedRelLinksList2 = new LinkedList<Integer>();
         expectedRelLinksList2.add(new Integer(0));
         expectedRelLinksList2.add(new Integer(2));
         expectedRelLinksList2.add(new Integer(5));
@@ -72,7 +72,7 @@ public class TestQuery extends TestCase {
         assertEquals("relaton links collection for query1 should be empty", 0,
                 query1.getRelationLinksCollection().size());
 
-        Collection expectedCollection2 = expectedRelLinksList2;
+        Collection<Integer> expectedCollection2 = expectedRelLinksList2;
         assertEquals("relation links collection for query2", expectedCollection2,
                 query2.getRelationLinksCollection());
     }
@@ -96,7 +96,7 @@ public class TestQuery extends TestCase {
         assertEquals("size of relation links list for query2", expectedRelLinksList2.size(),
                 query2.getRelationLinksList().size());
         for (int i = 0; i < expectedRelLinksList2.size(); i++) {
-            Integer int1 = (Integer) expectedRelLinksList2.get(i);
+            Integer int1 = expectedRelLinksList2.get(i);
             Integer int2 = (Integer) query2.getRelationLinksList().get(i);
             assertEquals("elements of lists in the same position should be the same",
                     int1, int2);

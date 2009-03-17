@@ -25,26 +25,26 @@ public interface Graph {
     /**
      * @return   list of tree roots in the forest
      */
-    public List getBranchRootsList();
+    public List<Node> getBranchRootsList();
 
 	public boolean nodeIsInGivenBranch(Node rootNode, Node node);
 
     /**
      * return list of graph nodes
      */
-    public List getNodesList();
+    public List<Node> getNodesList();
 
-    public List getEdgesList ();
+    public List<Edge> getEdgesList ();
 
-    public List getOutboundEdges(Node node);
-    public List getInboundEdges (Node node);
+    public List<Edge> getOutboundEdges(Node node);
+    public List<Edge> getInboundEdges (Node node);
 
-    public List getInboundEdgeNodesByType (Node node, EdgeType relLink);
-    public List getOutboundEdgeNodesByType (Node node, EdgeType relLink);
+    public List<Object> getInboundEdgeNodesByType (Node node, EdgeType relLink);
+    public List<Object> getOutboundEdgeNodesByType (Node node, EdgeType relLink);
 
-    public List getOutboundEdgesDisplayedInGraph (Node node);
+    public List<Edge> getOutboundEdgesDisplayedInGraph (Node node);
 
-    public List getInboundEdgesDisplayedInGraph (Node node);
+    public List<Edge> getInboundEdgesDisplayedInGraph (Node node);
 
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType);
 

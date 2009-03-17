@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 
+import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Graph;
@@ -43,7 +44,7 @@ public interface Backend {
 	
 //	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
 
-	public Collection getDataFormats();
+	public Collection<DataFormatMapping> getDataFormats();
 	
 	public HistoryElement createHistoryElement (Query query, EventBroker eventBroker);
 	

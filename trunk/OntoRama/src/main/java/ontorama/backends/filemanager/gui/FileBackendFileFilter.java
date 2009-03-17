@@ -16,13 +16,13 @@ public class FileBackendFileFilter extends FileFilter {
 	
 	private String _filterDescription = "Ontorama readable files";
 	
-	private Collection  _dataFormatsMapping;
+	private Collection<DataFormatMapping>  _dataFormatsMapping;
 	
 	
 	/**
 	 * Constructor for FileBackendFileFilter.
 	 */
-	public FileBackendFileFilter(Collection dataFormatsMapping) {
+	public FileBackendFileFilter(Collection<DataFormatMapping> dataFormatsMapping) {
 		_dataFormatsMapping = dataFormatsMapping;
 	}
 
@@ -40,9 +40,9 @@ public class FileBackendFileFilter extends FileFilter {
 			return false;
 		}
 		
-		Iterator it = _dataFormatsMapping.iterator();
+		Iterator<DataFormatMapping> it = _dataFormatsMapping.iterator();
 		while (it.hasNext()) {
-			DataFormatMapping mapping = (DataFormatMapping) it.next();
+			DataFormatMapping mapping = it.next();
 			String fileExtension = mapping.getFileExtention();
 			if (extension.equals(fileExtension)) {
 				return true;

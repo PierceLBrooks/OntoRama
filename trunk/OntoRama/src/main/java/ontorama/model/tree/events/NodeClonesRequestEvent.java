@@ -15,7 +15,7 @@ import org.tockit.events.Event;
  */
 public class NodeClonesRequestEvent implements Event {
 	
-	List subject;
+	List<TreeNode> subject;
 
 	/**
 	 * Constructor for NodeClonesRequestEvent.

@@ -41,22 +41,22 @@ public class RdfModelWriter implements ModelWriter {
      * keys - nodes
      * values - rdf resources
      */
-    protected Hashtable _nodeToResource;
+    protected Hashtable<Node, Resource> _nodeToResource;
 
     /**
      * contains a list of processed edges that have been added to rdf model
      */
     protected List _processedEdges;
 
-    protected List _processedNodes;
+    protected List<Node> _processedNodes;
 
-    protected Hashtable _edgeTypesToRdfMapping;
+    protected Hashtable<EdgeType, RdfMapping> _edgeTypesToRdfMapping;
 
     public void write(Graph graph, Writer out) throws ModelWriterException {
         _graph = graph;
-        _nodeToResource = new Hashtable();
+        _nodeToResource = new Hashtable<Node, Resource>();
         _processedEdges = new LinkedList();
-        _processedNodes = new LinkedList();
+        _processedNodes = new LinkedList<Node>();
         System.out.println("\n\nRDF MODEL WRITER for graph " + graph + "\n");
 
         try {
@@ -121,10 +121,10 @@ public class RdfModelWriter implements ModelWriter {
         }
     }
 
-    protected void writeEdges(List edgesList,  Model rdfModel) throws RDFException {
-        Iterator edgesIterator = edgesList.iterator();
+    protected void writeEdges(List<Edge> edgesList,  Model rdfModel) throws RDFException {
+        Iterator<Edge> edgesIterator = edgesList.iterator();
         while (edgesIterator.hasNext()) {
-            Edge curEdge = (Edge) edgesIterator.next();
+            Edge curEdge = edgesIterator.next();
             SimpleTriple triple = writeEdgeIntoModel(curEdge, rdfModel);
             Resource subject = getResource(triple.getSubject());
             Property predicate = triple.getPredicate();
@@ -147,7 +147,7 @@ public class RdfModelWriter implements ModelWriter {
         Node fromNode = (Node) curEdge.getFromNode();
         EdgeType edgeType = curEdge.getEdgeType();
         Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
-        RdfMapping rdfMapping = (RdfMapping) _edgeTypesToRdfMapping.get(edgeType);
+        RdfMapping rdfMapping = _edgeTypesToRdfMapping.get(edgeType);
         if (rdfMapping.getType().equals(edgeType.getName()) ) {
             result =  new SimpleTriple (curEdge.getFromNode(), predicate, curEdge.getToNode());
             _processedNodes.add(fromNode);
@@ -159,9 +159,9 @@ public class RdfModelWriter implements ModelWriter {
         return result;
     }
 
-    protected Property getPropertyForEdgeType (EdgeType edgeType, Hashtable edgeTypesToRdfMapping) throws RDFException {
-        RdfMapping rdfMapping = (RdfMapping) edgeTypesToRdfMapping.get(edgeType);
-        String rdfTag = (String) rdfMapping.getRdfTags().get(0);
+    protected Property getPropertyForEdgeType (EdgeType edgeType, Hashtable<EdgeType, RdfMapping> edgeTypesToRdfMapping) throws RDFException {
+        RdfMapping rdfMapping = edgeTypesToRdfMapping.get(edgeType);
+        String rdfTag = rdfMapping.getRdfTags().get(0);
         System.out.println("edgeType namespace = " + edgeType.getNamespace() + ", rdfTag = " + rdfTag);
         Property predicate;
         String text = edgeType.getNamespace() + rdfTag;
@@ -170,12 +170,12 @@ public class RdfModelWriter implements ModelWriter {
     }
 
 
-    protected Hashtable mapEdgeTypesToRdfTags() throws NoSuchRelationLinkException {
-        Hashtable result = new Hashtable();
-        List rdfMappingList = OntoramaConfig.getRelationRdfMapping();
-        Iterator it = rdfMappingList.iterator();
+    protected Hashtable<EdgeType, RdfMapping> mapEdgeTypesToRdfTags() throws NoSuchRelationLinkException {
+        Hashtable<EdgeType, RdfMapping> result = new Hashtable<EdgeType, RdfMapping>();
+        List<RdfMapping> rdfMappingList = OntoramaConfig.getRelationRdfMapping();
+        Iterator<RdfMapping> it = rdfMappingList.iterator();
         while (it.hasNext()) {
-            RdfMapping rdfMapping = (RdfMapping) it.next();
+            RdfMapping rdfMapping = it.next();
             String edgeTypeName = rdfMapping.getType();
             EdgeType edgeTypeForRdfMapping = OntoramaConfig.getEdgeType(edgeTypeName);
             result.put(edgeTypeForRdfMapping, rdfMapping);
@@ -185,7 +185,7 @@ public class RdfModelWriter implements ModelWriter {
 
     protected Resource getResource(Node node) {
         if (_nodeToResource.containsKey(node)) {
-            return (Resource) _nodeToResource.get(node);
+            return _nodeToResource.get(node);
         } else {
             Resource resource = new ResourceImpl(node.getIdentifier());
             _nodeToResource.put(node, resource);

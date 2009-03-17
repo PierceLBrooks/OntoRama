@@ -44,7 +44,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    private static List relationRdfMappingList;
+    private static List<RdfMapping> relationRdfMappingList;
 
 
     private static final String ontologyElementName = "ontology";
@@ -95,7 +95,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlConfigParser");
         }
-        relationRdfMappingList = new LinkedList();
+        relationRdfMappingList = new LinkedList<RdfMapping>();
         edgesConfig = new Hashtable();
         edgesOrdering = new LinkedList();
 
@@ -392,7 +392,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    public List getRelationRdfMappingList() {
+    public List<RdfMapping> getRelationRdfMappingList() {
         return XmlConfigParser.relationRdfMappingList;
     }
 

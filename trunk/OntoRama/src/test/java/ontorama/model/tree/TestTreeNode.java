@@ -63,9 +63,9 @@ public class TestTreeNode  extends TestCase{
     }
 
     public void testClones () {
-        List clones = _treeNode.getClones();
+        List<TreeNode> clones = _treeNode.getClones();
         assertEquals("number of clones for node ", 1, clones.size());
-        TreeNode cloneNode = (TreeNode) clones.get(0);
+        TreeNode cloneNode = clones.get(0);
         assertEquals("clone for node " , _cloneNode, cloneNode);
         assertEquals("clones should contain the same graph node ", true, _treeNode.isClone(_cloneNode));
     }
@@ -73,12 +73,12 @@ public class TestTreeNode  extends TestCase{
     public void testAddClone () {
         TreeNode newClone = new TreeNodeImpl(_graphNode);
         _treeNode.addClone(newClone);
-        List clones = _treeNode.getClones();
+        List<TreeNode> clones = _treeNode.getClones();
         assertEquals("number of clones for node ", 2, clones.size());
     }
 
     public void testChildren () {
-        List children = _treeNode.getChildren();
+        List<TreeNode> children = _treeNode.getChildren();
         assertEquals("number of children for _treeNode ", 2, children.size());
         
         assertEquals("expecting to find node in children list ", true, children.contains(_childNode1));

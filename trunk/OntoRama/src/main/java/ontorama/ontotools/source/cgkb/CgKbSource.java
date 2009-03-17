@@ -83,7 +83,7 @@ public class CgKbSource implements Source {
     }
 
 
-    private Reader doCgiFormPost (String urlLoc, Hashtable parameters) throws IOException {
+    private Reader doCgiFormPost (String urlLoc, Hashtable<String,String> parameters) throws IOException {
         URL url = new URL(urlLoc);
         URLConnection connection = url.openConnection();
         connection.setDoOutput(true);
@@ -93,7 +93,7 @@ public class CgKbSource implements Source {
         String paramString = "";
         while (e.hasMoreElements()) {
             String paramName = (String) e.nextElement();
-            String paramValue = (String) parameters.get(paramName);
+            String paramValue = parameters.get(paramName);
             paramString =  paramString + paramName + "=" + paramValue + "&";
         }
         out.print(paramString);

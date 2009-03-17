@@ -28,11 +28,11 @@ import javax.swing.JLabel;
  */
 public class NodePropertiesPanel extends AbstractPropertiesPanel {
     String _propName = null;
-    List _propValue = new LinkedList();
+    List<Object> _propValue = new LinkedList<Object>();
     //JLabel _propNameLabel = new JLabel();
     JLabel _propValueLabel = new JLabel();
 
-    public NodePropertiesPanel(String propName, List propValue) {
+    public NodePropertiesPanel(String propName, List<Object> propValue) {
         _propName = propName;
         _propValue = propValue;
         initLabels();
@@ -50,15 +50,15 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
         _propValueLabel.setText("");
     }
 
-    public void update(List propValueList) {
+    public void update(List<Object> propValueList) {
         setPropValue(propValueList);
     }
 
-    private void setPropValue(List propValueList) {
+    private void setPropValue(List<Object> propValueList) {
         //_propValue = _propValue;
         _propValue = propValueList;
         String propertyValue = "";
-        Iterator propValueIterator = propValueList.iterator();
+        Iterator<Object> propValueIterator = propValueList.iterator();
         while (propValueIterator.hasNext()) {
             Object obj = propValueIterator.next();
             if (obj == null) {

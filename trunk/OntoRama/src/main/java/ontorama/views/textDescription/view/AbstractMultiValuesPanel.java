@@ -70,8 +70,8 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * recall focus action on the corresponding node
      * when pressed
      */
-    public void update(List propValuesList) {
-        Iterator propValuesIterator = propValuesList.iterator();
+    public void update(List<Object> propValuesList) {
+        Iterator<Object> propValuesIterator = propValuesList.iterator();
         clear();
         // need updateUI, otherwise it seems that when a user clicks
         // on a clone button and clone is focused - we don't get a 'clone

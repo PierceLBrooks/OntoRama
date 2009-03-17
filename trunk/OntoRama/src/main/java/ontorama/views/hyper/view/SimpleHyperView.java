@@ -39,12 +39,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
     /**
      * Hold the mapping of HyperNode to TreeNodes
      */
-    protected Hashtable hypernodes = new Hashtable();
+    protected Hashtable<TreeNode, HyperNode> hypernodes = new Hashtable<TreeNode, HyperNode>();
 
     /**
      * Holds the mapping of HyperNodeView to TreeNodes
      */
-    protected Hashtable hypernodeviews = new Hashtable();
+    protected Hashtable<TreeNode, HyperNodeView> hypernodeviews = new Hashtable<TreeNode, HyperNodeView>();
 
     private Tree _tree;
 
@@ -129,26 +129,26 @@ public class SimpleHyperView extends Canvas implements TreeView {
 		TreeNode root = _tree.getRootNode();
 
 		makeHyperNodes(root);
-        calculateDepths((HyperNode) this.hypernodes.get(root), 0);
+        calculateDepths(this.hypernodes.get(root), 0);
         
 		NodePlacementDetails rootNode = new NodePlacementDetails(root, getLeafNodeTotal(root));
 		weightedRadialLayout(rootNode, 0);
 
 		addCanvasItem(SimpleHyperView.sphereView, "sphere");
 
-	    List queue = new LinkedList();
+	    List<TreeNode> queue = new LinkedList<TreeNode>();
 	    queue.add(root);
 	    while (!queue.isEmpty()) {
-	        TreeNode curTreeNode = (TreeNode) queue.remove(0);
-	        HyperNodeView curHyperNodeView = (HyperNodeView) hypernodeviews.get(curTreeNode);
+	        TreeNode curTreeNode = queue.remove(0);
+	        HyperNodeView curHyperNodeView = hypernodeviews.get(curTreeNode);
 	        addCanvasItem(curHyperNodeView, "nodes");
 	        addCanvasItem(new LabelView(curHyperNodeView), "labels");
-	        Iterator children = curTreeNode.getChildren().iterator();
+	        Iterator<TreeNode> children = curTreeNode.getChildren().iterator();
 	        while (children.hasNext()) {
-	            TreeNode childNode = (TreeNode) children.next();
+	            TreeNode childNode = children.next();
 	            TreeEdge edge = curTreeNode.getEdge(childNode);
 	            EdgeType edgeType = edge.getEdgeType();
-	            HyperNodeView outboundHyperNodeView = (HyperNodeView) hypernodeviews.get(childNode);
+	            HyperNodeView outboundHyperNodeView = hypernodeviews.get(childNode);
 	            addCanvasItem(new HyperEdgeView(curHyperNodeView, outboundHyperNodeView, edgeType, projection), "edges");
 	            queue.add(childNode);
 	        }
@@ -172,7 +172,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
             return;
         }
 
-        focusNode = (HyperNode) this.hypernodes.get(treeNode);
+        focusNode = this.hypernodes.get(treeNode);
         double distance = Math.sqrt(focusNode.getX() * focusNode.getX() +
                 focusNode.getY() * focusNode.getY());
         if(distance == 0) {
@@ -180,7 +180,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         }
 
         // set focused node label to selected
-        HyperNodeView hyperNodeView  = (HyperNodeView) this.hypernodeviews.get(treeNode);
+        HyperNodeView hyperNodeView  = this.hypernodeviews.get(treeNode);
         testIfVisibleOrFolded(hyperNodeView);
         setLabelSelected(hyperNodeView);
 
@@ -193,7 +193,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
      *
      */
     public void toggleFold(TreeNode node) {
-        HyperNodeView focusedHyperNodeView = (HyperNodeView) this.hypernodeviews.get(node);
+        HyperNodeView focusedHyperNodeView = this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
             return;
         }
@@ -210,10 +210,10 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Method to fold and unfold HyperNodeViews.
      */
     private void drawFolded(boolean foldedState, TreeNode node) {
-        Iterator it = node.getChildren().iterator();
+        Iterator<TreeNode> it = node.getChildren().iterator();
         while (it.hasNext()) {
-            TreeNode cur = (TreeNode) it.next();
-            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
+            TreeNode cur = it.next();
+            HyperNodeView hyperNodeView = hypernodeviews.get(cur);
             if (hyperNodeView != null) {
                 hyperNodeView.setVisible(foldedState);
                 if (!hyperNodeView.getFolded()) {
@@ -229,7 +229,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
     private void unfoldNodes(HyperNodeView hyperNodeView) {
         TreeNode node = hyperNodeView.getTreeNode();
         TreeNode parent = node.getParent();
-        HyperNodeView curHyperNode = (HyperNodeView) hypernodeviews.get(parent);
+        HyperNodeView curHyperNode = hypernodeviews.get(parent);
         if (!curHyperNode.getVisible()) {
             unfoldNodes(curHyperNode);
         }
@@ -261,10 +261,10 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * node if a leaf node.
      */
     private void setLeafNodes() {
-        Iterator it = hypernodeviews.values().iterator();
+        Iterator<HyperNodeView> it = hypernodeviews.values().iterator();
         int numOfLeaves = 0;
         while (it.hasNext()) {
-            HyperNodeView hnv = (HyperNodeView) it.next();
+            HyperNodeView hnv = it.next();
             TreeNode treeNode = hnv.getTreeNode();
             numOfLeaves = treeNode.getChildren().size();
             if (numOfLeaves == 0) {
@@ -284,9 +284,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
         HyperNodeView hnv = new HyperNodeView(hn, nodeType, projection);
         hypernodes.put(node, hn);
         hypernodeviews.put(node, hnv);
-        Iterator children = node.getChildren().iterator();
+        Iterator<TreeNode> children = node.getChildren().iterator();
         while (children.hasNext()) {
-            TreeNode gn = (TreeNode) children.next();
+            TreeNode gn = children.next();
             makeHyperNodes(gn);
         }
     }
@@ -297,8 +297,8 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * The spring and electrical algorthms shall they do the rest.
      */
     private void radialLayout(TreeNode root, double rads, double startAngle) {
-        List childrenList = root.getChildren();
-        Iterator children = childrenList.iterator();
+        List<TreeNode> childrenList = root.getChildren();
+        Iterator<TreeNode> children = childrenList.iterator();
         int numOfOutboundNodes = childrenList.size();
         if (numOfOutboundNodes == 0) {
             return;
@@ -306,8 +306,8 @@ public class SimpleHyperView extends Canvas implements TreeView {
         double angle = rads / numOfOutboundNodes;
         double x = 0, y = 0, radius = 0, count = 1;
         while (children.hasNext()) {
-        	TreeNode node = (TreeNode) children.next();
-            HyperNode hn = (HyperNode) hypernodes.get(node);
+        	TreeNode node = children.next();
+            HyperNode hn = hypernodes.get(node);
             if (hn == null) {
                 return;
             }
@@ -434,7 +434,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     private void weightedRadialLayout(NodePlacementDetails rootNode, double startAngle) {
         double angle = startAngle;
-        HyperNode hn = (HyperNode) hypernodes.get(rootNode.node);
+        HyperNode hn = hypernodes.get(rootNode.node);
         // Position node in the euclidean plane.
         // Calculate node radius from the center.
         double radius = springLength * hn.getDepth();
@@ -444,19 +444,19 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
         hn.setLocation(x, y);
 
-        List childrenList = (rootNode.node).getChildren();
+        List<TreeNode> childrenList = (rootNode.node).getChildren();
 
         double numOfOutboundNodes = childrenList.size();
         if (numOfOutboundNodes < 1) {
             return;
         }
         NodePlacementDetails[] nodeList = getNewNodeList((int) numOfOutboundNodes);
-        Iterator childrenEdgesIterator = childrenList.iterator();
+        Iterator<TreeNode> childrenEdgesIterator = childrenList.iterator();
         int count = 0;
 
         //get graph node and their leaf count
         while (childrenEdgesIterator.hasNext()) {
-        	TreeNode cur = (TreeNode) childrenEdgesIterator.next();
+        	TreeNode cur = childrenEdgesIterator.next();
             double numOfLeaves = getLeafNodeTotal(cur);
             nodeList[count].node = cur;
             nodeList[count].numOfLeaves = numOfLeaves;
@@ -498,9 +498,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     private int getLeafNodeTotal(TreeNode root) {
         int sumOfLeafNodes = 0;
-        Iterator childrenIterator = root.getChildren().iterator();
+        Iterator<TreeNode> childrenIterator = root.getChildren().iterator();
         while (childrenIterator.hasNext()) {
-            TreeNode cur = (TreeNode) childrenIterator.next();
+            TreeNode cur = childrenIterator.next();
             int numOfchildren = cur.getChildren().size();
             if (numOfchildren == 0) {
                 sumOfLeafNodes++;
@@ -515,7 +515,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Use a spring algorithm to layout nodes.
      */
     public int layoutNodes(int iteration) {
-        List queue = new LinkedList();
+        List<TreeNode> queue = new LinkedList<TreeNode>();
         int numOfItorations = 0;
         double minNodeMove = 0;
         double lastMinMove = 1000;
@@ -526,18 +526,18 @@ public class SimpleHyperView extends Canvas implements TreeView {
         do { //for(int i = 0; i < iteration && maxNodeMove ; i++) {
             count = 0;
             sumOfAverageMoves = 0;
-            Iterator it = _tree.getRootNode().getChildren().iterator();
+            Iterator<TreeNode> it = _tree.getRootNode().getChildren().iterator();
             while (it.hasNext()) {
-                TreeNode node = (TreeNode) it.next();
+                TreeNode node = it.next();
                 queue.add(node);
             }
             while (!queue.isEmpty()) {
-                TreeNode cur = (TreeNode) queue.remove(0);
+                TreeNode cur = queue.remove(0);
                 sumOfAverageMoves += adjustPosition(cur);
                 count++;
                 it = cur.getChildren().iterator();
                 while (it.hasNext()) {
-                    TreeNode node = (TreeNode) it.next();
+                    TreeNode node = it.next();
                     queue.add(node);
                 }
             }
@@ -563,8 +563,8 @@ public class SimpleHyperView extends Canvas implements TreeView {
         double curX = 0;
         double curY = 0;
         TreeNode parent = cur.getParent();
-        HyperNode curHyperNodeParent = (HyperNode) hypernodes.get(parent);
-        HyperNode curHyperNode = (HyperNode) hypernodes.get(cur);
+        HyperNode curHyperNodeParent = hypernodes.get(parent);
+        HyperNode curHyperNode = hypernodes.get(cur);
         double vectorLength = curHyperNode.distance(curHyperNodeParent);
         if (vectorLength > 0.00001) { // don't try to calculate spring if length is zero
             double springlength = springLength;
@@ -582,13 +582,13 @@ public class SimpleHyperView extends Canvas implements TreeView {
                     curHyperNode.getY() + (Math.random() - 0.5));
         }
         // calculate the electrical (repulsory) forces
-        List queue = new LinkedList();
+        List<TreeNode> queue = new LinkedList<TreeNode>();
         queue.add(_tree.getRootNode());
         mainWhile: while (!queue.isEmpty()) {
-            TreeNode other = (TreeNode) queue.remove(0);
-            Iterator it = other.getChildren().iterator();
+            TreeNode other = queue.remove(0);
+            Iterator<TreeNode> it = other.getChildren().iterator();
             while (it.hasNext()) {
-            	TreeNode node = (TreeNode) it.next();
+            	TreeNode node = it.next();
                 queue.add(node);
             }
             if (other == cur) {
@@ -598,8 +598,8 @@ public class SimpleHyperView extends Canvas implements TreeView {
             if (node == other) {
                 continue mainWhile;
             }
-            HyperNode hyperNodeOther = (HyperNode) hypernodes.get(other);
-            HyperNode hyperNode = (HyperNode) hypernodes.get(cur);
+            HyperNode hyperNodeOther = hypernodes.get(other);
+            HyperNode hyperNode = hypernodes.get(cur);
             double vectorLength1 = hyperNode.distance(hyperNodeOther);
             if (vectorLength1 > 0.00001) { // don't try to calculate spring if length is zero0.00001
                 //int levelDiff = Math.abs(cur.getDepth() - other.getDepth() + 1);
@@ -667,12 +667,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
         else {
             if (focusNode.hasClones()) {
                 TreeNode treeNode = focusNode.getTreeNode();
-                HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(treeNode);
+                HyperNodeView hyperNodeView = hypernodeviews.get(treeNode);
                 if (treeNode.getClones().size() != 0) {
-                    Iterator it = treeNode.getClones().iterator();
+                    Iterator<TreeNode> it = treeNode.getClones().iterator();
                     while (it.hasNext()) {
-                        TreeNode cloneNode = (TreeNode) it.next();
-                        unfoldNodes((HyperNodeView) hypernodeviews.get(cloneNode));
+                        TreeNode cloneNode = it.next();
+                        unfoldNodes(hypernodeviews.get(cloneNode));
                     }
                     hyperNodeView.showClones(g2d, hypernodeviews);
                 }
@@ -685,9 +685,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Rotate node about the center (0, 0) by angle passed.
      */
     protected void rotateNodes(double angle) {
-        Iterator it = this.hypernodes.values().iterator();
+        Iterator<HyperNode> it = this.hypernodes.values().iterator();
         while (it.hasNext()) {
-            HyperNode hn = (HyperNode) it.next();
+            HyperNode hn = it.next();
             hn.rotate(angle);
         }
     }
@@ -697,9 +697,9 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Move all the nodes by an offset x and y.
      */
     public void moveCanvasItems(double x, double y) {
-        Iterator it = this.hypernodes.values().iterator();
+        Iterator<HyperNode> it = this.hypernodes.values().iterator();
         while (it.hasNext()) {
-            HyperNode hn = (HyperNode) it.next();
+            HyperNode hn = it.next();
             hn.move(x, y);
         }
     }
@@ -751,7 +751,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         if (parent == null) {
             return;
         }
-        HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(parent);
+        HyperNodeView hyperNodeView = hypernodeviews.get(parent);
         if (hyperNodeView != null) {
             hyperNodeView.setHighlightEdge(true);
             this.highlightEdge(parent);
@@ -867,10 +867,10 @@ public class SimpleHyperView extends Canvas implements TreeView {
      */
     private void calculateDepths(HyperNode top, int depth) {
         top.setDepth(depth);
-        Iterator it = top.getTreeNode().getChildren().iterator();
+        Iterator<TreeNode> it = top.getTreeNode().getChildren().iterator();
         while (it.hasNext()) {
-            TreeNode childNode = (TreeNode) it.next();
-            HyperNode childHyperNode = (HyperNode) this.hypernodes.get(childNode);
+            TreeNode childNode = it.next();
+            HyperNode childHyperNode = this.hypernodes.get(childNode);
             childHyperNode.setDepth(depth + 1);
             calculateDepths(childHyperNode, depth + 1);
         }

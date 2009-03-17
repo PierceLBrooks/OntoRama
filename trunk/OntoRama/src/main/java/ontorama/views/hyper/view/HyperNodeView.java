@@ -325,13 +325,13 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      *
      * Draws ring around cloned node and connects the together with a line.
      */
-    public void showClones(Graphics2D g2d, Hashtable hypernodeviews) {
+    public void showClones(Graphics2D g2d, Hashtable<TreeNode, HyperNodeView> hypernodeviews) {
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
         // draw lines to, and show clones
-        Iterator it = this.getTreeNode().getClones().iterator();
+        Iterator<TreeNode> it = this.getTreeNode().getClones().iterator();
         while (it.hasNext()) {
-            TreeNode cur = (TreeNode) it.next();
-            HyperNodeView hyperNodeView = (HyperNodeView) hypernodeviews.get(cur);
+            TreeNode cur = it.next();
+            HyperNodeView hyperNodeView = hypernodeviews.get(cur);
             if (hyperNodeView == null) {
                 //System.out.println("HyperNodeView not found for " + cur.getName());
                 continue;

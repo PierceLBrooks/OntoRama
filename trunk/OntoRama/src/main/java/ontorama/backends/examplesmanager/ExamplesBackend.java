@@ -13,6 +13,7 @@ import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.examplesmanager.gui.ExamplesMenu;
 import ontorama.conf.ConfigParserException;
+import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
@@ -44,7 +45,7 @@ import org.tockit.events.EventBrokerListener;
  */
 public class ExamplesBackend implements Backend {
 	
-	private List _examples = new LinkedList();
+	private List<OntoramaExample> _examples = new LinkedList<OntoramaExample>();
 	
 	private OntoramaExample _curExample;
 	private OntoramaExample _prevExample;
@@ -113,7 +114,7 @@ public class ExamplesBackend implements Backend {
 		return new EdgeImpl(fromNode, toNode, edgeType);
 	}
 
-	public Collection getDataFormats() {
+	public Collection<DataFormatMapping> getDataFormats() {
 		return null;
 	}
 
@@ -146,7 +147,7 @@ public class ExamplesBackend implements Backend {
 		_curExample = example;
 	}
 
-	public List getExamplesList() {
+	public List<OntoramaExample> getExamplesList() {
 		return _examples;
 	}
 

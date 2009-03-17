@@ -14,7 +14,6 @@ public class FileHistoryElement implements HistoryElement {
 
     private Query _query;
     private String _menuDisplayName;
-	private EventBroker _eventBroker;
 	private String _toolTipText;
 	private FileBackend _backend;
 	private QuerySettings _querySettings;
@@ -22,7 +21,6 @@ public class FileHistoryElement implements HistoryElement {
 	public FileHistoryElement(Query query, EventBroker eventBroker, 
 									FileBackend backend, QuerySettings querySettings) {
         _query = query;
-        _eventBroker = eventBroker;
         _backend = backend;
         _querySettings = querySettings;
 
@@ -52,30 +50,18 @@ public class FileHistoryElement implements HistoryElement {
     }
     
     
-	/**
-	 * @see ontorama.ui.HistoryElementInterface#displayElement()
-	 */
 	public void displayElement() {
 		_backend.processQueryFromHistoryElement(_query, _querySettings);
 	}
     
-	/**
-	 * @see ontorama.ui.HistoryElement#getToolTipText()
-	 */
 	public String getToolTipText() {
 		return _toolTipText;
 	}
 	
-    /**
-     *
-     */
     public String toString() {
         String str = "HistoryElement: ";
         str = str + "display name = " + _menuDisplayName;
         str = str + ", query = " + _query;
         return str;
     }
-
-
-
 }

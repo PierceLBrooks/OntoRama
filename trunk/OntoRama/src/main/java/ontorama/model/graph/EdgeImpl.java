@@ -2,10 +2,8 @@ package ontorama.model.graph;
 
 import java.net.URI;
 
-import ontorama.ontotools.NoSuchRelationLinkException;
-
 /**
- * Description: EdgeImpl between nodes. Edges correspong to relation links between concept types.
+ * Description: EdgeImpl between nodes. Edges corresponding to relation links between concept types.
  * Copyright:    Copyright (c) 2001
  * Company: DSTC
  * @version 1.0
@@ -13,34 +11,19 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 
 public class EdgeImpl implements Edge {
 
-    /**
-     * inboundNode
-     */
     private Node fromNode;
 
-    /**
-     * outboundNodes
-     */
     private Node toNode;
 
-    /**
-     * edgeType
-     */
     private EdgeType edgeType;
 
     /**
-     * cretor URI for this edge - unique identifier of the creator
+     * creator URI for this edge - unique identifier of the creator
      */
     private URI creatorUri;
 
 
-
-
-
-    /**
-     *
-     */
-    public EdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) throws NoSuchRelationLinkException {
+    public EdgeImpl(Node fromNode, Node toNode, EdgeType edgeType) {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.edgeType = edgeType;
@@ -69,13 +52,6 @@ public class EdgeImpl implements Edge {
     public EdgeType getEdgeType() {
         return this.edgeType;
     }
-
-//    public Node getEdgeNode(boolean isFromNode) {
-//        if (isFromNode == true) {
-//            return this.fromNode;
-//        }
-//        return this.toNode;
-//    }
 
     /**
      * set URI of creator of this edge.

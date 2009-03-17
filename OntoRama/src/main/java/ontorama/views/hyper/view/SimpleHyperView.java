@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
@@ -27,6 +27,7 @@ import ontorama.views.hyper.controller.NodeSelectedEventTransformer;
 import ontorama.views.hyper.controller.RotateEventHandler;
 import ontorama.views.hyper.controller.SphereMouseMovedEventHandler;
 import ontorama.views.hyper.model.HyperNode;
+
 import org.tockit.canvas.Canvas;
 import org.tockit.canvas.CanvasItem;
 import org.tockit.canvas.events.CanvasItemDraggedEvent;
@@ -137,7 +138,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
 		addCanvasItem(SimpleHyperView.sphereView, "sphere");
 
-	    List<TreeNode> queue = new LinkedList<TreeNode>();
+	    List<TreeNode> queue = new ArrayList<TreeNode>();
 	    queue.add(root);
 	    while (!queue.isEmpty()) {
 	        TreeNode curTreeNode = queue.remove(0);
@@ -487,7 +488,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Use a spring algorithm to layout nodes.
      */
     public int layoutNodes(int iteration) {
-        List<TreeNode> queue = new LinkedList<TreeNode>();
+        List<TreeNode> queue = new ArrayList<TreeNode>();
         int numOfItorations = 0;
         double minNodeMove = 0;
         double lastMinMove = 1000;
@@ -554,7 +555,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
                     curHyperNode.getY() + (Math.random() - 0.5));
         }
         // calculate the electrical (repulsory) forces
-        List<TreeNode> queue = new LinkedList<TreeNode>();
+        List<TreeNode> queue = new ArrayList<TreeNode>();
         queue.add(_tree.getRootNode());
         mainWhile: while (!queue.isEmpty()) {
             TreeNode other = queue.remove(0);
@@ -573,9 +574,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
             HyperNode hyperNodeOther = hypernodes.get(other);
             HyperNode hyperNode = hypernodes.get(cur);
             double vectorLength1 = hyperNode.distance(hyperNodeOther);
-            if (vectorLength1 > 0.00001) { // don't try to calculate spring if length is zero0.00001
-                //int levelDiff = Math.abs(cur.getDepth() - other.getDepth() + 1);
-                //double force = levelDiff * levelDiff * ELECTRIC_CHARGE / (vectorLength * vectorLength * vectorLength); // two for the force, one for normalization
+            if (vectorLength1 > 0.00001) { // don't try to calculate spring if length is zero
                 double force = (ELECTRIC_CHARGE) / (vectorLength1 * vectorLength1);
                 curX = hyperNode.getX();
                 curY = hyperNode.getY();
@@ -619,7 +618,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
         } else {
             canvasScale = height / sphereSize;
         }
-        // set the current scalling factor
+        // set the current scaling factor
         if (canvasScale != 0) {
             g2d.scale(canvasScale, canvasScale);
         }

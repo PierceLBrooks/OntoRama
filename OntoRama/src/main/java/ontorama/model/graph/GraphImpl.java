@@ -2,7 +2,6 @@ package ontorama.model.graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
@@ -51,7 +50,7 @@ public class GraphImpl implements Graph {
     /**
      * list holding all _graphEdges
      */
-    private List<Edge> _graphEdges = new LinkedList<Edge>();
+    private List<Edge> _graphEdges = new ArrayList<Edge>();
 
     private EventBroker _eventBroker;
 
@@ -61,8 +60,8 @@ public class GraphImpl implements Graph {
      * Constructor for GraphImpl
      */
     public GraphImpl() {
-        _topLevelUnconnectedNodes = new LinkedList<Node>();
-        _graphNodes = new LinkedList<Node>();
+        _topLevelUnconnectedNodes = new ArrayList<Node>();
+        _graphNodes = new ArrayList<Node>();
         _eventBroker = new EventBroker();
     }
 
@@ -77,11 +76,11 @@ public class GraphImpl implements Graph {
      *          <rdfs:subClassOf rdf:resource="http://www.webkb.org/kb/theKB_terms.rdf/comms#TransmissionObject"/>
      *       </rdfs:Class>
      *  this example will produce ontology types: comms#WirelessNetwork, wn#Network_2, wn#Network_3, comms#TransmissionObject
-     *  where comms#WirelessNetwork has 3 parents. Therefor we clone this node, but wn#Network_2, wn#Network_3 don't have
+     *  where comms#WirelessNetwork has 3 parents. Therefore we clone this node, but wn#Network_2, wn#Network_3 don't have
      *  parents in the comms ontology, so they are not connected to any nodes and this means they are not displayed in the ui.
      *  Yet, comms#WirelessNetwork is thinking it's got 3 clones, but user can't navigate to them.
      *  (We will call those unconnected nodes 'hanging' nodes).
-     *  These nodes will be presented in a separate list, at present called "Componenets List"
+     *  These nodes will be presented in a separate list, at present called "Components List"
      *  located in the toolbar of the main application window.
      */
     public GraphImpl(QueryResult queryResult) throws InvalidArgumentException {

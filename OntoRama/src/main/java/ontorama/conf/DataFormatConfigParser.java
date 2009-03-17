@@ -2,7 +2,7 @@ package ontorama.conf;
 
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom.Attribute;
@@ -22,7 +22,7 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 	
 	@SuppressWarnings("unchecked")
 	public DataFormatConfigParser (InputStream in) throws ConfigParserException {
-		_mappings = new LinkedList<DataFormatMapping>();
+		_mappings = new ArrayList<DataFormatMapping>();
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(in);

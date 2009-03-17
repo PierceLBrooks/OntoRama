@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Action;
@@ -66,7 +66,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      * relation links that user has chosen to display
      */
-    private List<EdgeType> _wantedRelationLinks = new LinkedList<EdgeType>();
+    private List<EdgeType> _wantedRelationLinks = new ArrayList<EdgeType>();
 
     private EventBroker _eventBroker;
 
@@ -194,7 +194,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     public List<EdgeType> getWantedRelationLinks() {
         _wantedRelationLinks = updateWantedRelationLinks();
         
-		List<EdgeType> edgeTypesToQuery = new LinkedList<EdgeType>();
+		List<EdgeType> edgeTypesToQuery = new ArrayList<EdgeType>();
 
 		List<EdgeType> allEdgeTypes = OntoramaConfig.getEdgeTypesList();
 		Iterator<EdgeType> it = allEdgeTypes.iterator();
@@ -254,7 +254,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     }
 
     private List<EdgeType> updateWantedRelationLinks() {
-        List<EdgeType> wantedRelationLinks = new LinkedList<EdgeType>();
+        List<EdgeType> wantedRelationLinks = new ArrayList<EdgeType>();
         Enumeration<JCheckBox> en = _relationLinksCheckBoxes.keys();
         while (en.hasMoreElements()) {
             JCheckBox key = en.nextElement();

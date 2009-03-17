@@ -7,7 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -33,7 +33,7 @@ public class NodesListViewer extends JComboBox {
     /**
      * list of currently displayed nodes
      */
-    private List<Node> _nodesList = new LinkedList<Node>();
+    private List<Node> _nodesList = new ArrayList<Node>();
 
     private Graph _graph;
 
@@ -51,7 +51,7 @@ public class NodesListViewer extends JComboBox {
     public NodesListViewer(EventBroker eventBroker)  {
         super();
         _eventBroker = eventBroker;
-        _nodesList = new LinkedList<Node>();
+        _nodesList = new ArrayList<Node>();
 
         addItem(_defaultHeadingString);
         setSelectedIndex(0);

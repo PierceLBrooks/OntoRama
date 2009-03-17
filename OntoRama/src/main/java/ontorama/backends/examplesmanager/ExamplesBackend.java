@@ -3,7 +3,7 @@ package ontorama.backends.examplesmanager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -45,7 +45,7 @@ import org.tockit.events.EventBrokerListener;
  */
 public class ExamplesBackend implements Backend {
 	
-	private List<OntoramaExample> _examples = new LinkedList<OntoramaExample>();
+	private List<OntoramaExample> _examples = new ArrayList<OntoramaExample>();
 	
 	private OntoramaExample _curExample;
 	private OntoramaExample _prevExample;

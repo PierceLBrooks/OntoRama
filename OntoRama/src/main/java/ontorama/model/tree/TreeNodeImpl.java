@@ -1,20 +1,13 @@
 package ontorama.model.tree;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeType;
 
-/**
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Nov 25, 2002
- * Time: 2:13:55 PM
- * To change this template use Options | File Templates.
- */
 public class TreeNodeImpl implements TreeNode {
 
     /**
@@ -22,26 +15,12 @@ public class TreeNodeImpl implements TreeNode {
      */
     private Node _graphNode;
 
-    /**
-     * list of clones (TreeNodes)
-     */
     private List<TreeNode> _clones;
 
-    /**
-     * list of children - object ChildNodeReference containing
-     * a pair: node and edge
-     */
     private List<ChildNodeReference> _children;
 
-    /**
-     * parent tree node
-     */
     private TreeNode _parent;
 
-    /**
-     *
-     * @param graphNode
-     */
     public TreeNodeImpl (Node graphNode) {
         _graphNode = graphNode;
         init();
@@ -54,8 +33,8 @@ public class TreeNodeImpl implements TreeNode {
     }
 
     private void init () {
-    	_clones = new LinkedList<TreeNode>();
-    	_children = new LinkedList<ChildNodeReference>();
+    	_clones = new ArrayList<TreeNode>();
+    	_children = new ArrayList<ChildNodeReference>();
     }
 
 
@@ -92,7 +71,7 @@ public class TreeNodeImpl implements TreeNode {
 
     public List<TreeNode> getChildren() {
     	Iterator<ChildNodeReference> it = _children.iterator();
-    	List<TreeNode> childNodesList = new LinkedList<TreeNode>();
+    	List<TreeNode> childNodesList = new ArrayList<TreeNode>();
     	while (it.hasNext()) {
     		ChildNodeReference cur = it.next();
     		childNodesList.add(cur.node);

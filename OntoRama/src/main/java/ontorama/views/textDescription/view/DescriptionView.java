@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -55,7 +55,7 @@ public class DescriptionView extends JPanel implements GraphView {
      * list edge type names so we know the order in which to 
      * add them to the ui
      */
-    List<String> _edgeTypeNames = new LinkedList<String>();
+    List<String> _edgeTypeNames = new ArrayList<String>();
 
     /**
      * string that will appear on the label corresponding to clones
@@ -147,7 +147,7 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private void initPropertiesPanels() {
 
-        List<EdgeType> edgeTypesToDisplay = new LinkedList<EdgeType>();
+        List<EdgeType> edgeTypesToDisplay = new ArrayList<EdgeType>();
         List<EdgeType> edgeTypesList = OntoramaConfig.getEdgeTypesList();
         Iterator<EdgeType> it = edgeTypesList.iterator();
         while (it.hasNext()) {
@@ -160,7 +160,7 @@ public class DescriptionView extends JPanel implements GraphView {
                     propPanel = new MultiValuesPanel(displayInfo.getDisplayLabel(), _eventBroker);
                 }
                 else {
-                    propPanel = new NodePropertiesPanel(displayInfo.getDisplayLabel(), new LinkedList<Object>());
+                    propPanel = new NodePropertiesPanel(displayInfo.getDisplayLabel(), new ArrayList<Object>());
                 }
                 if (displayInfo.isDisplayInDescription()) {
                     _nodePropertiesPanels.put(edgeType.getName(), propPanel);
@@ -174,9 +174,9 @@ public class DescriptionView extends JPanel implements GraphView {
         }
         _nodePropertiesPanels.put(_clonesLabelName, new ClonesPanel(_clonesLabelName, _eventBroker));
         _edgeTypeNames.add(_clonesLabelName);
-		_nodePropertiesPanels.put(_descriptionLabelName, new NodePropertiesPanel(_descriptionLabelName, new LinkedList<Object>()));
+		_nodePropertiesPanels.put(_descriptionLabelName, new NodePropertiesPanel(_descriptionLabelName, new ArrayList<Object>()));
 		_edgeTypeNames.add(_descriptionLabelName);
-    	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new LinkedList<Object>()));
+    	_nodePropertiesPanels.put(_fullUrlPropName, new NodePropertiesPanel(_fullUrlPropName, new ArrayList<Object>()));
     	_edgeTypeNames.add(_fullUrlPropName);
     }
 
@@ -235,7 +235,7 @@ public class DescriptionView extends JPanel implements GraphView {
         while (e.hasMoreElements()) {
             String edgeName = e.nextElement();
         	AbstractPropertiesPanel propPanel = _nodePropertiesPanels.get(edgeName);
-        	List<Object> value = new LinkedList<Object>();
+        	List<Object> value = new ArrayList<Object>();
             try {
                 EdgeType edgeType = OntoramaConfig.getEdgeType(edgeName);
                 EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);

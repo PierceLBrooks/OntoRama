@@ -3,7 +3,7 @@ package ontorama.ontotools.query;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.model.graph.Edge;
@@ -168,8 +168,8 @@ public class QueryEngine {
             return;
         }
 
-        _resultNodesList = new LinkedList<Node>();
-        _resultEdgesList = new LinkedList<Edge>();
+        _resultNodesList = new ArrayList<Node>();
+        _resultEdgesList = new ArrayList<Edge>();
         List<Node> nodes = _parserResult.getNodesList();
 
         for (Edge curEdge : _parserResult.getEdgesList()) {

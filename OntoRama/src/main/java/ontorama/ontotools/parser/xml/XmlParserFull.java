@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.security.AccessControlException;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class XmlParserFull implements Parser {
     
     private void init() {
         _nodes = new Hashtable<String, Node>();
-        _edges = new LinkedList<Edge>();
+        _edges = new ArrayList<Edge>();
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +86,7 @@ public class XmlParserFull implements Parser {
         } catch (Exception e) {
         	throw new ParserException("Failed to parse XML file", e);            
         }
-        return new ParserResult(new LinkedList<Node>(_nodes.values()), _edges);
+        return new ParserResult(new ArrayList<Node>(_nodes.values()), _edges);
     }
 
     private void readConceptTypes(List<Element> conceptTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
@@ -206,7 +206,7 @@ public class XmlParserFull implements Parser {
 
     @SuppressWarnings("unchecked")
 	private List<String> getTypeProperty (Element typeElement, String subelementName) {
-        List<String> retVal = new LinkedList<String>();
+        List<String> retVal = new ArrayList<String>();
         Iterator<Element> subelements =  typeElement.getChildren(subelementName, ns).iterator();
         while (subelements.hasNext()) {
             Element cur = subelements.next();

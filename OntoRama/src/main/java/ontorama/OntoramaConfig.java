@@ -195,21 +195,15 @@ public class OntoramaConfig {
      * which direction they want to use.
      */
     public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
-        EdgeType result = null;
-        Iterator<EdgeType> it = edgesConfig.keySet().iterator();
-        while (it.hasNext()) {
-            EdgeType edgeType = it.next();
+    	for (EdgeType edgeType : edgesConfig.keySet()) {
             if (edgeType.getName().equals(edgeName)) {
-                result = edgeType;
+                return edgeType;
             }
             else if ( (edgeType.getReverseEdgeName() != null) && (edgeType.getReverseEdgeName().equals(edgeName)) ){
-                result = edgeType;
+                return edgeType;
             }
         }
-        if (result == null) {
-            throw new NoSuchRelationLinkException(edgeName);
-        }
-        return result;
+        throw new NoSuchRelationLinkException(edgeName);
     }
 
     public static List<RdfMapping> getRelationRdfMapping() {

@@ -8,7 +8,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
@@ -82,9 +82,9 @@ public class XmlConfigParser extends XmlParserAbstract {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlConfigParser");
         }
-        relationRdfMappingList = new LinkedList<RdfMapping>();
+        relationRdfMappingList = new ArrayList<RdfMapping>();
         edgesConfig = new Hashtable<EdgeType, EdgeTypeDisplayInfo>();
-        edgesOrdering = new LinkedList<EdgeType>();
+        edgesOrdering = new ArrayList<EdgeType>();
 
         try {
             SAXBuilder builder = new SAXBuilder();

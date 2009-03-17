@@ -30,9 +30,10 @@ public class SVG2Shape {
         return centerShape(shape);
 	}
 
-    private static GeneralPath importShapeUncentered(Element svgElement) {
+    @SuppressWarnings("unchecked")
+	private static GeneralPath importShapeUncentered(Element svgElement) {
         GeneralPath shape = new GeneralPath();
-        Iterator it = svgElement.getChildren().iterator();
+        Iterator<Element> it = svgElement.getChildren().iterator();
         while(it.hasNext()) {
         	Element cur = (Element) it.next();
         	if(cur.getName().equals("rect")) {

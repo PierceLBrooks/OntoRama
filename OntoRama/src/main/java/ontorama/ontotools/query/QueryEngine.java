@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchTypeInQueryResult;
@@ -17,7 +18,7 @@ import ontorama.ontotools.source.Source;
 import ontorama.ontotools.source.SourceResult;
 
 /**
- * Description: Query Engine will query Ontology Server with the given
+ * Query Engine will query Ontology Server with the given
  * query and return Result.
  *  Query consist of query term and an iterator of relation links that we
  * are interested in (for example: subtype, memberOf).
@@ -36,16 +37,14 @@ import ontorama.ontotools.source.SourceResult;
  *
  * Copyright:    Copyright (c) 2001
  * Company: DSTC
- * @author
- * @version 1.0
  * @see ontorama.ontotools.query.Query
  */
 
 public class QueryEngine {
 
     private ParserResult _parserResult;
-    private List _resultNodesList;
-    private List _resultEdgesList;
+    private List<Node> _resultNodesList;
+    private List<Edge> _resultEdgesList;
 
 	private Parser parser;
 	private Source source;
@@ -53,7 +52,7 @@ public class QueryEngine {
 
 
     /**
-     * Execute a query to OntologyServer and get a query resul
+     * Execute a query to OntologyServer and get a query result
      */
     public QueryEngine (String sourcePackageName, String parserPackageName, String ontologySourceUri)
                                                     throws QueryFailedException {
@@ -73,9 +72,6 @@ public class QueryEngine {
         }
     }
 
-    /**
-     *
-     */
     private QueryResult executeQuery(Query query) throws NoSuchTypeInQueryResult, 
     											QueryFailedException, CancelledQueryException {
     	QueryResult queryResult = null;
@@ -125,13 +121,13 @@ public class QueryEngine {
      * @todo  may not be a good idea to do this here, since identifiers with hashes
      * may be specific to WebKB. Maybe should do some checking in WebKB2Source.
      */
-    private String checkResultSetContainsSearchTerm(List nodesList, String termName)
+    private String checkResultSetContainsSearchTerm(List<Node> nodesList, String termName)
             throws NoSuchTypeInQueryResult {
         boolean found = false;
-        Iterator it = nodesList.iterator();
+        Iterator<Node> it = nodesList.iterator();
         String newTermName = termName;
         while (it.hasNext()) {
-            Node cur = (Node) it.next();
+            Node cur = it.next();
             String termIdentifierSuffix = "#" + termName;
             if (cur.getIdentifier().equals(termName)) {
                 found = true;
@@ -161,9 +157,9 @@ public class QueryEngine {
      * @todo query should have as a links set not Integer list, but edge types list.
      */
     private void filterUnwantedEdges(Query query) {
-        List wantedLinks = query.getRelationLinksList();
+        List<EdgeType> wantedLinks = query.getRelationLinksList();
         // iterator of wanted links (links we are interested in)
-        Iterator queryRelationLinks = wantedLinks.iterator();
+        Iterator<EdgeType> queryRelationLinks = wantedLinks.iterator();
 
         // wanted links iterator is empty
         if (!queryRelationLinks.hasNext()) {
@@ -172,13 +168,11 @@ public class QueryEngine {
             return;
         }
 
-        _resultNodesList = new LinkedList();
-        _resultEdgesList = new LinkedList();
-        List nodes = _parserResult.getNodesList();
+        _resultNodesList = new LinkedList<Node>();
+        _resultEdgesList = new LinkedList<Edge>();
+        List<Node> nodes = _parserResult.getNodesList();
 
-        Iterator edgesIt = _parserResult.getEdgesList().iterator();
-        while (edgesIt.hasNext()) {
-            Edge curEdge = (Edge) edgesIt.next();
+        for (Edge curEdge : _parserResult.getEdgesList()) {
             if (wantedLinks.contains(curEdge.getEdgeType())) {
                 _resultEdgesList.add(curEdge);
                 Node fromNode = curEdge.getFromNode();
@@ -193,17 +187,10 @@ public class QueryEngine {
                 }
             }
         }
-        
-        Iterator nodesIt = nodes.iterator();
-        while (nodesIt.hasNext()) {
-            Node curNode = (Node) nodesIt.next();
-            _resultNodesList.add(curNode);
-        }
+
+        _resultNodesList.addAll(nodes);
     }
 
-    /**
-     *
-     */
     public QueryResult getQueryResult(Query query) throws QueryFailedException, CancelledQueryException,
     														NoSuchTypeInQueryResult {
     	return executeQuery(query);

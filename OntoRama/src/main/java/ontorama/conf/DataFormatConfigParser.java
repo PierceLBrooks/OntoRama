@@ -5,18 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import ontorama.ui.ErrorDialog;
-import ontorama.ui.OntoRamaApp;
-
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-/**
- * @author nataliya
- */
 public class DataFormatConfigParser extends XmlParserAbstract {
 	
 	private static final String _nameAttrName = "name";
@@ -26,26 +20,23 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 	
 	private List<DataFormatMapping> _mappings;
 	
+	@SuppressWarnings("unchecked")
 	public DataFormatConfigParser (InputStream in) throws ConfigParserException {
 		_mappings = new LinkedList<DataFormatMapping>();
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(in);
 			Element root = doc.getRootElement();
-			List children = root.getChildren();
-			Iterator it = children.iterator();
+			List<Element> children = root.getChildren();
+			Iterator<Element> it = children.iterator();
 			while (it.hasNext()) {
 				Element element = (Element) it.next();
 				DataFormatMapping dataFormatMapping = processElement(element);
-				//System.out.println("DataFormatConfigParser:: mapping = " + dataFormatMapping);
 				_mappings.add(dataFormatMapping);
 			}
 		}
 		catch (JDOMException e) {
-			String message = "Error parsing DataFormatMapping configuration: " + e.getMessage();
-			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error", message);
-			System.err.println(message);
-			e.printStackTrace();
+			throw new ConfigParserException("Error parsing DataFormatMapping configuration: ",e);
 		}	
 	}
 	

@@ -3,9 +3,9 @@ package ontorama.ontotools.writer.rdf;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,30 +23,23 @@ import ontorama.ontotools.writer.ModelWriterException;
 import com.hp.hpl.mesa.rdf.jena.common.PropertyImpl;
 import com.hp.hpl.mesa.rdf.jena.common.ResourceImpl;
 import com.hp.hpl.mesa.rdf.jena.mem.ModelMem;
-import com.hp.hpl.mesa.rdf.jena.model.*;
-
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 4/10/2002
- * Time: 09:27:15
- * To change this template use Options | File Templates.
- */
+import com.hp.hpl.mesa.rdf.jena.model.Model;
+import com.hp.hpl.mesa.rdf.jena.model.Property;
+import com.hp.hpl.mesa.rdf.jena.model.RDFException;
+import com.hp.hpl.mesa.rdf.jena.model.Resource;
 
 public class RdfModelWriter implements ModelWriter {
     protected Graph _graph;
 
     /**
      * contains mapping of processed nodes to created rdf resources
-     * keys - nodes
-     * values - rdf resources
      */
     protected Hashtable<Node, Resource> _nodeToResource;
 
     /**
      * contains a list of processed edges that have been added to rdf model
      */
-    protected List _processedEdges;
+    protected List<Edge> _processedEdges;
 
     protected List<Node> _processedNodes;
 
@@ -55,8 +48,8 @@ public class RdfModelWriter implements ModelWriter {
     public void write(Graph graph, Writer out) throws ModelWriterException {
         _graph = graph;
         _nodeToResource = new Hashtable<Node, Resource>();
-        _processedEdges = new LinkedList();
-        _processedNodes = new LinkedList<Node>();
+        _processedEdges = new ArrayList<Edge>();
+        _processedNodes = new ArrayList<Node>();
         System.out.println("\n\nRDF MODEL WRITER for graph " + graph + "\n");
 
         try {
@@ -100,25 +93,6 @@ public class RdfModelWriter implements ModelWriter {
         writeEdges(_graph.getEdgesList(), rdfModel);
 
         return rdfModel;
-    }
-
-    private void writeNodes(List nodesList, Model rdfModel) throws RDFException {
-        /// @todo need to be able to handle unconnected nodes.
-        // stubs are  below.
-        Iterator nodesIterator = nodesList.iterator();
-        while (nodesIterator.hasNext()) {
-            Node curNode = (Node) nodesIterator.next();
-            Resource curResource = getResource(curNode);
-            boolean needToAddToModel = false;
-            if (! _processedNodes.contains(curNode)) {
-                needToAddToModel = true;
-            }
-            if (needToAddToModel) {
-                rdfModel.createResource(curResource);
-                //DAMLClass damlClass = new DAMLClassImpl(curResource, rdfModel, )
-                _processedNodes.add(curNode);
-            }
-        }
     }
 
     protected void writeEdges(List<Edge> edgesList,  Model rdfModel) throws RDFException {
@@ -216,7 +190,5 @@ public class RdfModelWriter implements ModelWriter {
             return _object;
         }
     }
-
-
 }
 

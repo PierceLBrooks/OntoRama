@@ -1,10 +1,3 @@
-/*
- * Copyright DSTC Pty.Ltd. (http://www.dstc.com), Technische Universitaet Darmstadt
- * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
- * Please read licence.txt in the toplevel source directory for licensing information.
- *
- * $Id: ConfigurationManager.java,v 1.15 2002/10/28 02:46:18 peterbecker Exp $
- */
 package ontorama.ui;
 
 import java.awt.*;
@@ -55,7 +48,7 @@ public class ConfigurationManager {
     /**
      * Saves the current configuration.
      */
-    static public void saveConfiguration() {
+    public static void saveConfiguration() {
         try {
             FileOutputStream out = new FileOutputStream(PROPERTIES_FILE_NAME);
             properties.store(out, "--- OntoRama session data ---");
@@ -69,7 +62,7 @@ public class ConfigurationManager {
     /**
      * Stores the size and position of a window.
      */
-    static public void storePlacement(String section, Window window) {
+    public static void storePlacement(String section, Window window) {
         properties.setProperty(section + "-x", String.valueOf(window.getX()));
         properties.setProperty(section + "-y", String.valueOf(window.getY()));
         properties.setProperty(section + "-width", String.valueOf(window.getWidth()));
@@ -81,7 +74,7 @@ public class ConfigurationManager {
      *
      * If the configuration could not be found or is broken this will do nothing.
      */
-    static public void restorePlacement(String section, Window window, Rectangle defaultPlacement) {
+    public static void restorePlacement(String section, Window window, Rectangle defaultPlacement) {
         try {
             int x = Integer.parseInt(properties.getProperty(section + "-x"));
             int y = Integer.parseInt(properties.getProperty(section + "-y"));
@@ -97,14 +90,14 @@ public class ConfigurationManager {
     /**
      * Stores an int value.
      */
-    static public void storeInt(String section, String key, int value) {
+    public static void storeInt(String section, String key, int value) {
         properties.setProperty(section + "-" + key, String.valueOf(value));
     }
 
     /**
      * Retrieves an int value.
      */
-    static public int fetchInt(String section, String key, int defaultValue) {
+    public static int fetchInt(String section, String key, int defaultValue) {
         try {
             return Integer.parseInt(properties.getProperty(section + "-" + key));
         } catch (NumberFormatException e) {
@@ -117,14 +110,14 @@ public class ConfigurationManager {
     /**
      * Stores a float value.
      */
-    static public void storeFloat(String section, String key, float value) {
+    public static void storeFloat(String section, String key, float value) {
         properties.setProperty(section + "-" + key, String.valueOf(value));
     }
 
     /**
      * Retrieves a float value.
      */
-    static public float fetchFloat(String section, String key, float defaultValue) {
+    public static float fetchFloat(String section, String key, float defaultValue) {
         try {
             return Float.parseFloat(properties.getProperty(section + "-" + key));
         } catch (NumberFormatException e) {
@@ -137,22 +130,22 @@ public class ConfigurationManager {
     /**
      * Stores a String value.
      */
-    static public void storeString(String section, String key, String value) {
+    public static void storeString(String section, String key, String value) {
         properties.setProperty(section + "-" + key, value);
     }
 
     /**
      * Retrieves a String value.
      */
-    static public String fetchString(String section, String key, String defaultValue) {
+    public static String fetchString(String section, String key, String defaultValue) {
         return properties.getProperty(section + "-" + key, defaultValue);
     }
 
     /**
      * Stores a list of strings.
      */
-    static public void storeStringList(String section, String key, List list) {
-        Iterator it = list.iterator();
+    public static void storeStringList(String section, String key, List<String> list) {
+        Iterator<String> it = list.iterator();
         int index = 1;
         while (it.hasNext()) {
             String cur = (String) it.next();
@@ -167,7 +160,7 @@ public class ConfigurationManager {
      * The list will at most contains maxItems items, maybe less if less are
      * found.
      */
-    static public List<String> fetchStringList(String section, String key, int maxItems) {
+    public static List<String> fetchStringList(String section, String key, int maxItems) {
         List<String> retVal = new LinkedList<String>();
         for (int i = 1; i <= maxItems; i++) {
             String cur = properties.getProperty(section + "-" + key + "-" + i);
@@ -181,14 +174,14 @@ public class ConfigurationManager {
     /**
      * Stores a Color value.
      */
-    static public void storeColor(String section, String key, Color value) {
+    public static void storeColor(String section, String key, Color value) {
         storeInt(section, key, value.getRGB());
     }
 
     /**
      * Retrieves a Color value.
      */
-    static public Color fetchColor(String section, String key, Color defaultValue) {
+    public static Color fetchColor(String section, String key, Color defaultValue) {
         String propVal = properties.getProperty(section + "-" + key);
         if (propVal == null) {
             return defaultValue;

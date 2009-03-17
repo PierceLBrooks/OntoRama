@@ -1,17 +1,14 @@
 package ontorama.conf;
 
-/**
- * Title:
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
- */
-
+@SuppressWarnings("serial")
 public class ConfigParserException extends Exception {
 
     public ConfigParserException(String message) {
         super(message);
     }
+
+	public ConfigParserException(String message, Throwable cause) {
+		super(message, cause);
+	}
+    
 }

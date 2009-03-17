@@ -1,5 +1,13 @@
 <project name="OntoRama Project" default="compile" basedir="..">
+<!--
 
+THIS BUILD FILE IS BROKEN AT THE MOMENT.
+
+The directory layout as well as the location of this file has been
+changed. It should be reasonably easy to fix, but the idea is to
+move to Maven instead.
+
+-->
 
   <property name="app.name"       value="OntoRama"/>
   <property name="src.home"   value="${basedir}/src"/>

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.security.AccessControlException;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class CgKbCsvParser implements Parser {
     private List<Edge> _edges;
 
     public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
-        _nodes = new Hashtable<String, Node>();
+        _nodes = new HashMap<String, Node>();
         _edges = new ArrayList<Edge>();
         BufferedReader br = new BufferedReader(reader);
         try {

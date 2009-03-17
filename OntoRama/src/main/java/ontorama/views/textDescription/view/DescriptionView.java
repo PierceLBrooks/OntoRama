@@ -2,11 +2,11 @@ package ontorama.views.textDescription.view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,12 +15,12 @@ import javax.swing.border.BevelBorder;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.EdgeTypeDisplayInfo;
-import ontorama.model.graph.controller.GraphViewFocusEventHandler;
-import ontorama.model.tree.events.NodeClonesRequestEvent;
-import ontorama.model.graph.Graph;
 import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphView;
 import ontorama.model.graph.Node;
+import ontorama.model.graph.controller.GraphViewFocusEventHandler;
+import ontorama.model.tree.events.NodeClonesRequestEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 
 import org.tockit.events.Event;
@@ -45,22 +45,18 @@ import org.tockit.events.EventBrokerListener;
 @SuppressWarnings("serial")
 public class DescriptionView extends JPanel implements GraphView {
 
-    /**
-     * Keys - name of edge type 
-     * Values - panel
-     */
-    Hashtable<String, AbstractPropertiesPanel> _nodePropertiesPanels = new Hashtable<String, AbstractPropertiesPanel>();
+    private Map<String, AbstractPropertiesPanel> _nodePropertiesPanels = new HashMap<String, AbstractPropertiesPanel>();
     
     /**
      * list edge type names so we know the order in which to 
      * add them to the ui
      */
-    List<String> _edgeTypeNames = new ArrayList<String>();
+    private List<String> _edgeTypeNames = new ArrayList<String>();
 
     /**
      * string that will appear on the label corresponding to clones
      */
-    String _clonesLabelName = "Clones";
+    private String _clonesLabelName = "Clones";
     
     /**
      * string that will appear on the label corresponding to node identifier
@@ -219,9 +215,7 @@ public class DescriptionView extends JPanel implements GraphView {
      * clear description value panel from any leftover properties (left from previous example)
      */
     public void clear() {
-        Enumeration<String> e = _nodePropertiesPanels.keys();
-        while (e.hasMoreElements()) {
-            String propertyName = e.nextElement();
+    	for(String propertyName : _nodePropertiesPanels.keySet()) {
             AbstractPropertiesPanel propPanel =
                     _nodePropertiesPanels.get(propertyName);
             propPanel.clear();
@@ -231,9 +225,7 @@ public class DescriptionView extends JPanel implements GraphView {
     //////////////////////////ViewEventObserver interface implementation////////////////
 
     public void focus(Node node) {
-        Enumeration<String> e = _nodePropertiesPanels.keys();
-        while (e.hasMoreElements()) {
-            String edgeName = e.nextElement();
+    	for(String edgeName : _nodePropertiesPanels.keySet()) {
         	AbstractPropertiesPanel propPanel = _nodePropertiesPanels.get(edgeName);
         	List<Object> value = new ArrayList<Object>();
             try {

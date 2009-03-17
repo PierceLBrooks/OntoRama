@@ -1,8 +1,9 @@
 package ontorama.views.tree.model;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeEdge;
@@ -24,25 +25,16 @@ public class OntoTreeBuilder {
 
 	/**
 	 * mapping between the models
-	 * keys - ontorama.model.Tree TreeNodes
-	 * values - OntoTreeNodes
 	 */
-    private static Hashtable<TreeNode, OntoTreeNode> _ontoHash = new Hashtable<TreeNode, OntoTreeNode>();
+    private static Map<TreeNode, OntoTreeNode> _ontoHash = new HashMap<TreeNode, OntoTreeNode>();
     private Tree _tree;
 
-    /**
-     * Constructor
-     * @param	graph
-     */
     public OntoTreeBuilder(Tree tree) {
     	_tree = tree;
 
         processNode(_tree.getRootNode());
     }
 
-    /**
-     *
-     */
     private void processNode (ontorama.model.tree.TreeNode topTreeNode) {
     	
     	List<TreeNode> childrenEdges = topTreeNode.getChildren();
@@ -79,12 +71,9 @@ public class OntoTreeBuilder {
 
     /**
      * Get TreeNode associated with given Node
-     * @param	graphNode
-     * @return	treeNode
      */
     public static javax.swing.tree.TreeNode getTreeNode(TreeNode treeModelNode) {
 		javax.swing.tree.TreeNode treeNode = _ontoHash.get(treeModelNode);
         return treeNode;
     }
-
 }

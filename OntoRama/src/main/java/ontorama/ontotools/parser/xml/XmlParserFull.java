@@ -10,9 +10,9 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.AccessControlException;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +25,7 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.ParserException;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
+
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -61,7 +62,7 @@ public class XmlParserFull implements Parser {
     }
     
     private void init() {
-        _nodes = new Hashtable<String, Node>();
+        _nodes = new HashMap<String, Node>();
         _edges = new ArrayList<Edge>();
     }
 

@@ -7,9 +7,10 @@ import java.awt.Shape;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
@@ -25,7 +26,7 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlConfigParser extends XmlParserAbstract {
 
-    private static Hashtable<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
+    private static Map<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
     private List<EdgeType> edgesOrdering;
     private NodeTypeDisplayInfo conceptShape = null;
     private NodeTypeDisplayInfo relationShape = null;
@@ -83,7 +84,7 @@ public class XmlConfigParser extends XmlParserAbstract {
             System.out.println("XmlConfigParser");
         }
         relationRdfMappingList = new ArrayList<RdfMapping>();
-        edgesConfig = new Hashtable<EdgeType, EdgeTypeDisplayInfo>();
+        edgesConfig = new HashMap<EdgeType, EdgeTypeDisplayInfo>();
         edgesOrdering = new ArrayList<EdgeType>();
 
         try {
@@ -162,7 +163,7 @@ public class XmlConfigParser extends XmlParserAbstract {
     	return null;
     }
 
-    public Hashtable<EdgeType, EdgeTypeDisplayInfo> getDisplayInfo () {
+    public Map<EdgeType, EdgeTypeDisplayInfo> getDisplayInfo () {
         return edgesConfig;
     }
 

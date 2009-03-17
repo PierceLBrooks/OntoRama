@@ -3,7 +3,7 @@ package ontorama.backends.examplesmanager.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,8 +46,8 @@ public class ExamplesMenu extends JMenu {
         super("Examples");
         _backend = backend;
         _examplesList = _backend.getExamplesList();
-        _menuItemExampleMapping = new Hashtable<JRadioButtonMenuItem, OntoramaExample>();
-        _submenusMapping = new Hashtable<String, JMenu>();
+        _menuItemExampleMapping = new HashMap<JRadioButtonMenuItem, OntoramaExample>();
+        _submenusMapping = new HashMap<String, JMenu>();
         setMnemonic(KeyEvent.VK_E);
         buildExamplesMenuItems();
     }

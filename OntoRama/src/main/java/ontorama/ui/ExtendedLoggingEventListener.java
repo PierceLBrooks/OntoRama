@@ -11,7 +11,7 @@ public class ExtendedLoggingEventListener extends LoggingEventListener {
 	private EventBroker eventBroker;
 	private PrintStream printStream;
 	
-	public ExtendedLoggingEventListener(EventBroker eventBroker, Class eventType, Class subjectType, PrintStream printStream) {
+	public ExtendedLoggingEventListener(EventBroker eventBroker, Class<? extends Event> eventType, Class<?> subjectType, PrintStream printStream) {
 		super(eventBroker, eventType, subjectType, printStream);
 		this.eventBroker = eventBroker;
 		this.printStream = printStream;

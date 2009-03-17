@@ -219,9 +219,9 @@ public class OntoramaConfig {
      */
     public static EdgeType getEdgeType(String edgeName) throws NoSuchRelationLinkException {
         EdgeType result = null;
-        Iterator it = edgesConfig.keySet().iterator();
+        Iterator<EdgeType> it = edgesConfig.keySet().iterator();
         while (it.hasNext()) {
-            EdgeType edgeType = (EdgeType) it.next();
+            EdgeType edgeType = it.next();
             if (edgeType.getName().equals(edgeName)) {
                 result = edgeType;
             }

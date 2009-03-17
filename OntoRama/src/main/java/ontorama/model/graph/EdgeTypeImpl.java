@@ -1,11 +1,3 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 18/09/2002
- * Time: 09:10:02
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.model.graph;
 
 
@@ -45,6 +37,42 @@ public class EdgeTypeImpl implements EdgeType {
         return str;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+		result = prime * result
+				+ ((_reverseEdgeName == null) ? 0 : _reverseEdgeName.hashCode());
+		return result;
+	}
 
-
+	/*
+	 * We don't include _namespace in equals/hashcode since that gets changed after the
+	 * object is used as key in hash structure - we would get hash misses otherwise.
+	 * 
+	 * TODO: look into the namespace question, the way namespaces are used here seems
+	 *       rather wrong
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EdgeTypeImpl other = (EdgeTypeImpl) obj;
+		if (_name == null) {
+			if (other._name != null)
+				return false;
+		} else if (!_name.equals(other._name))
+			return false;
+		if (_reverseEdgeName == null) {
+			if (other._reverseEdgeName != null)
+				return false;
+		} else if (!_reverseEdgeName.equals(other._reverseEdgeName))
+			return false;
+		return true;
+	}
 }

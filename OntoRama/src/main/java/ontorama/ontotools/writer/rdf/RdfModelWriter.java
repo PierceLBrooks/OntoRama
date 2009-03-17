@@ -51,7 +51,6 @@ public class RdfModelWriter implements ModelWriter {
         _nodeToResource = new HashMap<Node, Resource>();
         _processedEdges = new ArrayList<Edge>();
         _processedNodes = new ArrayList<Node>();
-        System.out.println("\n\nRDF MODEL WRITER for graph " + graph + "\n");
 
         try {
             _edgeTypesToRdfMapping = mapEdgeTypesToRdfTags();
@@ -79,7 +78,6 @@ public class RdfModelWriter implements ModelWriter {
 
         Matcher matcher = p.matcher(string);
         String result = matcher.replaceAll(replacementString);
-        System.out.println("writer result: " + result + "\n\n");
         out.write(result);
         return out;
     }
@@ -134,7 +132,6 @@ public class RdfModelWriter implements ModelWriter {
     protected Property getPropertyForEdgeType (EdgeType edgeType, Map<EdgeType, RdfMapping> edgeTypesToRdfMapping) throws RDFException {
         RdfMapping rdfMapping = edgeTypesToRdfMapping.get(edgeType);
         String rdfTag = rdfMapping.getRdfTags().get(0);
-        System.out.println("edgeType namespace = " + edgeType.getNamespace() + ", rdfTag = " + rdfTag);
         Property predicate;
         String text = edgeType.getNamespace() + rdfTag;
         predicate = new PropertyImpl(text);

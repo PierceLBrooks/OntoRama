@@ -30,6 +30,7 @@ public class CgKbSource implements Source {
         UrlQueryStringConstructor queryStringConstructor = new UrlQueryStringConstructor();
         List<EdgeType> relLinksList = query.getRelationLinksList();
         if (relLinksList.isEmpty()) {
+        	// TODO don't log on stderr
             System.err.println("Query relation links list is empty!");
         }
         String allReadersString="";

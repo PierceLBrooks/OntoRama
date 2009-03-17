@@ -1,12 +1,8 @@
 package ontorama.ontotools.source;
 
-/**
- * Title:
- * Description:
+/*
  * Copyright:    Copyright (c) 2001
  * Company:      DSTC
- * @author
- * @version 1.0
  */
 
 import java.io.IOException;
@@ -23,15 +19,11 @@ public class UrlSource implements Source {
     /**
      *  Get a SourceResult from given uri.
      *  @param  uri  this object specified resource file
-     *  @return sourceResult
-     *  @throws SourceException
-     *  @throws CancelledQueryException
      *
      *  @todo implement if needed: throw CancelledQueryException
      */
     public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException {
 		try {
-			System.out.println("class UrlSource, uri = " + uri);
 			URL url = new URL(uri);
 			URLConnection connection = url.openConnection();
 			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
@@ -42,7 +34,4 @@ public class UrlSource implements Source {
 			throw new SourceException("Couldn't read input data source for " + uri + ", error: " + ioExc.getMessage(), ioExc);
 		}
     }
-
-
-
 }

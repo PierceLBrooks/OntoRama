@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.EdgeTypeImpl;
 import ontorama.ontotools.source.JarSource;
@@ -80,9 +79,6 @@ public class XmlConfigParser extends XmlParserAbstract {
      *
      */
     public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
-        if (OntoramaConfig.VERBOSE) {
-            System.out.println("XmlConfigParser");
-        }
         relationRdfMappingList = new ArrayList<RdfMapping>();
         edgesConfig = new HashMap<EdgeType, EdgeTypeDisplayInfo>();
         edgesOrdering = new ArrayList<EdgeType>();
@@ -104,9 +100,7 @@ public class XmlConfigParser extends XmlParserAbstract {
                 parseRelationRdfMappingElement(rdfMappingEl);
             }
         } catch (JDOMException e) {
-            System.out.println("JDOMException: " + e);
-            e.printStackTrace();
-            System.exit(-1);
+        	throw new ConfigParserException("Failed to read configuration file", e);
         }
     }
     

@@ -14,21 +14,13 @@ import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryEngineThreadStartEvent;
 
-/**
- * @author nataliya
- *
- */
 public class FileImporter implements Importer {
 	private EventBroker _eventBroker;
 	
 	public FileImporter (EventBroker eventBroker) {
 		_eventBroker = eventBroker;
-		System.out.println("FileImporter event broker = " + _eventBroker);
 	}
 
-	/** 
-	 * @see ontorama.importer.Importer#doImport()
-	 */
 	public void doImport() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.addChoosableFileFilter(new FileBackendFileFilter(OntoramaConfig.getDataFormatsMapping()));
@@ -40,7 +32,6 @@ public class FileImporter implements Importer {
 			String parserPackageName;
 			try {
 				parserPackageName = Util.getParserForFile(OntoramaConfig.getDataFormatsMapping(),file);
-				System.out.println("\nFileImporter::parserName = " + parserPackageName + "\n");
 				QueryEngine qe = new QueryEngine( FileBackend.sourcePackageName , parserPackageName,file.getAbsolutePath());
 				QueryEngineThreadStartEvent event = new QueryEngineThreadStartEvent(qe, new Query());
 				_eventBroker.processEvent(event);
@@ -56,12 +47,7 @@ public class FileImporter implements Importer {
 		}
 	}
 
-	/**
-	 * @see ontorama.importer.Importer#getName()
-	 */
 	public String getName() {
-		String str = "File";
-		return str;
+		return "File";
 	}
-	
 }

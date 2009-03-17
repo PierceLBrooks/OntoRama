@@ -323,19 +323,14 @@ public class RdfDamlParser implements Parser {
             node = _nodesHash.get(nodeName);
         } else {
             node = OntoramaConfig.getBackend().createNode(nodeName, object.toString());
-            if ((resourceRelationNodeTypesList.contains(object)) && (resourceConceptNodeTypesList.contains(object)) ) {
-            	System.out.println("node " + node.getName() + " is CLASS and PROPERTY");
-            }
             if (resourceConceptNodeTypesList.contains(object)) {
-                // set node type to be concept node type
                 node.setNodeType(OntoramaConfig.CONCEPT_TYPE);
             }
             else if (resourceRelationNodeTypesList.contains(object)) {
-                // set node type to be relation node type
                 node.setNodeType(OntoramaConfig.RELATION_TYPE);
             }
             else {
-                //throw new ParserException("RDF Resource '" + object + "'is neither concept of property");
+            	// TODO don't log to syserr
             	System.err.println("RDF Resource '" + object + "'is neigher concept of property");
             	node.setNodeType(OntoramaConfig.UNKNOWN_TYPE);
             }

@@ -19,13 +19,6 @@ import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryResult;
 
-/**
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: Nov 28, 2002
- * Time: 9:30:48 AM
- * To change this template use Options | File Templates.
- */
 public class TestTree extends TestCase{
 	
     EdgeType _edgeType1;
@@ -87,8 +80,7 @@ public class TestTree extends TestCase{
 
         List<EdgeType> edgesTypesList = OntoramaConfig.getEdgeTypesList();
         if (edgesTypesList.size() < 3) {
-            System.err.println("expecting at least 3 edge types defined in the config.xml");
-            System.exit(-1);
+            fail("expecting at least 3 edge types defined in the config.xml");
         }
         _edgeType1 = edgesTypesList.get(0);
         _edgeType2 = edgesTypesList.get(1);

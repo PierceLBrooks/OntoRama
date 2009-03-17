@@ -7,11 +7,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -23,15 +23,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ontorama.OntoramaConfig;
-import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
 import ontorama.model.graph.GraphView;
 import ontorama.model.graph.Node;
-import ontorama.model.graph.Graph;
-import ontorama.ui.action.StopQueryAction;
-import ontorama.ui.action.QueryAction;
+import ontorama.model.graph.controller.GraphViewFocusEventHandler;
 import ontorama.ontotools.query.Query;
+import ontorama.ui.action.QueryAction;
+import ontorama.ui.action.StopQueryAction;
+
 import org.tockit.events.EventBroker;
 
 /**
@@ -59,9 +60,8 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     /**
      * table of check boxes for relation links
-     * keys - checkBoxes, values - relation type integers
      */
-    private Hashtable<JCheckBox, EdgeType> _relationLinksCheckBoxes = new Hashtable<JCheckBox, EdgeType>();
+    private Map<JCheckBox, EdgeType> _relationLinksCheckBoxes = new HashMap<JCheckBox, EdgeType>();
 
     /**
      * relation links that user has chosen to display
@@ -217,9 +217,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
 
     private void setWantedRelationLinks(List<EdgeType> wantedLinks) {
-        Enumeration<JCheckBox> enumeration = _relationLinksCheckBoxes.keys();
-        while (enumeration.hasMoreElements()) {
-            JCheckBox curCheckBox = enumeration.nextElement();
+    	for(JCheckBox curCheckBox: _relationLinksCheckBoxes.keySet()) {
             EdgeType correspondingRelLink = _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
@@ -255,9 +253,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     private List<EdgeType> updateWantedRelationLinks() {
         List<EdgeType> wantedRelationLinks = new ArrayList<EdgeType>();
-        Enumeration<JCheckBox> en = _relationLinksCheckBoxes.keys();
-        while (en.hasMoreElements()) {
-            JCheckBox key = en.nextElement();
+        for(JCheckBox key : _relationLinksCheckBoxes.keySet()) {
             if (key.isSelected()) {
                 EdgeType relLinkType = _relationLinksCheckBoxes.get(key);
                 wantedRelationLinks.add(relLinkType);

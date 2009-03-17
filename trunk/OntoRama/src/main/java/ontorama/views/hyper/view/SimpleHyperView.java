@@ -8,9 +8,10 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.EdgeType;
@@ -42,12 +43,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
     /**
      * Hold the mapping of HyperNode to TreeNodes
      */
-    protected Hashtable<TreeNode, HyperNode> hypernodes = new Hashtable<TreeNode, HyperNode>();
+    protected Map<TreeNode, HyperNode> hypernodes = new HashMap<TreeNode, HyperNode>();
 
     /**
      * Holds the mapping of HyperNodeView to TreeNodes
      */
-    protected Hashtable<TreeNode, HyperNodeView> hypernodeviews = new Hashtable<TreeNode, HyperNodeView>();
+    protected Map<TreeNode, HyperNodeView> hypernodeviews = new HashMap<TreeNode, HyperNodeView>();
 
     private Tree _tree;
 

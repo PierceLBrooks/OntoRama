@@ -10,8 +10,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 
 import ontorama.OntoramaConfig;
 import ontorama.conf.NodeTypeDisplayInfo;
@@ -19,6 +19,7 @@ import ontorama.model.graph.NodeType;
 import ontorama.model.tree.TreeNode;
 import ontorama.views.hyper.model.HyperNode;
 import ontorama.views.hyper.model.PositionChangedObserver;
+
 import org.tockit.canvas.CanvasItem;
 
 public class HyperNodeView extends CanvasItem implements PositionChangedObserver {
@@ -325,7 +326,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      *
      * Draws ring around cloned node and connects the together with a line.
      */
-    public void showClones(Graphics2D g2d, Hashtable<TreeNode, HyperNodeView> hypernodeviews) {
+    public void showClones(Graphics2D g2d, Map<TreeNode, HyperNodeView> hypernodeviews) {
         double ringRadius = viewRadius + (viewRadius / RINGPERCENTAGE);
         // draw lines to, and show clones
         Iterator<TreeNode> it = this.getTreeNode().getClones().iterator();
@@ -333,7 +334,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
             TreeNode cur = it.next();
             HyperNodeView hyperNodeView = hypernodeviews.get(cur);
             if (hyperNodeView == null) {
-                //System.out.println("HyperNodeView not found for " + cur.getName());
                 continue;
             }
             double x1 = this.projectedX;

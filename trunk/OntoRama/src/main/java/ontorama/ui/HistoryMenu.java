@@ -3,11 +3,11 @@ package ontorama.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.ButtonGroup;
@@ -16,11 +16,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
-import ontorama.ui.action.BackHistoryAction;
-import ontorama.ui.action.ForwardHistoryAction;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.ontotools.query.Query;
+import ontorama.ui.action.BackHistoryAction;
+import ontorama.ui.action.ForwardHistoryAction;
+
 import org.tockit.events.EventBroker;
 
 /**
@@ -34,7 +35,7 @@ public class HistoryMenu extends JMenu {
     private JMenuItem _historyBackMenuItem;
     private JMenuItem _historyForwardMenuItem;
 
-    private static Hashtable<JRadioButtonMenuItem, HistoryElement> _menuItemHistoryMapping;
+    private static Map<JRadioButtonMenuItem, HistoryElement> _menuItemHistoryMapping;
 
     private int _maxHistoryItems = 20;
 
@@ -59,7 +60,7 @@ public class HistoryMenu extends JMenu {
     public HistoryMenu(EventBroker eventBroker) {
         super("History");
         _eventBroker = eventBroker;
-        _menuItemHistoryMapping = new Hashtable<JRadioButtonMenuItem, HistoryElement>();
+        _menuItemHistoryMapping = new HashMap<JRadioButtonMenuItem, HistoryElement>();
         _historyItems = new ArrayList<JRadioButtonMenuItem>();
         _backAction = new BackHistoryAction(this);
         _forwardAction = new ForwardHistoryAction(this);
@@ -171,9 +172,7 @@ public class HistoryMenu extends JMenu {
      *        the first one.
      */
     private JRadioButtonMenuItem getSelectedHistoryMenuItem() {
-        Enumeration<JRadioButtonMenuItem> e = _menuItemHistoryMapping.keys();
-        while (e.hasMoreElements()) {
-            JRadioButtonMenuItem cur = e.nextElement();
+    	for(JRadioButtonMenuItem cur : _menuItemHistoryMapping.keySet()) {
             if (cur.isSelected()) {
                 return cur;
             }

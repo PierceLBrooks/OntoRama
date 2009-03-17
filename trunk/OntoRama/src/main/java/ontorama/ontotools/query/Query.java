@@ -8,26 +8,23 @@ import java.util.List;
 import ontorama.model.graph.EdgeType;
 
 /**
- * Description: Query consist of query term and an iterator of relation links that we
+ * Query consist of query term and an iterator of relation links that we
  * are interested in (for example: subtype, memberOf).
  * This list holds Integers for the relation links defined in OntoramaConfig
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
+ * 
  * @see ontorama.OntoramaConfig
  */
 
 public class Query {
     /**
-     * name of ontology type we are quering for
+     * name of ontology type we are querying for
      */
     private String _typeName;
 
     /**
      * list of relation links for the ontology type typeName.
      */
-    private List _relationLinks = new LinkedList();
+    private List<EdgeType> _relationLinks = new LinkedList<EdgeType>();
 
     /**
      * depth of recursive query
@@ -51,10 +48,11 @@ public class Query {
     }
 
     /**
-     * Convinience Constructor.
+     * Convenience constructor.
+     * 
      * Initialise query type name and relation links
      */
-    public Query(String typeName, List relationLinks) {
+    public Query(String typeName, List<EdgeType> relationLinks) {
         _typeName = typeName;
         _relationLinks = relationLinks;
     }
@@ -75,7 +73,7 @@ public class Query {
      * Set Relation types iterator.
      * @param   relationLinks List
      */
-    public void setRelationLinks(List relationLinks) {
+    public void setRelationLinks(List<EdgeType> relationLinks) {
         _relationLinks = relationLinks;
     }
 
@@ -83,7 +81,7 @@ public class Query {
      * Get Relation types iterator
      * @return relationLinks Iterator
      */
-    public Iterator getRelationLinksIterator() {
+    public Iterator<EdgeType> getRelationLinksIterator() {
         return _relationLinks.iterator();
     }
 
@@ -91,15 +89,15 @@ public class Query {
      * Get Relation types list
      * @return relationLinks List
      */
-    public List getRelationLinksList() {
+    public List<EdgeType> getRelationLinksList() {
         return _relationLinks;
     }
 
     /**
      *
      */
-    public Collection getRelationLinksCollection() {
-        return (Collection) _relationLinks;
+    public Collection<EdgeType> getRelationLinksCollection() {
+        return (Collection<EdgeType>) _relationLinks;
     }
 
     /**
@@ -123,9 +121,9 @@ public class Query {
 		String str = "Query: ";
 		str = str + "termName = " + _typeName + ", depth = " + _depth;
 		str = str + ", relation links: " ;
-		Iterator it = _relationLinks.iterator();
+		Iterator<EdgeType> it = _relationLinks.iterator();
 		while (it.hasNext()) {
-			EdgeType edgeType = (EdgeType) it.next();
+			EdgeType edgeType = it.next();
 			str = str + edgeType.getName() + ", ";
 		}
 		return str;

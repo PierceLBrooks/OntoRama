@@ -124,9 +124,6 @@ public class GraphImpl implements Graph {
         Iterator<Edge> it = edgesList.iterator();
         while (it.hasNext()) {
             Edge curEdge = it.next();
-			//System.out.println("graphImpl checkForCycles:: " + curEdge.getFromNode().getName() 
-			//							+ " -> " + curEdge.getToNode().getName() 
-			//							+ " : " + curEdge.getEdgeType());
             List curEdgesToRemove = checkEdgeForCycle(curEdge);
             edgesToRemove.addAll(curEdgesToRemove);
         }

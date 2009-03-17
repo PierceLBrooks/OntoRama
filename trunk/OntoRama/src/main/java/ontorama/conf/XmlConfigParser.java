@@ -389,9 +389,6 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    /**
-     *
-     */
     public List<RdfMapping> getRelationRdfMappingList() {
         return XmlConfigParser.relationRdfMappingList;
     }

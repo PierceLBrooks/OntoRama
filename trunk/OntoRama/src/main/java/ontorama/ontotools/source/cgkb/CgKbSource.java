@@ -1,11 +1,3 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 24/08/2002
- * Time: 11:53:20
- * To change template for new class use
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.ontotools.source.cgkb;
 
 import java.io.BufferedReader;
@@ -17,11 +9,12 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import ontorama.model.graph.EdgeType;
 import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
@@ -35,17 +28,14 @@ public class CgKbSource implements Source {
 
     public SourceResult getSourceResult(String uri, Query query) throws SourceException, CancelledQueryException {
         UrlQueryStringConstructor queryStringConstructor = new UrlQueryStringConstructor();
-        List relLinksList = query.getRelationLinksList();
+        List<EdgeType> relLinksList = query.getRelationLinksList();
         if (relLinksList.isEmpty()) {
             System.err.println("Query relation links list is empty!");
         }
-        Iterator it = relLinksList.iterator();
         String allReadersString="";
-        while (it.hasNext()) {
-            ontorama.model.graph.EdgeType relDetails = (ontorama.model.graph.EdgeType) it.next();
-
+        for (EdgeType relDetails : relLinksList) {
             String readerString = "";
-            Hashtable paramTable = new Hashtable();
+            Map<String,String> paramTable = new HashMap<String, String>();
 
             paramTable.put("node",query.getQueryTypeName());
 
@@ -61,7 +51,6 @@ public class CgKbSource implements Source {
             String fullUrl = uri + queryString;
             URL url = null;
             try {
-                //Reader reader = doCgiFormGet(fullUrl);
                 Reader reader = doCgiFormPost(uri, paramTable);
                 BufferedReader br = new BufferedReader(reader);
                 String line;
@@ -83,31 +72,22 @@ public class CgKbSource implements Source {
     }
 
 
-    private Reader doCgiFormPost (String urlLoc, Hashtable<String,String> parameters) throws IOException {
+    private Reader doCgiFormPost (String urlLoc, Map<String,String> parameters) throws IOException {
         URL url = new URL(urlLoc);
         URLConnection connection = url.openConnection();
         connection.setDoOutput(true);
 
         PrintWriter out = new PrintWriter(connection.getOutputStream());
-        Enumeration e = parameters.keys();
         String paramString = "";
-        while (e.hasMoreElements()) {
-            String paramName = (String) e.nextElement();
-            String paramValue = parameters.get(paramName);
+        for (Entry<String, String> entry : parameters.entrySet()) {
+            String paramName = entry.getKey();
+            String paramValue = entry.getValue();
             paramString =  paramString + paramName + "=" + paramValue + "&";
         }
         out.print(paramString);
-        System.out.println("POST param: " + paramString);
         out.close();
 
        InputStreamReader in = new InputStreamReader(connection.getInputStream());
         return in;
-    }
-
-    private Reader doCgiFormGet (String urlLoc)  throws MalformedURLException, IOException {
-        URL  url = new URL(urlLoc);
-        URLConnection connection = url.openConnection();
-        Reader reader = new InputStreamReader(connection.getInputStream());
-        return reader;
     }
 }

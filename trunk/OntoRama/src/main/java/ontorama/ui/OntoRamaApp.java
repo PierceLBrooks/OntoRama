@@ -67,7 +67,7 @@ public class OntoRamaApp extends JFrame {
 
     private JMenuBar _menuBar;
 
-    /**
+    /*
      * ontorama menus
      */
     private JMenu _fileMenu;
@@ -76,7 +76,7 @@ public class OntoRamaApp extends JFrame {
 
     private JToolBar _toolBar;
 
-    /**
+    /*
      * actions
      */
     public Action _exitAction;

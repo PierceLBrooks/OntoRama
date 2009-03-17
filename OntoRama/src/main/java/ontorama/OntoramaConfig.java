@@ -42,11 +42,6 @@ public class OntoramaConfig {
        
     private static List<RdfMapping> relationRdfMapping;
 
-    /**
-     * turns funny edges on
-     */
-    public static boolean FOUNTAINS;
-
 	/**
 	 * flag to enable editing mode.
 	 */
@@ -147,7 +142,6 @@ public class OntoramaConfig {
                                         throws SourceException, IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
-        FOUNTAINS = (new Boolean(properties.getProperty("FOUNTAINS"))).booleanValue();
 		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
         loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
         backendName = properties.getProperty("backend");

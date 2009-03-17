@@ -253,10 +253,10 @@ public class XmlParserFull implements Parser {
     }
 
     private Edge makeEdge(Node fromNode, Node toNode, String edgeName) throws NoSuchRelationLinkException, ParserException {
-        Iterator edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
+        Iterator<EdgeType> edgeTypesIterator = OntoramaConfig.getEdgeTypesSet().iterator();
         Edge edge = null;
         while (edgeTypesIterator.hasNext()) {
-            EdgeType edgeType = (EdgeType) edgeTypesIterator.next();
+            EdgeType edgeType = edgeTypesIterator.next();
             if ((edgeType.getName()).equals(edgeName)) {
                 edge = OntoramaConfig.getBackend().createEdge(fromNode, toNode, edgeType);
             } else if ( (edgeType.getReverseEdgeName() != null) && ((edgeType.getReverseEdgeName()).equals(edgeName)) ) {

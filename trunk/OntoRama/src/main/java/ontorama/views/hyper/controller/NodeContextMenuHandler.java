@@ -48,9 +48,9 @@ public class NodeContextMenuHandler implements EventBrokerListener {
         JPopupMenu menu = new JPopupMenu();
         JMenu newNodeMenu = new JMenu("Create new node");
         JMenuItem menuItem;
-        List edgeTypes = OntoramaConfig.getEdgeTypesList();
-        for (Iterator iterator = edgeTypes.iterator(); iterator.hasNext();) {
-            final EdgeType edgeType = (EdgeType) iterator.next();
+        List<EdgeType> edgeTypes = OntoramaConfig.getEdgeTypesList();
+        for (Iterator<EdgeType> iterator = edgeTypes.iterator(); iterator.hasNext();) {
+            final EdgeType edgeType = iterator.next();
             EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
             if(displayInfo.isDisplayInGraph()) {
                 menuItem = new JMenuItem(edgeType.getName());

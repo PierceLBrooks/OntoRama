@@ -174,7 +174,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      */
     public void setQuery(Query query) {
         setQueryField(query.getQueryTypeName());
-        List wantedLinks = query.getRelationLinksList();
+        List<EdgeType> wantedLinks = query.getRelationLinksList();
         if (wantedLinks.size() == 0) {
         	wantedLinks = OntoramaConfig.getEdgeTypesList();
         }
@@ -214,15 +214,15 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         _depthField.setText(String.valueOf(depth));
     }
 
-    public List getWantedRelationLinks() {
+    public List<EdgeType> getWantedRelationLinks() {
         _wantedRelationLinks = updateWantedRelationLinks();
         
-		List edgeTypesToQuery = new LinkedList();
+		List<EdgeType> edgeTypesToQuery = new LinkedList<EdgeType>();
 
-		List allEdgeTypes = OntoramaConfig.getEdgeTypesList();
-		Iterator it = allEdgeTypes.iterator();
+		List<EdgeType> allEdgeTypes = OntoramaConfig.getEdgeTypesList();
+		Iterator<EdgeType> it = allEdgeTypes.iterator();
 		while (it.hasNext()) {
-			EdgeType edgeType = (EdgeType) it.next();
+			EdgeType edgeType = it.next();
 			if (_wantedRelationLinks.contains(edgeType)) {
 				edgeTypesToQuery.add(edgeType);
 				continue;
@@ -242,7 +242,7 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      *
      */
-    private void setWantedRelationLinks(List wantedLinks) {
+    private void setWantedRelationLinks(List<EdgeType> wantedLinks) {
         Enumeration<JCheckBox> enumeration = _relationLinksCheckBoxes.keys();
         while (enumeration.hasMoreElements()) {
             JCheckBox curCheckBox = enumeration.nextElement();
@@ -259,10 +259,10 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      *
      */
     private void buildRelationLinksQueryPanel() {
-        Iterator it = OntoramaConfig.getEdgeTypesList().iterator();
+        Iterator<EdgeType> it = OntoramaConfig.getEdgeTypesList().iterator();
 
         while (it.hasNext()) {
-            EdgeType cur = (EdgeType) it.next();
+            EdgeType cur = it.next();
             if (! OntoramaConfig.getEdgeDisplayInfo(cur).isDisplayInGraph()) {
                 continue;
             }

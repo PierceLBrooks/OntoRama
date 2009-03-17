@@ -38,16 +38,9 @@ public class OntoramaConfig {
 
 
     private static Map<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
-    private static List edgeTypesList;
+    private static List<EdgeType> edgeTypesList;
        
     private static List<RdfMapping> relationRdfMapping;
-
-
-    /**
-     * Get current classloader
-     */
-    private static Class curClass;
-    private static ClassLoader classLoader;
 
     /**
      * turns funny edges on
@@ -101,32 +94,16 @@ public class OntoramaConfig {
      * java properties file.
      */
     static {
-        System.out.println("---------config--------------");
-
-        try {
-            curClass = Class.forName("ontorama.OntoramaConfig");
-            classLoader = curClass.getClassLoader();
-        } catch (ClassNotFoundException classException) {
-            System.err.println("ClassNotFoundException : " + classException);
-            classException.printStackTrace();
-            System.exit(-1);
-        }
-
         buildDefaultNodeTypes();
         
         loadAllConfig(examplesConfigLocation, "ontorama.properties", "config.xml");
-        
-        System.out.println("declaring class: " + curClass.getDeclaringClass());
         
     	try {
     		System.getProperties();
     	}
     	catch (AccessControlException e) {
     		OntoramaConfig.SECURITY_RESTRICTED = true;
-    		System.out.println("\n\nCought secrity restriction");
     	}
-        
-        System.out.println("--------- end of config--------------");
     }
 
     private static void fatalExit(String message, Exception e) {
@@ -205,9 +182,9 @@ public class OntoramaConfig {
     }
 
 
-    public static Set getEdgeTypesSet() {
-        List allRelations = getEdgeTypesList();
-        return new HashSet(allRelations);
+    public static Set<EdgeType> getEdgeTypesSet() {
+        List<EdgeType> allRelations = getEdgeTypesList();
+        return new HashSet<EdgeType>(allRelations);
     }
 
     /**
@@ -240,13 +217,13 @@ public class OntoramaConfig {
     }
 
 
-    public static List getEdgeTypesList() {
+    public static List<EdgeType> getEdgeTypesList() {
         return OntoramaConfig.edgeTypesList;
     }
 
 
     public static ClassLoader getClassLoader() {
-        return OntoramaConfig.classLoader;
+        return OntoramaConfig.getClassLoader();
     }
 
     public static String getBackendPackageName () {

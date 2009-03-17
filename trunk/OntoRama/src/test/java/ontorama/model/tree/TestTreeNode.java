@@ -45,13 +45,13 @@ public class TestTreeNode  extends TestCase{
         Node childGraphNode2 = new NodeImpl("child2", "child2");
         _childNode1 = new TreeNodeImpl(childGraphNode1);
         _childNode2 = new TreeNodeImpl(childGraphNode2);
-        List edgeTypes = OntoramaConfig.getEdgeTypesList();
+        List<EdgeType> edgeTypes = OntoramaConfig.getEdgeTypesList();
         if (edgeTypes.size() < 2) {
             System.err.println("expecting at least 2 edge types to be configured");
             System.exit(-1);
         }
-        EdgeType et1 = (EdgeType) edgeTypes.get(0);
-        EdgeType et2 = (EdgeType) edgeTypes.get(1);
+        EdgeType et1 = edgeTypes.get(0);
+        EdgeType et2 = edgeTypes.get(1);
         Edge edge1 = new EdgeImpl(_graphNode, childGraphNode1, et1);
         _childEdge1 = new TreeEdgeImpl(edge1, _childNode1);
         _treeNode.addChild(_childNode1, _childEdge1);

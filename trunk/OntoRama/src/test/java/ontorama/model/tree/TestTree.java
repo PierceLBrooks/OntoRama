@@ -82,14 +82,14 @@ public class TestTree extends TestCase{
         graphNodesList.add(node11);
         graphNodesList.add(node12);
 
-        List edgesTypesList = OntoramaConfig.getEdgeTypesList();
+        List<EdgeType> edgesTypesList = OntoramaConfig.getEdgeTypesList();
         if (edgesTypesList.size() < 3) {
             System.err.println("expecting at least 3 edge types defined in the config.xml");
             System.exit(-1);
         }
-        _edgeType1 = (EdgeType) edgesTypesList.get(0);
-        _edgeType2 = (EdgeType) edgesTypesList.get(1);
-        _edgeType3 = (EdgeType) edgesTypesList.get(2);
+        _edgeType1 = edgesTypesList.get(0);
+        _edgeType2 = edgesTypesList.get(1);
+        _edgeType3 = edgesTypesList.get(2);
         Edge e1_2 = new EdgeImpl(node1, node2, _edgeType1);
         Edge e1_3 = new EdgeImpl(node1, node3, _edgeType1);
         Edge e1_4 = new EdgeImpl(node1, node4, _edgeType2);

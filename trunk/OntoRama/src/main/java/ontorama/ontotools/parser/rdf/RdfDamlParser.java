@@ -3,9 +3,9 @@ package ontorama.ontotools.parser.rdf;
 import java.io.FileReader;
 import java.io.Reader;
 import java.security.AccessControlException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -46,15 +46,14 @@ public class RdfDamlParser implements Parser {
      * keys - strings - graph node names
      * values - graph nodes
      */
-    protected Map _nodesHash;
-    protected List _edgesList;
+    protected Map<String,Node> _nodesHash;
+    protected List<Edge> _edgesList;
 
     private String _rdfsNamespace = null;
     private String _correctedRdfsNamespace = null;
     private String _rdfSyntaxTypeNamespace = null;
-    private String _damlNamespace = null;
-
-    /// @todo this definition doesnt work due to the schema namespace WebKB is using
+    
+    /// @todo this definition doesn't work due to the schema namespace WebKB is using
     //private static final String _rdfsNamespaceSuffix = "rdf-schema#";
     private static final String _rdfsNamespaceSuffix = "rdf-schema";
     private static final String _rdfSyntaxTypeNamespaceSuffix = "rdf-syntax-ns#";
@@ -66,7 +65,7 @@ public class RdfDamlParser implements Parser {
     private List<RDFNode> resourceConceptNodeTypesList;
     private List<RDFNode> resourceRelationNodeTypesList;
 
-    private List predicatesConnectingPropertyToProperty;
+    private List<String> predicatesConnectingPropertyToProperty;
     
     private final String _predicateName_subPropertyOf = "subPropertyOf";
     private final String _predicateName_range = "range";
@@ -77,12 +76,12 @@ public class RdfDamlParser implements Parser {
 
     public RdfDamlParser() {
 		init();
-        predicatesConnectingPropertyToProperty = new LinkedList();
+        predicatesConnectingPropertyToProperty = new ArrayList<String>();
     }
     
     private void init() {
-        _nodesHash = new HashMap();
-        _edgesList = new LinkedList();    	
+        _nodesHash = new HashMap<String, Node>();
+        _edgesList = new ArrayList<Edge>();    	
     }
 
     /**
@@ -98,11 +97,11 @@ public class RdfDamlParser implements Parser {
      * ... Only instances of rdfs:Class can have the rdfs:subClassOf property and the property value
      * is always of rdf:type rdfs:Class. A class may be a subclass of more then one class.
      * section 3.1.3 (rdfs:range)
-     * An instance of ConstrainedProperty (rdfs:domain and and rdfs:range) that is used to indicate the (clas(es))
-     * that the values of a property must me members of. The value of range property is alwsys a Class.
+     * An instance of ConstrainedProperty (rdfs:domain and and rdfs:range) that is used to indicate the (class(es))
+     * that the values of a property must me members of. The value of range property is always a Class.
      * ... The rdfs:domain of rdfs:range is the class rdf:Property. This indicates that the range property
      * applies to resources that are themselves properties.
-     * The rdfs:range of rdfs:range is the class rdfs:Class. This indicates that any resurce that is the value of
+     * The rdfs:range of rdfs:range is the class rdfs:Class. This indicates that any resource that is the value of
      * a range property will be a class.
      * section 3.1.4 (rdfs:domain)
      * ... The rdfs:domain of rdfs:domain is the class rdf:Property. This indicates that the domain property is
@@ -111,7 +110,7 @@ public class RdfDamlParser implements Parser {
      * value of a domain property will be a class.
      *
      *
-     * what this all means (at leas what I think it means ;)
+     * what this all means (at least what I think it means ;)
      * To find classes:
      * - look for all resources declared as Classes
      * - look for all objects that have predicate subClassOf
@@ -172,21 +171,15 @@ public class RdfDamlParser implements Parser {
         } catch (AccessControlException secExc) {
             throw secExc;
         } catch (RDFException e) {
-        	// TODO don't log into syserr
-        	System.err.println("\n\n!!!!!!!!!!!!!!!!!!!!\n");
-        	
-        	System.err.println("\nRDFException: " + e.getMessage());
-            e.printStackTrace();
-            throw new ParserException("Error in parsing RDF: " + e.getMessage());
+            throw new ParserException("Error parsing RDF", e);
         } catch (RDFError err) {
-        	System.err.println("\nRDFError: " + err.getMessage());
-            throw new ParserException("Couldn't parse returned RDF data. Parser error: " + err.getMessage());
+            throw new ParserException("Couldn't parse returned RDF data.", err);
         }
         catch (NoSuchRelationLinkException relExc) {
             relExc.printStackTrace();
             throw new ParserException("Unrecognized EdgeType: " + relExc.getMessage());
         }
-        ParserResult result = new ParserResult(new LinkedList(_nodesHash.values()), _edgesList);
+        ParserResult result = new ParserResult(new ArrayList<Node>(_nodesHash.values()), _edgesList);
         return result;
     }
 
@@ -257,13 +250,12 @@ public class RdfDamlParser implements Parser {
             int damlIndex1 = namespace.toString().indexOf("daml");
             int damlIndex2 = namespace.toString().lastIndexOf("daml");
             if ((damlIndex1 > 0) && (damlIndex2 > 0) && (damlIndex1 != damlIndex2)) {
-                _damlNamespace = namespace;
             }
         }
     }
 
     private List<RDFNode> runSelector(Model model, Property p, Object o) throws RDFException  {
-        LinkedList<RDFNode> result = new LinkedList<RDFNode>();
+        List<RDFNode> result = new ArrayList<RDFNode>();
 
         StmtIterator stIt = model.listStatements();
         while (stIt.hasNext()) {
@@ -285,8 +277,6 @@ public class RdfDamlParser implements Parser {
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
         
-        //System.out.println(resource.toString() +  " -> " + predicate.toString() + " -> " + object.toString());
-
         Node subjectNode = doNodeMapping(resource);
         
 		if (predicate.getLocalName().equalsIgnoreCase(_predicateName_comment)) {
@@ -321,24 +311,16 @@ public class RdfDamlParser implements Parser {
 
         	resourceRelationNodeTypesList.remove(st.getObject());
         	resourceConceptNodeTypesList.add(st.getObject());
-
-//			System.out.println("overwriting: set relation: "  + subjectNode.getName());
-//			System.out.println("overwriting: set concept: "  + objectNode.getName());
-
         }
         
         doEdgesMapping(subjectNode, predicate, objectNode);
     }
 
-
-    /**
-     *
-     */
     protected Node doNodeMapping (RDFNode object) throws ParserException {
         String nodeName = stripUri(object);
         Node node;
         if (_nodesHash.containsKey(nodeName)) {
-            node = (Node) _nodesHash.get(nodeName);
+            node = _nodesHash.get(nodeName);
         } else {
             node = OntoramaConfig.getBackend().createNode(nodeName, object.toString());
             if ((resourceRelationNodeTypesList.contains(object)) && (resourceConceptNodeTypesList.contains(object)) ) {
@@ -416,7 +398,7 @@ public class RdfDamlParser implements Parser {
     }
 
 
-    /**
+    /*
      * @todo    need to check if this rdfNode string contains any uri's, otherwise
      * may strip something that shouldn't be stripped if node happen to contain "/".
      * for example: description may contain '/': cats/dogs
@@ -450,45 +432,13 @@ public class RdfDamlParser implements Parser {
                                         String fullNodeName) {
         Node node;
         if (_nodesHash.containsKey(nodeName)) {
-            node = (Node) _nodesHash.get(nodeName);
+            node = _nodesHash.get(nodeName);
             return node;
         } else {
             node = OntoramaConfig.getBackend().createNode(nodeName, fullNodeName);
             _nodesHash.put(nodeName, node);
             return node;
         }
-    }
-
-    /**
-     * Replace carriage returns and leading tabs in a string
-     * so when time comes to display it we don't get funny characters
-     * in the labels.
-     * For example: if we have a comment spanning over a few lines
-     * and formated to be indented in xml indentation fashion:
-     * we will end up will all these white spaces in the labels.
-     * The idea is: to break a string into lines, then remove all
-     * leading and trailing white spaces replacing them with a single
-     * space.
-     *
-     * @todo  there has to be a way to do this better
-     */
-    private String stripCarriageReturn(String inString) {
-        String resultString = "";
-        StringTokenizer stringTok = new StringTokenizer(inString, "\n");
-        while (stringTok.hasMoreTokens()) {
-            String nextTok = stringTok.nextToken();
-            // break up into words. This accounts for a fact that sometimes
-            // there are a few spaces grouped together. We want to remove them.
-            StringTokenizer spacesTok = new StringTokenizer(nextTok, " ");
-            while (spacesTok.hasMoreTokens()) {
-                String tok = spacesTok.nextToken();
-                resultString = resultString + tok.trim();
-                if (spacesTok.hasMoreTokens()) {
-                    resultString = resultString + " ";
-                }
-            }
-        }
-        return resultString;
     }
 
     public static void main(String args[]) {

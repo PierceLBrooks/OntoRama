@@ -198,9 +198,9 @@ public class DamlParser implements Parser {
 		}
 		if (edge == null) {
 			boolean foundEdgeType = false;
-			Iterator edgeTypes = OntoramaConfig.getEdgeTypesList().iterator();
+			Iterator<EdgeType> edgeTypes = OntoramaConfig.getEdgeTypesList().iterator();
 			while (edgeTypes.hasNext()) {
-				EdgeType cur = (EdgeType) edgeTypes.next();
+				EdgeType cur = edgeTypes.next();
 				if (cur.getName().equals(edgeTypeName)) {
 					edge = _backend.createEdge(fromNode, toNode, cur);
 					System.out.println("\n\ncreating edge: " + fromNode + " -> " + toNode + ": " + cur.getName());

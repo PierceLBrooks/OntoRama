@@ -162,10 +162,10 @@ public class DescriptionView extends JPanel implements GraphView {
     private void initPropertiesPanels() {
 
         List<EdgeType> edgeTypesToDisplay = new LinkedList<EdgeType>();
-        List edgeTypesList = OntoramaConfig.getEdgeTypesList();
-        Iterator it = edgeTypesList.iterator();
+        List<EdgeType> edgeTypesList = OntoramaConfig.getEdgeTypesList();
+        Iterator<EdgeType> it = edgeTypesList.iterator();
         while (it.hasNext()) {
-            EdgeType edgeType = (EdgeType) it.next();
+            EdgeType edgeType = it.next();
             EdgeTypeDisplayInfo displayInfo = OntoramaConfig.getEdgeDisplayInfo(edgeType);
             if ((displayInfo.isDisplayInDescription()) || (displayInfo.isDisplayReverseEdgeInDescription()) ) {
                 edgeTypesToDisplay.add(edgeType);

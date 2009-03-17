@@ -50,22 +50,22 @@ public class TestEdge extends TestCase {
     private Edge edge7;
 
 
-    private Set relLinksSet;
+    private Set<EdgeType> relLinksSet;
 
-    private List outboundEdgesListForNode1 = new LinkedList();
-    private List inboundEdgesListForNode6 = new LinkedList();
+    private List<Edge> outboundEdgesListForNode1 = new LinkedList<Edge>();
+    private List<Edge> inboundEdgesListForNode6 = new LinkedList<Edge>();
 
-    private List outboundEdgesListForNode1Relation1 = new LinkedList();
-    private List inboundEdgesListForNode6Relation1 = new LinkedList();
+    private List<Edge> outboundEdgesListForNode1Relation1 = new LinkedList<Edge>();
+    private List<Edge> inboundEdgesListForNode6Relation1 = new LinkedList<Edge>();
 
-    private List outboundNodesListForNode1RelLinkSet = new LinkedList();
-    private List inboundNodesListForNode6RelLinkSet = new LinkedList();
+    private List<Node> outboundNodesListForNode1RelLinkSet = new LinkedList<Node>();
+    private List<Node> inboundNodesListForNode6RelLinkSet = new LinkedList<Node>();
 
-    private List outboundNodesListForNode1Relation1 = new LinkedList();
-    private List inboundNodesListForNode6Relation2 = new LinkedList();
+    private List<Node> outboundNodesListForNode1Relation1 = new LinkedList<Node>();
+    private List<Node> inboundNodesListForNode6Relation2 = new LinkedList<Node>();
 
-    private List outboundNodesListForNode1 = new LinkedList();
-    private List inboundNodesListForNode6 = new LinkedList();
+    private List<Node> outboundNodesListForNode1 = new LinkedList<Node>();
+    private List<Node> inboundNodesListForNode6 = new LinkedList<Node>();
 
     private URI creatorUri1;
     private URI creatorUri2;
@@ -233,8 +233,8 @@ public class TestEdge extends TestCase {
     /**
      * create a set of edge types
      */
-    private Set createSet(EdgeType det1, EdgeType det2) {
-        Set set = new HashSet();
+    private Set<EdgeType> createSet(EdgeType det1, EdgeType det2) {
+        Set<EdgeType> set = new HashSet<EdgeType>();
         set.add(det1);
         set.add(det2);
         return set;

@@ -52,9 +52,9 @@ public class TreeImpl implements Tree {
 
 			addTreeEdge(graphEdge, parentTreeNode, newNode);
 
-			Iterator clones = parentTreeNode.getClones().iterator();
+			Iterator<TreeNode> clones = parentTreeNode.getClones().iterator();
 			while (clones.hasNext()) {
-				TreeNode curClone = (TreeNode) clones.next();
+				TreeNode curClone = clones.next();
 				TreeNode curNewNode = addTreeNode(graphNode);
 				addTreeEdge(graphEdge, curClone, curNewNode);
 			}
@@ -75,9 +75,9 @@ public class TreeImpl implements Tree {
         }
 		removeTreeNode(nodeToRemove);
 
-		Iterator clones = nodeToRemove.getClones().iterator();
+		Iterator<TreeNode> clones = nodeToRemove.getClones().iterator();
 		while  (clones.hasNext()) {
-			TreeNode clone = (TreeNode) clones.next();
+			TreeNode clone = clones.next();
 			removeTreeNode(clone);
 		}
 		_eventBroker.processEvent(new TreeNodeRemovedEvent(this, nodeToRemove));
@@ -103,11 +103,11 @@ public class TreeImpl implements Tree {
 		}
 		parent.removeChild(nodeToRemove, parentEdge);
 
-        List clones = nodeToRemove.getClones();
-        Iterator it = clones.iterator();
+        List<TreeNode> clones = nodeToRemove.getClones();
+        Iterator<TreeNode> it = clones.iterator();
         while (it.hasNext()) {
-            TreeNode cur = (TreeNode) it.next();
-            List curClonesList = cur.getClones();
+            TreeNode cur = it.next();
+            List<TreeNode> curClonesList = cur.getClones();
             curClonesList.remove(nodeToRemove);
         }
 	}
@@ -118,9 +118,9 @@ public class TreeImpl implements Tree {
     }
 
     private void traverseBuild (Node topGraphNode, TreeNode topTreeNode ) {
-        Iterator outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(topGraphNode).iterator();
+        Iterator<Edge> outboundEdges = _graph.getOutboundEdgesDisplayedInGraph(topGraphNode).iterator();
         while (outboundEdges.hasNext()) {
-            Edge curGraphEdge = (Edge) outboundEdges.next();
+            Edge curGraphEdge = outboundEdges.next();
             TreeNode toNode = addTreeNode (curGraphEdge.getToNode());
             addTreeEdge (curGraphEdge, topTreeNode, toNode);
             traverseBuild(curGraphEdge.getToNode(), toNode);
@@ -139,11 +139,11 @@ public class TreeImpl implements Tree {
 		/// since we should be
 		/// able to uniquely identify nodes by the graph nodes they contain - if we find two nodes with
 		/// the same graph node, we assume that they are each other clones.
-		List q = new LinkedList();
+		List<TreeNode> q = new LinkedList<TreeNode>();
 		q.add(_root);
 		while (!q.isEmpty()) {
-			TreeNode cur = (TreeNode) q.remove(0);
-			List children = cur.getChildren();
+			TreeNode cur = q.remove(0);
+			List<TreeNode> children = cur.getChildren();
 			q.addAll(children);
 			if (cur.isClone(treeNode)) {
 					cur.addClone(treeNode);

@@ -63,12 +63,12 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      * table of check boxes for relation links
      * keys - checkBoxes, values - relation type integers
      */
-    private Hashtable _relationLinksCheckBoxes = new Hashtable();
+    private Hashtable<JCheckBox, EdgeType> _relationLinksCheckBoxes = new Hashtable<JCheckBox, EdgeType>();
 
     /**
      * relation links that user has chosen to display
      */
-    private List _wantedRelationLinks = new LinkedList();
+    private List<EdgeType> _wantedRelationLinks = new LinkedList<EdgeType>();
 
     /**
      *
@@ -243,10 +243,10 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      *
      */
     private void setWantedRelationLinks(List wantedLinks) {
-        Enumeration enumeration = _relationLinksCheckBoxes.keys();
+        Enumeration<JCheckBox> enumeration = _relationLinksCheckBoxes.keys();
         while (enumeration.hasMoreElements()) {
-            JCheckBox curCheckBox = (JCheckBox) enumeration.nextElement();
-            EdgeType correspondingRelLink = (EdgeType) _relationLinksCheckBoxes.get(curCheckBox);
+            JCheckBox curCheckBox = enumeration.nextElement();
+            EdgeType correspondingRelLink = _relationLinksCheckBoxes.get(curCheckBox);
             if (wantedLinks.contains(correspondingRelLink)) {
                 curCheckBox.setSelected(true);
             } else {
@@ -285,13 +285,13 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     /**
      *
      */
-    private List updateWantedRelationLinks() {
-        List wantedRelationLinks = new LinkedList();
-        Enumeration en = _relationLinksCheckBoxes.keys();
+    private List<EdgeType> updateWantedRelationLinks() {
+        List<EdgeType> wantedRelationLinks = new LinkedList<EdgeType>();
+        Enumeration<JCheckBox> en = _relationLinksCheckBoxes.keys();
         while (en.hasMoreElements()) {
-            JCheckBox key = (JCheckBox) en.nextElement();
+            JCheckBox key = en.nextElement();
             if (key.isSelected()) {
-                EdgeType relLinkType = (EdgeType) _relationLinksCheckBoxes.get(key);
+                EdgeType relLinkType = _relationLinksCheckBoxes.get(key);
                 wantedRelationLinks.add(relLinkType);
             }
         }

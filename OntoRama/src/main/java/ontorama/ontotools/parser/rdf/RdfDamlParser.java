@@ -63,8 +63,8 @@ public class RdfDamlParser implements Parser {
      * Hold RDF resources that are potentially concept node types
      * or relation node types.
      */
-    private List resourceConceptNodeTypesList;
-    private List resourceRelationNodeTypesList;
+    private List<RDFNode> resourceConceptNodeTypesList;
+    private List<RDFNode> resourceRelationNodeTypesList;
 
     private List predicatesConnectingPropertyToProperty;
     
@@ -262,8 +262,8 @@ public class RdfDamlParser implements Parser {
         }
     }
 
-    private List runSelector(Model model, Property p, Object o) throws RDFException  {
-        LinkedList result = new LinkedList();
+    private List<RDFNode> runSelector(Model model, Property p, Object o) throws RDFException  {
+        LinkedList<RDFNode> result = new LinkedList<RDFNode>();
 
         StmtIterator stIt = model.listStatements();
         while (stIt.hasNext()) {
@@ -364,14 +364,14 @@ public class RdfDamlParser implements Parser {
 
     protected void doEdgesMapping(Node subjectNode, Property predicate, Node objectNode) throws NoSuchRelationLinkException {
     	
-        List ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
-        Iterator ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
+        List<RdfMapping> ontologyRelationRdfMapping = OntoramaConfig.getRelationRdfMapping();
+        Iterator<RdfMapping> ontologyRelationRdfMappingIterator = ontologyRelationRdfMapping.iterator();
         boolean foundMapping = false;
         while (ontologyRelationRdfMappingIterator.hasNext()) {
-            RdfMapping rdfMapping = (RdfMapping) ontologyRelationRdfMappingIterator.next();
-            Iterator mappingTagsIterator = rdfMapping.getRdfTags().iterator();
+            RdfMapping rdfMapping = ontologyRelationRdfMappingIterator.next();
+            Iterator<String> mappingTagsIterator = rdfMapping.getRdfTags().iterator();
             while (mappingTagsIterator.hasNext()) {
-                String mappingTag = (String) mappingTagsIterator.next();
+                String mappingTag = mappingTagsIterator.next();
                 if (predicate.getLocalName().equalsIgnoreCase(mappingTag)) {
                     String mappingType = rdfMapping.getType();
                     EdgeType edgeType = OntoramaConfig.getEdgeType(mappingType);

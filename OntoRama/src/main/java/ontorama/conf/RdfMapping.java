@@ -27,7 +27,7 @@ public class RdfMapping {
      *
      */
     private String _rdfTag;
-    private List _rdfTagsList;
+    private List<String> _rdfTagsList;
 
     /**
      *
@@ -36,7 +36,7 @@ public class RdfMapping {
         _id = id;
         _type = type;
         _rdfTag = rdfTag;
-        _rdfTagsList = new LinkedList();
+        _rdfTagsList = new LinkedList<String>();
         _rdfTagsList.add(_rdfTag);
     }
 
@@ -57,7 +57,7 @@ public class RdfMapping {
     /**
      *
      */
-    public List getRdfTags() {
+    public List<String> getRdfTags() {
         return _rdfTagsList;
     }
 

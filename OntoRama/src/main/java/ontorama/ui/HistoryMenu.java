@@ -44,7 +44,7 @@ public class HistoryMenu extends JMenu {
      * keys - menuItems
      * values - corresponging history elements
      */
-    private static Hashtable _menuItemHistoryMapping;
+    private static Hashtable<JRadioButtonMenuItem, HistoryElement> _menuItemHistoryMapping;
 
     /**
      *
@@ -55,7 +55,7 @@ public class HistoryMenu extends JMenu {
      * hold all history menu items for operating
      * back and forward buttons
      */
-    private static List _historyItems;
+    private static List<JRadioButtonMenuItem> _historyItems;
 
     /**
      * event broker capable of processing queries
@@ -74,8 +74,8 @@ public class HistoryMenu extends JMenu {
     public HistoryMenu(EventBroker eventBroker) {
         super("History");
         _eventBroker = eventBroker;
-        _menuItemHistoryMapping = new Hashtable();
-        _historyItems = new LinkedList();
+        _menuItemHistoryMapping = new Hashtable<JRadioButtonMenuItem, HistoryElement>();
+        _historyItems = new LinkedList<JRadioButtonMenuItem>();
         _backAction = new BackHistoryAction(this);
         _forwardAction = new ForwardHistoryAction(this);
         _buttonGroup = new ButtonGroup();
@@ -134,7 +134,7 @@ public class HistoryMenu extends JMenu {
 	public void appendHistory(Query query) {
 			
 		if ((_historyItems.size() > 0) && (_historyItems.size() > _maxHistoryItems)) {
-		    JRadioButtonMenuItem firstMenuItem = (JRadioButtonMenuItem) _historyItems.get(0);
+		    JRadioButtonMenuItem firstMenuItem = _historyItems.get(0);
 		    _historyItems.remove(0);
 		    _menuItemHistoryMapping.remove(firstMenuItem);
 		    remove(firstMenuItem);
@@ -161,10 +161,10 @@ public class HistoryMenu extends JMenu {
 	}
 
 	public JRadioButtonMenuItem findIfQueryAlreadyExists(Query query) {
-		Iterator it = _historyItems.iterator();
+		Iterator<JRadioButtonMenuItem> it = _historyItems.iterator();
 		while (it.hasNext()) {
-			JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) it.next();
-			HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+			JRadioButtonMenuItem historyItem = it.next();
+			HistoryElement historyElement = _menuItemHistoryMapping.get(historyItem);
 			Query historyQuery = historyElement.getQuery();
 			if (query.equals(historyQuery)) {
 				return historyItem;
@@ -177,7 +177,7 @@ public class HistoryMenu extends JMenu {
      *
      */
     public JRadioButtonMenuItem getMenuItem(int index) {
-        return (JRadioButtonMenuItem) _historyItems.get(index);
+        return _historyItems.get(index);
     }
 
     /**
@@ -189,9 +189,9 @@ public class HistoryMenu extends JMenu {
      *        the first one.
      */
     private JRadioButtonMenuItem getSelectedHistoryMenuItem() {
-        Enumeration e = _menuItemHistoryMapping.keys();
+        Enumeration<JRadioButtonMenuItem> e = _menuItemHistoryMapping.keys();
         while (e.hasMoreElements()) {
-            JRadioButtonMenuItem cur = (JRadioButtonMenuItem) e.nextElement();
+            JRadioButtonMenuItem cur = e.nextElement();
             if (cur.isSelected()) {
                 return cur;
             }
@@ -246,7 +246,7 @@ public class HistoryMenu extends JMenu {
  
  	private void displayHistoryItem (JMenuItem menuItem) {
 		JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
-		HistoryElement historyElement = (HistoryElement) _menuItemHistoryMapping.get(historyItem);
+		HistoryElement historyElement = _menuItemHistoryMapping.get(historyItem);
 		historyElement.displayElement();
 		enableBackForwardButtons();
 	}

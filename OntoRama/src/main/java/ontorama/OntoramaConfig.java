@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessControlException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
@@ -23,6 +23,7 @@ import ontorama.conf.DataFormatConfigParser;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.conf.NodeTypeDisplayInfo;
+import ontorama.conf.RdfMapping;
 import ontorama.conf.XmlConfigParser;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
@@ -33,18 +34,13 @@ import ontorama.ontotools.source.JarSource;
 import ontorama.ui.ErrorDialog;
 
 
-/**
- */
 public class OntoramaConfig {
 
 
-    private static Hashtable edgesConfig;
+    private static Map<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
     private static List edgeTypesList;
        
-    /**
-     *
-     */
-    private static List relationRdfMapping;
+    private static List<RdfMapping> relationRdfMapping;
 
 
     /**
@@ -74,13 +70,13 @@ public class OntoramaConfig {
 	 */
 	public static boolean SECURITY_RESTRICTED = false;
 	
-    public static JarSource streamReader = new JarSource();;
+    public static JarSource streamReader = new JarSource();
 
     private static Properties properties = new Properties();
 
     private static boolean loadBlankOnStartUp = false;
 
-    private static Hashtable nodesConfig = new Hashtable();
+    private static Map<NodeType, NodeTypeDisplayInfo> nodesConfig = new HashMap<NodeType, NodeTypeDisplayInfo>();
     
     public static NodeType CONCEPT_TYPE;
     public static NodeType RELATION_TYPE;
@@ -98,7 +94,7 @@ public class OntoramaConfig {
 	 */
 	private static Backend _activeBackend;
 	
-	private static List _dataFormatsMappingList;
+	private static List<DataFormatMapping> _dataFormatsMappingList;
 
     /**
      * Values of vars that are set here should be read from
@@ -204,7 +200,7 @@ public class OntoramaConfig {
     }
 
     public static EdgeTypeDisplayInfo getEdgeDisplayInfo (EdgeType edgeType) {
-        EdgeTypeDisplayInfo displayInfo = (EdgeTypeDisplayInfo) edgesConfig.get(edgeType);
+        EdgeTypeDisplayInfo displayInfo = edgesConfig.get(edgeType);
         return displayInfo;
     }
 
@@ -239,7 +235,7 @@ public class OntoramaConfig {
         return result;
     }
 
-    public static List getRelationRdfMapping() {
+    public static List<RdfMapping> getRelationRdfMapping() {
         return relationRdfMapping;
     }
 
@@ -261,14 +257,14 @@ public class OntoramaConfig {
         return loadBlankOnStartUp;
     }
     
-    public static List getDataFormatsMapping () {
+    public static List<DataFormatMapping> getDataFormatsMapping () {
     	return _dataFormatsMappingList;
     }
     
     public static DataFormatMapping getDataFormatMapping(String name) {
-    	Iterator it = _dataFormatsMappingList.iterator();
+    	Iterator<DataFormatMapping> it = _dataFormatsMappingList.iterator();
 		while (it.hasNext()) {
-			DataFormatMapping cur = (DataFormatMapping) it.next();
+			DataFormatMapping cur = it.next();
 			if (cur.getName().equals(name)) {
 				return cur;
 			}
@@ -309,7 +305,7 @@ public class OntoramaConfig {
     }
 
     public static NodeTypeDisplayInfo getNodeTypeDisplayInfo (NodeType nodeType) {
-        return (NodeTypeDisplayInfo) nodesConfig.get(nodeType);
+        return nodesConfig.get(nodeType);
     }
 
 
@@ -338,8 +334,8 @@ public class OntoramaConfig {
 		return null;
 	}
 	
-	public static Collection getNodeTypesCollection () {
-		Collection res = new HashSet();
+	public static Collection<NodeType> getNodeTypesCollection () {
+		Collection<NodeType> res = new HashSet<NodeType>();
 		res.add(OntoramaConfig.CONCEPT_TYPE);
 		res.add(OntoramaConfig.RELATION_TYPE);
 		res.add(OntoramaConfig.UNKNOWN_TYPE);

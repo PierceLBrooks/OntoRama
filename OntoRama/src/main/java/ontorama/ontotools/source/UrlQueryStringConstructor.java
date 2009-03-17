@@ -1,46 +1,35 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 24/08/2002
- * Time: 11:32:04
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.ontotools.source;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class UrlQueryStringConstructor {
     /**
-     *
      * @param queryParamTable table containing query parameter names and values
      *                      keys - parameter names
      *                      values - parameter values
      * @return
      */
-   public String getQueryString(Hashtable queryParamTable) {
+   public String getQueryString(Map<String,String> queryParamTable) {
 
         String encoding = "UTF-8";
         String queryString = "?";
-        try {
-            Enumeration en = queryParamTable.keys();
-            while (en.hasMoreElements()) {
-                String paramName = (String) en.nextElement();
-                String paramValue = (String) queryParamTable.get(paramName);
-                queryString = queryString + paramName + "=" + URLEncoder.encode(paramValue, encoding);
-                //System.out.println("UrlQueryStringConstructor: paramName = " + paramName + ", paramValue = " + paramValue + " encoded paramValue = " + URLEncoder.encode(paramValue, encoding));
-                if (en.hasMoreElements()) {
+        boolean firstEntry = true;
+        for (Entry<String, String> entry : queryParamTable.entrySet()) {
+	        try {
+	        	if(!firstEntry) {
                     queryString = queryString + "&";
-                }
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+	        	}
+                String paramName = entry.getKey();
+                String paramValue = entry.getValue();
+                queryString = queryString + paramName + "=" + URLEncoder.encode(paramValue, encoding);
+                firstEntry = false;
+	        } catch (UnsupportedEncodingException e) {
+	            e.printStackTrace();
+	        }
         }
-
-        System.out.println("\nqueryString = " + queryString + "\n");
         return queryString;
     }
 }

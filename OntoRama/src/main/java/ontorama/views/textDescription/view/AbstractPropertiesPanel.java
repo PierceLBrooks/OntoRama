@@ -98,6 +98,6 @@ public abstract class AbstractPropertiesPanel extends JPanel {
 	 * Update values panel with the given list of values.
 	 * @param valuesList
 	 */
-    public abstract void update(List valuesList);
+    public abstract void update(List<Object> valuesList);
 
 }

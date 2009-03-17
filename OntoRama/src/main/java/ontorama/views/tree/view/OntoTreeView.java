@@ -74,15 +74,15 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
     }
 
     private void unfoldTree(OntoTreeModel ontoTreeModel) {
-        List q = new LinkedList();
+        List<OntoTreeNode> q = new LinkedList<OntoTreeNode>();
         OntoTreeNode rootNode = (OntoTreeNode) ontoTreeModel.getRoot();
         q.add(rootNode);
 
         while (! q.isEmpty()) {
-            OntoTreeNode curNode = (OntoTreeNode) q.remove(0);
-            Enumeration children = curNode.children();
+            OntoTreeNode curNode = q.remove(0);
+            Enumeration<OntoTreeNode> children = curNode.children();
             while (children.hasMoreElements())  {
-                OntoTreeNode curChild = (OntoTreeNode) children.nextElement();
+                OntoTreeNode curChild = children.nextElement();
                 q.add(curChild);
             }
             TreePath path = curNode.getTreePath();

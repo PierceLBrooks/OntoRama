@@ -25,13 +25,13 @@ public class TreeNodeImpl implements TreeNode {
     /**
      * list of clones (TreeNodes)
      */
-    private List _clones;
+    private List<TreeNode> _clones;
 
     /**
      * list of children - object ChildNodeReference containing
      * a pair: node and edge
      */
-    private List _children;
+    private List<ChildNodeReference> _children;
 
     /**
      * parent tree node
@@ -54,8 +54,8 @@ public class TreeNodeImpl implements TreeNode {
     }
 
     private void init () {
-    	_clones = new LinkedList();
-    	_children = new LinkedList();
+    	_clones = new LinkedList<TreeNode>();
+    	_children = new LinkedList<ChildNodeReference>();
     }
 
 
@@ -86,15 +86,15 @@ public class TreeNodeImpl implements TreeNode {
 	}
 
 
-    public List getClones() {
+    public List<TreeNode> getClones() {
         return _clones;
     }
 
-    public List getChildren() {
-    	Iterator it = _children.iterator();
-    	List childNodesList = new LinkedList();
+    public List<TreeNode> getChildren() {
+    	Iterator<ChildNodeReference> it = _children.iterator();
+    	List<TreeNode> childNodesList = new LinkedList<TreeNode>();
     	while (it.hasNext()) {
-    		ChildNodeReference cur = (ChildNodeReference) it.next();
+    		ChildNodeReference cur = it.next();
     		childNodesList.add(cur.node);
     	}
         return childNodesList;
@@ -102,9 +102,9 @@ public class TreeNodeImpl implements TreeNode {
 
     public TreeEdge getEdge (TreeNode childNode) {
     	TreeEdge result = null;
-    	Iterator it = _children.iterator();
+    	Iterator<ChildNodeReference> it = _children.iterator();
     	while (it.hasNext()) {
-    		ChildNodeReference cur = (ChildNodeReference) it.next();
+    		ChildNodeReference cur = it.next();
     		if (cur.node.equals(childNode)) {
     			result = cur.edge;
     		}
@@ -121,9 +121,9 @@ public class TreeNodeImpl implements TreeNode {
 
     public void removeChild(TreeNode childNode, TreeEdge childEdge) {
     	ChildNodeReference refToRemove = null;
-        Iterator it = _children.iterator();
+        Iterator<ChildNodeReference> it = _children.iterator();
         while (it.hasNext()) {
-        	ChildNodeReference cur = (ChildNodeReference) it.next();
+        	ChildNodeReference cur = it.next();
         	if ( (cur.node.equals(childNode)) && (cur.edge.equals(childEdge)) ) {
         		refToRemove = cur;
         	}

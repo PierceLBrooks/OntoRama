@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Backend;
 import ontorama.backends.filemanager.gui.FileJMenu;
+import ontorama.conf.DataFormatMapping;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeImpl;
 import ontorama.model.graph.EdgeType;
@@ -51,7 +52,7 @@ public class FileBackend implements Backend {
     private EventBroker _eventBroker;
     private String _parserName;
     
-    private List _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
+    private List<DataFormatMapping> _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 	private String _filename;
 	
 	private QuerySettings _querySettings;
@@ -93,7 +94,7 @@ public class FileBackend implements Backend {
 	/**
 	 * @see ontorama.backends.Backend#getDataFormats()
 	 */
-	public Collection getDataFormats() {
+	public Collection<DataFormatMapping> getDataFormats() {
 		return _dataFormatsMapping;
 	}
 

@@ -20,7 +20,7 @@ public interface TreeNode extends GeneralNode {
      * get clones list
      * @return list of tree nodes that are clones to this node
      */
-    public List getClones ();
+    public List<TreeNode> getClones ();
 
     /**
      * add a clone TreeNode
@@ -38,7 +38,7 @@ public interface TreeNode extends GeneralNode {
      * get children of this node
      * @return list of child nodes
      */
-    public List getChildren ();
+    public List<TreeNode> getChildren ();
     public TreeEdge getEdge (TreeNode childNode);
 
     public void addChild (TreeNode childNode, TreeEdge childEdge);

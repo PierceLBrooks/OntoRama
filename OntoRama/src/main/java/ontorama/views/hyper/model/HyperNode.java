@@ -18,12 +18,12 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store all the Hyper observers
      */
-    private List positionChangedObserver = new LinkedList();
+    private List<PositionChangedObserver> positionChangedObserver = new LinkedList<PositionChangedObserver>();
 
     /**
      * Store focus observer.
      */
-    private List focusListener = new LinkedList();
+    private List<Object> focusListener = new LinkedList<Object>();
 
     /**
      * Store the position of the node.
@@ -72,9 +72,9 @@ public class HyperNode implements PositionChangedObservable {
      * Tell all Hyper observers of change.
      */
     public void notifyPositionMoved() {
-        Iterator it = positionChangedObserver.iterator();
+        Iterator<PositionChangedObserver> it = positionChangedObserver.iterator();
         while (it.hasNext()) {
-            PositionChangedObserver hno = (PositionChangedObserver) it.next();
+            PositionChangedObserver hno = it.next();
             hno.positionChanged();
         }
     }

@@ -29,19 +29,19 @@ public class ExamplesMenu extends JMenu {
     /**
      * list of OntoramaExamples
      */
-    private List _examplesList;
+    private List<OntoramaExample> _examplesList;
 
     /**
      * keys - menu items
      * values - examples
      */
-    private Hashtable _menuItemExampleMapping;
+    private Hashtable<JRadioButtonMenuItem, OntoramaExample> _menuItemExampleMapping;
 
     /**
      * keys - name of submenu
      * values - submenu itself
      */
-    private Hashtable _submenusMapping;
+    private Hashtable<String, JMenu> _submenusMapping;
 
    
     private ExamplesBackend _backend;
@@ -56,8 +56,8 @@ public class ExamplesMenu extends JMenu {
         super("Examples");
         _backend = backend;
         _examplesList = _backend.getExamplesList();
-        _menuItemExampleMapping = new Hashtable();
-        _submenusMapping = new Hashtable();
+        _menuItemExampleMapping = new Hashtable<JRadioButtonMenuItem, OntoramaExample>();
+        _submenusMapping = new Hashtable<String, JMenu>();
         setMnemonic(KeyEvent.VK_E);
         buildExamplesMenuItems();
     }
@@ -69,7 +69,7 @@ public class ExamplesMenu extends JMenu {
         //System.out.println("displayExample for " + menuItem);
 
         // get corresponding example
-        OntoramaExample example = (OntoramaExample) _menuItemExampleMapping.get(menuItem);
+        OntoramaExample example = _menuItemExampleMapping.get(menuItem);
         
         _backend.processQueryFromExampleMenu(example);
 
@@ -81,10 +81,10 @@ public class ExamplesMenu extends JMenu {
      *
      */
     public void setSelectedExampleMenuItem(OntoramaExample example) {
-        Enumeration enumeration = _menuItemExampleMapping.keys();
+        Enumeration<JRadioButtonMenuItem> enumeration = _menuItemExampleMapping.keys();
         while (enumeration.hasMoreElements()) {
-            JRadioButtonMenuItem exampleMenuItem = (JRadioButtonMenuItem) enumeration.nextElement();
-            OntoramaExample curExample = (OntoramaExample) _menuItemExampleMapping.get(exampleMenuItem);
+            JRadioButtonMenuItem exampleMenuItem = enumeration.nextElement();
+            OntoramaExample curExample = _menuItemExampleMapping.get(exampleMenuItem);
             if (curExample.equals(example)) {
                 exampleMenuItem.setSelected(true);
             }
@@ -97,9 +97,9 @@ public class ExamplesMenu extends JMenu {
     private void buildExamplesMenuItems() {
     	_buttonGroup = new ButtonGroup();
 
-        Iterator examplesIterator = _examplesList.iterator();
+        Iterator<OntoramaExample> examplesIterator = _examplesList.iterator();
         while (examplesIterator.hasNext()) {
-            OntoramaExample curExample = (OntoramaExample) examplesIterator.next();
+            OntoramaExample curExample = examplesIterator.next();
             JRadioButtonMenuItem curItem = new JRadioButtonMenuItem(curExample.getName(), false);
             _menuItemExampleMapping.put(curItem, curExample);
             _buttonGroup.add(curItem);
@@ -130,7 +130,7 @@ public class ExamplesMenu extends JMenu {
      */
     private JMenu findExamplesSubMenu(String submenuName) {
 
-        JMenu subMenu = (JMenu) _submenusMapping.get(submenuName);
+        JMenu subMenu = _submenusMapping.get(submenuName);
         if (subMenu == null) {
             subMenu = makeNewExamplesSubMenu(submenuName);
         }

@@ -34,7 +34,7 @@ public class NodesListViewer extends JComboBox {
     /**
      * list of currently displayed nodes
      */
-    private List _nodesList = new LinkedList();
+    private List<Node> _nodesList = new LinkedList<Node>();
 
     private Graph _graph;
 
@@ -55,7 +55,7 @@ public class NodesListViewer extends JComboBox {
     public NodesListViewer(EventBroker eventBroker)  {
         super();
         _eventBroker = eventBroker;
-        _nodesList = new LinkedList();
+        _nodesList = new LinkedList<Node>();
 
         addItem(_defaultHeadingString);
         setSelectedIndex(0);
@@ -87,9 +87,9 @@ public class NodesListViewer extends JComboBox {
         addItem(_defaultHeadingString);
         setListSizeDependantProperties();
         sortList();
-        Iterator it = _nodesList.iterator();
+        Iterator<Node> it = _nodesList.iterator();
         while (it.hasNext()) {
-            Node curNode = (Node) it.next();
+            Node curNode = it.next();
             addItem(curNode);
         }
     }
@@ -132,8 +132,8 @@ public class NodesListViewer extends JComboBox {
         while(atLeastOneSwap) {
             atLeastOneSwap = false;
             for(j=0; j < (_nodesList.size()-1); ++j) {
-                Node curNode = (Node) _nodesList.get(j);
-                Node nextNode = (Node) _nodesList.get(j+1);
+                Node curNode = _nodesList.get(j);
+                Node nextNode = _nodesList.get(j+1);
 
                 String curNodeName = curNode.getName();
                 String nextNodeName = nextNode.getName();

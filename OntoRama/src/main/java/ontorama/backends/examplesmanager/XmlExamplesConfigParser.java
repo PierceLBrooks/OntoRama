@@ -31,14 +31,14 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlExamplesConfigParser extends XmlParserAbstract {
 
-    private List examplesList;
+    private List<OntoramaExample> examplesList;
     private OntoramaExample mainExample;
 
     public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlExamplesConfigParser");
         }
-        this.examplesList = new LinkedList();
+        this.examplesList = new LinkedList<OntoramaExample>();
 
         try {
             SAXBuilder builder = new SAXBuilder();
@@ -114,7 +114,7 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
     /**
      *
      */
-    public List getExamplesList() {
+    public List<OntoramaExample> getExamplesList() {
         return this.examplesList;
     }
 

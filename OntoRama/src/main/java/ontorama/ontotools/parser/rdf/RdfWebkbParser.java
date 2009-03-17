@@ -34,7 +34,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * keys - original node name,
      * values  - new name
      */
-    private Hashtable namesMapping = new Hashtable();
+    private Hashtable<Object, String> namesMapping = new Hashtable<Object, String>();
 
     private List _nodesList;
     private List _edgesList;
@@ -61,7 +61,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      */
     public ParserResult getResult (Reader reader) throws ParserException, AccessControlException {
     	initNamespacesHashtable();
-        namesMapping = new Hashtable();
+        namesMapping = new Hashtable<Object, String>();
 
         ParserResult pr = super.getResult(reader);
 
@@ -145,7 +145,7 @@ public class RdfWebkbParser extends RdfDamlParser {
      * get a new name and put it into the hashtable.
      */
     protected void mapNewName(Node origNode) {
-        String newTypeName = (String) namesMapping.get(origNode.getName());
+        String newTypeName = namesMapping.get(origNode.getName());
         if (newTypeName == null) {
             newTypeName = createNewNameForType(origNode);
             //System.out.println("new name for " + origType.getName() + " is " + newTypeName);
@@ -169,12 +169,12 @@ public class RdfWebkbParser extends RdfDamlParser {
 
             Node fromNode = curEdge.getFromNode();
             if (!nodeNameIsAlreadyChanged(fromNode.getName())) {
-                String fromNodeNewName = (String) namesMapping.get(fromNode.getName());
+                String fromNodeNewName = namesMapping.get(fromNode.getName());
                 fromNode.setName(fromNodeNewName);
             }
             Node toNode = curEdge.getToNode();
             if (!nodeNameIsAlreadyChanged(toNode.getName())) {
-                String toNodeNewName = (String) namesMapping.get(toNode.getName());
+                String toNodeNewName = namesMapping.get(toNode.getName());
                 toNode.setName(toNodeNewName);
             }
             //System.out.println("updated edge = " + curEdge);
@@ -185,7 +185,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         while (nodesIterator.hasNext()) {
             Node curNode = (Node) nodesIterator.next();
             if (!nodeNameIsAlreadyChanged(curNode.getName())) {
-                String newNodeName = (String) namesMapping.get(curNode.getName());
+                String newNodeName = namesMapping.get(curNode.getName());
                 curNode.setName(newNodeName);
             }
         }
@@ -214,7 +214,7 @@ public class RdfWebkbParser extends RdfDamlParser {
             return typeName;
         }
 
-        List synonyms = new LinkedList();
+        List<String> synonyms = new LinkedList<String>();
 
         String typeNamePreffix = null;
         String typeNameSuffix = null;
@@ -252,7 +252,7 @@ public class RdfWebkbParser extends RdfDamlParser {
         }
 
         if ( (synonyms != null) && (!synonyms.isEmpty())) {
-            typeNameSuffix = (String) synonyms.iterator().next();
+            typeNameSuffix = synonyms.iterator().next();
         } else {
             typeNameSuffix = reformatString(typeNameSuffix);
         }

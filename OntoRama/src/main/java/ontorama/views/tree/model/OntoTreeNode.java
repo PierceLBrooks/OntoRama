@@ -78,12 +78,12 @@ public class OntoTreeNode implements TreeNode {
      * @param   node stack
      * @return updatedStack
      */
-    private Stack buildPath(OntoTreeNode node, Stack stack) {
+    private Stack<OntoTreeNode> buildPath(OntoTreeNode node, Stack<OntoTreeNode> stack) {
 
         stack.push(node);
         OntoTreeNode parent = (OntoTreeNode) node.getParent();
         if (parent != null) {
-            Stack newStack = buildPath(parent, stack);
+            Stack<OntoTreeNode> newStack = buildPath(parent, stack);
             return newStack;
         }
         return stack;
@@ -96,7 +96,7 @@ public class OntoTreeNode implements TreeNode {
     public TreePath getTreePath() {
         OntoTreeNode parent = (OntoTreeNode) this.getParent();
 
-        Stack stack = new Stack();
+        Stack<OntoTreeNode> stack = new Stack<OntoTreeNode>();
         stack.push(this);
         if (this.getParent() != null) {
             // if this node is root - don't need to build stack
@@ -105,7 +105,7 @@ public class OntoTreeNode implements TreeNode {
 
         // now reverse stack as it is backwards: starting at
         // node and finishing at root
-        Stack reverseStack = new Stack();
+        Stack<OntoTreeNode> reverseStack = new Stack<OntoTreeNode>();
         while (!stack.isEmpty()) {
             reverseStack.push(stack.pop());
         }
@@ -124,8 +124,8 @@ public class OntoTreeNode implements TreeNode {
      */
     public TreeNode getChildAt(int childIndex) {
     	
-    	List children = _treeNode.getChildren();
-    	ontorama.model.tree.TreeNode node = (ontorama.model.tree.TreeNode) children.get(childIndex);
+    	List<ontorama.model.tree.TreeNode> children = _treeNode.getChildren();
+    	ontorama.model.tree.TreeNode node = children.get(childIndex);
     	TreeNode ontoTreeNode = OntoTreeBuilder.getTreeNode(node);
 	
         return ontoTreeNode;
@@ -136,7 +136,7 @@ public class OntoTreeNode implements TreeNode {
      * @return  int
      */
     public int getChildCount() {
-        List children = _treeNode.getChildren();
+        List<ontorama.model.tree.TreeNode> children = _treeNode.getChildren();
         return children.size();
     }
 
@@ -165,11 +165,11 @@ public class OntoTreeNode implements TreeNode {
      * that by 'receiver' they mean this node.
      */
     public int getIndex(TreeNode node) {
-        List children = _treeNode.getChildren();
-        Iterator it = children.iterator();
+        List<ontorama.model.tree.TreeNode> children = _treeNode.getChildren();
+        Iterator<ontorama.model.tree.TreeNode> it = children.iterator();
         int index = -1;
         while (it.hasNext()) {
-            ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) it.next();
+            ontorama.model.tree.TreeNode curNode = it.next();
             TreeNode ontoTreeNode = OntoTreeBuilder.getTreeNode(curNode);
             if (ontoTreeNode.equals(node)) {
                 index = children.indexOf(curNode);
@@ -191,7 +191,7 @@ public class OntoTreeNode implements TreeNode {
      * @return  true if node is a leaf, false otherwise
      */
     public boolean isLeaf() {
-        List childrenList = _treeNode.getChildren();
+        List<ontorama.model.tree.TreeNode> childrenList = _treeNode.getChildren();
         if (childrenList.size() <= 0) {
             return true;
         }
@@ -202,12 +202,12 @@ public class OntoTreeNode implements TreeNode {
      * Returns the children of the reciever as an Enumeration.
      * @return  children Enumeration
      */
-    public Enumeration children() {
-        List childrenEdges = _treeNode.getChildren();
-        Iterator it = childrenEdges.iterator();
-        Vector result = new Vector();
+    public Enumeration<OntoTreeNode> children() {
+        List<ontorama.model.tree.TreeNode> childrenEdges = _treeNode.getChildren();
+        Iterator<ontorama.model.tree.TreeNode> it = childrenEdges.iterator();
+        Vector<OntoTreeNode> result = new Vector<OntoTreeNode>();
         while (it.hasNext()) {
-            ontorama.model.tree.TreeNode curNode = (ontorama.model.tree.TreeNode) it.next();
+            ontorama.model.tree.TreeNode curNode = it.next();
             OntoTreeNode treeNode = (OntoTreeNode) OntoTreeBuilder.getTreeNode(curNode);
             result.add(treeNode);
         }

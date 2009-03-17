@@ -196,10 +196,10 @@ public class XmlParserFull implements Parser {
 
     private void processTypeProperty(Element typeElement, Node node, String typePropertyName)
     						throws NoSuchRelationLinkException, ParserException {
-        List descr = getTypeProperty(typeElement, typePropertyName);
-        Iterator it = descr.iterator();
+        List<String> descr = getTypeProperty(typeElement, typePropertyName);
+        Iterator<String> it = descr.iterator();
         while (it.hasNext()) {
-            String cur = (String) it.next();
+            String cur = it.next();
             Node toNode = makeNode(cur, null);
             makeEdge(node, toNode, typePropertyName);
         }
@@ -222,8 +222,8 @@ public class XmlParserFull implements Parser {
 		return null;
 	}
 
-    private List getTypeProperty (Element typeElement, String subelementName) {
-        List retVal = new LinkedList();
+    private List<String> getTypeProperty (Element typeElement, String subelementName) {
+        List<String> retVal = new LinkedList<String>();
         Iterator subelements =  typeElement.getChildren(subelementName, ns).iterator();
         while (subelements.hasNext()) {
             Element cur = (Element) subelements.next();

@@ -41,17 +41,17 @@ public class GraphImpl implements Graph {
     /**
      * list of unconnected nodes or top level nodes
      */
-    private List _topLevelUnconnectedNodes;
+    private List<Node> _topLevelUnconnectedNodes;
 
     /**
      * list of all graph nodes
      */
-    private List _graphNodes;
+    private List<Node> _graphNodes;
 
     /**
      * list holding all _graphEdges
      */
-    private List _graphEdges = new LinkedList();
+    private List<Edge> _graphEdges = new LinkedList<Edge>();
 
     private EventBroker _eventBroker;
 
@@ -61,8 +61,8 @@ public class GraphImpl implements Graph {
      * Constructor for GraphImpl
      */
     public GraphImpl() {
-        _topLevelUnconnectedNodes = new LinkedList();
-        _graphNodes = new LinkedList();
+        _topLevelUnconnectedNodes = new LinkedList<Node>();
+        _graphNodes = new LinkedList<Node>();
         _eventBroker = new EventBroker();
     }
 
@@ -88,8 +88,8 @@ public class GraphImpl implements Graph {
        	this();
        	try{
 	        termName = queryResult.getQuery().getQueryTypeName();
-	        List nodesList = queryResult.getNodesList();
-	        List edgesList = queryResult.getEdgesList();
+	        List<Node> nodesList = queryResult.getNodesList();
+	        List<Edge> edgesList = queryResult.getEdgesList();
 
 	        buildGraph( nodesList, edgesList);
 	        if (termName == null) {
@@ -110,7 +110,7 @@ public class GraphImpl implements Graph {
     	return _eventBroker;
     }
 
-    private void buildGraph( List nodesList, List edgesList) throws GraphCyclesDisallowedException {
+    private void buildGraph( List<Node> nodesList, List<Edge> edgesList) throws GraphCyclesDisallowedException {
         _graphNodes = nodesList;
         _graphEdges = edgesList;
         
@@ -119,11 +119,11 @@ public class GraphImpl implements Graph {
     	_topLevelUnconnectedNodes = listTopLevelUnconnectedNodes();
     }
 
-    private void checkForCycles(List edgesList) throws GraphCyclesDisallowedException {
+    private void checkForCycles(List<Edge> edgesList) throws GraphCyclesDisallowedException {
         List edgesToRemove = new LinkedList();
-        Iterator it = edgesList.iterator();
+        Iterator<Edge> it = edgesList.iterator();
         while (it.hasNext()) {
-            Edge curEdge = (Edge) it.next();
+            Edge curEdge = it.next();
 			//System.out.println("graphImpl checkForCycles:: " + curEdge.getFromNode().getName() 
 			//							+ " -> " + curEdge.getToNode().getName() 
 			//							+ " : " + curEdge.getEdgeType());
@@ -171,9 +171,9 @@ public class GraphImpl implements Graph {
     }
 
     private Node findRootNode (String rootNodeName) {
-        Iterator it = _graphNodes.iterator();
+        Iterator<Node> it = _graphNodes.iterator();
         while (it.hasNext()) {
-            Node node = (Node) it.next();
+            Node node = it.next();
             if (node.getName().equals(rootNodeName)) {
                 return node;
             }
@@ -181,18 +181,18 @@ public class GraphImpl implements Graph {
         return null;
     }
 
-    private List listTopLevelUnconnectedNodes () {
-        LinkedList result = new LinkedList();
-        Iterator allNodes = _graphNodes.iterator();
+    private List<Node> listTopLevelUnconnectedNodes () {
+        LinkedList<Node> result = new LinkedList<Node>();
+        Iterator<Node> allNodes = _graphNodes.iterator();
         while (allNodes.hasNext()) {
-            Node curNode = (Node) allNodes.next();
+            Node curNode = allNodes.next();
             if (curNode.equals(root)) {
                 continue;
             }
             // get inbound nodes (parents) and check how many there is.
             // If there is no parents - this node is not attached
             // to anything, hence - 'hanging node'
-            Iterator inboundEdges = getInboundEdges(curNode).iterator();
+            Iterator<Edge> inboundEdges = getInboundEdges(curNode).iterator();
             if (! inboundEdges.hasNext()) {
                 /// @todo introduced a bug - if a top level node is in the signature of relaton types,
                 // we don't add it to the list of unconnected nodes, although we should.
@@ -221,18 +221,18 @@ public class GraphImpl implements Graph {
      *
      */
     public boolean nodeIsInGivenBranch (Node branchRoot, Node node) {
-        List q = new LinkedList();
+        List<Node> q = new LinkedList<Node>();
         q.add(branchRoot);
 
         while (!q.isEmpty()) {
-            Node curNode = (Node) q.remove(0);
+            Node curNode = q.remove(0);
             if (curNode.equals(node)) {
                 return true;
             }
 
-            Iterator it = getOutboundEdges(curNode).iterator();
+            Iterator<Edge> it = getOutboundEdges(curNode).iterator();
             while (it.hasNext()) {
-                Edge curEdge = (Edge) it.next();
+                Edge curEdge = it.next();
                 Node nextNode = curEdge.getToNode();
                 q.add(nextNode);
             }
@@ -245,22 +245,22 @@ public class GraphImpl implements Graph {
      *
      * @return  list of all graph nodes
      */
-    public List getNodesList() {
+    public List<Node> getNodesList() {
         return _graphNodes;
     }
 
     /**
      *
      */
-    public List getBranchRootsList() {
+    public List<Node> getBranchRootsList() {
         return _topLevelUnconnectedNodes;
     }
 
     public void addEdge(Edge edge) throws GraphModificationException, NoSuchRelationLinkException {
     	System.out.println("GraphImpl::addEdge(edge)");
-        Iterator it = _graphEdges.iterator();
+        Iterator<Edge> it = _graphEdges.iterator();
         while (it.hasNext()) {
-            Edge cur = (Edge) it.next();
+            Edge cur = it.next();
             if (edge.equals(cur)) {
                 // this edge is already registered
                 throw new EdgeAlreadyExistsException(edge);
@@ -328,9 +328,9 @@ public class GraphImpl implements Graph {
      * Help method for getting nodes with same name from the graphNodes list
      */
     protected Node existSameName(Node node) {
-        Iterator it = _graphNodes.iterator();
+        Iterator<Node> it = _graphNodes.iterator();
         while (it.hasNext()){
-            Node tmpNode = (Node)it.next();
+            Node tmpNode = it.next();
             if (tmpNode.getIdentifier().equals(node.getIdentifier())){
                 return tmpNode;
             }
@@ -342,9 +342,9 @@ public class GraphImpl implements Graph {
 	 * Help method for getting nodes with same name from the graphNodes list
 	 */
 	protected Edge existSameEdgeName(Edge edge) {
-		Iterator it = _graphEdges.iterator();
+		Iterator<Edge> it = _graphEdges.iterator();
 		while (it.hasNext()){
-			Edge tmpEdge = (Edge)it.next();
+			Edge tmpEdge = it.next();
 			if (tmpEdge.getFromNode().getIdentifier().equals(edge.getFromNode().getIdentifier())) {
 				if (tmpEdge.getToNode().getIdentifier().equals(edge.getToNode().getIdentifier())) {
 					if (tmpEdge.getEdgeType().getName().equals(edge.getEdgeType().getName())) {
@@ -403,9 +403,9 @@ public class GraphImpl implements Graph {
     	System.out.println("GraphImpl::removeNode " + node.getName());
 		System.out.println("assertNode: num of nodes: " + getNodesList().size() + ", num of edges: " + getEdgesList().size());    	
         _graphNodes.remove(node);
-        List edgesToRemove = new ArrayList();
-        for (Iterator iterator = _graphEdges.iterator(); iterator.hasNext();) {
-            Edge edge = (Edge) iterator.next();
+        List<Edge> edgesToRemove = new ArrayList<Edge>();
+        for (Iterator<Edge> iterator = _graphEdges.iterator(); iterator.hasNext();) {
+            Edge edge = iterator.next();
             if(edge.getToNode() == node) {
                 edgesToRemove.add(edge);
             }
@@ -413,14 +413,14 @@ public class GraphImpl implements Graph {
                 edgesToRemove.add(edge);
             }
         }
-        for (Iterator iterator = edgesToRemove.iterator(); iterator.hasNext();) {
-            Edge edge = (Edge) iterator.next();
+        for (Iterator<Edge> iterator = edgesToRemove.iterator(); iterator.hasNext();) {
+            Edge edge = iterator.next();
             removeEdge(edge);
         }
         _eventBroker.processEvent(new GraphNodeRemovedEvent(this, node));
     }
 
-    public List getEdgesList() {
+    public List<Edge> getEdgesList() {
         return _graphEdges;
     }
 
@@ -428,9 +428,9 @@ public class GraphImpl implements Graph {
      *
      */
     public Edge getEdge(Node fromNode, Node toNode, EdgeType edgeType) {
-    	Iterator it = _graphEdges.iterator();
+    	Iterator<Edge> it = _graphEdges.iterator();
 		while (it.hasNext()) {
-			Edge curEdge = (Edge) it.next();
+			Edge curEdge = it.next();
 			if ( (curEdge.getFromNode().equals(fromNode)) &&
 				(curEdge.getToNode().equals(toNode)) &&
 				(curEdge.getEdgeType().equals(edgeType)) ) {
@@ -443,11 +443,11 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getOutboundEdges(Node node) {
-    	List result = new LinkedList();
-    	Iterator it = _graphEdges.iterator();
+    public List<Edge> getOutboundEdges(Node node) {
+    	List<Edge> result = new LinkedList<Edge>();
+    	Iterator<Edge> it = _graphEdges.iterator();
     	while (it.hasNext()) {
-    		Edge curEdge = (Edge) it.next();
+    		Edge curEdge = it.next();
     		if ( curEdge.getFromNode().equals(node)) {
     			result.add(curEdge);
     		}
@@ -458,11 +458,11 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getInboundEdges(Node node) {
-    	List result = new LinkedList();
-    	Iterator it = _graphEdges.iterator();
+    public List<Edge> getInboundEdges(Node node) {
+    	List<Edge> result = new LinkedList<Edge>();
+    	Iterator<Edge> it = _graphEdges.iterator();
     	while (it.hasNext()) {
-    		Edge curEdge = (Edge) it.next();
+    		Edge curEdge = it.next();
     		if ( curEdge.getToNode().equals(node)) {
     			result.add(curEdge);
     		}
@@ -473,11 +473,11 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getOutboundEdgeNodesByType(Node node, EdgeType edgeType) {
-    	List result = new LinkedList();
-    	Iterator it = getOutboundEdges(node).iterator();
+    public List<Object> getOutboundEdgeNodesByType(Node node, EdgeType edgeType) {
+    	List<Object> result = new LinkedList<Object>();
+    	Iterator<Edge> it = getOutboundEdges(node).iterator();
 		while (it.hasNext()) {
-			Edge curEdge = (Edge) it.next();
+			Edge curEdge = it.next();
 			if (curEdge.getEdgeType().equals(edgeType)) {
 				result.add(curEdge.getToNode());
 			}
@@ -488,11 +488,11 @@ public class GraphImpl implements Graph {
     /**
      *
      */
-    public List getInboundEdgeNodesByType(Node node, EdgeType edgeType) {
-    	List result = new LinkedList();
-    	Iterator it = getInboundEdges(node).iterator();
+    public List<Object> getInboundEdgeNodesByType(Node node, EdgeType edgeType) {
+    	List<Object> result = new LinkedList<Object>();
+    	Iterator<Edge> it = getInboundEdges(node).iterator();
     	while (it.hasNext()) {
-    		Edge curEdge = (Edge) it.next();
+    		Edge curEdge = it.next();
     		if (curEdge.getEdgeType().equals(edgeType)) {
     			result.add(curEdge.getFromNode());
     		}
@@ -500,11 +500,11 @@ public class GraphImpl implements Graph {
     	return result;
     }
 
-    public List getOutboundEdgesDisplayedInGraph (Node node) {
-        List result = new LinkedList();
-        Iterator it = getOutboundEdges(node).iterator();
+    public List<Edge> getOutboundEdgesDisplayedInGraph (Node node) {
+        List<Edge> result = new LinkedList<Edge>();
+        Iterator<Edge> it = getOutboundEdges(node).iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
+            Edge edge = it.next();
             EdgeType edgeType = edge.getEdgeType();
             if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph())  {
                 result.add(edge);
@@ -513,11 +513,11 @@ public class GraphImpl implements Graph {
         return result;
     }
 
-    public List getInboundEdgesDisplayedInGraph (Node node) {
-        List result = new LinkedList();
-        Iterator it =  getInboundEdges(node).iterator();
+    public List<Edge> getInboundEdgesDisplayedInGraph (Node node) {
+        List<Edge> result = new LinkedList<Edge>();
+        Iterator<Edge> it =  getInboundEdges(node).iterator();
         while (it.hasNext()) {
-            Edge edge = (Edge) it.next();
+            Edge edge = it.next();
             EdgeType edgeType = edge.getEdgeType();
             if (OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph())  {
                 result.add(edge);
@@ -529,9 +529,9 @@ public class GraphImpl implements Graph {
     public Node findRootNode () {
         Node rootNode = null;
         int maxDescendants = 0;
-        Iterator it = _graphNodes.iterator();
+        Iterator<Node> it = _graphNodes.iterator();
         while (it.hasNext()) {
-            Node node = (Node) it.next();
+            Node node = it.next();
             if (getInboundEdges(node).size() == 0) {
                 continue;
             }
@@ -554,11 +554,11 @@ public class GraphImpl implements Graph {
     public int calculateNodeDescendants (Node node) {
         int descendants = 0;
 
-        List q = new LinkedList();
+        List<Edge> q = new LinkedList<Edge>();
         q.addAll(getOutboundEdges(node));
 
         while (!q.isEmpty()) {
-            Edge curEdge = (Edge) q.remove(0);
+            Edge curEdge = q.remove(0);
             EdgeType edgeType = curEdge.getEdgeType();
             /// @todo this if seems a bit hacky
             if (!OntoramaConfig.getEdgeDisplayInfo(edgeType).isDisplayInGraph()) {
@@ -566,7 +566,7 @@ public class GraphImpl implements Graph {
             }
             Node curNode = curEdge.getToNode();
 
-            List children = getOutboundEdges(curNode);
+            List<Edge> children = getOutboundEdges(curNode);
             q.addAll(children);
             descendants++;
         }

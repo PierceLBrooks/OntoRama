@@ -1,12 +1,8 @@
 package ontorama.ontotools.parser.xml;
 
-/**
- * Title:        OntoRama
- * Description:
+/*
  * Copyright:    Copyright (c) 2001
  * Company:      DSTC
- * @author
- * @version 1.0
  */
 
 
@@ -18,6 +14,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
@@ -38,8 +35,8 @@ import org.jdom.input.SAXBuilder;
 public class XmlParserFull implements Parser {
 	
 	
-	private Hashtable _nodes;
-    private List _edges;
+	private Map<String,Node> _nodes;
+    private List<Edge> _edges;
 
     private Element rootElement;
     private Namespace ns;
@@ -59,25 +56,17 @@ public class XmlParserFull implements Parser {
 	private static final String edgeTypeName_relSignature2 = "relSignature2";
 	private static final String edgeTypeName_creator = "creator";
 
-    /**
-     *
-     */
     public XmlParserFull() {
 		init();
     }
     
     private void init() {
-        _nodes = new Hashtable();
-        _edges = new LinkedList();
+        _nodes = new Hashtable<String, Node>();
+        _edges = new LinkedList<Edge>();
     }
 
-    /**
-     * @param reader
-     * @return
-     * @throws ParserException
-     * @throws AccessControlException
-     */
-    public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
+    @SuppressWarnings("unchecked")
+	public ParserResult getResult(Reader reader) throws ParserException, AccessControlException {
 		checkEdgeTypeInConfig(edgeTypeName_creator);
 		checkEdgeTypeInConfig(edgeTypeName_relSignature1);
 		checkEdgeTypeInConfig(edgeTypeName_relSignature2);
@@ -101,13 +90,11 @@ public class XmlParserFull implements Parser {
             e.printStackTrace();
         	throw new ParserException(e.getMessage());            
         }
-        return new ParserResult(new LinkedList(_nodes.values()), _edges);
+        return new ParserResult(new LinkedList<Node>(_nodes.values()), _edges);
     }
 
-    private void readConceptTypes(List conceptTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
-        Iterator conceptTypeElementsIterator = conceptTypeElementsList.iterator();
-        while (conceptTypeElementsIterator.hasNext()) {
-            Element conceptTypeEl = (Element) conceptTypeElementsIterator.next();
+    private void readConceptTypes(List<Element> conceptTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
+    	for (Element conceptTypeEl : conceptTypeElementsList) {
             Attribute nameAttr = conceptTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", conceptTypeElementName);
             String nodeName = nameAttr.getValue();
@@ -118,10 +105,8 @@ public class XmlParserFull implements Parser {
         }
     }
 
-    private void readRelationTypes(List relationTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
-        Iterator relationTypeElementsIterator = relationTypeElementsList.iterator();
-        while (relationTypeElementsIterator.hasNext()) {
-            Element relationTypeEl = (Element) relationTypeElementsIterator.next();
+    private void readRelationTypes(List<Element> relationTypeElementsList) throws ParserException, URISyntaxException, NoSuchRelationLinkException {
+    	for (Element relationTypeEl : relationTypeElementsList) {
             Attribute nameAttr = relationTypeEl.getAttribute("name");
             checkCompulsoryAttr(nameAttr, "name", relationTypeElementName);
             String nodeName = nameAttr.getValue();
@@ -147,7 +132,7 @@ public class XmlParserFull implements Parser {
 	}
 
     private Node makeNode(String nodeName, NodeType nodeType) {
-        Node node = (Node) _nodes.get(nodeName);
+        Node node = _nodes.get(nodeName);
 
         if (node == null) {
         	node = OntoramaConfig.getBackend().createNode(nodeName, nodeName);
@@ -157,19 +142,20 @@ public class XmlParserFull implements Parser {
         return node;
     }
 
-    private NodeType getNodeTypeForDestinationNode (String nodeName) {
+    @SuppressWarnings("unchecked")
+	private NodeType getNodeTypeForDestinationNode (String nodeName) {
         NodeType retVal = null;
-        Iterator conceptTypesIterator = rootElement.getChildren(conceptTypeElementName, ns).iterator();
+        Iterator<Element> conceptTypesIterator = rootElement.getChildren(conceptTypeElementName, ns).iterator();
         while (conceptTypesIterator.hasNext()) {
-            Element cur = (Element) conceptTypesIterator.next();
+            Element cur = conceptTypesIterator.next();
             Attribute typeNameAttr = cur.getAttribute("name");
             if (typeNameAttr.getValue().equals(nodeName)) {
                 retVal = OntoramaConfig.CONCEPT_TYPE;
             }
         }
-        Iterator relationTypesIterator = rootElement.getChildren(relationTypeElementName, ns).iterator();
+        Iterator<Element> relationTypesIterator = rootElement.getChildren(relationTypeElementName, ns).iterator();
         while (relationTypesIterator.hasNext()) {
-            Element cur = (Element) relationTypesIterator.next();
+            Element cur = relationTypesIterator.next();
             Attribute typeNameAttr = cur.getAttribute("name");
             if (typeNameAttr.getValue().equals(nodeName)) {
                 retVal = OntoramaConfig.RELATION_TYPE;
@@ -222,26 +208,25 @@ public class XmlParserFull implements Parser {
 		return null;
 	}
 
-    private List<String> getTypeProperty (Element typeElement, String subelementName) {
+    @SuppressWarnings("unchecked")
+	private List<String> getTypeProperty (Element typeElement, String subelementName) {
         List<String> retVal = new LinkedList<String>();
-        Iterator subelements =  typeElement.getChildren(subelementName, ns).iterator();
+        Iterator<Element> subelements =  typeElement.getChildren(subelementName, ns).iterator();
         while (subelements.hasNext()) {
-            Element cur = (Element) subelements.next();
+            Element cur = subelements.next();
             retVal.add(cur.getTextTrim());
         }
         return retVal;
     }
 
-    /**
-     *
-     */
-    private void processRelationLinks(Element top, Node fromNode) throws ParserException, NoSuchRelationLinkException {
-        List relationLinksElementsList = top.getChildren("relationship", ns);
-        Iterator relationLinksElementsIterator = relationLinksElementsList.iterator();
+    @SuppressWarnings("unchecked")
+	private void processRelationLinks(Element top, Node fromNode) throws ParserException, NoSuchRelationLinkException {
+        List<Element> relationLinksElementsList = top.getChildren("relationship", ns);
+        Iterator<Element> relationLinksElementsIterator = relationLinksElementsList.iterator();
 
 
         while (relationLinksElementsIterator.hasNext()) {
-            Element relLinkEl = (Element) relationLinksElementsIterator.next();
+            Element relLinkEl = relationLinksElementsIterator.next();
             Attribute typeAttr = relLinkEl.getAttribute("type");
             checkCompulsoryAttr(typeAttr, "type", "relationship");
             Attribute toAttr = relLinkEl.getAttribute("to");
@@ -273,9 +258,9 @@ public class XmlParserFull implements Parser {
     }
 
     private boolean edgeAlreadyInList (Edge edge) {
-        Iterator it = _edges.iterator();
+        Iterator<Edge> it = _edges.iterator();
         while (it.hasNext()) {
-            Edge cur = (Edge) it.next();
+            Edge cur = it.next();
             if (cur.equals(edge)) {
             	return true;
             }

@@ -299,9 +299,6 @@ public class TestRdfDamlParser extends TestCase {
     }
 
 
-    /**
-     *
-     */
     protected Node getGraphNodeFromList (String name, List<Node> list) {
     	for(Node cur : list) {
             if (cur.getName().equals(name)) {
@@ -324,6 +321,4 @@ public class TestRdfDamlParser extends TestCase {
         }
         return result;
     }
-
-
 }

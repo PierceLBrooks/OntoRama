@@ -4,6 +4,7 @@ package ontorama.views.hyper.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -603,7 +604,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
         g2d.setColor(new Color(222, 222, 222));
         g2d.fillRect(0, 0, getWidth(), getHeight());
-//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int width = this.getSize().width;
         int height = this.getSize().height;

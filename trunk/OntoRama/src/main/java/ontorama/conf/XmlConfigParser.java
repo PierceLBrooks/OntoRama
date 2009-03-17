@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,26 +23,14 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-/**
- * Title:
- * Description:
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
- */
-
 public class XmlConfigParser extends XmlParserAbstract {
 
     private static Hashtable<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
     private List<EdgeType> edgesOrdering;
     private NodeTypeDisplayInfo conceptShape = null;
     private NodeTypeDisplayInfo relationShape = null;
-    private JarSource streamReader = new JarSource();;
+    private JarSource streamReader = new JarSource();
 
-    /**
-     *
-     */
     private static List<RdfMapping> relationRdfMappingList;
 
 
@@ -70,23 +57,23 @@ public class XmlConfigParser extends XmlParserAbstract {
 
 
     /**
-     * This class is responsible for parsing Xml Configuration file, which
-     * mainly contains details of Relation Links for user's ontology (link id's,
+     * This class is responsible for parsing XML configuration files, which
+     * mainly contain details of relation links for user's ontologies (link id's,
      * names, symbols to represent them with, colors, icons, etc).
-     * All Relation Links read from the config file are stored in a structure
+     * All relation links read from the config file are stored in a structure
      * in this class.
      *
      * We used array of objects (RelationLinkDetails) to store all
      * Relation Links with index of each object being it's ID read from the
      * config file. For example: if we had relation link with id=0 and relation
      * link with id=1, then: relation link with id=0 is stored at index 0 in
-     * the array and relaition link with id=1 is stored at index 1.
+     * the array and relation link with id=1 is stored at index 1.
      *
-     * However, this solution has a weekness: we may not get ID's that are in
+     * However, this solution has a weakness: we may not get ID's that are in
      * order from 0 to some number n. In this case, we may get an ID number that
      * is greater then array length, which will cause an exception. For example:
      * if we have relation link with id=0 and them relation link with id=2,
-     * array will be initialised to be of length = 2, relation link with id=0 will
+     * array will be initialized to be of length = 2, relation link with id=0 will
      * be at index 0 and relation link with id=2 should be at index 2, but
      * array's last index is 1.
      *
@@ -179,16 +166,15 @@ public class XmlConfigParser extends XmlParserAbstract {
         return edgesConfig;
     }
 
-    private void parseRelations () throws ConfigParserException {
+    @SuppressWarnings("unchecked")
+	private void parseRelations () throws ConfigParserException {
         Element ontologyElement = _rootElement.getChild(ontologyElementName);
-        List relationElementsList = ontologyElement.getChildren(relationElementName);
+        List<Element> relationElementsList = ontologyElement.getChildren(relationElementName);
         if (relationElementsList.size() == 0) {
             throw new ConfigParserException("Element '//" + ontologyElementName +
                     "/" + relationElementName + "' doesn't have any sublements");
         }
-        Iterator it = relationElementsList.iterator();
-        while (it.hasNext()) {
-            Element relationElement = (Element) it.next();
+        for (Element relationElement : relationElementsList) {
             int relationId = getIdFromIdAttribute(relationElement);
             EdgeType edgeType = parseRelation(relationElement, relationElement.getAttribute(idAttributeName));
             EdgeTypeDisplayInfo displayInfo = getDisplayInfo(relationId, edgeType);
@@ -198,8 +184,9 @@ public class XmlConfigParser extends XmlParserAbstract {
     }
 
 
-    private EdgeType parseRelation (Element relationElement, Attribute idAttr)  throws ConfigParserException {
-        List relationTypeElementsList = relationElement.getChildren(relationTypeElementName);
+    @SuppressWarnings("unchecked")
+	private EdgeType parseRelation (Element relationElement, Attribute idAttr)  throws ConfigParserException {
+        List<Element> relationTypeElementsList = relationElement.getChildren(relationTypeElementName);
         int listSize = relationTypeElementsList.size();
 
         if (listSize == 0) {
@@ -210,7 +197,7 @@ public class XmlConfigParser extends XmlParserAbstract {
             throw new ConfigParserException("Can't have more then 2 of '" + relationElementName
                             + "' Elements in the Element '" + relationElementName + "' with attribute" + idAttr);
         }
-        Element relationTypeElement = (Element) relationTypeElementsList.get(0);
+        Element relationTypeElement = relationTypeElementsList.get(0);
         Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
         checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
         EdgeType edgeType = new EdgeTypeImpl(nameAttr.getValue());
@@ -224,11 +211,12 @@ public class XmlConfigParser extends XmlParserAbstract {
         return edgeType;
     }
 
-    private EdgeTypeDisplayInfo getDisplayInfo (int relationId, EdgeType edgeType) throws ConfigParserException {
+    @SuppressWarnings("unchecked")
+	private EdgeTypeDisplayInfo getDisplayInfo (int relationId, EdgeType edgeType) throws ConfigParserException {
         EdgeTypeDisplayInfo result = null;
 
         Element displayInfoElement = _rootElement.getChild(displayInfoElementName);
-        List relationElementsList = displayInfoElement.getChildren(relationElementName);
+        List<Element> relationElementsList = displayInfoElement.getChildren(relationElementName);
         Element relationElement = getRelationElementForGivenId(relationElementsList, relationId);
 
         Element displayInGraphElement = relationElement.getChild(displayInGraphViewElementName);
@@ -256,10 +244,11 @@ public class XmlConfigParser extends XmlParserAbstract {
         return result;
     }
 
-    private void processCreateIconElement(Element createIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+    @SuppressWarnings("unchecked")
+	private void processCreateIconElement(Element createIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
         Attribute colorAttr = createIconElement.getAttribute(colorAttributeName);
         checkCompulsoryAttr(colorAttr,  colorAttributeName, createIconElementName);
-        List relationTypeElementsList = createIconElement.getChildren(relationTypeElementName);
+        List<Element> relationTypeElementsList = createIconElement.getChildren(relationTypeElementName);
         if (relationTypeElementsList.size() < 1) {
             throw new ConfigParserException("expected element '" + relationTypeElementName + "' in "
                         + "//" + displayInGraphViewElementName + "/"
@@ -277,8 +266,9 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    private void processLoadIconElement(Element loadIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
-        List relationTypeElementsList = loadIconElement.getChildren(relationTypeElementName);
+    @SuppressWarnings("unchecked")
+	private void processLoadIconElement(Element loadIconElement, EdgeType edgeType, EdgeTypeDisplayInfo result) throws ConfigParserException {
+        List<Element> relationTypeElementsList = loadIconElement.getChildren(relationTypeElementName);
         if (relationTypeElementsList.size() < 1) {
             throw new ConfigParserException("expected element '" + relationTypeElementName + "' in "
                         + "//" + displayInGraphViewElementName + "/"
@@ -297,12 +287,11 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, EdgeType edgeType, EdgeTypeDisplayInfo result)
+    @SuppressWarnings("unchecked")
+	private void processDisplayInDescriptionWind (Element displayInDescriptionWinElement, EdgeType edgeType, EdgeTypeDisplayInfo result)
                                             throws ConfigParserException {
-        List relationTypeElementsList = displayInDescriptionWinElement.getChildren(relationTypeElementName);
-        Iterator it = relationTypeElementsList.iterator();
-        while (it.hasNext())  {
-            Element relationTypeElement = (Element) it.next();
+        List<Element> relationTypeElementsList = displayInDescriptionWinElement.getChildren(relationTypeElementName);
+        for (Element relationTypeElement : relationTypeElementsList) {
             Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
             checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
             Attribute labelAttr = relationTypeElement.getAttribute(displayLabelAttributeName);
@@ -323,24 +312,19 @@ public class XmlConfigParser extends XmlParserAbstract {
         }
     }
 
-    private Attribute getAttributeForGivenRelationName (List relationTypeElementsList, String relName,
+    private Attribute getAttributeForGivenRelationName (List<Element> relationTypeElementsList, String relName,
                                         String attrName) {
-        Attribute result = null;
-        Iterator it = relationTypeElementsList.iterator();
-        while (it.hasNext()) {
-            Element relationTypeElement = (Element) it.next();
+        for (Element relationTypeElement : relationTypeElementsList) {
             Attribute nameAttr = relationTypeElement.getAttribute(nameAttributeName);
             if (nameAttr.getValue().equals(relName)) {
-                result = relationTypeElement.getAttribute(attrName);
+                return relationTypeElement.getAttribute(attrName);
             }
         }
-        return result;
+        return null;
     }
 
-    private Element getRelationElementForGivenId(List elementsList, int relationId) throws ConfigParserException {
-        Iterator it = elementsList.iterator();
-        while (it.hasNext()) {
-            Element el = (Element) it.next();
+    private Element getRelationElementForGivenId(List<Element> elementsList, int relationId) throws ConfigParserException {
+    	for (Element el : elementsList) {
             int id = getIdFromIdAttribute(el);
             if (id == relationId) {
                 return el;
@@ -363,26 +347,19 @@ public class XmlConfigParser extends XmlParserAbstract {
 
 
 
-    /**
-     *
-     */
-    private void parseRelationRdfMappingElement(Element rdfMappingEl) throws ConfigParserException, DataConversionException {
-        List mapElementsList = rdfMappingEl.getChildren("map");
-        Iterator mapElementsIterator = mapElementsList.iterator();
-        while (mapElementsIterator.hasNext()) {
-            Element mapEl = (Element) mapElementsIterator.next();
+    @SuppressWarnings("unchecked")
+	private void parseRelationRdfMappingElement(Element rdfMappingEl) throws ConfigParserException, DataConversionException {
+        List<Element> mapElementsList = rdfMappingEl.getChildren("map");
+        for (Element mapEl : mapElementsList) {
             Attribute idAttr = mapEl.getAttribute("id");
             checkCompulsoryAttr(idAttr, "id", "map");
             Attribute typeAttr = mapEl.getAttribute("type");
             checkCompulsoryAttr(typeAttr, "type", "map");
             Attribute tagAttr = mapEl.getAttribute("tag");
             checkCompulsoryAttr(tagAttr, "tag", "map");
-            //System.out.println("idAttr = " + idAttr + ", typeAttr = " + typeAttr + ", tagAttr = " + tagAttr);
             RdfMapping rdfMappingObject = new RdfMapping(idAttr.getIntValue(), typeAttr.getValue(), tagAttr.getValue());
-            Iterator tagElementsIterator = mapEl.getChildren("tag").iterator();
-            while (tagElementsIterator.hasNext()) {
-                Element tagEl = (Element) tagElementsIterator.next();
-                //System.out.println("\ttagEl content = " + tagEl.getText());
+            List<Element> tagElements = mapEl.getChildren("tag");
+            for (Element tagEl : tagElements) {
                 rdfMappingObject.addRdfTag(tagEl.getText());
             }
             relationRdfMappingList.add(rdfMappingObject);

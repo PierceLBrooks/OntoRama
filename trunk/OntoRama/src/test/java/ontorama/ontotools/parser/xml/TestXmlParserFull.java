@@ -1,21 +1,15 @@
 package ontorama.ontotools.parser.xml;
 
 import java.io.Reader;
-import java.util.Iterator;
 
+import junit.framework.TestCase;
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.source.Source;
-import junit.framework.TestCase;
 
-/**
- * @author nataliya
- * Created on 7/04/2003
- * 
- */
 public class TestXmlParserFull extends TestCase {
 	
 	String sourcePackageName = "ontorama.ontotools.source.JarSource";
@@ -26,9 +20,6 @@ public class TestXmlParserFull extends TestCase {
 	}
 	
 	protected void setUp() throws Exception {
-		//OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
-		//		"ontorama.properties", "examples/test/data/testCase-config.xml");
-                
 		OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
 		Source source = (Source) (Class.forName(sourcePackageName).newInstance());
 		Reader r = source.getSourceResult("examples/ontorama-test.xml", new Query("root")).getReader();
@@ -58,9 +49,7 @@ public class TestXmlParserFull extends TestCase {
 
 	
 	private Node getNodeFromNodesList (String nodeName) {
-		Iterator it = parserResult.getNodesList().iterator();
-		while (it.hasNext()) {
-			Node cur = (Node) it.next();
+		for(Node cur: parserResult.getNodesList()) {
 			if (cur.getName().equals(nodeName)) {
 				return cur;
 			}

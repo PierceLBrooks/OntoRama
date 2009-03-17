@@ -2,7 +2,6 @@ package ontorama.backends.examplesmanager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,16 +16,13 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 /**
- * Title:
- * Description: Parse config file (xml) that contains examples details
+ * Parse config file (xml) that contains examples details
  *              and populate instatiate OntoramaExample objects according
  *              to details found in config file. Build examples list that
  *              can be used by other objects and find 'main example', so
  *              applications knows what example to load first.
  * Copyright:    Copyright (c) DSTC 2001
  * Company: DSTC
- * @author  nataliya
- * @version 1.0
  */
 
 public class XmlExamplesConfigParser extends XmlParserAbstract {
@@ -34,7 +30,8 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
     private List<OntoramaExample> examplesList;
     private OntoramaExample mainExample;
 
-    public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
+    @SuppressWarnings("unchecked")
+	public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
         if (OntoramaConfig.VERBOSE) {
             System.out.println("XmlExamplesConfigParser");
         }
@@ -46,18 +43,13 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
             Document doc = builder.build(in);
 
             Element rootEl = doc.getRootElement();
-            List exampleElementsList = rootEl.getChildren("example");
-            Iterator exampleElementsIterator = exampleElementsList.iterator();
-            while (exampleElementsIterator.hasNext()) {
-                Element curEl = (Element) exampleElementsIterator.next();
-                //System.out.println("processing example element: " + curEl);
+            List<Element> exampleElementsList = rootEl.getChildren("example");
+            for (Element curEl : exampleElementsList) {
                 processExampleElement(curEl);
             }
 
         } catch (JDOMException e) {
-            System.out.println("JDOMException: " + e);
-            e.printStackTrace();
-            System.exit(-1);
+        	throw new ConfigParserException("Failed to parse XML input", e);
         }
     }
 
@@ -101,7 +93,6 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         this.examplesList.add(example);
 
         Element displayMenuElement = element.getChild("displayMenu");
-        //System.out.println("element name = " + nameAttr.getValue() + ", displayMenuElement = " + displayMenuElement);
         if (displayMenuElement != null) {
             Attribute subfolderNameAttribute = displayMenuElement.getAttribute("subfolder");
             if (subfolderNameAttribute != null) {
@@ -111,18 +102,11 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
 
     }
 
-    /**
-     *
-     */
     public List<OntoramaExample> getExamplesList() {
         return this.examplesList;
     }
 
-    /**
-     *
-     */
     public OntoramaExample getMainExample() {
-        //System.out.println("returning example = " + this.mainExample);
         return this.mainExample;
     }
 

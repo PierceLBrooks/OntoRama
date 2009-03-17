@@ -1,10 +1,3 @@
-/*
- * Copyright DSTC Pty.Ltd. (http://www.dstc.com), Technische Universitaet Darmstadt
- * (http://www.tu-darmstadt.de) and the University of Queensland (http://www.uq.edu.au).
- * Please read licence.txt in the toplevel source directory for licensing information.
- *
- * $Id: NewRelatedNodeCreator.java,v 1.7 2003-03-31 04:57:08 nataliya Exp $
- */
 package ontorama.views.hyper.controller;
 
 
@@ -43,7 +36,7 @@ public class NewRelatedNodeCreator {
     }
 
     public TreeNode createNewRelatedNode() throws TreeModificationException {
-        dialog.show();
+        dialog.setVisible(true);
         String newNodeName = textField.getText();
         
         TreeNode newTreeNode = new TreeNodeImpl(newNodeName, treeNode.getNodeType());

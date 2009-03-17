@@ -7,8 +7,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 
 
+@SuppressWarnings("serial")
 public class AboutOntoRamaDialog extends JDialog {
 	private final static String licenseFileLoc = "LICENSE.txt";
 
@@ -108,18 +107,9 @@ public class AboutOntoRamaDialog extends JDialog {
 
         setTitle("About OntoRama");
         setBackground(Color.white);
-        //setSize(400,400);
-        //setLocationRelativeTo(owner);
 
         pack();
-        show();
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                //close();
-            }
-        });
-
+        setVisible(true);
     }
 
     private String readLicense(String licenseFileLoc) throws IOException {
@@ -135,9 +125,6 @@ public class AboutOntoRamaDialog extends JDialog {
 		return license.toString();
 	}
 
-	/**
-     *
-     */
     public void close() {
         dispose();
     }

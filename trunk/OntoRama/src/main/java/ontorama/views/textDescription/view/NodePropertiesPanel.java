@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JLabel;
 
 /**
- *
  * Class responsible for building a panel to display concept/node
  * properties. This panel should consist of two parts: label on
  * the left stating property name and on the rigth hand side -
@@ -23,9 +22,8 @@ import javax.swing.JLabel;
  *
  * Copyright:    Copyright (c) 2001
  * Company:      DSTC
- * @author
- * @version 1.0
  */
+@SuppressWarnings("serial")
 public class NodePropertiesPanel extends AbstractPropertiesPanel {
     String _propName = null;
     List<Object> _propValue = new LinkedList<Object>();

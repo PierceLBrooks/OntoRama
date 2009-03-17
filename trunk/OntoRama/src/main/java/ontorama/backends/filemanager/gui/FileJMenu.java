@@ -10,13 +10,7 @@ import javax.swing.JMenu;
 import ontorama.backends.filemanager.FileBackend;
 import ontorama.ui.OntoRamaApp;
 
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 9/10/2002
- * Time: 09:13:28
- * To change this template use Options | File Templates.
- */
+@SuppressWarnings("serial")
 public class FileJMenu extends JMenu {
     private FileBackend _fileBackend = null;
 

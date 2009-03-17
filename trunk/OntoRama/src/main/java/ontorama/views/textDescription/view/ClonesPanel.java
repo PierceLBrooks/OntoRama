@@ -17,13 +17,10 @@ import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import org.tockit.events.EventBroker;
 
 /**
- * Title:        OntoRama
- * Description:
  * Copyright:    Copyright (c) 2001
  * Company:      DSTC
- * @author
- * @version 1.0
  */
+@SuppressWarnings("serial")
 public class ClonesPanel extends AbstractPropertiesPanel {
 	private JPanel _propValuePanel = new JPanel();
 	private EventBroker _eventBroker;
@@ -41,7 +38,7 @@ public class ClonesPanel extends AbstractPropertiesPanel {
     }
 
 	/**
-	 * overriten here because super class assumes we get graph nodes
+	 * Overridden here because super class assumes we get graph nodes
 	 * in the property values list, but in our case clones
 	 * only happen in a tree and on tree nodes.
 	 * @see ontorama.views.textDescription.view.AbstractPropertiesPanel#update(List)
@@ -76,7 +73,4 @@ public class ClonesPanel extends AbstractPropertiesPanel {
 	public void clear() {
 		_propValuePanel.removeAll();
 	}
-    
-
 }
-

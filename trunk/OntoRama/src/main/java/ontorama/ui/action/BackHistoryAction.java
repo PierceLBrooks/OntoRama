@@ -9,29 +9,21 @@ import ontorama.ui.HistoryMenu;
 
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
- * @author nataliya
- * @version 1.0
  */
 
+@SuppressWarnings("serial")
 public class BackHistoryAction extends AbstractAction {
 
     private static final String ACTION_COMMAND_KEY_COPY = "back-history-command";
     private static final String NAME_COPY = "Back";
     private static final String SHORT_DESCRIPTION_COPY = "Back to previous ontology";
     private static final String LONG_DESCRIPTION_COPY = "Back to previous ontology";
-    //private static final String ACCELERATOR_KEY=KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK);
-    //private static final String ACCELERATOR_KEY="ALT+Left";
 
     private HistoryMenu _historyMenu;
 
 
-    /**
-     *
-     */
     public BackHistoryAction(HistoryMenu historyMenu) {
         _historyMenu = historyMenu;
         putValue(Action.NAME, NAME_COPY);
@@ -40,12 +32,7 @@ public class BackHistoryAction extends AbstractAction {
         putValue(Action.ACTION_COMMAND_KEY, ACTION_COMMAND_KEY_COPY);
     }
 
-    /**
-     *
-     */
     public void actionPerformed(ActionEvent parm1) {
 		_historyMenu.displayPreviousHistoryItem();
     }
-
-
 }

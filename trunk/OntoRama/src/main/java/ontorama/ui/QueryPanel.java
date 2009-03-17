@@ -36,9 +36,10 @@ import org.tockit.events.EventBroker;
 
 /**
  * QueryPanel is responsible for building an interface for a query that
- * will be used to query Ontology Server (using GraphBuilder)
+ * will be used to query an ontology server (using GraphBuilder)
  *
  */
+@SuppressWarnings("serial")
 public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     private int _depth = -1;
@@ -54,9 +55,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     private static final String _depthFieldToolTip = "Specify query depth (integer from 1 to 9). This feature is only available for Dynamic sources.";
 
 
-    /**
-     *
-     */
     private JPanel _relationLinksPanel = new JPanel();
 
     /**
@@ -70,9 +68,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
      */
     private List<EdgeType> _wantedRelationLinks = new LinkedList<EdgeType>();
 
-    /**
-     *
-     */
     private EventBroker _eventBroker;
 
     public StopQueryAction _stopQueryAction;
@@ -156,9 +151,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     	_depthLabel.setEnabled(isEnabled);
     }
 
-    /**
-     * implementation of action performed
-     */
     public void actionPerformed(ActionEvent ae) {
 
         if (ae.getSource() == _queryField) {
@@ -169,9 +161,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         }
     }
 
-    /**
-     *
-     */
     public void setQuery(Query query) {
         setQueryField(query.getQueryTypeName());
         List<EdgeType> wantedLinks = query.getRelationLinksList();
@@ -186,30 +175,18 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         }
     }
 
-    /**
-     *
-     */
     public String getQueryField() {
         return _queryField.getText();
     }
 
-    /**
-     *
-     */
     public void setQueryField(String queryString) {
         _queryField.setText(queryString);
     }
 
-    /**
-     *
-     */
     public int getDepthField() {
         return _depth;
     }
 
-    /**
-     *
-     */
     private void setDepthField(int depth) {
         _depthField.setText(String.valueOf(depth));
     }
@@ -239,9 +216,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     }
 
 
-    /**
-     *
-     */
     private void setWantedRelationLinks(List<EdgeType> wantedLinks) {
         Enumeration<JCheckBox> enumeration = _relationLinksCheckBoxes.keys();
         while (enumeration.hasMoreElements()) {
@@ -255,9 +229,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         }
     }
 
-    /**
-     *
-     */
     private void buildRelationLinksQueryPanel() {
         Iterator<EdgeType> it = OntoramaConfig.getEdgeTypesList().iterator();
 
@@ -282,9 +253,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     }
 
-    /**
-     *
-     */
     private List<EdgeType> updateWantedRelationLinks() {
         List<EdgeType> wantedRelationLinks = new LinkedList<EdgeType>();
         Enumeration<JCheckBox> en = _relationLinksCheckBoxes.keys();
@@ -303,12 +271,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         _queryField.setText(node.getName());
     }
 
-    public void setGraph (Graph graph) {
+    public void setGraph(Graph graph) {
     }
-
-    public void repaint () {
-        super.repaint();
-    }
-
-
 }

@@ -14,19 +14,18 @@ import javax.swing.JPanel;
 
 /**
  * Base class for node properties panels.
+ * 
  * Builds a panel with label _propNameLabel on the left hand
  * side. This label describes node property name, such as
  * "Description" or "Synonyms", etc. On the right hand
  * side there could be some other component that will
- * display value of this property for the focussed node.
+ * display value of this property for the focused node.
  *
  * This class should implement panel layout, layout of
  * _propNameLabel, and set its size. Also, any other
  * functionality common to all various property panels
- *
- * @author nataliya
- *
  */
+@SuppressWarnings("serial")
 public abstract class AbstractPropertiesPanel extends JPanel {
 
     /**
@@ -34,14 +33,8 @@ public abstract class AbstractPropertiesPanel extends JPanel {
      */
     JLabel _propNameLabel = new JLabel();
 
-    /**
-     * padding
-     */
     private int _minPadding = 15;
 
-    /**
-     *
-     */
     protected void layoutFirstComponent() {
     	
         // create and set layout
@@ -53,15 +46,11 @@ public abstract class AbstractPropertiesPanel extends JPanel {
         add(_propNameLabel);
 
         // work out size of rigid area and set it
-        //int curRigitAreaWidth = maxLeftLabelWidth - getLabelWidth(propNameLabel) + this.minPadding;
         int curRigitAreaWidth = _minPadding;
         Dimension d = new Dimension(curRigitAreaWidth, 0);
         add(Box.createRigidArea(d));
     }
 
-    /**
-     * get property name label width
-     */
     public int getPropNameLabelWidth() {
         Font font = _propNameLabel.getFont();
         FontMetrics fontMetrics = _propNameLabel.getFontMetrics(font);
@@ -69,9 +58,6 @@ public abstract class AbstractPropertiesPanel extends JPanel {
         return width;
     }
 
-    /**
-     *
-     */
     public void setPropNameLabelWidth(Dimension d) {
         _propNameLabel.setSize(d);
         _propNameLabel.setMinimumSize(d);
@@ -79,9 +65,6 @@ public abstract class AbstractPropertiesPanel extends JPanel {
         _propNameLabel.setPreferredSize(d);
     }
 
-    /**
-     * get label height
-     */
     public int getPropNameLabelHeight() {
         Font font = _propNameLabel.getFont();
         FontMetrics fontMetrics = _propNameLabel.getFontMetrics(font);
@@ -96,7 +79,6 @@ public abstract class AbstractPropertiesPanel extends JPanel {
 
 	/**
 	 * Update values panel with the given list of values.
-	 * @param valuesList
 	 */
     public abstract void update(List<Object> valuesList);
 

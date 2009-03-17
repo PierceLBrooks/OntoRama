@@ -1,10 +1,6 @@
 package ontorama.backends.filemanager;
 
-/**
- * @author nataliya
- * Created on 26/03/2003
- *
- */
+@SuppressWarnings("serial")
 public class ParserNotSpecifiedException extends Exception {
 	
 	public ParserNotSpecifiedException(String fileExtention) {

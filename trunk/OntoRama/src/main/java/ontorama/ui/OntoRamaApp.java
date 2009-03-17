@@ -53,6 +53,7 @@ import org.tockit.events.EventBrokerListener;
 /**
  * Main Application class. This class starts OntoRama application.
  */
+@SuppressWarnings("serial")
 public class OntoRamaApp extends JFrame {
     
     /**
@@ -199,20 +200,7 @@ public class OntoRamaApp extends JFrame {
         }
     }
     
-    private class PutThinkingCapOnEventHandler implements EventBrokerListener {
-    	public void  processEvent (Event event) {
-    		String message = (String) event.getSubject();
-			_statusBar.startProgressBar(message);
-    	}
-    }
-
-	private class TakeThinkingCapOffEventHandler implements EventBrokerListener {
-		public void  processEvent (Event event) {
-			_statusBar.stopProgressBar();
-		}
-	}
-
-	private class QueryIsFinishedEventHandler implements EventBrokerListener {
+    private class QueryIsFinishedEventHandler implements EventBrokerListener {
 		public void processEvent(Event event) {
 			QueryResult queryResult = (QueryResult) event.getSubject();
 			_statusBar.startProgressBar("Building data model");
@@ -228,10 +216,6 @@ public class OntoRamaApp extends JFrame {
         _viewsEventBroker = new EventBroker();
 
         /// @todo need to sort out what broker is responsible for handling what events
-        
-        System.out.println("model event broker = " + _modelEventBroker);
-		System.out.println("views event broker = " + _viewsEventBroker);
-
         // only views are using this event
         new QueryNodeEventHandler(_viewsEventBroker);
 
@@ -323,7 +307,7 @@ public class OntoRamaApp extends JFrame {
     }
 
     /**
-     * @todo this contructor and the next create two objects. The call to new
+     * TODO this constructor and the next create two objects. The call to new
      * creates a second object in addition to the constructor itself. Probably
      * the default constructor should not rely on a loaded configuration, there
      * should be a load event for the configuration causing the needed updates.
@@ -350,7 +334,7 @@ public class OntoRamaApp extends JFrame {
     }
 
     /**
-     * Initialise actions
+     * Initialize actions
      */
     private void initActions() {
         _exitAction = new ExitAction();
@@ -366,7 +350,7 @@ public class OntoRamaApp extends JFrame {
         _splitPane.setOneTouchExpandable(true);
     }
 
-    private void buildMenuBar() {
+	private void buildMenuBar() {
         _menuBar = new JMenuBar();
         _fileMenu = new JMenu("File");
         _fileMenu.setMnemonic(KeyEvent.VK_F);

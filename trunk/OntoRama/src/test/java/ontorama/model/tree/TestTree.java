@@ -1,20 +1,23 @@
 package ontorama.model.tree;
 
-import junit.framework.TestCase;
-import ontorama.model.tree.Tree;
-import ontorama.model.tree.TreeImpl;
-import ontorama.model.tree.TreeModificationException;
-import ontorama.model.tree.TreeNode;
-import ontorama.model.tree.TreeNodeImpl;
-import ontorama.model.graph.*;
-import ontorama.OntoramaConfig;
-import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.query.QueryResult;
-import ontorama.ontotools.query.Query;
-
-import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import junit.framework.TestCase;
+import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Graph;
+import ontorama.model.graph.GraphImpl;
+import ontorama.model.graph.InvalidArgumentException;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+import ontorama.model.graph.NodeType;
+import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.query.Query;
+import ontorama.ontotools.query.QueryResult;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,8 +45,8 @@ public class TestTree extends TestCase{
     public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
     	OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	
-        List graphNodesList = new LinkedList ();
-        List graphEdgesList = new LinkedList ();
+        List<Node> graphNodesList = new ArrayList<Node>();
+        List<Edge> graphEdgesList = new ArrayList<Edge>();
         _nodeType1 = OntoramaConfig.CONCEPT_TYPE;
         Node node1 = new NodeImpl("node1", "node1");
         node1.setNodeType(_nodeType1);
@@ -172,7 +175,7 @@ public class TestTree extends TestCase{
 
     public void testTraversal () {
         TreeNode rootNode = _tree.getRootNode();
-        List<TreeNode> q = new LinkedList<TreeNode>();
+        List<TreeNode> q = new ArrayList<TreeNode>();
         q.add(rootNode);
 
         int treeDepth = 0;
@@ -266,7 +269,7 @@ public class TestTree extends TestCase{
     }
       
     private TreeNode getNodeByName (String nodeName) {
-    	List<TreeNode> q = new LinkedList<TreeNode>();
+    	List<TreeNode> q = new ArrayList<TreeNode>();
     	q.add(_tree.getRootNode());
     	
     	while (!q.isEmpty()) {
@@ -285,7 +288,7 @@ public class TestTree extends TestCase{
     
     private int countNumOfNodes () {
 		int result = 0;
-    	List<TreeNode> q = new LinkedList<TreeNode>();
+    	List<TreeNode> q = new ArrayList<TreeNode>();
     	q.add(_tree.getRootNode());
 
     	while (!q.isEmpty()) {

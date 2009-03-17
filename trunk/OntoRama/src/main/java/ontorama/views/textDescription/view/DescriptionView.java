@@ -28,8 +28,7 @@ import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
 /**
- * Title:        OntoRama
- * Description:  Description view will display any additional
+ * Description view will display any additional
  * information for a focused node that is not displayed in 
  * the graph/tree views, such as synonyms, creator, clones, etc.
  * Currently there are a couple ways to specify what should 
@@ -42,10 +41,8 @@ import org.tockit.events.EventBrokerListener;
  * we done so for clones and full url's for now.
  *  
  * Copyright:  Copyright (c) 2001 Company:      DSTC
- * @author
- * @version 1.0
  */
-
+@SuppressWarnings("serial")
 public class DescriptionView extends JPanel implements GraphView {
 
     /**
@@ -70,9 +67,6 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private String _fullUrlPropName = "Full Url ";
     
-    /**
-     * 
-     */
     private String _descriptionLabelName = "Description";
 
     /**
@@ -80,14 +74,8 @@ public class DescriptionView extends JPanel implements GraphView {
      */
     private Dimension _propertyNameLabelsDimension;
 
-    /**
-     *
-     */
     private EventBroker _eventBroker;
     
-    /**
-     * 
-     */
     private Graph _graph;
     
     private class NodeClonesRequestEventHandler implements EventBrokerListener {
@@ -102,6 +90,7 @@ public class DescriptionView extends JPanel implements GraphView {
     	/**
 		 * @see org.tockit.events.EventBrokerListener#processEvent(org.tockit.events.Event)
 		 */
+		@SuppressWarnings("unchecked")
 		public void processEvent(Event event) {
 			List<Object> clones = (List<Object>) event.getSubject();
 			AbstractPropertiesPanel clonesPanel = _nodePropertiesPanels.get(_clonesLabelName);
@@ -109,9 +98,6 @@ public class DescriptionView extends JPanel implements GraphView {
 		}
 	}
 
-    /**
-     *
-     */
     public DescriptionView( EventBroker eventBroker) {
 
         _eventBroker = eventBroker;
@@ -157,7 +143,7 @@ public class DescriptionView extends JPanel implements GraphView {
 
 
     /**
-     * initialise concept properties panels
+     * Initialize concept properties panels
      */
     private void initPropertiesPanels() {
 
@@ -210,9 +196,6 @@ public class DescriptionView extends JPanel implements GraphView {
         return length;
     }
 
-    /**
-     *
-     */
     private void setLabelSizesForNodePropertiesPanels() {
         Iterator<AbstractPropertiesPanel> it = _nodePropertiesPanels.values().iterator();
         while (it.hasNext()) {
@@ -221,9 +204,6 @@ public class DescriptionView extends JPanel implements GraphView {
         }
     }
 
-    /**
-     *
-     */
     private Dimension calcLabelSize() {
         int padding = 5;
         int maxSize = getMaxLabelWidth() + padding;
@@ -250,9 +230,6 @@ public class DescriptionView extends JPanel implements GraphView {
 
     //////////////////////////ViewEventObserver interface implementation////////////////
 
-    /**
-     *
-     */
     public void focus(Node node) {
         Enumeration<String> e = _nodePropertiesPanels.keys();
         while (e.hasMoreElements()) {
@@ -306,7 +283,4 @@ public class DescriptionView extends JPanel implements GraphView {
     public void repaint () {
         super.repaint();
     }
-
-
-
 }

@@ -1,41 +1,39 @@
 package ontorama.views.tree.view;
 
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeView;
-import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.model.tree.controller.TreeViewFocusEventHandler;
+import ontorama.model.tree.events.TreeNodeSelectedEvent;
 import ontorama.ui.events.QueryNodeEvent;
+import ontorama.views.tree.model.OntoTreeBuilder;
 import ontorama.views.tree.model.OntoTreeModel;
 import ontorama.views.tree.model.OntoTreeNode;
-import ontorama.views.tree.model.OntoTreeBuilder;
+
 import org.tockit.events.EventBroker;
 
 
 @SuppressWarnings("serial")
-public class OntoTreeView extends JScrollPane implements KeyListener, MouseListener,
-        TreeSelectionListener, TreeView {
+public class OntoTreeView extends JScrollPane implements TreeView {
 
     private JTree _treeView;
 
-    private EventBroker _eventBroker;
+    private final EventBroker _eventBroker;
 
     private Tree _tree;
 
@@ -54,8 +52,24 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
 
         _treeView.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         _treeView.setEditable(false);
-        _treeView.addMouseListener(this);
-        _treeView.addKeyListener(this);
+        _treeView.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int selRow = _treeView.getRowForLocation(e.getX(), e.getY());
+				if (selRow == -1) {
+					return;
+				}
+				if (e.getClickCount() == 1) {
+					processInputEvent(e);
+				}
+			}
+		});
+		_treeView.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				processInputEvent(e);
+			}
+		});
         ToolTipManager.sharedInstance().registerComponent(this._treeView);
         _treeView.setCellRenderer(new OntoTreeRenderer());
         unfoldTree(ontoTreeModel);
@@ -82,35 +96,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         }
     }
 
-    /**
-     * Implementation of valueChanged needed for interface
-     * implementation of TreeSelectionListener.
-     * Overwritten here so we can control single mouse clicks behavior ourselves.
-     * @param   e - TreeSelectionEvent
-     */
-    public void valueChanged(TreeSelectionEvent e) {
-    }
-
-    public void keyPressed(KeyEvent e) {
-        processInputEvent(e);
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyTyped(KeyEvent e) {
-    }
-
-    public void mousePressed(MouseEvent e) {
-        int selRow = _treeView.getRowForLocation(e.getX(), e.getY());
-        if (selRow == -1) {
-        	return;
-        }
-        if (e.getClickCount() == 1) {
-            processInputEvent(e);
-        }
-    }
-
     private void processInputEvent(InputEvent e) {
         TreeNode modelNode = getModelNodeFromInputEvent(e);
         if (modelNode == null ) return;
@@ -126,18 +111,6 @@ public class OntoTreeView extends JScrollPane implements KeyListener, MouseListe
         }
     }
 
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-    }
-    
     private TreeNode getModelNodeFromInputEvent (InputEvent event) {
         if (event instanceof KeyEvent) {
             OntoTreeNode treeNode = (OntoTreeNode) _treeView.getLastSelectedPathComponent();

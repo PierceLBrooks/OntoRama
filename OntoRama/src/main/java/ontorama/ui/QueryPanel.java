@@ -45,33 +45,33 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
 
     private int _depth = -1;
 
-	private JLabel _queryLabel = new JLabel("Search for: ");
-    private JTextField _queryField;
-    private JButton _querySubmitButton;
-    private JButton _queryStopButton;
-    private JTextField _depthField;
-    private JLabel _depthLabel = new JLabel("depth: ");
+	private final JLabel _queryLabel = new JLabel("Search for: ");
+    private final JTextField _queryField;
+    private final JButton _querySubmitButton;
+    private final JButton _queryStopButton;
+    private final JTextField _depthField;
+    private final JLabel _depthLabel = new JLabel("depth: ");
 
     private static final String _queryFieldToolTip = "Type query term here";
     private static final String _depthFieldToolTip = "Specify query depth (integer from 1 to 9). This feature is only available for Dynamic sources.";
 
 
-    private JPanel _relationLinksPanel = new JPanel();
+    private final JPanel _relationLinksPanel = new JPanel();
 
     /**
      * table of check boxes for relation links
      */
-    private Map<JCheckBox, EdgeType> _relationLinksCheckBoxes = new HashMap<JCheckBox, EdgeType>();
+    private final Map<JCheckBox, EdgeType> _relationLinksCheckBoxes = new HashMap<JCheckBox, EdgeType>();
 
     /**
      * relation links that user has chosen to display
      */
     private List<EdgeType> _wantedRelationLinks = new ArrayList<EdgeType>();
 
-    private EventBroker _eventBroker;
+    private final EventBroker _eventBroker;
 
     public StopQueryAction _stopQueryAction;
-    private QueryAction _queryAction;
+    private final QueryAction _queryAction;
 
     public QueryPanel(EventBroker eventBroker) {
         _eventBroker = eventBroker;
@@ -90,7 +90,8 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
         _depthField.setToolTipText(_depthFieldToolTip);
         _depthField.addActionListener(this);
         _depthField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent ke) {
+            @Override
+			public void keyReleased(KeyEvent ke) {
                 if ((!Character.isDigit(ke.getKeyChar())) && (!Character.isLetter(ke.getKeyChar()))) {
                     return;
                 }
@@ -268,5 +269,6 @@ public class QueryPanel extends JPanel implements ActionListener, GraphView {
     }
 
     public void setGraph(Graph graph) {
+    	// TODO shouldn't we do something here?
     }
 }

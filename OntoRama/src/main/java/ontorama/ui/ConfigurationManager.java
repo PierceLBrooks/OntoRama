@@ -1,11 +1,13 @@
 package ontorama.ui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Window;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -43,6 +45,7 @@ public class ConfigurationManager {
      * No public instances allowed.
      */
     private ConfigurationManager() {
+    	// only change access level
     }
 
     /**
@@ -148,7 +151,7 @@ public class ConfigurationManager {
         Iterator<String> it = list.iterator();
         int index = 1;
         while (it.hasNext()) {
-            String cur = (String) it.next();
+            String cur = it.next();
             properties.setProperty(section + "-" + key + "-" + index, cur);
             index++;
         }

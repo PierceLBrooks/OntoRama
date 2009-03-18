@@ -27,7 +27,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Hold the model for this ui.
      */
-    private HyperNode model;
+    private final HyperNode model;
 
     /**
      * Hold the projected x coordinates.
@@ -77,7 +77,7 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
      */
     private boolean isLeaf = false;
 
-    private NodeType nodeType;
+    private final NodeType nodeType;
     private Shape projectedShape = new GeneralPath();
 
 	private SphericalProjection projection = null;
@@ -214,9 +214,6 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         return scale;
     }
 
-    public void hasFocus() {
-    }
-
     /**
      * Method called to find nearest node ui to mouse pointer.
      */
@@ -227,7 +224,8 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Returns true if this is the node clicked on
      */
-    public boolean containsPoint(Point2D point) {
+    @Override
+	public boolean containsPoint(Point2D point) {
         return projectedShape.getBounds2D().contains(point);
     }
 
@@ -268,7 +266,8 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
     /**
      * Draw the node in the hyperbolic plane.
      */
-    public void draw(Graphics2D g2d) {
+    @Override
+	public void draw(Graphics2D g2d) {
         if (model.getPosition().distance(0, 0) > 10000) {
             return;
         }
@@ -354,20 +353,24 @@ public class HyperNodeView extends CanvasItem implements PositionChangedObserver
         }
     }
 
-    public Rectangle2D getCanvasBounds(Graphics2D g) {
+    @Override
+	public Rectangle2D getCanvasBounds(Graphics2D g) {
         return projectedShape.getBounds2D();
     }
 
-    public boolean hasAutoRaise() {
+    @Override
+	public boolean hasAutoRaise() {
             return false;
         }
 
-    public Point2D getPosition() {
+    @Override
+	public Point2D getPosition() {
         Rectangle2D bounds = projectedShape.getBounds2D();
         return new Point2D.Double(bounds.getX() + bounds.getWidth()/2, bounds.getY() + bounds.getHeight()/2);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return "Node ui for " + this.model.getName();
     }
 }

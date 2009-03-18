@@ -25,9 +25,6 @@ public class OntoTreeModel implements TreeModel {
     protected Tree _tree;
     
 
-    /**
-     * Constructor
-     */
     public OntoTreeModel(Tree tree) {
     	_tree = tree;
         new OntoTreeBuilder(_tree);
@@ -70,14 +67,16 @@ public class OntoTreeModel implements TreeModel {
         return ((TreeNode) parent).getChildCount();
     }
 
-    /**
-     * Returns true if node is a leaf.
-     * It is possible for this method to return false even if node has no children.
-     * A directory in a filesystem, for example, may contain no files;
-     * the node representing the directory is not a leaf, but it also has no children.
-     * @param node - a node in the tree, obtained from this data source
-     * @return  true if node is a leaf
-     */
+	/**
+	 * Returns true if node is a leaf. It is possible for this method to return
+	 * false even if node has no children. A directory in a file system, for
+	 * example, may contain no files; the node representing the directory is not
+	 * a leaf, but it also has no children.
+	 * 
+	 * @param node
+	 *            - a node in the tree, obtained from this data source
+	 * @return true if node is a leaf
+	 */
     public boolean isLeaf(Object node) {
         OntoTreeNode treeNode = (OntoTreeNode) node;
         return treeNode.isLeaf();
@@ -113,6 +112,7 @@ public class OntoTreeModel implements TreeModel {
      * @param  l - the listener to add
      */
     public void addTreeModelListener(TreeModelListener l) {
+    	// TODO we should probably support the listeners
     }
 
     /**
@@ -120,6 +120,7 @@ public class OntoTreeModel implements TreeModel {
      * @param l - the listener to remove
      */
     public void removeTreeModelListener(TreeModelListener l) {
+    	// TODO we should probably support the listeners
     }
 
     ////////////////////End of TreeModel implementation///////////////////

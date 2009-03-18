@@ -19,6 +19,7 @@ public class TestXmlParserFull extends TestCase {
 		super(name);
 	}
 	
+	@Override
 	protected void setUp() throws Exception {
 		OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
 		Source source = (Source) (Class.forName(sourcePackageName).newInstance());
@@ -38,7 +39,7 @@ public class TestXmlParserFull extends TestCase {
 	
 	public void testConceptNode () {
 		Node node = getNodeFromNodesList("node2");
-		assertEquals("result should contain node2 ", true, (node != null));
+		assert node != null : "Result should contain node2 ";
 		assertEquals("node2 description ", "Node2", node.getDescription());
 	}
 	

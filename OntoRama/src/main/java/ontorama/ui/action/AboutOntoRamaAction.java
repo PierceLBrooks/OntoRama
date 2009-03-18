@@ -29,7 +29,7 @@ public class AboutOntoRamaAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent parm1) {
-        Frame[] frames = ontorama.ui.OntoRamaApp.getFrames();
+        Frame[] frames = Frame.getFrames();
         if (frames.length > 0) {
             new AboutOntoRamaDialog(frames[0]);
         } else {

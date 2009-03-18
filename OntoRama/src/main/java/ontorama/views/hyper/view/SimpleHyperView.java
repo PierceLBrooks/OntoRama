@@ -95,12 +95,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
     /**
      * Stiffness factor for spring alogrithm
      */
-    private double STIFFNESS = .2;
+    private final double STIFFNESS = .2;
 
     /**
      * Determines strength of repulsion betweeen two nodes
      */
-    private double ELECTRIC_CHARGE = 10;
+    private final double ELECTRIC_CHARGE = 10;
 
     public Projection projection = null;
 
@@ -300,14 +300,15 @@ public class SimpleHyperView extends Canvas implements TreeView {
      * Inner class to store graph node radial layouting info.
      */
     private class NodePlacementDetails {
-        public TreeNode node = null;
-        public double numOfLeaves = 0;
+        public TreeNode node;
+		public double numOfLeaves;
 		// (Math.PI * 2) is the number of radians in a circle
 		public double wedge = Math.PI * 2;
 		public double weight = 1;// used to calc node radius from center
         
         public NodePlacementDetails() {
-        }
+			this(null, 0);
+		}
         
 		public NodePlacementDetails(TreeNode node, double numOfLeaves) {
 			this.node = node;
@@ -596,11 +597,13 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
 
 
-    public void update(Graphics g) {
+    @Override
+	public void update(Graphics g) {
         paintComponent(g);
     }
 
-    public void paintComponent(Graphics g) {
+    @Override
+	public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setColor(new Color(222, 222, 222));

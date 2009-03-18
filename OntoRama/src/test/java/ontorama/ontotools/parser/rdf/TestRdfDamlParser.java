@@ -62,7 +62,8 @@ public class TestRdfDamlParser extends TestCase {
         super(name);
     }
 
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
                 
@@ -254,6 +255,7 @@ public class TestRdfDamlParser extends TestCase {
             parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");
         } catch (ParserException e) {
+        	// expected
         }
     }
 
@@ -268,6 +270,7 @@ public class TestRdfDamlParser extends TestCase {
             parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");
         } catch (ParserException e) {
+        	// expected
         }
 
     }
@@ -281,6 +284,7 @@ public class TestRdfDamlParser extends TestCase {
         assertEquals("graph node should never be null here, check setUp() method" +
                 " for node " + fromNode + " (checking edge type '" + edgeType.getName() + "')",
                 false, (fromNode == null));
+        assert fromNode != null;
 
         String message1 = "number of '" + edgeType.getName() + "' links from '";
         message1 = message1 + fromNode.getName() + "'" + "to '" + toNodeName + "'";
@@ -290,7 +294,7 @@ public class TestRdfDamlParser extends TestCase {
         if (edges.isEmpty()) {
             return;
         }
-        Edge firstEdge = (Edge) edges.get(0);
+        Edge firstEdge = edges.get(0);
         Node toNode = firstEdge.getToNode();
         String message2 = "related node (edge type: " + edgeType + "):" + toNodeName + ")";
         assertEquals(message2, toNodeName, toNode.getName());

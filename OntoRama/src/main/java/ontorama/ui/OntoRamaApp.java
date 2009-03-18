@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -34,7 +35,6 @@ import ontorama.model.tree.Tree;
 import ontorama.model.tree.TreeImpl;
 import ontorama.model.tree.events.TreeChangedEvent;
 import ontorama.model.tree.events.TreeLoadedEvent;
-import ontorama.ui.events.*;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
@@ -42,11 +42,18 @@ import ontorama.ui.action.AboutOntoRamaAction;
 import ontorama.ui.action.ExitAction;
 import ontorama.ui.controller.QueryNodeEventHandler;
 import ontorama.ui.controller.QueryStartEventHandler;
+import ontorama.ui.events.GraphIsLoadedEvent;
+import ontorama.ui.events.QueryCancelledEvent;
+import ontorama.ui.events.QueryEngineThreadStartEvent;
+import ontorama.ui.events.QueryIsFinishedEvent;
+import ontorama.ui.events.QueryStartEvent;
+import ontorama.ui.events.UpdateViewsWithQueryCancelledEvent;
 import ontorama.views.hyper.view.Projection;
 import ontorama.views.hyper.view.SimpleHyperView;
 import ontorama.views.hyper.view.SphericalProjection;
 import ontorama.views.textDescription.view.DescriptionView;
 import ontorama.views.tree.view.OntoTreeView;
+
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
@@ -90,7 +97,7 @@ public class OntoRamaApp extends JFrame {
      */
     private DescriptionView _descriptionViewPanel;
 
-	private StatusBar _statusBar = new StatusBar();
+	private final StatusBar _statusBar = new StatusBar();
 
     /**
      * holds current query
@@ -123,9 +130,9 @@ public class OntoRamaApp extends JFrame {
     private static EventBroker _modelEventBroker;
     private static EventBroker _viewsEventBroker;
 
-    private Projection projection = new SphericalProjection(300, 0.8);
+    private final Projection projection = new SphericalProjection(300, 0.8);
    
-    private String CONFIGURATION_SECTION_NAME = "MainWindow";
+    private final String CONFIGURATION_SECTION_NAME = "MainWindow";
 
     private class ViewUpdateHandler implements EventBrokerListener {
         public void processEvent(Event e) {
@@ -273,7 +280,8 @@ public class OntoRamaApp extends JFrame {
         pack();
 
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+            @Override
+			public void windowClosing(WindowEvent e) {
                 closeWindow();
             }
         });
@@ -385,7 +393,7 @@ public class OntoRamaApp extends JFrame {
                 (SphericalProjection) projection;
             final JSlider focusSlider =
                 new JSlider(
-                    JSlider.HORIZONTAL,
+                    SwingConstants.HORIZONTAL,
                     1,
                     20,
                     (int) (sphProj.getRelativeFocus() * 10));
@@ -425,7 +433,7 @@ public class OntoRamaApp extends JFrame {
     }
 
     public static Frame getMainFrame() {
-        Frame[] frames = ontorama.ui.OntoRamaApp.getFrames();
+        Frame[] frames = Frame.getFrames();
         if (frames.length == 0) {
             return null;
         }

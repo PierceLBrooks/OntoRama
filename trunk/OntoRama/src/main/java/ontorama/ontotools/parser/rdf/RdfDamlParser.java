@@ -65,7 +65,7 @@ public class RdfDamlParser implements Parser {
     private List<RDFNode> resourceConceptNodeTypesList;
     private List<RDFNode> resourceRelationNodeTypesList;
 
-    private List<String> predicatesConnectingPropertyToProperty;
+    private final List<String> predicatesConnectingPropertyToProperty;
     
     private final String _predicateName_subPropertyOf = "subPropertyOf";
     private final String _predicateName_range = "range";
@@ -232,24 +232,19 @@ public class RdfDamlParser implements Parser {
             if (namespace.endsWith(_rdfSyntaxTypeNamespaceSuffix)) {
                 _rdfSyntaxTypeNamespace = namespace;
             }
-            /// @todo commented out is the better way to do this,
+            // TODO commented out is the better way to do this,
             // but in WebKB rdfs namespace ends with something
             // like "rdf-shema-199990808#" which is not usefull for us.
             int index = namespace.toString().indexOf(_rdfsNamespaceSuffix);
             if (index > 0) {
-                //if (namespace.endsWith(_rdfsNamespaceSuffix)) {
                 _rdfsNamespace = namespace;
-                /// @todo this a hack to handle older RDF schema namespaces, such as http://www.w3.org/TR/1999/PR-rdf-schema-19990303
-                /// for instance (WebKB is still using it). For now we just reassign it to the latest W3C schema.
-                /// To find full extent of the hack - search for usages of _correctedRdfsNamespace.
+                // TODO this a hack to handle older RDF schema namespaces,
+				// such as http://www.w3.org/TR/1999/PR-rdf-schema-19990303
+				// for instance (WebKB is still using it). For now we just
+				// reassign it to the latest W3C schema.
+				// To find full extent of the hack - search for usages of
+				// _correctedRdfsNamespace.
                 _correctedRdfsNamespace = RDFS.getURI();
-            }
-
-            /// @todo hacky way to find daml namespace, need better solution
-            /// assuming that daml namespace looks something like: http://www.daml.org/.../../daml-ont#
-            int damlIndex1 = namespace.toString().indexOf("daml");
-            int damlIndex2 = namespace.toString().lastIndexOf("daml");
-            if ((damlIndex1 > 0) && (damlIndex2 > 0) && (damlIndex1 != damlIndex2)) {
             }
         }
     }
@@ -392,13 +387,12 @@ public class RdfDamlParser implements Parser {
         _edgesList.add(newEdge);
     }
 
-
-    /*
-     * @todo    need to check if this rdfNode string contains any uri's, otherwise
-     * may strip something that shouldn't be stripped if node happen to contain "/".
-     * for example: description may contain '/': cats/dogs
-     * maybe need to check if string starts with http:// ?
-     */
+	/*
+	 * TODO need to check if this rdfNode string contains any uri's, otherwise
+	 * may strip something that shouldn't be stripped if node happen to contain
+	 * "/". for example: description may contain '/': cats/dogs maybe need to
+	 * check if string starts with http:// ?
+	 */
     public String stripUri(RDFNode rdfNode) {
         return stripUri(rdfNode.toString());
     }

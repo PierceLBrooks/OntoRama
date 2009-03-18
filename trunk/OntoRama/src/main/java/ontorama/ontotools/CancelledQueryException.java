@@ -9,9 +9,6 @@ package ontorama.ontotools;
 public class CancelledQueryException extends Exception {
 
     public CancelledQueryException() {
-    }
-
-    public String getMessage() {
-        return "Query was cancelled by user";
+    	super("Query was cancelled by the user");
     }
 }

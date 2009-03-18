@@ -1,11 +1,3 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 18/09/2002
- * Time: 09:12:40
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.conf;
 
 import java.awt.Color;
@@ -34,6 +26,7 @@ public class EdgeTypeDisplayInfo {
 
 
     public EdgeTypeDisplayInfo () {
+    	// we use setters at the moment
     }
 
     public boolean isDisplayInGraph() {
@@ -115,7 +108,8 @@ public class EdgeTypeDisplayInfo {
         _queryOn = queryOn;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         String str = "EdgeTypeDisplayInfo: ";
         str = str + "_displayInGraph = " + _displayInGraph+ ", _displayReverseEdgeInDescription = " + _displayReverseEdgeInDescription + ", image = " + _image + ", reverseEdgeImage = " + _reverseEdgeImage;
         return str;

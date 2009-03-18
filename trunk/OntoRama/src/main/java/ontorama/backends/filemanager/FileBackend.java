@@ -20,11 +20,6 @@ import ontorama.model.graph.GraphImpl;
 import ontorama.model.graph.InvalidArgumentException;
 import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
-import ontorama.ui.ErrorDialog;
-import ontorama.ui.HistoryElement;
-import ontorama.ui.OntoRamaApp;
-import ontorama.ui.events.GraphIsLoadedEvent;
-import ontorama.ui.events.QueryStartEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.parser.Parser;
@@ -33,6 +28,11 @@ import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.source.FileSource;
 import ontorama.ontotools.writer.ModelWriter;
+import ontorama.ui.ErrorDialog;
+import ontorama.ui.HistoryElement;
+import ontorama.ui.OntoRamaApp;
+import ontorama.ui.events.GraphIsLoadedEvent;
+import ontorama.ui.events.QueryStartEvent;
 
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
@@ -44,7 +44,7 @@ public class FileBackend implements Backend {
     private EventBroker _eventBroker;
     private Parser parser;
     
-    private List<DataFormatMapping> _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
+    private final List<DataFormatMapping> _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 	private String _filename;
 	
 	private QuerySettings _querySettings;
@@ -58,6 +58,7 @@ public class FileBackend implements Backend {
     }
     
     public FileBackend(){
+    	// we use setters at the moment
     }
 
     public void setEventBroker(EventBroker eventBroker) {

@@ -35,7 +35,8 @@ public class TestTree extends TestCase{
         super(name);
     }
 
-    public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
+    @Override
+	public void setUp () throws NoSuchRelationLinkException, InvalidArgumentException {
     	OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
     	
         List<Node> graphNodesList = new ArrayList<Node>();
@@ -127,7 +128,7 @@ public class TestTree extends TestCase{
 
     public void testCloneWithChildren () {
         TreeNode treeNode = getNodeByName("node6");
-    	assertEquals("tree should contain node6 ", true, (treeNode != null));
+        assert treeNode != null : "Tree should contain node6 ";
         List<TreeNode> clones = treeNode.getClones();
         assertEquals("number of clones for node6 ", 1, clones.size());
         TreeNode clone = clones.get(0);
@@ -158,9 +159,9 @@ public class TestTree extends TestCase{
     
     public void testParent () {
     	TreeNode node1 = getNodeByName("node1");
-    	assertEquals("tree should contain node1 ", true, (node1 != null));
+    	assert node1 != null : "Tree should contain node1";
     	TreeNode node2 = getNodeByName("node2");
-    	assertEquals("tree should contain node2 ", true, (node2 != null));
+    	assert node2 != null : "Tree should contain node2";
     	assertEquals("parent for node2 ", node1, node2.getParent());
     	
     }
@@ -243,6 +244,7 @@ public class TestTree extends TestCase{
             fail("should raise  a TreeModificationException");
         }
         catch (TreeModificationException e) {
+        	// expected
         }
     }
 

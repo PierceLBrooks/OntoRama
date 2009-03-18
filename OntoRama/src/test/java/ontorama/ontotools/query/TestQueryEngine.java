@@ -22,10 +22,7 @@ import ontorama.ontotools.query.QueryResult;
  * 
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
- * @author nataliya
- * @version 1.0
  */
-
 public class TestQueryEngine extends TestCase {
 
 	String sourcePackageName = "ontorama.ontotools.source.JarSource";

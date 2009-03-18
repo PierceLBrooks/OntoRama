@@ -37,14 +37,6 @@ import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
 
-/**
- * @author henrika
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
 public class FileBackend implements Backend {
 	public static final String sourcePackageName = "ontorama.ontotools.source.FileSource";
 
@@ -90,9 +82,7 @@ public class FileBackend implements Backend {
 							throws NoSuchRelationLinkException {
 		return new EdgeImpl(fromNode, toNode, edgeType);
 	}
-	/**
-	 * @see ontorama.backends.Backend#getDataFormats()
-	 */
+
 	public Collection<DataFormatMapping> getDataFormats() {
 		return _dataFormatsMapping;
 	}
@@ -147,27 +137,13 @@ public class FileBackend implements Backend {
 		return new GraphImpl(qr);
 	}
 
-
-
-//	/**
-//	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
-//	 */
-//	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-//		_lastQueryEngine = new QueryEngine( _sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
-//		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
-//		return queryResult;
-//		return null;
-//	}
-
 	public HistoryElement createHistoryElement(Query query,EventBroker eventBroker) {
 		FileHistoryElement res = new FileHistoryElement(query, eventBroker, this, _querySettings);
 		return res;
 	}
-	
 
 	public QueryEngine getQueryEngine() throws QueryFailedException {
 		_lastQueryEngine = new QueryEngine( sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
 		return _lastQueryEngine;
 	}
-
 }

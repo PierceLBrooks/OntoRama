@@ -105,7 +105,7 @@ public class OntoRamaApp extends JFrame {
     private Query _query;
 
     /**
-     * previous successfull query
+     * previous successful query
      */
     private Query _lastQuery = null;
 
@@ -159,6 +159,8 @@ public class OntoRamaApp extends JFrame {
     private class GraphIsLoadedEventHandler implements EventBrokerListener {
         public void processEvent(Event event) {
             Graph graph = (Graph) event.getSubject();
+            assert graph != null : "We expected to get a new graph";
+            assert graph.getRootNode() != null : "The new graph should have a root node";
 			_statusBar.stopProgressBar();
             _queryPanel.enableStopQueryAction(false);
             _queryPanel.enableQueryActions(true);

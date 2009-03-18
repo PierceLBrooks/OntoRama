@@ -20,15 +20,6 @@ import ontorama.ui.HistoryElement;
 
 import org.tockit.events.EventBroker;
 
-/**
- * Backend interface
- * @author nataliya
- */
-/* Methods we want:
-Collection getExportFormats() // returns (writer,format name, extension..)
-Parser getParser() // ???
-Graph search(Query)
-		 */
 public interface Backend {
 	
 	public JPanel getPanel();
@@ -42,8 +33,6 @@ public interface Backend {
 	
 	public Graph createGraph (QueryResult qr) throws InvalidArgumentException;
 	
-//	public QueryResult executeQuery (Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult;
-
 	public Collection<DataFormatMapping> getDataFormats();
 	
 	public HistoryElement createHistoryElement (Query query, EventBroker eventBroker);

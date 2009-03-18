@@ -104,9 +104,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
 
     public Projection projection = null;
 
-    /**
-     *
-     */
     public SimpleHyperView(EventBroker eventBroker, Projection projection) {
         super(eventBroker);
         this.projection = projection;
@@ -168,9 +165,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         return _tree;
     }
 
-    /**
-     *
-     */
     public void focus(TreeNode treeNode) {
         if ((focusNode != null) && (treeNode.equals(focusNode.getTreeNode())) ) {
             return;
@@ -193,9 +187,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
         animate();
     }
 
-    /**
-     *
-     */
     public void toggleFold(TreeNode node) {
         HyperNodeView focusedHyperNodeView = this.hypernodeviews.get(node);
         if (focusedHyperNodeView == null) {
@@ -278,9 +269,6 @@ public class SimpleHyperView extends Canvas implements TreeView {
     }
 
 
-    /**
-     *
-     */
     private void makeHyperNodes(TreeNode node) {
         HyperNode hn = new HyperNode(node);
         NodeType nodeType = node.getNodeType();

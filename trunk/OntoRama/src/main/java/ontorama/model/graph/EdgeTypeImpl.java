@@ -3,7 +3,7 @@ package ontorama.model.graph;
 
 public class EdgeTypeImpl implements EdgeType {
 
-    private String _name;
+    private final String _name;
     private String _reverseEdgeName;
     private String _namespace;
 
@@ -31,6 +31,7 @@ public class EdgeTypeImpl implements EdgeType {
         return _namespace;
     }
 
+    @Override
     public String toString() {
         String str = "EdgeType: ";
         str = str + " name = " + _name + ", reversedEdgeName = " + _reverseEdgeName;

@@ -1,24 +1,22 @@
 package ontorama.backends.examplesmanager;
 
-import org.tockit.events.EventBroker;
-
 import ontorama.ontotools.query.Query;
 import ontorama.ui.HistoryElement;
 
+import org.tockit.events.EventBroker;
+
 /**
- * <p>Title: </p>
  * <p>Description: Model History Element properties.</p>
  * <p>Copyright: Copyright (c) DSTC 2002</p>
  * <p>Company: DSTC</p>
- * @version 1.0
  */
 public class ExamplesHistoryElement implements HistoryElement {
 
-    private Query _query;
-    private String _menuDisplayName;
+    private final Query _query;
+    private final String _menuDisplayName;
 	private String _toolTipText;
-	private OntoramaExample _example;
-	private ExamplesBackend _backend;
+	private final OntoramaExample _example;
+	private final ExamplesBackend _backend;
 
     /**
      * Create history element with given _getRelationLinksList, query and _example.
@@ -47,32 +45,19 @@ public class ExamplesHistoryElement implements HistoryElement {
         return _menuDisplayName;
     }
 
-
-    /**
-     * Get query
-     */
     public Query getQuery() {
         return _query;
     }
     
-    
-	/**
-	 * @see ontorama.ui.HistoryElementInterface#displayElement()
-	 */
 	public void displayElement() {
 		_backend.processQueryFromHistoryElement(_example, _query);
 	}
     
-	/**
-	 * @see ontorama.ui.HistoryElement#getToolTipText()
-	 */
 	public String getToolTipText() {
 		return _toolTipText;
 	}
 	
-    /**
-     *
-     */
+    @Override
     public String toString() {
         String str = "HistoryElement: ";
         str = str + "display name = " + _menuDisplayName;

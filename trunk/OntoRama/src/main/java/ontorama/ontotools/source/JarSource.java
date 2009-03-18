@@ -25,7 +25,7 @@ public class JarSource implements Source {
         return new SourceResult(true, reader, null);
     }
 
-    public InputStream getInputStreamFromResource(String resourceName) throws SourceException {
+    public InputStream getInputStreamFromResource(String resourceName) {
 		return this.getClass().getClassLoader().getResourceAsStream(resourceName);
     }
 }

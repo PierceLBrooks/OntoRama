@@ -43,6 +43,7 @@ public class QueryResult {
         return this.edges;
     }
 
+    @Override
     public String toString() {
         String str = "QueryResult";
         str = str +  " for query term = " + query.getQueryTypeName() + ", nodes = " + getNodesList() + ", edges = " + getEdgesList();

@@ -8,8 +8,8 @@ import org.tockit.events.LoggingEventListener;
 
 public class ExtendedLoggingEventListener extends LoggingEventListener {
 
-	private EventBroker eventBroker;
-	private PrintStream printStream;
+	private final EventBroker eventBroker;
+	private final PrintStream printStream;
 	
 	public ExtendedLoggingEventListener(EventBroker eventBroker, Class<? extends Event> eventType, Class<?> subjectType, PrintStream printStream) {
 		super(eventBroker, eventType, subjectType, printStream);
@@ -17,7 +17,8 @@ public class ExtendedLoggingEventListener extends LoggingEventListener {
 		this.printStream = printStream;
 	}
 	
-	public void processEvent(Event e) {
+	@Override
+    public void processEvent(Event e) {
 		printStream.println("Event: " + e.getClass() + "  Subject: " + e.getSubject().getClass() + "\n\t EventBroker: " + this.eventBroker);
 	}
 

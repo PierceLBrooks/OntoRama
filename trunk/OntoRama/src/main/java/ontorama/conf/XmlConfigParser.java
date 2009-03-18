@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +25,10 @@ import org.jdom.input.SAXBuilder;
 public class XmlConfigParser extends XmlParserAbstract {
 
     private static Map<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
-    private List<EdgeType> edgesOrdering;
+    private final List<EdgeType> edgesOrdering;
     private NodeTypeDisplayInfo conceptShape = null;
     private NodeTypeDisplayInfo relationShape = null;
-    private JarSource streamReader = new JarSource();
+    private final JarSource streamReader = new JarSource();
 
     private static List<RdfMapping> relationRdfMappingList;
 
@@ -78,7 +77,7 @@ public class XmlConfigParser extends XmlParserAbstract {
      * array's last index is 1.
      *
      */
-    public XmlConfigParser(InputStream in) throws ConfigParserException, IOException {
+    public XmlConfigParser(InputStream in) throws ConfigParserException {
         relationRdfMappingList = new ArrayList<RdfMapping>();
         edgesConfig = new HashMap<EdgeType, EdgeTypeDisplayInfo>();
         edgesOrdering = new ArrayList<EdgeType>();
@@ -198,7 +197,7 @@ public class XmlConfigParser extends XmlParserAbstract {
         EdgeType edgeType = new EdgeTypeImpl(nameAttr.getValue());
 
         if (listSize > 1) {
-            Element reverseRelationTypeElement = (Element) relationTypeElementsList.get(1);
+            Element reverseRelationTypeElement = relationTypeElementsList.get(1);
             Attribute reverseNameAttr = reverseRelationTypeElement.getAttribute(nameAttributeName);
             checkCompulsoryAttr(nameAttr, nameAttributeName, relationTypeElementName);
             edgeType.setReverseEdgeName(reverseNameAttr.getValue());

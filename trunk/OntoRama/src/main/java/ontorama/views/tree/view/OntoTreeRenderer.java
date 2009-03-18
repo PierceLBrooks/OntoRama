@@ -33,7 +33,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
      * icon drawing line between relation link
      * icon and node icon
      */
-    private ImageIcon _lineIcon;
+    private final ImageIcon _lineIcon;
 
     /**
      * Renderer for OntoTree View
@@ -46,6 +46,7 @@ public class OntoTreeRenderer extends DefaultTreeCellRenderer {
         _lineIcon = makeLineIcon(iconW / 2, iconH);
     }
 
+    @Override
     public Component getTreeCellRendererComponent(
                                         JTree tree,
                                         Object value,

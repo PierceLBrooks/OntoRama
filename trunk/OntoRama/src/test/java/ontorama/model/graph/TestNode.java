@@ -6,9 +6,6 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import ontorama.model.graph.Node;
-import ontorama.model.graph.NodeImpl;
-
 /**
  * <p>Copyright: Copyright (c) 2002</p>
  * <p>Company: DSTC</p>
@@ -25,7 +22,7 @@ public class TestNode extends TestCase {
     private Node node2;
     private Node node3;
 
-    private String nodeIdentifier1 = "some.node.identifier";
+    private final String nodeIdentifier1 = "some.node.identifier";
 
     private URI creatorUri1;
     private URI creatorUri2;
@@ -34,6 +31,7 @@ public class TestNode extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws URISyntaxException {
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");
@@ -56,7 +54,7 @@ public class TestNode extends TestCase {
         assertEquals("node2 full name", "node2", node2.getIdentifier());
     }
 
-    public void testSetFullName() throws URISyntaxException {
+    public void testSetFullName() {
         String testIdentifier1 = "htpp://somewhere.com/ontorama/node1";
         String testIdentifier2 = "http://somewhere.com/ontorama/node2";
         node1.setIdentifier(testIdentifier1);

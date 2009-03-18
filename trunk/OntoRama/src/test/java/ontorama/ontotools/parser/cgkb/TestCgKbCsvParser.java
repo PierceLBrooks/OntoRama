@@ -11,7 +11,6 @@ package ontorama.ontotools.parser.cgkb;
 import java.io.Reader;
 
 import junit.framework.TestCase;
-
 import ontorama.OntoramaConfig;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
@@ -28,6 +27,7 @@ public class TestCgKbCsvParser extends TestCase {
         super(s);
     }
 
+    @Override
     protected void setUp() throws Exception {
 
         OntoramaConfig.loadAllConfig("cgkb/examplesConfig.xml", "ontorama.properties", "cgkb/config.xml");

@@ -12,6 +12,7 @@ import ontorama.model.graph.events.GraphNodeRemovedEvent;
 import ontorama.model.graph.events.GraphReducedEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.query.QueryResult;
+
 import org.tockit.events.EventBroker;
 
 /**
@@ -49,7 +50,7 @@ public class GraphImpl implements Graph {
      */
     private List<Edge> _graphEdges = new ArrayList<Edge>();
 
-    private EventBroker _eventBroker;
+    private final EventBroker _eventBroker;
 
     private String termName;
 
@@ -128,6 +129,8 @@ public class GraphImpl implements Graph {
     }
 
     private List<Edge> checkEdgeForCycle (Edge oneWayEdge) throws GraphCyclesDisallowedException {
+        assert oneWayEdge != null : "Starting edge must not be null.";
+        
         List<Edge> edgesToRemove = new ArrayList<Edge>();
 
         Node fromNode = oneWayEdge.getFromNode();
@@ -139,7 +142,7 @@ public class GraphImpl implements Graph {
         }
 
         Edge reversedEdge = getEdge(toNode, fromNode, edgeType);
-        if ((oneWayEdge != null) && (reversedEdge != null)) {
+        if (reversedEdge != null) {
             String message = "Detected cycle in the graph we are trying to display. Relation links: \n";
             message = message + "edge: " + fromNode.getName() + " -> " + toNode.getName() + " , edgeType = " + edgeType.getName() + "\n";
             message = message + " and \n";

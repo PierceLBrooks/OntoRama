@@ -1,12 +1,12 @@
 package ontorama.views.textDescription.view;
 
-import ontorama.model.graph.Node;
-
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JLabel;
+
+import ontorama.model.graph.Node;
 
 /**
  * Class responsible for building a panel to display concept/node
@@ -42,10 +42,12 @@ public class NodePropertiesPanel extends AbstractPropertiesPanel {
         _propValueLabel.setText("");
     }
 
+    @Override
     public void clear() {
         _propValueLabel.setText("");
     }
 
+    @Override
     public void update(List<Object> propValueList) {
         setPropValue(propValueList);
     }

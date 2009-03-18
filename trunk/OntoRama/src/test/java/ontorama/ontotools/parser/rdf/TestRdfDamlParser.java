@@ -138,14 +138,6 @@ public class TestRdfDamlParser extends TestCase {
 	}
 
 	/*
-	 * test rel link 'reverse' for type chair
-	 * id = 3
-	 */
-	public void testEdge_chair_reverse() throws NoSuchRelationLinkException {
-		//testingRelationLink("reverse", 5, testType_chair, "", 0);
-	}
-
-	/*
 	 * test rel link 'part' for type chair
 	 * id = 4
 	 */
@@ -240,10 +232,7 @@ public class TestRdfDamlParser extends TestCase {
 
 	}
 
-    public void testInvalidRDF_extraColumnInElementName() throws java.lang.ClassNotFoundException,
-            java.lang.IllegalAccessException, java.lang.InstantiationException,
-            SourceException, CancelledQueryException {
-
+    public void testInvalidRDF_extraColumnInElementName() throws SourceException, CancelledQueryException {
 		Source source = new JarSource();
     	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-1.rdf", new Query("test#Chair")).getReader();
         Parser parser = new RdfDamlParser();
@@ -255,10 +244,7 @@ public class TestRdfDamlParser extends TestCase {
         }
     }
 
-    public void testInvalidRDF_DoubleSlashComments() throws java.lang.ClassNotFoundException,
-            java.lang.IllegalAccessException, java.lang.InstantiationException,
-            SourceException, CancelledQueryException {
-
+    public void testInvalidRDF_DoubleSlashComments() throws SourceException, CancelledQueryException {
     	Source source = new JarSource();
     	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-2.rdf", new Query("test#Chair")).getReader();
         Parser parser = new RdfDamlParser();
@@ -268,15 +254,12 @@ public class TestRdfDamlParser extends TestCase {
         } catch (ParserException e) {
         	// expected
         }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     protected void testingEdge (EdgeType edgeType, Node fromNode, String toNodeName,
-                                       int expectedIteratorSize)
-            throws NoSuchRelationLinkException {
-
+                                       int expectedIteratorSize) {
         assertEquals("graph node should never be null here, check setUp() method" +
                 " for node " + fromNode + " (checking edge type '" + edgeType.getName() + "')",
                 false, (fromNode == null));

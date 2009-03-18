@@ -22,8 +22,8 @@ import org.tockit.events.EventBroker;
  */
 @SuppressWarnings("serial")
 public class ClonesPanel extends AbstractPropertiesPanel {
-	private JPanel _propValuePanel = new JPanel();
-	private EventBroker _eventBroker;
+	private final JPanel _propValuePanel = new JPanel();
+	private final EventBroker _eventBroker;
 
     public ClonesPanel(String propName, EventBroker eventBroker) {
 		_eventBroker = eventBroker;
@@ -43,7 +43,8 @@ public class ClonesPanel extends AbstractPropertiesPanel {
 	 * only happen in a tree and on tree nodes.
 	 * @see ontorama.views.textDescription.view.AbstractPropertiesPanel#update(List)
 	 */
-	public void update(List<Object> propValuesList) {
+	@Override
+    public void update(List<Object> propValuesList) {
 		Iterator<Object> propValuesIterator = propValuesList.iterator();
 		clear();
 		// need updateUI, otherwise it seems that when a user clicks
@@ -67,10 +68,11 @@ public class ClonesPanel extends AbstractPropertiesPanel {
                 _eventBroker.processEvent(new TreeNodeSelectedEvent(treeNode, _eventBroker));
             }
         });
-        return (JComponent) button;
+        return button;
     }
     
-	public void clear() {
+	@Override
+    public void clear() {
 		_propValuePanel.removeAll();
 	}
 }

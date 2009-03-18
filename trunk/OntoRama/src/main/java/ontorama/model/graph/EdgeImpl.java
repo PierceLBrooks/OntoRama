@@ -15,7 +15,7 @@ public class EdgeImpl implements Edge {
 
     private Node toNode;
 
-    private EdgeType edgeType;
+    private final EdgeType edgeType;
 
     /**
      * creator URI for this edge - unique identifier of the creator
@@ -69,6 +69,7 @@ public class EdgeImpl implements Edge {
         return this.creatorUri;
     }
 
+    @Override
     public String toString() {
         String str = "Edge from '" + this.fromNode + "' to '";
         str = str + this.toNode + "', edgeType = " + edgeType.getName() + "(URI:" + edgeType.getNamespace() + ")";
@@ -85,7 +86,8 @@ public class EdgeImpl implements Edge {
     }
     
     
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
 		}
@@ -98,7 +100,8 @@ public class EdgeImpl implements Edge {
 		return false;
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		int result = fromNode.hashCode() + toNode.hashCode() + edgeType.hashCode();
 		return result;
 	}

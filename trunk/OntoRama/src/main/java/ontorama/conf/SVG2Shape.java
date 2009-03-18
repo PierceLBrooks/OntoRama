@@ -5,7 +5,11 @@
 package ontorama.conf;
 
 import java.awt.Shape;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -35,7 +39,7 @@ public class SVG2Shape {
         GeneralPath shape = new GeneralPath();
         Iterator<Element> it = svgElement.getChildren().iterator();
         while(it.hasNext()) {
-        	Element cur = (Element) it.next();
+        	Element cur = it.next();
         	if(cur.getName().equals("rect")) {
         	    double x = Double.parseDouble(cur.getAttributeValue("x"));
         	    double y = Double.parseDouble(cur.getAttributeValue("y"));

@@ -183,7 +183,7 @@ public class RdfDamlParser implements Parser {
         return result;
     }
 
-	private void sortResourcesIntoClassesAndProperties (Model model) throws RDFException, ParserException {
+	private void sortResourcesIntoClassesAndProperties(Model model) throws RDFException {
         /// @todo following is an  attempt to classify rdf objects into Classes
         // and Properties. This may not work very well for some rdf files.
         Property typeProperty = new PropertyImpl(_rdfSyntaxTypeNamespace, "type");
@@ -267,7 +267,7 @@ public class RdfDamlParser implements Parser {
     /**
      * Process RDF statement and create corresponding graph nodes.
      */
-    protected void processStatement(Statement st) throws NoSuchRelationLinkException, ParserException {
+    protected void processStatement(Statement st) throws NoSuchRelationLinkException {
         Property predicate = st.getPredicate();
         Resource resource = st.getSubject();
         RDFNode object = st.getObject();
@@ -311,7 +311,7 @@ public class RdfDamlParser implements Parser {
         doEdgesMapping(subjectNode, predicate, objectNode);
     }
 
-    protected Node doNodeMapping (RDFNode object) throws ParserException {
+    protected Node doNodeMapping(RDFNode object) {
         String nodeName = stripUri(object);
         Node node;
         if (_nodesHash.containsKey(nodeName)) {

@@ -7,8 +7,8 @@ package ontorama.views.hyper.model;
  * views is via GrapNode hasFocus() method.
  */
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ontorama.model.tree.TreeNode;
@@ -18,22 +18,22 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store all the Hyper observers
      */
-    private List<PositionChangedObserver> positionChangedObserver = new ArrayList<PositionChangedObserver>();
+    private final List<PositionChangedObserver> positionChangedObserver = new ArrayList<PositionChangedObserver>();
 
     /**
      * Store focus observer.
      */
-    private List<Object> focusListener = new ArrayList<Object>();
+    private final List<Object> focusListener = new ArrayList<Object>();
 
     /**
      * Store the position of the node.
      */
-    private Position3D position;
+    private final Position3D position;
 
     /**
      * Store node radius.
      */
-    private double nodeRadius = 15;
+    private final double nodeRadius = 15;
 
     /**
      * store distance from the root
@@ -44,7 +44,7 @@ public class HyperNode implements PositionChangedObservable {
     /**
      * Store the graph node for this hyper node.
      */
-    private TreeNode _treeNode;
+    private final TreeNode _treeNode;
 
     /**
      * Constructor
@@ -174,6 +174,7 @@ public class HyperNode implements PositionChangedObservable {
         this.depth = depth;
     }
 
+    @Override
     public String toString() {
         return getName();
     }

@@ -142,8 +142,8 @@ public class OntoramaConfig {
                                         throws SourceException, IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
-		EDIT_ENABLED = (new Boolean(properties.getProperty("EDIT_ENABLED"))).booleanValue();
-        loadBlankOnStartUp = (new Boolean(properties.getProperty("loadBlankOnStartUp"))).booleanValue();
+		EDIT_ENABLED = Boolean.valueOf(properties.getProperty("EDIT_ENABLED")).booleanValue();
+        loadBlankOnStartUp = Boolean.valueOf(properties.getProperty("loadBlankOnStartUp")).booleanValue();
         backendName = properties.getProperty("backend");
     }
 
@@ -273,6 +273,7 @@ public class OntoramaConfig {
 	}
 
 	public static Backend instantiateBackend(String backendName, Frame parentFrame) {
+	    // TODO this should throw an exception instead of showing the error dialog itself
 		try {
 			Backend backend = (Backend) Class.forName(backendName).newInstance();
 			OntoramaConfig._activeBackend = backend;

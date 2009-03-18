@@ -37,7 +37,7 @@ public class HistoryMenu extends JMenu {
 
     private static Map<JRadioButtonMenuItem, HistoryElement> _menuItemHistoryMapping;
 
-    private int _maxHistoryItems = 20;
+    private final int _maxHistoryItems = 20;
 
     /**
      * hold all history menu items for operating
@@ -48,14 +48,14 @@ public class HistoryMenu extends JMenu {
     /**
      * event broker capable of processing queries
      */
-    private EventBroker _eventBroker;
+    private final EventBroker _eventBroker;
 
     public Action _backAction;
     public Action _forwardAction;
     
-    private ButtonGroup _buttonGroup;
+    private final ButtonGroup _buttonGroup;
     
-    private Backend _backend = OntoramaConfig.getBackend();
+    private final Backend _backend = OntoramaConfig.getBackend();
 
     public HistoryMenu(EventBroker eventBroker) {
         super("History");
@@ -126,7 +126,7 @@ public class HistoryMenu extends JMenu {
 		    remove(firstMenuItem);
 		}
 		
-		HistoryElement historyElement = _backend.createHistoryElement(query,_eventBroker);
+		final HistoryElement historyElement = _backend.createHistoryElement(query, _eventBroker);
 		if (historyElement == null) {
 			return;
 		}
@@ -139,8 +139,7 @@ public class HistoryMenu extends JMenu {
 		_historyItems.add(historyItem);
 		historyItem.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) e.getSource();
-		        displayHistoryItem(historyItem);
+		        displayHistoryItem(historyElement);
 		    }
 		});
 		add(historyItem);
@@ -217,9 +216,11 @@ public class HistoryMenu extends JMenu {
  	private void displayHistoryItem (JMenuItem menuItem) {
 		JRadioButtonMenuItem historyItem = (JRadioButtonMenuItem) menuItem;
 		HistoryElement historyElement = _menuItemHistoryMapping.get(historyItem);
-		historyElement.displayElement();
-		enableBackForwardButtons();
+		displayHistoryItem(historyElement);
 	}
-    
 
+    private void displayHistoryItem(HistoryElement historyElement) {
+        historyElement.displayElement();
+        enableBackForwardButtons();
+    }
 }

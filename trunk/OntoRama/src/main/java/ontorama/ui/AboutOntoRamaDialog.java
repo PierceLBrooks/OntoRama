@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -27,9 +26,9 @@ import javax.swing.border.BevelBorder;
 
 @SuppressWarnings("serial")
 public class AboutOntoRamaDialog extends JDialog {
-	private final static String licenseFileLoc = "LICENSE.txt";
+	private final static String LICENSE_FILE_LOCATION = "LICENSE.txt";
 
-    private Color backgroundColor = Color.white;
+    private final Color backgroundColor = Color.white;
 
     public AboutOntoRamaDialog(Component owner) {
         System.out.println("AboutOntoRamaDialog");
@@ -61,10 +60,10 @@ public class AboutOntoRamaDialog extends JDialog {
         BoxLayout imagesLayout = new BoxLayout(imagesPanel, BoxLayout.X_AXIS);
         imagesPanel.setLayout(imagesLayout);
         imagesPanel.setBackground(backgroundColor);
-        imagesPanel.add(new JLabel((Icon) ImageMapping.dstcLogoImage));
+        imagesPanel.add(new JLabel(ImageMapping.dstcLogoImage));
         Dimension d2 = new Dimension(80, 0);
         imagesPanel.add(Box.createRigidArea(d2));
-        imagesPanel.add(new JLabel((Icon) ImageMapping.kvoLogoImage));
+        imagesPanel.add(new JLabel(ImageMapping.kvoLogoImage));
         imagesPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		mainPanel.add(imagesPanel);
 		mainPanel.add(Box.createRigidArea(d));
@@ -77,7 +76,7 @@ public class AboutOntoRamaDialog extends JDialog {
         try {
 			JLabel licenseLabel = new JLabel("License: ");
 			licenseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			String license = readLicense(licenseFileLoc);
+			String license = readLicense();
 			JTextArea licenseTextArea = new JTextArea(license, 30, 70);
 			licenseTextArea.setEditable(false);
 			JScrollPane licenseScrollPane = new JScrollPane(licenseTextArea);
@@ -112,8 +111,8 @@ public class AboutOntoRamaDialog extends JDialog {
         setVisible(true);
     }
 
-    private String readLicense(String licenseFileLoc) throws IOException {
-    	InputStream licenseStream = this.getClass().getClassLoader().getResourceAsStream(licenseFileLoc);
+    private String readLicense() throws IOException {
+        InputStream licenseStream = this.getClass().getClassLoader().getResourceAsStream(LICENSE_FILE_LOCATION);
     	BufferedReader br = new BufferedReader(new InputStreamReader(licenseStream));
 		String line = br.readLine();
 		StringBuffer license = new StringBuffer();

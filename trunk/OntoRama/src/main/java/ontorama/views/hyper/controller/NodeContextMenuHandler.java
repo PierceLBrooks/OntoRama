@@ -14,16 +14,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import ontorama.OntoramaConfig;
-import ontorama.ui.ErrorDialog;
-import ontorama.ui.OntoRamaApp;
 import ontorama.conf.EdgeTypeDisplayInfo;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.tree.Tree;
-import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.TreeModificationException;
+import ontorama.model.tree.TreeNode;
 import ontorama.model.tree.events.TreeNodeSelectedEvent;
+import ontorama.ui.ErrorDialog;
+import ontorama.ui.OntoRamaApp;
 import ontorama.views.hyper.view.HyperNodeView;
 import ontorama.views.hyper.view.SimpleHyperView;
+
 import org.tockit.canvas.events.CanvasItemContextMenuRequestEvent;
 import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
@@ -33,8 +34,8 @@ import org.tockit.events.EventBrokerListener;
  *
  */
 public class NodeContextMenuHandler implements EventBrokerListener {
-    private SimpleHyperView _simpleHyperView;
-    private EventBroker _eventBroker;
+    private final SimpleHyperView _simpleHyperView;
+    private final EventBroker _eventBroker;
 
     public NodeContextMenuHandler(SimpleHyperView simpleHyperView, EventBroker eventBroker) {
         this._simpleHyperView = simpleHyperView;
@@ -55,7 +56,7 @@ public class NodeContextMenuHandler implements EventBrokerListener {
             if(displayInfo.isDisplayInGraph()) {
                 menuItem = new JMenuItem(edgeType.getName());
                 menuItem.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+                    public void actionPerformed(ActionEvent ae) {
                         NewRelatedNodeCreator creator =
                                         new NewRelatedNodeCreator(_simpleHyperView, nodeView.getTreeNode(), edgeType);
 						try {
@@ -74,7 +75,7 @@ public class NodeContextMenuHandler implements EventBrokerListener {
         menu.add(newNodeMenu);
         menuItem = new JMenuItem("Delete node");
         menuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent ae) {
                 Tree tree = _simpleHyperView.getTree();
                 TreeNode treeNode = nodeView.getTreeNode();
                 try {

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import junit.framework.TestCase;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.EdgeTypeImpl;
-import ontorama.ontotools.query.Query;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -32,6 +30,7 @@ public class TestQuery extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() {
         termName = "catInTheHat";
 
@@ -85,13 +84,13 @@ public class TestQuery extends TestCase {
     }
 
     public void testSetRelationLinks() {
-        List<EdgeType> testRelationLinksList = new ArrayList<EdgeType>();
-        testRelationLinksList.add(new EdgeTypeImpl("22"));
-        testRelationLinksList.add(new EdgeTypeImpl("4"));
+        List<EdgeType> newTestRelationLinksList = new ArrayList<EdgeType>();
+        newTestRelationLinksList.add(new EdgeTypeImpl("22"));
+        newTestRelationLinksList.add(new EdgeTypeImpl("4"));
 
-        query2.setRelationLinks(testRelationLinksList);
+        query2.setRelationLinks(newTestRelationLinksList);
 
-        assertEquals(testRelationLinksList.size(), query2.getRelationLinksList().size());
+        assertEquals(newTestRelationLinksList.size(), query2.getRelationLinksList().size());
 
         assertEquals(new EdgeTypeImpl("22"), query2.getRelationLinksList().get(0));
         assertEquals(new EdgeTypeImpl("4"), query2.getRelationLinksList().get(1));

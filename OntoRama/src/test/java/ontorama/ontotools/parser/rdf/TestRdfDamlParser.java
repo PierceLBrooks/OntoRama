@@ -18,6 +18,7 @@ import ontorama.ontotools.WebKbConstants;
 import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.parser.ParserResult;
 import ontorama.ontotools.query.Query;
+import ontorama.ontotools.source.JarSource;
 import ontorama.ontotools.source.Source;
 
 /**
@@ -53,11 +54,6 @@ public class TestRdfDamlParser extends TestCase {
     protected Node testNode_allChairs;
     protected Node testNode_ACRONYM;
     
-    protected String sourcePackageName = "ontorama.ontotools.source.JarSource";
-
-    private Source source;
-    private Parser parser;
-    
     public TestRdfDamlParser(String name) {
         super(name);
     }
@@ -69,10 +65,10 @@ public class TestRdfDamlParser extends TestCase {
                 
         OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
         
-    	source = (Source) (Class.forName(sourcePackageName).newInstance());
+    	Source source = new JarSource();
     	Reader r = source.getSourceResult("examples/test/data/testCase.rdf", new Query("test#Chair")).getReader();
-
-        parser = new RdfDamlParser();
+        Parser parser = new RdfDamlParser();
+        
         buildResult(parser, r);
 
         List<Node> nodesList = parserResult.getNodesList();
@@ -248,9 +244,9 @@ public class TestRdfDamlParser extends TestCase {
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
 
-		source = (Source) Class.forName(sourcePackageName).newInstance();
+		Source source = new JarSource();
     	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-1.rdf", new Query("test#Chair")).getReader();
-        parser = new RdfDamlParser();
+        Parser parser = new RdfDamlParser();
         try {
             parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");
@@ -263,9 +259,9 @@ public class TestRdfDamlParser extends TestCase {
             java.lang.IllegalAccessException, java.lang.InstantiationException,
             SourceException, CancelledQueryException {
 
-    	source = (Source) Class.forName(sourcePackageName).newInstance();
+    	Source source = new JarSource();
     	Reader r = source.getSourceResult("examples/test/data/testCase-invalidRDF-2.rdf", new Query("test#Chair")).getReader();
-        parser = new RdfDamlParser();
+        Parser parser = new RdfDamlParser();
         try {
             parser.getResult(r);
             fail("failed to catch ParserException for invalid RDF file");

@@ -69,8 +69,7 @@ public class NodesListViewer extends JComboBox {
             }
         });
         setListSizeDependantProperties();
-        ListRenderer renderer = new ListRenderer();
-        setRenderer(renderer);
+        setRenderer(new ListRenderer());
     }
 
     /**

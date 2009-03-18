@@ -9,6 +9,8 @@ import ontorama.OntoramaConfig;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatMapping;
 import ontorama.conf.XmlParserAbstract;
+import ontorama.ontotools.source.Source;
+
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -75,9 +77,15 @@ public class XmlExamplesConfigParser extends XmlParserAbstract {
         Attribute sourcePackagePathSuffixAttr = sourceElement.getAttribute("sourcePackagePathSuffix");
         checkCompulsoryAttr(sourcePackagePathSuffixAttr, "sourcePackagePathSuffix", "source");
 
+        Source dataSource;
+		try {
+			dataSource = (Source) Class.forName(sourcePackagePathSuffixAttr.getValue()).newInstance();
+		} catch (Exception e) {
+			throw new ConfigParserException("Failed to initialise data source class named '" + sourcePackagePathSuffixAttr.getValue() +
+					"'", e);
+		}
         OntoramaExample example = new OntoramaExample(nameAttr.getValue(), rootAttr.getValue(),
-                uriAttr.getValue(), sourcePackagePathSuffixAttr.getValue(),
-                dataFormatMapping);
+                uriAttr.getValue(), dataSource, dataFormatMapping);
         if ((loadOnStartAttr != null) && (loadOnStartAttr.getValue().equals("yes"))) {
             this.mainExample = example;
             example.setLoadFirst(true);

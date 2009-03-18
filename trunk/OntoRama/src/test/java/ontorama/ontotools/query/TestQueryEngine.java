@@ -12,9 +12,11 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.WebKbConstants;
+import ontorama.ontotools.parser.rdf.RdfDamlParser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
+import ontorama.ontotools.source.JarSource;
 
 /**
  * Test if returned iterator of ontology types contains the same
@@ -25,8 +27,6 @@ import ontorama.ontotools.query.QueryResult;
  */
 public class TestQueryEngine extends TestCase {
 
-	String sourcePackageName = "ontorama.ontotools.source.JarSource";
-	String parserPackageName = "ontorama.ontotools.parser.rdf.RdfDamlParser";
 	String sourceUri = "examples/test/data/testCase.rdf";
 	private String queryTerm = "test#Chair";
     private List<EdgeType> relationLinksList;
@@ -81,7 +81,7 @@ public class TestQueryEngine extends TestCase {
         relationLinksList.add(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_instance));
         relationLinksList.add(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_member));
         
-    	queryEngine = new QueryEngine(sourcePackageName, parserPackageName, sourceUri);
+    	queryEngine = new QueryEngine(new JarSource(), new RdfDamlParser(), sourceUri);
         
         query1 = new Query(queryTerm);
 

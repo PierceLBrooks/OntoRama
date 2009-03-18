@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ontorama.conf.DataFormatMapping;
+import ontorama.ontotools.parser.Parser;
 
 /**
  * @author nataliya
@@ -32,7 +33,7 @@ public class Util {
 		Iterator<DataFormatMapping> it = dataFormatsMapping.iterator();
 		while (it.hasNext()) {
 			DataFormatMapping element = it.next();
-			if (element.getFileExtention().equals(extension)) {
+			if (element.getFileExtension().equals(extension)) {
 				return element;
 			}
 		}
@@ -40,17 +41,17 @@ public class Util {
 	}
 	
 	
-	public static String getParserForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
+	public static Parser getParserForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws ParserNotSpecifiedException {
-		String extention = Util.getExtension(file);
-		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);
+		String extension = Util.getExtension(file);
+		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extension);
 		if (mapping == null) {
-			throw new ParserNotSpecifiedException(extention);
+			throw new ParserNotSpecifiedException(extension);
 		}
-		if (mapping.getParserName() == null) {
-			throw new ParserNotSpecifiedException(extention);
+		if (mapping.getParser() == null) {
+			throw new ParserNotSpecifiedException(extension);
 		}
-		return mapping.getParserName();
+		return mapping.getParser();
 	}
 	
 

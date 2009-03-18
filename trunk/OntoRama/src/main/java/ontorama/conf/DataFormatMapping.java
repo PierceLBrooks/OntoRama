@@ -1,27 +1,24 @@
 package ontorama.conf;
 
+import ontorama.ontotools.parser.Parser;
+
 /**
  * This class is responsible for mapping file types to corresponding writers,
- * readers, file extentions, etc.
- * @author nataliya
+ * readers, file extensions, etc.
  */
 public class DataFormatMapping {
 	
 	/** 
-	 * name of this mapping
+	 * Name of this mapping
 	 */
-	private String _name;
+	private String name;
 	
 	/**
-	 * corresponding file extention.
+	 * Corresponding file extension.
 	 */
-	private String _fileExtention;
+	private String fileExtension;
 	
-	/**
-	 * Fully qualified parser name
-	 * note: using names for now because QueryEngine expects it.
-	 *	 */
-	private String _parserName;
+	private Parser parser;
 
 	/**
 	 * Fully qualified writer name
@@ -29,64 +26,37 @@ public class DataFormatMapping {
 	 */
 	private String _writerName;
 	
-
-	/**
-	 * Constructor for DataFormatMapping.
-	 */
-	public DataFormatMapping(String name, String fileExtention, String parserName) {
-		_name = name;
-		_fileExtention = fileExtention;
-		_parserName = parserName;
+	public DataFormatMapping(String name, String fileExtension, Parser parser) {
+		this.name = name;
+		this.fileExtension = fileExtension;
+		this.parser = parser;
 	}
 	
-	
-
-	/**
-	 * Returns the fileExtention.
-	 * @return String
-	 */
-	public String getFileExtention() {
-		return _fileExtention;
+	public String getFileExtension() {
+		return fileExtension;
 	}
 
-	/**
-	 * Returns the name.
-	 * @return String
-	 */
 	public String getName() {
-		return _name;
+		return name;
+	}
+	
+	public Parser getParser() {
+		return parser;
 	}
 
-	/**
-	 * Returns the parserName.
-	 * @return String
-	 */
-	public String getParserName() {
-		return _parserName;
-	}
-
-	/**
-	 * Returns the writerName.
-	 * @return String
-	 */
 	public String getWriterName() {
 		return _writerName;
 	}
 	
-	/**
-	 * Sets the writer Name.
-	 * @param writerName The writerName to set
-	 */
 	public void setWriterName(String writerName) {
 		_writerName = writerName;
 	}
 	
 	public String toString() {
-		String str = "DataFormatMapping: name = " + _name + ", extension = " + _fileExtention + ", parser = " + _parserName;
+		String str = "DataFormatMapping: name = " + name + ", extension = " + fileExtension + ", parser = " + parser.getClass().getName();
 		if (_writerName != null) {
 			str = str + ", writer = " + _writerName;
 		}
 		return str;
 	}
-
 }

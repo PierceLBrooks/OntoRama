@@ -1,24 +1,22 @@
 package ontorama.backends.filemanager;
 
-/**
- * @author nataliya
- */
+import ontorama.ontotools.parser.Parser;
+
 public class QuerySettings {
 
-	private String parserPackage;
+	private Parser parser;
 	private String sourceUri;
 
-	public QuerySettings(String parserPackage, String sourceUri) {
-		this.parserPackage = parserPackage;
+	public QuerySettings(Parser parser, String sourceUri) {
+		this.parser = parser;
 		this.sourceUri = sourceUri;
 	}
 
-	public String getParserPackageName () {
-		return this.parserPackage;
+	public Parser getParser() {
+		return parser;
 	}
-
+	
 	public String getSourceUri () {
 		return this.sourceUri;
 	}
-
 }

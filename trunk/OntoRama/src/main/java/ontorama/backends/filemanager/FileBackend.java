@@ -27,9 +27,11 @@ import ontorama.ui.events.GraphIsLoadedEvent;
 import ontorama.ui.events.QueryStartEvent;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.QueryFailedException;
+import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
+import ontorama.ontotools.source.FileSource;
 import ontorama.ontotools.writer.ModelWriter;
 
 import org.tockit.events.Event;
@@ -38,11 +40,9 @@ import org.tockit.events.EventBrokerListener;
 
 
 public class FileBackend implements Backend {
-	public static final String sourcePackageName = "ontorama.ontotools.source.FileSource";
-
     private Graph _graph = null;
     private EventBroker _eventBroker;
-    private String _parserName;
+    private Parser parser;
     
     private List<DataFormatMapping> _dataFormatsMapping = OntoramaConfig.getDataFormatsMapping();
 	private String _filename;
@@ -89,11 +89,11 @@ public class FileBackend implements Backend {
 
     public void loadFile(File file) {
     	try {
-	    	_parserName = Util.getParserForFile(_dataFormatsMapping, file);
+	    	parser = Util.getParserForFile(_dataFormatsMapping, file);
 	
 	        _filename = file.getAbsolutePath();
 	        
-	        _querySettings = new QuerySettings(_parserName, _filename);
+	        _querySettings = new QuerySettings(parser, _filename);
 	    
 			QueryStartEvent queryEvent = new QueryStartEvent(new Query());
 			_eventBroker.processEvent(queryEvent);
@@ -143,7 +143,7 @@ public class FileBackend implements Backend {
 	}
 
 	public QueryEngine getQueryEngine() throws QueryFailedException {
-		_lastQueryEngine = new QueryEngine( sourcePackageName, _querySettings.getParserPackageName(), _querySettings.getSourceUri());
+		_lastQueryEngine = new QueryEngine(new FileSource(), _querySettings.getParser(), _querySettings.getSourceUri());
 		return _lastQueryEngine;
 	}
 }

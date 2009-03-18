@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
+import ontorama.ontotools.parser.Parser;
+
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -54,7 +56,14 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 		Attribute parserAttr = element.getAttribute(_parserAttrName);
 		checkCompulsoryAttr(parserAttr, _parserAttrName, element.getName());
 
-		DataFormatMapping dataFormatMapping = new DataFormatMapping(nameAttr.getValue(), extensionAttr.getValue(), parserAttr.getValue());
+        Parser parser;
+		try {
+			parser = (Parser) Class.forName(parserAttr.getValue()).newInstance();
+		} catch (Exception e) {
+			throw new ConfigParserException("Failed to initialise parser class named '" + parserAttr.getValue() +
+					"'", e);
+		}
+		DataFormatMapping dataFormatMapping = new DataFormatMapping(nameAttr.getValue(), extensionAttr.getValue(), parser);
 		
 		Attribute writerAttr = element.getAttribute(_writerAttrName);
 		if (writerAttr != null) {

@@ -8,8 +8,10 @@ import org.tockit.events.EventBroker;
 import ontorama.OntoramaConfig;
 import ontorama.backends.Importer;
 import ontorama.backends.filemanager.gui.FileBackendFileFilter;
+import ontorama.ontotools.parser.Parser;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
+import ontorama.ontotools.source.FileSource;
 import ontorama.ui.ConfigurationManager;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
@@ -35,10 +37,10 @@ public class FileImporter implements Importer {
 			File file = fileChooser.getSelectedFile();
 			ConfigurationManager.storeString(CONFIGURATION_SECTION, LAST_FILE_CONFIGURATION_KEY, file.getAbsolutePath());
 
-			String parserPackageName;
+			Parser parser;
 			try {
-				parserPackageName = Util.getParserForFile(OntoramaConfig.getDataFormatsMapping(),file);
-				QueryEngine qe = new QueryEngine( FileBackend.sourcePackageName , parserPackageName,file.getAbsolutePath());
+				parser = Util.getParserForFile(OntoramaConfig.getDataFormatsMapping(),file);
+				QueryEngine qe = new QueryEngine(new FileSource(), parser, file.getAbsolutePath());
 				QueryEngineThreadStartEvent event = new QueryEngineThreadStartEvent(qe, new Query());
 				_eventBroker.processEvent(event);
 			}

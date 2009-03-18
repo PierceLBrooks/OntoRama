@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -440,11 +441,16 @@ public class OntoRamaApp extends JFrame {
         System.exit(0);
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         if (args.length == 0) {
             new OntoRamaApp();
         } else if (args.length == 3) {
-            new OntoRamaApp(args[0], args[1], args[2]);
+        	SwingUtilities.invokeLater(new Runnable(){
+				@Override
+				public void run() {
+		            new OntoRamaApp(args[0], args[1], args[2]);
+				}
+        	});
         } else {
             String usage = " Usage: \n";
             usage += "OntoRamaApp [relative/path/to/config.xml relative/path/to/ontorama.properties relative/path/to/examplesConfig.xml] ";

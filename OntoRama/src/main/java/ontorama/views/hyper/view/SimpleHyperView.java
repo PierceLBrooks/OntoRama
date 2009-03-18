@@ -93,12 +93,12 @@ public class SimpleHyperView extends Canvas implements TreeView {
     private static double springLength = 100;
 
     /**
-     * Stiffness factor for spring alogrithm
+     * Stiffness factor for spring algorithm
      */
     private final double STIFFNESS = .2;
 
     /**
-     * Determines strength of repulsion betweeen two nodes
+     * Determines strength of repulsion between two nodes
      */
     private final double ELECTRIC_CHARGE = 10;
 
@@ -352,8 +352,7 @@ public class SimpleHyperView extends Canvas implements TreeView {
     }
 
     /**
-     * Method node in the order they are to be layed out
-     * in the euclidean plane.
+     * Method node in the order they are to be layed out in the Euclidean plane.
      */
     private NodePlacementDetails[] orderNodes(NodePlacementDetails[] nodeList) {
         NodePlacementDetails[] sortedNodeList = this.getNewNodeList(nodeList.length);

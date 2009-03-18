@@ -10,13 +10,13 @@ import java.awt.image.BufferedImage;
 
 public class NodeTypeDisplayInfo {
 
-    private String _name;
-    private Shape _shape;
-    private boolean _forceUprightShape;
-    private Image _image;
-    private Image _cloneImage;
-    private Color _color;
-    private Color _cloneColor;
+    private final String _name;
+    private final Shape _shape;
+    private final boolean _forceUprightShape;
+    private final Image _image;
+    private final Image _cloneImage;
+    private final Color _color;
+    private final Color _cloneColor;
 
     public NodeTypeDisplayInfo(String name, Shape shape, boolean forceUprightShape, Color normalColor, Color cloneColor) {
     	_name = name;
@@ -55,8 +55,8 @@ public class NodeTypeDisplayInfo {
 
     /**
      * Returns true if the shape object has to be displayed upright.
-     *
-     * This shold be true for labels or text shapes, false otherwise.
+     * 
+     * This should be true for labels or text shapes, false otherwise.
      */
     public boolean forceUprightShape() {
     	return _forceUprightShape;

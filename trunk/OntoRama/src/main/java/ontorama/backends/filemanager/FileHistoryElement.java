@@ -1,22 +1,21 @@
 package ontorama.backends.filemanager;
 
-import org.tockit.events.EventBroker;
-
 import ontorama.ontotools.query.Query;
 import ontorama.ui.HistoryElement;
+
+import org.tockit.events.EventBroker;
 
 /**
  * <p>Copyright: Copyright (c) DSTC 2003</p>
  * <p>Company: DSTC</p>
- * @version 1.0
  */
 public class FileHistoryElement implements HistoryElement {
 
-    private Query _query;
+    private final Query _query;
     private String _menuDisplayName;
-	private String _toolTipText;
-	private FileBackend _backend;
-	private QuerySettings _querySettings;
+	private final String _toolTipText;
+	private final FileBackend _backend;
+	private final QuerySettings _querySettings;
 
 	public FileHistoryElement(Query query, EventBroker eventBroker, 
 									FileBackend backend, QuerySettings querySettings) {
@@ -41,14 +40,9 @@ public class FileHistoryElement implements HistoryElement {
         return _menuDisplayName;
     }
 
-
-    /**
-     * Get query
-     */
     public Query getQuery() {
         return _query;
     }
-    
     
 	public void displayElement() {
 		_backend.processQueryFromHistoryElement(_query, _querySettings);
@@ -58,7 +52,8 @@ public class FileHistoryElement implements HistoryElement {
 		return _toolTipText;
 	}
 	
-    public String toString() {
+    @Override
+	public String toString() {
         String str = "HistoryElement: ";
         str = str + "display name = " + _menuDisplayName;
         str = str + ", query = " + _query;

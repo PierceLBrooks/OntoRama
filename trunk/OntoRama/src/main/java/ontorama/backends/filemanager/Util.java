@@ -7,9 +7,6 @@ import java.util.List;
 import ontorama.conf.DataFormatMapping;
 import ontorama.ontotools.parser.Parser;
 
-/**
- * @author nataliya
- */
 public class Util {
 
 	/**
@@ -40,7 +37,6 @@ public class Util {
 		return null;
 	}
 	
-	
 	public static Parser getParserForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws ParserNotSpecifiedException {
 		String extension = Util.getExtension(file);
@@ -54,18 +50,17 @@ public class Util {
 		return mapping.getParser();
 	}
 	
-
 	public static String getWriterForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws WriterNotSpecifiedException {
-		String extention = Util.getExtension(file);
-		DataFormatMapping mapping = Util.getMappingForExtension(dataFormatsMapping,extention);
+		String extension = Util.getExtension(file);
+		DataFormatMapping mapping = Util.getMappingForExtension(
+				dataFormatsMapping, extension);
 		if (mapping == null) {
-			throw new WriterNotSpecifiedException(extention);
+			throw new WriterNotSpecifiedException(extension);
 		}
 		if (mapping.getWriterName() == null) {
-			throw new WriterNotSpecifiedException(extention);
+			throw new WriterNotSpecifiedException(extension);
 		}
 		return mapping.getWriterName();
 	}
-	
 }

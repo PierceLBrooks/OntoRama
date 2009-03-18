@@ -139,8 +139,7 @@ public class FileBackend implements Backend {
 	}
 
 	public HistoryElement createHistoryElement(Query query,EventBroker eventBroker) {
-		FileHistoryElement res = new FileHistoryElement(query, eventBroker, this, _querySettings);
-		return res;
+		return new FileHistoryElement(query, eventBroker, this, _querySettings);
 	}
 
 	public QueryEngine getQueryEngine() throws QueryFailedException {

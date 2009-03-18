@@ -10,11 +10,15 @@ import ontorama.backends.Importer;
 import ontorama.backends.filemanager.gui.FileBackendFileFilter;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
+import ontorama.ui.ConfigurationManager;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.OntoRamaApp;
 import ontorama.ui.events.QueryEngineThreadStartEvent;
 
 public class FileImporter implements Importer {
+	private static final String CONFIGURATION_SECTION = "FileImporter";
+	private static final String LAST_FILE_CONFIGURATION_KEY = "lastFile";
+	
 	private EventBroker _eventBroker;
 	
 	public FileImporter (EventBroker eventBroker) {
@@ -22,12 +26,14 @@ public class FileImporter implements Importer {
 	}
 
 	public void doImport() {
-		JFileChooser fileChooser = new JFileChooser();
+		String lastFileLocation = ConfigurationManager.fetchString(CONFIGURATION_SECTION, LAST_FILE_CONFIGURATION_KEY, null);
+		JFileChooser fileChooser = new JFileChooser(lastFileLocation);
 		fileChooser.addChoosableFileFilter(new FileBackendFileFilter(OntoramaConfig.getDataFormatsMapping()));
 		
 		int returnValue = fileChooser.showOpenDialog(OntoRamaApp.getMainFrame());
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
+			ConfigurationManager.storeString(CONFIGURATION_SECTION, LAST_FILE_CONFIGURATION_KEY, file.getAbsolutePath());
 
 			String parserPackageName;
 			try {

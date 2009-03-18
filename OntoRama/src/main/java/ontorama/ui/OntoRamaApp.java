@@ -443,7 +443,12 @@ public class OntoRamaApp extends JFrame {
 
     public static void main(final String[] args) {
         if (args.length == 0) {
-            new OntoRamaApp();
+        	SwingUtilities.invokeLater(new Runnable(){
+				@Override
+				public void run() {
+		            new OntoRamaApp();
+				}
+        	});
         } else if (args.length == 3) {
         	SwingUtilities.invokeLater(new Runnable(){
 				@Override

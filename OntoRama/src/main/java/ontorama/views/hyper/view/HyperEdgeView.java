@@ -24,18 +24,18 @@ public class HyperEdgeView extends CanvasItem {
     /**
      * Store from NodeView.
      */
-    private HyperNodeView from;
+    private final HyperNodeView from;
 
     /**
      * Store to NodeView.
      */
-    private HyperNodeView to;
+    private final HyperNodeView to;
 
 
     /**
      * Store the relation type for this edge
      */
-    private EdgeType relLink;
+    private final EdgeType relLink;
 
 	private SphericalProjection projection = null;
 
@@ -46,6 +46,7 @@ public class HyperEdgeView extends CanvasItem {
     	this.projection = (SphericalProjection) projection;
     }
 
+    @Override
     public void draw(Graphics2D g2d) {
         if (!this.to.getVisible()) {
             return;
@@ -103,10 +104,12 @@ public class HyperEdgeView extends CanvasItem {
         return new Point2D.Double(scale * x, scale * y);
     }
 
+    @Override
     public boolean containsPoint(Point2D point) {
         return false;
     }
 
+    @Override
     public Rectangle2D getCanvasBounds(Graphics2D g) {
         return new Rectangle2D.Double(from.getProjectedX(),
                 from.getProjectedY(),
@@ -114,13 +117,15 @@ public class HyperEdgeView extends CanvasItem {
                 to.getProjectedY() - from.getProjectedY());
     }
 
+    @Override
     public Point2D getPosition() {
         Point2D fromPos = from.getPosition();
         Point2D toPos = to.getPosition();
         return new Point2D.Double((fromPos.getX() + toPos.getX())/2, (fromPos.getY() + toPos.getY())/2);
     }
 
-   public String toString() {
+    @Override
+    public String toString() {
         return "Line from " + from + " ( " + from.getProjectedX() + ", " + from.getProjectedY() + " )" +
                 " to " + to + " ( " + to.getProjectedX() + "," + to.getProjectedY() + ")";
     }

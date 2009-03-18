@@ -1,9 +1,8 @@
 package ontorama.backends.examplesmanager;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -24,15 +23,14 @@ import ontorama.model.graph.Node;
 import ontorama.model.graph.NodeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
 import ontorama.ontotools.QueryFailedException;
-import ontorama.ontotools.SourceException;
 import ontorama.ontotools.query.Query;
 import ontorama.ontotools.query.QueryEngine;
 import ontorama.ontotools.query.QueryResult;
 import ontorama.ui.ErrorDialog;
 import ontorama.ui.HistoryElement;
 import ontorama.ui.OntoRamaApp;
-import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ui.events.GraphIsLoadedEvent;
+import ontorama.ui.events.QueryCancelledEvent;
 import ontorama.ui.events.QueryStartEvent;
 
 import org.tockit.events.Event;
@@ -51,7 +49,7 @@ public class ExamplesBackend implements Backend {
 
 	private EventBroker _eventBroker;
 
-	private ExamplesMenu _menu;
+	private final ExamplesMenu _menu;
 	
 	private boolean _isNewExample = false;
 	
@@ -127,16 +125,9 @@ public class ExamplesBackend implements Backend {
 	
 			_prevExample = _curExample;
 			setCurrentExample(_curExample);
-		}
-		catch (SourceException sourceExc) {
-			sourceExc.printStackTrace();
-			ErrorDialog.showError(OntoRamaApp.getMainFrame(), sourceExc, "Error", "Unable to read properties or configuration file " + sourceExc.getMessage());
 		} catch (ConfigParserException cpe) {
 			cpe.printStackTrace();
 			ErrorDialog.showError(OntoRamaApp.getMainFrame(), cpe, "Error", "ConfigParserException: " + cpe.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			ErrorDialog.showError(OntoRamaApp.getMainFrame(), e, "Error", e.getMessage());
 		}
 	}
 

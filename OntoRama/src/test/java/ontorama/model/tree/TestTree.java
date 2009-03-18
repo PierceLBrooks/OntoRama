@@ -141,8 +141,8 @@ public class TestTree extends TestCase{
 
     public void testClone () {
         TreeNode treeNode = getNodeByName("node7");
+        assert treeNode != null : "Expected 'node7' to be defined.";
         List<TreeNode> clones = treeNode.getClones();
-        assertEquals("tree should contain node7 ", true, (treeNode != null));
         assertEquals("number of clones for node7 ", 2, clones.size());
 
         Iterator<TreeNode> it = clones.iterator();

@@ -11,13 +11,7 @@ package ontorama.ontotools;
 @SuppressWarnings("serial")
 public class NoSuchTypeInQueryResult extends Exception {
 
-    private String errorMsg = "";
-
     public NoSuchTypeInQueryResult(String queryTerm) {
-        errorMsg = "Result set doesn't contain query term '" + queryTerm + "'";
-    }
-
-    public String getMessage() {
-        return errorMsg;
+        super("Result set doesn't contain query term '" + queryTerm + "'");
     }
 }

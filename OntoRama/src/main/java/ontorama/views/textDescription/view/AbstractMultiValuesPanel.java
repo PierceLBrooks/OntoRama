@@ -8,9 +8,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.tockit.events.EventBroker;
-
 import ontorama.model.graph.Node;
+
+import org.tockit.events.EventBroker;
 
 /**
  * Copyright:    Copyright (c) 2001
@@ -67,6 +67,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
      * recall focus action on the corresponding node
      * when pressed
      */
+    @Override
     public void update(List<Object> propValuesList) {
         Iterator<Object> propValuesIterator = propValuesList.iterator();
         clear();
@@ -85,6 +86,7 @@ public abstract class AbstractMultiValuesPanel extends AbstractPropertiesPanel {
     /**
      * Clear all property values
      */
+    @Override
     public void clear() {
         _propValuePanel.removeAll();
     }

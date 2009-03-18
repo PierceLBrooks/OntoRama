@@ -1,6 +1,5 @@
 package ontorama.backends.examplesmanager;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +28,11 @@ import org.jdom.input.SAXBuilder;
 
 public class XmlExamplesConfigParser extends XmlParserAbstract {
 
-    private List<OntoramaExample> examplesList;
+    private final List<OntoramaExample> examplesList;
     private OntoramaExample mainExample;
 
     @SuppressWarnings("unchecked")
-	public XmlExamplesConfigParser(InputStream in) throws ConfigParserException, IOException {
+	public XmlExamplesConfigParser(InputStream in) throws ConfigParserException {
         this.examplesList = new ArrayList<OntoramaExample>();
 
         try {

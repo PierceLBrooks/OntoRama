@@ -25,57 +25,29 @@ public class OntoTreeNode implements TreeNode {
      * Set to true if this node can have children
      * ( required by methods we need to implement for TreeNode interface)
      */
-    private boolean allowChildren = true;
+    private final boolean allowChildren = true;
 
     /**
      * Node that is a base for this OntoTreeNode
      */
-    private ontorama.model.tree.TreeNode _treeNode;
+    private final ontorama.model.tree.TreeNode _treeNode;
 
-//    /**
-//     * Observers list
-//     */
-//    private LinkedList observers = new LinkedList();
-
-    /**
-     *
-     */
     private EdgeType _edgeType;
 
-
-    /**
-     *  Constructor
-     *  @param graphNode
-     */
     public OntoTreeNode(ontorama.model.tree.TreeNode treeNode) {
         _treeNode = treeNode;
     }
 
-    /**
-     *
-     */
     public void setRelLink(EdgeType edgeType) {
         _edgeType = edgeType;
     }
 
-    /**
-     *
-     */
     public EdgeType getEdgeType() {
         return _edgeType;
     }
 
-//    /**
-//     * Add observer to the list of OntoTree observers.
-//     * @param observer
-//     */
-//    public void addOntoObserver(Object observer) {
-//        this.observers.add(observer);
-//    }
-
     /**
      * Recursive build of a stack of nodes from given node through to root
-     * @param   node stack
      * @return updatedStack
      */
     private Stack<OntoTreeNode> buildPath(OntoTreeNode node, Stack<OntoTreeNode> stack) {
@@ -119,7 +91,6 @@ public class OntoTreeNode implements TreeNode {
 
     /**
      * Returns the child TreeNode at index childIndex.
-     * @param childIndex
      * @return  child TreeNode
      */
     public TreeNode getChildAt(int childIndex) {
@@ -227,8 +198,9 @@ public class OntoTreeNode implements TreeNode {
     }
 
     /**
-     * toString. Pring out name of this node
+     * Returns the name of this node.
      */
+    @Override
     public String toString() {
         return _treeNode.getName();
     }

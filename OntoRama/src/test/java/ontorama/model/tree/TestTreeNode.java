@@ -1,15 +1,15 @@
 package ontorama.model.tree;
 
-import junit.framework.TestCase;
-import ontorama.model.graph.*;
-import ontorama.model.tree.TreeNode;
-import ontorama.model.tree.TreeNodeImpl;
-import ontorama.model.tree.TreeEdge;
-import ontorama.model.tree.TreeEdgeImpl;
-import ontorama.OntoramaConfig;
-import ontorama.ontotools.NoSuchRelationLinkException;
-
 import java.util.List;
+
+import junit.framework.TestCase;
+import ontorama.OntoramaConfig;
+import ontorama.model.graph.Edge;
+import ontorama.model.graph.EdgeImpl;
+import ontorama.model.graph.EdgeType;
+import ontorama.model.graph.Node;
+import ontorama.model.graph.NodeImpl;
+import ontorama.ontotools.NoSuchRelationLinkException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +32,7 @@ public class TestTreeNode  extends TestCase{
         super(name);
     }
 
+    @Override
     public void setUp () throws NoSuchRelationLinkException {
     	
         _graphNode = new NodeImpl("node", "node");

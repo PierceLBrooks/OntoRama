@@ -46,7 +46,7 @@ public class LabelView extends CanvasItem {
      */
     static {
         for (int i = 0; i < MAXFONTS; i++) {
-            fonts[i] = new Font("Arial", Font.PLAIN, (int)(MIN_FONT_SIZE + i * ((MAX_FONT_SIZE - MIN_FONT_SIZE) / (MAXFONTS-1))));
+            fonts[i] = new Font("Arial", Font.PLAIN, (MIN_FONT_SIZE + i * ((MAX_FONT_SIZE - MIN_FONT_SIZE) / (MAXFONTS-1))));
         }
     }
 
@@ -54,17 +54,16 @@ public class LabelView extends CanvasItem {
         this.hyperNodeView = hyperNodeView;
     }
 
-    /**
-     * Return HyperNodeView.
-     */
     public boolean hasHyperNodeView(HyperNodeView hyperNodeView) {
         return this.hyperNodeView == hyperNodeView;
     }
 
+    @Override
     public boolean containsPoint(Point2D point) {
         return false;
     }
 
+    @Override
     public Rectangle2D getCanvasBounds(Graphics2D g2d) {
     	double x = hyperNodeView.getProjectedX();
     	double y = hyperNodeView.getProjectedY();
@@ -87,45 +86,6 @@ public class LabelView extends CanvasItem {
     }
 
     private String getContentString() {
-//        String fullName = hyperNodeView.getName();
-//        String result = "";
-//
-//        String suffix = null;
-//        String prefix = null;
-//        int ind1 = fullName.indexOf("<");
-//        int ind2 = fullName.indexOf("(");
-//        if (ind1 != -1) {
-//            suffix = fullName.substring(ind1, fullName.length());
-//            prefix = fullName.substring(0, ind1);
-//        }
-//        else if (ind2 != -1) {
-//            suffix = fullName.substring(ind2, fullName.length());
-//            prefix = fullName.substring(0, ind2);
-//        }
-//        else {
-//            prefix = fullName;
-//        }
-//        //System.out.println("prefix = " + prefix + ", suffix = " + suffix);
-//
-//        if (suffix != null) {
-//            if (prefix.endsWith(".")) {
-//                prefix = prefix.substring(0,prefix.length()-1);
-//                suffix = "." + suffix;
-//            }
-//        }
-//
-//        int ind = prefix.lastIndexOf(".");
-//        if (ind == -1) {
-//            return fullName;
-//        }
-//        result = prefix.substring(ind+1, prefix.length());
-//
-//        if (suffix != null) {
-//            result = result + suffix;
-//        }
-//        //System.out.println("result = " + result);
-//        //System.out.println("fullName = " + fullName + ", shortName = " + result);
-//        return result;
 		return hyperNodeView.getName();
     }
 
@@ -140,6 +100,7 @@ public class LabelView extends CanvasItem {
         return fonts[size];
     }
 
+    @Override
     public void draw(Graphics2D g2d) {
     	if (!this.hyperNodeView.getVisible()) {
     		return;
@@ -169,6 +130,7 @@ public class LabelView extends CanvasItem {
         g2d.drawString(getContentString(), (int) (xPos), (int) (hyperNodeView.getProjectedY() + labelHeight / 4));
     }
 
+    @Override
     public Point2D getPosition() {
         return this.hyperNodeView.getPosition();
     }

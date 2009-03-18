@@ -3,19 +3,17 @@ package ontorama.ontotools.query;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import junit.framework.TestCase;
-
 import ontorama.OntoramaConfig;
 import ontorama.model.graph.Edge;
 import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.Node;
+import ontorama.ontotools.CancelledQueryException;
 import ontorama.ontotools.NoSuchRelationLinkException;
+import ontorama.ontotools.NoSuchTypeInQueryResult;
+import ontorama.ontotools.QueryFailedException;
 import ontorama.ontotools.WebKbConstants;
 import ontorama.ontotools.parser.rdf.RdfDamlParser;
-import ontorama.ontotools.query.Query;
-import ontorama.ontotools.query.QueryEngine;
-import ontorama.ontotools.query.QueryResult;
 import ontorama.ontotools.source.JarSource;
 
 /**
@@ -28,7 +26,7 @@ import ontorama.ontotools.source.JarSource;
 public class TestQueryEngine extends TestCase {
 
 	String sourceUri = "examples/test/data/testCase.rdf";
-	private String queryTerm = "test#Chair";
+	private final String queryTerm = "test#Chair";
     private List<EdgeType> relationLinksList;
     
     private QueryEngine queryEngine;
@@ -57,6 +55,7 @@ public class TestQueryEngine extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws NoSuchRelationLinkException, Exception {
         OntoramaConfig.loadAllConfig("examples/test/data/testCase-examplesConfig.xml",
                 "ontorama.properties", "examples/test/data/testCase-config.xml");
@@ -106,7 +105,8 @@ public class TestQueryEngine extends TestCase {
 		} 
 	}
 
-    public void testGetQueryResultForQuery1() throws NoSuchRelationLinkException, Exception {
+    public void testGetQueryResultForQuery1() throws QueryFailedException, CancelledQueryException,
+            NoSuchTypeInQueryResult {
     	QueryResult queryResult1 = queryEngine.getQueryResult(query1);
     	List<Node> queryResultNodesList1 = queryResult1.getNodesList();
     	List<Edge> queryResultEdgesList1 = queryResult1.getEdgesList();
@@ -132,7 +132,8 @@ public class TestQueryEngine extends TestCase {
      * although we only have 3 connected nodes - we return all nodes because we
      * support unconnected graphs. The real test here - is number of edges.
      */
-    public void testGetQueryResultForQuery2() throws NoSuchRelationLinkException, Exception {
+    public void testGetQueryResultForQuery2() throws QueryFailedException, CancelledQueryException,
+            NoSuchTypeInQueryResult {
     	QueryResult queryResult2 = queryEngine.getQueryResult(query2);
     	List<Node> queryResultNodesList2 = queryResult2.getNodesList();
     	List<Edge> queryResultEdgesList2 = queryResult2.getEdgesList();

@@ -45,32 +45,32 @@ import org.tockit.events.EventBrokerListener;
 @SuppressWarnings("serial")
 public class DescriptionView extends JPanel implements GraphView {
 
-    private Map<String, AbstractPropertiesPanel> _nodePropertiesPanels = new HashMap<String, AbstractPropertiesPanel>();
+    private final Map<String, AbstractPropertiesPanel> _nodePropertiesPanels = new HashMap<String, AbstractPropertiesPanel>();
     
     /**
      * list edge type names so we know the order in which to 
      * add them to the ui
      */
-    private List<String> _edgeTypeNames = new ArrayList<String>();
+    private final List<String> _edgeTypeNames = new ArrayList<String>();
 
     /**
      * string that will appear on the label corresponding to clones
      */
-    private String _clonesLabelName = "Clones";
+    private final String _clonesLabelName = "Clones";
     
     /**
      * string that will appear on the label corresponding to node identifier
      */
-    private String _fullUrlPropName = "Full Url ";
+    private final String _fullUrlPropName = "Full Url ";
     
-    private String _descriptionLabelName = "Description";
+    private final String _descriptionLabelName = "Description";
 
     /**
      * optimal dimension for all label names to fit in
      */
-    private Dimension _propertyNameLabelsDimension;
+    private final Dimension _propertyNameLabelsDimension;
 
-    private EventBroker _eventBroker;
+    private final EventBroker _eventBroker;
     
     private Graph _graph;
     
@@ -270,10 +270,5 @@ public class DescriptionView extends JPanel implements GraphView {
 
     public void setGraph (Graph graph) {
         _graph = graph;
-    }
-
-
-    public void repaint () {
-        super.repaint();
     }
 }

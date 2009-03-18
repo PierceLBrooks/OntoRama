@@ -35,20 +35,20 @@ public class TestEdge extends TestCase {
     private Edge edge7;
 
 
-    private List<Edge> outboundEdgesListForNode1 = new ArrayList<Edge>();
-    private List<Edge> inboundEdgesListForNode6 = new ArrayList<Edge>();
+    private final List<Edge> outboundEdgesListForNode1 = new ArrayList<Edge>();
+    private final List<Edge> inboundEdgesListForNode6 = new ArrayList<Edge>();
 
-    private List<Edge> outboundEdgesListForNode1Relation1 = new ArrayList<Edge>();
-    private List<Edge> inboundEdgesListForNode6Relation1 = new ArrayList<Edge>();
+    private final List<Edge> outboundEdgesListForNode1Relation1 = new ArrayList<Edge>();
+    private final List<Edge> inboundEdgesListForNode6Relation1 = new ArrayList<Edge>();
 
-    private List<Node> outboundNodesListForNode1RelLinkSet = new ArrayList<Node>();
-    private List<Node> inboundNodesListForNode6RelLinkSet = new ArrayList<Node>();
+    private final List<Node> outboundNodesListForNode1RelLinkSet = new ArrayList<Node>();
+    private final List<Node> inboundNodesListForNode6RelLinkSet = new ArrayList<Node>();
 
-    private List<Node> outboundNodesListForNode1Relation1 = new ArrayList<Node>();
-    private List<Node> inboundNodesListForNode6Relation2 = new ArrayList<Node>();
+    private final List<Node> outboundNodesListForNode1Relation1 = new ArrayList<Node>();
+    private final List<Node> inboundNodesListForNode6Relation2 = new ArrayList<Node>();
 
-    private List<Node> outboundNodesListForNode1 = new ArrayList<Node>();
-    private List<Node> inboundNodesListForNode6 = new ArrayList<Node>();
+    private final List<Node> outboundNodesListForNode1 = new ArrayList<Node>();
+    private final List<Node> inboundNodesListForNode6 = new ArrayList<Node>();
 
     private URI creatorUri1;
     private URI creatorUri2;
@@ -62,6 +62,7 @@ public class TestEdge extends TestCase {
     }
 
 
+    @Override
     protected void setUp() throws URISyntaxException, NoSuchRelationLinkException {
     	
         creatorUri1 = new URI("ontoMailto:someone@ontorama.org");

@@ -26,6 +26,7 @@ public class TestQueryResult extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() {
         query = new Query("testQueryType");
 

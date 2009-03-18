@@ -18,7 +18,7 @@ import org.tockit.canvas.CanvasItem;
 
 public class SphereView  extends CanvasItem {
 
-    private double _sphereRadius;
+    private final double _sphereRadius;
     private Ellipse2D _sphere;
     private static final Color _color = new Color(244, 244, 244);
 
@@ -35,23 +35,28 @@ public class SphereView  extends CanvasItem {
         _sphere = new Ellipse2D.Double(x, y, width, height);
     }
 
-    public void draw(Graphics2D g2d) {
+    @Override
+    public void draw(final Graphics2D g2d) {
         g2d.setColor(_color);
         g2d.fill(_sphere);
     }
 
-   public Rectangle2D getCanvasBounds(Graphics2D g2d) {
+    @Override
+    public Rectangle2D getCanvasBounds(Graphics2D g2d) {
        return _sphere.getBounds2D();
-   }
+    }
 
+    @Override
     public boolean containsPoint(Point2D point) {
         return _sphere.contains(point);
     }
 
+    @Override
     public boolean hasAutoRaise() {
             return false;
         }
 
+    @Override
     public Point2D getPosition() {
         return new Point2D.Double(0,0);
     }

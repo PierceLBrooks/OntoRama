@@ -80,6 +80,7 @@ public class OntoramaExample {
         return this.loadFirst;
     }
 
+    @Override
     public String toString() {
         String str = "Example: ";
         str = str + "name=" + this.name;

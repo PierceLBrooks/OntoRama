@@ -1,8 +1,8 @@
 package ontorama.ontotools.query;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.model.graph.EdgeType;
@@ -41,7 +41,7 @@ public class Query {
     }
 
     /**
-     * Constructor. Initialise query type name
+     * Constructor. Initialize query type name
      */
     public Query(String typeName) {
         _typeName = typeName;
@@ -50,7 +50,7 @@ public class Query {
     /**
      * Convenience constructor.
      * 
-     * Initialise query type name and relation links
+     * Initialize query type name and relation links
      */
     public Query(String typeName, List<EdgeType> relationLinks) {
         _typeName = typeName;
@@ -93,11 +93,8 @@ public class Query {
         return _relationLinks;
     }
 
-    /**
-     *
-     */
     public Collection<EdgeType> getRelationLinksCollection() {
-        return (Collection<EdgeType>) _relationLinks;
+        return _relationLinks;
     }
 
     /**
@@ -114,10 +111,8 @@ public class Query {
         return _depth;
     }
 
-	/**
-	 *
-	 */
-	public String toString() {
+	@Override
+    public String toString() {
 		String str = "Query: ";
 		str = str + "termName = " + _typeName + ", depth = " + _depth;
 		str = str + ", relation links: " ;

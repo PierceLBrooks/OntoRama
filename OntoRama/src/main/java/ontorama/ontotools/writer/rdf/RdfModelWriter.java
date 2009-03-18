@@ -83,7 +83,7 @@ public class RdfModelWriter implements ModelWriter {
     }
 
 
-    protected Model toRDFModel() throws RDFException, NoSuchRelationLinkException {
+    protected Model toRDFModel() throws RDFException {
         Model rdfModel = new ModelMem();
 
         writeEdges(_graph.getEdgesList(), rdfModel);
@@ -114,7 +114,7 @@ public class RdfModelWriter implements ModelWriter {
 
     protected SimpleTriple writeEdgeIntoModel(Edge curEdge, Model rdfModel) throws RDFException {
         SimpleTriple result = null;
-        Node fromNode = (Node) curEdge.getFromNode();
+        Node fromNode = curEdge.getFromNode();
         EdgeType edgeType = curEdge.getEdgeType();
         Property predicate = getPropertyForEdgeType(edgeType, _edgeTypesToRdfMapping);
         RdfMapping rdfMapping = _edgeTypesToRdfMapping.get(edgeType);
@@ -163,9 +163,9 @@ public class RdfModelWriter implements ModelWriter {
     }
 
     class SimpleTriple {
-        private Node _subject;
-        private Property _predicate;
-        private Node _object;
+        private final Node _subject;
+        private final Property _predicate;
+        private final Node _object;
 
         public SimpleTriple (Node subject, Property predicate, Node object) {
             _subject = subject;

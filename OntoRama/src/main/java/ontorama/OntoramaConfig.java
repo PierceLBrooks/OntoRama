@@ -29,7 +29,6 @@ import ontorama.model.graph.EdgeType;
 import ontorama.model.graph.NodeType;
 import ontorama.model.graph.NodeTypeImpl;
 import ontorama.ontotools.NoSuchRelationLinkException;
-import ontorama.ontotools.SourceException;
 import ontorama.ontotools.source.JarSource;
 import ontorama.ui.ErrorDialog;
 
@@ -111,10 +110,6 @@ public class OntoramaConfig {
         	loadDataFormatsConfig("dataFormatsConfig.xml");
             loadConfiguration(configFileLocation);
             OntoramaConfig.examplesConfigLocation = examplesConfigLocation;
-        }
-        catch (SourceException sourceExc) {
-            sourceExc.printStackTrace();
-            fatalExit("Unable to read properties or configuration file " + ". Error: " + sourceExc.getMessage(), sourceExc);
         } catch (ConfigParserException cpe) {
             cpe.printStackTrace();
             fatalExit("ConfigParserException: " + cpe.getMessage(), cpe);
@@ -129,7 +124,7 @@ public class OntoramaConfig {
     }
 
 	private static void loadDataFormatsConfig (String configFileLocation)
-						throws SourceException, ConfigParserException {
+						throws ConfigParserException {
 		InputStream inStream= streamReader.getInputStreamFromResource(configFileLocation);
 		DataFormatConfigParser config = new DataFormatConfigParser(inStream);
 		_dataFormatsMappingList = config.getDataFormatMappings();
@@ -139,7 +134,7 @@ public class OntoramaConfig {
      * load properties from ontorama.properties file
      */
     private static void loadPropertiesFile(String propertiesFileLocation)
-                                        throws SourceException, IOException {
+                                        throws IOException {
         InputStream propertiesFileIn = streamReader.getInputStreamFromResource(propertiesFileLocation);
         properties.load(propertiesFileIn);
 		EDIT_ENABLED = Boolean.valueOf(properties.getProperty("EDIT_ENABLED")).booleanValue();
@@ -148,7 +143,7 @@ public class OntoramaConfig {
     }
 
     private static void loadConfiguration(String configFileLocation)
-                                        throws SourceException, ConfigParserException, IOException {
+                                        throws ConfigParserException {
         InputStream configInStream = streamReader.getInputStreamFromResource(configFileLocation);
         XmlConfigParser xmlConfig = new XmlConfigParser(configInStream);
         edgesConfig = xmlConfig.getDisplayInfo();

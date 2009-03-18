@@ -14,9 +14,9 @@ import ontorama.conf.DataFormatMapping;
  */
 public class FileBackendFileFilter extends FileFilter {
 	
-	private String _filterDescription = "Ontorama readable files";
+	private final String _filterDescription = "Ontorama readable files";
 	
-	private Collection<DataFormatMapping>  _dataFormatsMapping;
+	private final Collection<DataFormatMapping>  _dataFormatsMapping;
 	
 	
 	/**
@@ -29,7 +29,8 @@ public class FileBackendFileFilter extends FileFilter {
 	/**
 	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
 	 */
-	public boolean accept(File file) {
+	@Override
+    public boolean accept(File file) {
 		
 		if (file.isDirectory()) {
 			return true;
@@ -54,7 +55,8 @@ public class FileBackendFileFilter extends FileFilter {
 	/**
 	 * @see javax.swing.filechooser.FileFilter#getDescription()
 	 */
-	public String getDescription() {
+	@Override
+    public String getDescription() {
 		return _filterDescription;
 	}
 

@@ -1,7 +1,7 @@
 package ontorama.model.tree;
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ontorama.OntoramaConfig;
@@ -13,7 +13,7 @@ public class TreeNodeImpl implements TreeNode {
     /**
      * corresponding graph node
      */
-    private Node _graphNode;
+    private final Node _graphNode;
 
     private List<TreeNode> _clones;
 
@@ -120,6 +120,7 @@ public class TreeNodeImpl implements TreeNode {
     	return _parent;
     }
 
+    @Override
     public String toString () {
         String res = "TreeNode: " + this.getName();
         return res;

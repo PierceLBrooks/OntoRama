@@ -51,7 +51,7 @@ public class TestRdfDamlParser extends TestCase {
     protected Node testNode_url;
     protected Node testNode_someObject;
     protected Node testNode_allChairs;
-    protected Node testNode_ACHRONYM;
+    protected Node testNode_ACRONYM;
     
     protected String sourcePackageName = "ontorama.ontotools.source.JarSource";
 
@@ -212,7 +212,7 @@ public class TestRdfDamlParser extends TestCase {
 	 */
 	public void testEdge_chair_object() throws NoSuchRelationLinkException {
 		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_object), testNode_chair, "test#SomeObject",1);
-		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_object), testNode_chair, "test#ACHRONYM", 1);
+		testingEdge(OntoramaConfig.getEdgeType(WebKbConstants.edgeName_object), testNode_chair, "test#ACRONYM", 1);
 	}
 
 	/*

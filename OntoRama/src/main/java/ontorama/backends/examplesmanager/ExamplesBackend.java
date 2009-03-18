@@ -186,7 +186,7 @@ public class ExamplesBackend implements Backend {
 
 
 	public QueryEngine getQueryEngine() throws QueryFailedException {
-		_lastQueryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
+		_lastQueryEngine = new QueryEngine( _curExample.getDataSource(), _curExample.getDataFormatMapping().getParser(), _curExample.getRelativeUri());
 		return _lastQueryEngine;
 	}
 

@@ -42,34 +42,22 @@ import ontorama.ontotools.source.SourceResult;
 
 public class QueryEngine {
 
-    private ParserResult _parserResult;
+	private ParserResult _parserResult;
     private List<Node> _resultNodesList;
     private List<Edge> _resultEdgesList;
 
-	private Parser parser;
-	private Source source;
-	private String sourceUri;
+	private final Parser parser;
+	private final Source source;
+	private final String ontolgySourceUri;
 
 
     /**
      * Execute a query to OntologyServer and get a query result
      */
-    public QueryEngine (String sourcePackageName, String parserPackageName, String ontologySourceUri)
-                                                    throws QueryFailedException {
-        this.sourceUri = ontologySourceUri;
-        try {
-	        this.parser = (Parser) (Class.forName(parserPackageName)).newInstance();
-	        this.source = (Source) (Class.forName(sourcePackageName).newInstance());
-        }
-        catch (IllegalAccessException e) {
-        	throw new QueryFailedException("Couldn't intstantiate Parser or Source", e);
-        }
-        catch (ClassNotFoundException e) {
-        	throw new QueryFailedException("Couldn't find class you specified to use as Parser or Source in configuration file ", e);
-        }
-        catch (InstantiationException e) {
-        	throw new QueryFailedException("Couldn't intstantiate Parser or Source", e);
-        }
+    public QueryEngine (Source source, Parser parser, String ontologySourceUri) {
+        this.parser = parser;
+        this.source = source;
+        this.ontolgySourceUri = ontologySourceUri;
     }
 
     private QueryResult executeQuery(Query query) throws NoSuchTypeInQueryResult, 
@@ -82,7 +70,7 @@ public class QueryEngine {
 	        Reader r = null;
 	        Query newQuery = null;
 	
-	        SourceResult sourceResult = source.getSourceResult(this.sourceUri, query);
+	        SourceResult sourceResult = source.getSourceResult(this.ontolgySourceUri, query);
 	        if (!sourceResult.queryWasSuccess()) {
 	            newQuery = sourceResult.getNewQuery();
 	            queryResult = executeQuery(newQuery);

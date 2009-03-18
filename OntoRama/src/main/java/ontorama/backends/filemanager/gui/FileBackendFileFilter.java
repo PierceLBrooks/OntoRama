@@ -43,7 +43,7 @@ public class FileBackendFileFilter extends FileFilter {
 		Iterator<DataFormatMapping> it = _dataFormatsMapping.iterator();
 		while (it.hasNext()) {
 			DataFormatMapping mapping = it.next();
-			String fileExtension = mapping.getFileExtention();
+			String fileExtension = mapping.getFileExtension();
 			if (extension.equals(fileExtension)) {
 				return true;
 			}

@@ -1,13 +1,4 @@
 <ontoramaExamples>
-    <example name="WebKB2 Interface" root="comms#comms_object" dataFormatMapping="WEBKB-RDF">
-        <!--<source uri="http://meganesia.int.gu.edu.au/~phmartin/WebKB2/bin/termSearch.cgi"-->
-        <!--<source uri="http://www.webkb.org/bin/termSearch.cgi"-->
-        <!--<source uri="http://www.itee.uq.edu.au/~phmartin/cgi-bin/termSearch.cgi"-->
-	  <source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi"
-            				sourcePackagePathSuffix="ontorama.ontotools.source.WebKB2Source"/>
-    </example>
-
-
     <example name="Comms Ontology" root="comms#CommsObject" dataFormatMapping="RDF" loadOnStart="yes">
         <source uri="examples/comms_comms_object-children.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
     </example>
@@ -52,14 +43,6 @@
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-	<!--
-    <example name="Technology Requirement" root="#TechnologyRequirement">
-        <source uri="examples/web-examples/technical.rdf"
-            sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
-        <displayMenu subfolder="Web Examples"/>
-    </example>
-	-->
-
     <example name="Research Organisation" root="#ROOT_CLASS" dataFormatMapping="RDF">
         <source uri="examples/web-examples/ResearchOrganizations.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
@@ -70,28 +53,10 @@
         <displayMenu subfolder="Web Examples"/>
     </example>
 
-
     <example name="International Movies Database" root="#IMdb" dataFormatMapping="RDF">
         <source uri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
-
-	<!--
-    <example name="BibLink" root="SubjectScheme">
-        <source uri="examples/web-examples/BibLink.rdf"
-            sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
-        <displayMenu subfolder="Web Examples"/>
-    </example>
-    -->
-
-	<!--
-    <example name="Elephants (export from Oiled)" root="animal">
-        <source uri="examples/web-examples/elephants-export.rdfs"
-                sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
-        <displayMenu subfolder="Web Examples"/>
-    </example>
-	-->
-
 
     <example name="Ontorama Xml Test" root="root" dataFormatMapping="XML">
         <source uri="examples/ontorama-test.xml" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
@@ -102,7 +67,5 @@
         <source uri="examples/test/data/testCase.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Test Cases"/>
     </example>
-
-
 </ontoramaExamples>
 

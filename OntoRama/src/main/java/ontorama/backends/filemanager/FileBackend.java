@@ -110,9 +110,7 @@ public class FileBackend implements Backend {
             File file = new File(filename);
             FileWriter writer = new FileWriter(file);
             
-            String writerName = Util.getWriterForFile(_dataFormatsMapping, file);
-			
-			ModelWriter modelWriter = (ModelWriter) Class.forName(writerName).newInstance();
+			ModelWriter modelWriter = Util.getWriterForFile(_dataFormatsMapping, file);
 
             modelWriter.write(_graph, writer);
 

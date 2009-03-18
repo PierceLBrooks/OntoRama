@@ -22,7 +22,7 @@
   <pm:url rdf:resource="http://www.webkb.org/OntoRama"/>
   <pm:location rdf:resource="http://www.webkb.org/ontorama/test#SomeLocation"/>
   <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#SomeObject"/>
-  <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#ACHRONYM"/>
+  <pm:wnObject rdf:resource="http://www.webkb.org/ontorama/test#ACRONYM"/>
   <daml:complementOf rdf:resource="http://kvo.itee.uq.edu.au/webkb/WebKB2/kb/theKB_terms.rdf/daml#Nothing"/>
 </rdfs:Class>
 

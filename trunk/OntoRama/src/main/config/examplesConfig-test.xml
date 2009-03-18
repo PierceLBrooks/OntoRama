@@ -57,5 +57,15 @@
         <source uri="examples/web-examples/imdb.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
         <displayMenu subfolder="Web Examples"/>
     </example>
+
+    <example name="Ontorama Xml Test" root="root" dataFormatMapping="XML">
+        <source uri="examples/ontorama-test.xml" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
+        <displayMenu subfolder="Test Cases"/>
+    </example>
+
+    <example name="testCase" root="test#Chair" dataFormatMapping="RDF">
+        <source uri="examples/test/data/testCase.rdf" sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
+        <displayMenu subfolder="Test Cases"/>
+    </example>
 </ontoramaExamples>
 

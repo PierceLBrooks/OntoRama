@@ -234,8 +234,8 @@ public class OntoramaConfig {
 
     private static void buildDefaultNodeTypes() {
     	///@todo no need to create default shapes if we don't use them
-    	int width = 30;
-    	int height = 30;
+        int width = 15;
+        int height = 15;
 
         Shape conceptShape = new Ellipse2D.Double(-width/2, -height/2, width, height);
         

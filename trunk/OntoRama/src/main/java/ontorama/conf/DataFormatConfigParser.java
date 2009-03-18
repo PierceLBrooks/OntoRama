@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.writer.ModelWriter;
 
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -20,7 +21,7 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 	private static final String _parserAttrName = "parser";
 	private static final String _writerAttrName = "writer";
 	
-	private List<DataFormatMapping> _mappings;
+	private final List<DataFormatMapping> _mappings;
 	
 	@SuppressWarnings("unchecked")
 	public DataFormatConfigParser (InputStream in) throws ConfigParserException {
@@ -32,7 +33,7 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 			List<Element> children = root.getChildren();
 			Iterator<Element> it = children.iterator();
 			while (it.hasNext()) {
-				Element element = (Element) it.next();
+				Element element = it.next();
 				DataFormatMapping dataFormatMapping = processElement(element);
 				_mappings.add(dataFormatMapping);
 			}
@@ -69,7 +70,13 @@ public class DataFormatConfigParser extends XmlParserAbstract {
 		if (writerAttr != null) {
 			String writerAttrValue = writerAttr.getValue();
 			if ( (!writerAttrValue.equals("null")) && (writerAttrValue.length() != 0) ) {
-				dataFormatMapping.setWriterName(writerAttrValue);
+			    ModelWriter writer;
+                try {
+                    writer = (ModelWriter) Class.forName(writerAttrValue).newInstance();
+                } catch (Exception e) {
+                    throw new ConfigParserException("Can not create model writer class '" + writerAttrValue + "'", e);
+                }
+                dataFormatMapping.setWriter(writer);
 			}
 		}
 		return dataFormatMapping;

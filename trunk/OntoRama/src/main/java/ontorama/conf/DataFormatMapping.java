@@ -1,6 +1,7 @@
 package ontorama.conf;
 
 import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.writer.ModelWriter;
 
 /**
  * This class is responsible for mapping file types to corresponding writers,
@@ -11,20 +12,16 @@ public class DataFormatMapping {
 	/** 
 	 * Name of this mapping
 	 */
-	private String name;
+	private final String name;
 	
 	/**
 	 * Corresponding file extension.
 	 */
-	private String fileExtension;
+	private final String fileExtension;
 	
-	private Parser parser;
+	private final Parser parser;
 
-	/**
-	 * Fully qualified writer name
-	 * note: using names for now because QueryEngine expects it.
-	 */
-	private String _writerName;
+	private ModelWriter _writer;
 	
 	public DataFormatMapping(String name, String fileExtension, Parser parser) {
 		this.name = name;
@@ -44,18 +41,19 @@ public class DataFormatMapping {
 		return parser;
 	}
 
-	public String getWriterName() {
-		return _writerName;
+	public ModelWriter getWriter() {
+		return _writer;
 	}
 	
-	public void setWriterName(String writerName) {
-		_writerName = writerName;
+	public void setWriter(ModelWriter writer) {
+		_writer = writer;
 	}
 	
+	@Override
 	public String toString() {
 		String str = "DataFormatMapping: name = " + name + ", extension = " + fileExtension + ", parser = " + parser.getClass().getName();
-		if (_writerName != null) {
-			str = str + ", writer = " + _writerName;
+		if (_writer != null) {
+			str = str + ", writer = " + _writer.getClass().getName();
 		}
 		return str;
 	}

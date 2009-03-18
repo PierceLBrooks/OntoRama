@@ -6,6 +6,7 @@ import java.util.List;
 
 import ontorama.conf.DataFormatMapping;
 import ontorama.ontotools.parser.Parser;
+import ontorama.ontotools.writer.ModelWriter;
 
 public class Util {
 
@@ -50,7 +51,8 @@ public class Util {
 		return mapping.getParser();
 	}
 	
-	public static String getWriterForFile (List<DataFormatMapping> dataFormatsMapping, File file) 
+	public static ModelWriter getWriterForFile(
+			List<DataFormatMapping> dataFormatsMapping, File file) 
 								throws WriterNotSpecifiedException {
 		String extension = Util.getExtension(file);
 		DataFormatMapping mapping = Util.getMappingForExtension(
@@ -58,9 +60,9 @@ public class Util {
 		if (mapping == null) {
 			throw new WriterNotSpecifiedException(extension);
 		}
-		if (mapping.getWriterName() == null) {
+		if (mapping.getWriter() == null) {
 			throw new WriterNotSpecifiedException(extension);
 		}
-		return mapping.getWriterName();
+		return mapping.getWriter();
 	}
 }

@@ -11,14 +11,6 @@
 		<source uri="examples/test/data/testCase-invalidRDF-2.rdf" 
 					sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
 	</example>
-	<example name="test webkb: cat" root="cat" dataFormatMapping="WEBKB-RDF">
-		<source uri="http://kvo.itee.uq.edu.au/cgi-bin/webkb/termSearch.cgi" 
-					sourcePackagePathSuffix="ontorama.ontotools.source.WebKB2Source"/>
-	</example>
-	<example name="test webkb rdf parser" root="chair" dataFormatMapping="WEBKB-RDF">
-		<source uri="examples/test/data/testCase.rdf" 
-					sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>
-	</example>
 	<example name="comprehensive test" root="root" dataFormatMapping="RDF">
 		<source uri="examples/web-examples/imdb.rdf" 
 					sourcePackagePathSuffix="ontorama.ontotools.source.JarSource"/>

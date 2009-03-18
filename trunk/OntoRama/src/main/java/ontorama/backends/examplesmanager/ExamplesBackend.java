@@ -41,7 +41,6 @@ import org.tockit.events.EventBrokerListener;
 
 /**
  * This is backend to be used by test cases.
- * @author nataliya
  */
 public class ExamplesBackend implements Backend {
 	
@@ -180,19 +179,6 @@ public class ExamplesBackend implements Backend {
 		_menu.setSelectedExampleMenuItem(_curExample);
 	}
 
-//	/**
-//	 * @see ontorama.backends.Backend#executeQuery(ontorama.ontotools.query.Query)
-//	 */
-//	public QueryResult executeQuery(Query query) throws QueryFailedException, CancelledQueryException, NoSuchTypeInQueryResult {
-//		_lastQueryEngine = new QueryEngine( _curExample.getSourcePackagePathSuffix(), _curExample.getDataFormatMapping().getParserName(), _curExample.getRelativeUri());
-//		QueryResult queryResult = _lastQueryEngine.getQueryResult(query);
-//		return queryResult;
-//		return null;
-//	}
-	
-	/**
-	 * @see ontorama.backends.Backend#createHistoryElement(ontorama.ontotools.query.Query)
-	 */
 	public HistoryElement createHistoryElement(Query query, EventBroker eventBroker) {
 		ExamplesHistoryElement res = new ExamplesHistoryElement(query, eventBroker, this, _curExample);
 		return res;

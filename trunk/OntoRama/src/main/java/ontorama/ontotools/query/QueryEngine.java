@@ -88,7 +88,6 @@ public class QueryEngine {
 	            queryResult = executeQuery(newQuery);
 	        } else {
 	            r = sourceResult.getReader();
-	            //this.typeRelativesCollection = parser.getOntologyTypeCollection(r);
 	            _parserResult = parser.getResult(r);
 	            r.close();
 	            if (query.getQueryTypeName()!= null) {

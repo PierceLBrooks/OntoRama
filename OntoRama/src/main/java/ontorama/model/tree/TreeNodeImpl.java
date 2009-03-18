@@ -11,7 +11,7 @@ import ontorama.model.graph.NodeType;
 public class TreeNodeImpl implements TreeNode {
 
     /**
-     * corresponding graph node
+     * Corresponding graph node.
      */
     private final Node _graphNode;
 
@@ -22,6 +22,7 @@ public class TreeNodeImpl implements TreeNode {
     private TreeNode _parent;
 
     public TreeNodeImpl (Node graphNode) {
+        assert graphNode != null : "Tree nodes should be created for existing graph nodes only.";
         _graphNode = graphNode;
         init();
     }

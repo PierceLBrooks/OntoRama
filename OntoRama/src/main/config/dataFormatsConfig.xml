@@ -1,5 +1,6 @@
 <dataFormatMappings>
 	<mapping name="RDF" extension="rdf" parser="ontorama.ontotools.parser.rdf.RdfDamlParser" writer="ontorama.ontotools.writer.rdf.RdfModelWriter"/>
+	<mapping name="OWL" extension="owl" parser="ontorama.ontotools.parser.owl.OwlParser"/>
 	<mapping name="XML" extension="xml" parser="ontorama.ontotools.parser.xml.XmlParserFull"/>
 	<mapping name="CGKB" extension="cgkb" parser="ontorama.ontotools.parser.cgkb.CgKbCsvParser"/>
 	<mapping name="DAML" extension="daml" parser="ontorama.ontotools.parser.rdf.DamlParser"/>

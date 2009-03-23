@@ -41,6 +41,9 @@ public class OwlParser implements Parser {
             for (OWLClass oWLClass : owlOntology.getReferencedClasses()) {
                 Node node = mapNode(oWLClass, nodesCreated);
                 for (OWLDescription superDescription : oWLClass.getSuperClasses(owlOntology)) {
+                    if (superDescription.isAnonymous()) {
+                        continue;
+                    }
                     OWLClass superClass = superDescription.asOWLClass();
                     Node parent = mapNode(superClass, nodesCreated);
                     Edge edge = new EdgeImpl(parent, node, OntoramaConfig.getEdgeType("supertype"));

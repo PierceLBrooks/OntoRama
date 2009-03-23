@@ -206,11 +206,6 @@ public class OntoramaConfig {
         return OntoramaConfig.edgeTypesList;
     }
 
-
-    public static ClassLoader getClassLoader() {
-        return OntoramaConfig.getClassLoader();
-    }
-
     public static String getBackendPackageName () {
         return backendName;
     }

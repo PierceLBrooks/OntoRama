@@ -2,8 +2,8 @@ package ontorama.ontotools.query;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ontorama.model.graph.Edge;
@@ -95,18 +95,10 @@ public class QueryEngine {
 
     /**
      * Check if result set contains term we searched for.
-     * Check for exact term and also for a variant of it as if it was
-     * a webkb identifier. For example, if we searched for 'wood_mouse',
-     * result set will contain 'wn#wood_mouse'. Therefore, we check if result
-     * collection contains anything ending with '#wood_mouse'. If this is the
-     * case - we return this new term so we can update the original query term
-     * to reflect this.
      *
      * @param termName  - search term
      * @return term: the same as search term OR updated term corresponding to
      * the ontology type name matching this term.
-     * @todo  may not be a good idea to do this here, since identifiers with hashes
-     * may be specific to WebKB. Maybe should do some checking in WebKB2Source.
      */
     private String checkResultSetContainsSearchTerm(List<Node> nodesList, String termName)
             throws NoSuchTypeInQueryResult {
@@ -115,17 +107,12 @@ public class QueryEngine {
         String newTermName = termName;
         while (it.hasNext()) {
             Node cur = it.next();
-            String termIdentifierSuffix = "#" + termName;
             if (cur.getIdentifier().equals(termName)) {
                 found = true;
                 newTermName = cur.getName();
             }
             if (cur.getName().equals(termName)) {
                 found = true;
-            }
-            if (cur.getName().endsWith(termIdentifierSuffix)) {
-                found = true;
-                newTermName = cur.getName();
             }
         }
         if (!found) {

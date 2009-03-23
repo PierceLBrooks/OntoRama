@@ -61,6 +61,8 @@ import org.tockit.events.Event;
 import org.tockit.events.EventBroker;
 import org.tockit.events.EventBrokerListener;
 
+import com.pagosoft.plaf.PlafOptions;
+
 /**
  * Main Application class. This class starts OntoRama application.
  */
@@ -457,7 +459,11 @@ public class OntoRamaApp extends JFrame {
     public static void main(final String[] args) {
         String lnf = OntoramaConfig.getLookAndFeel();
         try {
-            UIManager.setLookAndFeel(lnf);
+            if ("PGS".equals(lnf)) {
+                PlafOptions.setAsLookAndFeel();
+            } else {
+                UIManager.setLookAndFeel(lnf);
+            }
         } catch (Exception e) {
             Logger.getLogger(OntoRamaApp.class.getName()).log(Level.WARNING,
                                                               "Failed to load look and feel '" + lnf + "'", e);

@@ -5,14 +5,6 @@ import com.hp.hpl.mesa.rdf.jena.model.RDFException;
 import com.hp.hpl.mesa.rdf.jena.model.ResIterator;
 import com.hp.hpl.mesa.rdf.jena.model.StmtIterator;
 
-/**
- * @author nataliya
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
 public class Util {
 	protected static int getStmtIteratorSize (StmtIterator it) throws RDFException {
 		int res = 0;
@@ -40,6 +32,4 @@ public class Util {
 		}
 		return res;
 	}
-	
-
 }

@@ -114,7 +114,7 @@ public class Query {
 	@Override
     public String toString() {
 		String str = "Query: ";
-		str = str + "termName = " + _typeName + ", depth = " + _depth;
+		str = str + "typeName = " + _typeName + ", depth = " + _depth;
 		str = str + ", relation links: " ;
 		Iterator<EdgeType> it = _relationLinks.iterator();
 		while (it.hasNext()) {

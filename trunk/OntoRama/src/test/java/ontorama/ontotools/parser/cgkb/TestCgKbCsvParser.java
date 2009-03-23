@@ -22,6 +22,7 @@ public class TestCgKbCsvParser extends TestCase {
     @Override
     protected void setUp() throws Exception {
 
+        OntoramaConfig.instantiateBackend(OntoramaConfig.defaultBackend, null);
         OntoramaConfig.loadAllConfig("cgkb/examplesConfig.xml", "ontorama.properties", "cgkb/config.xml");
 
         Source source = new JarSource();

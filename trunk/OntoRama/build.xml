@@ -8,19 +8,20 @@
 	<property name="testconfig.home" value="${basedir}/src/test/config" />
 	<property name="assembly.home" value="${basedir}/src/main/assembly" />
 	<property name="lib.home" value="${basedir}/lib" />
-	<property name="deploy.home" value="${basedir}/target/deploy" />
-	<property name="testdeploy.home" value="${basedir}/target/tests" />
-	<property name="reports.tests" value="${basedir}/target/reports/tests" />
-	<property name="javadoc.home" value="${basedir}/doc/api" />
+	<property name="target.dir" value="${basedir}/target"/>
+	<property name="deploy.home" value="${target.dir}/deploy" />
+	<property name="testdeploy.home" value="${target.dir}/tests" />
+	<property name="reports.tests" value="${target.dir}/reports/tests" />
+	<property name="javadoc.home" value="${target.dir}/doc/api" />
 	<property name="examples.dir.name" value="examples" />
 	<property name="examples.home" value="${basedir}/src/main/resources/${examples.dir.name}" />
 	<property name="img.dir.name" value="img" />
 	<property name="img.home" value="${basedir}/src/main/resources/${img.dir.name}" />
-	<property name="jar.file" value="${basedir}/OntoRama.jar" />
-	<property name="jenaJar.file" value="${basedir}/jenaOntorama.jar" />
-	<property name="deploy.webstart" value="${basedir}/deployWebstart" />
+	<property name="jar.file" value="${target.dir}/OntoRama.jar" />
+	<property name="jenaJar.file" value="${target.dir}/jenaOntorama.jar" />
+	<property name="deploy.webstart" value="${target.dir}/deployWebstart" />
 	<property name="src.webstart" value="${basedir}/src/main/config/webstart" />
-	<property name="deploy.demo" value="${basedir}/demo" />
+	<property name="deploy.demo" value="${target.dir}/demo" />
 	<property name="license.file.name" value="LICENSE.txt" />
 
 	<!-- Set Classpath -->
@@ -56,8 +57,7 @@
 	</target>
 
 	<target name="clean">
-		<delete dir="${deploy.home}" />
-		<delete file="${jar.file}" />
+		<delete dir="${target.dir}" />
 	</target>
 
 	<target name="copyExamples">
@@ -147,7 +147,7 @@
 			<fileset dir="${lib.home}" includes="*.jar" />
 		</copy>
 		<copy todir="${deploy.webstart}">
-			<fileset dir="${basedir}" includes="OntoRama.jar" />
+			<fileset dir="${target.dir}" includes="OntoRama.jar" />
 		</copy>
 		<copy todir="${deploy.webstart}">
 			<fileset dir="${src.home}" includes="${license.file.name}" />
@@ -155,7 +155,7 @@
 	</target>
 
 	<target name="zip" depends="webstartDeploy">
-		<zip zipfile="${basedir}/ontorama.zip" basedir="${deploy.webstart}" />
+		<zip zipfile="${target.dir}/ontorama.zip" basedir="${deploy.webstart}" />
 		<copy todir="${deploy.webstart}">
 			<fileset dir="${basedir}" includes="ontorama.zip" />
 		</copy>

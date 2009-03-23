@@ -3,10 +3,14 @@
 	<property name="src.home" value="${basedir}/src/main/java" />
 	<property name="testsrc.home" value="${basedir}/src/test/java" />
 	<property name="resource.home" value="${basedir}/src/main/resources" />
+	<property name="testresource.home" value="${basedir}/src/test/resources" />
     <property name="config.home" value="${basedir}/src/main/config" />
+	<property name="testconfig.home" value="${basedir}/src/test/config" />
 	<property name="assembly.home" value="${basedir}/src/main/assembly" />
 	<property name="lib.home" value="${basedir}/lib" />
-	<property name="deploy.home" value="${basedir}/deploy" />
+	<property name="deploy.home" value="${basedir}/target/deploy" />
+	<property name="testdeploy.home" value="${basedir}/target/tests" />
+	<property name="reports.tests" value="${basedir}/target/reports/tests" />
 	<property name="javadoc.home" value="${basedir}/doc/api" />
 	<property name="examples.dir.name" value="examples" />
 	<property name="examples.home" value="${basedir}/src/main/resources/${examples.dir.name}" />
@@ -27,6 +31,12 @@
         <fileset dir="${lib.home}">
             <include name="**/*.jar"/>
         </fileset>
+	</path>
+	
+	<path id="project.test.class.path">
+		<pathelement location="${testdeploy.home}"/>
+		<pathelement location="${testresource.home}/" />
+		<pathelement location="${testconfig.home}/" />
 	</path>
 
 	<!-- Targets and Rules -->
@@ -63,16 +73,24 @@
 	</target>
 
 	<target name="compile" depends="prepare">
-		<javac destdir="${deploy.home}" debug="on" optimize="off" deprecation="off">
+		<javac destdir="${deploy.home}" optimize="on" debug="on">
 			<src path="${src.home}" />
 			<classpath refid="project.class.path" />
+		</javac>
+	</target>
+
+	<target name="compileTests" depends="prepare">
+		<mkdir dir="${testdeploy.home}"/>
+		<javac destdir="${testdeploy.home}" debug="on" optimize="off">
+			<src path="${testsrc.home}" />
+			<classpath refid="project.class.path" />
+			<classpath refid="project.test.class.path" />
 		</javac>
 	</target>
 
 	<target name="jar" depends="compile">
 		<jar jarfile="${jar.file}" basedir="${deploy.home}" manifest="${assembly.home}/MANIFEST.MF" />
 	</target>
-
 
 	<target name="javadoc" depends="prepare">
 		<javadoc sourcepath="${src.home}" packagenames="ontorama.*,ontorama.model.*,ontorama.views.hyper.*,ontorama.ui.*,ontorama.views.tree.*" destdir="${javadoc.home}" classpathref="project.class.path" />
@@ -84,6 +102,22 @@
 
 	<target name="runJar" depends="jar">
 		<java fork="yes" jar="${jar.file}" classpathref="project.class.path" />
+	</target>
+	
+	<target name="runTests" depends="compile, compileTests">
+		<mkdir dir="${reports.tests}"/>
+		<junit haltonerror="true" printsummary="true">
+			<classpath refid="project.class.path" />
+			<classpath refid="project.test.class.path"/>
+			<formatter type="plain"/>
+			<batchtest fork="yes" todir="${reports.tests}">
+			    <fileset dir="${testsrc.home}">
+			        <include name="**/*.java"/>
+			    	<exclude name="ontorama/model/graph/TestGraphPackage.java"/>
+			    	<exclude name="ontorama/ontotools/writer/rdf/Util.java"/>
+			    </fileset>
+            </batchtest>
+		</junit>
 	</target>
 
 	<target name="demoDeploy" depends="compile">

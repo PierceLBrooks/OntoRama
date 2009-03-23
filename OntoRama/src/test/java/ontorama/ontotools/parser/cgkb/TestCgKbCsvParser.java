@@ -1,11 +1,3 @@
-/*
- * Created by IntelliJ IDEA.
- * User: nataliya
- * Date: 22/08/2002
- * Time: 12:56:36
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
- */
 package ontorama.ontotools.parser.cgkb;
 
 import java.io.Reader;

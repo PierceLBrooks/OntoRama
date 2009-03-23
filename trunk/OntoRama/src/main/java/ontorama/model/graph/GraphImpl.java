@@ -465,13 +465,10 @@ public class GraphImpl implements Graph {
 
     public Node findRootNode () {
         Node rootNode = null;
-        int maxDescendants = 0;
+        int maxDescendants = -1;
         Iterator<Node> it = _graphNodes.iterator();
         while (it.hasNext()) {
             Node node = it.next();
-            if (getInboundEdges(node).size() == 0) {
-                continue;
-            }
             int numOfDescendants = calculateNodeDescendants(node);
             if (numOfDescendants > maxDescendants) {
                 maxDescendants = numOfDescendants;

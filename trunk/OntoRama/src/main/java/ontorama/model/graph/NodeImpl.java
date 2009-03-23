@@ -6,18 +6,15 @@ import java.net.URI;
 /**
  * Basic NodeImpl for ontology viewers.
  *
- * <p>
  * Copyright:    Copyright (c) 2002
- * <br>
  * Company:     DSTC
  */
 public class NodeImpl implements Cloneable, Node {
 
-
     /**
      * Store the name/label of NodeImpl.
      */
-    private String name;
+    private final String name;
 
     /**
      * Store alternative name of NodeImpl
@@ -43,36 +40,21 @@ public class NodeImpl implements Cloneable, Node {
 
     /**
      * Create a new NodeImpl with given name and an alternative name
-     *
-     * @param name
-     * @param fullName
      */
     public NodeImpl(String name, String fullName) {
         this.name = name;
         this.fullName = fullName;
     }
 
-
     /**
      * Return GraphNodes name/title.
-     * @return name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * set node name
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    /**
      * get node unique identifier
-     * @return
      */
     public String getIdentifier() {
         return fullName;
@@ -80,7 +62,6 @@ public class NodeImpl implements Cloneable, Node {
 
     /**
      * set node unique identifier
-     * @param identifier
      */
     public void setIdentifier(String identifier) {
         this.fullName = identifier;
@@ -88,7 +69,6 @@ public class NodeImpl implements Cloneable, Node {
 
     /**
      * get creatorUri for this node. creatorUri is URI for a creator of this node.
-     * @return creatorUri
      */
     public URI getCreatorUri() {
         return this.creatorUri;
@@ -96,7 +76,6 @@ public class NodeImpl implements Cloneable, Node {
 
     /**
      * set creatorUri for this node.
-     * @param creatorUri
      */
     public void setCreatorUri(URI creatorUri) {
         this.creatorUri = creatorUri;
@@ -110,15 +89,6 @@ public class NodeImpl implements Cloneable, Node {
         return this.nodeType;
     }
 
-//    /**
-//     * toString method
-//     */
-//    public String toString() {
-//        String str = "Node: " + name + "(" + fullName + ")";
-//        return str;
-//
-//    }
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -126,5 +96,4 @@ public class NodeImpl implements Cloneable, Node {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 }

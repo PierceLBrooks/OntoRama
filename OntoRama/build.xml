@@ -78,7 +78,7 @@
 		<javadoc sourcepath="${src.home}" packagenames="ontorama.*,ontorama.model.*,ontorama.views.hyper.*,ontorama.ui.*,ontorama.views.tree.*" destdir="${javadoc.home}" classpathref="project.class.path" />
 	</target>
 
-	<target name="run">
+	<target name="run" depends="compile">
 		<java fork="yes" classname="ontorama.ui.OntoRamaApp" classpathref="project.class.path" />
 	</target>
 

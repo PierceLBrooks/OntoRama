@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.swing.UIManager;
+
 import ontorama.backends.Backend;
 import ontorama.conf.ConfigParserException;
 import ontorama.conf.DataFormatConfigParser;
@@ -36,6 +38,7 @@ import ontorama.ui.ErrorDialog;
 public class OntoramaConfig {
 
 
+    private static final String DEFAULT_LOOK_AND_FEEL = UIManager.getSystemLookAndFeelClassName();
     private static Map<EdgeType, EdgeTypeDisplayInfo> edgesConfig;
     private static List<EdgeType> edgeTypesList;
        
@@ -77,6 +80,7 @@ public class OntoramaConfig {
 	private static Backend _activeBackend;
 	
 	private static List<DataFormatMapping> _dataFormatsMappingList;
+    private static String lookAndFeel;
 
     /**
      * Values of vars that are set here should be read from
@@ -140,6 +144,10 @@ public class OntoramaConfig {
 		EDIT_ENABLED = Boolean.valueOf(properties.getProperty("EDIT_ENABLED")).booleanValue();
         loadBlankOnStartUp = Boolean.valueOf(properties.getProperty("loadBlankOnStartUp")).booleanValue();
         backendName = properties.getProperty("backend");
+        lookAndFeel = properties.getProperty("lookAndFeel");
+        if (lookAndFeel == null) {
+            lookAndFeel = DEFAULT_LOOK_AND_FEEL;
+        }
     }
 
     private static void loadConfiguration(String configFileLocation)
@@ -296,5 +304,9 @@ public class OntoramaConfig {
 		res.add(OntoramaConfig.UNKNOWN_TYPE);
 		return res;
 	} 
+
+    public static String getLookAndFeel() {
+        return lookAndFeel;
+    }
 }
 

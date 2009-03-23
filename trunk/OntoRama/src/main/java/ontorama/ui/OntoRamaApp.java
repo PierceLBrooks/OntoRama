@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -24,6 +26,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -452,6 +455,13 @@ public class OntoRamaApp extends JFrame {
     }
 
     public static void main(final String[] args) {
+        String lnf = OntoramaConfig.getLookAndFeel();
+        try {
+            UIManager.setLookAndFeel(lnf);
+        } catch (Exception e) {
+            Logger.getLogger(OntoRamaApp.class.getName()).log(Level.WARNING,
+                                                              "Failed to load look and feel '" + lnf + "'", e);
+        }
         if (args.length == 0) {
         	SwingUtilities.invokeLater(new Runnable(){
 				@Override

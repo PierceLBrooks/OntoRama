@@ -56,17 +56,6 @@ public class HyperEdgeView extends CanvasItem {
         double y1 = from.getProjectedY();
         double x2 = to.getProjectedX();
         double y2 = to.getProjectedY();
-        double xDiff = x2 - x1;
-        double yDiff = y2 - y1;
-        double nodeViewRadius = to.getViewRadius();
-        double distanceBetweenTwoNodes = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-        double viewScale = to.getScale();
-        double imgW = iconImg.getIconWidth() * viewScale;
-        double imgH = iconImg.getIconHeight() * viewScale;
-        double imgHyp = Math.sqrt(imgW * imgW + imgH * imgH);
-        double scale = (nodeViewRadius / 2 + imgHyp) / distanceBetweenTwoNodes;
-        double imgX = x2 - (xDiff * scale) - imgW / 2;
-        double imgY = y2 - (yDiff * scale) - imgH / 2;
         if (this.to.getHighlightEdge() == true) {
             g2d.setColor(Color.black);
             this.to.setHighlightEdge(false);
@@ -95,6 +84,17 @@ public class HyperEdgeView extends CanvasItem {
         pathShape.curveTo(points[0], points[1], points[2], points[3], points[4], points[5]);
         g2d.draw(pathShape);
 
+        double xDiff = x2 - x1;
+        double yDiff = y2 - y1;
+        double nodeViewRadius = to.getViewRadius();
+        double distanceBetweenTwoNodes = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        double viewScale = to.getScale();
+        double imgW = iconImg.getIconWidth() * viewScale;
+        double imgH = iconImg.getIconHeight() * viewScale;
+        double imgHyp = Math.sqrt(imgW * imgW + imgH * imgH);
+        double scale = (nodeViewRadius / 2 + imgHyp) / distanceBetweenTwoNodes;
+        double imgX = x2 - (xDiff * scale) - imgW / 2;
+        double imgY = y2 - (yDiff * scale) - imgH / 2;
         g2d.drawImage(iconImg.getImage(), (int) imgX, (int) imgY, (int) imgW, (int) imgH, iconImg.getImageObserver());
     }
 

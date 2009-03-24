@@ -18,7 +18,7 @@ import org.jdom.Element;
 /**
  * This class imports simple SVG images into AWT Shape objects.
  * 
- * Supported are: <rect>, <circle>, <ellipse>, <line>, <polyline>, <polygon>.
+ * Supported are: $lt;rect>, $lt;circle>, $lt;ellipse>, $lt;line>, $lt;polyline>, $lt;polygon>.
  * 
  * Styles are ignored, transformations are ignored. Group elements are
  * processed via recursion, but ignored otherwise, the result is the same as
@@ -27,6 +27,9 @@ import org.jdom.Element;
  * 
  * @todo adding path would greatly enhance this
  * @todo add tests
+ * 
+ * @see http://weblogs.java.net/blog/kirillcool/archive/2006/10/svg_and_java_ui_3.html might be a more
+ *      complete solution for this (although using Batik as dependency)
  */
 public class SVG2Shape {
 	public static Shape importShape(Element svgElement) {
